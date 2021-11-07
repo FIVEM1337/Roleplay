@@ -1,5 +1,7 @@
-**/cache/**
-**/db/**
-*/alpine/opt/cfx-server/server-tls.crt
-*/alpine/opt/cfx-server/server-tls.key
-**/alpine/opt/cfx-server/crashes/**
+data-server/cache/**
+data-server/db/**
+data-server/start.sh
+
+binary-server/alpine/opt/cfx-server/server-tls.crt
+binary-server/alpine/opt/cfx-server/server-tls.key
+binary-server/alpine/opt/cfx-server/crashes/**
