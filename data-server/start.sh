@@ -1,0 +1,1 @@
+bash /home/Yuma/binary-server/run.sh +exec server.cfg
