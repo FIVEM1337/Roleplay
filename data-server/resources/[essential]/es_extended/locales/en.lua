@@ -1,15 +1,3 @@
--- Copyright (c) Jérémie N'gadi
---
--- All rights reserved.
---
--- Even if 'All rights reserved' is very clear :
---
---   You shall not use any piece of this software in a commercial product / service
---   You shall not resell this software
---   You shall not provide any facility to install this particular software in a commercial product / service
---   If you redistribute this software, you must link to ORIGINAL repository at https://github.com/ESX-Org/es_extended
---   This copyright should appear in every part of the project code
-
 Locales['en'] = {
   -- Inventory
   ['inventory'] = 'inventory %s / %s',
@@ -27,13 +15,13 @@ Locales['en'] = {
   ['gave_weapon'] = 'you gave ~b~%s~s~ to ~y~%s~s~',
   ['gave_weapon_ammo'] = 'you gave ~o~%sx %s~s~ for ~b~%s~s~ to ~y~%s~s~',
   ['gave_weapon_withammo'] = 'you gave ~b~%s~s~ with ~o~%sx %s~s~ to ~y~%s~s~',
-  ['gave_weapon_hasalready'] = '~y~%s~s~ already has a ~y~%s~s~',
+  ['gave_weapon_hasalready'] = '~y~%s~s~ already have an ~y~%s~s~',
   ['gave_weapon_noweapon'] = '~y~%s~s~ does not have that weapon',
   ['received_weapon'] = 'you received ~b~%s~s~ from ~b~%s~s~',
   ['received_weapon_ammo'] = 'you received ~o~%sx %s~s~ for your ~b~%s~s~ from ~b~%s~s~',
   ['received_weapon_withammo'] = 'you received ~b~%s~s~ with ~o~%sx %s~s~ from ~b~%s~s~',
-  ['received_weapon_hasalready'] = '~b~%s~s~ attempted to give you a ~y~%s~s~, but you already have one',
-  ['received_weapon_noweapon'] = '~b~%s~s~ attempted to give you ammo for a ~y~%s~s~, but you dont have one',
+  ['received_weapon_hasalready'] = '~b~%s~s~ attempted to give you an ~y~%s~s~, but you already have one',
+  ['received_weapon_noweapon'] = '~b~%s~s~ attempted to give you ammo for an ~y~%s~s~, but you dont have one',
   ['gave_account_money'] = 'you gave ~g~$%s~s~ (%s) to ~y~%s~s~',
   ['received_account_money'] = 'you received ~g~$%s~s~ (%s) from ~b~%s~s~',
   ['amount_invalid'] = 'invalid amount',
@@ -54,7 +42,7 @@ Locales['en'] = {
 
   -- Salary related
   ['received_salary'] = 'you received your salary: ~g~$%s~s~',
-  ['received_help'] = 'you received your welfare check: ~g~$%s~s~',
+  ['received_help'] = 'you recieved your welfare check: ~g~$%s~s~',
   ['company_nomoney'] = 'the company you\'re employeed at is too poor to pay out your salary',
   ['received_paycheck'] = 'received paycheck',
   ['bank'] = 'maze Bank',
@@ -63,55 +51,28 @@ Locales['en'] = {
   ['account_money'] = 'cash',
 
   ['act_imp'] = 'action impossible',
-  ['in_vehicle'] = 'you cannot give anything to someone in a vehicle',
+  ['in_vehicle'] = 'you can\'t give anything to someone in a vehicle',
 
   -- Commands
-  ['command_car'] = 'spawn a vehicle',
-  ['command_car_car'] = 'vehicle spawn name or hash',
-  ['command_cardel'] = 'delete vehicle in proximity',
-  ['command_cardel_radius'] = 'optional, delete every vehicle within the specified radius',
-  ['command_clear'] = 'clear chat',
-  ['command_clearall'] = 'clear chat for all players',
-  ['command_clearinventory'] = 'clear player inventory',
-  ['command_clearloadout'] = 'clear a player loadout',
-  ['command_giveaccountmoney'] = 'give account money',
-  ['command_giveaccountmoney_account'] = 'valid account name',
-  ['command_giveaccountmoney_amount'] = 'amount to add',
-  ['command_giveaccountmoney_invalid'] = 'invalid account name',
-  ['command_giveitem'] = 'give an item to a player',
-  ['command_giveitem_item'] = 'item name',
-  ['command_giveitem_count'] = 'item count',
-  ['command_giveweapon'] = 'give a weapon to a player',
-  ['command_giveweapon_weapon'] = 'weapon name',
-  ['command_giveweapon_ammo'] = 'ammo count',
-  ['command_giveweapon_hasalready'] = 'player already has that weapon',
-  ['command_giveweaponcomponent'] = 'give weapon component',
-  ['command_giveweaponcomponent_component'] = 'component name',
-  ['command_giveweaponcomponent_invalid'] = 'invalid weapon component',
-  ['command_giveweaponcomponent_hasalready'] = 'player already has that weapon component',
-  ['command_giveweaponcomponent_missingweapon'] = 'player does not have that weapon',
-  ['command_save'] = 'save a player to database',
-  ['command_saveall'] = 'save all players to database',
-  ['command_setaccountmoney'] = 'set account money for a player',
-  ['command_setaccountmoney_amount'] = 'amount of money to set',
-  ['command_setcoords'] = 'teleport to coordinates',
-  ['command_setcoords_x'] = 'x axis',
-  ['command_setcoords_y'] = 'y axis',
-  ['command_setcoords_z'] = 'z axis',
-  ['command_setjob'] = 'set job for a player',
-  ['command_setjob_job'] = 'job name',
-  ['command_setjob_grade'] = 'job grade',
-  ['command_setjob_invalid'] = 'the job, grade or both are invalid',
-  ['command_setgroup'] = 'set player group',
-  ['command_setgroup_group'] = 'group name',
-  ['commanderror_argumentmismatch'] = 'argument count mismatch (passed %s, wanted %s)',
-  ['commanderror_argumentmismatch_number'] = 'argument #%s type mismatch (passed string, wanted number)',
-  ['commanderror_invaliditem'] = 'invalid item name',
-  ['commanderror_invalidweapon'] = 'invalid weapon',
-  ['commanderror_console'] = 'that command cannot be run from console',
-  ['commanderror_invalidcommand'] = '^3%s^0 is not a valid command!',
-  ['commanderror_invalidplayerid'] = 'there is no player online matching that server id',
-  ['commandgeneric_playerid'] = 'player id',
+  ['setjob'] = 'assign a job to a user',
+  ['id_param'] = 'the ID of the player',
+  ['setjob_param2'] = 'the job you wish to assign',
+  ['setjob_param3'] = 'the job level',
+  ['spawn_car'] = 'spawn a car',
+  ['spawn_car_param'] = 'name of car',
+  ['delete_vehicle'] = 'deletes Vehicle',
+  ['invalid_account'] = 'invalid account',
+  ['account'] = 'account',
+  ['giveaccountmoney'] = 'give account money',
+  ['invalid_item'] = 'invalid item',
+  ['item'] = 'item',
+  ['giveitem'] = 'give item',
+  ['weapon'] = 'weapon',
+  ['giveweapon'] = 'give weapon',
+  ['chat_clear'] = 'clear the chat',
+  ['chat_clear_all'] = 'clear the chat for everyone',
+  ['command_clearinventory'] = 'clear all items from inventory',
+  ['command_clearloadout'] = 'remove all weapons from loadout',
 
   -- Locale settings
   ['locale_digit_grouping_symbol'] = ',',
@@ -190,12 +151,12 @@ Locales['en'] = {
   ['weapon_wrench'] = 'pipe wrench',
   ['weapon_flashlight'] = 'flashlight',
   ['gadget_parachute'] = 'parachute',
-  ['weapon_flare'] = 'flare',
+  ['weapon_flare'] = 'flare gun',
   ['weapon_doubleaction'] = 'double-Action Revolver',
 
   -- Weapon Components
-  ['component_clip_default'] = 'default Clip',
-  ['component_clip_extended'] = 'extended Clip',
+  ['component_clip_default'] = 'default Grip',
+  ['component_clip_extended'] = 'extended Grip',
   ['component_clip_drum'] = 'drum Magazine',
   ['component_clip_box'] = 'box Magazine',
   ['component_flashlight'] = 'flashlight',
@@ -234,9 +195,4 @@ Locales['en'] = {
   ['tint_lspd'] = 'blue skin',
   ['tint_orange'] = 'orange skin',
   ['tint_platinum'] = 'platinum skin',
-
-  -- Identity
-  ['identity_register'] = 'Please register your character.',
-  ['identity_welcome'] = 'Welcome, ~b~%s %s',
-  ['identity_fill_in'] = 'Please fill in all fields before submitting!',
 }
