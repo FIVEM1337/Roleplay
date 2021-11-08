@@ -11,8 +11,8 @@
 --   This copyright should appear in every part of the project code
 
 Translations= {
-  ['voice']   = '~y~목소리: ~s~%s',
-  ['normal']  = '보통',
-  ['shout']   = '외침',
-  ['whisper'] = '속삭임',
+  ['voice']   = '~y~Voice: ~s~%s',
+  ['normal']  = 'normal',
+  ['shout']   = 'shout',
+  ['whisper'] = 'whisper',
 }
