@@ -300,6 +300,22 @@ end)
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
+<<<<<<< HEAD
+  PlayerLoaded = true
+end)
+
+AddEventHandler('esx_skin:getLastSkin', function(cb)
+  cb(LastSkin)
+end)
+
+AddEventHandler('esx_skin:setLastSkin', function(skin)
+  LastSkin = skin
+end)
+
+RegisterNetEvent('esx_skin:openMenu')
+AddEventHandler('esx_skin:openMenu', function(submitCb, cancelCb)
+  OpenMenu(submitCb, cancelCb, nil)
+=======
     playerLoaded = true
 end)
 
@@ -309,26 +325,46 @@ AddEventHandler('esx_skin:setLastSkin', function(skin) lastSkin = skin end)
 RegisterNetEvent('esx_skin:openMenu')
 AddEventHandler('esx_skin:openMenu', function(submitCb, cancelCb)
     OpenMenu(submitCb, cancelCb, nil)
+>>>>>>> 4b41370aca191af59ee228a568fd4d1b0a1c4da8
 end)
 
 RegisterNetEvent('esx_skin:openRestrictedMenu')
 AddEventHandler('esx_skin:openRestrictedMenu', function(submitCb, cancelCb, restrict)
+<<<<<<< HEAD
+  OpenMenu(submitCb, cancelCb, restrict)
+=======
     OpenMenu(submitCb, cancelCb, restrict)
+>>>>>>> 4b41370aca191af59ee228a568fd4d1b0a1c4da8
 end)
 
 RegisterNetEvent('esx_skin:openSaveableMenu')
 AddEventHandler('esx_skin:openSaveableMenu', function(submitCb, cancelCb)
+<<<<<<< HEAD
+  OpenSaveableMenu(submitCb, cancelCb, nil)
+=======
     OpenSaveableMenu(submitCb, cancelCb, nil)
+>>>>>>> 4b41370aca191af59ee228a568fd4d1b0a1c4da8
 end)
 
 RegisterNetEvent('esx_skin:openSaveableRestrictedMenu')
 AddEventHandler('esx_skin:openSaveableRestrictedMenu', function(submitCb, cancelCb, restrict)
+<<<<<<< HEAD
+  OpenSaveableMenu(submitCb, cancelCb, restrict)
+=======
     OpenSaveableMenu(submitCb, cancelCb, restrict)
+>>>>>>> 4b41370aca191af59ee228a568fd4d1b0a1c4da8
 end)
 
 RegisterNetEvent('esx_skin:requestSaveSkin')
 AddEventHandler('esx_skin:requestSaveSkin', function()
+<<<<<<< HEAD
+  TriggerEvent('skinchanger:getSkin', function(skin)
+    TriggerServerEvent('esx_skin:responseSaveSkin', skin)
+  end)
+end)
+=======
     TriggerEvent('skinchanger:getSkin', function(skin)
         TriggerServerEvent('esx_skin:responseSaveSkin', skin)
     end)
 end)
+>>>>>>> 4b41370aca191af59ee228a568fd4d1b0a1c4da8
