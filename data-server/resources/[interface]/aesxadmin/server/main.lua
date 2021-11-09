@@ -40,7 +40,7 @@ AddEventHandler("playerConnecting", function(name, setReason, deferrals)
         if result[1] then
             if result[1].time ~= 0 then
             	if result[1].time < os.time() then
-            		AesxAdmin.Unban(result[1].license)
+            		Unban(result[1].license)
             		deferrals.done()
             		return
             	end
@@ -111,11 +111,11 @@ ESX.RegisterServerCallback("AesxAdmin:getJobs", function(source,cb)
     cb(jobList)
  end)
 
-AesxAdmin.Kick = function(playerID, reason)
+function Kick(playerID, reason)
     DropPlayer(playerID, reason)
 end
 
-AesxAdmin.Ban = function(playerID, time, reason)
+function Ban(playerID, time, reason)
     local xPlayer = ESX.GetPlayerFromId(playerID)
     if time ~= 0 then
     	local timeToSeconds = time * 60
@@ -124,7 +124,7 @@ AesxAdmin.Ban = function(playerID, time, reason)
 
     MySQL.Async.execute('INSERT INTO bans (license, name, time, reason) VALUES (@license, @name, @time, @reason)',
         {   
-            ['license'] = xPlayer.getIdentifier(), 
+            ['license'] = 'license:'..xPlayer.getIdentifier(), 
             ['name'] = GetPlayerName(playerID), 
             ['time'] = time, 
             ['reason'] = reason 
@@ -134,7 +134,7 @@ AesxAdmin.Ban = function(playerID, time, reason)
     end)
 end
 
-AesxAdmin.Unban = function(license)
+function Unban(license)
     MySQL.Async.execute('DELETE FROM bans WHERE license = @license',
         {   
             ['license'] = license, 
@@ -144,7 +144,7 @@ AesxAdmin.Unban = function(license)
     end)
 end
 
-AesxAdmin.AddWeapon = function(playerID, selectedWeapon, ammo)
+function AddWeapon(playerID, selectedWeapon, ammo)
     xPlayer = ESX.GetPlayerFromId(playerID)
     if xPlayer.hasWeapon(selectedWeapon) then
         xPlayer.addWeaponAmmo(selectedWeapon, 50)
@@ -155,22 +155,22 @@ AesxAdmin.AddWeapon = function(playerID, selectedWeapon, ammo)
     end
 end
 
-AesxAdmin.AddCash = function(playerID, amount)
+function AddCash(playerID, amount)
     xPlayer = ESX.GetPlayerFromId(playerID)
     xPlayer.addMoney(amount)
 end
 
-AesxAdmin.AddBank = function(playerID, amount)
+function AddBank(playerID, amount)
     xPlayer = ESX.GetPlayerFromId(playerID)
     xPlayer.addAccountMoney("bank", amount)
 end
 
-AesxAdmin.AddItem = function(playerID, selectedItem, amount)
+function AddItem(playerID, selectedItem, amount)
     local xPlayer = ESX.GetPlayerFromId(playerID)
     xPlayer.addInventoryItem(selectedItem, amount)
 end
 
-AesxAdmin.Teleport = function(targetId, action)
+function Teleport(targetId, action)
     local xPlayer, xTarget, sourceMessage, targetMessage
     if source ~= 0 then
         if action == "bring" then
@@ -204,10 +204,10 @@ AddEventHandler("AesxAdmin:GiveWeapon", function(playerID, weapon)
     local xPlayer = ESX.GetPlayerFromId(source)
     local playerGroup = xPlayer.getGroup()
     if Config.Perms[playerGroup] and Config.Perms[playerGroup].CanGiveWeapon then
-        AesxAdmin.AddWeapon(playerID, weapon, 10)
+        AddWeapon(playerID, weapon, 10)
         TriggerClientEvent('esx:showNotification', xPlayer.source, 'You gave '..GetPlayerName(playerID)..' a '..ESX.GetWeaponLabel(weapon)) 
     else
-       AesxAdmin.Error(source, "noPerms")
+       Error(source, "noPerms")
     end
 end)
 
@@ -216,10 +216,10 @@ AddEventHandler("AesxAdmin:AddItem", function(playerID, selectedItem, amount)
     local xPlayer = ESX.GetPlayerFromId(source)
     local playerGroup = xPlayer.getGroup()
     if Config.Perms[playerGroup] and Config.Perms[playerGroup].CanGiveItem then
-        AesxAdmin.AddItem(playerID, selectedItem, amount)
+        AddItem(playerID, selectedItem, amount)
         TriggerClientEvent('esx:showNotification', source, "Gave "..selectedItem.." to "..GetPlayerName(playerID))
     else
-       AesxAdmin.Error(source, "noPerms")
+       Error(source, "noPerms")
     end
 end)
 
@@ -229,10 +229,10 @@ AddEventHandler("AesxAdmin:AddCash", function (playerID, amount)
     local xPlayer = ESX.GetPlayerFromId(source)
     local playerGroup = xPlayer.getGroup()
     if Config.Perms[playerGroup] and Config.Perms[playerGroup].CanAddCash then
-        AesxAdmin.AddCash(playerID, amount)
+        AddCash(playerID, amount)
         TriggerClientEvent('esx:showNotification', source, "Gave $"..amount.." Cash to "..GetPlayerName(playerID))
     else
-       AesxAdmin.Error(source, "noPerms")
+       Error(source, "noPerms")
     end
 end)
 
@@ -241,10 +241,10 @@ AddEventHandler("AesxAdmin:AddBank", function (playerID, amount)
     local xPlayer = ESX.GetPlayerFromId(source)
     local playerGroup = xPlayer.getGroup()
     if Config.Perms[playerGroup] and Config.Perms[playerGroup].CanAddBank then
-        AesxAdmin.AddBank(playerID, amount)
+        AddBank(playerID, amount)
         TriggerClientEvent('esx:showNotification', source, "Transfered $"..amount.." to "..GetPlayerName(playerID).."'s Bank Account")
     else
-       AesxAdmin.Error(source, "noPerms")
+       Error(source, "noPerms")
     end
 end)
 
@@ -253,10 +253,10 @@ AddEventHandler('AesxAdmin:Kick', function(playerId, reason)
     local xPlayer = ESX.GetPlayerFromId(source)
     local playerGroup = xPlayer.getGroup()
     if Config.Perms[playerGroup] and Config.Perms[playerGroup].CanKick then
-        AesxAdmin.Kick(playerId, reason)
+        Kick(playerId, reason)
         TriggerClientEvent('esx:showNotification', source, "Kicked "..GetPlayerName(playerId))
     else
-       AesxAdmin.Error(source, "noPerms")
+       Error(source, "noPerms")
     end
 end)
 
@@ -265,10 +265,10 @@ AddEventHandler('AesxAdmin:Ban', function(playerId, time, reason)
     local xPlayer = ESX.GetPlayerFromId(source)
     local playerGroup = xPlayer.getGroup()
     if Config.Perms[playerGroup] and (Config.Perms[playerGroup].CanBanTemp and time ~= 0) or (Config.Perms[playerGroup].CanBanPerm and time == 0) then
-        AesxAdmin.Ban(playerId, time, reason)
+        Ban(playerId, time, reason)
         TriggerClientEvent('esx:showNotification', source, "Banned "..GetPlayerName(playerId))
     else
-       AesxAdmin.Error(source, "noPerms")
+       Error(source, "noPerms")
     end
 end)
 
@@ -283,7 +283,7 @@ AddEventHandler("AesxAdmin:Promote", function (playerID, group)
             TriggerClientEvent('esx:showNotification', source, "Promoted "..GetPlayerName(playerID).." to "..group)
         end
     else
-       AesxAdmin.Error(source, "noPerms")
+       Error(source, "noPerms")
     end
 end)
 
@@ -294,7 +294,7 @@ AddEventHandler("AesxAdmin:Announcement", function (message)
     if Config.Perms[playerGroup] and Config.Perms[playerGroup].CanAnnounce then
         TriggerClientEvent('chat:addMessage', -1, {color = { 255, 0, 0}, args = {"ANNOUNCEMENT ", message}})
     else
-       AesxAdmin.Error(source, "noPerms")
+       Error(source, "noPerms")
     end
 end)
 
@@ -309,9 +309,9 @@ AddEventHandler("AesxAdmin:Teleport", function (targetId, action)
     local xPlayer = ESX.GetPlayerFromId(source)
     local playerGroup = xPlayer.getGroup()
     if Config.Perms[playerGroup] and Config.Perms[playerGroup].CanTeleport then
-        AesxAdmin.Teleport(targetId, action)
+        Teleport(targetId, action)
     else
-       AesxAdmin.Error(source, "noPerms")
+       Error(source, "noPerms")
     end
 end)
 
@@ -324,7 +324,7 @@ AddEventHandler("AesxAdmin:Slay", function (target)
         TriggerClientEvent('esx:showNotification', source, "You slayed "..GetPlayerName(target))
         TriggerClientEvent('esx:showNotification', target, "You were slayn by an admin.")
     else
-       AesxAdmin.Error(source, "noPerms")
+       Error(source, "noPerms")
     end
 end)
 
@@ -336,7 +336,7 @@ AddEventHandler("AesxAdmin:God", function (target)
         TriggerClientEvent('AesxAdmin:God', target)
         TriggerClientEvent('esx:showNotification', source, "You enabled/disabled Godmode for "..GetPlayerName(target))
     else
-       AesxAdmin.Error(source, "noPerms")
+       Error(source, "noPerms")
     end
 end)
 
@@ -348,7 +348,7 @@ AddEventHandler("AesxAdmin:Freeze", function (target)
         TriggerClientEvent('AesxAdmin:Freeze', target)
         TriggerClientEvent('esx:showNotification', source, "You Froze/Unfroze "..GetPlayerName(target))
     else
-       AesxAdmin.Error(source, "noPerms")
+       Error(source, "noPerms")
     end
 end)
 
@@ -357,10 +357,10 @@ AddEventHandler("AesxAdmin:Unban", function(license)
     local xPlayer = ESX.GetPlayerFromId(source)
     local playerGroup = xPlayer.getGroup()
     if Config.Perms[playerGroup] and Config.Perms[playerGroup].CanUnban then
-        AesxAdmin.Unban(license)
+        Unban(license)
         TriggerClientEvent('esx:showNotification', source, "Unbanned Player. ("..license..")")
     else
-       AesxAdmin.Error(source, "noPerms")
+       Error(source, "noPerms")
     end
 end)
 
@@ -374,7 +374,7 @@ AddEventHandler("AesxAdmin:setJob", function(target, job, rank)
         TriggerClientEvent('esx:showNotification', source, "Changed "..GetPlayerName(target).." job to "..job)
         TriggerClientEvent('esx:showNotification', target, "Your job was changed to "..job)
     else
-       AesxAdmin.Error(source, "noPerms")
+       Error(source, "noPerms")
     end
 end)
 
@@ -388,11 +388,11 @@ AddEventHandler("AesxAdmin:revive", function(target)
         TriggerClientEvent('esx:showNotification', source, "You revived "..GetPlayerName(target))
         TriggerClientEvent('esx:showNotification', target, "You have been revived by an admin")
     else
-       AesxAdmin.Error(source, "noPerms")
+       Error(source, "noPerms")
     end
 end)
 
-AesxAdmin.Error = function(source, message)
+function Error(source, message)
     if message == "noPerms" then
         TriggerClientEvent('chat:addMessage', source, {args = {"AesxAdmin ", " You do not have permission for this."}})
     else
