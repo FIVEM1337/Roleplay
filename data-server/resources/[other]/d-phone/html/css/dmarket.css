@@ -1,0 +1,121 @@
+.phone-dmarket {
+    height: 100%;
+    width: 100%;
+    background: rgb(253, 253, 253);
+    overflow: hidden;
+    display: none;
+    font-family: 'Samsung Sans regular';
+}
+
+.phone-dmarket-sector {
+    position: relative;
+    height: 82.5%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    top: 1.8%;
+}
+
+.dmarket-item {
+    height: 40vh;
+    width: 90%;
+    margin-top: 1vh;
+    margin-left: 5%;
+    padding-left: 0vh;
+    border-radius: 1vh;
+}
+
+.dmarket-item-header {
+    height: 6vh;
+    line-height: 6vh;
+    width: 100%;
+    font-size: 3vh;
+    text-align: left;
+}
+
+.dmarket-item-main {
+    height: 24vh;
+    line-height: 6vh;
+    width: 100%;
+    font-size: 3vh;
+    text-align: center;
+}
+
+.dmarket-item-item-header {
+    height: 4vh;
+    line-height: 4vh;
+    font-size: 2vh;
+    width: 100%;
+    text-align: center;
+}
+
+.dmarket-item-underheadline {
+    line-height: 4vh;
+    text-align: left;
+    font-size: 2.5vh;
+}
+
+.dmarket-item-product {
+    padding: 1vh;
+    width: 96%;
+    margin-left: 2%;
+    height: 6vh;
+    line-height: 4vh;
+    text-align: center;
+    background-color: rgb(240, 240, 240);
+    border-radius: 1vh;
+}
+
+.darkdmarket-item-product {
+    background-color: rgb(30, 30, 30);
+}
+
+.dmarket-product {
+    min-height: 5vh;
+    line-height: 5vh;
+    font-size: 2vh;
+    width: 90%;
+    margin-top: 1vh;
+    margin-left: 5%;
+    padding-left: 1vh;
+    padding-right: 1vh;
+    border-radius: 1vh;
+    background-color: rgb(238, 238, 238);
+}
+
+.dmarket-product:hover {
+    background-color: rgb(231, 231, 231);
+    transition: 0.5s;
+}
+
+.darkdmarket-product {
+    background-color: rgb(30, 30, 30);
+}
+
+.darkdmarket-product:hover {
+    background-color: rgb(35, 35, 35);
+    transition: 0.5s;
+}
+
+.dmarket-product-name {
+    line-height: 5vh;
+    width: 65%;
+    float: left;
+    overflow: hidden;
+}
+
+.dmarket-product-money {
+    line-height: 5vh;
+    width: 35%;
+    overflow: hidden;
+    text-align: right;
+    float: left;
+}
+
+.plus {
+    color: lightgreen;
+}
+
+.minus {
+    color: lightcoral;
+}

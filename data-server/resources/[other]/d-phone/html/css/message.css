@@ -1,0 +1,440 @@
+.phone-message {
+    height: 100%;
+    width: 100%;
+    background: #FFFFFF;
+    overflow: hidden;
+    display: none;
+}
+
+.phone-message-header {
+    position: relative;
+    font-family: 'Roboto';
+    font-size: 2.5vh;
+    top: 8%;
+    left: 0%;
+    width: 100%;
+    height: 5vh;
+    border-bottom: 0px;
+    box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    line-height: 0vh;
+}
+
+.phone-chat {
+    position: relative;
+    height: 74%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    top: 0.5vh;
+    padding: 0.1vh;
+}
+
+.phone-chat-input {
+    position: absolute;
+    bottom: 0.5vh;
+    height: 6.5vh;
+}
+
+.phone-chat-inputt {
+    position: relative;
+    left: 2vh;
+    font-family: 'Roboto'!important;
+    height: 5vh!important;
+    width: 18vh!important;
+    border: none!important;
+    outline: none;
+    font-size: 2vh!important;
+    float: left;
+}
+
+.phone-chat-inputt:hover {
+    border: none!important;
+}
+
+.phone-chat-place {
+    float: left;
+    position: absolute;
+    right: 0vh;
+    bottom: 0.5vh;
+    height: 6.5vh;
+    font-size: 1.75vh;
+    width: 9vh;
+    line-height: 6.5vh;
+    text-align: center;
+}
+
+.phone-chat-place>i {
+    font-size: 2.2vh;
+    float: left;
+    margin-left: 1.5vh;
+    margin-top: 1.5vh;
+}
+
+#phone-chat-placeicon {
+    color: rgb(45, 45, 48);
+}
+
+#phone-chat-placeicon:hover {
+    color: rgb(0, 0, 0);
+}
+
+.darkphone-chat-placeicon {
+    color: rgb(177, 177, 177)!important;
+}
+
+.darkphone-chat-placeicon:hover {
+    color: rgb(255, 255, 255)!important;
+}
+
+#phone-chat-send {
+    color: rgb(27, 131, 216);
+}
+
+#phone-chat-send:hover {
+    color: rgb(24, 106, 173);
+}
+
+.phone-chat-message {
+    position: relative;
+    min-height: 7vh;
+    width: 100%;
+    background-color: rgb(250, 248, 248);
+    margin-top: 0.5vh;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.darkphone-chat-message {
+    background-color: rgb(35, 35, 35);
+    box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.2);
+    color: rgb(255, 255, 255);
+}
+
+.phone-chat-message-header {
+    position: relative;
+    height: 3vh;
+    line-height: 3vh;
+    width: 100%;
+    color: rgb(92, 92, 92);
+    font-family: 'Roboto';
+}
+
+.darkphone-chat-message-header {
+    color: rgb(224, 224, 224);
+}
+
+#phone-chat-message-name {
+    position: relative;
+    width: 5vh;
+    /* margin-left: 0.75vh; */
+    font-size: 1.5vh;
+}
+
+#phone-chat-message-date {
+    position: absolute;
+    right: 0vh;
+    height: 3vh;
+    width: 12vh;
+    font-size: 1.5vh;
+}
+
+.phone-chat-message-message {
+    position: relative;
+    min-height: 4vh;
+    line-height: 2vh;
+    font-size: 1.5vh;
+    width: 100%;
+    font-family: 'Roboto';
+    font-weight: 500;
+    padding: 0.75vh;
+}
+
+.me {
+    background-color: #D1FFD9!important;
+}
+
+.me:hover {
+    background-color: #c8f5d0!important;
+    transition: 0.5s;
+}
+
+.darkme {
+    background-color: #739278!important;
+}
+
+.darkme:hover {
+    background-color: #80a085!important;
+    transition: 0.5s;
+}
+
+.newmessage  {
+    background-color: #D1F7FF!important;
+}
+
+.newmessage:hover {
+    background-color: #c5ebf3!important;
+    transition: 0.5s;
+}
+
+.darknewmessage  {
+    background-color: #6B7C80!important;
+}
+
+.darknewmessage:hover {
+    background-color: #7a8f94!important;
+    transition: 0.5s;
+}
+
+.phone-chat-message-message-gps {
+    line-height: 2vh;
+    position: relative;
+    height: 3vh;
+    width: 90%;
+    margin-left: 10%;
+}
+
+.phone-chat-message-message-picture {
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    padding-top: 0.5vh;
+    margin-left: 1.5vh;
+    height: 9.5vh;
+    width: 100%;
+}
+
+.phone-chat-message-message-picture>img {
+    height: 9vh;
+    width: 23vh;
+}
+
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    background: #f1f1f100;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: rgb(247, 125, 11);
+}
+
+
+/* Handle on hover */
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: rgb(224, 115, 12)
+}
+
+.phone-recent-message {
+    height: 100%;
+    width: 100%;
+    background: #FFFFFF;
+    color: #000;
+    overflow: hidden;
+    display: none;
+}
+
+.phone-recent-messages-sector {
+    position: relative;
+    height: 80%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    padding: 0.1vh;
+    top: -1%;
+
+}
+
+.phone-recent-messages-selection {
+    position: relative;
+    width: 28.9vh;
+    height: 7vh;
+    line-height: 4vh;
+    font-size: 2vh;
+    background-color: #F9F9F9;
+    color: rgb(36, 36, 36);
+    font-family: 'Roboto';
+    font-weight: 500;
+    margin-bottom: 1vh;
+}
+
+.phone-recent-messages-selection:hover {
+    background-color: rgba(179, 179, 179, 0.15);
+    transition: 0.5s;
+}
+
+.darkmode-prms {
+    color: white!important;
+    border-bottom: 1px solid rgba(170, 170, 170, 0.2);
+}
+
+.darkmode-prms:hover {
+    background-color: rgba(228, 228, 228, 0.014);
+}
+
+#prm-contactname {
+    position: relative;
+    top: 0vh;
+    width: 28.9vh;
+    height: 4vh;
+    line-height: 4Vh;
+    font-size: 1.8vh;
+    padding-top: 0.25vh;
+    padding-left: 1vh;
+    font-family: 'RobotoMedium';
+}
+
+#prm-message {
+    position: relative;
+    top: 0vh;
+    left: 0vh;
+    width: 28.9vh;
+    height: 2vh;
+    line-height: 2vh;
+    font-size: 1.5vh;
+    padding-left: 1vh;
+    color: #848484;
+    overflow: hidden;
+    font-weight: 500;
+}
+
+.darkprm-message {
+    color: #D0D0D0!important;
+}
+
+.messagesettings {
+    display: none;
+    z-index: 5;
+}
+
+.messagesettings:hover {
+    color: rgb(27, 131, 216);
+    transition: 0.5s;
+}
+
+.phone-recent-message-settings {
+    position: absolute;
+    left: 7.5%;
+    top: 20vh;
+    height: 10vh;
+    width: 80%;
+    background-color: rgb(236, 236, 236);
+    border-radius: 1vh;
+    font-size: 2vh;
+    font-family: 'Roboto';
+    font-weight: 600;
+    display: none;
+}
+
+.darkphone-recent-message-settings {
+    background-color: #2F2F2F;
+    color: white;
+}
+
+.darkprmsheadline {
+    background-color: #2F2F2F!important;
+    color: white;
+
+}
+
+.prmsheadline {
+    width: 100%;
+    height: 5vh;
+    line-height: 5vh;
+    text-align: center;
+    background-color: rgb(219, 219, 219);
+
+    border-top-right-radius: 1vh;
+    border-top-left-radius: 1vh;
+    font-size: 2.5vh;
+}
+
+.prmscolumn {
+    width: 100%;
+    height: 5vh;
+    line-height: 5vh;
+    padding-left: 1vh;
+    padding-right: 1vh;
+}
+
+.deletecolumn {
+    color: rgb(189, 0, 0);
+}
+
+.deletecolumn:hover {
+    color: rgb(228, 32, 32)!important;
+    transition: 0.5s;
+}
+
+.phone-recent-message-header {
+    position: relative;
+    font-size: 2.5vh;
+    top: 4%;
+    width: 90%;
+    height: 5vh;
+    text-align: left;
+    line-height: 4vh;
+    margin: 5%;
+}
+
+.phone-recent-message-headline {
+    font-family: 'Roboto';
+    font-weight: 500;
+    display: inline;
+}
+
+.phone-recent-message-header-right {
+    display: inline;
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 1.75vh;
+    float: right;
+    color: #3B77BE;
+}
+
+.phone-recent-message-header-right:hover {
+    color: #213f64;
+    transition: 0.5s;
+}
+
+#search-recentmessages {
+    position: relative;
+    height: 5vh;
+}
+
+#phonerecentmessagesearchbar {
+    border: none;
+    outline: none;
+    background-color: #F6F6F6;
+    border-radius: 1vh;
+    width: 90%;
+    height: 4vh;
+    line-height: 4vh;
+    margin-left: 5%;
+    margin-top: 0.5vh;
+    padding-left: 1vh;
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 1.75vh;
+}
+
+#notAvailable {
+    border-radius: 1vh;
+    width: 90%;
+    height: 6vh;
+    line-height: 3vh;
+    margin-left: 5%;
+    padding-left: 1vh;
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 1.75vh;
+}
