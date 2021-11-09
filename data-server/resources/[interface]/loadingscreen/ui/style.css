@@ -1,0 +1,60 @@
+body {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+img { width: 600px; }
+
+.fullscreen-video {
+    position: fixed;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: -10;
+}
+
+.bg-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: #000;
+    opacity: 0.6;
+    z-index: -9;
+}
+
+.enable_music {
+    color: #e7e7e7;
+    font-family: 'Raleway', sans-serif;
+    text-align: center;
+
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    font-weight: 400;
+    
+    bottom: 5%;
+    position: fixed;
+    animation: music 3s;
+}
+
+@keyframes music {
+    from {
+        opacity: 0.1;
+        transform: translateY(80px);
+    }
+
+    to { 
+        transform: translateY(0px);
+    }
+}

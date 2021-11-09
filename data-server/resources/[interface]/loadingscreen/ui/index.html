@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Loadingscreen</title>
+<link rel="icon" type="image/png" href="logo.ico"/>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <h1 class="enable_music">Use the <strong>spacebar</strong> to toggle the music</h1>
+
+    <div id="audio"><audio id="leson" controls loop autoplay hidden><source src="music.mp3" type="audio/mp3"></audio></div>
+    <video class="fullscreen-video" id="myVideo" autoplay="autoplay" muted loop>
+        <source src="default.mp4">
+
+    <script>
+        var play = true;
+        var myAudio = document.getElementById("leson");
+            
+        myAudio.volume = 0.5;
+        
+        function onKeyDown(event) {
+            switch (event.keyCode) {
+                case 32:                   
+                    if (play) {
+                        myAudio.pause();
+                        play = false;
+                    } else {
+                        myAudio.play();
+                        play = true;
+                    }
+                    break;
+                }
+            return false;
+        }       
+        window.addEventListener("keydown", onKeyDown, false);
+    </script>
+    
+</body>
+</html>
