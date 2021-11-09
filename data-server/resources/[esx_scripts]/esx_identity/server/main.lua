@@ -5,7 +5,7 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 function getIdentity(source, callback)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-	MySQL.Async.fetchAll('SELECT identifier, firstname, lastname, dateofbirth, sex, height FROM `users` WHERE `identifier` = @identifier', {
+	MySQL.Async.fetchAll('SELECT identifier, firstname, lastname, dateofbirth, sex, height, state FROM `users` WHERE `identifier` = @identifier', {
 		['@identifier'] = xPlayer.identifier
 	}, function(result)
 		if result[1].firstname ~= nil then
@@ -15,7 +15,8 @@ function getIdentity(source, callback)
 				lastname	= result[1].lastname,
 				dateofbirth	= result[1].dateofbirth,
 				sex			= result[1].sex,
-				height		= result[1].height
+				height		= result[1].height,
+				state		= result[1].state
 			}
 
 			callback(data)
@@ -26,7 +27,8 @@ function getIdentity(source, callback)
 				lastname	= '',
 				dateofbirth	= '',
 				sex			= '',
-				height		= ''
+				height		= '',
+				state		= ''
 			}
 
 			callback(data)
@@ -35,13 +37,14 @@ function getIdentity(source, callback)
 end
 
 function setIdentity(identifier, data, callback)
-	MySQL.Async.execute('UPDATE `users` SET `firstname` = @firstname, `lastname` = @lastname, `dateofbirth` = @dateofbirth, `sex` = @sex, `height` = @height WHERE identifier = @identifier', {
+	MySQL.Async.execute('UPDATE `users` SET `firstname` = @firstname, `lastname` = @lastname, `dateofbirth` = @dateofbirth, `sex` = @sex, `height` = @height, `state` = @state WHERE identifier = @identifier', {
 		['@identifier']		= identifier,
 		['@firstname']		= data.firstname,
 		['@lastname']		= data.lastname,
 		['@dateofbirth']	= data.dateofbirth,
 		['@sex']			= data.sex,
-		['@height']			= data.height
+		['@height']			= data.height,
+		['@state']			= data.state	
 	}, function(rowsChanged)
 		if callback then
 			callback(true)
@@ -52,13 +55,14 @@ end
 function updateIdentity(playerId, data, callback)
 	local xPlayer = ESX.GetPlayerFromId(playerId)
 
-	MySQL.Async.execute('UPDATE `users` SET `firstname` = @firstname, `lastname` = @lastname, `dateofbirth` = @dateofbirth, `sex` = @sex, `height` = @height WHERE identifier = @identifier', {
+	MySQL.Async.execute('UPDATE `users` SET `firstname` = @firstname, `lastname` = @lastname, `dateofbirth` = @dateofbirth, `sex` = @sex, `height` = @height, `state` = @state WHERE identifier = @identifier', {
 		['@identifier']		= xPlayer.identifier,
 		['@firstname']		= data.firstname,
 		['@lastname']		= data.lastname,
 		['@dateofbirth']	= data.dateofbirth,
 		['@sex']			= data.sex,
-		['@height']			= data.height
+		['@height']			= data.height,
+		['@state']			= data.state
 	}, function(rowsChanged)
 		if callback then
 			TriggerEvent('esx_identity:characterUpdated', playerId, data)
@@ -70,13 +74,14 @@ end
 function deleteIdentity(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-	MySQL.Async.execute('UPDATE `users` SET `firstname` = @firstname, `lastname` = @lastname, `dateofbirth` = @dateofbirth, `sex` = @sex, `height` = @height WHERE identifier = @identifier', {
+	MySQL.Async.execute('UPDATE `users` SET `firstname` = @firstname, `lastname` = @lastname, `dateofbirth` = @dateofbirth, `sex` = @sex, `height` = @height, `state` = @state WHERE identifier = @identifier', {
 		['@identifier']		= xPlayer.identifier,
 		['@firstname']		= '',
 		['@lastname']		= '',
 		['@dateofbirth']	= '',
 		['@sex']			= '',
 		['@height']			= '',
+		['@state']			= '',
 	})
 end
 
@@ -122,6 +127,7 @@ AddEventHandler('esx_identity:characterUpdated', function(playerId, data)
 		xPlayer.set('dateofbirth', data.dateofbirth)
 		xPlayer.set('sex', data.sex)
 		xPlayer.set('height', data.height)
+		xPlayer.set('state', data.state)
 	end
 end)
 

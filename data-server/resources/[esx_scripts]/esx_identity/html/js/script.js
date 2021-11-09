@@ -24,14 +24,16 @@ $(function() {
 		}
 		
 		if($("input[type='radio'][name='sex']:checked").val() != undefined){
-			$.post('http://esx_identity/register', JSON.stringify({
-				firstname: $("#firstname").val(),
-				lastname: $("#lastname").val(),
-				dateofbirth: date,
-				sex: $("input[type='radio'][name='sex']:checked").val(),
-				height: $("#height").val()
-			}));
+			if($("input[type='radio'][name='state']:checked").val() != undefined){
+				$.post('http://esx_identity/register', JSON.stringify({
+					firstname: $("#firstname").val(),
+					lastname: $("#lastname").val(),
+					dateofbirth: date,
+					sex: $("input[type='radio'][name='sex']:checked").val(),
+					height: $("#height").val(),
+					state: $("input[type='radio'][name='state']:checked").val()
+				}));
+			}	
 		}
-
 	});
 });
