@@ -14,7 +14,7 @@ function OpenInventory(otherInv)
     SetNuiFocus(true, true)
     SendNUIMessage({
         action = 'open',
-        inventory = {type = 'main', title = 'Your <b>Inventory</b>', weight = Config.PlayerWeight},
+        inventory = {type = 'main', title = 'Dein <b>Inventar</b>', weight = Config.PlayerWeight},
         otherInventory = otherInv,
         players = GetPlayersInArea(),
         sound = Config.SoundEffects,
