@@ -6,6 +6,7 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 -- Load items
 AddEventHandler('onMySQLReady', function()
+	type = shopResult.type
 	hasSqlRun = true
 	LoadShop()
 end)
@@ -63,9 +64,8 @@ RegisterServerEvent('esx_shops:buyItem')
 AddEventHandler('esx_shops:buyItem', function(itemName, amount, zone)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
-	local sourceItem = xPlayer.getInventoryItem(itemName)
 
-	amount = ESX.Round(amount)
+	amount = ESX.Math.Round(amount)
 
 	-- is the player trying to exploit?
 	if amount < 0 then
@@ -77,10 +77,11 @@ AddEventHandler('esx_shops:buyItem', function(itemName, amount, zone)
 	local price = 0
 	local itemLabel = ''
 
-	for i=1, #ShopItems[zone], 1 do
-		if ShopItems[zone][i].item == itemName then
-			price = ShopItems[zone][i].price
-			itemLabel = ShopItems[zone][i].label
+	for i=1, #Config.Zones[zone].Items, 1 do
+		local item = Config.Zones[zone].Items[i]
+		if item.name == itemName then
+			price = item.price
+			itemLabel = item.label
 			break
 		end
 	end
@@ -90,12 +91,12 @@ AddEventHandler('esx_shops:buyItem', function(itemName, amount, zone)
 	-- can the player afford this item?
 	if xPlayer.getMoney() >= price then
 		-- can the player carry the said amount of x item?
-		if sourceItem.limit ~= -1 and (sourceItem.count + amount) > sourceItem.limit then
-			TriggerClientEvent('esx:showNotification', _source, _U('player_cannot_hold'))
-		else
+		if xPlayer.canCarryItem(itemName, amount) then
 			xPlayer.removeMoney(price)
 			xPlayer.addInventoryItem(itemName, amount)
-			TriggerClientEvent('esx:showNotification', _source, _U('bought', amount, itemLabel, price))
+			xPlayer.showNotification(_U('bought', amount, itemLabel, ESX.Math.GroupDigits(price)))
+		else
+			xPlayer.showNotification(_U('player_cannot_hold'))
 		end
 	else
 		local missingMoney = price - xPlayer.getMoney()

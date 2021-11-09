@@ -40,7 +40,13 @@ Config.Map = {
 Config.Zones = {
 
 	TwentyFourSeven = {
-		Items = {},
+        Items = {
+            {
+                 name = "bread",
+                 type = "item",
+                 price = 100
+            },
+		},
 		Pos = {
 			{x = 373.875,   y = 325.896,  z = 102.566},
 			{x = 2557.458,  y = 382.282,  z = 107.622},
@@ -55,7 +61,13 @@ Config.Zones = {
 	},
 
 	RobsLiquor = {
-		Items = {},
+        Items = {
+            {
+                 name = "bread",
+                 type = "item",
+                 price = 100
+            },
+		},
 		Pos = {
 			{x = 1135.808,  y = -982.281,  z = 45.415},
 			{x = -1222.915, y = -906.983,  z = 11.326},
@@ -96,7 +108,13 @@ Config.Zones = {
 	
 
 	LTDgasoline = {
-		Items = {},
+        Items = {
+            {
+                 name = "bread",
+                 type = "item",
+                 price = 100
+            },
+		},
 		Pos = {
 			{x = -48.519,   y = -1757.514, z = 28.421},
 			{x = 1163.373,  y = -323.801,  z = 68.205},

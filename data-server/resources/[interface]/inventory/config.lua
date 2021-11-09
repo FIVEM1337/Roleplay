@@ -4,7 +4,7 @@ Config = {} -- do not edit
 Config.PlayerWeight = true -- only works if you are using ESX 1.2 and above.
 
 -- General
-Config.DefaultOpenKey = "k" -- default open key (users can change in their settings) | FiveM Keys
+Config.DefaultOpenKey = "I" -- default open key (users can change in their settings) | FiveM Keys
 Config.DropTimeout = 600 -- change the amount of time that drops will stay on the ground (seconds)
 Config.CloseOnUse = {"", "", ""} -- all items in this array will close the inventory when used
 Config.ClickOutsideToClose = true -- when the user clicks outside of the inventory it will close
