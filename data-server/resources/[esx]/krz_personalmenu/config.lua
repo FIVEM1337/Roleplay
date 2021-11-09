@@ -13,7 +13,7 @@ local Keys = {
 Config = {}
 
 -- LANGUAGE --
-Config.Locale = 'en'
+Config.Locale = 'de'
 
 -- GENERAL --
 Config.MenuTitle = 'YT: dieserDevin' -- change it to you're server name
