@@ -19,7 +19,7 @@
   "NamePattern": "[{serverid}] {guid}",
   "RequestTalkStates": true,
   "RequestRadioTrafficStates": false,
-  "ToggleRange": "F1",
+  "ToggleRange": "PAGEUP",
   "TalkPrimary": "N",
   "TalkSecondary": "CAPITAL",
   "TalkMegaphone": "B"
