@@ -1,0 +1,21 @@
+Locales ['de'] = {
+    ['valid_purchase'] = 'Bestätige die Bestllung',
+    ['yes'] = 'Ja (<span style="color: green;">%s€</span>)',
+    ['no'] = 'Nein',
+    ['helmet'] = 'Helm / Hut',
+    ['glasses'] = 'Brillen',
+    ['mask'] = 'Makse',
+    ['ears'] = 'Ohrringe',
+    ['blindfold'] = 'Sack auf/absetzten',
+    ['shop'] = '%s Shop',
+    ['set_unset'] = 'Auf/Absetzen',
+    ['not_enough_money'] = 'Du hast nicht genug Geld',
+    ['press_access'] = 'Drücke ~INPUT_CONTEXT~ um auf das Menü zuzugreifen',
+    ['accessories_blip'] = 'Accesories',
+    ['no_ears'] = 'Du hast keine Ohrringe',
+    ['no_glasses'] = 'Du hast keine Brille',
+    ['no_helmet'] = 'Du hast kein Helm oder Hut',
+    ['no_mask'] = 'Du hast keine Maske',
+    ['you_paid'] = 'Du hast ~g~%s€~s~ bezahlt',
+  }
+  
