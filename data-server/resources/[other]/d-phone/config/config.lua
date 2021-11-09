@@ -16,7 +16,7 @@ Config                            = {}
 -- General
 Config.Locale             = 'de'
 
-Config.Debug = true
+Config.Debug = false
 
 -- WARNING DONT DISABLE THIS IF YOU DONT EXACTLY KNOW WHAT YOU'RE DOING
 Config.AutomaticPhoneStart = true
