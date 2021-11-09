@@ -1195,15 +1195,10 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 
 		if IsControlJustReleased(0, Config.Controls.OpenMenu.keyboard) then
-			print("TEST")
 			if not RageUI.Visible() then
-				print("TEST2")
 				ESX.TriggerServerCallback('KorioZ-PersonalMenu:Admin_getUsergroup', function(plyGroup)
 					Player.group = plyGroup
-
-					print("TEST3")
 					ESX.TriggerServerCallback('KorioZ-PersonalMenu:Bill_getBills', function(bills)
-						print("TEST4")
 						PersonalMenu.BillData = bills
 						ESX.PlayerData = ESX.GetPlayerData()
 						RageUI.Visible(RMenu.Get('rageui', 'personal'), true)
