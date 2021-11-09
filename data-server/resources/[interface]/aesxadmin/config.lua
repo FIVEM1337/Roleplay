@@ -90,7 +90,7 @@ Config.Perms = {
     }
 }
 
-Config.DynamicWeather = true -- Set this to false if you don't want the weather to change automatically every 10 minutes.
+Config.DynamicWeather = false -- Set this to false if you don't want the weather to change automatically every 10 minutes.
 Config.StartWeather = 'EXTRASUNNY' -- Default weather
 Config.BaseTime = 8 
 Config.NewWeatherTimer = 10 -- Time (in minutes) between each weather change
