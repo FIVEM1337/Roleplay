@@ -28,7 +28,6 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(5000)
-		print(iscitizen)
         if iscitizen == false then
             if GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), x, y, z, true) < 250 then
             else
