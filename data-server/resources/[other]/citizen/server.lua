@@ -18,7 +18,7 @@ AddEventHandler('esx:playerLoaded', function(source)
 						end
 					end
 					TriggerClientEvent("iscitizen", _source, false)
-				elseif result[1].neu == "1" then
+				elseif result[1].citizen == "1" then
 					TriggerClientEvent("iscitizen", _source, true)
 				end
 			end
