@@ -26,8 +26,6 @@ function OpenShopMenu(zone)
     local isEmpty = true
 	local items = {}
 
-	RequestDBItems()
-
     for i=1, #Config.Zones[zone].Items, 1 do
         local item = Config.Zones[zone].Items[i]
 
@@ -129,7 +127,7 @@ end)
 -- Key Controls
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(10)
+		Citizen.Wait(5)
 
 		if CurrentAction ~= nil then
 
