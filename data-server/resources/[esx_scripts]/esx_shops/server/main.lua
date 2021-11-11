@@ -6,7 +6,6 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 -- Load items
 AddEventHandler('onMySQLReady', function()
-	type = shopResult.type
 	hasSqlRun = true
 	LoadShop()
 end)
@@ -31,18 +30,20 @@ function LoadShop()
 		if itemInformation[itemResult[i].name] == nil then
 			itemInformation[itemResult[i].name] = {}
 		end
+
 		itemInformation[itemResult[i].name].label = itemResult[i].label
 		itemInformation[itemResult[i].name].limit = itemResult[i].limit
 	end
-		
 
 	for i=1, #shopResult, 1 do
 		if ShopItems[shopResult[i].store] == nil then
 			ShopItems[shopResult[i].store] = {}
 		end
+
 		if itemInformation[shopResult[i].item].limit == -1 then
 			itemInformation[shopResult[i].item].limit = 30
 		end
+
 		table.insert(ShopItems[shopResult[i].store], {
 			label = itemInformation[shopResult[i].item].label,
 			item  = shopResult[i].item,
@@ -64,8 +65,9 @@ RegisterServerEvent('esx_shops:buyItem')
 AddEventHandler('esx_shops:buyItem', function(itemName, amount, zone)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
+	local sourceItem = xPlayer.getInventoryItem(itemName)
 
-	amount = ESX.Math.Round(amount)
+	amount = ESX.Round(amount)
 
 	-- is the player trying to exploit?
 	if amount < 0 then
@@ -77,11 +79,10 @@ AddEventHandler('esx_shops:buyItem', function(itemName, amount, zone)
 	local price = 0
 	local itemLabel = ''
 
-	for i=1, #Config.Zones[zone].Items, 1 do
-		local item = Config.Zones[zone].Items[i]
-		if item.name == itemName then
-			price = item.price
-			itemLabel = item.label
+	for i=1, #ShopItems[zone], 1 do
+		if ShopItems[zone][i].item == itemName then
+			price = ShopItems[zone][i].price
+			itemLabel = ShopItems[zone][i].label
 			break
 		end
 	end
@@ -91,12 +92,12 @@ AddEventHandler('esx_shops:buyItem', function(itemName, amount, zone)
 	-- can the player afford this item?
 	if xPlayer.getMoney() >= price then
 		-- can the player carry the said amount of x item?
-		if xPlayer.canCarryItem(itemName, amount) then
+		if sourceItem.limit ~= -1 and (sourceItem.count + amount) > sourceItem.limit then
+			TriggerClientEvent('esx:showNotification', _source, _U('player_cannot_hold'))
+		else
 			xPlayer.removeMoney(price)
 			xPlayer.addInventoryItem(itemName, amount)
-			xPlayer.showNotification(_U('bought', amount, itemLabel, ESX.Math.GroupDigits(price)))
-		else
-			xPlayer.showNotification(_U('player_cannot_hold'))
+			TriggerClientEvent('esx:showNotification', _source, _U('bought', amount, itemLabel, price))
 		end
 	else
 		local missingMoney = price - xPlayer.getMoney()

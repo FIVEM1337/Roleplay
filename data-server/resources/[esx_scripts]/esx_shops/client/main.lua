@@ -12,9 +12,9 @@ Citizen.CreateThread(function()
 		Citizen.Wait(10)
 	end
 
-	Citizen.Wait(5000)
-	PlayerData = ESX.GetPlayerData()
+	Citizen.Wait(500)
 	
+	PlayerData = ESX.GetPlayerData()
 	ESX.TriggerServerCallback('esx_shops:requestDBItems', function(ShopItems)
 		for k,v in pairs(ShopItems) do
 			Config.Zones[k].Items = v
@@ -25,6 +25,8 @@ end)
 function OpenShopMenu(zone)
     local isEmpty = true
 	local items = {}
+
+	RequestDBItems()
 
     for i=1, #Config.Zones[zone].Items, 1 do
         local item = Config.Zones[zone].Items[i]
