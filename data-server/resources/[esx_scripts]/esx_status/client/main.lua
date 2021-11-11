@@ -68,7 +68,7 @@ AddEventHandler('esx_status:load', function(status)
 				status = GetStatusData()
 			})
 
-			TriggerEvent('esx_status:onTick', GetStatusData(true))
+			TriggerEvent('cosmo_hud:onTick', data)
 			Citizen.Wait(Config.TickTime)
 		end
 	end)

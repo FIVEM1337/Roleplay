@@ -9,6 +9,16 @@ Citizen.CreateThread(function()
 	end
 end)
 
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(1)
+        if GetEntityMaxHealth(GetPlayerPed(-1)) ~= 200 then
+            SetEntityMaxHealth(GetPlayerPed(-1), 200)
+            SetEntityHealth(GetPlayerPed(-1), 200)
+        end
+    end
+end)
+
 AddEventHandler('esx_basicneeds:resetStatus', function()
 	TriggerEvent('esx_status:set', 'hunger', 500000)
 	TriggerEvent('esx_status:set', 'thirst', 500000)
