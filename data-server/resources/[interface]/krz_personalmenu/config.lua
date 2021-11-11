@@ -22,6 +22,8 @@ Config.NoclipSpeed = 1.0 -- change it to change the speed in noclip
 Config.JSFourIDCard = true -- enable if you're using jsfour-idcard
 
 -- CONTROLS --
+
+Config.UseHandsUP = false
 Config.Controls = {
 	OpenMenu = {keyboard = Keys['F5']},
 	HandsUP = {keyboard = Keys['H']},

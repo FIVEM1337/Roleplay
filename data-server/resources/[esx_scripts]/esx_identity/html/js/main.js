@@ -32,6 +32,15 @@
             document.getElementById("test2").style.color = "black";
         }
 
+        if(!(document.getElementsByName('state')[0].checked || document.getElementsByName('state')[1].checked)){
+            document.getElementById("state1").style.color = "red";
+            document.getElementById("state2").style.color = "red";
+            return false;
+        } else {
+            document.getElementById("state1").style.color = "black";
+            document.getElementById("state2").style.color = "black";
+        }
+
         for(var i=0; i<input.length; i++) {
             if(validate(input[i]) == false){
                 showValidate(input[i]);

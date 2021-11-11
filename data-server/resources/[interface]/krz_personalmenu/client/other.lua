@@ -39,23 +39,25 @@ Citizen.CreateThread(function()
 			end
 		end
 
-		if IsControlJustReleased(1, Config.Controls.HandsUP.keyboard) and IsInputDisabled(2) then
-			local plyPed = PlayerPedId()
+		if Config.UseHandsUP then
+			if IsControlJustReleased(1, Config.Controls.HandsUP.keyboard) and IsInputDisabled(2) then
+				local plyPed = PlayerPedId()
 
-			if (DoesEntityExist(plyPed)) and not (IsEntityDead(plyPed)) and (IsPedOnFoot(plyPed)) then
-				if Player.pointing then
-					Player.pointing = false
-				end
+				if (DoesEntityExist(plyPed)) and not (IsEntityDead(plyPed)) and (IsPedOnFoot(plyPed)) then
+					if Player.pointing then
+						Player.pointing = false
+					end
 
-				Player.handsUp = not Player.handsUp
+					Player.handsUp = not Player.handsUp
 
-				if Player.handsUp then
-					ESX.Streaming.RequestAnimDict('random@mugging3', function()
-						TaskPlayAnim(plyPed, 'random@mugging3', 'handsup_standing_base', 8.0, -8, -1, 49, 0, 0, 0, 0)
-						RemoveAnimDict('random@mugging3')
-					end)
-				else
-					ClearPedSecondaryTask(plyPed)
+					if Player.handsUp then
+						ESX.Streaming.RequestAnimDict('random@mugging3', function()
+							TaskPlayAnim(plyPed, 'random@mugging3', 'handsup_standing_base', 8.0, -8, -1, 49, 0, 0, 0, 0)
+							RemoveAnimDict('random@mugging3')
+						end)
+					else
+						ClearPedSecondaryTask(plyPed)
+					end
 				end
 			end
 		end

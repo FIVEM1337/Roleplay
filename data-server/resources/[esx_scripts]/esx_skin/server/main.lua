@@ -70,3 +70,18 @@ TriggerEvent('es:addGroupCommand', 'skinsave', 'admin', function(source, args, u
 end, function(source, args, user)
   TriggerClientEvent('chatMessage', source, "SYSTEM", {255, 0, 0}, "Insufficient Permissions.")
 end, {help = _U('saveskin')})
+
+
+RegisterCommand("reset_skin", function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	MySQL.Async.fetchAll('SELECT citizen FROM users WHERE identifier = @identifier', {['@identifier'] = xPlayer.identifier}, function(result)
+		if result[1] then
+			if result[1].citizen == "0" then
+        TriggerClientEvent('esx_skin:openSaveableMenu', source)
+      else
+        TriggerClientEvent('notifications', xPlayer.source, "#ff0000", "ERROR", "Das geht nur als nicht Staatsburger!")
+			end
+		end
+	end)
+end)
+

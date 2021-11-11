@@ -467,3 +467,11 @@ iframe {
 .radio-btn {
   padding-left: 10%;
 }
+
+.radio-state {
+  font-family: JosefinSans-Bold;
+  text-align: center;
+  font-size: 14px;
+  color: #4b2354;
+  opacity: 100%;
+}

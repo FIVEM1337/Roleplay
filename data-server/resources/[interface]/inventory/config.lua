@@ -44,7 +44,10 @@ Config.Trunk = true -- toggle trunk plugin on/off
 Config.Rob = true -- toggle rob plugin on/off
 
 -- Rob
-Config.HandsupKey = "f4" -- default handsup key (users can change in their settings) | FiveM Keys
+
+
+Config.UseHandsUP = true
+Config.HandsupKey = "H" -- default handsup key (users can change in their settings) | FiveM Keys
 Config.RobTimeout = 3000 -- amount of time it takes for the Robbery to load (server loading wont be affected) (milliseconds)
 Config.BlacklistedItems = {"", "", ""} -- will not allow the robber to remove items that are put in this array
 
