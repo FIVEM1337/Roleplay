@@ -32,21 +32,23 @@ Config.Map = {
 	{name="Shop",color=2, id=52,scale=0.8, x = -707.501,  y = -914.260,  z = 18.215},
 	{name="Shop",color=2, id=52,scale=0.8, x = -1820.523, y = 792.518,   z = 137.118},
 	{name="Shop",color=2, id=52,scale=0.8, x = 1698.388,  y = 4924.404,  z = 41.063}
-
-	
-	
 }
 
 Config.Zones = {
 
 	TwentyFourSeven = {
-        Items = {
+		Items = {
             {
                  name = "bread",
                  type = "item",
                  price = 100
             },
-		},
+			{
+				name = "water",
+				type = "item",
+				price = 100
+		   },
+        }, 
 		Pos = {
 			{x = 373.875,   y = 325.896,  z = 102.566},
 			{x = 2557.458,  y = 382.282,  z = 107.622},
@@ -61,12 +63,17 @@ Config.Zones = {
 	},
 
 	RobsLiquor = {
-        Items = {
-            {
-                 name = "bread",
-                 type = "item",
-                 price = 100
-            },
+		Items = {
+			{
+				name = "bread",
+				type = "item",
+				price = 100,
+			},
+			{
+				name = "water",
+				type = "item",
+				price = 100,
+			},
 		},
 		Pos = {
 			{x = 1135.808,  y = -982.281,  z = 45.415},
@@ -108,13 +115,7 @@ Config.Zones = {
 	
 
 	LTDgasoline = {
-        Items = {
-            {
-                 name = "bread",
-                 type = "item",
-                 price = 100
-            },
-		},
+		Items = {},
 		Pos = {
 			{x = -48.519,   y = -1757.514, z = 28.421},
 			{x = 1163.373,  y = -323.801,  z = 68.205},

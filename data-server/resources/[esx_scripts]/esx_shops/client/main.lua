@@ -14,7 +14,7 @@ Citizen.CreateThread(function()
 
 	Citizen.Wait(5000)
 	PlayerData = ESX.GetPlayerData()
-
+	
 	ESX.TriggerServerCallback('esx_shops:requestDBItems', function(ShopItems)
 		for k,v in pairs(ShopItems) do
 			Config.Zones[k].Items = v
@@ -23,16 +23,28 @@ Citizen.CreateThread(function()
 end)
 
 function OpenShopMenu(zone)
-    local items = {}
+    local isEmpty = true
+	local items = {}
+
     for i=1, #Config.Zones[zone].Items, 1 do
         local item = Config.Zones[zone].Items[i]
+
+		if item.name ~= nil then
+			isEmpty = false
+		end
+
         table.insert(items, {
             type = item.type,
             name = item.name,
             price = item.price
         })
     end
-        TriggerEvent('inventory:openShop', tostring(zone), 'Shop', items)
+
+	if (isEmpty == false) then
+    	TriggerEvent('inventory:openShop', tostring(zone), 'Shop', items)
+	else
+		ESX.ShowNotification("Derzeit gibt es hier nichts kaufen.")
+	end
 end
 
 AddEventHandler('esx_shops:hasEnteredMarker', function(zone)
