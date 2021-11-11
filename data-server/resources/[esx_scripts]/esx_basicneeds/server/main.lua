@@ -2,18 +2,18 @@ ESX = nil
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-ESX.RegisterUsableItem('tosti', function(source)
+ESX.RegisterUsableItem('bread', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
-	xPlayer.removeInventoryItem('tosti', 1)
+	xPlayer.removeInventoryItem('bread', 1)
 
 	TriggerClientEvent('esx_status:add', source, 'hunger', 200000)
 	TriggerClientEvent('esx_basicneeds:onEat', source)
 	--xPlayer.showNotification(_U('used_bread'))
 end)
 
-ESX.RegisterUsableItem('water_bottle', function(source)
+ESX.RegisterUsableItem('water', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
-	xPlayer.removeInventoryItem('water_bottle', 1)
+	xPlayer.removeInventoryItem('water', 1)
 
 	TriggerClientEvent('esx_status:add', source, 'thirst', 200000)
 	TriggerClientEvent('esx_basicneeds:onDrink', source)
