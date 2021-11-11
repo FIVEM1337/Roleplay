@@ -127,7 +127,7 @@ end)
 -- Key Controls
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(5)
+		Citizen.Wait(0)
 
 		if CurrentAction ~= nil then
 
