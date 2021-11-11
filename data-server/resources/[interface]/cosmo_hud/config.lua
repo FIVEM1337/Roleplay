@@ -16,7 +16,7 @@ Config.ShowStress = false
 Config.MinStressEffect = 50
 
 -- SpeedOmeter // Set this flag to false if you'd like to not show information about speed, fuel & seatbelt
-Config.ShowSpeedO = true
+Config.ShowSpeedO = false
 
 --[[
     Fuel // Set this flag to true if you'd like to show the current vehicle fuel.
