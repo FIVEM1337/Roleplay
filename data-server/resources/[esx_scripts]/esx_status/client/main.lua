@@ -68,6 +68,7 @@ AddEventHandler('esx_status:load', function(status)
 				status = GetStatusData()
 			})
 
+			TriggerEvent('playerhud:updateStatus', GetStatusData(true))
 			Citizen.Wait(Config.TickTime)
 		end
 	end)
@@ -128,6 +129,16 @@ AddEventHandler('esx_status:getStatus', function(name, cb)
 	for i=1, #Status, 1 do
 		if Status[i].name == name then
 			cb(Status[i])
+			return
+		end
+	end
+end)
+
+AddEventHandler('esx_status:getStatusPercent', function(name, cb)
+	for i=1, #Status, 1 do
+		if Status[i].name == name then
+			percent = (Status[i].val / Config.StatusMax) * 100
+			cb(percent)
 			return
 		end
 	end
