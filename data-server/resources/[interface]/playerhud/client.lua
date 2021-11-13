@@ -44,6 +44,24 @@ AddEventHandler("playerhud:LoadPlayerData", function(xPlayer)
 
 	-- Player ID
 	SendNUIMessage({action = "setValue", key = "player_id", value = "Deine ID: "..GetPlayerServerId(NetworkGetEntityOwner(GetPlayerPed(-1)))})
+
+
+    TriggerEvent('esx_status:getStatusPercent', 'hunger', function(hunger) 
+		currenthunger = hunger
+    end)
+
+    TriggerEvent('esx_status:getStatusPercent', 'thirst', function(thirst)
+		currentthirst = thirst
+    end)
+	    
+    TriggerEvent('esx_status:getStatusPercent', 'stress', function(stress)
+		currentstress = stress
+		print("heee")
+    end)
+
+	SendNUIMessage({action = "updateStatus", hunger = currenthunger, thirst = currentthirst, stress = currentstress})
+
+
 end)
 
 
