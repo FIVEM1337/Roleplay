@@ -1,7 +1,5 @@
 ESX = nil
 local vehicles = {}
-local parkedvehicles = {}
-local parkmeter = {}
 local default_routing = {}
 local current_routing = {}
 local lastgarage = {}
@@ -18,9 +16,6 @@ Citizen.CreateThread(function()
     vehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM vehicles', {})
     print("^2 vehicles ok ^7")
     GlobalState.VehicleinDb = vehicles
-    print("^2 Checking owned_vehicles isparked column table ^7")
-    parkedvehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE isparked = 1', {}) or {}
-    print("^2 owned_vehicles isparked column ok ^7")
     globalvehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles', {}) or {}
     print("^2 Checking garagekeys table ^7")
     local resgaragekeys = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM garagekeys', {})
@@ -98,9 +93,6 @@ Citizen.CreateThread(function()
     end
     GlobalState.GVehicles = tempvehicles 
     tempvehicles = nil
-    print("^2 Checking parking_meter table ^7")
-    parkmeter = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM parking_meter', {}) or {}
-    print("^2 parking_meter table ok ^7")
     print("^2 Checking impound_garage table ^7")
     impoundget = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM impound_garage', {})
     print("^2 impound_garage table ok ^7")
@@ -812,73 +804,6 @@ RegisterCommand(Config.GiveAccessCommand, function(source, args, rawCommand)
     end
 end)
 
-ESX.RegisterServerCallback('renzu_garage:parkingmeter', function (source, cb, coord, coord2,prop)
-    local src = source  
-    local xPlayer = ESX.GetPlayerFromId(src)
-    local identifier = xPlayer.identifier
-    local coord = coord
-    local coord2 = coord2
-    local prop = prop
-    local plate = string.gsub(tostring(json.decode(prop).plate), '^%s*(.-)%s*$', '%1'):upper()
-    if xPlayer.getMoney() >= Config.MeterPayment then
-        local canpark = true
-        local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT coord FROM parking_meter', {})
-        if result then
-            for k,v in pairs(result) do
-                local c = json.decode(v.coord)
-                if v.coord ~= nil and #(vector3(c.x,c.y,c.z) - coord) < 7 then
-                    canpark = false
-                end
-            end
-        end
-        if canpark then
-            print(globalkeys[plate],plate,globalkeys[plate] and globalkeys[plate][xPlayer.identifier])
-            MysqlGarage(Config.Mysql,'execute','INSERT INTO parking_meter (identifier, coord, park_coord, vehicle, plate) VALUES (@identifier, @coord, @park_coord, @vehicle, @plate)', {
-                ['@identifier']   = globalkeys[plate] and globalkeys[plate][xPlayer.identifier] and globalkeys[plate][xPlayer.identifier] ~= true and globalkeys[plate][xPlayer.identifier] or xPlayer.identifier,
-                ['@coord']   = json.encode(coord),
-                ['@park_coord']   = json.encode(coord2),
-                ['@vehicle'] = prop,
-                ['@plate'] = json.decode(prop).plate
-            })
-            xPlayer.removeMoney(Config.MeterPayment)
-            TriggerClientEvent('renzu_notify:Notify', src, 'success','Garage', 'You Successfully Park the vehicle')
-            Wait(300)
-            parkmeter = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM parking_meter', {}) or {}
-            Wait(200)
-            TriggerClientEvent('renzu_garage:update_parked',-1,parkedvehicles,json.decode(prop).plate,parkmeter)
-            cb(true)
-        else
-            TriggerClientEvent('renzu_notify:Notify', src, 'error','Garage', 'Parking is occupied')
-            cb(false)
-        end
-    else
-        TriggerClientEvent('renzu_notify:Notify', src, 'error','Garage', 'Not Enough Money to pay parking')
-        cb(false)
-    end
-end)
-
-RegisterServerEvent('renzu_garage:getparkmeter')
-AddEventHandler('renzu_garage:getparkmeter', function(plate,state,model)
-    if not Config.PlateSpace then
-        plate = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper()
-    else
-        plate = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper()
-    end
-    local source = source
-    local xPlayer = ESX.GetPlayerFromId(source)
-    if xPlayer then
-        local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM parking_meter WHERE TRIM(UPPER(plate)) = @plate', {['@plate'] = plate})
-        if #result > 0 then
-            MysqlGarage(Config.Mysql,'execute','DELETE FROM parking_meter WHERE TRIM(UPPER(plate)) = @plate', {['@plate'] = plate})
-            Wait(300)
-            parkmeter = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM parking_meter', {}) or {}
-            Wait(200)
-            TriggerClientEvent('renzu_garage:update_parked',-1,parkedvehicles,plate:upper(),parkmeter)
-        else
-            xPlayer.showNotification("This Vehicle is not your property", 1, 0)
-        end
-    end
-end)
 
 ESX.RegisterServerCallback('renzu_garage:isvehicleingarage', function (source, cb, plate, id, ispolice, patrol)
     local source = source
@@ -1011,93 +936,6 @@ AddEventHandler('renzu_garage:updategaragekeys', function(action,data)
     end
 end)
 
-RegisterServerEvent('renzu_garage:GetParkedVehicles')
-AddEventHandler('renzu_garage:GetParkedVehicles', function()
-    TriggerClientEvent('renzu_garage:update_parked',source,parkedvehicles, false, parkmeter)
-end)
-
-RegisterServerEvent('renzu_garage:park')
-AddEventHandler('renzu_garage:park', function(plate,state,coord,model,props)
-    if not Config.PlateSpace then
-        plate = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper()
-    else
-        plate = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper()
-    end
-    local source = source
-    local xPlayer = ESX.GetPlayerFromId(source)
-    if xPlayer then
-        local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE owner = @owner and TRIM(UPPER(plate)) = @plate LIMIT 1', {
-            ['@owner'] = globalkeys[plate] and globalkeys[plate][xPlayer.identifier] and globalkeys[plate][xPlayer.identifier] ~= true and globalkeys[plate][xPlayer.identifier] or xPlayer.identifier,
-            ['@plate'] = plate
-        })
-        if #result > 0 then
-            if result[1].vehicle ~= nil then
-                local veh = json.decode(result[1].vehicle)
-                if veh.model == model then
-                    local result = MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET `stored` = @stored, garage_id = @garage_id, vehicle = @vehicle , park_coord = @park_coord, isparked = @isparked WHERE TRIM(UPPER(plate)) = @plate and owner = @owner', {
-                        ['@vehicle'] = json.encode(props),
-                        ['@garage_id'] = 'PARKED',
-                        ['@plate'] = plate:upper(),
-                        ['@owner'] = globalkeys[plate] and globalkeys[plate][xPlayer.identifier] and globalkeys[plate][xPlayer.identifier] ~= true and globalkeys[plate][xPlayer.identifier] or xPlayer.identifier,
-                        ['@stored'] = 0,
-                        ['@park_coord'] = json.encode(coord),
-                        ['@isparked'] = state
-                    })
-                    Wait(800)
-                    parkedvehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE isparked = 1', {}) or {}
-                    parkmeter = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM parking_meter', {}) or {}
-                    Wait(200)
-                    TriggerClientEvent('renzu_garage:update_parked',-1,parkedvehicles, false, parkmeter)
-                else
-                    print('exploiting')
-                end
-            end
-        else
-            xPlayer.showNotification("This Vehicle is not your property", 1, 0)
-        end
-    end
-end)
-
-RegisterServerEvent('renzu_garage:unpark')
-AddEventHandler('renzu_garage:unpark', function(plate,state,model)
-    if not Config.PlateSpace then
-        plate = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper()
-    else
-        plate = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper()
-    end
-    local source = source
-    local xPlayer = ESX.GetPlayerFromId(source)
-    if xPlayer then
-        local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE TRIM(UPPER(plate)) = @plate LIMIT 1', {
-            ['@plate'] = plate
-        })
-        if #result > 0 then
-            if result[1].vehicle ~= nil then
-                local veh = json.decode(result[1].vehicle)
-                if veh.model == model then
-                    local result = MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET `stored` = @stored, garage_id = @garage_id, vehicle = @vehicle , park_coord = @park_coord, isparked = @isparked WHERE TRIM(UPPER(plate)) = @plate', {
-                        ['vehicle'] = result[1].vehicle,
-                        ['@garage_id'] = 'A',
-                        ['@plate'] = plate:upper(),
-                        ['@stored'] = 0,
-                        ['@park_coord'] = json.encode(coord),
-                        ['@isparked'] = 0
-                    })
-                    Wait(300)
-                    parkedvehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE isparked = 1', {}) or {}
-                    Wait(200)
-                    parkmeter = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM parking_meter', {}) or {}
-                    TriggerClientEvent('renzu_garage:update_parked',-1,parkedvehicles,plate:upper(),parkmeter)
-                else
-                    print('exploiting')
-                end
-            end
-        else
-            xPlayer.showNotification("This Vehicle is not your property", 1, 0)
-        end
-    end
-end)
-
 ESX.RegisterServerCallback('renzu_garage:changestate', function (source, cb, plate,state,garage_id,model,props,impound_cdata, public)
     if not Config.PlateSpace then
         plate = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper()
@@ -1126,17 +964,6 @@ ESX.RegisterServerCallback('renzu_garage:changestate', function (source, cb, pla
             ['@plate'] = plate
         })
         if #result > 0 and not string.find(garage_id, "impound") then
-            local updatepark = false
-            for k,park in pairs(parkedvehicles) do
-                if string.gsub(tostring(park.plate), '^%s*(.-)%s*$', '%1'):upper() == plate:upper() then
-                    updatepark = true
-                end
-            end
-            for k,park in pairs(parkmeter) do
-                if string.gsub(tostring(park.plate), '^%s*(.-)%s*$', '%1'):upper() == plate:upper() then
-                    updatepark = true
-                end
-            end
             if result[1].vehicle ~= nil then
                 local veh = json.decode(result[1].vehicle)
                 if veh.model == model then
@@ -1146,23 +973,9 @@ ESX.RegisterServerCallback('renzu_garage:changestate', function (source, cb, pla
                         ['@plate'] = plate:upper(),
                         ['@owner'] = identifier,
                         ['@stored'] = state,
-                        ['@isparked'] = 0,
                         ['@job'] = state == 1 and public and xPlayer.job.name or state == 1 and result[1].job ~= nil and result[1].job or 'civ',
                     }
-                    local result = MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET `stored` = @stored, garage_id = @garage_id, vehicle = @vehicle, isparked = @isparked, `job` = @job WHERE TRIM(UPPER(plate)) = @plate and owner = @owner', var)
-                    if updatepark then
-                        Wait(300)
-                        parkedvehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE isparked = 1', {}) or {}
-                        Wait(200)
-                        parkmeter = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM parking_meter', {}) or {}
-                        isparked = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM parking_meter WHERE TRIM(plate) = @plate', {['@plate'] = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1')}) or {}
-                        if isparked[1] then
-                            MysqlGarage(Config.Mysql,'execute','DELETE FROM parking_meter WHERE TRIM(plate) = @plate', {['@plate'] =  string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1')})
-                            parkmeter = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM parking_meter', {}) or {}
-                        end
-                        Wait(200)
-                        TriggerClientEvent('renzu_garage:update_parked',-1,parkedvehicles,plate:upper(),parkmeter)
-                    end
+                    local result = MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET `stored` = @stored, garage_id = @garage_id, vehicle = @vehicle, `job` = @job WHERE TRIM(UPPER(plate)) = @plate and owner = @owner', var)
                     if state == 1 then
                         TriggerClientEvent('renzu_notify:Notify', source, 'success','Garage', 'You Successfully Store the vehicle')
                     else
@@ -1179,17 +992,6 @@ ESX.RegisterServerCallback('renzu_garage:changestate', function (source, cb, pla
                 ['@plate'] = plate:upper()
             })
             if #result > 0 then
-                local updatepark = false
-                for k,park in pairs(parkedvehicles) do
-                    if string.gsub(tostring(park.plate), '^%s*(.-)%s*$', '%1'):upper() == plate:upper() then
-                        updatepark = true
-                    end
-                end
-                for k,park in pairs(parkmeter) do
-                    if string.gsub(tostring(park.plate), '^%s*(.-)%s*$', '%1'):upper() == plate:upper() then
-                        updatepark = true
-                    end
-                end
                 local veh = json.decode(result[1].vehicle)
                 local impoundid = nil
                 if veh.model == model then
@@ -1209,23 +1011,21 @@ ESX.RegisterServerCallback('renzu_garage:changestate', function (source, cb, pla
                     end
                     if not addimpound and impound_data[plate:upper()] then
                         impound_data[plate:upper()] = nil
-                        MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET `stored` = @stored, garage_id = @garage_id, impound = @impound, vehicle = @vehicle, isparked = @isparked WHERE TRIM(UPPER(plate)) = @plate', {
+                        MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET `stored` = @stored, garage_id = @garage_id, impound = @impound, vehicle = @vehicle WHERE TRIM(UPPER(plate)) = @plate', {
                             ['vehicle'] = json.encode(props),
                             ['@garage_id'] = garage_id,
                             ['@impound'] = state,
                             ['@plate'] = plate:upper(),
                             ['@stored'] = state,
-                            ['@isparked'] = 0
                         })
                     elseif addimpound then
                         impound_data[plate:upper()] = {reason = impound_cdata['reason'] or 'no reason', fine = impound_cdata['fine'] or ImpoundPayment, duration = impound_cdata['impound_duration'] or DefaultDuration, impounder = xPlayer.name, date = os.time()}
-                        MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET `stored` = @stored, garage_id = @garage_id, impound = @impound, vehicle = @vehicle, isparked = @isparked WHERE TRIM(UPPER(plate)) = @plate', {
+                        MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET `stored` = @stored, garage_id = @garage_id, impound = @impound, vehicle = @vehicle WHERE TRIM(UPPER(plate)) = @plate', {
                             ['vehicle'] = json.encode(props),
                             ['@garage_id'] = garage_id,
                             ['@impound'] = state,
                             ['@plate'] = plate:upper(),
                             ['@stored'] = state,
-                            ['@isparked'] = 0
                         })
                     end
                     local result = MysqlGarage(Config.Mysql,'execute','UPDATE impound_garage SET `data` = @data WHERE garage = @garage', {
@@ -1234,17 +1034,6 @@ ESX.RegisterServerCallback('renzu_garage:changestate', function (source, cb, pla
                     })
                     if impound_G[impoundid] then
                         impound_G[impoundid] = impound_data
-                    end
-                    if updatepark then
-                        Wait(300)
-                        parkedvehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE isparked = 1', {}) or {}
-                        Wait(200)
-                        isparked = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM parking_meter WHERE TRIM(plate) = @plate', {['@plate'] = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1')}) or {}
-                        if isparked[1] then
-                            MysqlGarage(Config.Mysql,'execute','DELETE FROM parking_meter WHERE TRIM(plate) = @plate', {['@plate'] =  string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1')})
-                            parkmeter = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM parking_meter', {}) or {}
-                        end
-                        TriggerClientEvent('renzu_garage:update_parked',-1,parkedvehicles,plate:upper(),parkmeter)
                     end
                     if state == 1 then
                         TriggerClientEvent('renzu_notify:Notify', source, 'success','Garage', 'You Impound the Vehicle')

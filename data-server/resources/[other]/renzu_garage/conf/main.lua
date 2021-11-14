@@ -22,8 +22,6 @@ Config.use_renzu_vehthumb = false
 Config.EnableImpound = true -- enable/disable impound
 Config.EnableHeliGarage = true -- enable/disable Helis
 Config.PlateSpace = true -- enable / disable plate spaces (compatibility with esx 1.1?)
-Config.Realistic_Parking = true
-Config.ParkButton = 38 -- E
 Config.EnableReturnVehicle = true -- enable / disable return vehicle feature
 Config.DefaultPlate = 'ROLEPLAY' -- default plate being used to default_vehicles args
 
@@ -39,17 +37,6 @@ Config.HousingBlips = false
 Config.PropertyQuickPick = true -- quickpick -- deprecated method 1.72
 Config.UniqueProperty = true -- if enable , only stored vehicles in this Property ID will be show -- deprecated 1.72
 Config.PrivateHousingGarageEnable = true -- will use IPL garages , small, medium, large (same with private garage) if this is false, it will use normal garage function like Public garage, quick pick menu
-
--- PARKING METER (WIP)
-Config.ParkingMeter = true -- use configure parking props and park near by them
-Config.ParkingAnywhere = true -- if this is true ParkingMeter Prop Feature will be replaced
--- ParkingAnywhere is like a realistic parking but by using /park command or /parkingmater
--- you can park anywhere using /park
-Config.MeterProp = {
-  [1] = 'prop_parknmeter_01',
-  [2] = 'prop_parknmeter_02',
-}
-Config.MeterPayment = 5000
 
 -- FEAT 1.71, a lot of functions here used One Sync State bags, One Sync must be enable
 
