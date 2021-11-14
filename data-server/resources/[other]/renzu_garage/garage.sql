@@ -21,31 +21,3 @@ CREATE TABLE IF NOT EXISTS `impound_garage` (
 COLLATE='utf8mb4_general_ci'
 ENGINE=InnoDB
 ;
-
-CREATE TABLE IF NOT EXISTS `private_garage` (
-	`identifier` VARCHAR(64) NOT NULL DEFAULT '' COLLATE 'utf8mb4_general_ci',
-    `vehicles` LONGTEXT NULL COLLATE 'utf8mb4_general_ci',
-	`garage` VARCHAR(64) NULL COLLATE 'utf8mb4_general_ci',
-	`inventory` LONGTEXT NULL COLLATE 'utf8mb4_general_ci'
-)
-COLLATE='utf8mb4_general_ci'
-ENGINE=InnoDB
-;
-
-CREATE TABLE IF NOT EXISTS `garagekeys` (
-	`identifier` VARCHAR(64) NOT NULL DEFAULT '' COLLATE 'utf8mb4_general_ci',
-	`keys` LONGTEXT NULL COLLATE 'utf8mb4_general_ci',
-	PRIMARY KEY (`identifier`) USING BTREE
-)
-COLLATE='utf8mb4_general_ci'
-ENGINE=InnoDB
-;
-
-CREATE TABLE IF NOT EXISTS `vehiclekeys` (
-	`plate` VARCHAR(64) NOT NULL DEFAULT '' COLLATE 'utf8mb4_general_ci',
-	`keys` LONGTEXT NULL COLLATE 'utf8mb4_general_ci',
-	PRIMARY KEY (`plate`) USING BTREE
-)
-COLLATE='utf8mb4_general_ci'
-ENGINE=InnoDB
-;
