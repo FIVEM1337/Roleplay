@@ -381,7 +381,6 @@ AddEventHandler('opengarage', function()
                     if jobgarage then
                         garagejob = v.job
                     end
-                    print(garagejob)
                     propertygarage = false
                     OpenGarage(v.garage,v.Type,garagejob or false,v.default_vehicle or {})
                     break
@@ -1099,7 +1098,6 @@ function OpenGarage(garageid,garage_type,jobonly,default)
     lastcat = cat
     cat = nil
     if cars > 0 then
-        print("INSIDE")
         SendNUIMessage(
             {
                 garage_id = garageid,
@@ -1405,7 +1403,6 @@ end
 
 local shell = nil
 function CreateGarageShell()
-    print('creating')
     local ped = PlayerPedId()
     garage_coords = GetEntityCoords(ped)+vector3(0,0,20)
     local count = 0
@@ -2406,7 +2403,6 @@ RegisterNUICallback(
                     ent.share = share
                     ent:set('share', share, true)
                     TriggerServerEvent('statebugupdate','share',share, VehToNet(veh))
-                    print("SHARED VEHICLE")
                 end
             end,props.plate, 0, garageid, props.model, props,false,garage_public)
             LastVehicleFromGarage = nil
