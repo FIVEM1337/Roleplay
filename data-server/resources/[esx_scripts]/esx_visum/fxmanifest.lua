@@ -6,10 +6,14 @@ ui_page 'html/index.html'
 
 server_script {
 	'@mysql-async/lib/MySQL.lua',
+	'@es_extended/locale.lua',
+	'config.lua',
 	'server.lua'
 }
 
 client_script {
+	'@es_extended/locale.lua',
+	'config.lua',
 	'client.lua'
 }
 
@@ -22,3 +26,5 @@ files {
 	'html/assets/fonts/justsignature/JustSignature.woff',
 	'html/assets/images/*.png'
 }
+
+dependency 'es_extended'
