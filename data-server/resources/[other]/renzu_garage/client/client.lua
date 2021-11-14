@@ -127,17 +127,6 @@ end)
 local drawtext = false
 local indist = false
 
-function tostringplate(plate)
-    if plate ~= nil then
-        if not Config.PlateSpace then
-            return string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1')
-        else
-            return tostring(plate)
-        end
-    else
-        return 123454
-    end
-end
 
 local neargarage = false
 function PopUI(name,v,reqdist,event)
@@ -1161,11 +1150,11 @@ function OpenGarage(garageid,garage_type,jobonly,default)
         end
     else
         TriggerEvent('renzu_notify:Notify', 'info','Garage', 'You dont have any vehicle')
-        if not propertyspawn.x then
-            SetEntityCoords(PlayerPedId(), garagecoord[tid].garage_x,garagecoord[tid].garage_y,garagecoord[tid].garage_z, false, false, false, true)
-        else
-            SetEntityCoords(PlayerPedId(), propertyspawn.x,propertyspawn.y,propertyspawn.z, false, false, false, true)
-        end
+    --    if not propertyspawn.x then
+    --        SetEntityCoords(PlayerPedId(), garagecoord[tid].garage_x,garagecoord[tid].garage_y,garagecoord[tid].garage_z, false, false, false, true)
+    --    else
+    --        SetEntityCoords(PlayerPedId(), propertyspawn.x,propertyspawn.y,propertyspawn.z, false, false, false, true)
+    --    end
         CloseNui()
     end
 
@@ -1273,37 +1262,73 @@ function OpenImpound(garageid)
                 v.garage_id = impoundcoord[1].garage
             end
             local plate = string.gsub(tostring(v.plate), '^%s*(.-)%s*$', '%1'):upper()
-            if v.garage_id ~= 'private' and not nearbyvehicles[plate] and garageid == v.garage_id and v.impound and ispolice or v.garage_id ~= 'private' and not nearbyvehicles[plate] and garageid == v.garage_id and Impoundforall and v.identifier == PlayerData.identifier then
-                c = c + 1
-                if vehtable[v.impound] == nil then
-                    vehtable[v.impound] = {}
+
+            if Config.UniqueCarperImpoundGarage then
+                if v.garage_id ~= 'private' and not nearbyvehicles[plate] and garageid == v.garage_id and v.impound and ispolice or v.garage_id ~= 'private' and not nearbyvehicles[plate] and garageid == v.garage_id and Impoundforall and v.identifier == PlayerData.identifier then
+                    c = c + 1
+                    if vehtable[v.impound] == nil then
+                        vehtable[v.impound] = {}
+                    end
+                    veh = 
+                    {
+                    brand = v.brand or 1.0,
+                    name = v.name or 1.0,
+                    brake = v.brake or 1.0,
+                    handling = v.handling or 1.0,
+                    topspeed = v.topspeed or 1.0,
+                    power = v.power or 1.0,
+                    torque = v.torque or 1.0,
+                    model = v.model,
+                    img = v.img,
+                    model2 = v.model2,
+                    plate = v.plate,
+                    --props = v.props,
+                    fuel = v.fuel or 100.0,
+                    bodyhealth = v.bodyhealth or 1000.0,
+                    enginehealth = v.enginehealth or 1000.0,
+                    garage_id = v.garage_id or 'A',
+                    impound = v.impound or 0,
+                    ingarage = v.ingarage or 0,
+                    impound = v.impound or 0,
+                    stored = v.stored or 0,
+                    identifier = v.identifier or '',
+                    impound_date = v.impound_date or -1
+                    }
+                    table.insert(vehtable[v.impound], veh)
                 end
-                veh = 
-                {
-                brand = v.brand or 1.0,
-                name = v.name or 1.0,
-                brake = v.brake or 1.0,
-                handling = v.handling or 1.0,
-                topspeed = v.topspeed or 1.0,
-                power = v.power or 1.0,
-                torque = v.torque or 1.0,
-                model = v.model,
-                img = v.img,
-                model2 = v.model2,
-                plate = v.plate,
-                --props = v.props,
-                fuel = v.fuel or 100.0,
-                bodyhealth = v.bodyhealth or 1000.0,
-                enginehealth = v.enginehealth or 1000.0,
-                garage_id = v.garage_id or 'A',
-                impound = v.impound or 0,
-                ingarage = v.ingarage or 0,
-                impound = v.impound or 0,
-                stored = v.stored or 0,
-                identifier = v.identifier or '',
-                impound_date = v.impound_date or -1
-                }
-                table.insert(vehtable[v.impound], veh)
+            else
+                if v.garage_id ~= 'private' and not nearbyvehicles[plate] and v.impound and ispolice or v.garage_id ~= 'private' and not nearbyvehicles[plate] and garageid == v.garage_id and Impoundforall and v.identifier == PlayerData.identifier then
+                    c = c + 1
+                    if vehtable[v.impound] == nil then
+                        vehtable[v.impound] = {}
+                    end
+                    veh = 
+                    {
+                    brand = v.brand or 1.0,
+                    name = v.name or 1.0,
+                    brake = v.brake or 1.0,
+                    handling = v.handling or 1.0,
+                    topspeed = v.topspeed or 1.0,
+                    power = v.power or 1.0,
+                    torque = v.torque or 1.0,
+                    model = v.model,
+                    img = v.img,
+                    model2 = v.model2,
+                    plate = v.plate,
+                    --props = v.props,
+                    fuel = v.fuel or 100.0,
+                    bodyhealth = v.bodyhealth or 1000.0,
+                    enginehealth = v.enginehealth or 1000.0,
+                    garage_id = v.garage_id or 'A',
+                    impound = v.impound or 0,
+                    ingarage = v.ingarage or 0,
+                    impound = v.impound or 0,
+                    stored = v.stored or 0,
+                    identifier = v.identifier or '',
+                    impound_date = v.impound_date or -1
+                    }
+                    table.insert(vehtable[v.impound], veh)
+                end
             end
         end
     end
