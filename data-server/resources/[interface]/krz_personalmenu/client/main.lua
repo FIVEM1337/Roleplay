@@ -95,29 +95,45 @@ Citizen.CreateThread(function()
 
 	RMenu.Add('rageui', 'personal', RageUI.CreateMenu(Config.MenuTitle, _U('mainmenu_subtitle'), 0, 0, 'commonmenu', 'interaction_bgd', 255, 255, 255, 255))
 
-	RMenu.Add('personal', 'inventory', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('inventory_title')))
-	RMenu.Add('personal', 'loadout', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('loadout_title')))
-	RMenu.Add('personal', 'wallet', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('wallet_title')))
-	RMenu.Add('personal', 'billing', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('bills_title')))
-	RMenu.Add('personal', 'clothes', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('clothes_title')))
-	RMenu.Add('personal', 'accessories', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('accessories_title')))
-	RMenu.Add('personal', 'vehicle', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('vehicle_title')), function()
-		if IsPedSittingInAnyVehicle(plyPed) then
-			if (GetPedInVehicleSeat(GetVehiclePedIsIn(plyPed, false), -1) == plyPed) then
+	if Config.UseInventory then
+		RMenu.Add('personal', 'inventory', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('inventory_title')))
+	end
+
+	if Config.UseLoadout then
+		RMenu.Add('personal', 'loadout', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('loadout_title')))
+	end
+	if Config.UseWallet then
+		RMenu.Add('personal', 'wallet', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('wallet_title')))
+	end
+	if Config.UseBilling then
+		RMenu.Add('personal', 'billing', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('bills_title')))
+	end
+	if Config.UseClothes then
+		RMenu.Add('personal', 'clothes', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('clothes_title')))
+	end
+	if Config.UseAccessories then
+		RMenu.Add('personal', 'accessories', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('accessories_title')))
+	end
+	if Config.UseVehicle then
+		RMenu.Add('personal', 'vehicle', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('vehicle_title')), function()
+			if IsPedSittingInAnyVehicle(plyPed) then
+				if (GetPedInVehicleSeat(GetVehiclePedIsIn(plyPed, false), -1) == plyPed) then
+					return true
+				end
+			end
+	
+			return false
+		end)
+	end
+	if Config.UseBoss then
+		RMenu.Add('personal', 'boss', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('bossmanagement_title')), function()
+			if ESX.PlayerData.job ~= nil and ESX.PlayerData.job.grade_name == 'boss' then
 				return true
 			end
-		end
-
-		return false
-	end)
-
-	RMenu.Add('personal', 'boss', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('bossmanagement_title')), function()
-		if ESX.PlayerData.job ~= nil and ESX.PlayerData.job.grade_name == 'boss' then
-			return true
-		end
-
-		return false
-	end)
+	
+			return false
+		end)
+	end
 
 	if Config.DoubleJob then
 		RMenu.Add('personal', 'boss2', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('bossmanagement2_title')), function()
@@ -131,22 +147,28 @@ Citizen.CreateThread(function()
 		end)
 	end
 
-	RMenu.Add('personal', 'admin', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('admin_title')), function()
-		if Player.group ~= nil and (Player.group == 'mod' or Player.group == 'admin' or Player.group == 'superadmin' or Player.group == 'owner' or Player.group == '_dev') then
-			return true
-		end
-
-		return false
-	end)
-
-	RMenu.Add('inventory', 'actions', RageUI.CreateSubMenu(RMenu.Get('personal', 'inventory'), _U('inventory_actions_title')))
-	RMenu.Get('inventory', 'actions').Closed = function()
-		PersonalMenu.ItemSelected = nil
+	if Config.UseAdmin then
+		RMenu.Add('personal', 'admin', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('admin_title')), function()
+			if Player.group ~= nil and (Player.group == 'mod' or Player.group == 'admin' or Player.group == 'superadmin' or Player.group == 'owner' or Player.group == '_dev') then
+				return true
+			end
+	
+			return false
+		end)
 	end
 
-	RMenu.Add('loadout', 'actions', RageUI.CreateSubMenu(RMenu.Get('personal', 'loadout'), _U('loadout_actions_title')))
-	RMenu.Get('loadout', 'actions').Closed = function()
-		PersonalMenu.ItemSelected = nil
+	if Config.UseInventory then
+		RMenu.Add('inventory', 'actions', RageUI.CreateSubMenu(RMenu.Get('personal', 'inventory'), _U('inventory_actions_title')))
+		RMenu.Get('inventory', 'actions').Closed = function()
+			PersonalMenu.ItemSelected = nil
+		end
+	end
+
+	if Config.UseLoadout then
+		RMenu.Add('loadout', 'actions', RageUI.CreateSubMenu(RMenu.Get('personal', 'loadout'), _U('loadout_actions_title')))
+		RMenu.Get('loadout', 'actions').Closed = function()
+			PersonalMenu.ItemSelected = nil
+		end
 	end
 
 end)

@@ -22,7 +22,6 @@ Config.NoclipSpeed = 1.0 -- change it to change the speed in noclip
 Config.JSFourIDCard = true -- enable if you're using jsfour-idcard
 
 -- CONTROLS --
-
 Config.UseHandsUP = false
 Config.Controls = {
 	OpenMenu = {keyboard = Keys['F5']},
@@ -32,6 +31,16 @@ Config.Controls = {
 	StopTasks = {keyboard = Keys['X']},
 	TPMarker = {keyboard1 = Keys['LEFTALT'], keyboard2 = Keys['E']}
 }
+
+Config.UseInventory = false
+Config.UseLoadout = false
+Config.UseWallet = false
+Config.UseBilling = false
+Config.UseClothes = false
+Config.UseAccessories = false
+Config.UseVehicle = true
+Config.UseBoss = true
+Config.UseAdmin = true
 
 -- GPS --
 Config.GPS = {
@@ -214,6 +223,85 @@ Config.Animations = {
 -- ADMIN --
 Config.Admin = {
 	{
+		name = 'tpmarker',
+		label = _U('admin_tpmarker_button'),
+		groups = {'_dev', 'owner', 'admin', 'admin'},
+		command = function()
+			local waypointHandle = GetFirstBlipInfoId(8)
+
+			if DoesBlipExist(waypointHandle) then
+				Citizen.CreateThread(function()
+					local waypointCoords = GetBlipInfoIdCoord(waypointHandle)
+					local foundGround, zCoords, zPos = false, -500.0, 0.0
+
+					while not foundGround do
+						zCoords = zCoords + 10.0
+						RequestCollisionAtCoord(waypointCoords.x, waypointCoords.y, zCoords)
+						Citizen.Wait(0)
+						foundGround, zPos = GetGroundZFor_3dCoord(waypointCoords.x, waypointCoords.y, zCoords)
+
+						if not foundGround and zCoords >= 2000.0 then
+							foundGround = true
+						end
+					end
+
+					SetPedCoordsKeepVehicle(plyPed, waypointCoords.x, waypointCoords.y, zPos)
+					ESX.ShowNotification(_U('admin_tpmarker'))
+				end)
+			else
+				ESX.ShowNotification(_U('admin_nomarker'))
+			end
+		end
+	},
+	{
+		name = 'noclip',
+		label = _U('admin_noclip_button'),
+		groups = {'_dev', 'owner', 'admin', 'admin', 'mod'},
+		command = function()
+			Player.noclip = not Player.noclip
+
+			if Player.noclip then
+				FreezeEntityPosition(plyPed, true)
+				SetEntityInvincible(plyPed, true)
+				SetEntityCollision(plyPed, false, false)
+
+				SetEntityVisible(plyPed, false, false)
+
+				SetEveryoneIgnorePlayer(PlayerId(), true)
+				SetPoliceIgnorePlayer(PlayerId(), true)
+				ESX.ShowNotification(_U('admin_noclipon'))
+			else
+				FreezeEntityPosition(plyPed, false)
+				SetEntityInvincible(plyPed, false)
+				SetEntityCollision(plyPed, true, true)
+
+				SetEntityVisible(plyPed, true, false)
+
+				SetEveryoneIgnorePlayer(PlayerId(), false)
+				SetPoliceIgnorePlayer(PlayerId(), false)
+				ESX.ShowNotification(_U('admin_noclipoff'))
+			end
+
+			RageUI.CloseAll()
+		end
+	},
+	{
+		name = 'godmode',
+		label = _U('admin_godmode_button'),
+		groups = {'_dev', 'owner', 'admin'},
+		command = function()
+			Player.godmode = not Player.godmode
+
+			if Player.godmode then
+				SetEntityInvincible(plyPed, true)
+				ESX.ShowNotification(_U('admin_godmodeon'))
+			else
+				SetEntityInvincible(plyPed, false)
+				ESX.ShowNotification(_U('admin_godmodeoff'))
+			end
+		end
+	},
+	{
 		name = 'goto',
 		label = _U('admin_goto_button'),
 		groups = {'_dev', 'owner', 'admin', 'admin', 'mod'},
@@ -268,70 +356,6 @@ Config.Admin = {
 		end
 	},
 	{
-		name = 'noclip',
-		label = _U('admin_noclip_button'),
-		groups = {'_dev', 'owner', 'admin', 'admin', 'mod'},
-		command = function()
-			Player.noclip = not Player.noclip
-
-			if Player.noclip then
-				FreezeEntityPosition(plyPed, true)
-				SetEntityInvincible(plyPed, true)
-				SetEntityCollision(plyPed, false, false)
-
-				SetEntityVisible(plyPed, false, false)
-
-				SetEveryoneIgnorePlayer(PlayerId(), true)
-				SetPoliceIgnorePlayer(PlayerId(), true)
-				ESX.ShowNotification(_U('admin_noclipon'))
-			else
-				FreezeEntityPosition(plyPed, false)
-				SetEntityInvincible(plyPed, false)
-				SetEntityCollision(plyPed, true, true)
-
-				SetEntityVisible(plyPed, true, false)
-
-				SetEveryoneIgnorePlayer(PlayerId(), false)
-				SetPoliceIgnorePlayer(PlayerId(), false)
-				ESX.ShowNotification(_U('admin_noclipoff'))
-			end
-
-			RageUI.CloseAll()
-		end
-	},
-	{
-		name = 'godmode',
-		label = _U('admin_godmode_button'),
-		groups = {'_dev', 'owner', 'admin'},
-		command = function()
-			Player.godmode = not Player.godmode
-
-			if Player.godmode then
-				SetEntityInvincible(plyPed, true)
-				ESX.ShowNotification(_U('admin_godmodeon'))
-			else
-				SetEntityInvincible(plyPed, false)
-				ESX.ShowNotification(_U('admin_godmodeoff'))
-			end
-		end
-	},
-	{
-		name = 'ghostmode',
-		label = _U('admin_ghostmode_button'),
-		groups = {'_dev', 'owner', 'admin'},
-		command = function()
-			Player.ghostmode = not Player.ghostmode
-
-			if Player.ghostmode then
-				SetEntityVisible(plyPed, false, false)
-				ESX.ShowNotification(_U('admin_ghoston'))
-			else
-				SetEntityVisible(plyPed, true, false)
-				ESX.ShowNotification(_U('admin_ghostoff'))
-			end
-		end
-	},
-	{
 		name = 'spawnveh',
 		label = _U('admin_spawnveh_button'),
 		groups = {'_dev', 'owner', 'admin'},
@@ -351,6 +375,23 @@ Config.Admin = {
 			RageUI.CloseAll()
 		end
 	},
+	{
+		name = 'ghostmode',
+		label = _U('admin_ghostmode_button'),
+		groups = {'_dev', 'owner', 'admin'},
+		command = function()
+			Player.ghostmode = not Player.ghostmode
+
+			if Player.ghostmode then
+				SetEntityVisible(plyPed, false, false)
+				ESX.ShowNotification(_U('admin_ghoston'))
+			else
+				SetEntityVisible(plyPed, true, false)
+				ESX.ShowNotification(_U('admin_ghostoff'))
+			end
+		end
+	},
+
 	{
 		name = 'repairveh',
 		label = _U('admin_repairveh_button'),
@@ -448,37 +489,6 @@ Config.Admin = {
 					RemoveMpGamerTag(v)
 					Player.gamerTags[k] = nil
 				end
-			end
-		end
-	},
-	{
-		name = 'tpmarker',
-		label = _U('admin_tpmarker_button'),
-		groups = {'_dev', 'owner', 'admin', 'admin'},
-		command = function()
-			local waypointHandle = GetFirstBlipInfoId(8)
-
-			if DoesBlipExist(waypointHandle) then
-				Citizen.CreateThread(function()
-					local waypointCoords = GetBlipInfoIdCoord(waypointHandle)
-					local foundGround, zCoords, zPos = false, -500.0, 0.0
-
-					while not foundGround do
-						zCoords = zCoords + 10.0
-						RequestCollisionAtCoord(waypointCoords.x, waypointCoords.y, zCoords)
-						Citizen.Wait(0)
-						foundGround, zPos = GetGroundZFor_3dCoord(waypointCoords.x, waypointCoords.y, zCoords)
-
-						if not foundGround and zCoords >= 2000.0 then
-							foundGround = true
-						end
-					end
-
-					SetPedCoordsKeepVehicle(plyPed, waypointCoords.x, waypointCoords.y, zPos)
-					ESX.ShowNotification(_U('admin_tpmarker'))
-				end)
-			else
-				ESX.ShowNotification(_U('admin_nomarker'))
 			end
 		end
 	},
