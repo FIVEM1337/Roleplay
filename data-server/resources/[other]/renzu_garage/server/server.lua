@@ -420,46 +420,6 @@ ESX.RegisterServerCallback('renzu_garage:changestate', function (source, cb, pla
     end
 end)
 
-RegisterServerEvent('renzu_garage:transfercar')
-AddEventHandler('renzu_garage:transfercar', function(plate,id)
-    local source = source
-    local xPlayer = ESX.GetPlayerFromId(source)
-    local transfer = ESX.GetPlayerFromIdentifier(id)
-    if id == nil then
-        xPlayer.showNotification("Invalid User ID! (Must be Digits only)", 1, 0)
-    else
-        if plate and transfer then
-            local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE TRIM(UPPER(plate)) = @plate and owner = @owner LIMIT 1', {
-                ['@plate'] = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper(),
-                ['@owner'] = xPlayer.identifier
-            })
-            if #result > 0 then
-                MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET owner = @owner WHERE plate = @plate', {
-                    ['plate'] = plate:upper(),
-                    ['owner'] = transfer.identifier
-                })
-                xPlayer.showNotification("You Transfer the car with plate #"..plate.." to "..transfer.name.."", 1, 0)
-                transfer.showNotification("You Receive a car with plate #"..plate.." from "..xPlayer.name.."", 1, 0)
-
-                -- update statebag
-                local newtransfer = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE TRIM(plate) = @plate', {['@plate'] = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper()}) or {}
-                if newtransfer[1] then
-                    local tempvehicles = GlobalState.GVehicles
-                    tempvehicles[plate] = newtransfer[1]
-                    GlobalState.GVehicles = tempvehicles
-                    print(plate,'Newly Transfer Vehicles Found..Updating Key system')
-                end
-            else
-                xPlayer.showNotification("This Vehicle is not your property", 1, 0)
-            end
-        elseif not transfer then
-            xPlayer.showNotification("User Does not Exist!", 1, 0)
-        else
-            xPlayer.showNotification("Invalid Plate number! (Must be Digits only)", 1, 0)
-        end
-    end
-end)
-
 AddEventHandler('onResourceStop', function(resourceName)
     if (GetCurrentResourceName() ~= resourceName) then
       return
