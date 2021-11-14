@@ -9,24 +9,10 @@ local jobplates = {}
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 Citizen.CreateThread(function()
     Wait(1000)
-    print("^2 -------- renzu_garage v1.72 Starting.. ----------^7")
-    print("^2 Checking vehicles table ^7")
     vehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM vehicles', {})
-    print("^2 vehicles ok ^7")
     GlobalState.VehicleinDb = vehicles
     globalvehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles', {}) or {}
  
-    print("^2 saving job prefix plates data ^7")
-    for k,v in pairs(garagecoord) do
-        if v.job and v.default_vehicle then
-            for k2,v2 in pairs(v.default_vehicle) do
-                if v2.plateprefix then
-                    jobplates[v2.plateprefix] = true
-                end
-            end
-        end
-    end
-    print("^2 job prefixes plates data saved ^7")
     local tempvehicles = {}
     for k,v in ipairs(globalvehicles) do
         if v.plate then
@@ -51,22 +37,18 @@ Citizen.CreateThread(function()
     end
     GlobalState.GVehicles = tempvehicles 
     tempvehicles = nil
-    print("^2 Checking impound_garage table ^7")
     impoundget = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM impound_garage', {})
-    print("^2 impound_garage table ok ^7")
     for k,v in pairs(impoundget) do
         impound_G[v.garage] = json.decode(v.data) or {}
     end
-    print("^2 Auto Import impound_garage table default data ^7")
     for k,v in pairs(impoundcoord) do
         MysqlGarage(Config.Mysql,'execute','INSERT IGNORE INTO impound_garage (garage, data) VALUES (@garage, @data)', {
             ['@garage']   = v.garage,
             ['@data']   = '[]'
         })
     end
-    print("^2 impound_data Import success ^7")
     Wait(100)
-    print("^2 -------- renzu_garage v1.72 Started ----------^7")
+
     if Config.UseRayZone then
         local garages = {} -- garage table
         garages['multi_zone'] = {} -- rayzone multizone
