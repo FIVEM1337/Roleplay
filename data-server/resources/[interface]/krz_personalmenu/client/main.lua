@@ -89,9 +89,6 @@ Citizen.CreateThread(function()
 		table.insert(PersonalMenu.GPSList, Config.GPS[i].label)
 	end
 
-	for i = 1, #Config.Voice.items, 1 do
-		table.insert(PersonalMenu.VoiceList, Config.Voice.items[i].label)
-	end
 
 	RMenu.Add('rageui', 'personal', RageUI.CreateMenu(Config.MenuTitle, _U('mainmenu_subtitle'), 0, 0, 'commonmenu', 'interaction_bgd', 255, 255, 255, 255))
 
@@ -172,22 +169,6 @@ Citizen.CreateThread(function()
 	end
 
 end)
-
-if Config.Voice.activated then
-	Citizen.CreateThread(function()
-		local voiceFixing = true
-		NetworkSetTalkerProximity(0.1)
-
-		SetTimeout(10000, function()
-			voiceFixing = nil
-		end)
-
-		while voiceFixing do
-			NetworkSetTalkerProximity(Config.Voice.defaultLevel)
-			Citizen.Wait(10)
-		end
-	end)
-end
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
@@ -475,19 +456,6 @@ function RenderPersonalMenu()
 			else
 				RageUI.Button(RMenu['personal'][i].Menu.Title, nil, {RightLabel = "→→→"}, true, function() end, RMenu['personal'][i].Menu)
 			end
-		end
-
-		
-
-		if Config.Voice.activated then
-			RageUI.List(_U('mainmenu_voice_button'), PersonalMenu.VoiceList, PersonalMenu.VoiceIndex, nil, {}, true, function(Hovered, Active, Selected, Index)
-				if (Selected) then
-					NetworkSetTalkerProximity(Config.Voice.items[Index].level)
-					ESX.ShowNotification(_U('voice', Config.Voice.items[Index].label))
-				end
-
-				PersonalMenu.VoiceIndex = Index
-			end)
 		end
 	end)
 end
@@ -906,36 +874,6 @@ function RenderAccessoriesMenu()
 					setAccessory(PersonalMenu.AccessoriesButtons[i])
 				end
 			end)
-		end
-	end)
-end
-
-function RenderAnimationMenu()
-	RageUI.DrawContent({header = true, instructionalButton = true}, function()
-		for i = 1, #RMenu['animation'], 1 do
-			RageUI.Button(RMenu['animation'][i].Menu.Title, nil, {RightLabel = "→→→"}, true, function() end, RMenu['animation'][i].Menu)
-		end
-	end)
-end
-
-function RenderAnimationsSubMenu(menu)
-	RageUI.DrawContent({header = true, instructionalButton = true}, function()
-		for i = 1, #Config.Animations, 1 do
-			if Config.Animations[i].name == menu then
-				for j = 1, #Config.Animations[i].items, 1 do
-					RageUI.Button(Config.Animations[i].items[j].label, nil, {}, true, function(Hovered, Active, Selected)
-						if (Selected) then
-							if Config.Animations[i].items[j].type == 'anim' then
-								startAnim(Config.Animations[i].items[j].data.lib, Config.Animations[i].items[j].data.anim)
-							elseif Config.Animations[i].items[j].type == 'scenario' then
-								TaskStartScenarioInPlace(plyPed, Config.Animations[i].items[j].data.anim, 0, false)
-							elseif Config.Animations[i].items[j].type == 'attitude' then
-								startAttitude(Config.Animations[i].items[j].data.lib, Config.Animations[i].items[j].data.anim)
-							end
-						end
-					end)
-				end
-			end
 		end
 	end)
 end
