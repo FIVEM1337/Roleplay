@@ -179,28 +179,9 @@ AddEventHandler('renzu_garage:GetVehiclesTable', function(garageid,public)
     local src = source 
     local xPlayer = ESX.GetPlayerFromId(src)
     local ply = Player(src).state
-    local identifier = ply.garagekey or xPlayer.identifier
-    local sharegarage = false
-    if not public and ply.garagekey and garageid and sharedgarage[xPlayer.identifier] and sharedgarage[xPlayer.identifier][ply.garagekey] then
-        for k,v in pairs(sharedgarage[xPlayer.identifier][ply.garagekey]) do
-            if garageid == v then
-                sharegarage = v
-            end
-        end
-        if not sharegarage then
-            identifier = xPlayer.identifier
-            sharegarage = garageid
-        end
-    end
-    --local Owned_Vehicle = MySQL.Sync.fetchAll('SELECT * FROM owned_vehicles WHERE owner = @owner', {['@owner'] = xPlayer.identifier})
-    if not public and sharegarage then
-        local Owned_Vehicle = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE owner = @owner AND garage_id = @garage_id', {['@owner'] = identifier, ['@garage_id'] = sharegarage})
-        TriggerClientEvent("renzu_garage:receive_vehicles", src , Owned_Vehicle or {},vehicles or {})
-    elseif not public then
-        local Owned_Vehicle = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE owner = @owner', {['@owner'] = identifier})
-        TriggerClientEvent("renzu_garage:receive_vehicles", src , Owned_Vehicle or {},vehicles or {})
-    elseif public then
-        local Owned_Vehicle = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE garage_id = @garage_id', {['@garage_id'] = garageid})
+
+    if public then
+        local Owned_Vehicle = MySQL.Sync.fetchAll('SELECT * FROM owned_vehicles WHERE owner = @owner', {['@owner'] = xPlayer.identifier})
         TriggerClientEvent("renzu_garage:receive_vehicles", src , Owned_Vehicle or {},vehicles or {})
     end
 end)
@@ -313,14 +294,7 @@ ESX.RegisterServerCallback('renzu_garage:isvehicleingarage', function (source, c
         elseif result and result[1].stored ~= nil then
             local stored = result[1].stored
             local impound = result[1].impound
-            local sharedvehicle = false
-            if stored then
-                local ply = Player(source).state
-                if ply.garagekey and ply.garagekey ~= xPlayer.identifier then -- sharing, taking out other vehicle
-                    sharedvehicle = true
-                end
-            end
-            cb(stored,impound,garage_impound or false,impound_fee,sharedvehicle)
+            cb(stored,impound,garage_impound or false,impound_fee)
         end
     end
 end)
@@ -343,8 +317,9 @@ ESX.RegisterServerCallback('renzu_garage:changestate', function (source, cb, pla
         if r and r[1] then
             identifier = r[1].owner
         else
-            TriggerClientEvent('renzu_notify:Notify', source, 'info','Garage', 'Vehicle is not owned')
-            cb(false,public)
+            TriggerClientEvent('notifications', source, 'info','Garage', 'Vehicle is not owned')
+            cb(false,public, false)
+            return
         end
     end
     if xPlayer then
@@ -425,9 +400,9 @@ ESX.RegisterServerCallback('renzu_garage:changestate', function (source, cb, pla
                         impound_G[impoundid] = impound_data
                     end
                     if state == 1 then
-                        TriggerClientEvent('renzu_notify:Notify', source, 'success','Garage', 'You Impound the Vehicle')
+                        TriggerClientEvent('notifications', source, 'success','Garage', 'You Impound the Vehicle')
                     else
-                        TriggerClientEvent('renzu_notify:Notify', source, 'success','Garage', 'You Release the Vehicle')
+                        TriggerClientEvent('notifications', source, 'success','Garage', 'You Release the Vehicle')
                     end
                     cb(true,public)
                 else
@@ -435,14 +410,12 @@ ESX.RegisterServerCallback('renzu_garage:changestate', function (source, cb, pla
                     print('exploiting')
                 end
             else
-                TriggerClientEvent('renzu_notify:Notify', source, 'error','Garage', 'Vehicle was impounded but is unowned.')
-                cb(false)
-                --xPlayer.showNotification("This Vehicle is local car", 1, 0)
+                TriggerClientEvent('notifications', source, 'error','Garage', 'Vehicle was impounded but is unowned.')
+                cb(false, public, false)
             end
         else
-            TriggerClientEvent('renzu_notify:Notify', source, 'info','Garage', 'Vehicle is not your property')
-            cb(false)
-            --xPlayer.showNotification("This Vehicle is not your property", 1, 0)
+            TriggerClientEvent('notifications', source, 'info','Garage', 'Vehicle is not your property')
+            cb(false, public)
         end
     end
 end)
