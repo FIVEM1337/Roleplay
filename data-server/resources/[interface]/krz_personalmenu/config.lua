@@ -34,7 +34,7 @@ Config.Controls = {
 
 Config.UseInventory = false
 Config.UseLoadout = false
-Config.UseWallet = false
+Config.UseWallet = true
 Config.UseBilling = false
 Config.UseClothes = false
 Config.UseAccessories = false
