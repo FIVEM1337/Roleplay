@@ -1222,9 +1222,9 @@ function OpenHeli(garageid)
         end
     end
     while inGarage do
-        Citizen.Wait(111)
-        SetNuiFocusKeepInput(false)
         SetNuiFocus(true, true)
+        SetNuiFocusKeepInput(false)
+        Citizen.Wait(111)
     end
     if LastVehicleFromGarage ~= nil then
         DeleteEntity(LastVehicleFromGarage)
