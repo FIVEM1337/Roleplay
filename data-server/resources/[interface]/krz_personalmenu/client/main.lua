@@ -750,7 +750,30 @@ function RenderWalletMenu()
 					TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()))
 				end
 			end)
+		end
 
+
+		RageUI.Button(_U('wallet_show_visum_button'), nil, {}, true, function(Hovered, Active, Selected)
+			if (Selected) then
+				local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+
+				if closestDistance ~= -1 and closestDistance <= 3.0 then
+					TriggerServerEvent('esx_visum:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(closestPlayer))
+				else
+					ESX.ShowNotification(_U('players_nearby'))
+				end
+			end
+		end)
+
+		RageUI.Button(_U('wallet_check_visum_button'), nil, {}, true, function(Hovered, Active, Selected)
+			if (Selected) then
+				TriggerServerEvent('esx_visum:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()))
+			end
+		end)
+
+
+
+		if Config.JSFourIDCard then
 			RageUI.Button(_U('wallet_show_driver_button'), nil, {}, true, function(Hovered, Active, Selected)
 				if (Selected) then
 					local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
