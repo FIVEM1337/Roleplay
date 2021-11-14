@@ -370,7 +370,7 @@ AddEventHandler('opengarage', function()
                 if dist <= v.Dist and not jobgarage and not string.find(v.garage, "impound") or dist <= 7.0 and PlayerData.job ~= nil and PlayerData.job.name == v.job and jobgarage and not string.find(v.garage, "impound") then
                     garageid = v.garage
                     tid = k
-                    TriggerEvent('renzu_notify:Notify', 'info','Garage', "Opening Garage...Please wait..")
+                    TriggerEvent('notifications', 'info','Garage', "Opening Garage...Please wait..")
                     TriggerServerEvent("renzu_garage:GetVehiclesTable",garageid,v.garage_type == 'public' or false)
                     fetchdone = false
                     garage_public = v.garage_type == 'public' or false
@@ -413,7 +413,7 @@ AddEventHandler('opengarage', function()
             elseif not DoesEntityExist(vehiclenow) then
                 if dist <= v.Dist and Impoundforall or not Impoundforall and dist <= 3.0 and PlayerData.job ~= nil and PlayerData.job.name == v.job and jobgarage then
                     garageid = v.garage
-                    TriggerEvent('renzu_notify:Notify', 'info','Garage', "Opening Impound...Please wait..")
+                    TriggerEvent('notifications', 'info','Garage', "Opening Impound...Please wait..")
                     TriggerServerEvent("renzu_garage:GetVehiclesTableImpound")
                     fetchdone = false
                     while not fetchdone do
@@ -455,19 +455,7 @@ AddEventHandler('opengarage', function()
     end
 end)
 
-RegisterNetEvent('renzu_garage:notify')
-AddEventHandler('renzu_garage:notify', function(type, message)    
-    SendNUIMessage(
-        {
-            type = "notify",
-            typenotify = type,
-            message = message,
-        }
-    ) 
-end)
-
 local OwnedVehicles = {}
-
 local VTable = {}
 
 function GetPerformanceStats(vehicle)
@@ -1149,7 +1137,7 @@ function OpenGarage(garageid,garage_type,jobonly,default)
             DeleteEntity(LastVehicleFromGarage)
         end
     else
-        TriggerEvent('renzu_notify:Notify', 'info','Garage', 'You dont have any vehicle')
+        TriggerEvent('notifications', 'info','Garage', 'You dont have any vehicle')
     --    if not propertyspawn.x then
     --        SetEntityCoords(PlayerPedId(), garagecoord[tid].garage_x,garagecoord[tid].garage_y,garagecoord[tid].garage_z, false, false, false, true)
     --    else
@@ -1371,7 +1359,7 @@ function OpenImpound(garageid)
     else
         SetEntityCoords(PlayerPedId(), impoundcoord[tid].garage_x,impoundcoord[tid].garage_y,impoundcoord[tid].garage_z, false, false, false, true)
         CloseNui()
-        TriggerEvent('renzu_notify:Notify', 'info','Garage', 'You dont have any vehicle in this garage')
+        TriggerEvent('notifications', 'info','Garage', 'You dont have any vehicle in this garage')
     end
 
 end
@@ -1852,7 +1840,7 @@ AddEventHandler('renzu_garage:return', function(v,vehicle,property,actualShop,vp
             plus = 0
             FreezeEntityPosition(PlayerPedId(),false)
         else
-            TriggerEvent('renzu_notify:Notify', 'error','Garage', 'You dont have a money to pay the delivery')
+            TriggerEvent('notifications', 'error','Garage', 'You dont have a money to pay the delivery')
             LastVehicleFromGarage = nil
             Wait(111)
             SetEntityCoords(PlayerPedId(), garagecoord[tid].garage_x,garagecoord[tid].garage_y,garagecoord[tid].garage_z, false, false, false, true)
@@ -2625,7 +2613,7 @@ RegisterNUICallback(
                     type = "cleanup"
                 })
             else
-                TriggerEvent('renzu_notify:Notify', 'error','Garage', 'You dont have a money to pay the delivery')
+                TriggerEvent('notifications', 'error','Garage', 'You dont have a money to pay the delivery')
                 LastVehicleFromGarage = nil
                 Wait(111)
                 SetEntityCoords(PlayerPedId(), garagecoord[tid].garage_x,garagecoord[tid].garage_y,garagecoord[tid].garage_z, false, false, false, true)
@@ -2811,7 +2799,7 @@ RegisterCommand('impound', function(source, args, rawCommand)
                     ClearPedTasksImmediately(ped)
                     Storevehicle(vehicle.vehicle,true,impoundata)
                 else
-                    TriggerEvent('renzu_notify:Notify', 'error','Garage', "No vehicle in front")
+                    TriggerEvent('notifications', 'error','Garage', "No vehicle in front")
                 end
             else
                 ESX.ShowNotification("get out of a vehicle to sign a papers")

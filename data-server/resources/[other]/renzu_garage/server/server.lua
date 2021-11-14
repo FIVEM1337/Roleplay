@@ -285,10 +285,10 @@ ESX.RegisterServerCallback('renzu_garage:isvehicleingarage', function (source, c
             local money = impound_G[garage] ~= nil and impound_G[garage][plate] ~= nil and impound_G[garage][plate].fine or ImpoundPayment
             if xPlayer.getMoney() >= money then
                 xPlayer.removeMoney(money)
-                TriggerClientEvent('renzu_notify:Notify', source, 'success','Garage', 'Successfully Retrieve Owned vehicle')
+                TriggerClientEvent('notifications', source, 'success','Garage', 'Successfully Retrieve Owned vehicle')
                 cb(1,0)
             else
-                TriggerClientEvent('renzu_notify:Notify', source, 'error','Garage', 'Fail to retrieve vehicle, not enough money cabron')
+                TriggerClientEvent('notifications', source, 'error','Garage', 'Fail to retrieve vehicle, not enough money cabron')
                 cb(false,1,garage_impound,impound_fee)
             end
         elseif result and result[1].stored ~= nil then
@@ -341,9 +341,9 @@ ESX.RegisterServerCallback('renzu_garage:changestate', function (source, cb, pla
                     }
                     local result = MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET `stored` = @stored, garage_id = @garage_id, vehicle = @vehicle, `job` = @job WHERE TRIM(UPPER(plate)) = @plate and owner = @owner', var)
                     if state == 1 then
-                        TriggerClientEvent('renzu_notify:Notify', source, 'success','Garage', 'You Successfully Store the vehicle')
+                        TriggerClientEvent('notifications', source, 'success','Garage', 'You Successfully Store the vehicle')
                     else
-                        TriggerClientEvent('renzu_notify:Notify', source, 'success','Garage', 'You Successfully Take out the vehicle')
+                        TriggerClientEvent('notifications', source, 'success','Garage', 'You Successfully Take out the vehicle')
                     end
                     cb(true,public)
                 else
