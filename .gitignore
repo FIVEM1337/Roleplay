@@ -4,6 +4,4 @@ server_info.cfg
 data-server/cache/**
 data-server/db/**
 
-binary-server/alpine/opt/cfx-server/server-tls.crt
-binary-server/alpine/opt/cfx-server/server-tls.key
-binary-server/alpine/opt/cfx-server/crashes/**
+
