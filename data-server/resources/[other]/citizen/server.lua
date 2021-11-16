@@ -98,3 +98,17 @@ RegisterCommand("raus", function(source)
 		TriggerClientEvent('notifications', xPlayer.source, "#ff0000", "ERROR", "Keine Rechte")
 	end
 end)
+
+
+
+
+
+
+RegisterCommand("raus2", function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	if xPlayer.getGroup() == "mod" or xPlayer.getGroup() == "guide" or xPlayer.getGroup() == "supporter" or xPlayer.getGroup() == "admin" or xPlayer.getGroup() == "superadmin" then
+		TriggerClientEvent("citizen:teleport", xPlayer.source, Config.raus2, Config.angle_raus)
+	else
+		TriggerClientEvent('notifications', xPlayer.source, "#ff0000", "ERROR", "Keine Rechte")
+	end
+end)
