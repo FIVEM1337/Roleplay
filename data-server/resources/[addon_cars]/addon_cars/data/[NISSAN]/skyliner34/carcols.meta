@@ -1,263 +1,160 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <CVehicleModelInfoVarGlobal>    
   <Kits>
     <Item>
-      <kitName>gtr2017_modkit</kitName>
-      <id value="688" />	 	  
+      <kitName>998_skyliner34_modkit</kitName>
+      <id value="998" />	 	  
       <kitType>MKT_SPECIAL</kitType>
       <visibleMods>
         <Item>
-          <modelName>gtr_bumf_1</modelName>
-          <modShopLabel>gtr_bumf_1</modShopLabel>
+          <modelName>skyline_spoil_1</modelName>
+          <modShopLabel>Top Secret</modShopLabel>
           <linkedModels />
           <turnOffBones>
-            <Item>bumper_f</Item>
+            <Item>misc_c</Item> 
           </turnOffBones>
-          <type>VMT_BUMPER_F</type>
-          <bone>bumper_f</bone>
-          <collisionBone>bumper_f</collisionBone>
+          <type>VMT_SPOILER</type>
+          <bone>boot</bone>
+          <collisionBone>boot</collisionBone>
           <cameraPos>VMCP_DEFAULT</cameraPos>
           <audioApply value="1.000000" />
-          <weight value="20" />
+          <weight value="0" />
           <turnOffExtra value="false" />
-          <disableBonnetCamera value="true" />
+          <disableBonnetCamera value="false" />
           <allowBonnetSlide value="true" />
         </Item>
         <Item>
-          <modelName>gtr_bumf_2</modelName>
-          <modShopLabel>gtr_bumf_2</modShopLabel>
+          <modelName>skyline_skirt1</modelName>
+          <modShopLabel>skyline_SKIRT1</modShopLabel>
           <linkedModels />
           <turnOffBones>
-            <Item>bumper_f</Item>
-          </turnOffBones>
-          <type>VMT_BUMPER_F</type>
-          <bone>bumper_f</bone>
-          <collisionBone>bumper_f</collisionBone>
-          <cameraPos>VMCP_DEFAULT</cameraPos>
-          <audioApply value="1.000000" />
-          <weight value="20" />
-          <turnOffExtra value="false" />
-          <disableBonnetCamera value="true" />
-          <allowBonnetSlide value="true" />
-        </Item>
-        <Item>
-          <modelName>gtr_bumf_3</modelName>
-          <modShopLabel>gtr_bumf_3</modShopLabel>
-          <linkedModels />
-          <turnOffBones>
-            <Item>bumper_f</Item>
-          </turnOffBones>
-          <type>VMT_BUMPER_F</type>
-          <bone>bumper_f</bone>
-          <collisionBone>bumper_f</collisionBone>
-          <cameraPos>VMCP_DEFAULT</cameraPos>
-          <audioApply value="1.000000" />
-          <weight value="20" />
-          <turnOffExtra value="false" />
-          <disableBonnetCamera value="true" />
-          <allowBonnetSlide value="true" />
-        </Item>
-        <Item>
-          <modelName>gtr_bumr_1</modelName>
-          <modShopLabel>gtr_bumr_1</modShopLabel>
-          <linkedModels />
-          <turnOffBones>
-            <Item>bumper_r</Item>
-          </turnOffBones>
-          <type>VMT_BUMPER_R</type>
-          <bone>bumper_r</bone>
-          <collisionBone>bumper_r</collisionBone>
-          <cameraPos>VMCP_DEFAULT</cameraPos>
-          <audioApply value="1.000000" />
-          <weight value="20" />
-          <turnOffExtra value="false" />
-          <disableBonnetCamera value="true" />
-          <allowBonnetSlide value="true" />
-        </Item>
-        <Item>
-          <modelName>gtr_bumr_2</modelName>
-          <modShopLabel>gtr_bumr_2</modShopLabel>
-          <linkedModels />
-          <turnOffBones>
-            <Item>bumper_r</Item>
-          </turnOffBones>
-          <type>VMT_BUMPER_R</type>
-          <bone>bumper_r</bone>
-          <collisionBone>bumper_r</collisionBone>
-          <cameraPos>VMCP_DEFAULT</cameraPos>
-          <audioApply value="1.000000" />
-          <weight value="20" />
-          <turnOffExtra value="false" />
-          <disableBonnetCamera value="true" />
-          <allowBonnetSlide value="true" />
-        </Item>
-        <Item>
-          <modelName>gtr_bumr_3</modelName>
-          <modShopLabel>gtr_bumr_3</modShopLabel>
-          <linkedModels />
-          <turnOffBones>
-            <Item>bumper_r</Item>
-          </turnOffBones>
-          <type>VMT_BUMPER_R</type>
-          <bone>bumper_r</bone>
-          <collisionBone>bumper_r</collisionBone>
-          <cameraPos>VMCP_DEFAULT</cameraPos>
-          <audioApply value="1.000000" />
-          <weight value="20" />
-          <turnOffExtra value="false" />
-          <disableBonnetCamera value="true" />
-          <allowBonnetSlide value="true" />
-        </Item>
-        <Item>
-          <modelName>gtr_skirt_1</modelName>
-          <modShopLabel>gtr_skirt_1</modShopLabel>
-          <linkedModels />
-          <turnOffBones>
-            <Item>misc_g</Item>
+            <Item>misc_b</Item> 
           </turnOffBones>
           <type>VMT_SKIRT</type>
           <bone>chassis</bone>
           <collisionBone>chassis</collisionBone>
           <cameraPos>VMCP_DEFAULT</cameraPos>
           <audioApply value="1.000000" />
-          <weight value="20" />
+          <weight value="0" />
           <turnOffExtra value="false" />
           <disableBonnetCamera value="false" />
           <allowBonnetSlide value="true" />
         </Item>
-        <Item>
-          <modelName>gtr_skirt_2</modelName>
-          <modShopLabel>gtr_skirt_2</modShopLabel>
+	<Item>
+          <modelName>skyline_skirt2</modelName>
+          <modShopLabel>skyline_SKIRT2</modShopLabel>
           <linkedModels />
           <turnOffBones>
-            <Item>misc_g</Item>
+            <Item>misc_b</Item> 
           </turnOffBones>
           <type>VMT_SKIRT</type>
           <bone>chassis</bone>
           <collisionBone>chassis</collisionBone>
           <cameraPos>VMCP_DEFAULT</cameraPos>
           <audioApply value="1.000000" />
-          <weight value="20" />
+          <weight value="0" />
           <turnOffExtra value="false" />
           <disableBonnetCamera value="false" />
           <allowBonnetSlide value="true" />
         </Item>
         <Item>
-          <modelName>gtr_skirt_3</modelName>
-          <modShopLabel>gtr_skirt_3</modShopLabel>
+          <modelName>skyline_bnt1</modelName>
+          <modShopLabel>skyline_BNT1</modShopLabel>
           <linkedModels />
           <turnOffBones>
-            <Item>misc_g</Item>
-          </turnOffBones>
-          <type>VMT_SKIRT</type>
-          <bone>chassis</bone>
-          <collisionBone>chassis</collisionBone>
-          <cameraPos>VMCP_DEFAULT</cameraPos>
-          <audioApply value="1.000000" />
-          <weight value="20" />
-          <turnOffExtra value="false" />
-          <disableBonnetCamera value="false" />
-          <allowBonnetSlide value="true" />
-        </Item>
-        <Item>
-          <modelName>gtr_wing_1</modelName>
-          <modShopLabel>gtr_wing_1</modShopLabel>
-          <linkedModels />
-          <turnOffBones>
-            <Item>misc_b</Item>
-          </turnOffBones>
-          <type>VMT_SPOILER</type>
-          <bone>boot</bone>
-          <collisionBone>mod_col_1</collisionBone>
-          <cameraPos>VMCP_DEFAULT</cameraPos>
-          <audioApply value="1.000000" />
-          <weight value="20" />
-          <turnOffExtra value="false" />
-          <disableBonnetCamera value="false" />
-          <allowBonnetSlide value="true" />
-        </Item>
-        <Item>
-          <modelName>gtr_wing_2</modelName>
-          <modShopLabel>gtr_wing_2</modShopLabel>
-          <linkedModels />
-          <turnOffBones>
-            <Item>misc_b</Item>
-          </turnOffBones>
-          <type>VMT_SPOILER</type>
-          <bone>boot</bone>
-          <collisionBone>mod_col_1</collisionBone>
-          <cameraPos>VMCP_DEFAULT</cameraPos>
-          <audioApply value="1.000000" />
-          <weight value="20" />
-          <turnOffExtra value="false" />
-          <disableBonnetCamera value="false" />
-          <allowBonnetSlide value="true" />
-        </Item>
-        <Item>
-          <modelName>gtr_wing_3</modelName>
-          <modShopLabel>gtr_wing_3</modShopLabel>
-          <linkedModels />
-          <turnOffBones>
-            <Item>misc_b</Item>
-          </turnOffBones>
-          <type>VMT_SPOILER</type>
-          <bone>boot</bone>
-          <collisionBone>mod_col_1</collisionBone>
-          <cameraPos>VMCP_DEFAULT</cameraPos>
-          <audioApply value="1.000000" />
-          <weight value="20" />
-          <turnOffExtra value="false" />
-          <disableBonnetCamera value="false" />
-          <allowBonnetSlide value="true" />
-        </Item>
-        <Item>
-          <modelName>gtr_arch_1</modelName>
-          <modShopLabel>gtr_arch_1</modShopLabel>
-          <linkedModels />
-          <turnOffBones>
-            <Item>misc_e</Item>
-          </turnOffBones>
-          <type>VMT_WING_L</type>
-          <bone>chassis</bone>
-          <collisionBone>chassis</collisionBone>
-          <cameraPos>VMCP_DEFAULT</cameraPos>
-          <audioApply value="1.000000" />
-          <weight value="20" />
-          <turnOffExtra value="false" />
-          <disableBonnetCamera value="false" />
-          <allowBonnetSlide value="true" />
-        </Item>
-        <Item>
-          <modelName>gtr_arch_2</modelName>
-          <modShopLabel>gtr_arch_2</modShopLabel>
-          <linkedModels />
-          <turnOffBones>
-            <Item>misc_e</Item>
-          </turnOffBones>
-          <type>VMT_WING_L</type>
-          <bone>chassis</bone>
-          <collisionBone>chassis</collisionBone>
-          <cameraPos>VMCP_DEFAULT</cameraPos>
-          <audioApply value="1.000000" />
-          <weight value="20" />
-          <turnOffExtra value="false" />
-          <disableBonnetCamera value="false" />
-          <allowBonnetSlide value="true" />
-        </Item>
-        <Item>
-          <modelName>gtr_hood_1</modelName>
-          <modShopLabel>gtr_hood_1</modShopLabel>
-          <linkedModels />
-          <turnOffBones>
-            <Item>bonnet</Item>
+            <Item>bonnet</Item> 
           </turnOffBones>
           <type>VMT_BONNET</type>
           <bone>bonnet</bone>
-          <collisionBone>bonnet</collisionBone>
+          <collisionBone>chassis</collisionBone>
           <cameraPos>VMCP_DEFAULT</cameraPos>
           <audioApply value="1.000000" />
-          <weight value="20" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+	<Item>
+          <modelName>skyline_split1</modelName>
+          <modShopLabel>skyline_SPLIT1</modShopLabel>
+          <linkedModels />
+          <turnOffBones>
+            <Item>misc_d</Item> 
+          </turnOffBones>
+          <type>VMT_BUMPER_F</type>
+          <bone>bumper_f</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>skyline_split2</modelName>
+          <modShopLabel>skyline_SPLIT2</modShopLabel>
+          <linkedModels />
+          <turnOffBones>
+            <Item>misc_d</Item> 
+          </turnOffBones>
+          <type>VMT_BUMPER_F</type>
+          <bone>bumper_f</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+	<Item>
+          <modelName>skyline_bumr1</modelName>
+          <modShopLabel>skyline_BUMR1</modShopLabel>
+          <linkedModels />
+          <turnOffBones>
+            <Item>misc_e</Item> 
+          </turnOffBones>
+          <type>VMT_BUMPER_R</type>
+          <bone>bumper_r</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+	<Item>
+          <modelName>skyline_bumr2</modelName>
+          <modShopLabel>skyline_BUMR2</modShopLabel>
+          <linkedModels />
+          <turnOffBones>
+            <Item>misc_e</Item> 
+          </turnOffBones>
+          <type>VMT_BUMPER_R</type>
+          <bone>bumper_r</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
+          <turnOffExtra value="false" />
+          <disableBonnetCamera value="false" />
+          <allowBonnetSlide value="true" />
+        </Item>
+        <Item>
+          <modelName>skyline_exh_1</modelName>
+          <modShopLabel>skyline_exh1</modShopLabel>
+          <linkedModels />
+          <turnOffBones>
+            <Item>misc_a</Item> 
+          </turnOffBones>
+          <type>VMT_EXHAUST</type>
+          <bone>chassis</bone>
+          <collisionBone>chassis</collisionBone>
+          <cameraPos>VMCP_DEFAULT</cameraPos>
+          <audioApply value="1.000000" />
+          <weight value="0" />
           <turnOffExtra value="false" />
           <disableBonnetCamera value="false" />
           <allowBonnetSlide value="true" />
@@ -641,40 +538,44 @@
         </Item>
         <Item>
           <identifier />
-          <modifier value="10" />
+          <modifier value="1" />
           <audioApply value="1.000000" />
           <weight value="0" />
           <type>VMT_SUSPENSION</type>
         </Item>
         <Item>
           <identifier />
-          <modifier value="15" />
+          <modifier value="2" />
           <audioApply value="1.000000" />
           <weight value="0" />
           <type>VMT_SUSPENSION</type>
         </Item>
         <Item>
           <identifier />
-          <modifier value="30" />
+          <modifier value="3" />
           <audioApply value="1.000000" />
           <weight value="0" />
           <type>VMT_SUSPENSION</type>
         </Item>
         <Item>
           <identifier />
-          <modifier value="45" />
+          <modifier value="4" />
           <audioApply value="1.000000" />
           <weight value="0" />
           <type>VMT_SUSPENSION</type>
         </Item>
       </statMods>
       <slotNames />
+        <Item>
+          <slot>VMT_CHASSIS</slot>
+          <name>TOP_CAGE</name>
+        </Item>
       <liveryNames />
     </Item>
   </Kits>
     <Lights>
     <Item>
-      <id value="656" />	
+      <id value="998" />	
       <indicator>
         <intensity value="0.375000" />
         <falloffMax value="2.500000" />
@@ -685,7 +586,7 @@
         <color value="0xFFFF8000" />
       </indicator>
       <rearIndicatorCorona>
-        <size value="0.200000" />
+        <size value="0.000000" />
         <size_far value="0.000000" />
         <intensity value="0.000000" />
         <intensity_far value="0.000000" />
@@ -803,7 +704,7 @@
         <zBias value="0.250000" />
         <pullCoronaIn value="false" />
       </reversingLightCorona>
-      <name>gtr2017</name>
+      <name>skyliner34</name>
     </Item>
     </Lights>
 </CVehicleModelInfoVarGlobal>
