@@ -1272,33 +1272,37 @@ Citizen.CreateThread(function()
 					end
 				end
 
-				for i=1, #v.Vehicles, 1 do
-					local distance = #(playerCoords - v.Vehicles[i].Spawner)
+				if Config.EnableVehicleGarage then
+					for i=1, #v.Vehicles, 1 do
+						local distance = #(playerCoords - v.Vehicles[i].Spawner)
 
-					if distance < Config.DrawDistance then
-						DrawMarker(Config.MarkerType.Vehicles, v.Vehicles[i].Spawner, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-						letSleep = false
+						if distance < Config.DrawDistance then
+							DrawMarker(Config.MarkerType.Vehicles, v.Vehicles[i].Spawner, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+							letSleep = false
 
-						if distance < Config.MarkerSize.x then
-							isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i
+							if distance < Config.MarkerSize.x then
+								isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i
+							end
 						end
 					end
 				end
 
-				for i=1, #v.Helicopters, 1 do
-					local distance =  #(playerCoords - v.Helicopters[i].Spawner)
+				if Config.EnableHeliGarage then
+					for i=1, #v.Helicopters, 1 do
+						local distance =  #(playerCoords - v.Helicopters[i].Spawner)
 
-					if distance < Config.DrawDistance then
-						DrawMarker(Config.MarkerType.Helicopters, v.Helicopters[i].Spawner, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-						letSleep = false
+						if distance < Config.DrawDistance then
+							DrawMarker(Config.MarkerType.Helicopters, v.Helicopters[i].Spawner, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+							letSleep = false
 
-						if distance < Config.MarkerSize.x then
-							isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Helicopters', i
+							if distance < Config.MarkerSize.x then
+								isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Helicopters', i
+							end
 						end
 					end
 				end
 
-				if Config.EnablePlayerManagement and ESX.PlayerData.job.grade_name == 'boss' then
+				if Config.EnablePlayerManagement and ESX.PlayerData.job.grade_name == 'chief' then
 					for i=1, #v.BossActions, 1 do
 						local distance = #(playerCoords - v.BossActions[i])
 

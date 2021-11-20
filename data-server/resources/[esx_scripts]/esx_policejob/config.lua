@@ -6,7 +6,7 @@ Config.MarkerSize                 = {x = 1.5, y = 1.5, z = 0.5}
 Config.MarkerColor                = {r = 50, g = 50, b = 204}
 
 Config.EnablePlayerManagement     = true -- Enable if you want society managing.
-Config.EnableArmoryManagement     = false
+Config.EnableArmoryManagement     = true
 Config.EnableESXIdentity          = true -- Enable if you're using esx_identity.
 Config.EnableLicenses             = true -- Enable if you're using esx_license.
 
@@ -21,6 +21,9 @@ Config.MaxInService               = -1 -- How much people can be in service at o
 
 Config.Locale                     = 'de'
 
+Config.EnableVehicleGarage		= false
+Config.EnableHeliGarage			= false
+
 Config.PoliceStations = {
 
 	LSPD = {
@@ -34,11 +37,11 @@ Config.PoliceStations = {
 		},
 
 		Cloakrooms = {
-			vector3(452.6, -992.8, 30.6)
+			vector3(462.72, -996.58, 30.69)
 		},
 
 		Armories = {
-			vector3(451.7, -980.1, 30.6)
+			vector3(485.25, -995.93, 30.69)
 		},
 
 		Vehicles = {
@@ -74,7 +77,7 @@ Config.PoliceStations = {
 		},
 
 		BossActions = {
-			vector3(448.4, -973.2, 30.6)
+			vector3(461.35, -985.67, 30.60)
 		}
 
 	}
