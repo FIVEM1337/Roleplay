@@ -441,9 +441,7 @@ AddEventHandler('opengarage', function()
                 end
             elseif not DoesEntityExist(vehiclenow) then
                 if dist <= 10.0 then
-                    TriggerEvent("renzu_garage:getchopper",PlayerData.job.name,heli[PlayerData.job.name])
-                    Citizen.Wait(1111)
-                    OpenHeli(PlayerData.job.name)
+                    TriggerEvent("renzu_garage:getchopper",PlayerData.job.name, PlayerData.job.grade, heli[PlayerData.job.name])
                     break
                 end
             end
@@ -863,63 +861,69 @@ AddEventHandler('renzu_garage:receive_vehicles', function(tb, vehdata)
 end)
 
 RegisterNetEvent('renzu_garage:getchopper')
-AddEventHandler('renzu_garage:getchopper', function(job, available)
+AddEventHandler('renzu_garage:getchopper', function(job, jobgrade, available)
     OwnedVehicles = {}
     Wait(100)
     tableVehicles = {}
     tableVehicles = tb
     local vehdata = vehdata
     local vehicle_data = {}
-    for _,value in pairs(available) do
-        vehicle_data[job] = value.model
-    end
 
     for _,value in pairs(available) do
         OwnedVehicles[job] = {}
     end
-
     local gstate = GlobalState and GlobalState.VehicleImages
+    local vehiclecount = 0
     for _,value in pairs(available) do
-        local default_thumb = string.lower(GetDisplayNameFromVehicleModel(value.model))
-        local img = 'https://cfx-nui-renzu_garage/imgs/uploads/'..default_thumb..'.jpg'
-        if Config.use_renzu_vehthumb and gstate[tostring(GetHashKey(value.model))] then
-            img = gstate[tostring(GetHashKey(value.model))]
-        end
-        local vehicleModel = tonumber(value.model)  
-        local label = nil
-        if label == nil then
-            label = 'Unknow'
-        end
+        if jobgrade >= value.grade then
+            vehiclecount = vehiclecount + 1
 
-        local vehname = value.model
+            local default_thumb = string.lower(GetDisplayNameFromVehicleModel(value.model))
+            local img = 'https://cfx-nui-renzu_garage/imgs/uploads/'..default_thumb..'.jpg'
+            if Config.use_renzu_vehthumb and gstate[tostring(GetHashKey(value.model))] then
+                img = gstate[tostring(GetHashKey(value.model))]
+            end
+            local vehicleModel = tonumber(value.model)  
+            local label = nil
+            if label == nil then
+                label = 'Unknow'
+            end
 
-        if vehname == nil then
-            vehname = GetDisplayNameFromVehicleModel(tonumber(value.model))
+            local vehname = value.model
+
+            if vehname == nil then
+                vehname = GetDisplayNameFromVehicleModel(tonumber(value.model))
+            end
+            local VTable = 
+            {
+                brand = GetVehicleClassnamemodel(tonumber(value.model)),
+                name = vehname:upper(),
+                brake = GetPerformanceStats(vehicleModel).brakes,
+                handling = GetPerformanceStats(vehicleModel).handling,
+                topspeed = math.ceil(GetVehicleModelEstimatedMaxSpeed(vehicleModel)*4.605936),
+                power = math.ceil(GetVehicleModelAcceleration(vehicleModel)*1000),
+                torque = math.ceil(GetVehicleModelAcceleration(vehicleModel)*800),
+                model = value.model,
+                model2 = value.model,
+                plate = value.plate,
+                img = img,
+                props = value.vehicle,
+                fuel = 100,
+                bodyhealth = 1000,
+                enginehealth = 1000,
+                garage_id = job,
+                impound = 0,
+                stored = 1
+            }
+            table.insert(OwnedVehicles[job], VTable)
         end
-        local VTable = 
-        {
-            brand = GetVehicleClassnamemodel(tonumber(value.model)),
-            name = vehname:upper(),
-            brake = GetPerformanceStats(vehicleModel).brakes,
-            handling = GetPerformanceStats(vehicleModel).handling,
-            topspeed = math.ceil(GetVehicleModelEstimatedMaxSpeed(vehicleModel)*4.605936),
-            power = math.ceil(GetVehicleModelAcceleration(vehicleModel)*1000),
-            torque = math.ceil(GetVehicleModelAcceleration(vehicleModel)*800),
-            model = value.model,
-            model2 = value.model,
-            plate = value.plate,
-            img = img,
-            props = value.vehicle,
-            fuel = 100,
-            bodyhealth = 1000,
-            enginehealth = 1000,
-            garage_id = job,
-            impound = 0,
-            stored = 1
-        }
-        table.insert(OwnedVehicles[job], VTable)
     end
     fetchdone = true
+    if vehiclecount > 0 then
+        OpenHeli(job, jobgrade)
+    else
+        TriggerEvent('notifications', 'info','Garage', "Es steht kein Helicopter für dein Rang zur verfügung..")
+    end
 end)
 
 local Charset = {}
@@ -1147,7 +1151,7 @@ function OpenGarage(garageid,garage_type,jobonly,default)
 end
 
 
-function OpenHeli(garageid)
+function OpenHeli(garageid, jobgrade)
     inGarage = true
     local ped = PlayerPedId()
     while not fetchdone do
