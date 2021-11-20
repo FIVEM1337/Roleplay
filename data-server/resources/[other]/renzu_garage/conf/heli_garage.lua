@@ -31,7 +31,7 @@ helispawn = {
             garage = "Police Chopper A",
             Blip = {color = 38, sprite = 43, scale = 0.6},
             coords = vector3(449.27, -981.05, 43.69),
-            distance = 15
+            distance = 8
         }
     }
 }
