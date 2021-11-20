@@ -79,7 +79,7 @@ RegisterCommand("reset_skin", function(source)
 			if result[1].citizen == "0" then
         TriggerClientEvent('esx_skin:openSaveableMenu', source)
       else
-        TriggerClientEvent('notifications', xPlayer.source, "#ff0000", "ERROR", "Das geht nur als nicht Staatsburger!")
+        TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Das geht nur als nicht Staatsburger!", 5000, 'error')
 			end
 		end
 	end)

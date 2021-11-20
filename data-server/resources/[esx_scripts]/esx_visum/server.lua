@@ -52,7 +52,7 @@ function BuyVisum(xPlayer, currentvisum)
 		local visumtimestamp = os.time({year = year, month = month, day = day, hour = hour, min = min, sec = sec})
 		check = visumtimestamp - nowtimestamp
 		if check >= 0 then
-			TriggerClientEvent('notifications', xPlayer.source, "#ff0000", "Visum", "Du hast noch ein aktives Visum!")
+			TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "Visum", "Du hast noch ein aktives Visum!", 5000, 'error')
 			return
 		end
 	end
@@ -67,9 +67,8 @@ function BuyVisum(xPlayer, currentvisum)
 			  ['@identifier'] = xPlayer.identifier
 			}
 		)
-
-		TriggerClientEvent('notifications', xPlayer.source, "#008000", "Visum", "Du hast nun ein neues Visum")
+		TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "Visum", "Du hast nun ein neues Visum!", 5000, 'success')
 	else
-		TriggerClientEvent('notifications', xPlayer.source, "#ff0000", "Visum", "Nicht genügend Geld!")
+		TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "Visum", "Nicht genügend Geld!", 5000, 'error')
 	end
 end

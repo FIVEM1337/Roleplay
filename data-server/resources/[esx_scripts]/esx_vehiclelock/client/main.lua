@@ -64,11 +64,11 @@ RegisterCommand('usevehiclekey', function()
 			if lockStatus == 1 then -- unlocked
 				SetVehicleDoorsLocked(vehicle, 2)
 				PlayVehicleDoorCloseSound(vehicle, 1)
-				TriggerEvent('notifications', "#ff0000",  "", _U('message_locked'))
+				TriggerEvent('dopeNotify:Alert', "", _U('message_locked'), 5000, 'success')
 			elseif lockStatus == 2 then -- locked
 				SetVehicleDoorsLocked(vehicle, 1)
 				PlayVehicleDoorOpenSound(vehicle, 0)
-				TriggerEvent('notifications', "#008000",  "", _U('message_unlocked'))
+				TriggerEvent('dopeNotify:Alert', "", _U('message_unlocked'), 5000, 'success')
 			end
 		end
 

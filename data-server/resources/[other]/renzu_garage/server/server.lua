@@ -290,10 +290,10 @@ ESX.RegisterServerCallback('renzu_garage:isvehicleingarage', function (source, c
             local money = impound_G[garage] ~= nil and impound_G[garage][plate] ~= nil and impound_G[garage][plate].fine or ImpoundPayment
             if xPlayer.getMoney() >= money then
                 xPlayer.removeMoney(money)
-                TriggerClientEvent('notifications', source, 'success','Garage', 'Successfully Retrieve Owned vehicle')
+                TriggerClientEvent('dopeNotify:Alert', source, "Garage", "Fahrzeug abgeholt", 5000, 'success')
                 cb(1,0)
             else
-                TriggerClientEvent('notifications', source, 'error','Garage', 'Fail to retrieve vehicle, not enough money cabron')
+                TriggerClientEvent('dopeNotify:Alert', source, "Garage", "Fahrzeug kann nicht abgeholt werden, du hast nicht genug Geld", 5000, 'error')
                 cb(false,1,garage_impound,impound_fee)
             end
         elseif result and result[1].stored ~= nil then
@@ -322,7 +322,7 @@ ESX.RegisterServerCallback('renzu_garage:changestate', function (source, cb, pla
         if r and r[1] then
             identifier = r[1].owner
         else
-            TriggerClientEvent('notifications', source, 'info','Garage', 'Vehicle is not owned')
+            TriggerClientEvent('dopeNotify:Alert', source, "Garage", "Fahrzeug hat keinen besitzer", 5000, 'error')
             cb(false,public, false)
             return
         end
@@ -346,9 +346,9 @@ ESX.RegisterServerCallback('renzu_garage:changestate', function (source, cb, pla
                     }
                     local result = MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET `stored` = @stored, garage_id = @garage_id, vehicle = @vehicle, `job` = @job WHERE TRIM(UPPER(plate)) = @plate and owner = @owner', var)
                     if state == 1 then
-                        TriggerClientEvent('notifications', source, 'success','Garage', 'You Successfully Store the vehicle')
+                        TriggerClientEvent('dopeNotify:Alert', source, "Garage", "Fahrzeug eingeparkt", 5000, 'success')
                     else
-                        TriggerClientEvent('notifications', source, 'success','Garage', 'You Successfully Take out the vehicle')
+                        TriggerClientEvent('dopeNotify:Alert', source, "Garage", "Fahrzeug ausgeparkt", 5000, 'success')
                     end
                     cb(true,public)
                 else
@@ -405,9 +405,9 @@ ESX.RegisterServerCallback('renzu_garage:changestate', function (source, cb, pla
                         impound_G[impoundid] = impound_data
                     end
                     if state == 1 then
-                        TriggerClientEvent('notifications', source, 'success','Garage', 'You Impound the Vehicle')
+                        TriggerClientEvent('dopeNotify:Alert', source, "Garage", "Fahrzeug wurde beschlagnahmt", 5000, 'success')
                     else
-                        TriggerClientEvent('notifications', source, 'success','Garage', 'You Release the Vehicle')
+                        TriggerClientEvent('dopeNotify:Alert', source, "Garage", "Fahrzeug wurde freigegeben", 5000, 'success')
                     end
                     cb(true,public)
                 else
@@ -415,11 +415,11 @@ ESX.RegisterServerCallback('renzu_garage:changestate', function (source, cb, pla
                     print('exploiting')
                 end
             else
-                TriggerClientEvent('notifications', source, 'error','Garage', 'Vehicle was impounded but is unowned.')
+                TriggerClientEvent('dopeNotify:Alert', source, "Garage", "Fahrzeug wurde beschlagnahmt hat aber keinen Besitzer", 5000, 'warning')
                 cb(false, public, false)
             end
         else
-            TriggerClientEvent('notifications', source, 'info','Garage', 'Vehicle is not your property')
+            TriggerClientEvent('dopeNotify:Alert', source, "Garage", "Fahrzeug ist nicht dein Eigentum", 5000, 'error')
             cb(false, public)
         end
     end

@@ -14,7 +14,7 @@ AddEventHandler('esx:playerLoaded', function(source)
 					for i=1, #xPlayers, 1 do
 						local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
 						if xPlayer.getGroup() == "mod" or xPlayer.getGroup() == "guide" or xPlayer.getGroup() == "supporter" or xPlayer.getGroup() == "admin" then
-							TriggerClientEvent('notifications', xPlayer.source, "#ff0000", "EINREISE","Neuer Spieler in der Einreise: " .. steamname .. " | ID: " .. source)
+							TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Neuer Spieler in der Einreise: " .. steamname .. " | ID: " .. source, 5000, 'info')
 						end
 					end
 					TriggerClientEvent("iscitizen", _source, false)
@@ -55,29 +55,29 @@ RegisterCommand("einreisen", function(source, args)
 	if xPlayer.getGroup() == "mod" or xPlayer.getGroup() == "guide" or xPlayer.getGroup() == "supporter" or xPlayer.getGroup() == "admin" or xPlayer.getGroup() == "superadmin" then
 
 		if newCitizen == nil then
-			TriggerClientEvent('notifications', xPlayer.source, "#ff0000", "ERROR", "User ID existiert nicht!")
+			TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "User ID existiert nicht!", 5000, 'error')
 		else
 			MySQL.Async.fetchAll('SELECT citizen FROM users WHERE identifier = @identifier', {['@identifier'] = newCitizen.identifier}, function(result)
 				if result[1] then
 					if result[1].citizen == "1" then
-						TriggerClientEvent('notifications', xPlayer.source, "#ff0000", "ERROR", "User ist bereits Staatsbürger!")
+						TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "User ist bereits Staatsbürger!", 5000, 'error')
 					else
 						MySQL.Sync.execute("UPDATE users SET citizen = 1 WHERE identifier = @identifier", {
 							['@identifier'] = newCitizen.identifier
 						})
 			
-						TriggerClientEvent('notifications', xPlayer.source, "#ff0000", "ERFOLGREICH", "Du hast eine Person erfolgreich freigeschaltet")
-						TriggerClientEvent('notifications', newCitizen.source, "#ff0000", "ERFOLGREICH", "Du bist nun freigeschaltet")
+						TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast eine Person erfolgreich eingebürgert!", 5000, 'success')
+						TriggerClientEvent('dopeNotify:Alert', newCitizen.source, "", "Du bist nun ein Bürger!", 5000, 'success')
 						TriggerClientEvent("citizen:teleport", newCitizen.source, Config.raus, Config.angle_raus)
 						TriggerClientEvent("iscitizen", newCitizen.source, true)
 					end
 				else
-					TriggerClientEvent('notifications', xPlayer.source, "#ff0000", "ERROR", "User ist nicht in Datenbank!")
+					TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "User ist nicht in Datenbank!", 5000, 'error')
 				end
 			end)
 		end
 	else
-		TriggerClientEvent('notifications', xPlayer.source, "#ff0000", "ERROR", "Keine Rechte")
+		TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Um diesen Befehl benutzen zu können benötigst du mehr Rechte!", 5000, 'error')
 	end
 end)
 
@@ -86,7 +86,7 @@ RegisterCommand("rein", function(source)
 	if xPlayer.getGroup() == "mod" or xPlayer.getGroup() == "guide" or xPlayer.getGroup() == "supporter" or xPlayer.getGroup() == "admin" or xPlayer.getGroup() == "superadmin" then
 		TriggerClientEvent("citizen:teleport", xPlayer.source, Config.rein, Config.angle_rein)
 	else
-		TriggerClientEvent('notifications', xPlayer.source, "#ff0000", "ERROR", "Keine Rechte")
+		TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Um diesen Befehl benutzen zu können benötigst du mehr Rechte!", 5000, 'error')
 	end
 end)
 
@@ -95,7 +95,7 @@ RegisterCommand("raus", function(source)
 	if xPlayer.getGroup() == "mod" or xPlayer.getGroup() == "guide" or xPlayer.getGroup() == "supporter" or xPlayer.getGroup() == "admin" or xPlayer.getGroup() == "superadmin" then
 		TriggerClientEvent("citizen:teleport", xPlayer.source, Config.raus, Config.angle_raus)
 	else
-		TriggerClientEvent('notifications', xPlayer.source, "#ff0000", "ERROR", "Keine Rechte")
+		TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Um diesen Befehl benutzen zu können benötigst du mehr Rechte!", 5000, 'error')
 	end
 end)
 
@@ -109,6 +109,6 @@ RegisterCommand("raus2", function(source)
 	if xPlayer.getGroup() == "mod" or xPlayer.getGroup() == "guide" or xPlayer.getGroup() == "supporter" or xPlayer.getGroup() == "admin" or xPlayer.getGroup() == "superadmin" then
 		TriggerClientEvent("citizen:teleport", xPlayer.source, Config.raus2, Config.angle_raus)
 	else
-		TriggerClientEvent('notifications', xPlayer.source, "#ff0000", "ERROR", "Keine Rechte")
+		TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Um diesen Befehl benutzen zu können benötigst du mehr Rechte!", 5000, 'error')
 	end
 end)
