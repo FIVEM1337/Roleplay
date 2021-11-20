@@ -27,5 +27,5 @@ client_scripts {
 dependencies {
 	'es_extended',
 	'esx_billing',
-	'd3x_vehicleshop'
+	'esx_vehicleshop'
 }

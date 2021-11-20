@@ -25,5 +25,5 @@ client_scripts {
 
 dependencies {
 	'es_extended',
-	'd3x_vehicleshop'
+	'esx_vehicleshop'
 }

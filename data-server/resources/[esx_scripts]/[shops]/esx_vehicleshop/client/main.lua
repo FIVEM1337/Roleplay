@@ -31,11 +31,11 @@ Citizen.CreateThread(function ()
 		Citizen.Wait(0)
 	end
 
-	ESX.TriggerServerCallback('d3x_vehicleshop:getVehicles', function (vehicles)
+	ESX.TriggerServerCallback('esx_vehicleshop:getVehicles', function (vehicles)
 		Vehicles = vehicles
 	end)
 	Citizen.Wait(1000)
-	ESX.TriggerServerCallback('d3x_vehicleshop:getCategories', function (categories)
+	ESX.TriggerServerCallback('esx_vehicleshop:getCategories', function (categories)
 		Categories = categories
 	end)
 	
@@ -46,13 +46,13 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
 	ESX.PlayerData = xPlayer
 end)
 
-RegisterNetEvent('d3x_vehicleshop:sendCategories')
-AddEventHandler('d3x_vehicleshop:sendCategories', function (categories)
+RegisterNetEvent('esx_vehicleshop:sendCategories')
+AddEventHandler('esx_vehicleshop:sendCategories', function (categories)
 	Categories = categories
 end)
 
-RegisterNetEvent('d3x_vehicleshop:sendVehicles')
-AddEventHandler('d3x_vehicleshop:sendVehicles', function (vehicles)
+RegisterNetEvent('esx_vehicleshop:sendVehicles')
+AddEventHandler('esx_vehicleshop:sendVehicles', function (vehicles)
 	Vehicles = vehicles
 end)
 
@@ -119,7 +119,7 @@ RegisterNUICallback('BuyVehicle', function(data, cb)
 	IsInShopMenu = false
 	exports['mythic_notify']:PersistentHudText('START','waiting','vermelho',_U('wait_vehicle'))
 
-    ESX.TriggerServerCallback('d3x_vehicleshop:buyVehicle', function(hasEnoughMoney)
+    ESX.TriggerServerCallback('esx_vehicleshop:buyVehicle', function(hasEnoughMoney)
 		exports['mythic_notify']:PersistentHudText('END','waiting')
 
 		if hasEnoughMoney then
@@ -133,7 +133,7 @@ RegisterNUICallback('BuyVehicle', function(data, cb)
 				SetVehicleNumberPlateText(vehicle, newPlate)
 
 				if Config.EnableOwnedVehicles then
-					TriggerServerEvent('d3x_vehicleshop:setVehicleOwned', vehicleProps)
+					TriggerServerEvent('esx_vehicleshop:setVehicleOwned', vehicleProps)
 				end
 
 				ESX.ShowNotification(_U('vehicle_purchased'))
@@ -181,7 +181,7 @@ AddEventHandler('esx:setJob', function (job)
 	ESX.PlayerData.job = job
 end)
 
-AddEventHandler('d3x_vehicleshop:hasEnteredMarker', function (zone)
+AddEventHandler('esx_vehicleshop:hasEnteredMarker', function (zone)
 	if zone == 'ShopEntering' or zone == 'Shop2' or zone == 'Shop3'  then
 
 		CurrentAction     = 'shop_menu'
@@ -227,7 +227,7 @@ AddEventHandler('d3x_vehicleshop:hasEnteredMarker', function (zone)
 	end
 end)
 
-AddEventHandler('d3x_vehicleshop:hasExitedMarker', function (zone)
+AddEventHandler('esx_vehicleshop:hasExitedMarker', function (zone)
 	if not IsInShopMenu then
 		ESX.UI.Menu.CloseAll()
 	end
@@ -331,12 +331,12 @@ Citizen.CreateThread(function ()
 		if isInMarker  then
 			HasAlreadyEnteredMarker = true
 			LastZone                = currentZone
-			TriggerEvent('d3x_vehicleshop:hasEnteredMarker', currentZone)
+			TriggerEvent('esx_vehicleshop:hasEnteredMarker', currentZone)
 		end
 
 		if not isInMarker and HasAlreadyEnteredMarker then
 			HasAlreadyEnteredMarker = false
-			TriggerEvent('d3x_vehicleshop:hasExitedMarker', LastZone)
+			TriggerEvent('esx_vehicleshop:hasExitedMarker', LastZone)
 		end
 	end
 end)
@@ -357,7 +357,7 @@ Citizen.CreateThread(function()
 					OpenShopMenu()
 				elseif CurrentAction == 'resell_vehicle' then
 
-					ESX.TriggerServerCallback('d3x_vehicleshop:resellVehicle', function(vehicleSold)
+					ESX.TriggerServerCallback('esx_vehicleshop:resellVehicle', function(vehicleSold)
 
 						if vehicleSold then
 							ESX.Game.DeleteVehicle(CurrentActionData.vehicle)

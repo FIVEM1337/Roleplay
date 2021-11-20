@@ -10,7 +10,7 @@ Citizen.CreateThread(function()
 	if Config.PlateUseSpace then char = char + 1 end
 
 	if char > 8 then
-		print(('d3x_vehicleshop: ^1WARNING^7 plate character count reached, %s/8 characters.'):format(char))
+		print(('esx_vehicleshop: ^1WARNING^7 plate character count reached, %s/8 characters.'):format(char))
 	end
 	
 end)
@@ -39,12 +39,12 @@ MySQL.ready(function()
 	end
 
 	-- send information after db has loaded, making sure everyone gets vehicle information
-	TriggerClientEvent('d3x_vehicleshop:sendCategories', -1, Categories)
-	TriggerClientEvent('d3x_vehicleshop:sendVehicles', -1, Vehicles)
+	TriggerClientEvent('esx_vehicleshop:sendCategories', -1, Categories)
+	TriggerClientEvent('esx_vehicleshop:sendVehicles', -1, Vehicles)
 end)
 
-RegisterServerEvent('d3x_vehicleshop:setVehicleOwned')
-AddEventHandler('d3x_vehicleshop:setVehicleOwned', function (vehicleProps)
+RegisterServerEvent('esx_vehicleshop:setVehicleOwned')
+AddEventHandler('esx_vehicleshop:setVehicleOwned', function (vehicleProps)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
 
@@ -58,8 +58,8 @@ AddEventHandler('d3x_vehicleshop:setVehicleOwned', function (vehicleProps)
 	end)
 end)
 
-RegisterServerEvent('d3x_vehicleshop:setVehicleOwnedPlayerId')
-AddEventHandler('d3x_vehicleshop:setVehicleOwnedPlayerId', function (playerId, vehicleProps)
+RegisterServerEvent('esx_vehicleshop:setVehicleOwnedPlayerId')
+AddEventHandler('esx_vehicleshop:setVehicleOwnedPlayerId', function (playerId, vehicleProps)
 	local xPlayer = ESX.GetPlayerFromId(playerId)
 
 	MySQL.Async.execute('INSERT INTO owned_vehicles (owner, plate, vehicle) VALUES (@owner, @plate, @vehicle)',
@@ -72,8 +72,8 @@ AddEventHandler('d3x_vehicleshop:setVehicleOwnedPlayerId', function (playerId, v
 	end) 
 end)
 
-RegisterServerEvent('d3x_vehicleshop:setVehicleOwnedSociety')
-AddEventHandler('d3x_vehicleshop:setVehicleOwnedSociety', function (society, vehicleProps)
+RegisterServerEvent('esx_vehicleshop:setVehicleOwnedSociety')
+AddEventHandler('esx_vehicleshop:setVehicleOwnedSociety', function (society, vehicleProps)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
 
@@ -87,15 +87,15 @@ AddEventHandler('d3x_vehicleshop:setVehicleOwnedSociety', function (society, veh
 	end)
 end)
 
-ESX.RegisterServerCallback('d3x_vehicleshop:getCategories', function (source, cb)
+ESX.RegisterServerCallback('esx_vehicleshop:getCategories', function (source, cb)
 	cb(Categories)
 end)
 
-ESX.RegisterServerCallback('d3x_vehicleshop:getVehicles', function (source, cb)
+ESX.RegisterServerCallback('esx_vehicleshop:getVehicles', function (source, cb)
 	cb(Vehicles)
 end)
 
-ESX.RegisterServerCallback('d3x_vehicleshop:buyVehicle', function (source, cb, vehicleModel)
+ESX.RegisterServerCallback('esx_vehicleshop:buyVehicle', function (source, cb, vehicleModel)
 	local xPlayer     = ESX.GetPlayerFromId(source)
 	local vehicleData = nil
 	local bankMoney = xPlayer.getAccount('bank').money
@@ -125,7 +125,7 @@ RegisterCommand('banco', function(source)
 	TriggerClientEvent('chatMessage', source, "Saldo: "..bankMoney)
 end, false)
 
-ESX.RegisterServerCallback('d3x_vehicleshop:resellVehicle', function (source, cb, plate, model)
+ESX.RegisterServerCallback('esx_vehicleshop:resellVehicle', function (source, cb, plate, model)
 	local resellPrice = 0
 
 	-- calculate the resell price
@@ -168,14 +168,14 @@ ESX.RegisterServerCallback('d3x_vehicleshop:resellVehicle', function (source, cb
 	end)
 end)
 
-ESX.RegisterServerCallback('d3x_vehicleshop:getPlayerInventory', function (source, cb)
+ESX.RegisterServerCallback('esx_vehicleshop:getPlayerInventory', function (source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local items   = xPlayer.inventory
 
 	cb({ items = items })
 end)
 
-ESX.RegisterServerCallback('d3x_vehicleshop:isPlateTaken', function (source, cb, plate)
+ESX.RegisterServerCallback('esx_vehicleshop:isPlateTaken', function (source, cb, plate)
 	MySQL.Async.fetchAll('SELECT * FROM owned_vehicles WHERE plate = @plate', {
 		['@plate'] = plate
 	}, function (result)
@@ -183,7 +183,7 @@ ESX.RegisterServerCallback('d3x_vehicleshop:isPlateTaken', function (source, cb,
 	end)
 end)
 
-ESX.RegisterServerCallback('d3x_vehicleshop:retrieveJobVehicles', function (source, cb, type)
+ESX.RegisterServerCallback('esx_vehicleshop:retrieveJobVehicles', function (source, cb, type)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	MySQL.Async.fetchAll('SELECT * FROM owned_vehicles WHERE owner = @owner AND type = @type AND job = @job', {
@@ -195,8 +195,8 @@ ESX.RegisterServerCallback('d3x_vehicleshop:retrieveJobVehicles', function (sour
 	end)
 end)
 
-RegisterServerEvent('d3x_vehicleshop:setJobVehicleState')
-AddEventHandler('d3x_vehicleshop:setJobVehicleState', function(plate, state)
+RegisterServerEvent('esx_vehicleshop:setJobVehicleState')
+AddEventHandler('esx_vehicleshop:setJobVehicleState', function(plate, state)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	MySQL.Async.execute('UPDATE owned_vehicles SET `stored` = @stored WHERE plate = @plate AND job = @job', {
@@ -205,7 +205,7 @@ AddEventHandler('d3x_vehicleshop:setJobVehicleState', function(plate, state)
 		['@job'] = xPlayer.job.name
 	}, function(rowsChanged)
 		if rowsChanged == 0 then
-			print(('d3x_vehicleshop: %s exploited the garage!'):format(xPlayer.identifier))
+			print(('esx_vehicleshop: %s exploited the garage!'):format(xPlayer.identifier))
 		end
 	end)
 end)

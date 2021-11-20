@@ -1,7 +1,7 @@
 function CloseShop() {
     $("#wrapper").html('');
 	$("#shopmenu").hide();
-    $.post('http://d3x_vehicleshop/CloseMenu', JSON.stringify({}));
+    $.post('http://esx_vehicleshop/CloseMenu');
 }
 
 
@@ -45,11 +45,11 @@ $(document).ready(function(){
                                     <img src="`+car.imglink+`" class="card-img-top" alt="`+car.name+`">
                                     <div class="card-body">
                                         <h5 class="card-title">`+car.name+`</h5>
-                                        <p class="card-text">Marca: <b>`+car.categoryLabel+`</b></p>
-                                        <p class="card-text">Preço: <b>`+car.price+`€</b></p>
+                                        <p class="card-text">Brand: <b>`+car.categoryLabel+`</b></p>
+                                        <p class="card-text">Price: <b>`+car.price+`€</b></p>
                                     </div>
                                     <div class="card-footer bg-white border-0 ">
-                                        <button type="button" id="action1" data-value="buy" data-model="`+ car.model +`" class="btn btn-danger w-auto btn-lg buy">Comprar</button>
+                                        <button type="button" id="action1" data-value="buy" data-model="`+ car.model +`" class="btn btn-danger w-auto btn-lg buy">Buy</button>
                                         <button type="button" id="action2" data-value="test-drive" data-model="`+ car.model +`" class="btn btn-success w-auto float-right btn-lg test-drive">Test Drive</button>
                                     </div>
                                 </div>
@@ -79,9 +79,9 @@ $(document).ready(function(){
         $("#wrapper").html('');
         
         if($(this).data('value') == "buy")
-            $.post('http://d3x_vehicleshop/BuyVehicle', JSON.stringify({model: $(this).data('model')}));
+            $.post('http://esx_vehicleshop/BuyVehicle', JSON.stringify({model: $(this).data('model')}));
         else if($(this).data('value') == "test-drive")
-            $.post('http://d3x_vehicleshop/TestDrive', JSON.stringify({model: $(this).data('model')}));
+            $.post('http://esx_vehicleshop/TestDrive', JSON.stringify({model: $(this).data('model')}));
     });
 
     $('#search').click(function() {
@@ -134,7 +134,7 @@ $(document).ready(function(){
         result.sort(function (a, b) {
             return a.price - b.price;
         });
-        $('#brand').html(`<option selected value="-1">Todas as marcas</option>`)
+        $('#brand').html(`<option selected value="-1">All the brands</option>`)
         categories.forEach(element => {
             $('#brand').append(`<option value="${element.name}">${element.label}</option>`)
         });
