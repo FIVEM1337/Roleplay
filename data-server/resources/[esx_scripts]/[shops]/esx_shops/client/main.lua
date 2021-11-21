@@ -29,7 +29,6 @@ function OpenShopMenu(zone)
 	ESX.TriggerServerCallback('esx_shops:requestDBItems', function(ShopItems)
 		for k,v in pairs(ShopItems) do
 			if k == zone then
-				print("--start---")
 				for x,item in pairs(v) do
 					isEmpty = false
 					print(isEmpty)
@@ -46,7 +45,6 @@ function OpenShopMenu(zone)
 					})
 
 				end
-				print("--start---")
 			end
 		end
 
