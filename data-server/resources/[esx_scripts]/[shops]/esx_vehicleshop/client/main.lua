@@ -87,24 +87,22 @@ RegisterNUICallback('TestDrive', function(data, cb)
 	local coords = vector3(-1733.25, -2901.43, 13.94)
 	
 	IsInShopMenu = false
-	exports['mythic_notify']:PersistentHudText('start','inform','vermelho',_U('wait_vehicle'))
+	TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", _U('wait_vehicle'), 5000, 'info')
 	ESX.Game.SpawnVehicle(model, coords, 330.0, function(vehicle)
-		exports['mythic_notify']:PersistentHudText('end','inform')
 		TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
 		SetVehicleNumberPlateText(vehicle, "TEST")
-		ESX.ShowNotification(_U('testdrive_notification',testdrive_timer))
+		TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", _U('testdrive_notification') .. testdrive_timer .. _U('testdrive_notification2'), 5000, 'info')
 		Citizen.CreateThread(function () 
 			local counter = testdrive_timer
 			
 			while counter > 0 do 
-				exports['mythic_notify']:DoCustomHudText('branco', _U('testdrive_timer',counter),700)
+				TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", _U('testdrive_timer',counter), 200, 'timer')
 				counter = counter -1
 				Citizen.Wait(1000)
 			end
 			DeleteVehicle(vehicle)
 			SetEntityCoords(playerPed, playerpos, false, false, false, false)
-
-			ESX.ShowNotification(_U('testdrive_finished'))
+			TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", _U('testdrive_finished'), 5000, 'info')
 		end)
 
 	end)
@@ -117,13 +115,10 @@ RegisterNUICallback('BuyVehicle', function(data, cb)
     local model = data.model
 	local playerPed = PlayerPedId()
 	IsInShopMenu = false
-	exports['mythic_notify']:PersistentHudText('START','waiting','vermelho',_U('wait_vehicle'))
+	TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", _U('wait_vehicle'), 5000, 'info')
 
     ESX.TriggerServerCallback('esx_vehicleshop:buyVehicle', function(hasEnoughMoney)
-		exports['mythic_notify']:PersistentHudText('END','waiting')
-
 		if hasEnoughMoney then
-
 			ESX.Game.SpawnVehicle(model, Config.Zones.ShopOutside.Pos, Config.Zones.ShopOutside.Heading, function (vehicle)
 				TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
 
@@ -135,14 +130,11 @@ RegisterNUICallback('BuyVehicle', function(data, cb)
 				if Config.EnableOwnedVehicles then
 					TriggerServerEvent('esx_vehicleshop:setVehicleOwned', vehicleProps)
 				end
-
-				ESX.ShowNotification(_U('vehicle_purchased'))
+				TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", _U('vehicle_purchased'), 5000, 'success')
 			end)
-
 		else
-			ESX.ShowNotification(_U('not_enough_money'))
+			TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", _U('not_enough_money'), 5000, 'error')
 		end
-
 	end, model)
 end)
 
@@ -172,7 +164,6 @@ function OpenShopMenu()
 			categories = Categories
         })
 	end
-
 end
 
 
@@ -204,10 +195,20 @@ AddEventHandler('esx_vehicleshop:hasEnteredMarker', function (zone)
 						break
 					end
 				end
-	
-				resellPrice = ESX.Math.Round(vehicleData.price / 100 * Config.ResellPercentage)
-				model = GetEntityModel(vehicle)
-				plate = ESX.Math.Trim(GetVehicleNumberPlateText(vehicle))
+
+				if vehicleData ~= nil then
+					sellable = true
+					label = vehicleData.name
+					resellPrice = ESX.Math.Round(vehicleData.price / 100 * Config.ResellPercentage)
+					model = GetEntityModel(vehicle)
+					plate = ESX.Math.Trim(GetVehicleNumberPlateText(vehicle))
+				else
+					sellable = false
+					label = nil
+					resellPrice = nil
+					model = nil
+					plate = nil
+				end
 	
 				CurrentAction     = 'resell_vehicle'
 				CurrentActionMsg  = _U('sell_vehicle',resellPrice)
@@ -215,10 +216,11 @@ AddEventHandler('esx_vehicleshop:hasEnteredMarker', function (zone)
 				
 				CurrentActionData = {
 					vehicle = vehicle,
-					label = vehicleData.name,
+					label = label,
 					price = resellPrice,
 					model = model,
-					plate = plate
+					plate = plate,
+					sellable = sellable
 				}
 			end
 
@@ -344,31 +346,28 @@ end)
 -- Key controls
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(10)
+		Citizen.Wait(0)
 
 		if CurrentAction == nil then
-			Citizen.Wait(500)
-		else
-
-			-- ESX.ShowHelpNotification('Pressione ~INPUT_CONTEXT~ para ver o catálogo!')
-			
+			Citizen.Wait(0)
+		else		
 			if IsControlJustReleased(0, Keys['E']) then
 				if CurrentAction == 'shop_menu' then
 					OpenShopMenu()
 				elseif CurrentAction == 'resell_vehicle' then
-
-					ESX.TriggerServerCallback('esx_vehicleshop:resellVehicle', function(vehicleSold)
-
-						if vehicleSold then
-							ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
-							ESX.ShowNotification(_U('vehicle_sold_for', CurrentActionData.label, ESX.Math.GroupDigits(CurrentActionData.price)))
+					ESX.TriggerServerCallback('esx_vehicleshop:resellVehicle', function(vehicleSold, sellable)
+						if sellable == false then
+							TriggerEvent('dopeNotify:Alert', "Fahrzeughändler",_U('not_sellable'), 5000, 'error')
 						else
-							ESX.ShowNotification(_U('not_yours'))
+							if vehicleSold then
+								ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
+								TriggerEvent('dopeNotify:Alert', "Fahrzeughändler",_U('vehicle_sold_for', CurrentActionData.label, ESX.Math.GroupDigits(CurrentActionData.price)), 5000, 'success')
+							else
+								TriggerEvent('dopeNotify:Alert', "Fahrzeughändler",_U('not_yours'), 5000, 'error')
+							end
 						end
-
-					end, CurrentActionData.plate, CurrentActionData.model)
+					end, CurrentActionData.plate, CurrentActionData.model, CurrentActionData.sellable)
 				end
-
 				CurrentAction = nil
 			end
 		end

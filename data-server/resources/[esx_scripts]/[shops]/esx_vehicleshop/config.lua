@@ -4,7 +4,7 @@ Config.MarkerColor                = { r = 255, g = 0, b = 0 }
 Config.EnableOwnedVehicles        = true
 Config.ResellPercentage           = 50
 
-Config.Locale                     = 'en'
+Config.Locale                     = 'de'
 
 Config.LicenseEnable = false -- require people to own drivers license when buying vehicles? Only applies if EnablePlayerManagement is disabled. Requires esx_license
 

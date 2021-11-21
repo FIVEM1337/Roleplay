@@ -72,20 +72,15 @@ $(function () {
                 $(`.notification_main-${number}`).addClass('long-icon')
                 $(`.wrapper-${number}`).addClass('long')
                 sound.play();
-            }
-            anime({
-                targets: `.wrapper-${number}`,
-                translateX: -60,
-                duration: 750,
-                easing: 'spring(5, 100, 35, 10)',
-            })
-            setTimeout(function () {
-                anime({
-                    targets: `.wrapper-${number}`,
-                    translateX: 500,
-                    duration: 750,
-                    easing: 'spring(5, 80, 5, 0)'
+            } else if (event.data.type == 'timer') {
+                $(`.title-${number}`).html(event.data.title).css({
+                    "font-size": "16px",
+                    "font-weight": "600"
                 })
+                $(`.notification_main-${number}`).addClass('timer-icon')
+                $(`.wrapper-${number}`).addClass('timer')
+            }
+            setTimeout(function () {
                 setTimeout(function () {
                     $(`.wrapper-${number}`).remove()
                 }, 750)

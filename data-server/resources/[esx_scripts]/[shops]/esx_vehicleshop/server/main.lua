@@ -54,7 +54,6 @@ AddEventHandler('esx_vehicleshop:setVehicleOwned', function (vehicleProps)
 		['@plate']   = vehicleProps.plate,
 		['@vehicle'] = json.encode(vehicleProps)
 	}, function (rowsChanged)
-		TriggerClientEvent('esx:showNotification', _source, _U('vehicle_belongs', vehicleProps.plate))
 	end)
 end)
 
@@ -68,7 +67,6 @@ AddEventHandler('esx_vehicleshop:setVehicleOwnedPlayerId', function (playerId, v
 		['@plate']   = vehicleProps.plate,
 		['@vehicle'] = json.encode(vehicleProps)
 	}, function (rowsChanged)
-		TriggerClientEvent('esx:showNotification', playerId, _U('vehicle_belongs', vehicleProps.plate))
 	end) 
 end)
 
@@ -125,8 +123,13 @@ RegisterCommand('banco', function(source)
 	TriggerClientEvent('chatMessage', source, "Saldo: "..bankMoney)
 end, false)
 
-ESX.RegisterServerCallback('esx_vehicleshop:resellVehicle', function (source, cb, plate, model)
+ESX.RegisterServerCallback('esx_vehicleshop:resellVehicle', function (source, cb, plate, model, sellable)
 	local resellPrice = 0
+
+	if not sellable then
+		cb(nil, false)
+		return
+	end
 
 	-- calculate the resell price
 	for i=1, #Vehicles, 1 do
@@ -137,12 +140,12 @@ ESX.RegisterServerCallback('esx_vehicleshop:resellVehicle', function (source, cb
 	end
 
 	if resellPrice == 0 then
-		TriggerClientEvent('mythic_notify:client:DoHudText', source, { type = 'vermelho', text = 'Este carro não te pertence!'})
+		TriggerClientEvent('dopeNotify:Alert', source, "Fahrzeughändler", "Das Auto gehört nicht dir!", 5000, 'error')
 		cb(false)
 	end
 
 	local xPlayer = ESX.GetPlayerFromId(source)
-
+	print(plate)
 	MySQL.Async.fetchAll('SELECT * FROM owned_vehicles WHERE owner = @owner AND @plate = plate', {
 		['@owner'] = xPlayer.identifier,
 		['@plate'] = plate
@@ -150,7 +153,7 @@ ESX.RegisterServerCallback('esx_vehicleshop:resellVehicle', function (source, cb
 		if result[1] then -- does the owner match?
 
 			local vehicle = json.decode(result[1].vehicle)
-
+			print(vehicle)
 			if vehicle.model == model then
 				if vehicle.plate == plate then
 					xPlayer.addMoney(resellPrice)
@@ -163,6 +166,9 @@ ESX.RegisterServerCallback('esx_vehicleshop:resellVehicle', function (source, cb
 			else
 				cb(false)
 			end
+
+		else
+			print("wls")
 		end
 
 	end)
