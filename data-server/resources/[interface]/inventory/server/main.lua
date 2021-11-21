@@ -88,7 +88,7 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                 xPlayer.removeMoney(item.count)
                 xPlayer.addWeapon(item.name, item.count)
                 TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> purchased!'):format(count, item.label))
-                TriggerEvent('CryptoHooker:SendBuyLog', src, item, count, count * item.count)
+                TriggerEvent('CryptoHooker:SendBuyLog', src, item.label, count, count * item.count)
             else 
                 TriggerClientEvent('inventory:notify', src, 'error', 'You already have this weapon!')
             end
@@ -99,7 +99,7 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                         xPlayer.removeMoney(count * item.count)
                         xPlayer.addInventoryItem(item.name, count)
                         TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> purchased!'):format(count, item.label))
-                        TriggerEvent('CryptoHooker:SendBuyLog', src, item, count, count * item.count)
+                        TriggerEvent('CryptoHooker:SendBuyLog', src, item.label, count, count * item.count)
                     else 
                         TriggerClientEvent('inventory:notify', src, 'error', 'Cannot afford this item!')
                     end
@@ -113,7 +113,7 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                         xPlayer.removeMoney(count * item.count)
                         xPlayer.addInventoryItem(item.name, count)
                         TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> purchased!'):format(count, item.label))
-                        TriggerEvent('CryptoHooker:SendBuyLog', src, item, count, count * item.count)
+                        TriggerEvent('CryptoHooker:SendBuyLog', src, item.label, count, count * item.count)
                     else 
                         TriggerClientEvent('inventory:notify', src, 'error', 'Cannot afford this item!')
                     end

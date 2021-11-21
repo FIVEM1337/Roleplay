@@ -106,9 +106,11 @@ ESX.RegisterServerCallback('esx_vehicleshop:buyVehicle', function (source, cb, v
 
 	if xPlayer.getMoney() >= vehicleData.price then
 		xPlayer.removeMoney(vehicleData.price)
+		TriggerEvent('CryptoHooker:SendBuyLog', source, vehicleData.name, 1, vehicleData.price)
 		cb(true)
 	else if bankMoney >= vehicleData.price then
 		xPlayer.setAccountMoney('bank',bankMoney-vehicleData.price)
+		TriggerEvent('CryptoHooker:SendBuyLog', source, vehicleData.name, 1, vehicleData.price)
 		cb(true)
 	else
 		cb(false)

@@ -49,11 +49,11 @@ AddEventHandler('CryptoHooker:SendBuyLog', function(source, item, count, price)
         {
             ["title"] = Webhook.Title,
 			["color"] = Webhook.Color,
-			["description"] = xPlayer.getName() .. " " .. "kauft " .. count .. "x " .. item.label,
+			["description"] = xPlayer.getName() .. " " .. "kauft " .. count .. "x " .. item,
 			["fields"] = {
 				{
 					["name"] = "Itemname:",
-					["value"] = item.label,
+					["value"] = item,
 					["inline"] = true
 				},
 				{
