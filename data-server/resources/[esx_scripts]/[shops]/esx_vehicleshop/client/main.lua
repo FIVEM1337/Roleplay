@@ -87,22 +87,22 @@ RegisterNUICallback('TestDrive', function(data, cb)
 	local coords = vector3(-1733.25, -2901.43, 13.94)
 	
 	IsInShopMenu = false
-	TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", _U('wait_vehicle'), 5000, 'info')
+	TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('wait_vehicle'), 5000, 'info')
 	ESX.Game.SpawnVehicle(model, coords, 330.0, function(vehicle)
 		TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
 		SetVehicleNumberPlateText(vehicle, "TEST")
-		TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", _U('testdrive_notification') .. testdrive_timer .. _U('testdrive_notification2'), 5000, 'info')
+		TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('testdrive_notification') .. testdrive_timer .. _U('testdrive_notification2'), 5000, 'info')
 		Citizen.CreateThread(function () 
 			local counter = testdrive_timer
 			
 			while counter > 0 do 
-				TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", _U('testdrive_timer',counter), 200, 'timer')
+				TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('testdrive_timer',counter), 200, 'timer')
 				counter = counter -1
 				Citizen.Wait(1000)
 			end
 			DeleteVehicle(vehicle)
 			SetEntityCoords(playerPed, playerpos, false, false, false, false)
-			TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", _U('testdrive_finished'), 5000, 'info')
+			TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('testdrive_finished'), 5000, 'info')
 		end)
 
 	end)
@@ -115,7 +115,7 @@ RegisterNUICallback('BuyVehicle', function(data, cb)
     local model = data.model
 	local playerPed = PlayerPedId()
 	IsInShopMenu = false
-	TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", _U('wait_vehicle'), 5000, 'info')
+	TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('wait_vehicle'), 5000, 'info')
 
     ESX.TriggerServerCallback('esx_vehicleshop:buyVehicle', function(hasEnoughMoney)
 		if hasEnoughMoney then
@@ -130,10 +130,10 @@ RegisterNUICallback('BuyVehicle', function(data, cb)
 				if Config.EnableOwnedVehicles then
 					TriggerServerEvent('esx_vehicleshop:setVehicleOwned', vehicleProps)
 				end
-				TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", _U('vehicle_purchased'), 5000, 'success')
+				TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('vehicle_purchased'), 5000, 'success')
 			end)
 		else
-			TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", _U('not_enough_money'), 5000, 'error')
+			TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('not_enough_money'), 5000, 'error')
 		end
 	end, model)
 end)
@@ -205,14 +205,14 @@ AddEventHandler('esx_vehicleshop:hasEnteredMarker', function (zone)
 				else
 					sellable = false
 					label = nil
-					resellPrice = nil
+					resellPrice = 0
 					model = nil
 					plate = nil
 				end
-	
+
 				CurrentAction     = 'resell_vehicle'
-				CurrentActionMsg  = _U('sell_vehicle',resellPrice)
-				ESX.ShowHelpNotification(_U('sell_vehicle',resellPrice) )
+				CurrentActionMsg  = _U('sell_vehicle2',resellPrice)
+				ESX.ShowHelpNotification(_U('sell_vehicle2',GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)), resellPrice ))
 				
 				CurrentActionData = {
 					vehicle = vehicle,
@@ -357,13 +357,13 @@ Citizen.CreateThread(function()
 				elseif CurrentAction == 'resell_vehicle' then
 					ESX.TriggerServerCallback('esx_vehicleshop:resellVehicle', function(vehicleSold, sellable)
 						if sellable == false then
-							TriggerEvent('dopeNotify:Alert', "Fahrzeughändler",_U('not_sellable'), 5000, 'error')
+							TriggerEvent('dopeNotify:Alert', _U('vehicleshop'),_U('not_sellable'), 5000, 'error')
 						else
 							if vehicleSold then
 								ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
-								TriggerEvent('dopeNotify:Alert', "Fahrzeughändler",_U('vehicle_sold_for', CurrentActionData.label, ESX.Math.GroupDigits(CurrentActionData.price)), 5000, 'success')
+								TriggerEvent('dopeNotify:Alert', _U('vehicleshop'),_U('vehicle_sold_for', CurrentActionData.label, ESX.Math.GroupDigits(CurrentActionData.price)), 5000, 'success')
 							else
-								TriggerEvent('dopeNotify:Alert', "Fahrzeughändler",_U('not_yours'), 5000, 'error')
+								TriggerEvent('dopeNotify:Alert', _U('vehicleshop'),_U('not_yours'), 5000, 'error')
 							end
 						end
 					end, CurrentActionData.plate, CurrentActionData.model, CurrentActionData.sellable)

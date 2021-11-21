@@ -140,7 +140,7 @@ ESX.RegisterServerCallback('esx_vehicleshop:resellVehicle', function (source, cb
 	end
 
 	if resellPrice == 0 then
-		TriggerClientEvent('dopeNotify:Alert', source, "Fahrzeughändler", "Das Auto gehört nicht dir!", 5000, 'error')
+		TriggerClientEvent('dopeNotify:Alert', source, _U('vehicleshop'), "Das Auto gehört nicht dir!", 5000, 'error')
 		cb(false)
 	end
 
