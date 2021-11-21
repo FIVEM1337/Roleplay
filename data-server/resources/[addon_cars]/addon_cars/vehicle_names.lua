@@ -7,4 +7,8 @@ Citizen.CreateThread(function()
 
 	--LAMBORGHINI
 	AddTextEntry('urus2021', 'Lamborghini Urus 2021')
+
+	--MCLAREN
+	AddTextEntry('p1wide', 'McLaren P1')
+
 end)
