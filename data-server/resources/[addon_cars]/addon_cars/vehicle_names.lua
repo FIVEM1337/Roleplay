@@ -4,4 +4,7 @@ Citizen.CreateThread(function()
 	AddTextEntry('skyliner34', 'Nissan Skyline GT-R R34')
 	--PORSCHE
 	AddTextEntry('911ts2021', 'Porsche 911 Turbo S 2021')
+
+	--LAMBORGHINI
+	AddTextEntry('urus2021', 'Lamborghini Urus 2021')
 end)
