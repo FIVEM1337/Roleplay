@@ -14,16 +14,16 @@ end)
 Citizen.CreateThread(function()
 	Citizen.Wait(2000) -- hopefully enough for connection to the SQL server
 
-	if not hasSqlRun then
+	while true do
 		LoadShop()
-		hasSqlRun = true
+		Citizen.Wait(20000)
 	end
 end)
 
 function LoadShop()
+	ShopItems = {}
 	local itemResult = MySQL.Sync.fetchAll('SELECT * FROM items')
 	local shopResult = MySQL.Sync.fetchAll('SELECT * FROM shops')
-
 	local itemInformation = {}
 	for i=1, #itemResult, 1 do
 
@@ -54,10 +54,6 @@ function LoadShop()
 end
 
 ESX.RegisterServerCallback('esx_shops:requestDBItems', function(source, cb)
-	if not hasSqlRun then
-		TriggerClientEvent('esx:showNotification', source, 'The shop database has not been loaded yet, try again in a few moments.')
-	end
-
 	cb(ShopItems)
 end)
 

@@ -26,25 +26,38 @@ function OpenShopMenu(zone)
     local isEmpty = true
 	local items = {}
 
-    for i=1, #Config.Zones[zone].Items, 1 do
-        local item = Config.Zones[zone].Items[i]
+	ESX.TriggerServerCallback('esx_shops:requestDBItems', function(ShopItems)
+		for k,v in pairs(ShopItems) do
+			if k == zone then
+				print("--start---")
+				for x,item in pairs(v) do
+					isEmpty = false
+					print(isEmpty)
 
-		if item.name ~= nil then
-			isEmpty = false
+					label = item.label
+					name = item.item
+					price = item.price
+					limit = item.limit
+
+					table.insert(items, {
+						type = "shop",
+						name = name,
+						price = price
+					})
+
+				end
+				print("--start---")
+			end
 		end
 
-        table.insert(items, {
-            type = item.type,
-            name = item.name,
-            price = item.price
-        })
-    end
+		if (isEmpty == false) then
+			TriggerEvent('inventory:openShop', tostring(zone), 'Shop', items)
+		else
+			ESX.ShowNotification("Derzeit gibt es hier nichts kaufen.")
+		end
 
-	if (isEmpty == false) then
-    	TriggerEvent('inventory:openShop', tostring(zone), 'Shop', items)
-	else
-		ESX.ShowNotification("Derzeit gibt es hier nichts kaufen.")
-	end
+	end)
+
 end
 
 AddEventHandler('esx_shops:hasEnteredMarker', function(zone)
