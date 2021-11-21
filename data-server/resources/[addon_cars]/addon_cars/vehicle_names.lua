@@ -11,4 +11,6 @@ Citizen.CreateThread(function()
 	--MCLAREN
 	AddTextEntry('p1wide', 'McLaren P1')
 
+	--Ford
+	AddTextEntry('mustang_ho', 'Ford Mustang Hoonigan')
 end)
