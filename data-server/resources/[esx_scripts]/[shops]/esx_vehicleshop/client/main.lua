@@ -131,6 +131,7 @@ RegisterNUICallback('BuyVehicle', function(data, cb)
 					TriggerServerEvent('esx_vehicleshop:setVehicleOwned', vehicleProps)
 				end
 				TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('vehicle_purchased'), 5000, 'success')
+				
 			end)
 		else
 			TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('not_enough_money'), 5000, 'error')
