@@ -82,14 +82,13 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
 
     local xPlayer = ESX.GetPlayerFromId(src)
     if not xPlayer then return end
-
     if otherInv.type == 'shop' then
         if item.type == 'item_weapon' then
             if not xPlayer.hasWeapon(item.name) and xPlayer.getMoney() >= item.count then
                 xPlayer.removeMoney(item.count)
                 xPlayer.addWeapon(item.name, item.count)
                 TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> purchased!'):format(count, item.label))
-                DiscordLog(xPlayer.getName() .. " has purchased a " .. item.label)
+                TriggerEvent('CryptoHooker:SendBuyLog', src, item, count, count * item.count)
             else 
                 TriggerClientEvent('inventory:notify', src, 'error', 'You already have this weapon!')
             end
@@ -100,7 +99,7 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                         xPlayer.removeMoney(count * item.count)
                         xPlayer.addInventoryItem(item.name, count)
                         TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> purchased!'):format(count, item.label))
-                        DiscordLog(xPlayer.getName() .. " has purchased " .. count .. " " .. item.label) 
+                        TriggerEvent('CryptoHooker:SendBuyLog', src, item, count, count * item.count)
                     else 
                         TriggerClientEvent('inventory:notify', src, 'error', 'Cannot afford this item!')
                     end
@@ -114,7 +113,7 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                         xPlayer.removeMoney(count * item.count)
                         xPlayer.addInventoryItem(item.name, count)
                         TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> purchased!'):format(count, item.label))
-                        DiscordLog(xPlayer.getName() .. " has purchased " .. count .. " " .. item.label)
+                        TriggerEvent('CryptoHooker:SendBuyLog', src, item, count, count * item.count)
                     else 
                         TriggerClientEvent('inventory:notify', src, 'error', 'Cannot afford this item!')
                     end
@@ -139,14 +138,14 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                     target.removeMoney(count)
                     xPlayer.addMoney(count)
                     TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, 'Your Inventory'))
-                    DiscordLog(target.getName() .. " has transferred " .. count .. " " .. item.label .. " to " .. xPlayer.getName())
+                    TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, target.getName(), xPlayer.getName())
                 end
             else 
                 if target.getAccount(item.name).money >= count then
                     target.removeAccountMoney(item.name, count)
                     xPlayer.addAccountMoney(item.name, count)
                     TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, 'Your Inventory'))
-                    DiscordLog(target.getName() .. " has transferred " .. count .. " " .. item.label .. " to " .. xPlayer.getName())
+                    TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, target.getName(), xPlayer.getName())
                 end
             end
         elseif item.type == 'item_weapon' then
@@ -155,7 +154,7 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                     target.removeWeapon(item.name)
                     xPlayer.addWeapon(item.name, item.count)
                     TriggerClientEvent('inventory:notify', src, 'success', ('<b>%s</b> moved to <b>%s</b>!'):format(item.label, 'Your Inventory'))
-                    DiscordLog(target.getName() .. " has transferred a " .. item.label .. " to " .. xPlayer.getName())
+                    TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, target.getName(), xPlayer.getName())
                 else 
                     TriggerClientEvent('inventory:notify', src, 'error', 'You already have this weapon!')
                 end
@@ -167,7 +166,7 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                         target.removeInventoryItem(item.name, count)
                         xPlayer.addInventoryItem(item.name, count)
                         TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, 'Your Inventory'))
-                        DiscordLog(target.getName() .. " has transferred " .. count .. " " .. item.label .. " to " .. xPlayer.getName())
+                        TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, target.getName(), xPlayer.getName())
                     else 
                         TriggerClientEvent('inventory:notify', src, 'error', 'Inventory Full!')
                     end
@@ -177,7 +176,7 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                         target.removeInventoryItem(item.name, count)
                         xPlayer.addInventoryItem(item.name, count)
                         TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, 'Your Inventory'))
-                        DiscordLog(target.getName() .. " has transferred " .. count .. " " .. item.label .. " to " .. xPlayer.getName())
+                        TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, target.getName(), xPlayer.getName())
                     else 
                         TriggerClientEvent('inventory:notify', src, 'error', 'Limit Reached')
                     end
@@ -190,13 +189,13 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                 RemoveItemFromInventory(xPlayer, item, count, otherInv, function()
                     xPlayer.addMoney(count)
                     TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, 'Your Inventory'))
-                    DiscordLog(xPlayer.getName() .. " has removed " .. count .. " " .. item.label .. " from " .. otherInv.title)
+                    TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, otherInv.title, xPlayer.getName())
                 end)
             else 
                 RemoveItemFromInventory(xPlayer, item, count, otherInv, function()
                     xPlayer.addAccountMoney(item.name, count)
                     TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, 'Your Inventory'))
-                    DiscordLog(xPlayer.getName() .. " has removed " .. count .. " " .. item.label .. " from " .. otherInv.title)
+                    TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, otherInv.title, xPlayer.getName())
                 end)
             end
         elseif item.type == 'item_weapon' then
@@ -204,7 +203,7 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                 RemoveItemFromInventory(xPlayer, item, item.count, otherInv, function()
                     xPlayer.addWeapon(item.name, item.count)
                     TriggerClientEvent('inventory:notify', src, 'success', ('<b>%s</b> moved to <b>%s</b>!'):format(item.label, 'Your Inventory'))
-                    DiscordLog(xPlayer.getName() .. " has removed a " .. item.label .. " from " .. otherInv.title)
+                    TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, otherInv.title, xPlayer.getName())
                 end)
             else 
                 TriggerClientEvent('inventory:notify', src, 'error', 'You already have this weapon!')
@@ -215,7 +214,7 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                     RemoveItemFromInventory(xPlayer, item, count, otherInv, function()
                         xPlayer.addInventoryItem(item.name, count)
                         TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, 'Your Inventory'))
-                        DiscordLog(xPlayer.getName() .. " has removed " .. count .. " " .. item.label .. " from " .. otherInv.title)
+                        TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, otherInv.title, xPlayer.getName())
                     end)
                 else 
                     TriggerClientEvent('inventory:notify', src, 'error', 'Inventory Full!')
@@ -226,7 +225,7 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                     RemoveItemFromInventory(xPlayer, item, count, otherInv, function()
                         xPlayer.addInventoryItem(item.name, count)
                         TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, 'Your Inventory'))
-                        DiscordLog(xPlayer.getName() .. " has removed " .. count .. " " .. item.label .. " from " .. otherInv.title)
+                        TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, otherInv.title, xPlayer.getName())
                     end)
                 else 
                     TriggerClientEvent('inventory:notify', src, 'error', 'Limit Reached!')
@@ -255,14 +254,14 @@ RegisterNetEvent('inventory:moveItemToOther', function(item, count, otherInv)
                     xPlayer.removeMoney(count)
                     target.addMoney(count)
                     TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, otherInv.title))
-                    DiscordLog(xPlayer.getName() .. " has added " .. count .. " " .. item.label .. " to " .. target.getName())
+                    TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), target.getName())
                 end
             else 
                 if xPlayer.getAccount(item.name).money >= count then
                     xPlayer.removeAccountMoney(item.name, count)
                     target.addAccountMoney(item.name, count)
                     TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, otherInv.title))
-                    DiscordLog(xPlayer.getName() .. " has added " .. count .. " " .. item.label .. " to " .. target.getName())
+                    TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), target.getName())
                 end
             end
         elseif item.type == 'item_weapon' then
@@ -271,7 +270,7 @@ RegisterNetEvent('inventory:moveItemToOther', function(item, count, otherInv)
                     xPlayer.removeWeapon(item.name)
                     target.addWeapon(item.name, item.count)
                     TriggerClientEvent('inventory:notify', src, 'success', ('<b>%s</b> moved to <b>%s</b>!'):format(item.label, otherInv.title)) 
-                    DiscordLog(xPlayer.getName() .. " has added a " .. item.label .. " to " .. target.getName())
+                    TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), target.getName())
                 else 
                     TriggerClientEvent('inventory:notify', src, 'error', 'The player already has this weapon')
                 end
@@ -283,7 +282,7 @@ RegisterNetEvent('inventory:moveItemToOther', function(item, count, otherInv)
                         xPlayer.removeInventoryItem(item.name, count)
                         target.addInventoryItem(item.name, count)
                         TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, otherInv.title)) 
-                        DiscordLog(xPlayer.getName() .. " has added " .. count .. " " .. item.label .. " to " .. target.getName())
+                        TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), target.getName())
                     else 
                         TriggerClientEvent('inventory:notify', src, 'error', 'The players Inventory is Full!')
                     end
@@ -293,7 +292,7 @@ RegisterNetEvent('inventory:moveItemToOther', function(item, count, otherInv)
                         xPlayer.removeInventoryItem(item.name, count)
                         target.addInventoryItem(item.name, count)
                         TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, otherInv.title)) 
-                        DiscordLog(xPlayer.getName() .. " has added " .. count .. " " .. item.label .. " to " .. target.getName())
+                        TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), target.getName())
                     else 
                         TriggerClientEvent('inventory:notify', src, 'error', 'The players limit is reached!')
                     end
@@ -307,7 +306,7 @@ RegisterNetEvent('inventory:moveItemToOther', function(item, count, otherInv)
                     AddItemToInventory(xPlayer, item, count, otherInv, function()
                         xPlayer.removeMoney(count)
                         TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, otherInv.title))
-                        DiscordLog(xPlayer.getName() .. " has added " .. count .. " " .. item.label .. " to " .. otherInv.title)
+                        TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), otherInv.title)
                     end)
                 end
             else 
@@ -315,7 +314,7 @@ RegisterNetEvent('inventory:moveItemToOther', function(item, count, otherInv)
                     AddItemToInventory(xPlayer, item, count, otherInv, function()
                         xPlayer.removeAccountMoney(item.name, count)
                         TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, otherInv.title))
-                        DiscordLog(xPlayer.getName() .. " has added " .. count .. " " .. item.label .. " to " .. otherInv.title)
+                        TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), otherInv.title)
                     end)
                 end
             end
@@ -324,7 +323,7 @@ RegisterNetEvent('inventory:moveItemToOther', function(item, count, otherInv)
                 AddItemToInventory(xPlayer, item, item.count, otherInv, function()
                     xPlayer.removeWeapon(item.name)
                     TriggerClientEvent('inventory:notify', src, 'success', ('<b>%s</b> moved to <b>%s</b>!'):format(item.label, otherInv.title))
-                    DiscordLog(xPlayer.getName() .. " has added a " .. item.label .. " to " .. otherInv.title)
+                    TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), otherInv.title)
                 end)
             end
         elseif item.type == 'item_standard' then
@@ -332,7 +331,7 @@ RegisterNetEvent('inventory:moveItemToOther', function(item, count, otherInv)
                 AddItemToInventory(xPlayer, item, count, otherInv, function()
                     xPlayer.removeInventoryItem(item.name, count)
                     TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, otherInv.title))
-                    DiscordLog(xPlayer.getName() .. " has added " .. count .. " " .. item.label .. " to " .. otherInv.title)
+                    TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), otherInv.title)
                 end)
             end
         end
@@ -402,14 +401,14 @@ RegisterNetEvent('inventory:removeItem', function(item, count, coords)
                 xPlayer.removeMoney(count)
                 CreateDrop(item, count, coords)
                 TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> <b>%s</b>!'):format(count, item.label, 'Dropped'))
-                DiscordLog(xPlayer.getName() .. " has dropped " .. count .. " " .. item.label)
+                TriggerEvent('CryptoHooker:SendDropLog', src, item, count, coords)
             end
         else 
             if xPlayer.getAccount(item.name).money >= count then
                 xPlayer.removeAccountMoney(item.name, count)
                 CreateDrop(item, count, coords)
                 TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> <b>%s</b>!'):format(count, item.label, 'Dropped'))
-                DiscordLog(xPlayer.getName() .. " has dropped " .. count .. " " .. item.label)
+                TriggerEvent('CryptoHooker:SendDropLog', src, item, count, coords)
             end
         end
     elseif item.type == 'item_weapon' then
@@ -417,14 +416,14 @@ RegisterNetEvent('inventory:removeItem', function(item, count, coords)
             xPlayer.removeWeapon(item.name)
             CreateDrop(item, item.count, coords)
             TriggerClientEvent('inventory:notify', src, 'success', ('<b>%s</b> <b>%s</b>!'):format(item.label, 'Dropped'))
-            DiscordLog(xPlayer.getName() .. " has dropped a " .. item.label)
+            TriggerEvent('CryptoHooker:SendDropLog', src, item, count, coords)
         end
     elseif item.type == 'item_standard' then
         if xPlayer.getInventoryItem(item.name).count >= count then
             xPlayer.removeInventoryItem(item.name, count)
             CreateDrop(item, count, coords)
             TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> <b>%s</b>!'):format(count, item.label, 'Dropped'))
-            DiscordLog(xPlayer.getName() .. " has dropped " .. count .. " " .. item.label)
+            TriggerEvent('CryptoHooker:SendDropLog', src, item, count, coords)
         end
     end
 

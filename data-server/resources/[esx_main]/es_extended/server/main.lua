@@ -368,6 +368,7 @@ AddEventHandler('esx:useItem', function(itemName)
 
 	if count > 0 then
 		ESX.UseItem(source, itemName)
+		TriggerEvent('CryptoHooker:SendUseLog', source, itemName, "1")
 	else
 		xPlayer.showNotification(_U('act_imp'))
 	end
