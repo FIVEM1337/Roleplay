@@ -160,6 +160,7 @@ garagecoord = {
     {
         garage = "Police Garage", --PALETO
         job = "police",
+        job_garage = true,
         Type = "car",
         Dist = 10,
         Blip = {color = 38, sprite = 662, scale = 0.6},
@@ -170,11 +171,6 @@ garagecoord = {
         spawn_y = -1015.4301757813,
         spawn_z = 28.840564727783,
         heading = 85.93824005127,
-        default_vehicle = { -- the vehicle listed here is like a goverment property and can be used for patrol etc. (this can be used in other garage, public or other job garage)
-            [1] = {model = 'police', name = 'Police', type = 'car', grade = 1, plateprefix = 'LSPD'}, -- minimum grade
-            [2] = {model = 'police2', name = 'Police 2', type = 'car', grade = 1, plateprefix = 'LSPD'}, -- minimum grade
-            [3] = {model = 'police3', name = 'Police 3', type = 'car', grade = 1, plateprefix = 'LSPD'}, -- minimum grade
-        },
     },
     {
         garage = "Police Public Garage", -- public garage job
@@ -195,6 +191,7 @@ garagecoord = {
     {
         garage = "Sheriff Garage", --PALETO
         job = "sheriff",
+        job_garage = true,
         Type = "car",
         Dist = 10,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -209,6 +206,7 @@ garagecoord = {
     {
         garage = "Sheriff Garage", --PALETO
         job = "sheriff",
+        job_garage = true,
         Type = "car",
         Dist = 10,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -223,6 +221,7 @@ garagecoord = {
     {
         garage = "Hospital Garage", --PALETO
         job = "ambulance",
+        job_garage = true,
         Type = "car",
         Dist = 10,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -237,6 +236,7 @@ garagecoord = {
     {
         garage = "Mechanic Garage", --PALETO
         job = "mechanic",
+        job_garage = true,
         Type = "car",
         Dist = 10,
         Blip = {color = 38, sprite = 289, scale = 0.6},
