@@ -117,18 +117,18 @@ RegisterNUICallback('BuyVehicle', function(data, cb)
 	IsInShopMenu = false
 	TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('wait_vehicle'), 5000, 'info')
 
-    ESX.TriggerServerCallback('esx_vehicleshop:buyVehicle', function(hasEnoughMoney)
+    ESX.TriggerServerCallback('esx_vehicleshop:buyVehicle', function(hasEnoughMoney, CarType, Job)
 		if hasEnoughMoney then
-			ESX.Game.SpawnVehicle(model, Config.Zones.ShopOutside.Pos, Config.Zones.ShopOutside.Heading, function (vehicle)
+			local _Config = Config.Zones[CarType]
+			ESX.Game.SpawnVehicle(model, _Config.Pos, _Config.Heading, function (vehicle)
 				TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
 
 				local newPlate     = GeneratePlate()
 				local vehicleProps = ESX.Game.GetVehicleProperties(vehicle)
 				vehicleProps.plate = newPlate
 				SetVehicleNumberPlateText(vehicle, newPlate)
-
 				if Config.EnableOwnedVehicles then
-					TriggerServerEvent('esx_vehicleshop:setVehicleOwned', vehicleProps)
+					TriggerServerEvent('esx_vehicleshop:setVehicleOwned', vehicleProps, CarType, Job)
 				end
 				TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('vehicle_purchased'), 5000, 'success')
 				
@@ -152,18 +152,39 @@ RegisterCommand('closeshop', function()
 end)
 
 function OpenShopMenu()
+	local _Config = Config.Zones[LastZone]
+	local Allowed_Vehicles   = {}
 
-	local vehicle = {}
+	local count = 0
+	for i=1, #Vehicles, 1 do
+		local vehicle = Vehicles[i]
+		if vehicle.type == _Config.VehType then
+			if vehicle.job ~= "" then
+				if vehicle.job == ESX.PlayerData.job.name then
+					count = count + 1
+					table.insert(Allowed_Vehicles, vehicle)
+				end
+			else
+				count = count + 1
+				table.insert(Allowed_Vehicles, vehicle)
+			end
+		end
+	end
 
-	if not IsInShopMenu then
-		IsInShopMenu = true
-		SetNuiFocus(true, true)
-		
-		SendNUIMessage({
-            show = true,
-			cars = Vehicles,
-			categories = Categories
-        })
+
+	if count > 0 then
+		if not IsInShopMenu then
+			IsInShopMenu = true
+			SetNuiFocus(true, true)
+
+			SendNUIMessage({
+    	        show = true,
+				cars = Allowed_Vehicles,
+				categories = Categories
+    	    })
+		end
+	else
+		TriggerEvent('dopeNotify:Alert', _U('vehicleshop'),"Der Händler hat keine Fahrzeuge zu verkaufen", 5000, 'error')
 	end
 end
 
@@ -174,14 +195,17 @@ AddEventHandler('esx:setJob', function (job)
 end)
 
 AddEventHandler('esx_vehicleshop:hasEnteredMarker', function (zone)
-	if zone == 'ShopEntering' or zone == 'Shop2' or zone == 'Shop3'  then
+	local PlayerData = ESX.GetPlayerData()
+	local _Config = Config.Zones[zone]
+
+	if _Config.VehicleShop then
 
 		CurrentAction     = 'shop_menu'
 		CurrentActionMsg  = _U('shop_menu')
 		CurrentActionData = {}
 		actionDisplayed = true
 
-	elseif zone == 'ResellVehicle' then
+	elseif _Config.VehicleSell then
 		local playerPed = PlayerPedId()
 
 		if IsPedSittingInAnyVehicle(playerPed) then
@@ -256,16 +280,35 @@ end)
 
 -- Create Blips
 Citizen.CreateThread(function ()
-	local blip = AddBlipForCoord(Config.Zones.ShopEntering.Pos.x, Config.Zones.ShopEntering.Pos.y, Config.Zones.ShopEntering.Pos.z)
 
-	SetBlipSprite (blip, 326)
-	SetBlipDisplay(blip, 4)
-	SetBlipScale  (blip, 0.8)
-	SetBlipAsShortRange(blip, true)
+	for k, v in pairs (Config.Zones) do
+		if v.VehicleShop ~= nil then
+			local bliptype = nil
+			local blip = AddBlipForCoord(v.Pos.x, v.Pos.y, v.Pos.z)
 
-	BeginTextCommandSetBlipName("STRING")
-	AddTextComponentString("Vehicle Shop")
-	EndTextCommandSetBlipName(blip)
+			if v.VehType == "car" then
+				bliptype = 326
+			elseif v.VehType == "helicopter" then
+				bliptype = 43
+			elseif v.VehType == "plane" then
+				bliptype = 423
+			elseif v.VehType == "boat" then
+				bliptype = 410
+			else
+				bliptype = 326
+			end
+
+
+			SetBlipSprite (blip, bliptype)
+			SetBlipDisplay(blip, 4)
+			SetBlipScale  (blip, 0.8)
+			SetBlipColour  (blip, 38)
+			SetBlipAsShortRange(blip, true)
+			BeginTextCommandSetBlipName("STRING")
+			AddTextComponentString(v.ShopName)
+			EndTextCommandSetBlipName(blip)
+		end
+	end
 end)
 
 function Draw3DText(x,y,z,text,scale)

@@ -15,31 +15,73 @@ Config.PlateNumbers  = 3
 Config.PlateUseSpace = true
 
 Config.Zones = {
-	
-	ShopEntering = {
+	CarShop = {
+		ShopName = "Authohändler",
+		VehicleShop = true,
 		Pos   = vector3(-43.51, -1105.47, 26.20),
 		Size  = vector3(1.5, 1.5, 1.0),
-		Type  = 36
+		Type  = 36,
+		VehType = "car"
 	},
-	ShopOutside = {
+	PlaneShop = {
+		ShopName = "Flugzeughändler",
+		VehicleShop = true,
+		Pos   = vector3(-935.08, -2965.69, 19.85),
+		Size  = vector3(1.5, 1.5, 1.0),
+		Type  = 36,
+		VehType = "plane"
+	},
+
+	BoatShop = {
+		ShopName = "Boothändler",
+		VehicleShop = true,
+		Pos   = vector3(-835.31, -1337.64, 5),
+		Size  = vector3(1.5, 1.5, 1.0),
+		Type  = 36,
+		VehType = "boat"
+	},
+
+	HeliShop = {
+		ShopName = "Helicopterhändler",
+		VehicleShop = true,
+		Pos   = vector3(-714.55, -1403.35, 5),
+		Size  = vector3(1.5, 1.5, 1.0),
+		Type  = 36,
+		VehType = "helicopter"
+	},
+
+
+	-- Vehicle Spawns
+	car = {
 		Pos   = vector3(-29.16, -1082.18, 26.62),
 		Size  = vector3(1.5, 1.5, 1.0),
 		Heading = 338.17,
 		Type  = -1
 	},
 
-	Shop2 = {
-		Pos   = vector3(-30.08, -1106.94, 26.42),
+	helicopter = {
+		Pos   = vector3(-974.88, -2967.71, 13.95),
 		Size  = vector3(1.5, 1.5, 1.0),
-		Type  = 36
+		Heading = 139.6,
+		Type  = -1
 	},
-	Shop3 = {
-		Pos   = vector3(-55.30, -1097.39, 26.35),
+
+	plane = {
+		Pos   = vector3(-974.88, -2967.71, 13.95),
 		Size  = vector3(1.5, 1.5, 1.0),
-		Type  = 36
+		Heading = 139.6,
+		Type  = -1
+	},
+
+	boat = {
+		Pos   = vector3(-890, -1343.48, 0.12),
+		Size  = vector3(1.5, 1.5, 1.0),
+		Heading = 194.98,
+		Type  = -1
 	},
 
 	ResellVehicle = {
+		VehicleSell = true,
 		Pos   = vector3(-46.14, -1082.73, 25.74),
 		Size  = vector3(3.0, 3.0, 1.0),
 		Type  = 1

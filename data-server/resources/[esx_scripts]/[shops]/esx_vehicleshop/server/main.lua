@@ -44,9 +44,6 @@ AddEventHandler('esx_vehicleshop:sendvehicledata', function ()
 			if Categories[j].name == vehicle.category then
 				vehicle.categoryLabel = Categories[j].label
 
-				if Categories[j].job then
-					print(Categories[j].job)
-				end
 				break
 			end
 		end
@@ -60,45 +57,30 @@ AddEventHandler('esx_vehicleshop:sendvehicledata', function ()
 end)
 
 RegisterServerEvent('esx_vehicleshop:setVehicleOwned')
-AddEventHandler('esx_vehicleshop:setVehicleOwned', function (vehicleProps)
+AddEventHandler('esx_vehicleshop:setVehicleOwned', function (vehicleProps, CarType, Job)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
 
-	MySQL.Async.execute('INSERT INTO owned_vehicles (owner, plate, vehicle) VALUES (@owner, @plate, @vehicle)',
-	{
-		['@owner']   = xPlayer.identifier,
-		['@plate']   = vehicleProps.plate,
-		['@vehicle'] = json.encode(vehicleProps)
-	}, function (rowsChanged)
-	end)
-end)
-
-RegisterServerEvent('esx_vehicleshop:setVehicleOwnedPlayerId')
-AddEventHandler('esx_vehicleshop:setVehicleOwnedPlayerId', function (playerId, vehicleProps)
-	local xPlayer = ESX.GetPlayerFromId(playerId)
-
-	MySQL.Async.execute('INSERT INTO owned_vehicles (owner, plate, vehicle) VALUES (@owner, @plate, @vehicle)',
-	{
-		['@owner']   = xPlayer.identifier,
-		['@plate']   = vehicleProps.plate,
-		['@vehicle'] = json.encode(vehicleProps)
-	}, function (rowsChanged)
-	end) 
-end)
-
-RegisterServerEvent('esx_vehicleshop:setVehicleOwnedSociety')
-AddEventHandler('esx_vehicleshop:setVehicleOwnedSociety', function (society, vehicleProps)
-	local _source = source
-	local xPlayer = ESX.GetPlayerFromId(_source)
-
-	MySQL.Async.execute('INSERT INTO owned_vehicles (owner, plate, vehicle) VALUES (@owner, @plate, @vehicle)',
-	{
-		['@owner']   = 'society:' .. society,
-		['@plate']   = vehicleProps.plate,
-		['@vehicle'] = json.encode(vehicleProps),
-	}, function (rowsChanged)
-
-	end)
+	if Job == nil then
+		MySQL.Async.execute('INSERT INTO owned_vehicles (owner, plate, vehicle, type) VALUES (@owner, @plate, @vehicle, @type)',
+		{
+			['@owner']   = xPlayer.identifier,
+			['@plate']   = vehicleProps.plate,
+			['@vehicle'] = json.encode(vehicleProps),
+			['@type'] = CarType,
+		}, function (rowsChanged)
+		end)
+	else
+		MySQL.Async.execute('INSERT INTO job_vehicles (job, plate, vehicle, type) VALUES (@job, @plate, @vehicle, @type)',
+		{
+			['@job']   = Job,
+			['@plate']   = vehicleProps.plate,
+			['@vehicle'] = json.encode(vehicleProps),
+			['@type'] = CarType,
+			['@stored'] = 0
+		}, function (rowsChanged)
+		end)
+	end
 end)
 
 ESX.RegisterServerCallback('esx_vehicleshop:getCategories', function (source, cb)
@@ -112,24 +94,40 @@ end)
 ESX.RegisterServerCallback('esx_vehicleshop:buyVehicle', function (source, cb, vehicleModel)
 	local xPlayer     = ESX.GetPlayerFromId(source)
 	local vehicleData = nil
+	local Job = nil
+	local CarType = "car"
 	local bankMoney = xPlayer.getAccount('bank').money
 	for i=1, #Vehicles, 1 do
+		local vehicle = Vehicles[i]
 		if Vehicles[i].model == vehicleModel then
 			vehicleData = Vehicles[i]
+	
+			if vehicleData.type ~= "" then
+				CarType = vehicleData.type
+			end
+
+			if vehicleData.job ~= "" then
+				Job = vehicleData.job
+			end
+
 			break
 		end
 	end
 
-	if xPlayer.getMoney() >= vehicleData.price then
-		xPlayer.removeMoney(vehicleData.price)
-		TriggerEvent('CryptoHooker:SendBuyLog', source, vehicleData.name, 1, vehicleData.price)
-		cb(true)
-	else if bankMoney >= vehicleData.price then
-		xPlayer.setAccountMoney('bank',bankMoney-vehicleData.price)
-		TriggerEvent('CryptoHooker:SendBuyLog', source, vehicleData.name, 1, vehicleData.price)
-		cb(true)
+	if Job then
+		cb(true, CarType, Job)
 	else
-		cb(false)
+		if xPlayer.getMoney() >= vehicleData.price then
+			xPlayer.removeMoney(vehicleData.price)
+			TriggerEvent('CryptoHooker:SendBuyLog', source, vehicleData.name, 1, vehicleData.price)
+			cb(true, CarType, nil)
+		else if bankMoney >= vehicleData.price then
+			xPlayer.setAccountMoney('bank',bankMoney-vehicleData.price)
+			TriggerEvent('CryptoHooker:SendBuyLog', source, vehicleData.name, 1, vehicleData.price)
+			cb(true, CarType, nil)
+		else
+			cb(false, CarType, nil)
+		end
 	end
 end
 end)
@@ -163,7 +161,6 @@ ESX.RegisterServerCallback('esx_vehicleshop:resellVehicle', function (source, cb
 	end
 
 	local xPlayer = ESX.GetPlayerFromId(source)
-	print(plate)
 	MySQL.Async.fetchAll('SELECT * FROM owned_vehicles WHERE owner = @owner AND @plate = plate', {
 		['@owner'] = xPlayer.identifier,
 		['@plate'] = plate
@@ -171,7 +168,6 @@ ESX.RegisterServerCallback('esx_vehicleshop:resellVehicle', function (source, cb
 		if result[1] then -- does the owner match?
 
 			local vehicle = json.decode(result[1].vehicle)
-			print(vehicle)
 			if vehicle.model == model then
 				if vehicle.plate == plate then
 					xPlayer.addMoney(resellPrice)

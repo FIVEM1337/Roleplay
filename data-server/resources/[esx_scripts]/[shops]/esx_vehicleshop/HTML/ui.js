@@ -79,7 +79,7 @@ $(document).ready(function(){
         $("#wrapper").html('');
         
         if($(this).data('value') == "buy")
-            $.post('http://esx_vehicleshop/BuyVehicle', JSON.stringify({model: $(this).data('model')}));
+            $.post('http://esx_vehicleshop/BuyVehicle', JSON.stringify({model: $(this).data('model'), type: $(this).data('type')}));
         else if($(this).data('value') == "test-drive")
             $.post('http://esx_vehicleshop/TestDrive', JSON.stringify({model: $(this).data('model')}));
     });
