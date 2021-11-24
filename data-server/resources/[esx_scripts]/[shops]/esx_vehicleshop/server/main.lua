@@ -22,6 +22,18 @@ function RemoveOwnedVehicle(plate)
 end
 
 MySQL.ready(function()
+	TriggerEvent('esx_vehicleshop:test')
+end)
+
+AddEventHandler('onResourceStart', function(resource)
+	if resource == GetCurrentResourceName() and test then
+		TriggerEvent('esx_vehicleshop:test')
+	end
+end)
+
+
+RegisterServerEvent('esx_vehicleshop:test')
+AddEventHandler('esx_vehicleshop:test', function ()
 	Categories     = MySQL.Sync.fetchAll('SELECT * FROM vehicle_categories')
 	local vehicles = MySQL.Sync.fetchAll('SELECT * FROM vehicles')
 
@@ -31,6 +43,10 @@ MySQL.ready(function()
 		for j=1, #Categories, 1 do
 			if Categories[j].name == vehicle.category then
 				vehicle.categoryLabel = Categories[j].label
+
+				if Categories[j].job then
+					print(Categories[j].job)
+				end
 				break
 			end
 		end
