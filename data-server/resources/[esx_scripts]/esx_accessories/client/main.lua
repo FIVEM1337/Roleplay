@@ -214,7 +214,7 @@ Citizen.CreateThread(function()
 			end
 		end
 
-		if (isInMarker and not HasAlreadyEnteredMarker) or (isInMarker and LastZone ~= currentZone) then
+		if isInMarker then
 			HasAlreadyEnteredMarker = true
 			LastZone = currentZone
 			TriggerEvent('esx_accessories:hasEnteredMarker', currentZone)
