@@ -7,9 +7,6 @@ Config.Locale       = 'de'
 
 
 Config.Map = {
-	{name="Unicorn",color=0, id=0,scale=1.0, x= 135.69, y= -1287.83, z= 28.40},
-	{name="MafiaShop",color=0, id=0,scale=1.0, x= 2747.87, y= 3472.69, z= 55.20},
-	{name="Biltema",color=3, id=106,scale=1.0, x= 2747.87, y= 3472.69, z= 55.20},
 	{name="24/7",color=2, id=52,scale=0.8, x = 2557.458,  y = 382.282,  z = 107.622},
 	{name="24/7",color=2, id=52,scale=0.8, x = -3038.939, y = 585.954,  z = 6.908},
 	{name="24/7",color=2, id=52,scale=0.8, x = -3241.927, y = 1001.462, z = 11.830},
@@ -37,18 +34,7 @@ Config.Map = {
 Config.Zones = {
 
 	TwentyFourSeven = {
-		Items = {
-            {
-                 name = "bread",
-                 type = "item",
-                 price = 100
-            },
-			{
-				name = "water",
-				type = "item",
-				price = 100
-		   },
-        }, 
+		Items = {}, 
 		Pos = {
 			{x = 373.875,   y = 325.896,  z = 102.566},
 			{x = 2557.458,  y = 382.282,  z = 107.622},
@@ -63,18 +49,7 @@ Config.Zones = {
 	},
 
 	RobsLiquor = {
-		Items = {
-			{
-				name = "bread",
-				type = "item",
-				price = 100,
-			},
-			{
-				name = "water",
-				type = "item",
-				price = 100,
-			},
-		},
+		Items = {},
 		Pos = {
 			{x = 1135.808,  y = -982.281,  z = 45.415},
 			{x = -1222.915, y = -906.983,  z = 11.326},
@@ -86,33 +61,7 @@ Config.Zones = {
 			{x = -1393.409, y = -606.624,  z = 29.319}, --Tequila la
 			{x = -559.906,  y = 287.093,   z = 81.176}  --Bahamamas
 		}
-	},
-
-	Biltema = {
-		Items = {},
-		Pos = {
-			{x = 2747.95,  y = 3472.7,  z = 54.69}
-			
-		}
-	},
-
-	MafiaShop = {
-		Items = {},
-		Pos = {
-			{x = 1138.03,  y = -3193.89,  z = -41.38}
-			
-		}
-	},
-
-	Unicorn = {
-		Items = {},
-		Pos = {
-			{x = 135.69,  y = -1287.83,  z = 28.40}
-			
-		}
-	},
-
-	
+	},	
 
 	LTDgasoline = {
 		Items = {},
