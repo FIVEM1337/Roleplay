@@ -1452,7 +1452,6 @@ Citizen.CreateThread(function()
 		end -- CurrentAction end
 
 		if IsControlJustReleased(0, 167) and not isDead and ESX.PlayerData.job and ESX.PlayerData.job.name == 'police' and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'police_actions') then
-			print("enter")
 			if not Config.EnableESXService then
 				OpenPoliceActionsMenu()
 			elseif playerInService then
