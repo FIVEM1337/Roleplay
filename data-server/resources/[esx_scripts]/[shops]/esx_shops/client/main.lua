@@ -118,14 +118,13 @@ Citizen.CreateThread(function()
 			for i = 1, #v.Pos, 1 do
 				if(GetDistanceBetweenCoords(coords, v.Pos[i].x, v.Pos[i].y, v.Pos[i].z, true) < Config.Size.x) then
 					isInMarker  = true
-					ShopItems   = v.Items
 					currentZone = k
-					LastZone    = k
 				end
 			end
 		end
-		if isInMarker and not HasAlreadyEnteredMarker then
+		if isInMarker then
 			HasAlreadyEnteredMarker = true
+			LastZone = currentZone
 			TriggerEvent('esx_shops:hasEnteredMarker', currentZone)
 		end
 		if not isInMarker and HasAlreadyEnteredMarker then
