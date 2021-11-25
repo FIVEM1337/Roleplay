@@ -1,15 +1,13 @@
 resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
 
-dependency 'es_extended'
-
 client_scripts {
-    '@es_extended/locale.lua',
-    'vs_client.lua',
+    'util.lua',
     'config.lua',
+    'vs_client.lua',
 }
 
 server_scripts {
-    '@es_extended/locale.lua',
-    'vs_server.lua',
+    'util.lua',
     'config.lua',
+    'vs_server.lua',
 }
