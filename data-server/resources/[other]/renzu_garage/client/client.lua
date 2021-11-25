@@ -73,7 +73,7 @@ Citizen.CreateThread(function()
                 SetBlipAsShortRange(blip, true)
                 BeginTextCommandSetBlipName('STRING')
                 if Config.BlipNamesStatic then
-                    AddTextComponentSubstringPlayerName("Impound")
+                    AddTextComponentSubstringPlayerName("Abschlepphof")
                 else
                     AddTextComponentSubstringPlayerName("Garage: "..v.garage.."")
                 end
