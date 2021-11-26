@@ -7,14 +7,12 @@ description 'AESX Admin Panel'
 version '1.0.0'
 
 client_scripts {
-	'client/main.lua',
-	'client/solarSync.lua'
+	'client/main.lua'
 }
 
 server_scripts {
 	'@mysql-async/lib/MySQL.lua',
-	'server/main.lua',
-	'server/solarSync.lua'
+	'server/main.lua'
 }
 
 shared_script {
