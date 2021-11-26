@@ -43,6 +43,8 @@ Config = {
 			Visor : V.
 ]]--
 
+Config.EnableCommands = false
+
 Config.Commands = {
 	[Lang("TOP")] = {
 		Func = function() ToggleClothing("Top") end,

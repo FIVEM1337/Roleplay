@@ -337,16 +337,18 @@ function DevTestVariants(d) -- If debug mode is enabled we can try all the varia
 	end
 end
 
-for k,v in pairs(Config.Commands) do
-	RegisterCommand(k, v.Func)
-	--log("Created /"..k.." ("..v.Desc..")") -- Useful for translation checking.
-	TriggerEvent("chat:addSuggestion", "/"..k, v.Desc)
-end
-if Config.ExtrasEnabled then
-	for k,v in pairs(Config.ExtraCommands) do
+if Config.EnableCommands then
+	for k,v in pairs(Config.Commands) do
 		RegisterCommand(k, v.Func)
 		--log("Created /"..k.." ("..v.Desc..")") -- Useful for translation checking.
 		TriggerEvent("chat:addSuggestion", "/"..k, v.Desc)
+	end
+	if Config.ExtrasEnabled then
+		for k,v in pairs(Config.ExtraCommands) do
+			RegisterCommand(k, v.Func)
+			--log("Created /"..k.." ("..v.Desc..")") -- Useful for translation checking.
+			TriggerEvent("chat:addSuggestion", "/"..k, v.Desc)
+		end
 	end
 end
 
