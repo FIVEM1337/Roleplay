@@ -41,7 +41,7 @@ Config.Weights = {
 Config.Player = true -- toggle player plugin on/off
 Config.Glovebox = true -- toggle glovebox on/off
 Config.Trunk = true -- toggle trunk plugin on/off
-Config.Rob = true -- toggle rob plugin on/off
+Config.Rob = false -- toggle rob plugin on/off
 
 -- Rob
 
