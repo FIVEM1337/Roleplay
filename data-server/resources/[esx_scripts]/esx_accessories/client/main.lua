@@ -5,6 +5,7 @@ local CurrentAction				= nil
 local CurrentActionMsg			= ''
 local CurrentActionData			= {}
 local isDead					= false
+local NotificationShow = false
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -151,6 +152,10 @@ AddEventHandler('esx:onPlayerDeath', function()
 end)
 
 AddEventHandler('esx_accessories:hasEnteredMarker', function(zone)
+	if not NotificationShow then
+		NotificationShow = true
+		ESX.ShowHelpNotification(CurrentActionMsg)
+	end
 	CurrentAction     = 'shop_menu'
 	CurrentActionMsg  = _U('press_access')
 	CurrentActionData = { accessory = zone }
@@ -159,6 +164,7 @@ end)
 AddEventHandler('esx_accessories:hasExitedMarker', function(zone)
 	ESX.UI.Menu.CloseAll()
 	CurrentAction = nil
+	NotificationShow = false
 end)
 
 -- Create Blips --
@@ -234,7 +240,6 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		
 		if CurrentAction ~= nil then
-			ESX.ShowHelpNotification(CurrentActionMsg)
 
 			if IsControlJustReleased(0, 38) and CurrentActionData.accessory then
 				OpenShopMenu(CurrentActionData.accessory)
