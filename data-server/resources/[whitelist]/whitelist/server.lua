@@ -91,12 +91,16 @@ AddEventHandler("playerConnecting", function(name, setCallback, deferrals)
     for k, v in ipairs(GetPlayerIdentifiers(src)) do
         if string.sub(v, 1, string.len("discord:")) == "discord:" then
             identifierDiscord = v
-        end
+		end
         if string.sub(v, 1, string.len("steam")) == "steam" then
             identifierSteam = v
-        end
-
+		end
+		if string.sub(v, 1, string.len("ip:")) == "ip:" then
+			ip = string.gsub(v, "ip:", "")
+			identifierIP = ip
+		end
     end
+
 	if identifierSteam then
     	if identifierDiscord then
     	    if IsRolePresent(src) then
