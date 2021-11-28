@@ -43,7 +43,7 @@ Config = {
 			Visor : V.
 ]]--
 
-Config.EnableCommands = false
+Config.EnableCommands = true
 
 Config.Commands = {
 	[Lang("TOP")] = {
