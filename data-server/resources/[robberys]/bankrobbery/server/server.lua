@@ -8,8 +8,8 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 Banks = Config.Banks
 Safes = Config.Safes
 		
-RegisterServerEvent('t1ger_bankrobbery:SafeDataSV')
-AddEventHandler('t1ger_bankrobbery:SafeDataSV', function(type, id, state)
+RegisterServerEvent('bankrobbery:SafeDataSV')
+AddEventHandler('bankrobbery:SafeDataSV', function(type, id, state)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	if type == "robbed" then
 		Safes[id].robbed = state
@@ -17,11 +17,11 @@ AddEventHandler('t1ger_bankrobbery:SafeDataSV', function(type, id, state)
 		Safes[id].failed = state
 	end
 	Wait(100)
-	TriggerClientEvent('t1ger_bankrobbery:SafeDataCL', -1, type, id, state)
+	TriggerClientEvent('bankrobbery:SafeDataCL', -1, type, id, state)
 end)
 
-RegisterServerEvent('t1ger_bankrobbery:ResetCurrentBankSV')
-AddEventHandler('t1ger_bankrobbery:ResetCurrentBankSV', function()
+RegisterServerEvent('bankrobbery:ResetCurrentBankSV')
+AddEventHandler('bankrobbery:ResetCurrentBankSV', function()
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
 	-- Banks:
@@ -46,7 +46,7 @@ AddEventHandler('t1ger_bankrobbery:ResetCurrentBankSV', function()
 		Safes[i].robbed = false
 		Safes[i].failed = false
     end
-	TriggerClientEvent('t1ger_bankrobbery:ResetCurrentBankCL', -1)
+	TriggerClientEvent('bankrobbery:ResetCurrentBankCL', -1)
 
 	-- Secure News:
 	local xPlayers = ESX.GetPlayers()
@@ -59,7 +59,7 @@ AddEventHandler('t1ger_bankrobbery:ResetCurrentBankSV', function()
 end) 
 
 -- Drill:
-ESX.RegisterServerCallback('t1ger_bankrobbery:drillItem',function(source,cb)
+ESX.RegisterServerCallback('bankrobbery:drillItem',function(source,cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local gotItem = xPlayer.getInventoryItem(Config.DrillItem).count >= 1
 	if gotItem then
@@ -71,7 +71,7 @@ ESX.RegisterServerCallback('t1ger_bankrobbery:drillItem',function(source,cb)
 end)
 
 -- Hacker Device:
-ESX.RegisterServerCallback('t1ger_bankrobbery:hackerDevice',function(source,cb)
+ESX.RegisterServerCallback('bankrobbery:hackerDevice',function(source,cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local gotItem = xPlayer.getInventoryItem(Config.HackItem ).count >= 1
 	if gotItem then
@@ -83,7 +83,7 @@ ESX.RegisterServerCallback('t1ger_bankrobbery:hackerDevice',function(source,cb)
 end)
 
 -- Lockpick:
-ESX.RegisterServerCallback('t1ger_bankrobbery:lockpickItem',function(source,cb)
+ESX.RegisterServerCallback('bankrobbery:lockpickItem',function(source,cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local gotItem = xPlayer.getInventoryItem(Config.LockPick).count >= 1
 	if gotItem then
@@ -95,7 +95,7 @@ ESX.RegisterServerCallback('t1ger_bankrobbery:lockpickItem',function(source,cb)
 end)
 
 -- Hammer & WireCutter:
-ESX.RegisterServerCallback('t1ger_bankrobbery:hammerWireCutterItem',function(source,cb)
+ESX.RegisterServerCallback('bankrobbery:hammerWireCutterItem',function(source,cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local gotItem = xPlayer.getInventoryItem(Config.HammerWireCutter).count >= 1
 	if gotItem then
@@ -107,7 +107,7 @@ ESX.RegisterServerCallback('t1ger_bankrobbery:hammerWireCutterItem',function(sou
 end)
 
 -- Access Card:
-ESX.RegisterServerCallback('t1ger_bankrobbery:accessCard',function(source,cb)
+ESX.RegisterServerCallback('bankrobbery:accessCard',function(source,cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local gotItem = xPlayer.getInventoryItem(Config.AccessCard).count >= 1
 	if gotItem then
@@ -118,7 +118,7 @@ ESX.RegisterServerCallback('t1ger_bankrobbery:accessCard',function(source,cb)
 end)
 
 -- Callback to remove item:
-ESX.RegisterServerCallback('t1ger_bankrobbery:removeItem',function(source,cb,item)
+ESX.RegisterServerCallback('bankrobbery:removeItem',function(source,cb,item)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local gotItem = xPlayer.getInventoryItem(item).count >= 1
 	if gotItem then
@@ -127,8 +127,8 @@ ESX.RegisterServerCallback('t1ger_bankrobbery:removeItem',function(source,cb,ite
 end)
 
 -- Safe Reward:
-RegisterServerEvent('t1ger_bankrobbery:safeReward')
-AddEventHandler('t1ger_bankrobbery:safeReward', function()
+RegisterServerEvent('bankrobbery:safeReward')
+AddEventHandler('bankrobbery:safeReward', function()
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
 	-- Chance to keep drill:
@@ -158,28 +158,28 @@ AddEventHandler('t1ger_bankrobbery:safeReward', function()
 				itemName = tostring(v.item)
 			end
 			xPlayer.addInventoryItem(v.item,itemAmount)
-			TriggerClientEvent('t1ger_bankrobbery:ShowNotifyESX', xPlayer.source, (Lang['drill_item_not_usable']:format(itemName,itemAmount)))
+			TriggerClientEvent('bankrobbery:ShowNotifyESX', xPlayer.source, (Lang['drill_item_not_usable']:format(itemName,itemAmount)))
 		end
 	end
 end)
 
-RegisterServerEvent('t1ger_bankrobbery:giveItem')
-AddEventHandler('t1ger_bankrobbery:giveItem', function(item)
+RegisterServerEvent('bankrobbery:giveItem')
+AddEventHandler('bankrobbery:giveItem', function(item)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	xPlayer.addInventoryItem(item,1)
 end)
 
 -- Event for police alerts
-RegisterServerEvent('t1ger_bankrobbery:PoliceNotifySV')
-AddEventHandler('t1ger_bankrobbery:PoliceNotifySV', function(targetCoords, streetName, name)
-	TriggerClientEvent('t1ger_bankrobbery:PoliceNotifyCL', -1, (Lang['police_notify']):format(name,streetName))
-	TriggerClientEvent('t1ger_bankrobbery:PoliceNotifyBlip', -1, targetCoords)
+RegisterServerEvent('bankrobbery:PoliceNotifySV')
+AddEventHandler('bankrobbery:PoliceNotifySV', function(targetCoords, streetName, name)
+	TriggerClientEvent('bankrobbery:PoliceNotifyCL', -1, (Lang['police_notify']):format(name,streetName))
+	TriggerClientEvent('bankrobbery:PoliceNotifyBlip', -1, targetCoords)
 end)
 
 -- Event for police silent alarm
-RegisterServerEvent('t1ger_bankrobbery:SilentAlarmSV')
-AddEventHandler('t1ger_bankrobbery:SilentAlarmSV', function(name)
-	TriggerClientEvent('t1ger_bankrobbery:PoliceNotifyCL', -1, (Lang['silent_alarm']):format(name))
+RegisterServerEvent('bankrobbery:SilentAlarmSV')
+AddEventHandler('bankrobbery:SilentAlarmSV', function(name)
+	TriggerClientEvent('bankrobbery:PoliceNotifyCL', -1, (Lang['silent_alarm']):format(name))
 end)
 
 -- get police online:
@@ -192,16 +192,16 @@ function getPoliceCount()
 			PoliceOnline = PoliceOnline + 1
 		end
 	end
-	TriggerClientEvent('t1ger_bankrobbery:getPoliceCount', -1, PoliceOnline)
+	TriggerClientEvent('bankrobbery:getPoliceCount', -1, PoliceOnline)
 	SetTimeout(30 * 1000, getPoliceCount)
 end
 
 -- Cash Grab:
-RegisterServerEvent('t1ger_bankrobbery:deskCashSV')
-AddEventHandler('t1ger_bankrobbery:deskCashSV', function(id, num, state)
+RegisterServerEvent('bankrobbery:deskCashSV')
+AddEventHandler('bankrobbery:deskCashSV', function(id, num, state)
     local xPlayer = ESX.GetPlayerFromId(source)
 	Banks[id].deskCash[num].robbed = state
-	TriggerClientEvent('t1ger_bankrobbery:deskCashCL', -1, id, num, state)
+	TriggerClientEvent('bankrobbery:deskCashCL', -1, id, num, state)
 	-- money reward:
 	local amount = math.random(Banks[id].deskCash[num].reward.min,Banks[id].deskCash[num].reward.max)
 	if Banks[id].deskCash[num].reward.dirty then
@@ -209,25 +209,25 @@ AddEventHandler('t1ger_bankrobbery:deskCashSV', function(id, num, state)
 	else
 		xPlayer.addAccountMoney('black_money', amount)
 	end 
-	--TriggerClientEvent('t1ger_bankrobbery:ShowNotifyESX', xPlayer.source, (Lang['drill_item_not_usable']:format(itemName,itemAmount)))
-	TriggerClientEvent('t1ger_bankrobbery:ShowNotifyESX', xPlayer.source, "~g~"..amount.."$~s~ gestohlen")
+	--TriggerClientEvent('bankrobbery:ShowNotifyESX', xPlayer.source, (Lang['drill_item_not_usable']:format(itemName,itemAmount)))
+	TriggerClientEvent('bankrobbery:ShowNotifyESX', xPlayer.source, "~g~"..amount.."$~s~ gestohlen")
 end)
 
 -- ## POWER BOX ## --
 
 alertTime = nil
-RegisterServerEvent('t1ger_bankrobbery:powerBoxSV')
-AddEventHandler('t1ger_bankrobbery:powerBoxSV', function(id, state, timer)
+RegisterServerEvent('bankrobbery:powerBoxSV')
+AddEventHandler('bankrobbery:powerBoxSV', function(id, state, timer)
     local xPlayer = ESX.GetPlayerFromId(source)
 	Banks[id].powerBox.disabled = state
 	alertTime = timer
-	TriggerClientEvent('t1ger_bankrobbery:powerBoxCL', -1, id, state, alertTime)
+	TriggerClientEvent('bankrobbery:powerBoxCL', -1, id, state, alertTime)
 end)
 
-RegisterServerEvent('t1ger_bankrobbery:addRobTimeSV')
-AddEventHandler('t1ger_bankrobbery:addRobTimeSV', function(timer)
+RegisterServerEvent('bankrobbery:addRobTimeSV')
+AddEventHandler('bankrobbery:addRobTimeSV', function(timer)
     local xPlayer = ESX.GetPlayerFromId(source)
 	alertTime = timer
-	TriggerClientEvent('t1ger_bankrobbery:addRobTimeCL', -1, alertTime)
+	TriggerClientEvent('bankrobbery:addRobTimeCL', -1, alertTime)
 end)
 

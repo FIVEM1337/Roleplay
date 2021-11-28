@@ -72,9 +72,9 @@ end)
 
 -- [[ ESX SHOW ADVANCED NOTIFICATION ]] --
 
-RegisterNetEvent('t1ger_bankrobbery:ShowAdvancedNotifyESX')
+RegisterNetEvent('bankrobbery:ShowAdvancedNotifyESX')
 
-AddEventHandler('t1ger_bankrobbery:ShowAdvancedNotifyESX', function(title, subject, msg, icon, iconType)
+AddEventHandler('bankrobbery:ShowAdvancedNotifyESX', function(title, subject, msg, icon, iconType)
 
 	ESX.ShowAdvancedNotification(title, subject, msg, icon, iconType)
 
@@ -92,9 +92,9 @@ end)
 
 -- [[ ESX SHOW NOTIFICATION ]] --
 
-RegisterNetEvent('t1ger_bankrobbery:ShowNotifyESX')
+RegisterNetEvent('bankrobbery:ShowNotifyESX')
 
-AddEventHandler('t1ger_bankrobbery:ShowNotifyESX', function(msg)
+AddEventHandler('bankrobbery:ShowNotifyESX', function(msg)
 
 	ShowNotifyESX(msg)
 
@@ -118,7 +118,7 @@ end
 
 function NotifyPoliceFunction(name)
 
-	TriggerServerEvent('t1ger_bankrobbery:np-alerts',GetEntityCoords(GetPlayerPed(-1)),streetName,name)
+	TriggerServerEvent('bankrobbery:np-alerts',GetEntityCoords(GetPlayerPed(-1)),streetName,name)
 
 	-- If you want to use your own alert:
 
@@ -134,15 +134,15 @@ end
 
 function SilentAlarmTrigger(name)
 
-	TriggerServerEvent('t1ger_bankrobbery:SilentAlarmSV',name)
+	TriggerServerEvent('bankrobbery:SilentAlarmSV',name)
 
 end
 
 
 
-RegisterNetEvent('t1ger_bankrobbery:PoliceNotifyCL')
+RegisterNetEvent('bankrobbery:PoliceNotifyCL')
 
-AddEventHandler('t1ger_bankrobbery:PoliceNotifyCL', function(alert)
+AddEventHandler('bankrobbery:PoliceNotifyCL', function(alert)
 	if isCop then
 		TriggerEvent('chat:addMessage', { args = {(Lang['dispatch_name']).. alert}})
 	end
@@ -170,9 +170,9 @@ end)
 
 
 
-RegisterNetEvent('t1ger_bankrobbery:PoliceNotifyBlip')
+RegisterNetEvent('bankrobbery:PoliceNotifyBlip')
 
-AddEventHandler('t1ger_bankrobbery:PoliceNotifyBlip', function(targetCoords)
+AddEventHandler('bankrobbery:PoliceNotifyBlip', function(targetCoords)
 
 	if isCop and Config.AlertBlipShow then 
 

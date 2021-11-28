@@ -52,13 +52,13 @@ Citizen.CreateThread(function()
 
 									if IsControlJustPressed(0,Config.KeyHackTerminal) and not keypad1 then
 
-										ESX.TriggerServerCallback('t1ger_bankrobbery:hackerDevice', function(gotDevice)
+										ESX.TriggerServerCallback('bankrobbery:hackerDevice', function(gotDevice)
 
 											if gotDevice then
 
 												keypad1 = true
 
-												TriggerServerEvent('t1ger_bankrobbery:inUseSV', true)
+												TriggerServerEvent('bankrobbery:inUseSV', true)
 
 												HackKeyPad1(k,v)
 
@@ -78,13 +78,13 @@ Citizen.CreateThread(function()
 
 									if IsControlJustPressed(0,47) and not keypad1 then
 
-										ESX.TriggerServerCallback('t1ger_bankrobbery:accessCard', function(hasAccessCard)
+										ESX.TriggerServerCallback('bankrobbery:accessCard', function(hasAccessCard)
 
 											if hasAccessCard then
 
 												keypad1 = true
 
-												TriggerServerEvent('t1ger_bankrobbery:KeypadStateSV', "first", k, true)
+												TriggerServerEvent('bankrobbery:KeypadStateSV', "first", k, true)
 
 												Wait(1000)
 
@@ -178,7 +178,7 @@ Citizen.CreateThread(function()
 
 								if IsControlJustPressed(0,Config.KeyHackTerminal) and not keypad2 then
 
-									ESX.TriggerServerCallback('t1ger_bankrobbery:hackerDevice', function(gotDevice)
+									ESX.TriggerServerCallback('bankrobbery:hackerDevice', function(gotDevice)
 
 										if gotDevice then
 
@@ -202,13 +202,13 @@ Citizen.CreateThread(function()
 
 								if IsControlJustPressed(0,47) and not keypad2 then
 
-									ESX.TriggerServerCallback('t1ger_bankrobbery:accessCard', function(hasAccessCard)
+									ESX.TriggerServerCallback('bankrobbery:accessCard', function(hasAccessCard)
 
 										if hasAccessCard then
 
 											keypad2 = true
 
-											TriggerServerEvent('t1ger_bankrobbery:KeypadStateSV', "second", k, true)
+											TriggerServerEvent('bankrobbery:KeypadStateSV', "second", k, true)
 
 											Wait(1000)
 
@@ -334,7 +334,7 @@ function KeyPad1Complete(success)
 
 			local item = Config.HackItem
 
-			TriggerServerEvent('t1ger_bankrobbery:giveItem',item)
+			TriggerServerEvent('bankrobbery:giveItem',item)
 
 		end
 
@@ -342,7 +342,7 @@ function KeyPad1Complete(success)
 
 			if GetDistanceBetweenCoords(coords, v.keypads[1].pos[1], v.keypads[1].pos[2], v.keypads[1].pos[3], true) < 1.5 then
 
-				TriggerServerEvent('t1ger_bankrobbery:KeypadStateSV', "first", k, true)
+				TriggerServerEvent('bankrobbery:KeypadStateSV', "first", k, true)
 
 				Citizen.Wait(500)
 
@@ -358,7 +358,7 @@ function KeyPad1Complete(success)
 
 						ShowNotifyESX(Lang['extra_free_time_added']:format(tonumber(newTime/1000)))
 
-						TriggerServerEvent('t1ger_bankrobbery:addRobTimeSV', newTime)
+						TriggerServerEvent('bankrobbery:addRobTimeSV', newTime)
 
 					end
 
@@ -374,9 +374,9 @@ function KeyPad1Complete(success)
 
 			if GetDistanceBetweenCoords(coords, v.keypads[1].pos[1], v.keypads[1].pos[2], v.keypads[1].pos[3], true) < 1.5 then
 
-				--TriggerServerEvent('t1ger_bankrobbery:inUseSV', false)
+				--TriggerServerEvent('bankrobbery:inUseSV', false)
 
-				TriggerServerEvent('t1ger_bankrobbery:KeypadStateSV', "first", k, false)
+				TriggerServerEvent('bankrobbery:KeypadStateSV', "first", k, false)
 
 				Citizen.Wait(500) 
 
@@ -390,7 +390,7 @@ function KeyPad1Complete(success)
 
 						local newTime = (robTime + 2000) - robTime 
 
-						TriggerServerEvent('t1ger_bankrobbery:addRobTimeSV', newTime)
+						TriggerServerEvent('bankrobbery:addRobTimeSV', newTime)
 
 					end
 
@@ -474,7 +474,7 @@ function FingerPrintCallback(outcome,reason)
 
 			local item = Config.HackItem
 
-			TriggerServerEvent('t1ger_bankrobbery:giveItem',item)
+			TriggerServerEvent('bankrobbery:giveItem',item)
 
 		end
 
@@ -482,7 +482,7 @@ function FingerPrintCallback(outcome,reason)
 
 			if GetDistanceBetweenCoords(coords, v.keypads[2].pos[1], v.keypads[2].pos[2], v.keypads[2].pos[3], true) < 1.5 then
 
-				TriggerServerEvent('t1ger_bankrobbery:KeypadStateSV', "second", k, true)
+				TriggerServerEvent('bankrobbery:KeypadStateSV', "second", k, true)
 
 				Citizen.Wait(500)
 
@@ -496,7 +496,7 @@ function FingerPrintCallback(outcome,reason)
 
 							ShowNotifyESX(Lang['extra_free_time_added']:format(tonumber(newTime/1000)))
 
-							TriggerServerEvent('t1ger_bankrobbery:addRobTimeSV', newTime)
+							TriggerServerEvent('bankrobbery:addRobTimeSV', newTime)
 
 						end
 
@@ -514,7 +514,7 @@ function FingerPrintCallback(outcome,reason)
 
 			if GetDistanceBetweenCoords(coords, v.keypads[2].pos[1], v.keypads[2].pos[2], v.keypads[2].pos[3], true) < 1.5 then
 
-				TriggerServerEvent('t1ger_bankrobbery:KeypadStateSV', "second", k, false)
+				TriggerServerEvent('bankrobbery:KeypadStateSV', "second", k, false)
 
 				Citizen.Wait(500)
 
@@ -524,7 +524,7 @@ function FingerPrintCallback(outcome,reason)
 
 						local newTime = (robTime + 2000) - robTime 
 
-						TriggerServerEvent('t1ger_bankrobbery:addRobTimeSV', newTime)
+						TriggerServerEvent('bankrobbery:addRobTimeSV', newTime)
 
 					end
 
@@ -636,17 +636,17 @@ Citizen.CreateThread(function()
 
 								if k == 7 then
 
-									TriggerServerEvent('t1ger_bankrobbery:CloseVaultDoorSV', k,v,vaultHeading,280)
+									TriggerServerEvent('bankrobbery:CloseVaultDoorSV', k,v,vaultHeading,280)
 
 								else
 
 									if k == 8 then
 
-										TriggerServerEvent('t1ger_bankrobbery:OpenVaultDoorSV', k,v,vaultHeading,320)
+										TriggerServerEvent('bankrobbery:OpenVaultDoorSV', k,v,vaultHeading,320)
 
 									else
 
-										TriggerServerEvent('t1ger_bankrobbery:OpenVaultDoorSV', k,v,vaultHeading,280)	
+										TriggerServerEvent('bankrobbery:OpenVaultDoorSV', k,v,vaultHeading,280)	
 
 									end	
 
@@ -662,17 +662,17 @@ Citizen.CreateThread(function()
 
 								if k == 7 then
 
-									TriggerServerEvent('t1ger_bankrobbery:OpenVaultDoorSV', k,v,vaultHeading,280)
+									TriggerServerEvent('bankrobbery:OpenVaultDoorSV', k,v,vaultHeading,280)
 
 								else
 
 									if k == 8 then
 
-										TriggerServerEvent('t1ger_bankrobbery:CloseVaultDoorSV', k,v,vaultHeading,320)
+										TriggerServerEvent('bankrobbery:CloseVaultDoorSV', k,v,vaultHeading,320)
 
 									else
 
-										TriggerServerEvent('t1ger_bankrobbery:CloseVaultDoorSV', k,v,vaultHeading,280)	
+										TriggerServerEvent('bankrobbery:CloseVaultDoorSV', k,v,vaultHeading,280)	
 
 									end	
 
@@ -794,11 +794,11 @@ Citizen.CreateThread(function()
 
 								
 
-								ESX.TriggerServerCallback('t1ger_bankrobbery:drillItem', function(hasDrill)
+								ESX.TriggerServerCallback('bankrobbery:drillItem', function(hasDrill)
 
 									if hasDrill then
 
-										TriggerEvent('t1ger_bankrobbery:drillCloseSafe')
+										TriggerEvent('bankrobbery:drillCloseSafe')
 
 										drillSafe = true
 
@@ -844,9 +844,9 @@ end)
 
 -- Event to drill safe:
 
-RegisterNetEvent('t1ger_bankrobbery:drillCloseSafe')
+RegisterNetEvent('bankrobbery:drillCloseSafe')
 
-AddEventHandler('t1ger_bankrobbery:drillCloseSafe', function()
+AddEventHandler('bankrobbery:drillCloseSafe', function()
 
 	local player    = GetPlayerPed(-1)
 
@@ -992,9 +992,9 @@ AddEventHandler('t1ger_bankrobbery:drillCloseSafe', function()
 
 							Safes[k].robbed = true
 
-							TriggerServerEvent('t1ger_bankrobbery:SafeDataSV', "robbed", k, true)
+							TriggerServerEvent('bankrobbery:SafeDataSV', "robbed", k, true)
 
-							TriggerServerEvent('t1ger_bankrobbery:safeReward')
+							TriggerServerEvent('bankrobbery:safeReward')
 
 							drillSafe = false
 
@@ -1004,7 +1004,7 @@ AddEventHandler('t1ger_bankrobbery:drillCloseSafe', function()
 
 							local item = Config.DrillItem
 
-							TriggerServerEvent('t1ger_bankrobbery:giveItem',item)
+							TriggerServerEvent('bankrobbery:giveItem',item)
 
 							drillSafe = false
 
@@ -1012,7 +1012,7 @@ AddEventHandler('t1ger_bankrobbery:drillCloseSafe', function()
 
 							Safes[k].failed = true
 
-							TriggerServerEvent("t1ger_bankrobbery:SafeDataSV", "failed", k, true)
+							TriggerServerEvent("bankrobbery:SafeDataSV", "failed", k, true)
 
 							ShowNotifyESX(Lang['you_destroyed_safe'])
 
@@ -1080,7 +1080,7 @@ RegisterCommand("camera", function(source, args, rawCommand)
 
 	if isCop then
 
-		TriggerEvent('t1ger_bankrobbery:camera', cameraNum)
+		TriggerEvent('bankrobbery:camera', cameraNum)
 
 	else
 
@@ -1092,9 +1092,9 @@ end, false)
 
 
 
-RegisterNetEvent('t1ger_bankrobbery:camera')
+RegisterNetEvent('bankrobbery:camera')
 
-AddEventHandler('t1ger_bankrobbery:camera', function(cameraNum)
+AddEventHandler('bankrobbery:camera', function(cameraNum)
 
 	local player = GetPlayerPed(-1)
 
@@ -1138,7 +1138,7 @@ AddEventHandler('t1ger_bankrobbery:camera', function(cameraNum)
 
 			Wait(500)
 
-			TriggerEvent('t1ger_bankrobbery:openCameraView',cameraNum)
+			TriggerEvent('bankrobbery:openCameraView',cameraNum)
 
 		else
 
@@ -1334,9 +1334,9 @@ robTime = nil
 
 bankID = nil
 
-RegisterNetEvent('t1ger_bankrobbery:powerBoxCL')
+RegisterNetEvent('bankrobbery:powerBoxCL')
 
-AddEventHandler('t1ger_bankrobbery:powerBoxCL', function(id, state, timer)
+AddEventHandler('bankrobbery:powerBoxCL', function(id, state, timer)
 
     if id ~= nil or state ~= nil then
 
@@ -1411,7 +1411,7 @@ Citizen.CreateThread(function()
 
 						if IsControlJustPressed(0,38) and not powerBoxInteract then
 
-							ESX.TriggerServerCallback('t1ger_bankrobbery:hammerWireCutterItem', function(gotItem)
+							ESX.TriggerServerCallback('bankrobbery:hammerWireCutterItem', function(gotItem)
 
 								if gotItem then
 
@@ -1472,9 +1472,9 @@ function disablePowerFunction(k,v)
 
 	Citizen.Wait(4 * 1000)
 
-	TriggerServerEvent('t1ger_bankrobbery:powerBoxSV', k, true, (v.powerBox.freeTime * 1000))
+	TriggerServerEvent('bankrobbery:powerBoxSV', k, true, (v.powerBox.freeTime * 1000))
 
-	TriggerServerEvent('t1ger_bankrobbery:inUseSV', true)
+	TriggerServerEvent('bankrobbery:inUseSV', true)
 
 
 
@@ -1592,9 +1592,9 @@ function crackPacificSafe(k,v)
 
 	Citizen.Wait(5 * 1000)
 
-	TriggerServerEvent('t1ger_bankrobbery:pacificSafeSV', k, true)
+	TriggerServerEvent('bankrobbery:pacificSafeSV', k, true)
 
-	TriggerServerEvent('t1ger_bankrobbery:giveItem', Config.AccessCard)
+	TriggerServerEvent('bankrobbery:giveItem', Config.AccessCard)
 
 	ShowNotifyESX(Lang['found_access_card'])
 
@@ -1648,7 +1648,7 @@ Citizen.CreateThread(function()
 
 								if IsControlJustPressed(0,38) and not deskDoorLockpicking then
 
-									ESX.TriggerServerCallback('t1ger_bankrobbery:lockpickItem', function(gotLockpick)
+									ESX.TriggerServerCallback('bankrobbery:lockpickItem', function(gotLockpick)
 
 										if gotLockpick then
 
@@ -1714,11 +1714,11 @@ Citizen.CreateThread(function()
 
 											if k ~= 8 then
 
-												TriggerServerEvent('t1ger_bankrobbery:CloseDeskDoorSV', k,v,deskDoorHeading,200)
+												TriggerServerEvent('bankrobbery:CloseDeskDoorSV', k,v,deskDoorHeading,200)
 
 											else
 
-												TriggerServerEvent('t1ger_bankrobbery:OpenDeskDoorSV', k,v,deskDoorHeading,200)
+												TriggerServerEvent('bankrobbery:OpenDeskDoorSV', k,v,deskDoorHeading,200)
 
 											end
 
@@ -1752,11 +1752,11 @@ Citizen.CreateThread(function()
 
 											if k ~= 8 then
 
-												TriggerServerEvent('t1ger_bankrobbery:OpenDeskDoorSV', k,v,deskDoorHeading,200)
+												TriggerServerEvent('bankrobbery:OpenDeskDoorSV', k,v,deskDoorHeading,200)
 
 											else
 
-												TriggerServerEvent('t1ger_bankrobbery:CloseDeskDoorSV', k,v,deskDoorHeading,200)
+												TriggerServerEvent('bankrobbery:CloseDeskDoorSV', k,v,deskDoorHeading,200)
 
 											end
 
@@ -1818,11 +1818,11 @@ function lockpickDeskDoor(k,v,cashDoor)
 
 	Citizen.Wait(5 * 1000)
 
-	TriggerServerEvent('t1ger_bankrobbery:deskDoorSV', k, true)
+	TriggerServerEvent('bankrobbery:deskDoorSV', k, true)
 
 	if k == 8 and not v.powerBox.disabled then 
 
-		TriggerServerEvent('t1ger_bankrobbery:inUseSV', true)
+		TriggerServerEvent('bankrobbery:inUseSV', true)
 
 		NotifyPoliceFunction(v.name)
 
@@ -1942,7 +1942,7 @@ function GrabCashAnim(k,desk,num)
 
 	ClearPedTasks(player)
 
-	TriggerServerEvent('t1ger_bankrobbery:deskCashSV', k, num, true)
+	TriggerServerEvent('bankrobbery:deskCashSV', k, num, true)
 
 end
 

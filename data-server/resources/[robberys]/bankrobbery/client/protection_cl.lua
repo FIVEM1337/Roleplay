@@ -9,15 +9,15 @@ local access = false
 
 	Citizen.CreateThread(function()
 
-		TriggerServerEvent('t1ger_bankrobbery:loadDataSV')
+		TriggerServerEvent('bankrobbery:loadDataSV')
 
 	end)
 
 
 
-	RegisterNetEvent('t1ger_bankrobbery:loadDataCL')
+	RegisterNetEvent('bankrobbery:loadDataCL')
 
-	AddEventHandler('t1ger_bankrobbery:loadDataCL', function(BankData, SafesData)
+	AddEventHandler('bankrobbery:loadDataCL', function(BankData, SafesData)
 
 		Banks 	= BankData
 
@@ -27,9 +27,9 @@ local access = false
 
 
 
-	RegisterNetEvent('t1ger_bankrobbery:getPoliceCount')
+	RegisterNetEvent('bankrobbery:getPoliceCount')
 
-	AddEventHandler('t1ger_bankrobbery:getPoliceCount', function(policeData)
+	AddEventHandler('bankrobbery:getPoliceCount', function(policeData)
 
 		Police = policeData
 
@@ -39,9 +39,9 @@ local access = false
 
 	-- inUse state:
 
-	RegisterNetEvent('t1ger_bankrobbery:inUseCL')
+	RegisterNetEvent('bankrobbery:inUseCL')
 
-	AddEventHandler('t1ger_bankrobbery:inUseCL', function(state)
+	AddEventHandler('bankrobbery:inUseCL', function(state)
 
 		for i = 1, #Banks do
 
@@ -55,9 +55,9 @@ local access = false
 
 	-- Keypad state:
 
-	RegisterNetEvent('t1ger_bankrobbery:KeypadStateCL')
+	RegisterNetEvent('bankrobbery:KeypadStateCL')
 
-	AddEventHandler('t1ger_bankrobbery:KeypadStateCL', function(id, state, type)
+	AddEventHandler('bankrobbery:KeypadStateCL', function(id, state, type)
 
 		if id ~= nil or state ~= nil then  
 
@@ -79,9 +79,9 @@ local access = false
 
 	-- Safe state:
 
-	RegisterNetEvent('t1ger_bankrobbery:SafeDataCL')
+	RegisterNetEvent('bankrobbery:SafeDataCL')
 
-	AddEventHandler('t1ger_bankrobbery:SafeDataCL', function(type, id, state)
+	AddEventHandler('bankrobbery:SafeDataCL', function(type, id, state)
 
 		if id ~= nil or state ~= nil then  
 
@@ -103,9 +103,9 @@ local access = false
 
 	-- Door open event:
 
-	RegisterNetEvent('t1ger_bankrobbery:OpenVaultDoorCL')
+	RegisterNetEvent('bankrobbery:OpenVaultDoorCL')
 
-	AddEventHandler('t1ger_bankrobbery:OpenVaultDoorCL', function(k,v,DoorHeading,amount)
+	AddEventHandler('bankrobbery:OpenVaultDoorCL', function(k,v,DoorHeading,amount)
 
 		local PlayerPos = GetEntityCoords(PlayerPedId(), true)
 
@@ -131,9 +131,9 @@ local access = false
 
 	-- Door close event:
 
-	RegisterNetEvent('t1ger_bankrobbery:CloseVaultDoorCL')
+	RegisterNetEvent('bankrobbery:CloseVaultDoorCL')
 
-	AddEventHandler('t1ger_bankrobbery:CloseVaultDoorCL', function(k,v,DoorHeading,amount)
+	AddEventHandler('bankrobbery:CloseVaultDoorCL', function(k,v,DoorHeading,amount)
 
 	local PlayerPos = GetEntityCoords(PlayerPedId(), true)
 
@@ -159,9 +159,9 @@ local access = false
 
 	-- Desk Door CL:
 
-	RegisterNetEvent('t1ger_bankrobbery:deskDoorCL')
+	RegisterNetEvent('bankrobbery:deskDoorCL')
 
-	AddEventHandler('t1ger_bankrobbery:deskDoorCL', function(id, state)
+	AddEventHandler('bankrobbery:deskDoorCL', function(id, state)
 
 		if id ~= nil or state ~= nil then
 
@@ -175,9 +175,9 @@ local access = false
 
 	-- Desk Cash Robbed:
 
-	RegisterNetEvent('t1ger_bankrobbery:deskCashCL')
+	RegisterNetEvent('bankrobbery:deskCashCL')
 
-	AddEventHandler('t1ger_bankrobbery:deskCashCL', function(id, num, state)
+	AddEventHandler('bankrobbery:deskCashCL', function(id, num, state)
 
 		if id ~= nil or state ~= nil then
 
@@ -191,9 +191,9 @@ local access = false
 
 	-- Add extra rob time:
 
-	RegisterNetEvent('t1ger_bankrobbery:addRobTimeCL')
+	RegisterNetEvent('bankrobbery:addRobTimeCL')
 
-	AddEventHandler('t1ger_bankrobbery:addRobTimeCL', function(timer)
+	AddEventHandler('bankrobbery:addRobTimeCL', function(timer)
 
 		robTime = timer
 
@@ -203,9 +203,9 @@ local access = false
 
 	-- Safe Cracked:
 
-	RegisterNetEvent('t1ger_bankrobbery:pacificSafeCL')
+	RegisterNetEvent('bankrobbery:pacificSafeCL')
 
-	AddEventHandler('t1ger_bankrobbery:pacificSafeCL', function(id, state)
+	AddEventHandler('bankrobbery:pacificSafeCL', function(id, state)
 
 		if id ~= nil or state ~= nil then
 
@@ -219,9 +219,9 @@ local access = false
 
 	-- Door open event:
 
-	RegisterNetEvent('t1ger_bankrobbery:OpenDeskDoorCL')
+	RegisterNetEvent('bankrobbery:OpenDeskDoorCL')
 
-	AddEventHandler('t1ger_bankrobbery:OpenDeskDoorCL', function(k,v,DoorHeading,amount)
+	AddEventHandler('bankrobbery:OpenDeskDoorCL', function(k,v,DoorHeading,amount)
 
 		local PlayerPos = GetEntityCoords(PlayerPedId(), true)
 
@@ -247,9 +247,9 @@ local access = false
 
 	-- Door close event:
 
-	RegisterNetEvent('t1ger_bankrobbery:CloseDeskDoorCL')
+	RegisterNetEvent('bankrobbery:CloseDeskDoorCL')
 
-	AddEventHandler('t1ger_bankrobbery:CloseDeskDoorCL', function(k,v,DoorHeading,amount)
+	AddEventHandler('bankrobbery:CloseDeskDoorCL', function(k,v,DoorHeading,amount)
 
 	local PlayerPos = GetEntityCoords(PlayerPedId(), true)
 
@@ -275,9 +275,9 @@ local access = false
 
 	-- Restore Bank:
 
-	RegisterNetEvent('t1ger_bankrobbery:ResetCurrentBankCL')
+	RegisterNetEvent('bankrobbery:ResetCurrentBankCL')
 
-	AddEventHandler('t1ger_bankrobbery:ResetCurrentBankCL', function()
+	AddEventHandler('bankrobbery:ResetCurrentBankCL', function()
 
 		-- Banks:
 
@@ -331,7 +331,7 @@ local access = false
 
 	function RestoreBank(k,v)
 
-		TriggerServerEvent('t1ger_bankrobbery:ResetCurrentBankSV')
+		TriggerServerEvent('bankrobbery:ResetCurrentBankSV')
 
 		Citizen.Wait(1000)
 
@@ -383,9 +383,9 @@ local access = false
 
 	-- Camera VIew:
 
-	RegisterNetEvent('t1ger_bankrobbery:openCameraView')
+	RegisterNetEvent('bankrobbery:openCameraView')
 
-	AddEventHandler('t1ger_bankrobbery:openCameraView', function(cameraNum)
+	AddEventHandler('bankrobbery:openCameraView', function(cameraNum)
 
 		local player = GetPlayerPed(-1)
 
