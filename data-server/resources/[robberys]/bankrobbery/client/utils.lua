@@ -221,11 +221,10 @@ end)
 -- Bank Blips:
 
 Citizen.CreateThread(function()
-
-	for k,v in pairs(Config.Banks) do
-
-		CreateMapBlip(k,v)
-
+	if Config.ShowBlips then
+		for k,v in pairs(Config.Banks) do
+			CreateMapBlip(k,v)
+		end
 	end
 
 end)

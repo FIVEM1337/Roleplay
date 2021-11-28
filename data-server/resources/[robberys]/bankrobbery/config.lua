@@ -69,6 +69,7 @@ Config.KeySecureVaultDoor = 47		-- Button to secure vault door
 -- Other:
 
 Config.HasItemLabel = true			-- set to false if your ESX vers. doesnt support item labels.
+Config.ShowBlips = false
 
 
 
