@@ -1,6 +1,7 @@
 --- Config ---
 notWhitelisted = "Servername » Du bist nicht gewhitelisted. Bitte joine dafür auf unseren Discord Server » https://discord.gg/nWuSVADXCG" 
 noDiscord = "Servername » Bitte öffne Discord bevor Du dich verbindest." 
+noSteam = "Servername » Bitte öffne Steam bevor Du dich verbindest." 
 
 local FormattedToken = "Bot "..Config.DiscordToken
 
@@ -91,15 +92,22 @@ AddEventHandler("playerConnecting", function(name, setCallback, deferrals)
         if string.sub(v, 1, string.len("discord:")) == "discord:" then
             identifierDiscord = v
         end
-    end
-
-    if identifierDiscord then
-        if IsRolePresent(src) then
-            deferrals.done()
-        else
-            deferrals.done(notWhitelisted)
+        if string.sub(v, 1, string.len("steam")) == "steam" then
+            identifierSteam = v
         end
-    else
-        deferrals.done(noDiscord)
+
     end
+	if identifierSteam then
+    	if identifierDiscord then
+    	    if IsRolePresent(src) then
+    	        deferrals.done()
+    	    else
+    	        deferrals.done(notWhitelisted)
+    	    end
+    	else
+    	    deferrals.done(noDiscord)
+    	end
+	else
+		deferrals.done(noSteam)
+	end
 end)
