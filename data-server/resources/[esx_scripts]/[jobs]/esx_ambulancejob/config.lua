@@ -10,8 +10,8 @@ Config.LoadIpl                    = true -- Disable if you're using fivem-ipl or
 
 Config.Locale                     = 'de'
 
-Config.EarlyRespawnTimer          = 10000 * 1  -- time til respawn is available
-Config.BleedoutTimer              = 10000 * 10 -- time til the player bleeds out
+Config.EarlyRespawnTimer          = 900000  -- time til respawn is available
+Config.BleedoutTimer              = 1200000 -- time til the player bleeds out
 
 Config.EnablePlayerManagement     = true -- Enable society managing (If you are using esx_society).
 
