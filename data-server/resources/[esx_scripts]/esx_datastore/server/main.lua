@@ -7,8 +7,20 @@ local SharedDataStores = {}
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-AddEventHandler('onMySQLReady', function()
 
+AddEventHandler('onResourceStart', function(resource)
+	if resource == GetCurrentResourceName() then
+		TriggerEvent('esx_datastore:getdata')
+	end
+end)
+
+AddEventHandler('onMySQLReady', function()
+  TriggerEvent('esx_datastore:getdata')
+end)
+
+
+RegisterServerEvent('esx_datastore:getdata')
+AddEventHandler('esx_datastore:getdata', function ()
   local result = MySQL.Sync.fetchAll('SELECT * FROM datastore')
 
   for i=1, #result, 1 do
@@ -67,7 +79,6 @@ AddEventHandler('onMySQLReady', function()
     end
 
   end
-
 end)
 
 function GetDataStore(name, owner)
