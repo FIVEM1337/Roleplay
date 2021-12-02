@@ -68,7 +68,7 @@ AddEventHandler('esx_status:load', function(status)
 				status = GetStatusData()
 			})
 
-			TriggerEvent('playerhud:updateStatus', GetStatusData(true))
+			TriggerEvent('esx_playerhud:updateStatus', GetStatusData(true))
 			Citizen.Wait(Config.TickTime)
 		end
 	end)
@@ -89,7 +89,7 @@ AddEventHandler('esx_status:set', function(name, val)
 	})
 
 	TriggerServerEvent('esx_status:update', GetStatusData(true))
-	TriggerEvent('playerhud:updateStatus', GetStatusData(true))
+	TriggerEvent('esx_playerhud:updateStatus', GetStatusData(true))
 end)
 
 RegisterNetEvent('esx_status:add')
@@ -106,7 +106,7 @@ AddEventHandler('esx_status:add', function(name, val)
 	})
 
 	TriggerServerEvent('esx_status:update', GetStatusData(true))
-	TriggerEvent('playerhud:updateStatus', GetStatusData(true))
+	TriggerEvent('esx_playerhud:updateStatus', GetStatusData(true))
 end)
 
 RegisterNetEvent('esx_status:remove')
@@ -124,7 +124,7 @@ AddEventHandler('esx_status:remove', function(name, val)
 	})
 
 	TriggerServerEvent('esx_status:update', GetStatusData(true))
-	TriggerEvent('playerhud:updateStatus', GetStatusData(true))
+	TriggerEvent('esx_playerhud:updateStatus', GetStatusData(true))
 end)
 
 AddEventHandler('esx_status:getStatus', function(name, cb)
@@ -179,6 +179,6 @@ Citizen.CreateThread(function()
 		Citizen.Wait(Config.UpdateInterval)
 
 		TriggerServerEvent('esx_status:update', GetStatusData(true))
-		TriggerEvent('playerhud:updateStatus', GetStatusData(true))
+		TriggerEvent('esx_playerhud:updateStatus', GetStatusData(true))
 	end
 end)

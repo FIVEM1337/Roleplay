@@ -8,7 +8,7 @@ AddEventHandler('onResourceStart', function(resource)
 
 		for i=1, #xPlayers, 1 do
 			local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
-			TriggerClientEvent("reload_playerhud", xPlayer.source, xPlayer)
+			TriggerClientEvent("reload_esx_playerhud", xPlayer.source, xPlayer)
 		end
 	end
 end)

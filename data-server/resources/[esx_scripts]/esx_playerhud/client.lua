@@ -16,16 +16,16 @@ end)
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer) 
-	TriggerEvent("playerhud:LoadPlayerData", xPlayer)
+	TriggerEvent("esx_playerhud:LoadPlayerData", xPlayer)
 end)
 
-RegisterNetEvent("reload_playerhud") 
-AddEventHandler("reload_playerhud", function(xPlayer)
-	TriggerEvent("playerhud:LoadPlayerData", xPlayer)
+RegisterNetEvent("reload_esx_playerhud") 
+AddEventHandler("reload_esx_playerhud", function(xPlayer)
+	TriggerEvent("esx_playerhud:LoadPlayerData", xPlayer)
 end)
 
-RegisterNetEvent("playerhud:LoadPlayerData") 
-AddEventHandler("playerhud:LoadPlayerData", function(xPlayer)
+RegisterNetEvent("esx_playerhud:LoadPlayerData") 
+AddEventHandler("esx_playerhud:LoadPlayerData", function(xPlayer)
 	local data = xPlayer
 	local accounts = data.accounts
 	for k,v in pairs(accounts) do
@@ -86,8 +86,8 @@ AddEventHandler('esx:setJob', function(job)
   SendNUIMessage({action = "setValue", key = "job", value = job.label.." - "..job.grade_label, icon = job.name})
 end)
 
-RegisterNetEvent('playerhud:updateStatus')
-AddEventHandler('playerhud:updateStatus', function(status)
+RegisterNetEvent('esx_playerhud:updateStatus')
+AddEventHandler('esx_playerhud:updateStatus', function(status)
     TriggerEvent('esx_status:getStatusPercent', 'hunger', function(hunger) 
 		currenthunger = hunger
     end)
