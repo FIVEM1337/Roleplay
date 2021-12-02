@@ -1,6 +1,7 @@
 local oneSync = false
 ESX = nil
 
+
 Citizen.CreateThread(function()
 	if GetConvar("onesync") ~= 'off' then
 		oneSync = true
@@ -14,8 +15,8 @@ local FeedbackTable = {}
 
 -------------------------- NEW FEEDBACK
 
-RegisterNetEvent("reports:NewFeedback")
-AddEventHandler("reports:NewFeedback", function(data)
+RegisterNetEvent("esx_reports:NewFeedback")
+AddEventHandler("esx_reports:NewFeedback", function(data)
 	local identifierlist = ExtractIdentifiers(source)
 	local newFeedback = {
 		feedbackid = #FeedbackTable+1,
@@ -30,25 +31,25 @@ AddEventHandler("reports:NewFeedback", function(data)
 
 	FeedbackTable[#FeedbackTable+1] = newFeedback
 
-	TriggerClientEvent("reports:NewFeedback", -1, newFeedback)
+	TriggerClientEvent("esx_reports:NewFeedback", -1, newFeedback)
 
 end)
 
 -------------------------- FETCH FEEDBACK
 
-RegisterNetEvent("reports:FetchFeedbackTable")
-AddEventHandler("reports:FetchFeedbackTable", function()
+RegisterNetEvent("esx_reports:FetchFeedbackTable")
+AddEventHandler("esx_reports:FetchFeedbackTable", function()
 	local staff = hasPermission(source)
 	if staff then
 		staffs[source] = true
-		TriggerClientEvent("reports:FetchFeedbackTable", source, FeedbackTable, staff, oneSync)
+		TriggerClientEvent("esx_reports:FetchFeedbackTable", source, FeedbackTable, staff, oneSync)
 	end
 end)
 
 -------------------------- ASSIST FEEDBACK
 
-RegisterNetEvent("reports:AssistFeedback")
-AddEventHandler("reports:AssistFeedback", function(feedbackId, canAssist)
+RegisterNetEvent("esx_reports:AssistFeedback")
+AddEventHandler("esx_reports:AssistFeedback", function(feedbackId, canAssist)
 	if staffs[source] then
 		if canAssist then
 			local id = FeedbackTable[feedbackId].playerid
@@ -71,15 +72,15 @@ AddEventHandler("reports:AssistFeedback", function(feedbackId, canAssist)
 			if not FeedbackTable[feedbackId].concluded then
 				FeedbackTable[feedbackId].concluded = "assisting"
 			end
-			TriggerClientEvent("reports:FeedbackConclude", -1, feedbackId, FeedbackTable[feedbackId].concluded)
+			TriggerClientEvent("esx_reports:FeedbackConclude", -1, feedbackId, FeedbackTable[feedbackId].concluded)
 		end
 	end
 end)
 
 -------------------------- CONCLUDE FEEDBACK
 
-RegisterNetEvent("reports:FeedbackConclude")
-AddEventHandler("reports:FeedbackConclude", function(feedbackId, canConclude)
+RegisterNetEvent("esx_reports:FeedbackConclude")
+AddEventHandler("esx_reports:FeedbackConclude", function(feedbackId, canConclude)
 	if staffs[source] then
 		local feedback = FeedbackTable[feedbackId]
 		local identifierlist = ExtractIdentifiers(source)
@@ -99,7 +100,7 @@ AddEventHandler("reports:FeedbackConclude", function(feedbackId, canConclude)
 				else
 					FeedbackTable[feedbackId].concluded = true
 				end
-				TriggerClientEvent("reports:FeedbackConclude", -1, feedbackId, FeedbackTable[feedbackId].concluded)
+				TriggerClientEvent("esx_reports:FeedbackConclude", -1, feedbackId, FeedbackTable[feedbackId].concluded)
 
 			end
 		end
@@ -111,6 +112,7 @@ end)
 function hasPermission(id)
 	local staff = false
 	local player = ESX.GetPlayerFromId(id)
+
 	local playerGroup = player.getGroup()
 
 	if playerGroup ~= nil and playerGroup == "superadmin" or playerGroup == "admin" or playerGroup == "mod" then 

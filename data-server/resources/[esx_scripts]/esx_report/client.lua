@@ -1,6 +1,6 @@
 Citizen.CreateThread(function()
-	Wait(1000)
-	TriggerServerEvent("reports:FetchFeedbackTable")
+	Wait(5000)
+	TriggerServerEvent("esx_reports:FetchFeedbackTable")
 end)
 
 -------------------------- VARS
@@ -49,8 +49,8 @@ end
 
 -------------------------- EVENTS
 
-RegisterNetEvent('reports:NewFeedback')
-AddEventHandler('reports:NewFeedback', function(newFeedback)
+RegisterNetEvent('esx_reports:NewFeedback')
+AddEventHandler('esx_reports:NewFeedback', function(newFeedback)
 	if staff then
 		FeedbackTable[#FeedbackTable+1] = newFeedback
 		TriggerEvent('dopeNotify:Alert', "Support", "Es liegt eine Support anfrage vor!", 10000, 'info')
@@ -61,15 +61,15 @@ AddEventHandler('reports:NewFeedback', function(newFeedback)
 	end
 end)
 
-RegisterNetEvent('reports:FetchFeedbackTable')
-AddEventHandler('reports:FetchFeedbackTable', function(feedback, admin, oneS)
+RegisterNetEvent('esx_reports:FetchFeedbackTable')
+AddEventHandler('esx_reports:FetchFeedbackTable', function(feedback, admin, oneS)
 	FeedbackTable = feedback
 	staff = admin
 	oneSync = oneS
 end)
 
-RegisterNetEvent('reports:FeedbackConclude')
-AddEventHandler('reports:FeedbackConclude', function(feedbackID, info)
+RegisterNetEvent('esx_reports:FeedbackConclude')
+AddEventHandler('esx_reports:FeedbackConclude', function(feedbackID, info)
 	local feedbackid = FeedbackTable[feedbackID]
 	feedbackid.concluded = info
 
@@ -90,7 +90,7 @@ RegisterNUICallback("action", function(data)
 		TriggerEvent('dopeNotify:Alert', "Support", "Support wurde abgesendet!", 10000, 'success')
 		
 		local feedbackInfo = {subject = data.subject, information = data.information, category = data.category}
-		TriggerServerEvent("reports:NewFeedback", feedbackInfo)
+		TriggerServerEvent("esx_reports:NewFeedback", feedbackInfo)
 
 		local time = Config.FeedbackCooldown * 60
 		local pastTime = 0
@@ -105,14 +105,14 @@ RegisterNUICallback("action", function(data)
 	elseif data.action == "assistFeedback" then
 		if FeedbackTable[data.feedbackid] then
 			if oneSync then
-				TriggerServerEvent("reports:AssistFeedback", data.feedbackid, true)
+				TriggerServerEvent("esx_reports:AssistFeedback", data.feedbackid, true)
 			else
 				local playerFeedbackID = FeedbackTable[data.feedbackid].playerid
 				local playerID = GetPlayerFromServerId(playerFeedbackID)
 				local playerOnline = NetworkIsPlayerActive(playerID)
 				if playerOnline then
 					SetEntityCoords(PlayerPedId(), GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(playerFeedbackID))))
-					TriggerServerEvent("reports:AssistFeedback", data.feedbackid, true)
+					TriggerServerEvent("esx_reports:AssistFeedback", data.feedbackid, true)
 				else
 					TriggerEvent('dopeNotify:Alert', "Support", "Dieser Spieler ist nicht mehr auf dem Server!", 10000, 'error')
 				end
@@ -124,7 +124,7 @@ RegisterNUICallback("action", function(data)
 		local feedbackInfo = FeedbackTable[feedbackID]
 		if feedbackInfo then
 			if feedbackInfo.concluded ~= true or canConclude then
-				TriggerServerEvent("reports:FeedbackConclude", feedbackID, canConclude)
+				TriggerServerEvent("esx_reports:FeedbackConclude", feedbackID, canConclude)
 				TriggerEvent('dopeNotify:Alert', "Support", "Anfrage #"..feedbackID.." abgeschlossen!", 10000, 'success')
 			end
 		end

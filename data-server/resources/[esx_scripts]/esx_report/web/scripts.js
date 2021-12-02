@@ -37,7 +37,7 @@ $(document).on('click', "#submitFeedback", function() {
 
 	$(".feedback").fadeOut();
 
-	$.post('https://report/action', JSON.stringify({
+	$.post('https://esx_report/action', JSON.stringify({
 		action: "newFeedback",
 		subject: subject,
 		information: information,
@@ -58,7 +58,7 @@ function cleanFeedback() {
 $(document).on('click', ".closeFeedback", function() {
 	$(".feedback").fadeOut();
 
-	$.post('https://report/action', JSON.stringify({
+	$.post('https://esx_report/action', JSON.stringify({
 		action: "close",
 	}));
 
@@ -76,7 +76,7 @@ $(document).on('click', ".closeFeedbackWindow", function() {
 
 $(document).on('click', ".closeFeedbackTable", function() {
 	$(".feedbackWrapper").fadeOut();
-	$.post('https://report/action', JSON.stringify({
+	$.post('https://esx_report/action', JSON.stringify({
 		action: "close",
 	}));
 
@@ -122,7 +122,7 @@ $(document).on('click', ".feedbackWindow .btn-goback", function() {
 
 $(document).on('click', ".btn-assist", function() { 
 	$(".feedbackWrapper").fadeOut();
-	$.post('https://report/action', JSON.stringify({
+	$.post('https://esx_report/action', JSON.stringify({
 		action: "assistFeedback",
 		feedbackid: currentWindow.feedbackid
 	}));
@@ -139,7 +139,7 @@ $(document).on('click', ".btn-conclude", function() {
 });
 
 function ConcludeFeedback(feedbackid, canConclude) {
-	$.post('https://report/action', JSON.stringify({
+	$.post('https://esx_report/action', JSON.stringify({
 		action: "concludeFeedback",
 		feedbackid: feedbackid,
 		canConclude: canConclude
@@ -153,14 +153,14 @@ $(document).ready(function(){
 				case 'feedback' :
 					cleanFeedback();
 					$(".feedback").fadeOut()
-					$.post('https://report/action', JSON.stringify({
+					$.post('https://esx_report/action', JSON.stringify({
 						action: "close",
 					}));
 					windowStatus = "closed"
 					break
 				case 'FeedbackTable' :
 					$(".feedbackWrapper").fadeOut()
-					$.post('https://report/action', JSON.stringify({
+					$.post('https://esx_report/action', JSON.stringify({
 						action: "close",
 					}));
 					windowStatus = "closed"
