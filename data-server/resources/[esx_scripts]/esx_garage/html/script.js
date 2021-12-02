@@ -235,7 +235,7 @@ window.addEventListener('message', function(event) {
 
 function choosecat(i) {
     $("#vehicle_cat").html('')
-    $.post("https://renzu_garage/choosecat", JSON.stringify({ cat: i }));
+    $.post("https://esx_garage/choosecat", JSON.stringify({ cat: i }));
 }
 
 document.getElementById("confirm_impound").addEventListener("click", function(event){
@@ -245,12 +245,12 @@ document.getElementById("confirm_impound").addEventListener("click", function(ev
         impound_data[data[i].name] = data[i].value
     }
     document.getElementById("impoundform").style.display = 'none';
-    $.post("https://renzu_garage/receive_impound", JSON.stringify({ impound_data: impound_data }));
+    $.post("https://esx_garage/receive_impound", JSON.stringify({ impound_data: impound_data }));
 });
 
 document.getElementById("cancel_impound").addEventListener("click", function(event) {
     document.getElementById("impoundform").style.display = 'none';
-    $.post("https://renzu_garage/receive_impound", JSON.stringify({ impound_data: 'cancel' }));
+    $.post("https://esx_garage/receive_impound", JSON.stringify({ impound_data: 'cancel' }));
 });
 
 $(document).ready(function() {
@@ -379,9 +379,9 @@ function ShowVehicle(currentTarget) {
                     </div>
                 `);
                 if (chopper) {
-                    $.post("https://renzu_garage/SpawnChopper", JSON.stringify({ modelcar: data.model2, price: 1,  plate: data.plate }));
+                    $.post("https://esx_garage/SpawnChopper", JSON.stringify({ modelcar: data.model2, price: 1,  plate: data.plate }));
                 } else {
-                    $.post("https://renzu_garage/SpawnVehicle", JSON.stringify({ modelcar: data.model2, price: 1,  plate: data.plate }));
+                    $.post("https://esx_garage/SpawnVehicle", JSON.stringify({ modelcar: data.model2, price: 1,  plate: data.plate }));
                 }
             } else if(!itemDisabled && garage_id.search("impound") !== -1) {
                 $(currentTarget).addClass('active');         
@@ -468,8 +468,8 @@ function ShowVehicle(currentTarget) {
                         <span id="fine">$ 4000.0</span>
                     </div>
                 `);
-                $.post("https://renzu_garage/ownerinfo", JSON.stringify({ plate: data.plate, identifier: data.identifier, chopstatus: 1 }));
-                $.post("https://renzu_garage/SpawnVehicle", JSON.stringify({ modelcar: data.model2, price: 1, plate: data.plate }));
+                $.post("https://esx_garage/ownerinfo", JSON.stringify({ plate: data.plate, identifier: data.identifier, chopstatus: 1 }));
+                $.post("https://esx_garage/SpawnVehicle", JSON.stringify({ modelcar: data.model2, price: 1, plate: data.plate }));
             }
         }
 }
@@ -618,7 +618,7 @@ function GetVehicle(option) {
             case 'cancel':
                 break;
             case 'confirm':
-                $.post('https://renzu_garage/flychopper', JSON.stringify(CurrentVehicle));
+                $.post('https://esx_garage/flychopper', JSON.stringify(CurrentVehicle));
                 CurrentVehicle_ = CurrentVehicle
                 CurrentVehicle = {}
                 break;
@@ -630,7 +630,7 @@ function GetVehicle(option) {
             case 'cancel':
                 break;
             case 'confirm':
-                $.post('https://renzu_garage/GetVehicleFromGarage', JSON.stringify(CurrentVehicle));
+                $.post('https://esx_garage/GetVehicleFromGarage', JSON.stringify(CurrentVehicle));
                 CurrentVehicle_ = CurrentVehicle
                 CurrentVehicle = {}
                 break;
@@ -645,7 +645,7 @@ function returnvehicle(option) {
         case 'cancel':
             break;
         case 'confirm':
-            $.post('https://renzu_garage/ReturnVehicle', JSON.stringify(CurrentVehicle_));
+            $.post('https://esx_garage/ReturnVehicle', JSON.stringify(CurrentVehicle_));
             CurrentVehicle_ = {}
             break;
     }
@@ -665,7 +665,7 @@ $(document).on('keydown', function(event) {
             $("#vehicle_cat").html('')
             impound_left = '0'
             setTimeout(function(){ window.location.reload(false);  }, 500);
-            $.post('https://renzu_garage/Close');  
+            $.post('https://esx_garage/Close');  
             break;
         case 9: // TAB
             break;

@@ -365,7 +365,7 @@ AddEventHandler('opengarage', function()
 
                     garageid = v.garage
                     local vehicleProps = GetVehicleProperties(vehiclenow)
-                    ESX.TriggerServerCallback("renzu_garage:canstore",function(canstore)
+                    ESX.TriggerServerCallback("esx_garage:canstore",function(canstore)
                         if canstore then
                             Storevehicle(vehiclenow,false,false,v.garage_type == 'public' or false)
                         else
@@ -379,7 +379,7 @@ AddEventHandler('opengarage', function()
                     garageid = v.garage
                     tid = k
                     TriggerEvent('dopeNotify:Alert', "Garage", "Garage öffnen...Bitte warten..", 5000, 'info')
-                    TriggerServerEvent("renzu_garage:GetVehiclesTable",garageid,v.garage_type == 'public' or false)
+                    TriggerServerEvent("esx_garage:GetVehiclesTable",garageid,v.garage_type == 'public' or false)
                     fetchdone = false
                     garage_public = v.garage_type == 'public' or false
                     while not fetchdone do
@@ -426,7 +426,7 @@ AddEventHandler('opengarage', function()
                 if dist <= v.Dist and Impoundforall or not Impoundforall and dist <= 3.0 and PlayerData.job ~= nil and PlayerData.job.name == v.job and jobgarage then
                     garageid = v.garage
                     TriggerEvent('dopeNotify:Alert', "Garage", "Garage öffnen...Bitte warten..", 5000, 'info')
-                    TriggerServerEvent("renzu_garage:GetVehiclesTableImpound")
+                    TriggerServerEvent("esx_garage:GetVehiclesTableImpound")
                     fetchdone = false
                     while not fetchdone do
                         Wait(0)
@@ -454,7 +454,7 @@ AddEventHandler('opengarage', function()
                 end
             elseif not DoesEntityExist(vehiclenow) then
                 if dist <= 10.0 then
-                    TriggerEvent("renzu_garage:getchopper",PlayerData.job.name, PlayerData.job.grade, heli[PlayerData.job.name])
+                    TriggerEvent("esx_garage:getchopper",PlayerData.job.name, PlayerData.job.grade, heli[PlayerData.job.name])
                     break
                 end
             end
@@ -765,8 +765,8 @@ function GetVehicleProperties(vehicle)
 end
 
 local owned_veh = {}
-RegisterNetEvent('renzu_garage:receive_vehicles')
-AddEventHandler('renzu_garage:receive_vehicles', function(tb, vehdata, jobveh)
+RegisterNetEvent('esx_garage:receive_vehicles')
+AddEventHandler('esx_garage:receive_vehicles', function(tb, vehdata, jobveh)
     fetchdone = false
     OwnedVehicles = nil
     JobVehicles = nil
@@ -938,8 +938,8 @@ AddEventHandler('renzu_garage:receive_vehicles', function(tb, vehdata, jobveh)
     fetchdone = true
 end)
 
-RegisterNetEvent('renzu_garage:getchopper')
-AddEventHandler('renzu_garage:getchopper', function(job, jobgrade, available)
+RegisterNetEvent('esx_garage:getchopper')
+AddEventHandler('esx_garage:getchopper', function(job, jobgrade, available)
     OwnedVehicles = {}
     Wait(100)
     tableVehicles = {}
@@ -1862,12 +1862,12 @@ function GetAllVehicleFromPool()
     return list
 end
 
-RegisterNetEvent('renzu_garage:return')
-AddEventHandler('renzu_garage:return', function(v,vehicle,property,actualShop,vp,gid)
+RegisterNetEvent('esx_garage:return')
+AddEventHandler('esx_garage:return', function(v,vehicle,property,actualShop,vp,gid)
     local vp = vp
     local v = v
     FreezeEntityPosition(PlayerPedId(),true)
-    ESX.TriggerServerCallback("renzu_garage:returnpayment",function(canreturn)
+    ESX.TriggerServerCallback("esx_garage:returnpayment",function(canreturn)
         if canreturn then
             DoScreenFadeOut(0)
             for k,v in pairs(spawnedgarage) do
@@ -1898,7 +1898,7 @@ AddEventHandler('renzu_garage:return', function(v,vehicle,property,actualShop,vp
             end
             TaskWarpPedIntoVehicle(PlayerPedId(), vehicle, -1)
             veh = vehicle
-            ESX.TriggerServerCallback("renzu_garage:changestate",function(ret,garage_public)
+            ESX.TriggerServerCallback("esx_garage:changestate",function(ret,garage_public)
                 if ret and garage_public then
                     local ent = Entity(veh).state
                     while ent.share == nil do Wait(100) end
@@ -1951,8 +1951,8 @@ AddEventHandler('renzu_garage:return', function(v,vehicle,property,actualShop,vp
 end)
 
 DoScreenFadeIn(333)
-RegisterNetEvent('renzu_garage:ingaragepublic')
-AddEventHandler('renzu_garage:ingaragepublic', function(coords, distance, vehicle, property, propertycoord, gid)
+RegisterNetEvent('esx_garage:ingaragepublic')
+AddEventHandler('esx_garage:ingaragepublic', function(coords, distance, vehicle, property, propertycoord, gid)
     local dist2 = 2
     if property and gid then
         spawn = propertycoord
@@ -1971,7 +1971,7 @@ AddEventHandler('renzu_garage:ingaragepublic', function(coords, distance, vehicl
             vp = GetVehicleProperties(vehicle)
             plate = vp.plate
             model = GetEntityModel(vehicle)
-            ESX.TriggerServerCallback("renzu_garage:isvehicleingarage",function(stored,impound,garage,fee)
+            ESX.TriggerServerCallback("esx_garage:isvehicleingarage",function(stored,impound,garage,fee)
                 if stored and not impound or not Config.EnableReturnVehicle or string.find(garageid, "impound") then
                     local tempcoord = garagecoord
                     if string.find(garageid, "impound") then tempcoord = impoundcoord end
@@ -1999,7 +1999,7 @@ AddEventHandler('renzu_garage:ingaragepublic', function(coords, distance, vehicl
                     TaskWarpPedIntoVehicle(PlayerPedId(), v, -1)
                     veh = v
                     DoScreenFadeIn(333)
-                    ESX.TriggerServerCallback("renzu_garage:changestate",function(ret,garage_public)
+                    ESX.TriggerServerCallback("esx_garage:changestate",function(ret,garage_public)
                         if ret and garage_public then
                             local ent = Entity(veh).state
                             while ent.share == nil do Wait(100) end
@@ -2058,7 +2058,7 @@ AddEventHandler('renzu_garage:ingaragepublic', function(coords, distance, vehicl
                     SetEntityAlpha(vehicle, 51, false)
                     Wait(1000)
                     local t = {
-                        ['event'] = 'renzu_garage:return',
+                        ['event'] = 'esx_garage:return',
                         ['title'] = 'Vehicle is in Outside:',
                         ['server_event'] = false,
                         ['unpack_arg'] = true,
@@ -2151,7 +2151,7 @@ function VehiclesinGarage(coords, distance, property, propertycoord, gid)
             while IsPedInAnyVehicle(PlayerPedId()) and ingarage do
                 local table = {
                     ['key'] = 'E', -- key
-                    ['event'] = 'renzu_garage:ingaragepublic',
+                    ['event'] = 'esx_garage:ingaragepublic',
                     ['title'] = 'Press [E] Choose Vehicle',
                     ['server_event'] = false, -- server event or client
                     ['unpack_arg'] = true, -- send args as unpack 1,2,3,4 order
@@ -2194,14 +2194,14 @@ function DeleteGarage()
     end
 end
 
-RegisterNetEvent('renzu_garage:store')
-AddEventHandler('renzu_garage:store', function(i)
+RegisterNetEvent('esx_garage:store')
+AddEventHandler('esx_garage:store', function(i)
     local vehicleProps = GetVehicleProperties(GetVehiclePedIsIn(PlayerPedId(), 0))
     garageid = i
     if garageid == nil then
     garageid = 'A'
     end
-    ESX.TriggerServerCallback("renzu_garage:changestate",function(ret, changestate, hasOwner)
+    ESX.TriggerServerCallback("esx_garage:changestate",function(ret, changestate, hasOwner)
         if ret then
             DeleteEntity(GetVehiclePedIsIn(PlayerPedId(), 0))
         end
@@ -2224,7 +2224,7 @@ function Storevehicle(vehicle,impound, impound_data, public)
     Wait(100)
     TaskLeaveVehicle(PlayerPedId(),GetVehiclePedIsIn(PlayerPedId()),1)
     Wait(2000)
-    ESX.TriggerServerCallback("renzu_garage:changestate",function(ret, garage_public, hasOwner)
+    ESX.TriggerServerCallback("esx_garage:changestate",function(ret, garage_public, hasOwner)
         local ent = Entity(vehicle).state
         if ret then
             DeleteEntity(vehicle)
@@ -2366,7 +2366,7 @@ end
 myoldcoords = nil
 
 RegisterNUICallback("ownerinfo",function(data, cb)
-    ESX.TriggerServerCallback("renzu_garage:getowner",function(a,data)
+    ESX.TriggerServerCallback("esx_garage:getowner",function(a,data)
         if a ~= nil then
         SendNUIMessage(
             {
@@ -2424,7 +2424,7 @@ RegisterNUICallback(
             end
         end
         local veh = nil
-    ESX.TriggerServerCallback("renzu_garage:isvehicleingarage",function(stored,impound,garage,fee)
+    ESX.TriggerServerCallback("esx_garage:isvehicleingarage",function(stored,impound,garage,fee)
         if not stored or impound then
             local tempcoord = {}
             if propertygarage then
@@ -2483,7 +2483,7 @@ RegisterNUICallback(
             while veh == nil do
                 Citizen.Wait(10)
             end
-            ESX.TriggerServerCallback("renzu_garage:changestate",function(ret, garage_public)
+            ESX.TriggerServerCallback("esx_garage:changestate",function(ret, garage_public)
                 if ret and garage_public then
                     local ent = Entity(veh).state
                     while ent.share == nil do Wait(100) end
@@ -2625,7 +2625,7 @@ RegisterNUICallback(
                 props = json.decode(v.props)
             end
         end
-        ESX.TriggerServerCallback("renzu_garage:returnpayment",function(canreturn)
+        ESX.TriggerServerCallback("esx_garage:returnpayment",function(canreturn)
             if canreturn then
                 if propertygarage then
                     spawn = GetEntityCoords(PlayerPedId())
@@ -2676,7 +2676,7 @@ RegisterNUICallback(
                 while veh == nil do
                     Citizen.Wait(1)
                 end
-                ESX.TriggerServerCallback("renzu_garage:changestate",function(ret,garage_public)
+                ESX.TriggerServerCallback("esx_garage:changestate",function(ret,garage_public)
                     if ret and garage_public then
                         local ent = Entity(veh).state
                         while ent.share == nil do Wait(100) end

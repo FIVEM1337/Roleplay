@@ -174,19 +174,19 @@ function MysqlGarage(plugin,type,query,var)
 	return Citizen.Await(wait)
 end
 
-RegisterServerEvent('renzu_garage:GetVehiclesTable')
-AddEventHandler('renzu_garage:GetVehiclesTable', function(garageid,public)
+RegisterServerEvent('esx_garage:GetVehiclesTable')
+AddEventHandler('esx_garage:GetVehiclesTable', function(garageid,public)
     local src = source 
     local xPlayer = ESX.GetPlayerFromId(src)
     local identifier = xPlayer.identifier
 
     local Owned_Vehicle = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE owner = @owner', {['@owner'] = identifier})
     local Job_Vehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM job_vehicles WHERE job = @job', {['@job'] = xPlayer.job.name}) 
-    TriggerClientEvent("renzu_garage:receive_vehicles", src , Owned_Vehicle or {},vehicles or {}, Job_Vehicles or {})
+    TriggerClientEvent("esx_garage:receive_vehicles", src , Owned_Vehicle or {},vehicles or {}, Job_Vehicles or {})
 end)
 
-RegisterServerEvent('renzu_garage:GetVehiclesTableImpound')
-AddEventHandler('renzu_garage:GetVehiclesTableImpound', function()
+RegisterServerEvent('esx_garage:GetVehiclesTableImpound')
+AddEventHandler('esx_garage:GetVehiclesTableImpound', function()
     local src = source  
     local xPlayer = ESX.GetPlayerFromId(src)
     local identifier = xPlayer.identifier
@@ -199,11 +199,11 @@ AddEventHandler('renzu_garage:GetVehiclesTableImpound', function()
 
     local Job_Vehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM job_vehicles WHERE `stored` = 0 and job = @job', {['@job'] = xPlayer.job.name}) 
 
-    TriggerClientEvent("renzu_garage:receive_vehicles", src , Impounds,vehicles,Job_Vehicles or {})
+    TriggerClientEvent("esx_garage:receive_vehicles", src , Impounds,vehicles,Job_Vehicles or {})
 end)
 
 
-ESX.RegisterServerCallback('renzu_garage:getowner',function(source, cb, identifier, plate, garage)
+ESX.RegisterServerCallback('esx_garage:getowner',function(source, cb, identifier, plate, garage)
     local owner = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM users WHERE identifier = @identifier', {
 		['@identifier'] = identifier
 	})
@@ -223,7 +223,7 @@ function bool_to_number(value)
     end
 end
 
-ESX.RegisterServerCallback('renzu_garage:returnpayment', function (source, cb)
+ESX.RegisterServerCallback('esx_garage:returnpayment', function (source, cb)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer.getMoney() >= Config.ReturnPayment then
@@ -247,7 +247,7 @@ function DoiOwnthis(xPlayer,id)
 end
 
 
-ESX.RegisterServerCallback('renzu_garage:isvehicleingarage', function (source, cb, plate, id, ispolice, patrol)
+ESX.RegisterServerCallback('esx_garage:isvehicleingarage', function (source, cb, plate, id, ispolice, patrol)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
     if not Config.PlateSpace then
@@ -306,7 +306,7 @@ ESX.RegisterServerCallback('renzu_garage:isvehicleingarage', function (source, c
     end
 end)
 
-ESX.RegisterServerCallback('renzu_garage:canstore', function (source, cb, plate, job, isjobgarage, garagetype)
+ESX.RegisterServerCallback('esx_garage:canstore', function (source, cb, plate, job, isjobgarage, garagetype)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
     local identifier = xPlayer.identifier
@@ -368,7 +368,7 @@ ESX.RegisterServerCallback('renzu_garage:canstore', function (source, cb, plate,
 end)
 
 
-ESX.RegisterServerCallback('renzu_garage:changestate', function (source, cb, plate,state,garage_id,model,props,impound_cdata, public)
+ESX.RegisterServerCallback('esx_garage:changestate', function (source, cb, plate,state,garage_id,model,props,impound_cdata, public)
     if not Config.PlateSpace then
         plate = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper()
     else
