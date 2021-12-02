@@ -90,7 +90,7 @@ function isAuthorized(index, group)
 	return false
 end
 
-ESX.RegisterServerCallback('KorioZ-PersonalMenu:Bill_getBills', function(source, cb)
+ESX.RegisterServerCallback('esx_personalmenu:Bill_getBills', function(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local bills = {}
 
@@ -109,7 +109,7 @@ ESX.RegisterServerCallback('KorioZ-PersonalMenu:Bill_getBills', function(source,
 	end)
 end)
 
-ESX.RegisterServerCallback('KorioZ-PersonalMenu:Admin_getUsergroup', function(source, cb)
+ESX.RegisterServerCallback('esx_personalmenu:Admin_getUsergroup', function(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local plyGroup = xPlayer.getGroup()
 
@@ -121,27 +121,27 @@ ESX.RegisterServerCallback('KorioZ-PersonalMenu:Admin_getUsergroup', function(so
 end)
 
 -- Weapon Menu --
-RegisterServerEvent('KorioZ-PersonalMenu:Weapon_addAmmoToPedS')
-AddEventHandler('KorioZ-PersonalMenu:Weapon_addAmmoToPedS', function(plyId, value, quantity)
+RegisterServerEvent('esx_personalmenu:Weapon_addAmmoToPedS')
+AddEventHandler('esx_personalmenu:Weapon_addAmmoToPedS', function(plyId, value, quantity)
 	if #(GetEntityCoords(source, false) - GetEntityCoords(plyId, false)) <= 3.0 then
-		TriggerClientEvent('KorioZ-PersonalMenu:Weapon_addAmmoToPedC', plyId, value, quantity)
+		TriggerClientEvent('esx_personalmenu:Weapon_addAmmoToPedC', plyId, value, quantity)
 	end
 end)
 
 -- Admin Menu --
-RegisterServerEvent('KorioZ-PersonalMenu:Admin_BringS')
-AddEventHandler('KorioZ-PersonalMenu:Admin_BringS', function(plyId, targetId)
+RegisterServerEvent('esx_personalmenu:Admin_BringS')
+AddEventHandler('esx_personalmenu:Admin_BringS', function(plyId, targetId)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local plyGroup = xPlayer.getGroup()
 
 	if isAuthorized(getAdminCommand('bring'), plyGroup) or isAuthorized(getAdminCommand('goto'), plyGroup) then
 		local targetCoords = GetEntityCoords(GetPlayerPed(targetId))
-		TriggerClientEvent('KorioZ-PersonalMenu:Admin_BringC', plyId, targetCoords)
+		TriggerClientEvent('esx_personalmenu:Admin_BringC', plyId, targetCoords)
 	end
 end)
 
-RegisterServerEvent('KorioZ-PersonalMenu:Admin_giveCash')
-AddEventHandler('KorioZ-PersonalMenu:Admin_giveCash', function(money)
+RegisterServerEvent('esx_personalmenu:Admin_giveCash')
+AddEventHandler('esx_personalmenu:Admin_giveCash', function(money)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local plyGroup = xPlayer.getGroup()
 
@@ -151,8 +151,8 @@ AddEventHandler('KorioZ-PersonalMenu:Admin_giveCash', function(money)
 	end
 end)
 
-RegisterServerEvent('KorioZ-PersonalMenu:Admin_giveBank')
-AddEventHandler('KorioZ-PersonalMenu:Admin_giveBank', function(money)
+RegisterServerEvent('esx_personalmenu:Admin_giveBank')
+AddEventHandler('esx_personalmenu:Admin_giveBank', function(money)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local plyGroup = xPlayer.getGroup()
 
@@ -162,8 +162,8 @@ AddEventHandler('KorioZ-PersonalMenu:Admin_giveBank', function(money)
 	end
 end)
 
-RegisterServerEvent('KorioZ-PersonalMenu:Admin_giveDirtyMoney')
-AddEventHandler('KorioZ-PersonalMenu:Admin_giveDirtyMoney', function(money)
+RegisterServerEvent('esx_personalmenu:Admin_giveDirtyMoney')
+AddEventHandler('esx_personalmenu:Admin_giveDirtyMoney', function(money)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local plyGroup = xPlayer.getGroup()
 
@@ -174,8 +174,8 @@ AddEventHandler('KorioZ-PersonalMenu:Admin_giveDirtyMoney', function(money)
 end)
 
 -- Grade Menu --
-RegisterServerEvent('KorioZ-PersonalMenu:Boss_promouvoirplayer')
-AddEventHandler('KorioZ-PersonalMenu:Boss_promouvoirplayer', function(target)
+RegisterServerEvent('esx_personalmenu:Boss_promouvoirplayer')
+AddEventHandler('esx_personalmenu:Boss_promouvoirplayer', function(target)
 	local sourceXPlayer = ESX.GetPlayerFromId(source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
 
@@ -193,8 +193,8 @@ AddEventHandler('KorioZ-PersonalMenu:Boss_promouvoirplayer', function(target)
 	end
 end)
 
-RegisterServerEvent('KorioZ-PersonalMenu:Boss_destituerplayer')
-AddEventHandler('KorioZ-PersonalMenu:Boss_destituerplayer', function(target)
+RegisterServerEvent('esx_personalmenu:Boss_destituerplayer')
+AddEventHandler('esx_personalmenu:Boss_destituerplayer', function(target)
 	local sourceXPlayer = ESX.GetPlayerFromId(source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
 
@@ -212,8 +212,8 @@ AddEventHandler('KorioZ-PersonalMenu:Boss_destituerplayer', function(target)
 	end
 end)
 
-RegisterServerEvent('KorioZ-PersonalMenu:Boss_recruterplayer')
-AddEventHandler('KorioZ-PersonalMenu:Boss_recruterplayer', function(target, job, grade)
+RegisterServerEvent('esx_personalmenu:Boss_recruterplayer')
+AddEventHandler('esx_personalmenu:Boss_recruterplayer', function(target, job, grade)
 	local sourceXPlayer = ESX.GetPlayerFromId(source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
 
@@ -224,8 +224,8 @@ AddEventHandler('KorioZ-PersonalMenu:Boss_recruterplayer', function(target, job,
 	end
 end)
 
-RegisterServerEvent('KorioZ-PersonalMenu:Boss_virerplayer')
-AddEventHandler('KorioZ-PersonalMenu:Boss_virerplayer', function(target)
+RegisterServerEvent('esx_personalmenu:Boss_virerplayer')
+AddEventHandler('esx_personalmenu:Boss_virerplayer', function(target)
 	local sourceXPlayer = ESX.GetPlayerFromId(source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
 
@@ -238,8 +238,8 @@ AddEventHandler('KorioZ-PersonalMenu:Boss_virerplayer', function(target)
 	end
 end)
 
-RegisterServerEvent('KorioZ-PersonalMenu:Boss_promouvoirplayer2')
-AddEventHandler('KorioZ-PersonalMenu:Boss_promouvoirplayer2', function(target)
+RegisterServerEvent('esx_personalmenu:Boss_promouvoirplayer2')
+AddEventHandler('esx_personalmenu:Boss_promouvoirplayer2', function(target)
 	local sourceXPlayer = ESX.GetPlayerFromId(source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
 
@@ -257,8 +257,8 @@ AddEventHandler('KorioZ-PersonalMenu:Boss_promouvoirplayer2', function(target)
 	end
 end)
 
-RegisterServerEvent('KorioZ-PersonalMenu:Boss_destituerplayer2')
-AddEventHandler('KorioZ-PersonalMenu:Boss_destituerplayer2', function(target)
+RegisterServerEvent('esx_personalmenu:Boss_destituerplayer2')
+AddEventHandler('esx_personalmenu:Boss_destituerplayer2', function(target)
 	local sourceXPlayer = ESX.GetPlayerFromId(source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
 
@@ -277,8 +277,8 @@ AddEventHandler('KorioZ-PersonalMenu:Boss_destituerplayer2', function(target)
 end)
 
 
-RegisterServerEvent('KorioZ-PersonalMenu:Boss_recruterplayer2')
-AddEventHandler('KorioZ-PersonalMenu:Boss_recruterplayer2', function(target, job2, grade2)
+RegisterServerEvent('esx_personalmenu:Boss_recruterplayer2')
+AddEventHandler('esx_personalmenu:Boss_recruterplayer2', function(target, job2, grade2)
 	local sourceXPlayer = ESX.GetPlayerFromId(source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
 
@@ -289,8 +289,8 @@ AddEventHandler('KorioZ-PersonalMenu:Boss_recruterplayer2', function(target, job
 	end
 end)
 
-RegisterServerEvent('KorioZ-PersonalMenu:Boss_virerplayer2')
-AddEventHandler('KorioZ-PersonalMenu:Boss_virerplayer2', function(target)
+RegisterServerEvent('esx_personalmenu:Boss_virerplayer2')
+AddEventHandler('esx_personalmenu:Boss_virerplayer2', function(target)
 	local sourceXPlayer = ESX.GetPlayerFromId(source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
 

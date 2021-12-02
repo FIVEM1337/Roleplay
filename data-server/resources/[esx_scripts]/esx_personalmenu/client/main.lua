@@ -208,8 +208,8 @@ AddEventHandler('esx_addonaccount:setMoney', function(society, money)
 end)
 
 -- Weapon Menu --
-RegisterNetEvent('KorioZ-PersonalMenu:Weapon_addAmmoToPedC')
-AddEventHandler('KorioZ-PersonalMenu:Weapon_addAmmoToPedC', function(value, quantity)
+RegisterNetEvent('esx_personalmenu:Weapon_addAmmoToPedC')
+AddEventHandler('esx_personalmenu:Weapon_addAmmoToPedC', function(value, quantity)
 	local weaponHash = GetHashKey(value)
 
 	if HasPedGotWeapon(plyPed, weaponHash, false) and value ~= 'WEAPON_UNARMED' then
@@ -218,8 +218,8 @@ AddEventHandler('KorioZ-PersonalMenu:Weapon_addAmmoToPedC', function(value, quan
 end)
 
 -- Admin Menu --
-RegisterNetEvent('KorioZ-PersonalMenu:Admin_BringC')
-AddEventHandler('KorioZ-PersonalMenu:Admin_BringC', function(plyCoords)
+RegisterNetEvent('esx_personalmenu:Admin_BringC')
+AddEventHandler('esx_personalmenu:Admin_BringC', function(plyCoords)
 	SetEntityCoords(plyPed, plyCoords)
 end)
 
@@ -554,7 +554,7 @@ function RenderActionsMenu(type)
 											local finalAmmo = math.floor(ammo - quantity)
 											SetPedAmmo(plyPed, PersonalMenu.ItemSelected.name, finalAmmo)
 
-											TriggerServerEvent('KorioZ-PersonalMenu:Weapon_addAmmoToPedS', GetPlayerServerId(closestPlayer), PersonalMenu.ItemSelected.name, quantity)
+											TriggerServerEvent('esx_personalmenu:Weapon_addAmmoToPedS', GetPlayerServerId(closestPlayer), PersonalMenu.ItemSelected.name, quantity)
 											ESX.ShowNotification(_U('gave_ammo', quantity, GetPlayerName(closestPlayer)))
 											RageUI.CloseAll()
 										else
@@ -867,7 +867,7 @@ function RenderBillingMenu()
 			RageUI.Button(PersonalMenu.BillData[i].label, nil, {RightLabel = '$' .. ESX.Math.GroupDigits(PersonalMenu.BillData[i].amount)}, true, function(Hovered, Active, Selected)
 				if (Selected) then
 					ESX.TriggerServerCallback('esx_billing:payBill', function()
-						ESX.TriggerServerCallback('KorioZ-PersonalMenu:Bill_getBills', function(bills)
+						ESX.TriggerServerCallback('esx_personalmenu:Bill_getBills', function(bills)
 							PersonalMenu.BillData = bills
 						end)
 					end, PersonalMenu.BillData[i].id)
@@ -1019,7 +1019,7 @@ function RenderBossMenu()
 					if closestPlayer == -1 or closestDistance > 3.0 then
 						ESX.ShowNotification(_U('players_nearby'))
 					else
-						TriggerServerEvent('KorioZ-PersonalMenu:Boss_recruterplayer', GetPlayerServerId(closestPlayer), ESX.PlayerData.job.name, 0)
+						TriggerServerEvent('esx_personalmenu:Boss_recruterplayer', GetPlayerServerId(closestPlayer), ESX.PlayerData.job.name, 0)
 					end
 				else
 					ESX.ShowNotification(_U('missing_rights'))
@@ -1035,7 +1035,7 @@ function RenderBossMenu()
 					if closestPlayer == -1 or closestDistance > 3.0 then
 						ESX.ShowNotification(_U('players_nearby'))
 					else
-						TriggerServerEvent('KorioZ-PersonalMenu:Boss_virerplayer', GetPlayerServerId(closestPlayer))
+						TriggerServerEvent('esx_personalmenu:Boss_virerplayer', GetPlayerServerId(closestPlayer))
 					end
 				else
 					ESX.ShowNotification(_U('missing_rights'))
@@ -1051,7 +1051,7 @@ function RenderBossMenu()
 					if closestPlayer == -1 or closestDistance > 3.0 then
 						ESX.ShowNotification(_U('players_nearby'))
 					else
-						TriggerServerEvent('KorioZ-PersonalMenu:Boss_promouvoirplayer', GetPlayerServerId(closestPlayer))
+						TriggerServerEvent('esx_personalmenu:Boss_promouvoirplayer', GetPlayerServerId(closestPlayer))
 					end
 				else
 					ESX.ShowNotification(_U('missing_rights'))
@@ -1067,7 +1067,7 @@ function RenderBossMenu()
 					if closestPlayer == -1 or closestDistance > 3.0 then
 						ESX.ShowNotification(_U('players_nearby'))
 					else
-						TriggerServerEvent('KorioZ-PersonalMenu:Boss_destituerplayer', GetPlayerServerId(closestPlayer))
+						TriggerServerEvent('esx_personalmenu:Boss_destituerplayer', GetPlayerServerId(closestPlayer))
 					end
 				else
 					ESX.ShowNotification(_U('missing_rights'))
@@ -1091,7 +1091,7 @@ function RenderBoss2Menu()
 					if closestPlayer == -1 or closestDistance > 3.0 then
 						ESX.ShowNotification(_U('players_nearby'))
 					else
-						TriggerServerEvent('KorioZ-PersonalMenu:Boss_recruterplayer2', GetPlayerServerId(closestPlayer), ESX.PlayerData.job2.name, 0)
+						TriggerServerEvent('esx_personalmenu:Boss_recruterplayer2', GetPlayerServerId(closestPlayer), ESX.PlayerData.job2.name, 0)
 					end
 				else
 					ESX.ShowNotification(_U('missing_rights'))
@@ -1107,7 +1107,7 @@ function RenderBoss2Menu()
 					if closestPlayer == -1 or closestDistance > 3.0 then
 						ESX.ShowNotification(_U('players_nearby'))
 					else
-						TriggerServerEvent('KorioZ-PersonalMenu:Boss_virerplayer2', GetPlayerServerId(closestPlayer))
+						TriggerServerEvent('esx_personalmenu:Boss_virerplayer2', GetPlayerServerId(closestPlayer))
 					end
 				else
 					ESX.ShowNotification(_U('missing_rights'))
@@ -1123,7 +1123,7 @@ function RenderBoss2Menu()
 					if closestPlayer == -1 or closestDistance > 3.0 then
 						ESX.ShowNotification(_U('players_nearby'))
 					else
-						TriggerServerEvent('KorioZ-PersonalMenu:Boss_promouvoirplayer2', GetPlayerServerId(closestPlayer))
+						TriggerServerEvent('esx_personalmenu:Boss_promouvoirplayer2', GetPlayerServerId(closestPlayer))
 					end
 				else
 					ESX.ShowNotification(_U('missing_rights'))
@@ -1139,7 +1139,7 @@ function RenderBoss2Menu()
 					if closestPlayer == -1 or closestDistance > 3.0 then
 						ESX.ShowNotification(_U('players_nearby'))
 					else
-						TriggerServerEvent('KorioZ-PersonalMenu:Boss_destituerplayer2', GetPlayerServerId(closestPlayer))
+						TriggerServerEvent('esx_personalmenu:Boss_destituerplayer2', GetPlayerServerId(closestPlayer))
 					end
 				else
 					ESX.ShowNotification(_U('missing_rights'))
@@ -1179,9 +1179,9 @@ Citizen.CreateThread(function()
 
 		if IsControlJustReleased(0, Config.Controls.OpenMenu.keyboard) then
 			if not RageUI.Visible() then
-				ESX.TriggerServerCallback('KorioZ-PersonalMenu:Admin_getUsergroup', function(plyGroup)
+				ESX.TriggerServerCallback('esx_personalmenu:Admin_getUsergroup', function(plyGroup)
 					Player.group = plyGroup
-					ESX.TriggerServerCallback('KorioZ-PersonalMenu:Bill_getBills', function(bills)
+					ESX.TriggerServerCallback('esx_personalmenu:Bill_getBills', function(bills)
 						PersonalMenu.BillData = bills
 						ESX.PlayerData = ESX.GetPlayerData()
 						RageUI.Visible(RMenu.Get('rageui', 'personal'), true)
@@ -1266,7 +1266,7 @@ Citizen.CreateThread(function()
 		end
 
 		if IsControlPressed(1, Config.Controls.TPMarker.keyboard1) and IsControlJustReleased(1, Config.Controls.TPMarker.keyboard2) and IsInputDisabled(2) and not Player.isDead then
-			ESX.TriggerServerCallback('KorioZ-PersonalMenu:Admin_getUsergroup', function(plyGroup)
+			ESX.TriggerServerCallback('esx_personalmenu:Admin_getUsergroup', function(plyGroup)
 				if plyGroup ~= nil and (plyGroup == 'mod' or plyGroup == 'admin' or plyGroup == 'superadmin' or plyGroup == 'owner' or plyGroup == '_dev') then
 					local waypointHandle = GetFirstBlipInfoId(8)
 

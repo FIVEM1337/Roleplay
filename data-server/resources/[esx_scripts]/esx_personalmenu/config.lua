@@ -148,7 +148,7 @@ Config.Admin = {
 				plyId = tonumber(plyId)
 				
 				if type(plyId) == 'number' then
-					TriggerServerEvent('KorioZ-PersonalMenu:Admin_BringS', GetPlayerServerId(PlayerId()), plyId)
+					TriggerServerEvent('esx_personalmenu:Admin_BringS', GetPlayerServerId(PlayerId()), plyId)
 				end
 			end
 
@@ -166,7 +166,7 @@ Config.Admin = {
 				plyId = tonumber(plyId)
 				
 				if type(plyId) == 'number' then
-					TriggerServerEvent('KorioZ-PersonalMenu:Admin_BringS', GetPlayerServerId(PlayerId()), plyId)
+					TriggerServerEvent('esx_personalmenu:Admin_BringS', GetPlayerServerId(PlayerId()), plyId)
 				end
 			end
 
@@ -262,7 +262,7 @@ Config.Admin = {
 				amount = tonumber(amount)
 
 				if type(amount) == 'number' then
-					TriggerServerEvent('KorioZ-PersonalMenu:Admin_giveCash', amount)
+					TriggerServerEvent('esx_personalmenu:Admin_giveCash', amount)
 				end
 			end
 
@@ -280,7 +280,7 @@ Config.Admin = {
 				amount = tonumber(amount)
 
 				if type(amount) == 'number' then
-					TriggerServerEvent('KorioZ-PersonalMenu:Admin_giveBank', amount)
+					TriggerServerEvent('esx_personalmenu:Admin_giveBank', amount)
 				end
 			end
 
@@ -298,7 +298,7 @@ Config.Admin = {
 				amount = tonumber(amount)
 
 				if type(amount) == 'number' then
-					TriggerServerEvent('KorioZ-PersonalMenu:Admin_giveDirtyMoney', amount)
+					TriggerServerEvent('esx_personalmenu:Admin_giveDirtyMoney', amount)
 				end
 			end
 
