@@ -266,7 +266,6 @@ local garagejob = nil
 local ispolice = false
 RegisterNetEvent('opengarage')
 AddEventHandler('opengarage', function()
-    print("hee")
     local sleep = 2000
     local ped = PlayerPedId()
     local vehiclenow = GetVehiclePedIsIn(PlayerPedId(), false)
