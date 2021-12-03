@@ -2,23 +2,13 @@ Config = {}
 Config.Locale = "en"
 --GENERAL SETTING
 Config.Mysql = 'mysql-async' -- "ghmattisql", "mysql-async", "oxmysql"
-Config.use_RenzuCustoms = false -- Use renzu_customs getter and setter for Vehicle Properties
 Config.ReturnDamage = true -- return visual damage when restoring vehicle from garage
 Config.ReturnPayment = 1000 -- a value to pay if vehicle is not in garage
-Config.UseRayZone = false -- unrelease script https://github.com/renzuzu/renzu_rayzone
-Config.floatingtext = true -- use native floating text and marker to interact with garages (popui and floatingtext must be opposite settings) (popui must be false if this is true)
-Config.UsePopUI = false -- Create a Thread for checking playercoords and Use POPUI to Trigger Event, set this to false if using rayzone. Popui is originaly built in to RayZone -- DOWNLOAD https://github.com/renzuzu/renzu_popui
 Config.Quickpick = true -- if false system will create a garage shell and spawn every vehicle you preview
-Config.UniqueCarperGarage = false -- if false, show all vehicles to all garage location! else if true, Vehicles Saved in Garage A cannot be take out from Garage B for example.
-Config.UniqueCarperImpoundGarage = false -- if false, show all vehicles to all impound location! else if true, Vehicles Saved in Impound A cannot be take out from Impound B for example.
 
 -- BLIPS --
 Config.BlipNamesStatic = true -- if true no more garage a garage b blip names from MAP , only says  Garage
 --GENERAL SETTING
-
--- VEHICLE IMAGES
-Config.use_renzu_vehthumb = false
-
 
 Config.EnableImpound = true -- enable/disable impound
 Config.EnableHeliGarage = true -- enable/disable Helis

@@ -493,6 +493,7 @@
 
       .container .modal .modal-footer .modal-buttons{
           width:45%;
+          padding-top: 20px;
           display:flex;            
           flex-direction: row;
           align-items: center;
@@ -1248,6 +1249,7 @@ li {
 [data-tooltip].tooltip-top:before {
 	bottom: 100%;
 	left: 50%;
+  width: 100px;
 	margin-bottom: 5px;
 	transform: translateX(-50%);
 }

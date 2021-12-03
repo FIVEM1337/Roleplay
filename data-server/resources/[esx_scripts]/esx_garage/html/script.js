@@ -172,15 +172,15 @@ window.addEventListener('message', function(event) {
             </div>
             <!-- UIkit CARD FOOTER DEFAULT -->
             <div class="uk-card-footer default">
-            <p>`+cats[i]+` Vehicles</p>
+            <p>`+cats[i]+` Fahrzeuge</p>
             </div>
             <!-- UIkit CARD FOOTER HOVER -->
             <div class="uk-card-footer uk-hidden-hover">
             <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
             <div class="uk-navbar-center uk-navbar-item">
             <ul class="uk-navbar-nav">
-            <li><a onclick="choosecat('`+i+`')" class="tooltip-top" href="#" data-tooltip="Select this"><span class="uk-icon uk-margin-small-right"><i class="far fa-eye"></i></span>Select</a></li>
-            <li><a class="tooltip-top" href="#" data-tooltip="Total: `+cats[i]+`"><span class="uk-icon uk-margin-small-right"><i class="fas fa-archive"></i></span>Vehicles</a></li>
+            <li><a onclick="choosecat('`+i+`')" class="tooltip-top" href="#" data-tooltip="Auswählen"><span class="uk-icon uk-margin-small-right"><i class="far fa-eye"></i></span>Auswählen</a></li>
+            <li><a class="tooltip-top" href="#" data-tooltip="Gesammt: `+cats[i]+`"><span class="uk-icon uk-margin-small-right"><i class="fas fa-archive"></i></span>Fahrzeuge</a></li>
             </ul>
             </div>
             </nav>
@@ -274,7 +274,7 @@ $(document).ready(function() {
       <div class="column" id="nameBrand">\
       </div>\
       <div class="column menu-modifications" style="right:50px; position:absolute;top:-20px;">\
-          <div class="row" id="confirm"> <button class="confirm_out" style="background:#0454FE;color:#fff !important; border-radius: 10px;" onclick="garage()"> <i class="fad fa-garage"></i> Go to Garage </button> </div>\
+          <div class="row" id="confirm">  </div>\
       </div>\
   </div>\
   <div class="middle-left2-container">\
@@ -339,7 +339,7 @@ function ShowVehicle(currentTarget) {
                     </div>
 
                     <div class="row spacebetween">
-                        <span class="title">TOP SPEED</span>
+                        <span class="title">GESCHWINDIGKEIT</span>
                         <span>`+data.topspeed.toFixed(0)+` KM/H</span>
                     </div>
 
@@ -349,7 +349,7 @@ function ShowVehicle(currentTarget) {
                     </div>
 
                     <div class="row spacebetween">
-                        <span class="title">HORSE POWER</span>
+                        <span class="title">LEISTUNG</span>
                         <span>`+data.power.toFixed(0)+` HP</span>
                     </div>
 
@@ -359,7 +359,7 @@ function ShowVehicle(currentTarget) {
                     </div>
 
                     <div class="row spacebetween">
-                        <span class="title">TORQUE</span>
+                        <span class="title">DREHMOMENT</span>
                         <span>`+data.torque.toFixed(0)+` TQ</span>
                     </div>
 
@@ -369,7 +369,7 @@ function ShowVehicle(currentTarget) {
                     </div>
 
                     <div class="row spacebetween">
-                        <span class="title">BRAKE</span>
+                        <span class="title">BREMSEN</span>
                         <span>`+data.brake.toFixed(1)+`</span>
                     </div>
 
@@ -521,21 +521,21 @@ function ShowConfirm(){
         <div class="background-circle"></div>
         <div class="modal-content">
             <i style="    position: absolute;
-            right: 20%;
+            right: 10%;
             font-size: 40px;" class="fas fa-garage-car"></i>
-            <p class="title">Confirm:</p>
-            <p class="vehicle">Release Vehicle</p>
+            <p class="title">Ausparken:</p>
+            <p class="vehicle">Möchtest du das Fahrzeug ausparken</p>
             <p style="display:none;" id="finediv">FINE: $ <span id="fineamount">0</span></p>
         </div>
 
         <div class="modal-footer">
             <div class="modal-buttons">     
                 <div>
-                    <span>Use</span>
+                    <span>Ja</span>
                     <button id="money" class="modal-money button" onclick="GetVehicle('confirm')" >✔️</button>
                 </div>
                 <div>
-                    <span>Cancel</span>
+                    <span>Nein</span>
                     <button href="#!" id="card" class="modal-money button" onclick="GetVehicle('cancel')">X</button>
                 </div>
             </div>
@@ -685,7 +685,7 @@ $(document).on('keydown', function(event) {
             var modelUper = data[i].model;
             inGarageVehicle[i] = data[i]
             var img = data[i].img
-            $(".app_inner").append('<label style="cursor:pointer;"><input false="" id="tab-'+ i +'" onclick="ShowVehicle('+i+')" name="buttons" type="radio"> <label for="tab-'+ i +'"> <div class="app_inner__tab"> <span style="position:absolute;top:4px;left:8px;font-size:7px;color: #e2e2e2;;">Category: '+ data[i].brand +'</span> <span style="position:absolute;top:4px;right:5px;font-size:8px;color:#75ffb9;">Garage: '+ data[i].garage_id +'</span><h2 style="font-size:11px !important;"> <i class="icon" style="right:100px;"><img style="height:20px;" src="https://cdn.discordapp.com/attachments/709992715303125023/813351303887192084/wheel.png"></i> '+ data[i].name +' - Plate: '+ data[i].plate +' </h2> <div class="tab_left"> <i class="big icon"><img class="imageborder" style="min-width: 120px;height: 70px;border-radius: 10px;max-width: 120px;border-color: #c7c7c7;;" onerror="this.src=`https://i.imgur.com/Jdz2ZMK.png`;" src="'+img+'"></i>   </div> <div class="tab_right"> <p>Fuel Level: <div class="w3-border"> <div class="w3-grey" style="height:5px;width:'+ (data[i].fuel) +'%"></div> </div></p> <p>Body  Health: <div class="w3-border"> <div class="w3-grey" style="height:5px;width:'+ (data[i].bodyhealth * 0.1) +'%"></div> </div></p> <p>Engine Health: <div class="w3-border"> <div class="w3-grey" style="height:5px;width:'+ (data[i].enginehealth * 0.1) +'%"></div> </div></p><div class="row" id="confirm"> <button class="confirm_out" style="background:#0454FE" onclick="ShowConfirm()"> <i class="fad fa-garage-open"></i> Take Out </button> </div> </div> </div> </label></input></label>');    
+            $(".app_inner").append('<label style="cursor:pointer;"><input false="" id="tab-'+ i +'" onclick="ShowVehicle('+i+')" name="buttons" type="radio"> <label for="tab-'+ i +'"> <div class="app_inner__tab"> <span style="position:absolute;top:4px;left:8px;font-size:7px;color: #e2e2e2;;">Kategorie: '+ data[i].brand +'</span> <h2 style="font-size:11px !important;"> <i class="icon" style="right:100px;"><img style="height:20px;" src="https://cdn.discordapp.com/attachments/709992715303125023/813351303887192084/wheel.png"></i> '+ data[i].name +' - Plate: '+ data[i].plate +' </h2> <div class="tab_left"> <i class="big icon"><img class="imageborder" style="min-width: 120px;height: 70px;border-radius: 10px;max-width: 120px;border-color: #c7c7c7;;" onerror="this.src=`https://i.imgur.com/Jdz2ZMK.png`;" src="'+img+'"></i>   </div> <div class="tab_right"> <p>Tank: <div class="w3-border"> <div class="w3-grey" style="height:5px;width:'+ (data[i].fuel) +'%"></div> </div></p> <p>Karosserie Zustand: <div class="w3-border"> <div class="w3-grey" style="height:5px;width:'+ (data[i].bodyhealth * 0.1) +'%"></div> </div></p> <p>Motor Zustand: <div class="w3-border"> <div class="w3-grey" style="height:5px;width:'+ (data[i].enginehealth * 0.1) +'%"></div> </div></p><div class="row" id="confirm"> <button class="confirm_out" style="background:#0454FE" onclick="ShowConfirm()"> <i class="fad fa-garage-open"></i> Ausparken </button> </div> </div> </div> </label></input></label>');    
         }     
     }
     $("#garage").fadeOut();

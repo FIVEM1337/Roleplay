@@ -127,30 +127,6 @@ end)
 local drawtext = false
 local indist = false
 
-
-local neargarage = false
-function PopUI(name,v,reqdist,event)
-    if reqdist == nil then reqdist = 9 end
-    local table = {
-        ['event'] = 'opengarage',
-        ['title'] = 'Garage '..name,
-        ['server_event'] = false,
-        ['unpack_arg'] = false,
-        ['invehicle_title'] = 'Store Vehicle',
-        ['confirm'] = '[ENTER]',
-        ['reject'] = '[CLOSE]',
-        ['custom_arg'] = {}, -- example: {1,2,3,4}
-        ['use_cursor'] = false, -- USE MOUSE CURSOR INSTEAD OF INPUT (ENTER)
-    }
-    TriggerEvent('renzu_popui:showui',table)
-    local dist = #(v - GetEntityCoords(PlayerPedId()))
-    while dist < reqdist and neargarage do
-        dist = #(v - GetEntityCoords(PlayerPedId()))
-        Wait(100)
-    end
-    TriggerEvent('renzu_popui:closeui')
-end
-
 function ShowFloatingHelpNotification(msg, coords, disablemarker, i)
     AddTextEntry('FloatingHelpNotificationsc'..i, msg)
     SetFloatingHelpTextWorldPosition(1, coords+vector3(0,0,0.3))
@@ -216,123 +192,71 @@ end
 CreateThread(function()
     while PlayerData.job == nil do Wait(100) end
     Wait(500)
-    if not Config.UsePopUI and Config.floatingtext then
-        while true do
-            local mycoord = GetEntityCoords(PlayerPedId())
-            local inveh = IsPedInAnyVehicle(PlayerPedId())
-            for k,v in pairs(garagecoord) do
+    while true do
+        local mycoord = GetEntityCoords(PlayerPedId())
+        local inveh = IsPedInAnyVehicle(PlayerPedId())
+        for k,v in pairs(garagecoord) do
+            local vec = vector3(v.garage_x,v.garage_y,v.garage_z)
+            local req_dis = v.Dist
+            if inveh and v.store_x ~= nil then
+                vec = vector3(v.store_x,v.store_y,v.store_z)
+                req_dis = v.Store_dist
+            end
+            local dist = #(vec - mycoord)
+            if Config.UseMarker and dist < Config.MarkerDistance then
+                Config.UseMarker = false
+                DrawZuckerburg(v.garage,vec,Config.MarkerDistance)
+            end
+            if dist < req_dis then
+                tid = k
+                garageid = v.garage
+                neargarage = true
+                --PopUI(v.garage,vec,req_dis)
+                if IsPedInAnyVehicle(PlayerPedId()) then
+                    msg = 'Drücke [E] um Fahrzeug zu Parken'
+                else
+                    msg = 'Drücke [E] um Garage zu öffnen'
+                end
+                DrawInteraction(v.garage,vec,{req_dis,req_dis*3},msg,'opengarage',false,false,false)
+            end
+        end
+        if Config.EnableImpound then
+            for k,v in pairs(impoundcoord) do
                 local vec = vector3(v.garage_x,v.garage_y,v.garage_z)
-                local req_dis = v.Dist
-                if inveh and v.store_x ~= nil then
-                    vec = vector3(v.store_x,v.store_y,v.store_z)
-                    req_dis = v.Store_dist
-                end
                 local dist = #(vec - mycoord)
-                if Config.UseMarker and dist < Config.MarkerDistance then
-                    Config.UseMarker = false
-                    DrawZuckerburg(v.garage,vec,Config.MarkerDistance)
-                end
-                if dist < req_dis then
+                if dist < v.Dist then
                     tid = k
                     garageid = v.garage
                     neargarage = true
-                    --PopUI(v.garage,vec,req_dis)
+                    --PopUI(v.garage,vec)
                     if IsPedInAnyVehicle(PlayerPedId()) then
-                        msg = 'Press [E] Store Vehicle'
+                        msg = 'Drücke [E] um Fahrzeug zu Parken'
                     else
-                        msg = 'Press [E] 🏚️ Garage '..v.garage
+                        msg = 'Drücke [E] um Garage zu öffnen'
                     end
-                    DrawInteraction(v.garage,vec,{req_dis,req_dis*3},msg,'opengarage',false,false,false)
+                    DrawInteraction(v.garage,vec,{v.Dist,v.Dist*3},msg,'opengarage',false,false,false)
                 end
             end
-            if Config.EnableImpound then
-                for k,v in pairs(impoundcoord) do
-                    local vec = vector3(v.garage_x,v.garage_y,v.garage_z)
-                    local dist = #(vec - mycoord)
-                    if dist < v.Dist then
-                        tid = k
-                        garageid = v.garage
-                        neargarage = true
-                        --PopUI(v.garage,vec)
-                        if IsPedInAnyVehicle(PlayerPedId()) then
-                            msg = 'Press [E] Store Vehicle'
-                        else
-                            msg = 'Press [E] ⛍ Garage '..v.garage
-                        end
-                        DrawInteraction(v.garage,vec,{v.Dist,v.Dist*3},msg,'opengarage',false,false,false)
-                    end
-                end
-            end
-            if Config.EnableHeliGarage and PlayerData.job ~= nil and helispawn[PlayerData.job.name] ~= nil then
-                for k,v in pairs(helispawn[PlayerData.job.name]) do
-                    local vec = vector3(v.coords.x,v.coords.y,v.coords.z)
-                    local dist = #(vec - mycoord)
-                    if dist < v.distance then
-                        tid = k
-                        garageid = v.garage
-                        neargarage = true
-                        if IsPedInAnyVehicle(PlayerPedId()) then
-                            msg = 'Press [E] Store Helicopter'
-                        else
-                            msg = 'Press [E] 🛸 Garage '..v.garage
-                        end
-                        DrawInteraction(v.garage,vec,{10,15},msg,'opengarage',false,false,false)
-                        --PopUI(v.garage,vec)
-                    end
-                end
-            end
-            Wait(1000)
         end
-    end
-    if Config.UsePopUI and not Config.floatingtext then
-        while true do
-            local mycoord = GetEntityCoords(PlayerPedId())
-            local inveh = IsPedInAnyVehicle(PlayerPedId())
-            for k,v in pairs(garagecoord) do
-                local vec = vector3(v.garage_x,v.garage_y,v.garage_z)
-                local req_dis = v.Dist
-                if inveh and v.store_x ~= nil then
-                    vec = vector3(v.store_x,v.store_y,v.store_z)
-                    req_dis = v.Store_dist
-                end
+        if Config.EnableHeliGarage and PlayerData.job ~= nil and helispawn[PlayerData.job.name] ~= nil then
+            for k,v in pairs(helispawn[PlayerData.job.name]) do
+                local vec = vector3(v.coords.x,v.coords.y,v.coords.z)
                 local dist = #(vec - mycoord)
-                if Config.UseMarker and dist < Config.MarkerDistance then
-                    Config.UseMarker = false
-                    DrawZuckerburg(v.garage,vec,Config.MarkerDistance)
-                end
-                if dist < req_dis then
+                if dist < v.distance then
                     tid = k
                     garageid = v.garage
                     neargarage = true
-                    PopUI(v.garage,vec,req_dis)
-                end
-            end
-            if Config.EnableImpound then
-                for k,v in pairs(impoundcoord) do
-                    local vec = vector3(v.garage_x,v.garage_y,v.garage_z)
-                    local dist = #(vec - mycoord)
-                    if dist < v.Dist then
-                        tid = k
-                        garageid = v.garage
-                        neargarage = true
-                        PopUI(v.garage,vec)
+                    if IsPedInAnyVehicle(PlayerPedId()) then
+                        msg = 'Drücke [E] um Fahrzeug zu Parken'
+                    else
+                        msg = 'Drücke [E] um Garage zu öffnen'
                     end
+                    DrawInteraction(v.garage,vec,{10,15},msg,'opengarage',false,false,false)
+                    --PopUI(v.garage,vec)
                 end
             end
-            if Config.EnableHeliGarage and PlayerData.job ~= nil and helispawn[PlayerData.job.name] ~= nil then
-                for k,v in pairs(helispawn[PlayerData.job.name]) do
-                    local vec = vector3(v.coords.x,v.coords.y,v.coords.z)
-                    local dist = #(vec - mycoord)
-                    if dist < 10 then
-                        tid = k
-                        garageid = v.garage
-                        neargarage = true
-                        PopUI(v.garage,vec)
-                    end
-                end
-            end
-            Wait(1000)
         end
+        Wait(1000)
     end
 end)
 
@@ -342,6 +266,7 @@ local garagejob = nil
 local ispolice = false
 RegisterNetEvent('opengarage')
 AddEventHandler('opengarage', function()
+    print("hee")
     local sleep = 2000
     local ped = PlayerPedId()
     local vehiclenow = GetVehiclePedIsIn(PlayerPedId(), false)
@@ -378,7 +303,6 @@ AddEventHandler('opengarage', function()
                 if dist <= v.Dist and not jobgarage and not string.find(v.garage, "impound") or dist <= 7.0 and PlayerData.job ~= nil and PlayerData.job.name == v.job and jobgarage and not string.find(v.garage, "impound") then
                     garageid = v.garage
                     tid = k
-                    TriggerEvent('dopeNotify:Alert', "Garage", "Garage öffnen...Bitte warten..", 5000, 'info')
                     TriggerServerEvent("esx_garage:GetVehiclesTable",garageid,v.garage_type == 'public' or false)
                     fetchdone = false
                     garage_public = v.garage_type == 'public' or false
@@ -425,7 +349,6 @@ AddEventHandler('opengarage', function()
             elseif not DoesEntityExist(vehiclenow) then
                 if dist <= v.Dist and Impoundforall or not Impoundforall and dist <= 3.0 and PlayerData.job ~= nil and PlayerData.job.name == v.job and jobgarage then
                     garageid = v.garage
-                    TriggerEvent('dopeNotify:Alert', "Garage", "Garage öffnen...Bitte warten..", 5000, 'info')
                     TriggerServerEvent("esx_garage:GetVehiclesTableImpound")
                     fetchdone = false
                     while not fetchdone do
@@ -504,262 +427,216 @@ function SetVehicleProp(vehicle, mods)
             end
         end
     end
-    if Config.use_RenzuCustoms then
-        exports.renzu_customs:SetVehicleProp(vehicle,mods)
-    else
-        props = mods
-        -- https://github.com/esx-framework/es_extended/tree/v1-final COPYRIGHT
-        if DoesEntityExist(vehicle) then
-            local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
-            local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
-            SetVehicleModKit(vehicle, 0)
-            if props.sound then ForceVehicleEngineAudio(vehicle, props.sound) end
-            if props.plate then SetVehicleNumberPlateText(vehicle, props.plate) end
-            if props.plateIndex then SetVehicleNumberPlateTextIndex(vehicle, props.plateIndex) end
-            if props.bodyHealth then SetVehicleBodyHealth(vehicle, props.bodyHealth + 0.0) end
-            if props.engineHealth then SetVehicleEngineHealth(vehicle, props.engineHealth + 0.0) end
-            if props.tankHealth then SetVehiclePetrolTankHealth(vehicle, props.tankHealth + 0.0) end
-            if props.dirtLevel then SetVehicleDirtLevel(vehicle, props.dirtLevel + 0.0) end
-            if props.rgb then SetVehicleCustomPrimaryColour(vehicle, props.rgb[1], props.rgb[2], props.rgb[3]) end
-            if props.rgb2 then SetVehicleCustomSecondaryColour(vehicle, props.rgb2[1], props.rgb2[2], props.rgb2[3]) end
-            if props.color1 then SetVehicleColours(vehicle, props.color1, colorSecondary) end
-            if props.color2 then SetVehicleColours(vehicle, props.color1 or colorPrimary, props.color2) end
-            if props.pearlescentColor then SetVehicleExtraColours(vehicle, props.pearlescentColor, wheelColor) end
-            if props.wheelColor then SetVehicleExtraColours(vehicle, props.pearlescentColor or pearlescentColor, props.wheelColor) end
-            if props.wheels then SetVehicleWheelType(vehicle, props.wheels) end
-            if props.windowTint then SetVehicleWindowTint(vehicle, props.windowTint) end
-
-            if props.neonEnabled then
-                SetVehicleNeonLightEnabled(vehicle, 0, props.neonEnabled[1])
-                SetVehicleNeonLightEnabled(vehicle, 1, props.neonEnabled[2])
-                SetVehicleNeonLightEnabled(vehicle, 2, props.neonEnabled[3])
-                SetVehicleNeonLightEnabled(vehicle, 3, props.neonEnabled[4])
-            end
-
-            if props.extras then
-                for extraId,enabled in pairs(props.extras) do
-                    if enabled then
-                        SetVehicleExtra(vehicle, tonumber(extraId), 0)
-                    else
-                        SetVehicleExtra(vehicle, tonumber(extraId), 1)
-                    end
+    props = mods
+    -- https://github.com/esx-framework/es_extended/tree/v1-final COPYRIGHT
+    if DoesEntityExist(vehicle) then
+        local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
+        local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
+        SetVehicleModKit(vehicle, 0)
+        if props.sound then ForceVehicleEngineAudio(vehicle, props.sound) end
+        if props.plate then SetVehicleNumberPlateText(vehicle, props.plate) end
+        if props.plateIndex then SetVehicleNumberPlateTextIndex(vehicle, props.plateIndex) end
+        if props.bodyHealth then SetVehicleBodyHealth(vehicle, props.bodyHealth + 0.0) end
+        if props.engineHealth then SetVehicleEngineHealth(vehicle, props.engineHealth + 0.0) end
+        if props.tankHealth then SetVehiclePetrolTankHealth(vehicle, props.tankHealth + 0.0) end
+        if props.dirtLevel then SetVehicleDirtLevel(vehicle, props.dirtLevel + 0.0) end
+        if props.rgb then SetVehicleCustomPrimaryColour(vehicle, props.rgb[1], props.rgb[2], props.rgb[3]) end
+        if props.rgb2 then SetVehicleCustomSecondaryColour(vehicle, props.rgb2[1], props.rgb2[2], props.rgb2[3]) end
+        if props.color1 then SetVehicleColours(vehicle, props.color1, colorSecondary) end
+        if props.color2 then SetVehicleColours(vehicle, props.color1 or colorPrimary, props.color2) end
+        if props.pearlescentColor then SetVehicleExtraColours(vehicle, props.pearlescentColor, wheelColor) end
+        if props.wheelColor then SetVehicleExtraColours(vehicle, props.pearlescentColor or pearlescentColor, props.wheelColor) end
+        if props.wheels then SetVehicleWheelType(vehicle, props.wheels) end
+        if props.windowTint then SetVehicleWindowTint(vehicle, props.windowTint) end
+        if props.neonEnabled then
+            SetVehicleNeonLightEnabled(vehicle, 0, props.neonEnabled[1])
+            SetVehicleNeonLightEnabled(vehicle, 1, props.neonEnabled[2])
+            SetVehicleNeonLightEnabled(vehicle, 2, props.neonEnabled[3])
+            SetVehicleNeonLightEnabled(vehicle, 3, props.neonEnabled[4])
+        end
+        if props.extras then
+            for extraId,enabled in pairs(props.extras) do
+                if enabled then
+                    SetVehicleExtra(vehicle, tonumber(extraId), 0)
+                else
+                    SetVehicleExtra(vehicle, tonumber(extraId), 1)
                 end
             end
-
-            if props.neonColor then SetVehicleNeonLightsColour(vehicle, props.neonColor[1], props.neonColor[2], props.neonColor[3]) end
-            if props.xenonColor then SetVehicleXenonLightsColour(vehicle, props.xenonColor) end
-            if props.modSmokeEnabled then ToggleVehicleMod(vehicle, 20, true) end
-            if props.tyreSmokeColor then SetVehicleTyreSmokeColor(vehicle, props.tyreSmokeColor[1], props.tyreSmokeColor[2], props.tyreSmokeColor[3]) end
-            if props.modSpoilers then SetVehicleMod(vehicle, 0, props.modSpoilers, false) end
-            if props.modFrontBumper then SetVehicleMod(vehicle, 1, props.modFrontBumper, false) end
-            if props.modRearBumper then SetVehicleMod(vehicle, 2, props.modRearBumper, false) end
-            if props.modSideSkirt then SetVehicleMod(vehicle, 3, props.modSideSkirt, false) end
-            if props.modExhaust then SetVehicleMod(vehicle, 4, props.modExhaust, false) end
-            if props.modFrame then SetVehicleMod(vehicle, 5, props.modFrame, false) end
-            if props.modGrille then SetVehicleMod(vehicle, 6, props.modGrille, false) end
-            if props.modHood then SetVehicleMod(vehicle, 7, props.modHood, false) end
-            if props.modFender then SetVehicleMod(vehicle, 8, props.modFender, false) end
-            if props.modRightFender then SetVehicleMod(vehicle, 9, props.modRightFender, false) end
-            if props.modRoof then SetVehicleMod(vehicle, 10, props.modRoof, false) end
-            if props.modEngine then SetVehicleMod(vehicle, 11, props.modEngine, false) end
-            if props.modBrakes then SetVehicleMod(vehicle, 12, props.modBrakes, false) end
-            if props.modTransmission then SetVehicleMod(vehicle, 13, props.modTransmission, false) end
-            if props.modHorns then SetVehicleMod(vehicle, 14, props.modHorns, false) end
-            if props.modSuspension then SetVehicleMod(vehicle, 15, props.modSuspension, false) end
-            if props.modArmor then SetVehicleMod(vehicle, 16, props.modArmor, false) end
-            if props.modTurbo then ToggleVehicleMod(vehicle,  18, props.modTurbo) end
-            if props.modXenon then ToggleVehicleMod(vehicle,  22, props.modXenon) end
-            if props.modFrontWheels then SetVehicleMod(vehicle, 23, props.modFrontWheels, false) end
-            if props.modBackWheels then SetVehicleMod(vehicle, 24, props.modBackWheels, false) end
-            if props.modPlateHolder then SetVehicleMod(vehicle, 25, props.modPlateHolder, false) end
-            if props.modVanityPlate then SetVehicleMod(vehicle, 26, props.modVanityPlate, false) end
-            if props.modTrimA then SetVehicleMod(vehicle, 27, props.modTrimA, false) end
-            if props.modOrnaments then SetVehicleMod(vehicle, 28, props.modOrnaments, false) end
-            if props.modDashboard then SetVehicleMod(vehicle, 29, props.modDashboard, false) end
-            if props.modDial then SetVehicleMod(vehicle, 30, props.modDial, false) end
-            if props.modDoorSpeaker then SetVehicleMod(vehicle, 31, props.modDoorSpeaker, false) end
-            if props.modSeats then SetVehicleMod(vehicle, 32, props.modSeats, false) end
-            if props.modSteeringWheel then SetVehicleMod(vehicle, 33, props.modSteeringWheel, false) end
-            if props.modShifterLeavers then SetVehicleMod(vehicle, 34, props.modShifterLeavers, false) end
-            if props.modAPlate then SetVehicleMod(vehicle, 35, props.modAPlate, false) end
-            if props.modSpeakers then SetVehicleMod(vehicle, 36, props.modSpeakers, false) end
-            if props.modTrunk then SetVehicleMod(vehicle, 37, props.modTrunk, false) end
-            if props.modHydrolic then SetVehicleMod(vehicle, 38, props.modHydrolic, false) end
-            if props.modEngineBlock then SetVehicleMod(vehicle, 39, props.modEngineBlock, false) end
-            if props.modAirFilter then SetVehicleMod(vehicle, 40, props.modAirFilter, false) end
-            if props.modStruts then SetVehicleMod(vehicle, 41, props.modStruts, false) end
-            if props.modArchCover then SetVehicleMod(vehicle, 42, props.modArchCover, false) end
-            if props.modAerials then SetVehicleMod(vehicle, 43, props.modAerials, false) end
-            if props.modTrimB then SetVehicleMod(vehicle, 44, props.modTrimB, false) end
-            if props.modTank then SetVehicleMod(vehicle, 45, props.modTank, false) end
-            if props.modWindows then SetVehicleMod(vehicle, 46, props.modWindows, false) end
-
-            if props.modLivery then
-                SetVehicleMod(vehicle, 48, props.modLivery, false)
-                SetVehicleLivery(vehicle, props.modLivery)
-            end
-            if props.fuelLevel then SetVehicleFuelLevel(vehicle, props.fuelLevel + 0.0) if DecorGetFloat(vehicle,'_FUEL_LEVEL') then DecorSetFloat(vehicle,'_FUEL_LEVEL',props.fuelLevel + 0.0) end end
         end
+        if props.neonColor then SetVehicleNeonLightsColour(vehicle, props.neonColor[1], props.neonColor[2], props.neonColor[3]) end
+        if props.xenonColor then SetVehicleXenonLightsColour(vehicle, props.xenonColor) end
+        if props.modSmokeEnabled then ToggleVehicleMod(vehicle, 20, true) end
+        if props.tyreSmokeColor then SetVehicleTyreSmokeColor(vehicle, props.tyreSmokeColor[1], props.tyreSmokeColor[2], props.tyreSmokeColor[3]) end
+        if props.modSpoilers then SetVehicleMod(vehicle, 0, props.modSpoilers, false) end
+        if props.modFrontBumper then SetVehicleMod(vehicle, 1, props.modFrontBumper, false) end
+        if props.modRearBumper then SetVehicleMod(vehicle, 2, props.modRearBumper, false) end
+        if props.modSideSkirt then SetVehicleMod(vehicle, 3, props.modSideSkirt, false) end
+        if props.modExhaust then SetVehicleMod(vehicle, 4, props.modExhaust, false) end
+        if props.modFrame then SetVehicleMod(vehicle, 5, props.modFrame, false) end
+        if props.modGrille then SetVehicleMod(vehicle, 6, props.modGrille, false) end
+        if props.modHood then SetVehicleMod(vehicle, 7, props.modHood, false) end
+        if props.modFender then SetVehicleMod(vehicle, 8, props.modFender, false) end
+        if props.modRightFender then SetVehicleMod(vehicle, 9, props.modRightFender, false) end
+        if props.modRoof then SetVehicleMod(vehicle, 10, props.modRoof, false) end
+        if props.modEngine then SetVehicleMod(vehicle, 11, props.modEngine, false) end
+        if props.modBrakes then SetVehicleMod(vehicle, 12, props.modBrakes, false) end
+        if props.modTransmission then SetVehicleMod(vehicle, 13, props.modTransmission, false) end
+        if props.modHorns then SetVehicleMod(vehicle, 14, props.modHorns, false) end
+        if props.modSuspension then SetVehicleMod(vehicle, 15, props.modSuspension, false) end
+        if props.modArmor then SetVehicleMod(vehicle, 16, props.modArmor, false) end
+        if props.modTurbo then ToggleVehicleMod(vehicle,  18, props.modTurbo) end
+        if props.modXenon then ToggleVehicleMod(vehicle,  22, props.modXenon) end
+        if props.modFrontWheels then SetVehicleMod(vehicle, 23, props.modFrontWheels, false) end
+        if props.modBackWheels then SetVehicleMod(vehicle, 24, props.modBackWheels, false) end
+        if props.modPlateHolder then SetVehicleMod(vehicle, 25, props.modPlateHolder, false) end
+        if props.modVanityPlate then SetVehicleMod(vehicle, 26, props.modVanityPlate, false) end
+        if props.modTrimA then SetVehicleMod(vehicle, 27, props.modTrimA, false) end
+        if props.modOrnaments then SetVehicleMod(vehicle, 28, props.modOrnaments, false) end
+        if props.modDashboard then SetVehicleMod(vehicle, 29, props.modDashboard, false) end
+        if props.modDial then SetVehicleMod(vehicle, 30, props.modDial, false) end
+        if props.modDoorSpeaker then SetVehicleMod(vehicle, 31, props.modDoorSpeaker, false) end
+        if props.modSeats then SetVehicleMod(vehicle, 32, props.modSeats, false) end
+        if props.modSteeringWheel then SetVehicleMod(vehicle, 33, props.modSteeringWheel, false) end
+        if props.modShifterLeavers then SetVehicleMod(vehicle, 34, props.modShifterLeavers, false) end
+        if props.modAPlate then SetVehicleMod(vehicle, 35, props.modAPlate, false) end
+        if props.modSpeakers then SetVehicleMod(vehicle, 36, props.modSpeakers, false) end
+        if props.modTrunk then SetVehicleMod(vehicle, 37, props.modTrunk, false) end
+        if props.modHydrolic then SetVehicleMod(vehicle, 38, props.modHydrolic, false) end
+        if props.modEngineBlock then SetVehicleMod(vehicle, 39, props.modEngineBlock, false) end
+        if props.modAirFilter then SetVehicleMod(vehicle, 40, props.modAirFilter, false) end
+        if props.modStruts then SetVehicleMod(vehicle, 41, props.modStruts, false) end
+        if props.modArchCover then SetVehicleMod(vehicle, 42, props.modArchCover, false) end
+        if props.modAerials then SetVehicleMod(vehicle, 43, props.modAerials, false) end
+        if props.modTrimB then SetVehicleMod(vehicle, 44, props.modTrimB, false) end
+        if props.modTank then SetVehicleMod(vehicle, 45, props.modTank, false) end
+        if props.modWindows then SetVehicleMod(vehicle, 46, props.modWindows, false) end
+        if props.modLivery then
+            SetVehicleMod(vehicle, 48, props.modLivery, false)
+            SetVehicleLivery(vehicle, props.modLivery)
+        end
+        if props.fuelLevel then SetVehicleFuelLevel(vehicle, props.fuelLevel + 0.0) if DecorGetFloat(vehicle,'_FUEL_LEVEL') then DecorSetFloat(vehicle,'_FUEL_LEVEL',props.fuelLevel + 0.0) end end
     end
 end
 
 function GetVehicleProperties(vehicle)
-    if Config.use_RenzuCustoms then
-        local mods = exports.renzu_customs:GetVehicleProperties(vehicle)
-        if not Config.ReturnDamage then
-            return mods
-        end
-        mods.wheel_tires = {}
-        mods.vehicle_doors = {}
-        mods.vehicle_window = {}
-        for tireid = 1, 7 do
-            local normal = IsVehicleTyreBurst(vehicle, tireid, true)
-            local completely = IsVehicleTyreBurst(vehicle, tireid, false)
-            if normal or completely then
-                mods.wheel_tires[tireid] = true
-            else
-                mods.wheel_tires[tireid] = false
-            end
-        end
-        Wait(100)
-        for doorid = 0, 5 do
-            mods.vehicle_doors[#mods.vehicle_doors+1] = IsVehicleDoorDamaged(vehicle, doorid)
-        end
-        Wait(500)
-        for windowid = 0, 7 do
-            mods.vehicle_window[#mods.vehicle_window+1] = IsVehicleWindowIntact(vehicle, windowid)
-        end
-        return mods
-    else
+    if DoesEntityExist(vehicle) then
+        -- https://github.com/esx-framework/es_extended/tree/v1-final COPYRIGHT
         if DoesEntityExist(vehicle) then
-            -- https://github.com/esx-framework/es_extended/tree/v1-final COPYRIGHT
-            if DoesEntityExist(vehicle) then
-                local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
-                local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
-                local extras = {}
-                for extraId=0, 12 do
-                    if DoesExtraExist(vehicle, extraId) then
-                        local state = IsVehicleExtraTurnedOn(vehicle, extraId) == 1
-                        extras[tostring(extraId)] = state
-                    end
+            local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
+            local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
+            local extras = {}
+            for extraId=0, 12 do
+                if DoesExtraExist(vehicle, extraId) then
+                    local state = IsVehicleExtraTurnedOn(vehicle, extraId) == 1
+                    extras[tostring(extraId)] = state
                 end
-                local plate = GetVehicleNumberPlateText(vehicle)
-                if not Config.PlateSpace then
-                    plate = string.gsub(tostring(GetVehicleNumberPlateText(vehicle)), '^%s*(.-)%s*$', '%1')
-                end
-                local modlivery = GetVehicleLivery(vehicle)
-                if modlivery == -1 then
-                    modlivery = GetVehicleMod(vehicle, 48)
-                end
-                local mods = {
-                    model             = GetEntityModel(vehicle),
-                    plate             = plate,
-                    plateIndex        = GetVehicleNumberPlateTextIndex(vehicle),
-
-                    bodyHealth        = ESX.Math.Round(GetVehicleBodyHealth(vehicle), 1),
-                    engineHealth      = ESX.Math.Round(GetVehicleEngineHealth(vehicle), 1),
-                    tankHealth        = ESX.Math.Round(GetVehiclePetrolTankHealth(vehicle), 1),
-
-                    fuelLevel         = ESX.Math.Round(GetVehicleFuelLevel(vehicle), 1),
-                    dirtLevel         = ESX.Math.Round(GetVehicleDirtLevel(vehicle), 1),
-                    color1            = colorPrimary,
-                    color2            = colorSecondary,
-                    rgb				  = table.pack(GetVehicleCustomPrimaryColour(vehicle)),
-                    rgb2				  = table.pack(GetVehicleCustomSecondaryColour(vehicle)),
-                    pearlescentColor  = pearlescentColor,
-                    wheelColor        = wheelColor,
-
-                    wheels            = GetVehicleWheelType(vehicle),
-                    windowTint        = GetVehicleWindowTint(vehicle),
-                    xenonColor        = GetVehicleXenonLightsColour(vehicle),
-
-                    neonEnabled       = {
-                        IsVehicleNeonLightEnabled(vehicle, 0),
-                        IsVehicleNeonLightEnabled(vehicle, 1),
-                        IsVehicleNeonLightEnabled(vehicle, 2),
-                        IsVehicleNeonLightEnabled(vehicle, 3)
-                    },
-
-                    neonColor         = table.pack(GetVehicleNeonLightsColour(vehicle)),
-                    extras            = extras,
-                    tyreSmokeColor    = table.pack(GetVehicleTyreSmokeColor(vehicle)),
-
-                    modSpoilers       = GetVehicleMod(vehicle, 0),
-                    modFrontBumper    = GetVehicleMod(vehicle, 1),
-                    modRearBumper     = GetVehicleMod(vehicle, 2),
-                    modSideSkirt      = GetVehicleMod(vehicle, 3),
-                    modExhaust        = GetVehicleMod(vehicle, 4),
-                    modFrame          = GetVehicleMod(vehicle, 5),
-                    modGrille         = GetVehicleMod(vehicle, 6),
-                    modHood           = GetVehicleMod(vehicle, 7),
-                    modFender         = GetVehicleMod(vehicle, 8),
-                    modRightFender    = GetVehicleMod(vehicle, 9),
-                    modRoof           = GetVehicleMod(vehicle, 10),
-
-                    modEngine         = GetVehicleMod(vehicle, 11),
-                    modBrakes         = GetVehicleMod(vehicle, 12),
-                    modTransmission   = GetVehicleMod(vehicle, 13),
-                    modHorns          = GetVehicleMod(vehicle, 14),
-                    modSuspension     = GetVehicleMod(vehicle, 15),
-                    modArmor          = GetVehicleMod(vehicle, 16),
-
-                    modTurbo          = IsToggleModOn(vehicle, 18),
-                    modSmokeEnabled   = IsToggleModOn(vehicle, 20),
-                    modXenon          = IsToggleModOn(vehicle, 22),
-
-                    modFrontWheels    = GetVehicleMod(vehicle, 23),
-                    modBackWheels     = GetVehicleMod(vehicle, 24),
-
-                    modPlateHolder    = GetVehicleMod(vehicle, 25),
-                    modVanityPlate    = GetVehicleMod(vehicle, 26),
-                    modTrimA          = GetVehicleMod(vehicle, 27),
-                    modOrnaments      = GetVehicleMod(vehicle, 28),
-                    modDashboard      = GetVehicleMod(vehicle, 29),
-                    modDial           = GetVehicleMod(vehicle, 30),
-                    modDoorSpeaker    = GetVehicleMod(vehicle, 31),
-                    modSeats          = GetVehicleMod(vehicle, 32),
-                    modSteeringWheel  = GetVehicleMod(vehicle, 33),
-                    modShifterLeavers = GetVehicleMod(vehicle, 34),
-                    modAPlate         = GetVehicleMod(vehicle, 35),
-                    modSpeakers       = GetVehicleMod(vehicle, 36),
-                    modTrunk          = GetVehicleMod(vehicle, 37),
-                    modHydrolic       = GetVehicleMod(vehicle, 38),
-                    modEngineBlock    = GetVehicleMod(vehicle, 39),
-                    modAirFilter      = GetVehicleMod(vehicle, 40),
-                    modStruts         = GetVehicleMod(vehicle, 41),
-                    modArchCover      = GetVehicleMod(vehicle, 42),
-                    modAerials        = GetVehicleMod(vehicle, 43),
-                    modTrimB          = GetVehicleMod(vehicle, 44),
-                    modTank           = GetVehicleMod(vehicle, 45),
-                    modWindows        = GetVehicleMod(vehicle, 46),
-                    modLivery         = modlivery
-                }
-                if Config.ReturnDamage then
-                    mods.wheel_tires = {}
-                    mods.vehicle_doors = {}
-                    mods.vehicle_window = {}
-                    for tireid = 1, 7 do
-                        local normal = IsVehicleTyreBurst(vehicle, tireid, true)
-                        local completely = IsVehicleTyreBurst(vehicle, tireid, false)
-                        if normal or completely then
-                            mods.wheel_tires[tireid] = true
-                        else
-                            mods.wheel_tires[tireid] = false
-                        end
-                    end
-                    Wait(100)
-                    for doorid = 0, 5 do
-                        mods.vehicle_doors[#mods.vehicle_doors+1] = IsVehicleDoorDamaged(vehicle, doorid)
-                    end
-                    Wait(100)
-                    for windowid = 0, 7 do
-                        mods.vehicle_window[#mods.vehicle_window+1] = IsVehicleWindowIntact(vehicle, windowid)
-                    end
-                end
-                return mods
-            else
-                return
             end
+            local plate = GetVehicleNumberPlateText(vehicle)
+            if not Config.PlateSpace then
+                plate = string.gsub(tostring(GetVehicleNumberPlateText(vehicle)), '^%s*(.-)%s*$', '%1')
+            end
+            local modlivery = GetVehicleLivery(vehicle)
+            if modlivery == -1 then
+                modlivery = GetVehicleMod(vehicle, 48)
+            end
+            local mods = {
+                model             = GetEntityModel(vehicle),
+                plate             = plate,
+                plateIndex        = GetVehicleNumberPlateTextIndex(vehicle),
+                bodyHealth        = ESX.Math.Round(GetVehicleBodyHealth(vehicle), 1),
+                engineHealth      = ESX.Math.Round(GetVehicleEngineHealth(vehicle), 1),
+                tankHealth        = ESX.Math.Round(GetVehiclePetrolTankHealth(vehicle), 1),
+                fuelLevel         = ESX.Math.Round(GetVehicleFuelLevel(vehicle), 1),
+                dirtLevel         = ESX.Math.Round(GetVehicleDirtLevel(vehicle), 1),
+                color1            = colorPrimary,
+                color2            = colorSecondary,
+                rgb				  = table.pack(GetVehicleCustomPrimaryColour(vehicle)),
+                rgb2				  = table.pack(GetVehicleCustomSecondaryColour(vehicle)),
+                pearlescentColor  = pearlescentColor,
+                wheelColor        = wheelColor,
+                wheels            = GetVehicleWheelType(vehicle),
+                windowTint        = GetVehicleWindowTint(vehicle),
+                xenonColor        = GetVehicleXenonLightsColour(vehicle),
+                neonEnabled       = {
+                    IsVehicleNeonLightEnabled(vehicle, 0),
+                    IsVehicleNeonLightEnabled(vehicle, 1),
+                    IsVehicleNeonLightEnabled(vehicle, 2),
+                    IsVehicleNeonLightEnabled(vehicle, 3)
+                },
+                neonColor         = table.pack(GetVehicleNeonLightsColour(vehicle)),
+                extras            = extras,
+                tyreSmokeColor    = table.pack(GetVehicleTyreSmokeColor(vehicle)),
+                modSpoilers       = GetVehicleMod(vehicle, 0),
+                modFrontBumper    = GetVehicleMod(vehicle, 1),
+                modRearBumper     = GetVehicleMod(vehicle, 2),
+                modSideSkirt      = GetVehicleMod(vehicle, 3),
+                modExhaust        = GetVehicleMod(vehicle, 4),
+                modFrame          = GetVehicleMod(vehicle, 5),
+                modGrille         = GetVehicleMod(vehicle, 6),
+                modHood           = GetVehicleMod(vehicle, 7),
+                modFender         = GetVehicleMod(vehicle, 8),
+                modRightFender    = GetVehicleMod(vehicle, 9),
+                modRoof           = GetVehicleMod(vehicle, 10),
+                modEngine         = GetVehicleMod(vehicle, 11),
+                modBrakes         = GetVehicleMod(vehicle, 12),
+                modTransmission   = GetVehicleMod(vehicle, 13),
+                modHorns          = GetVehicleMod(vehicle, 14),
+                modSuspension     = GetVehicleMod(vehicle, 15),
+                modArmor          = GetVehicleMod(vehicle, 16),
+                modTurbo          = IsToggleModOn(vehicle, 18),
+                modSmokeEnabled   = IsToggleModOn(vehicle, 20),
+                modXenon          = IsToggleModOn(vehicle, 22),
+                modFrontWheels    = GetVehicleMod(vehicle, 23),
+                modBackWheels     = GetVehicleMod(vehicle, 24),
+                modPlateHolder    = GetVehicleMod(vehicle, 25),
+                modVanityPlate    = GetVehicleMod(vehicle, 26),
+                modTrimA          = GetVehicleMod(vehicle, 27),
+                modOrnaments      = GetVehicleMod(vehicle, 28),
+                modDashboard      = GetVehicleMod(vehicle, 29),
+                modDial           = GetVehicleMod(vehicle, 30),
+                modDoorSpeaker    = GetVehicleMod(vehicle, 31),
+                modSeats          = GetVehicleMod(vehicle, 32),
+                modSteeringWheel  = GetVehicleMod(vehicle, 33),
+                modShifterLeavers = GetVehicleMod(vehicle, 34),
+                modAPlate         = GetVehicleMod(vehicle, 35),
+                modSpeakers       = GetVehicleMod(vehicle, 36),
+                modTrunk          = GetVehicleMod(vehicle, 37),
+                modHydrolic       = GetVehicleMod(vehicle, 38),
+                modEngineBlock    = GetVehicleMod(vehicle, 39),
+                modAirFilter      = GetVehicleMod(vehicle, 40),
+                modStruts         = GetVehicleMod(vehicle, 41),
+                modArchCover      = GetVehicleMod(vehicle, 42),
+                modAerials        = GetVehicleMod(vehicle, 43),
+                modTrimB          = GetVehicleMod(vehicle, 44),
+                modTank           = GetVehicleMod(vehicle, 45),
+                modWindows        = GetVehicleMod(vehicle, 46),
+                modLivery         = modlivery
+            }
+            if Config.ReturnDamage then
+                mods.wheel_tires = {}
+                mods.vehicle_doors = {}
+                mods.vehicle_window = {}
+                for tireid = 1, 7 do
+                    local normal = IsVehicleTyreBurst(vehicle, tireid, true)
+                    local completely = IsVehicleTyreBurst(vehicle, tireid, false)
+                    if normal or completely then
+                        mods.wheel_tires[tireid] = true
+                    else
+                        mods.wheel_tires[tireid] = false
+                    end
+                end
+                Wait(100)
+                for doorid = 0, 5 do
+                    mods.vehicle_doors[#mods.vehicle_doors+1] = IsVehicleDoorDamaged(vehicle, doorid)
+                end
+                Wait(100)
+                for windowid = 0, 7 do
+                    mods.vehicle_window[#mods.vehicle_window+1] = IsVehicleWindowIntact(vehicle, windowid)
+                end
+            end
+            return mods
+        else
+            return
         end
     end
 end
@@ -846,9 +723,6 @@ AddEventHandler('esx_garage:receive_vehicles', function(tb, vehdata, jobveh)
             end
             local default_thumb = string.lower(GetDisplayNameFromVehicleModel(tonumber(props.model)))
             local img = 'https://cfx-nui-renzu_garage/imgs/uploads/'..default_thumb..'.jpg'
-            if Config.use_renzu_vehthumb and gstate[tostring(props.model)] then
-                img = gstate[tostring(props.model)]
-            end
             local VTable = 
             {
                 brand = GetVehicleClassnamemodel(tonumber(props.model)),
@@ -958,9 +832,6 @@ AddEventHandler('esx_garage:getchopper', function(job, jobgrade, available)
 
             local default_thumb = string.lower(GetDisplayNameFromVehicleModel(value.model))
             local img = 'https://cfx-nui-renzu_garage/imgs/uploads/'..default_thumb..'.jpg'
-            if Config.use_renzu_vehthumb and gstate[tostring(GetHashKey(value.model))] then
-                img = gstate[tostring(GetHashKey(value.model))]
-            end
             local vehicleModel = tonumber(value.model)  
             local label = nil
             if label == nil then
@@ -1042,7 +913,7 @@ function OpenGarage(garageid,garage_type,jobonly,default)
     for k,v2 in pairs(OwnedVehicles) do
         for k2,v in pairs(v2) do
             v.brand = v.brand:upper()
-            if v.stored and ImpoundedLostVehicle or not ImpoundedLostVehicle then
+            if garage_type == v.type and v.stored and not v.impound then
                 if cats[v.brand] == nil then
                     cats[v.brand] = 0
                     totalcats = totalcats + 1
@@ -1156,7 +1027,7 @@ function OpenJobGarage(garageid,garage_type,job)
     for k,v2 in pairs(JobVehicles) do
         for k2,v in pairs(v2) do
             v.brand = v.brand:upper()
-            if v.stored and ImpoundedLostVehicle or not ImpoundedLostVehicle then
+            if garage_type == v.type and v.stored and not v.impound then
                 if cats[v.brand] == nil then
                     cats[v.brand] = 0
                     totalcats = totalcats + 1
@@ -2425,7 +2296,7 @@ RegisterNUICallback(
         end
         local veh = nil
     ESX.TriggerServerCallback("esx_garage:isvehicleingarage",function(stored,impound,garage,fee)
-        if not stored or impound then
+        if stored and not impound then
             local tempcoord = {}
             if propertygarage then
                 spawn = GetEntityCoords(PlayerPedId())
