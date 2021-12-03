@@ -179,7 +179,7 @@ window.addEventListener('message', function(event) {
             <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
             <div class="uk-navbar-center uk-navbar-item">
             <ul class="uk-navbar-nav">
-            <li><a onclick="choosecat('`+i+`')" class="tooltip-top" href="#" data-tooltip="Auswählen"><span class="uk-icon uk-margin-small-right"><i class="far fa-eye"></i></span>Auswählen</a></li>
+            <li><a onclick="choosecat('`+i+`')" class="tooltip-top" href="#" data-tooltip="Auswählen"><span class="uk-icon uk-margin-small-right"><i class="far fa-eye"></i></span>Wählen</a></li>
             <li><a class="tooltip-top" href="#" data-tooltip="Gesammt: `+cats[i]+`"><span class="uk-icon uk-margin-small-right"><i class="fas fa-archive"></i></span>Fahrzeuge</a></li>
             </ul>
             </div>
