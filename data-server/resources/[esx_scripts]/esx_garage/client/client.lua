@@ -935,32 +935,34 @@ function OpenGarage(garageid,garage_type,jobonly,default)
     for k,v2 in pairs(OwnedVehicles) do
         for k2,v in pairs(v2) do
             if garage_type == v.type and v.stored and not v.impound then
-                cars = cars + 1
-                if vehtable[v.garage_id] == nil then
-                    vehtable[v.garage_id] = {}
+                if cat ~= nil and totalcats > 1 and v.brand:upper() == cat:upper() or cat == nil then
+                    cars = cars + 1
+                    if vehtable[v.garage_id] == nil then
+                        vehtable[v.garage_id] = {}
+                    end
+                    veh = 
+                    {
+                    brand = v.brand or 1.0,
+                    name = v.name or 1.0,
+                    brake = v.brake or 1.0,
+                    handling = v.handling or 1.0,
+                    topspeed = v.topspeed or 1.0,
+                    power = v.power or 1.0,
+                    torque = v.torque or 1.0,
+                    model = v.model,
+                    model2 = v.model2,
+                    img = v.img,
+                    plate = v.plate,
+                    --props = v.props,
+                    fuel = v.fuel or 100.0,
+                    bodyhealth = v.bodyhealth or 1000.0,
+                    enginehealth = v.enginehealth or 1000.0,
+                    garage_id = v.garage_id or 'A',
+                    impound = v.impound or 0,
+                    ingarage = v.ingarage or false
+                    }
+                    table.insert(vehtable[v.garage_id], veh)
                 end
-                veh = 
-                {
-                brand = v.brand or 1.0,
-                name = v.name or 1.0,
-                brake = v.brake or 1.0,
-                handling = v.handling or 1.0,
-                topspeed = v.topspeed or 1.0,
-                power = v.power or 1.0,
-                torque = v.torque or 1.0,
-                model = v.model,
-                model2 = v.model2,
-                img = v.img,
-                plate = v.plate,
-                --props = v.props,
-                fuel = v.fuel or 100.0,
-                bodyhealth = v.bodyhealth or 1000.0,
-                enginehealth = v.enginehealth or 1000.0,
-                garage_id = v.garage_id or 'A',
-                impound = v.impound or 0,
-                ingarage = v.ingarage or false
-                }
-                table.insert(vehtable[v.garage_id], veh)
             end
         end
     end
@@ -1049,29 +1051,31 @@ function OpenJobGarage(garageid,garage_type,job)
     for k,v2 in pairs(JobVehicles) do
         for k2,v in pairs(v2) do
             if garage_type == v.type and job == PlayerData.job.name and v.stored then
-                cars = cars + 1
-                veh = 
-                {
-                brand = v.brand or 1.0,
-                name = v.name or 1.0,
-                brake = v.brake or 1.0,
-                handling = v.handling or 1.0,
-                topspeed = v.topspeed or 1.0,
-                power = v.power or 1.0,
-                torque = v.torque or 1.0,
-                model = v.model,
-                model2 = v.model2,
-                img = v.img,
-                plate = v.plate,
-                --props = v.props,
-                fuel = v.fuel or 100.0,
-                bodyhealth = v.bodyhealth or 1000.0,
-                enginehealth = v.enginehealth or 1000.0,
-                garage_id = v.garage_id or 'A',
-                impound = v.impound or 0,
-                ingarage = v.ingarage or false
-                }
-                table.insert(vehtable[v.job], veh)
+                if cat ~= nil and totalcats > 1 and v.brand:upper() == cat:upper() or cat == nil then
+                    cars = cars + 1
+                    veh = 
+                    {
+                    brand = v.brand or 1.0,
+                    name = v.name or 1.0,
+                    brake = v.brake or 1.0,
+                    handling = v.handling or 1.0,
+                    topspeed = v.topspeed or 1.0,
+                    power = v.power or 1.0,
+                    torque = v.torque or 1.0,
+                    model = v.model,
+                    model2 = v.model2,
+                    img = v.img,
+                    plate = v.plate,
+                    --props = v.props,
+                    fuel = v.fuel or 100.0,
+                    bodyhealth = v.bodyhealth or 1000.0,
+                    enginehealth = v.enginehealth or 1000.0,
+                    garage_id = v.garage_id or 'A',
+                    impound = v.impound or 0,
+                    ingarage = v.ingarage or false
+                    }
+                    table.insert(vehtable[v.job], veh)
+                end
             end
         end
     end
