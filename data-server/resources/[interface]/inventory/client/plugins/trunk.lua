@@ -42,7 +42,7 @@ if Config.Trunk then
                             OpenInventory({
                                 id = plate, 
                                 type = 'trunk', 
-                                title = 'Trunk - <b>' .. plate .. '</b>',
+                                title = 'Kofferraum - ' .. plate,
                                 weight = Config.TrunkWeights[type], 
                                 save = owned,
                                 timeout = Config.TrunkTimeout
@@ -52,7 +52,7 @@ if Config.Trunk then
                         OpenInventory({
                             id = plate, 
                             type = 'trunk', 
-                            title = 'Trunk - <b>' .. plate .. '</b>',
+                            title = 'Kofferraum - ' .. plate,
                             weight = Config.TrunkWeights[type], 
                             save = false,
                             timeout = Config.TrunkTimeout

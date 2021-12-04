@@ -204,7 +204,7 @@ RegisterCommand('openInventory', function()
                     OpenInventory({
                         id = plate, 
                         type = 'glovebox', 
-                        title = 'Glovebox - <b>' .. plate .. '</b>',
+                        title = 'Handschuhfach - ' .. plate,
                         weight = Config.GloveboxWeight, 
                         save = owned,
                         timeout = Config.GloveboxTimeout
@@ -214,7 +214,7 @@ RegisterCommand('openInventory', function()
                 OpenInventory({
                     id = plate, 
                     type = 'glovebox', 
-                    title = 'Glovebox - <b>' .. plate .. '</b>',
+                    title = 'Handschuhfach - ' .. plate,
                     weight = Config.GloveboxWeight, 
                     save = false,
                     timeout = Config.GloveboxTimeout
