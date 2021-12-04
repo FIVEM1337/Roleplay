@@ -210,7 +210,7 @@ ESX.RegisterServerCallback('esx_garage:isvehicleingarage', function (source, cb,
             if #result > 0 then
                 if result and result[1].stored ~= nil then
                     local stored = result[1].stored
-                    cb(stored,0,false,impound_fee)
+                    cb(stored,false,false,impound_fee)
                 end
             end
         end
