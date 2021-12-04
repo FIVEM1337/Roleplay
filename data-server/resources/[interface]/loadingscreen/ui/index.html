@@ -9,27 +9,23 @@
 </head>
 
 <body>
-    <h1 class="enable_music">Use the <strong>spacebar</strong> to toggle the music</h1>
+    <h1 class="enable_music">Drücke <strong>[LEERTASTE]</strong> für Musik an / aus</h1>
 
     <div id="audio"><audio id="leson" controls loop autoplay hidden><source src="music.mp3" type="audio/mp3"></audio></div>
     <video class="fullscreen-video" id="myVideo" autoplay="autoplay" muted loop>
         <source src="default.mp4">
 
     <script>
-        var play = true;
         var myAudio = document.getElementById("leson");
-            
         myAudio.volume = 0.5;
         
         function onKeyDown(event) {
             switch (event.keyCode) {
-                case 32:                   
-                    if (play) {
-                        myAudio.pause();
-                        play = false;
+                case 32: 
+                    if (myAudio.volume == 0.5) {
+                        myAudio.volume = 0
                     } else {
-                        myAudio.play();
-                        play = true;
+                        myAudio.volume = 0.5
                     }
                     break;
                 }

@@ -43,7 +43,7 @@ img { width: 600px; }
 
     font-weight: 400;
     
-    bottom: 5%;
+    bottom: 1%;
     position: fixed;
     animation: music 3s;
 }
