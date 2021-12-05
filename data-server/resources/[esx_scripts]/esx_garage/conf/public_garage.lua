@@ -160,6 +160,7 @@ garagecoord = {
     {
         garage = "Police Garage", --PALETO
         job = "police",
+        joblabel = "Polizei",
         job_garage = true,
         Type = "car",
         Dist = 10,
@@ -192,6 +193,7 @@ garagecoord = {
         garage = "Sheriff Garage", --PALETO
         job = "sheriff",
         job_garage = true,
+        joblabel = "Sheriff",
         Type = "car",
         Dist = 10,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -206,6 +208,7 @@ garagecoord = {
     {
         garage = "Sheriff Garage", --PALETO
         job = "sheriff",
+        joblabel = "Sheriff",
         job_garage = true,
         Type = "car",
         Dist = 10,
@@ -284,4 +287,23 @@ garagecoord = {
         store_z = 13.945080757141,
         heading = 63.61706161499, -- Vehicle spawn location
     },
+
+    --JOB GARAGE
+    {
+        garage = "Grove Garage", --PALETO
+        job = "grove",
+        joblabel = "Grove",
+        job_garage = true,
+        Type = "car",
+        Dist = 10,
+        Blip = {color = 38, sprite = 662, scale = 0.6},
+        garage_x = 84.46,
+        garage_y = -1972.56,
+        garage_z = 20.85,
+        spawn_x = 90.4,
+        spawn_y = -1965.62,
+        spawn_z = 20.22,
+        heading = 321.58,
+    },
+
 }

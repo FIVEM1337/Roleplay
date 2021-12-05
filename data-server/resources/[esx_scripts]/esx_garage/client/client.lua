@@ -55,7 +55,11 @@ Citizen.CreateThread(function()
             SetBlipAsShortRange(blip, true)
             BeginTextCommandSetBlipName('STRING')
             if Config.BlipNamesStatic then
-                AddTextComponentSubstringPlayerName("Garage")
+                if v.job ~= nil and v.joblabel ~= nil then
+                    AddTextComponentSubstringPlayerName(v.joblabel .. " Garage")
+                else
+                    AddTextComponentSubstringPlayerName("Garage")
+                end
             else
                 AddTextComponentSubstringPlayerName("Garage: "..v.garage.."")
             end
