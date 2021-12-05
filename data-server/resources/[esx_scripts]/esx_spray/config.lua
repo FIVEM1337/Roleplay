@@ -17,26 +17,26 @@ Config = {
     },
 
     Text = {
-        CANCEL = 'Cancel',
+        CANCEL = 'Abbrechen',
         MENU = {
-            TITLE = 'Spray',
-            SUBTITLE = 'SETTINGS',
-            FONTS = 'Font',
-            COLOR = 'Color',
-            SIZE = 'Size',
-            SPRAY = 'Spray'
+            TITLE = 'Grafiti',
+            SUBTITLE = 'EINSTELLUNGEN',
+            FONTS = 'Schriftart',
+            COLOR = 'Farbe',
+            SIZE = 'Größe',
+            SPRAY = 'Sprühen'
         },
         SPRAY_ERRORS = {
-            NOT_FLAT = 'This surface is not flat enough',
-            TOO_FAR = 'The surface is too far',
-            INVALID_SURFACE = 'It cannot be sprayed on this surface',
-            AIM = 'Aim the spray at a flat wall',
+            NOT_FLAT = 'Diese Oberfläche ist nicht flach genug',
+            TOO_FAR = 'Die Oberfläche ist zu weit weg',
+            INVALID_SURFACE = 'Es kann nicht auf diese Oberfläche gesprüht werden',
+            AIM = 'Richte die Sprühdose auf eine flache Wand',
         },
-        NO_SPRAY_NEARBY = 'There is no spray nearby to remove',
-        NEED_SPRAY = 'You do not have any spray to spray with',
-        WORD_LONG = 'Spray word can be at most 9 characters',
-        USAGE = 'Usage: /spray <word>',
-        BLACKLISTED = 'This word is blacklisted.'
+        NO_SPRAY_NEARBY = 'Es ist kein Grafiti in der Nähe, das entfernt werden kann',
+        NEED_SPRAY = 'Du hast keine Sprühdose zum Sprühen',
+        WORD_LONG = 'Es sind maximal 9 Zeichen erlaubt',
+        USAGE = 'Verwendung: /spray (wort)',
+        BLACKLISTED = 'Dieses Wort steht auf der schwarzen Liste.'
     }
 }
 

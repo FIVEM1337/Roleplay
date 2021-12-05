@@ -53,15 +53,15 @@ FORBIDDEN_MATERIALS = {
 
 SPRAYS = {}
 
-RegisterNetEvent('rcore_spray:setSprays')
-AddEventHandler('rcore_spray:setSprays', function(s)
+RegisterNetEvent('esx_spray:setSprays')
+AddEventHandler('esx_spray:setSprays', function(s)
     SPRAYS = s
 
     SetSprayTimeCorrectColor()
 end)
 
 AddEventHandler('playerSpawned', function()
-    TriggerServerEvent('rcore_spray:playerSpawned')
+    TriggerServerEvent('esx_spray:playerSpawned')
 end)
 
 Citizen.CreateThread(function()

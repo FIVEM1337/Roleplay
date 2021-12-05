@@ -1,10 +1,10 @@
 ESX.RegisterUsableItem("spray_remover", function(playerId)
-    TriggerClientEvent('rcore_spray:removeClosestSpray', playerId)
+    TriggerClientEvent('esx_spray:removeClosestSpray', playerId)
 end)
 
 
-RegisterNetEvent('rcore_spray:remove')
-AddEventHandler('rcore_spray:remove', function(pos)
+RegisterNetEvent('esx_spray:remove')
+AddEventHandler('esx_spray:remove', function(pos)
     local Source = source
 
     local xPlayer = ESX.GetPlayerFromId(Source)
@@ -27,7 +27,7 @@ AddEventHandler('rcore_spray:remove', function(pos)
                 SPRAYS[idx] = nil
             end
         end
-        TriggerClientEvent('rcore_spray:setSprays', -1, SPRAYS)
+        TriggerClientEvent('esx_spray:setSprays', -1, SPRAYS)
 
         local sprayAtCoordsAfterRemoval = GetSprayAtCoords(pos)
 

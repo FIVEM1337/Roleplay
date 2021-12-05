@@ -24,7 +24,6 @@ client_scripts {
 server_scripts {
 	'config.lua',
 	'@mysql-async/lib/MySQL.lua',
-	'server/db.lua',
 	'server/server.lua',
 	'server/remove.lua',
 }

@@ -23,8 +23,8 @@ function GetSprayAtCoords(pos)
     end
 end
 
-RegisterNetEvent('rcore_spray:addSpray')
-AddEventHandler('rcore_spray:addSpray', function(spray)
+RegisterNetEvent('esx_spray:addSpray')
+AddEventHandler('esx_spray:addSpray', function(spray)
     local Source = source
     
     local xPlayer = ESX.GetPlayerFromId(source)
@@ -45,12 +45,9 @@ AddEventHandler('rcore_spray:addSpray', function(spray)
 
         PersistSpray(spray, identifier)
         TriggerEvent('rcore_sprays:addSpray', Source, spray.text, spray.location)
-        TriggerClientEvent('rcore_spray:setSprays', -1, SPRAYS)
+        TriggerClientEvent('esx_spray:setSprays', -1, SPRAYS)
     else
-        TriggerClientEvent('chat:addMessage', Source, {
-            template = '<div style="background: rgb(180, 136, 29); color: rgb(255, 255, 255); padding: 5px;">{0}</div>',
-            args = {Config.Text.NEED_SPRAY}
-        })
+        TriggerClientEvent('dopeNotify:Alert', Source, "Grafiti", Config.Text.NEED_SPRAY, 5000, 'error')
     end
 end)
 
@@ -99,13 +96,13 @@ Citizen.CreateThread(function()
         })
     end
 
-    TriggerClientEvent('rcore_spray:setSprays', -1, SPRAYS)
+    TriggerClientEvent('esx_spray:setSprays', -1, SPRAYS)
 end)
 
-RegisterNetEvent('rcore_spray:playerSpawned')
-AddEventHandler('rcore_spray:playerSpawned', function()
+RegisterNetEvent('esx_spray:playerSpawned')
+AddEventHandler('esx_spray:playerSpawned', function()
     local Source = source
-    TriggerClientEvent('rcore_spray:setSprays', Source, SPRAYS)
+    TriggerClientEvent('esx_spray:setSprays', Source, SPRAYS)
 end)
 
 RegisterCommand('spray', function(source, args)
@@ -116,32 +113,20 @@ RegisterCommand('spray', function(source, args)
         local sprayText = args[1]
 
         if FastBlacklist[sprayText] then
-            TriggerClientEvent('chat:addMessage', source, {
-                template = '<div style="background: rgb(180, 136, 29); color: rgb(255, 255, 255); padding: 5px;">{0}</div>',
-                args = {Config.Text.BLACKLISTED}
-            })
+            TriggerClientEvent('dopeNotify:Alert', Source, "Grafiti", Config.Text.BLACKLISTED, 5000, 'error')
         else
             if sprayText then
                 if sprayText:len() <= 9 then
-                    TriggerClientEvent('rcore_spray:spray', source, args[1])
+                    TriggerClientEvent('esx_spray:spray', source, args[1])
                 else
-                    TriggerClientEvent('chat:addMessage', source, {
-                        template = '<div style="background: rgb(180, 136, 29); color: rgb(255, 255, 255); padding: 5px;">{0}</div>',
-                        args = {Config.Text.WORD_LONG}
-                    })
+                    TriggerClientEvent('dopeNotify:Alert', source, "Grafiti", Config.Text.WORD_LONG, 5000, 'error')
                 end
             else
-                TriggerClientEvent('chat:addMessage', source, {
-                    template = '<div style="background: rgb(180, 136, 29); color: rgb(255, 255, 255); padding: 5px;">{0}</div>',
-                    args = {Config.Text.USAGE}
-                })
+                TriggerClientEvent('dopeNotify:Alert', source, "Grafiti", Config.Text.USAGE, 5000, 'error')
             end
         end
     else
-        TriggerClientEvent('chat:addMessage', source, {
-            template = '<div style="background: rgb(180, 136, 29); color: rgb(255, 255, 255); padding: 5px;">{0}</div>',
-            args = {Config.Text.NEED_SPRAY}
-        })
+        TriggerClientEvent('dopeNotify:Alert', source, "Grafiti", Config.Text.NEED_SPRAY, 5000, 'error')
     end
 end, false)
 

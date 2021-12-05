@@ -84,9 +84,7 @@ LastSubtitleText = nil
 function DrawSubtitleText(text)
     if text ~= LastSubtitleText then
         LastSubtitleText = text
-        BeginTextCommandPrint("STRING");  
-        AddTextComponentSubstringPlayerName(text)
-        EndTextCommandPrint(5000, 1)
+        TriggerEvent('dopeNotify:Alert', "Grafiti", text, 5000, 'error')
     end
 end
 

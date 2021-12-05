@@ -1,5 +1,5 @@
-RegisterNetEvent('rcore_spray:removeClosestSpray')
-AddEventHandler('rcore_spray:removeClosestSpray', function()
+RegisterNetEvent('esx_spray:removeClosestSpray')
+AddEventHandler('esx_spray:removeClosestSpray', function()
     TriggerEvent('lsrp_inventory:close')
 
     local ped = PlayerPedId()
@@ -31,17 +31,14 @@ AddEventHandler('rcore_spray:removeClosestSpray', function()
             1,
             function()
                 RemoveSprayRemoveProp(ragProp)
-                TriggerServerEvent('rcore_spray:remove', closestSprayLoc)
+                TriggerServerEvent('esx_spray:remove', closestSprayLoc)
             end, 
             function()
                 RemoveSprayRemoveProp(ragProp)
             end
         )
     else
-        TriggerEvent('chat:addMessage', {
-            template = '<div style="background: rgb(180, 136, 29); color: rgb(255, 255, 255); padding: 5px;">{0}</div>',
-            args = {Config.Text.NO_SPRAY_NEARBY}
-        })
+        TriggerEvent('dopeNotify:Alert', "Grafiti", Config.Text.NO_SPRAY_NEARBY, 5000, 'error')
     end
 end)
 

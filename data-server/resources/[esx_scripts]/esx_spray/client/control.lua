@@ -37,8 +37,8 @@ function ResetFormattedText()
     end
 end
 
-RegisterNetEvent('rcore_spray:spray')
-AddEventHandler('rcore_spray:spray', function(text)
+RegisterNetEvent('esx_spray:spray')
+AddEventHandler('esx_spray:spray', function(text)
     if not IsSpraying then
         if text then
             SprayText = text
@@ -46,10 +46,7 @@ AddEventHandler('rcore_spray:spray', function(text)
             ResetFormattedText()
             WarMenu.OpenMenu('spray')
         else
-            TriggerEvent('chat:addMessage', {
-                templateId = 'warning',
-                args = {Config.Text.USAGE}
-            })
+            TriggerEvent('dopeNotify:Alert', "Grafiti", Config.Text.USAGE, 5000, 'error')
         end
     end
 end, false)
@@ -132,7 +129,7 @@ function PersistSpray()
             'weed_spraybottle_stand_spraying_01_inspector', 
             16,
             function() -- success
-                TriggerServerEvent('rcore_spray:addSpray', {
+                TriggerServerEvent('esx_spray:addSpray', {
                     location = sprayLocation,
                     realRotation = currentComputedRotation, 
                     
