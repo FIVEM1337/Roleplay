@@ -13,6 +13,7 @@ Citizen.CreateThread(function()
 
 	--Ford
 	AddTextEntry('mustangho', 'Ford Mustang Hoonigan')	
+	AddTextEntry('interceptor', 'Ford Police Interceptor')
 
 	--Chevrolet
 	AddTextEntry('camaro_zl1', 'Chevrolet Camaro ZL1')
