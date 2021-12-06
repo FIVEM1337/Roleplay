@@ -5,9 +5,9 @@
 
   <InitDatas>
     <Item>
-      <modelName>mustang_ho</modelName>
-      <txdName>mustang_ho</txdName>
-      <handlingId>mustang_ho</handlingId>
+      <modelName>mustangho</modelName>
+      <txdName>mustangho</txdName>
+      <handlingId>mustangho</handlingId>
       <gameName>mustang</gameName>
       <vehicleMakeName>ford</vehicleMakeName>
       <expressionDictName>null</expressionDictName>
@@ -123,7 +123,7 @@
  <txdRelationships>
      <Item>
       <parent>vehicles_tornado_interior</parent>
-      <child>mustang_ho</child>
+      <child>mustangho</child>
     </Item>
   </txdRelationships>
   </CVehicleModelInfo__InitDataList>

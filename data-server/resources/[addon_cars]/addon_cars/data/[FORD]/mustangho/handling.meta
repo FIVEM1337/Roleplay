@@ -4,7 +4,7 @@
 
   <HandlingData>
       <Item type="CHandlingData">
-      <handlingName>mustang_ho</handlingName>
+      <handlingName>mustangho</handlingName>
        <fMass value="1900.000000" />
       <fInitialDragCoeff value="11.220000" />
       <fPercentSubmerged value="85.000000" />
