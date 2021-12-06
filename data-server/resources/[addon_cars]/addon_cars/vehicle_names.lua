@@ -20,4 +20,7 @@ Citizen.CreateThread(function()
 
 	--SWAT
 	AddTextEntry('riot', 'LSPD Riot')
+
+	--UNMARKED
+	AddTextEntry('AudiUM', 'Audi RS6')
 end)
