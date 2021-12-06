@@ -5,8 +5,9 @@ busybox
 c-ares
 ca-certificates
 curl=7.72.0-r99
-icu-libs
+libatomic
 libc-utils
+libcrypto1.1
 libssl1.1
 libstdc++
 libunwind
