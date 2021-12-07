@@ -5,8 +5,6 @@ description 'rcore spray'
 
 version '1.1.0'
 
--- Leaked By: Leaking Hub | J. Snow | leakinghub.com
-
 client_scripts {
 	'config.lua',
 	'client/warmenu.lua',

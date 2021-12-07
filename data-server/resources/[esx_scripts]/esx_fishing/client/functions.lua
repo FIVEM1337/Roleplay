@@ -1,4 +1,3 @@
--- Leaked By: Leaking Hub | J. Snow | leakinghub.com
 local IsFishing = false
 local rodHandle = nil
 local StartFish = false

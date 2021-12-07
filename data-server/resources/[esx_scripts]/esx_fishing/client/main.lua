@@ -1,4 +1,3 @@
--- Leaked By: Leaking Hub | J. Snow | leakinghub.com
 ESX = nil
 GLOBAL_PED, GLOBAL_COORDS = nil, nil
 

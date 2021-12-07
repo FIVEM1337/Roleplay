@@ -1,4 +1,3 @@
--- Leaked By: Leaking Hub | J. Snow | leakinghub.com
 Config = {}
 
 Config.FishingItems = {

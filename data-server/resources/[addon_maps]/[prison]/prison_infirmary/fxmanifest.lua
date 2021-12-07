@@ -1,8 +1,6 @@
 fx_version 'bodacious'
 game 'gta5'
 
--- Leaking Hub | J. Snow | leakinghub.com
-
 creator 'sanhje'
 description 'Prison Infirmary Interior'
 website 'https://sanhje.net'

@@ -1,5 +1,3 @@
--- Leaked By: Leaking Hub | J. Snow | leakinghub.com
-
 Config = {
     License = '', -- Insert your rcore license
 
