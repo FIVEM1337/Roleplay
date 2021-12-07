@@ -26,4 +26,9 @@ Citizen.CreateThread(function()
 
 	--OPEL
 	AddTextEntry('corsa09', 'Opel Corsa')
+
+	--TAXI
+	AddTextEntry('taxi2', 'Taxi')
+	AddTextEntry('taxi3', 'Taxi')
+	AddTextEntry('taxi5', 'Taxi')
 end)
