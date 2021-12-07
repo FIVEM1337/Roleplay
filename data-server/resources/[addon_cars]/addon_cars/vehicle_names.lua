@@ -31,4 +31,7 @@ Citizen.CreateThread(function()
 	AddTextEntry('taxi2', 'Taxi')
 	AddTextEntry('taxi3', 'Taxi')
 	AddTextEntry('taxi5', 'Taxi')
+
+	--BMW
+	AddTextEntry('m5a', 'BMW M5')
 end)
