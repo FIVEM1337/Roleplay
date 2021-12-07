@@ -23,4 +23,7 @@ Citizen.CreateThread(function()
 
 	--UNMARKED
 	AddTextEntry('AudiUM', 'Audi RS6')
+
+	--OPEL
+	AddTextEntry('corsa09', 'Opel Corsa')
 end)
