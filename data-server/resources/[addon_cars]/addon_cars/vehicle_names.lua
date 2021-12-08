@@ -34,6 +34,7 @@ Citizen.CreateThread(function()
 
 	--BMW
 	AddTextEntry('m5a', 'BMW M5')
+	AddTextEntry('x5bmw', 'BMW MX5')
 
 	--KAWASAKI
 	AddTextEntry('z8r', 'Kawasaki z8r')
