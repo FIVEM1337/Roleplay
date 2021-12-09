@@ -123,4 +123,16 @@
       </firstPersonDrivebyData>
     </Item>
   </InitDatas>
+
+  <txdRelationships>
+    <Item>
+      <parent>corsa091</parent>
+      <child>corsa09</child>
+    </Item>
+    <Item>
+      <parent>vehicles_dom_interior</parent>
+      <child>corsa091</child>
+    </Item>
+  </txdRelationships>
+
 </CVehicleModelInfo__InitDataList>
