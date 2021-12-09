@@ -38,4 +38,7 @@ Citizen.CreateThread(function()
 
 	--KAWASAKI
 	AddTextEntry('z8r', 'Kawasaki z8r')
+
+	--LAND ROVER
+	AddTextEntry('defender', 'Land Rover Defender')
 end)
