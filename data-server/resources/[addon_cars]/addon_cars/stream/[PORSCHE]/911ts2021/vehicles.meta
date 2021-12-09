@@ -116,8 +116,48 @@
  </InitDatas>
   <txdRelationships>
     <Item>
-      <parent>vehicles_race_generic</parent>
+      <parent>911ts20212</parent>
       <child>911ts2021</child>
+    </Item>
+
+    <Item>
+      <parent>911ts20213</parent>
+      <child>911ts20212</child>
+    </Item>
+
+    <Item>
+      <parent>911ts20214</parent>
+      <child>911ts20213</child>
+    </Item>
+
+    <Item>
+      <parent>911ts20215</parent>
+      <child>911ts20214</child>
+    </Item>
+
+     <Item>
+      <parent>911ts20216</parent>
+      <child>911ts20215</child>
+    </Item>
+
+      <Item>
+      <parent>911ts20217</parent>
+      <child>911ts20216</child>
+    </Item>
+
+      <Item>
+      <parent>911ts20218</parent>
+      <child>911ts20217</child>
+    </Item>
+
+    <Item>
+      <parent>911ts20219</parent>
+      <child>911ts20218</child>
+    </Item>
+
+    <Item>
+      <parent>vehicles_race_generic</parent>
+      <child>911ts20219</child>
     </Item>
   </txdRelationships>
 </CVehicleModelInfo__InitDataList>
