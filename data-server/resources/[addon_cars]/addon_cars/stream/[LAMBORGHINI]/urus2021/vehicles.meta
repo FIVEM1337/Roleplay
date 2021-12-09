@@ -134,9 +134,30 @@
       <parent>vehicles_fmj_interior</parent>
       <child>urus2021</child>
     </Item>
-	<Item>
-      <parent>vehicles_race_generic</parent>
+
+    <Item>
+      <parent>urus20212</parent>
       <child>urus2021</child>
+    </Item>
+
+    <Item>
+      <parent>urus20213</parent>
+      <child>urus20212</child>
+    </Item>
+
+    <Item>
+      <parent>urus20214</parent>
+      <child>urus20213</child>
+    </Item>
+
+    <Item>
+      <parent>urus20215</parent>
+      <child>urus20214</child>
+    </Item>
+
+	  <Item>
+      <parent>vehicles_race_generic</parent>
+      <child>urus20215</child>
     </Item>   
   </txdRelationships>
 </CVehicleModelInfo__InitDataList>
