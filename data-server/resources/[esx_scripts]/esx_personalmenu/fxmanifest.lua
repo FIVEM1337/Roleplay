@@ -37,6 +37,8 @@ client_scripts {
 	'client/other.lua'
 }
 
+export 'RageMenuIsOpen'
+
 
 
 

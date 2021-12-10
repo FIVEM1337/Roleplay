@@ -50,7 +50,7 @@ if Config.Hotbar then
             HideHudComponentThisFrame(17)
             DisableControlAction(0, 37, true) --Disable Tab
             for k,v in pairs(Config.HotbarKeys) do
-                if IsDisabledControlJustPressed(0, v) then
+                if IsDisabledControlJustPressed(0, v) and not ESX.UI.Menu.MenuIsOpen() and not exports.esx_personalmenu:RageMenuIsOpen() then
                     UseItemFromHotbar(tostring(k-1))
                 end
             end

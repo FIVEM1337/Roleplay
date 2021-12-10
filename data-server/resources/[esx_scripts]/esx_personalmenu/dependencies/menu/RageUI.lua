@@ -318,6 +318,18 @@ function RageUI.Visible(Menu, Value)
 	end
 end
 
+
+---CloseAll
+---@return void
+---@public
+function RageMenuIsOpen()
+	if RageUI.CurrentMenu ~= nil or RageUI.NextMenu ~= nil then
+		return(true)
+	else
+		return(false)
+	end
+end
+
 ---CloseAll
 ---@return void
 ---@public
