@@ -84,29 +84,6 @@ AddEventHandler('onResourceStart', function(resource)
     end
 end)
 
-Citizen.CreateThread(function()
-    if Config.RanMessage then
-        while true do
-            Citizen.Wait(Config.RanMessageTime* 60000)
-    
-            local xPlayers = ESX.GetPlayers()
-            if xPlayers[1] ~= nil then
-                for i=1, #xPlayers, 1 do
-                    local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
-                    local total = 0
-                    local ranMessage = nil
-            
-                    for j=1, #Config.RanMessages, 1 do
-                        total = total + 1
-                    end
-                    ranMessage = math.random(1, total)
-                    TriggerClientEvent('esx_jail:SendNotif2', xPlayer.source, Config.RanMessages[ranMessage])
-                end
-            end
-        end
-    end
-end)
-
 RegisterServerEvent('esx_jail:Send2Prisoners')
 AddEventHandler('esx_jail:Send2Prisoners', function(messago)
     local xTarget = ESX.GetPlayerFromId(source)
@@ -797,7 +774,6 @@ end)
 
 RegisterCommand("jailmenu", function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
-    print("treigger")
     TriggerClientEvent('esx_jail:JailMenu',xPlayer.source)
 end)
 
@@ -879,7 +855,7 @@ AddEventHandler('esx_jail:sendToJail', function(id, time, reason)
                         local fullname = nil
                         fullname = GetPlayerName(xPlayer.source)
                         if Config.SimpleTime then
-                            TriggerClientEvent('chat:addMessage', -1, {args = {Config.ServerName..' '..Config.Sayings[7], fullname..Config.Sayings[8]..ESX.Math.Round(time / 60)..Config.Sayings[21]..reason}, color = {147, 196, 109}})
+                            TriggerClientEvent('chat:addMessage', -1, {args = {' '..Config.Sayings[7], fullname..Config.Sayings[8]..ESX.Math.Round(time / 60)..Config.Sayings[21]..reason}, color = {147, 196, 109}})
                         else
                             local bruhTime = {Hours = 0, Mins = 0, Seconds = 0}
 
@@ -904,7 +880,7 @@ AddEventHandler('esx_jail:sendToJail', function(id, time, reason)
                                 bruhTime.Seconds = time
                             end
 
-                            TriggerClientEvent('chat:addMessage', -1, {args = {Config.ServerName..' '..Config.Sayings[7], fullname..Config.Sayings[8]..bruhTime.Hours..'^1H^0 '..bruhTime.Mins..'^1M^0 '..bruhTime.Seconds..'^1S^0'..Config.Sayings[21]..reason}, color = {147, 196, 109}})
+                            TriggerClientEvent('chat:addMessage', -1, {args = {' '..Config.Sayings[7], fullname..Config.Sayings[8]..bruhTime.Hours..'^1H^0 '..bruhTime.Mins..'^1M^0 '..bruhTime.Seconds..'^1S^0'..Config.Sayings[21]..reason}, color = {147, 196, 109}})
                         end
                         local cellies = {}
                         local lowest = {val = 0, amtie = 30}
