@@ -57,3 +57,15 @@ ESX.RegisterServerCallback('esx_mechanicjob:getPlayerInventory', function(source
 
 	cb({items = items})
 end)
+
+AddEventHandler('onResourceStart', function(resource)
+	if resource == GetCurrentResourceName() then
+		Citizen.Wait(50)
+		local xPlayers = ESX.GetPlayers()
+
+		for i=1, #xPlayers, 1 do
+			local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
+			TriggerClientEvent("reload_esx_mechanicjob", xPlayer.source, xPlayer)
+		end
+	end
+end)
