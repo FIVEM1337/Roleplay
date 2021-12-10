@@ -23,4 +23,29 @@ Citizen.CreateThread(function()
 
 	--UNMARKED
 	AddTextEntry('AudiUM', 'Audi RS6')
+
+	--OPEL
+	AddTextEntry('corsa09', 'Opel Corsa')
+
+	--TAXI
+	AddTextEntry('taxi2', 'Taxi')
+	AddTextEntry('taxi3', 'Taxi')
+	AddTextEntry('taxi5', 'Taxi')
+
+	--BMW
+	AddTextEntry('m5a', 'BMW M5')
+	AddTextEntry('x5bmw', 'BMW MX5')
+
+	--KAWASAKI
+	AddTextEntry('z8r', 'Kawasaki z8r')
+
+	--LAND ROVER
+	AddTextEntry('defender', 'Land Rover Defender')
+
+	--MERCEDES BENZ
+	AddTextEntry('gle63', 'Mercedes Benz GLE63')
+
+	--AUDI
+	AddTextEntry('a9', 'Audi A9')
+
 end)
