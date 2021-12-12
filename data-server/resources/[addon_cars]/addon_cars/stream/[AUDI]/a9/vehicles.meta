@@ -122,25 +122,28 @@
         <Item>STD_DOMINATOR_FRONT_RIGHT</Item>
       </firstPersonDrivebyData>
     </Item>
-
-
-
-
-
-
-
-
-
-
   </InitDatas>
   <txdRelationships>
+
     <Item>
-      <parent>vehicles_dom_interior</parent>
+      <parent>a92</parent>
       <child>a9</child>
     </Item>
 
+    <Item>
+      <parent>a93</parent>
+      <child>a92</child>
+    </Item>
 
+   <Item>
+      <parent>a94</parent>
+      <child>a93</child>
+    </Item>
 
-	
+    <Item>
+      <parent>vehicles_dom_interior</parent>
+      <child>a94</child>
+    </Item>
+
   </txdRelationships>
 </CVehicleModelInfo__InitDataList>
