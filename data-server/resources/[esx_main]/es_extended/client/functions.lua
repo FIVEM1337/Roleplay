@@ -272,6 +272,18 @@ ESX.UI.Menu.IsOpen = function(type, namespace, name)
 	return ESX.UI.Menu.GetOpened(type, namespace, name) ~= nil
 end
 
+ESX.UI.Menu.MenuIsOpen = function()
+	return ESX.UI.Menu.GetOpened2() ~= nil
+end
+
+ESX.UI.Menu.GetOpened2 = function()
+	for i=1, #ESX.UI.Menu.Opened, 1 do
+		if ESX.UI.Menu.Opened[i] then
+			return ESX.UI.Menu.Opened[i]
+		end
+	end
+end
+
 ESX.UI.ShowInventoryItemNotification = function(add, item, count)
 	SendNUIMessage({
 		action = 'inventoryNotification',

@@ -15976,8 +15976,8 @@ class logger_Logger {
 /* harmony default export */ var server_logger = (logger_Logger);
 // CONCATENATED MODULE: ./vendor/ghmattimysql/packages/ghmattimysql/src/server/profiler/profilerConfig.ts
 const defaultProfilerConfig = {
-  slowQueryWarningTime: 100,
-  slowestQueries: 21,
+  slowQueryWarningTime: 300,
+  slowestQueries: 60000,
   timeInterval: 300000
 };
 

@@ -4,6 +4,7 @@ Drops = {}
 hotbarLock = false
 weaponEquiped = nil
 weaponLock = false
+handsup = false
 
 CreateThread(function() 
     while ESX == nil do  
@@ -50,7 +51,7 @@ if Config.Hotbar then
             HideHudComponentThisFrame(17)
             DisableControlAction(0, 37, true) --Disable Tab
             for k,v in pairs(Config.HotbarKeys) do
-                if IsDisabledControlJustPressed(0, v) then
+                if IsDisabledControlJustPressed(0, v) and not ESX.UI.Menu.MenuIsOpen() and not exports.esx_personalmenu:RageMenuIsOpen() then
                     UseItemFromHotbar(tostring(k-1))
                 end
             end
@@ -241,4 +242,19 @@ if Config.Hotbar then
         ShowHotbar()
     end, true)
     RegisterKeyMapping('hotbar', 'Show Hotbar', 'keyboard', Config.HotbarKey) 
+end
+
+if Config.UseHandsUP then
+    RegisterCommand('handsup', function()
+        if not handsup then
+            handsup = true
+            ESX.Streaming.RequestAnimDict("missminuteman_1ig_2", function()
+                TaskPlayAnim(PlayerPedId(), "missminuteman_1ig_2", "handsup_enter", 8.0, 8.0, -1, 50, 0, false, false, false)
+            end) 
+        else 
+            ClearPedTasks(PlayerPedId())
+            handsup = false
+        end
+    end, true)
+    RegisterKeyMapping('handsup', 'Hände hoch/runter', 'keyboard', Config.HandsupKey)
 end

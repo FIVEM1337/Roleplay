@@ -8,9 +8,52 @@ customVehicle = nil
 customVehiclePrice = nil
 customVehicleData = nil
 
+currentcash = nil
+currentbank = nil
+currentblack = nil
+
 local renderingScriptCam = false
 
 isOpenByAdmin = false
+
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer) 
+	TriggerEvent("esx_mechanicjob:LoadPlayerData", xPlayer)
+end)
+
+RegisterNetEvent("reload_esx_mechanicjob") 
+AddEventHandler("reload_esx_mechanicjob", function(xPlayer)
+	TriggerEvent("esx_mechanicjob:LoadPlayerData", xPlayer)
+end)
+
+RegisterNetEvent("esx_mechanicjob:LoadPlayerData") 
+AddEventHandler("esx_mechanicjob:LoadPlayerData", function(xPlayer)
+	local data = xPlayer
+	local accounts = data.accounts
+	for k,v in pairs(accounts) do
+		local account = v
+		if account.name == "money" then
+			currentcash = account.money
+		elseif account.name == "bank" then
+			currentbank = account.money
+		elseif account.name == "black_money" then
+			currentblack = account.money
+		end
+	end
+end)
+
+
+RegisterNetEvent('esx:setAccountMoney')
+AddEventHandler('esx:setAccountMoney', function(account)
+	if account.name == "money" then
+        currentcash = account.money
+	elseif account.name == "bank" then
+        currentbank = account.money
+	elseif account.name == "black_money" then
+        currentblack = account.money
+	end
+end)
+
 
 CreateThread(function()
     for i = 1, #Config.Positions, 1 do
@@ -95,7 +138,7 @@ function updateCash()
     SendNUIMessage({
         type = 'update',
         what = 'cash',
-        cash = ESX ~= nil and ESX.GetPlayerData().money or 0,
+        cash = currentcash,
         whitelistJobName = whitelistJobName
     })
 end
@@ -322,7 +365,7 @@ RegisterNUICallback('handle', function(data)
                             tempPrice = tempPrice * 2
                         end
 
-                        if (ESX and (ESX.GetPlayerData().money >= tempPrice)) then
+                        if (ESX and (currentcash >= tempPrice)) then
                             canBuyMod = true
 
                             if (tempPrice > 0) then 
@@ -351,7 +394,7 @@ RegisterNUICallback('handle', function(data)
                     end
 
                     if (not isOpenByAdmin) then
-                        if (ESX and (ESX.GetPlayerData().money >= tempPrice)) then
+                        if (ESX and (currentcash >= tempPrice)) then
                             if (tempPrice > 0) then
                                 TriggerServerEvent('mechanic:sv:removeCash', tempPrice)
                             end

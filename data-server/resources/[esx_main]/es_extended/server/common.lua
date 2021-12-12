@@ -54,8 +54,6 @@ MySQL.ready(function()
 			end
 		end)
 	end)
-
-	print('[es_extended] [^2INFO^7] ESX developed by ESX-Org has been initialized')
 end)
 
 AddEventHandler('esx:playerLoaded', function(playerId)

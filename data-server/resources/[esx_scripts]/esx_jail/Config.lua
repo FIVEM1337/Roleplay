@@ -7,8 +7,6 @@ Config.SyncInterval = 2 --How often the server updates the database for times le
 Config.MaxPerCell = 4 --How many are allowed per cell! Would recommend leaving high
 Config.MaxJail = 600 --Max amount someone can be intially jailed for
 
-Config.ServerName = 'Servername' --Server name to show up on 2D text! If you want it to be blank leave it blank!
-
 Config.PoliceNotifyTime = 5 --How long for police to know that someone escaped (in mins)
 Config.PoliceRoles = { --All police roles so that they have access to search and use menu
     'police'
@@ -87,84 +85,6 @@ Config.PunchAllowed = true --If you can use the punch item
 Config.PunchGive = 100000 --How much thirst gives for drinking punch (out of 1,000,000)
 Config.PunchProp = nil --Prop to be spawned while using item (leave nil if you want default cup)
 
---Entering Guide
-Config.HaveGuide = true --If there is a guide of the prison when they are first sent
-Config.TimePer = 5 --How long per cam for guide (in seconds)
-
-Config.PrisonCam = vector3(1845.1083984375, 2521.7490234375, 98.70295715332) --Position of the camera view 
-Config.PrisonCamRot = {x = -35.0, y = 0.0, z = 90.0} --Rotation of the camera view 
-
-Config.JobCam = vector3(1762.9641113281, 2490.5341796875, 45.740699768066) --Position of the camera view 
-Config.JobCamRot = {x = 0.0, y = 0.0, z = 45.0} --Rotation of the camera view 
-
-Config.SolCam = vector3(1653.9808349609, 2567.3181152344, 47.35973739624) --Position of the camera view (Only Will Show If Solitary Is On)
-Config.SolCamRot = {x = -25.0, y = 0.0, z = 45.0} --Rotation of the camera view (Only Will Show If Solitary Is On)
-
-Config.WorkOutCam = vector3(1747.7087402344, 2485.6455078125, 47.630657196045) --Position of the camera view (Only Will Show If WorkOut Is On)
-Config.WorkOutCamRot = {x = 0.0, y = 0.0, z = 170.0} --Rotation of the camera view (Only Will Show If WorkOut Is On)
-
-Config.ShowerCam = vector3(1747.7087402344, 2485.6455078125, 47.630657196045) --Position of the camera view (Only Will Show If Shower Is On)
-Config.ShowerCamRot = {x = 0.0, y = 0.0, z = 0.0} --Rotation of the camera view (Only Will Show If Shower Is On)
-
-Config.FoodCam = vector3(1780.7712402344, 2556.1508789062, 45.97308807373) --Position of the camera view 
-Config.FoodCamRot = {x = 0.0, y = 0.0, z = 0.0} --Rotation of the camera view 
-
-Config.HospitalCam = vector3(1772.5382080078, 2590.3508300781, 47.437080383301) --Position of the camera view (Only Will Show If Hospital Is On)
-Config.HospitalCamRot = {x = -25.0, y = 0.0, z = 45.0} --Rotation of the camera view (Only Will Show If Hospital Is On)
-
-Config.ItemCam = vector3(1840.4741210938, 2583.3911132812, 46.014289855957) --Position of the camera view (Only Will Show If There Is Items To Keep)
-Config.ItemCamRot = {x = 0.0, y = 0.0, z = 180.0} --Rotation of the camera view (Only Will Show If There Is Items To Keep)
-
---Entering Prison Cutscene Configs (Don't touch this unless you know what you're doing!)
-Config.GuardPed = 'csb_cop' --The ped that carries you in
-Config.GuardSpawn = {Loc = vector3(405.60272216797, -1000.9990844727, -99.004028320312), Heading = 2.9} --Where the guard spawns
-Config.HandCuffLoc = vector3(405.94161987305, -999.58270263672, -99.004028320312) --Where it spawns you
-Config.ClothesLoc = {Loc = vector3(402.74792480469, -1000.0263671875, -99.004043579102), Heading = 183.02} --Where the gaurd carries you to
-Config.ClothesProp = 'prop_cs_t_shirt_pile' --Prop that is in hands and on table
-Config.ClothPropLoc = {Loc = vector3(402.36535644531, -1001.2421264648, -98.086471557617), Heading = 356.48} --Location of the prop spawn
-Config.ComputerLoc = {Loc = vector3(401.48217773438, -1001.8327026367, -99.004035949707), Heading = 1.97} --Where the gaurd looks at his computer
-Config.PointLoc = {Loc = vector3(402.08111572266, -1001.8852539062, -99.004035949707), Heading = 357.9} --Where the gaurd comes and points
-Config.GrabLoc = {Loc = vector3(403.19427490234, -997.42065429688, -99.001533508301), Heading = 12.43} --Where the gaurd goes to grab the player after
-Config.GrabTurnHead = 258.46 --Heading which faces the exit
-Config.PedGrabHeading = 24.44 --Which heading you face when grabbed
-Config.StopnLook = {Loc = vector3(403.37203979492, -1002.0308837891, -99.004119873047), Heading = 359.19} --Stop and go point for gaurd so they don't have issues
-Config.StopnLook2 = 85.28 --Heading for second stop n go
-Config.StopnTurn = {Loc = vector3(405.93243408203, -997.45745849609, -99.004119873047), Heading = 97.76} --Another stop n go poi
-Config.Undressed = { --Undressed Player Outfit
-    male = {
-        ['tshirt_1'] = 15,  ['tshirt_2'] = 0,
-        ['torso_1']  = 15, ['torso_2']  = 0,
-        ['decals_1'] = 0,   ['decals_2'] = 0,
-        ['arms']     = 15,   ['pants_1']  = 21,
-        ['pants_2']  = 0,   ['shoes_1']  = 34,
-        ['shoes_2']  = 0,   ['mask_1']   = 0,
-        ['mask_2']   = 0,   ['bproof_1'] = 0,
-        ['bproof_2'] = 0,   ['chain_1']  = 0,
-        ['chain_2']  = 0,   ['helmet_1'] = -1,
-        ['helmet_2'] = 0,   ['glasses_1'] = 0,
-        ['glasses_2'] = 0
-    },
-    female = {
-        ['tshirt_1'] = 15,   ['tshirt_2'] = 0,
-        ['torso_1']  = 15,  ['torso_2']  = 0,
-        ['decals_1'] = 0,   ['decals_2'] = 0,
-        ['arms']     = 15,   ['pants_1']  = 15,
-        ['pants_2']  = 0,  ['shoes_1']  = 35,
-        ['shoes_2']  = 0,   ['mask_1']   = 0,
-        ['mask_2']   = 0,   ['bproof_1'] = 0,
-        ['bproof_2'] = 0,   ['chain_1']  = 0,
-        ['chain_2']  = 0,   ['helmet_1'] = -1,
-        ['helmet_2'] = 0,   ['glasses_1'] = 0,
-        ['glasses_2'] = 0
-    }
-}
-Config.EnterLoc = vector3(402.86895751953, -996.55413818359, -99.00025177002) --Sign Location
-Config.EnterHeadings = {Front = 178.32, Side = 264.63} --Both Sign Headings
-Config.WalkLoc = vector3(406.04782104492, -997.09332275391, -99.004028320312) --Final walk to desination in the hallway
-
-Config.Cam = vector3(402.91775512695, -1002.5331420898, -99.004035949707) --Position of the camera view
-Config.CamRot = {x = 0.0, y = 0.0, z = 0.0} --Rotation of the camera view
-
 Config.DontTakeGunUponEntry = { --All weapons that arn't taken upon entering jail
 
 }
@@ -175,7 +95,6 @@ Config.DontGiveBackItems = { --These are all the items that it won't give back u
     'drugs'
 }
 
-Config.AlertServerUponJail = true --Whether a chat message is sent when jailed
 
 --Leave Configs
 Config.LeaveLoc = {Loc = vector3(1838.3707275391, 2585.6594238281, 46.014293670654), Heading = 267.82} --Leave spawn location with heading
@@ -219,154 +138,154 @@ Config.ChMarkSize = {x = 0.5, y = 0.5, z = 0.3} --Marker Size for bed inventory
 --Crafting Configs
 Config.Crafts = { --All things that can be crafted with Old Man
     [1] = {
-        Name = "Shank", --Name in menu of item
+        Name = "Schaft", --Name in menu of item
         Time = 20, --How long it takes to craft
         MakeItem = 'Shank', --The item name in DB of what is given
-        Descripe = "You can use this for self defense!", --The description of this item
+        Descripe = "Du kannst das zur Selbstverteidigung verwenden!", --The description of this item
         Needed = { --These are all the needed items to make the item above
             [1] = {
-                Name = "Broken Spoon", --Name of needed item
+                Name = "Gebrochener Löffel", --Name of needed item
                 Amount = 1, --How many needed
                 Item = 'jspoon' --Name in db of item thats needed
             },
             [2] = {
-                Name = "Change",
+                Name = "Ändern",
                 Amount = 2,
                 Item = 'sChange'
             }
         }
     },
     [2] = {
-        Name = "Broken Spoon",
+        Name = "Gebrochener Löffel",
         Time = 8,
         MakeItem = 'jspoon',
-        Descripe = "You can use this for breaking out or for more crafting!",
+        Descripe = "Du kannst das zum Ausbrechen verwenden!",
         Needed = {
             [1] = {
-                Name = "Spoon",
+                Name = "Löffel",
                 Amount = 1,
                 Item = 'spoon'
             }
         }
     },
     [3] = {
-        Name = "Broken Spoon With Wet Cloth",
+        Name = "Zerbrochener Löffel mit nassem Tuch",
         Time = 5,
         MakeItem = 'bCloth',
-        Descripe = "You can use this for breaking out!",
+        Descripe = "Du kannst das zum Ausbrechen verwenden!",
         Needed = {
             [1] = {
-                Name = "Broken Spoon",
+                Name = "Gebrochener Löffel",
                 Amount = 1,
                 Item = 'jspoon'
             },
             [2] = {
-                Name = "Wet Cloth",
+                Name = "Nasser Stoff",
                 Amount = 1,
                 Item = 'wCloth'
             }
         }
     },
     [4] = {
-        Name = "Wet Cloth",
+        Name = "Nasser Stoff",
         Time = 10,
         MakeItem = 'wCloth',
-        Descripe = "You can use this for more crafting!",
+        Descripe = "Du kannst das zum Herstellen verwenden!",
         Needed = {
             [1] = {
-                Name = "Cleaner",
+                Name = "Reiniger",
                 Amount = 1,
                 Item = 'cleaner'
             },
             [2] = {
-                Name = "Cloth",
+                Name = "Stoff",
                 Amount = 1,
                 Item = 'cloth'
             }
         }
     },
     [5] = {
-        Name = "File",
+        Name = "Feile",
         Time = 20,
         MakeItem = 'file',
-        Descripe = "You can use this for breaking out or more crafting!",
+        Descripe = "Du kannst das zum Ausbrechen oder zum Herstellen verwenden!",
         Needed = {
             [1] = {
-                Name = "Rock",
+                Name = "Stein",
                 Amount = 2,
                 Item = 'rock'
             },
             [2] = {
-                Name = "Broken Ladle",
+                Name = "Zerbrochene Schöpfkelle",
                 Amount = 1,
                 Item = 'bLadle'
             }
         }
     },
     [6] = {
-        Name = "Broken Ladle",
+        Name = "Zerbrochene Schöpfkelle",
         Time = 5,
         MakeItem = 'bLadle',
-        Descripe = "You can use this for more crafting!",
+        Descripe = "Du kannst das zum Herstellen verwenden!",
         Needed = {
             [1] = {
-                Name = "Ladle",
+                Name = "Kelle",
                 Amount = 1,
                 Item = 'ladle'
             }
         }
     },
     [7] = {
-        Name = "Sharp Metal",
+        Name = "Scharfes Metall",
         Time = 20,
         MakeItem = 'sMetal',
-        Descripe = "You can use this for breaking out!",
+        Descripe = "Du kannst das zum Ausbrechen verwenden!",
         Needed = {
             [1] = {
-                Name = "Metal",
+                Name = "Metall",
                 Amount = 1,
                 Item = 'metal'
             },
             [2] = {
-                Name = "Rock",
+                Name = "Stein",
                 Amount = 2,
                 Item = 'rock'
             },
             [3] = {
-                Name = "File",
+                Name = "Feile",
                 Amount = 1,
                 Item = 'file'
             }
         }
     },
     [8] = {
-        Name = "Acid",
+        Name = "Säure",
         Time = 30,
         MakeItem = 'acid',
-        Descripe = "You can use this for breaking out!",
+        Descripe = "Du kannst das zum Ausbrechen verwenden!",
         Needed = {
             [1] = {
-                Name = "Bottle",
+                Name = "Flasche",
                 Amount = 1,
                 Item = 'bottle'
             },
             [2] = {
-                Name = "Grease",
+                Name = "Fett",
                 Amount = 3,
                 Item = 'grease'
             },
             [3] = {
-                Name = "Dirty Liquid",
+                Name = "Schmutzige Flüssigkeit",
                 Amount = 1,
                 Item = 'dLiquid'
             },
             [4] = {
-                Name = "Cleaner",
+                Name = "Reiniger",
                 Amount = 1,
                 Item = 'cleaner'
             },
             [5] = {
-                Name = "Spoon",
+                Name = "Löffel",
                 Amount = 1,
                 Item = 'spoon'
             }
@@ -376,58 +295,58 @@ Config.Crafts = { --All things that can be crafted with Old Man
         Name = "Mini Hammer",
         Time = 25,
         MakeItem = 'miniH',
-        Descripe = "You can use this for breaking out!",
+        Descripe = "Du kannst das zum Ausbrechen verwenden!",
         Needed = {
             [1] = {
-                Name = "Metal",
+                Name = "Metall",
                 Amount = 1,
                 Item = 'metal'
             },
             [2] = {
-                Name = "Rock",
+                Name = "Stein",
                 Amount = 1,
                 Item = 'rock'
             },
             [3] = {
-                Name = "Ladle",
+                Name = "Kelle",
                 Amount = 1,
                 Item = 'ladle'
             },
             [4] = {
-                Name = "Cloth",
+                Name = "Stoff",
                 Amount = 1,
                 Item = 'cloth'
             }
         }
     },
     [10] = {
-        Name = "Prison Punch",
+        Name = "Gefängnispunsch",
         Time = 10,
         MakeItem = 'pPunch',
-        Descripe = "You can use this to tend to your thirst!",
+        Descripe = "Damit kannst du deinen Durst stillen!",
         Needed = {
             [1] = {
-                Name = "Dirty Liquid",
+                Name = "Schmutzige Flüssigkeit",
                 Amount = 1,
                 Item = 'dLiquid'
             },
             [2] = {
-                Name = "Flavor Packet",
+                Name = "Geschmackpaket",
                 Amount = 3,
                 Item = 'fPacket'
             },
             [3] = {
-                Name = "Bottle",
+                Name = "Flasche",
                 Amount = 1,
                 Item = 'bottle'
             }
         }
     },
     [11] = {
-        Name = "Immersion Heater",
+        Name = "Tauchheizkörper",
         Time = 25,
         MakeItem = 'iHeat',
-        Descripe = "You can use this to distil alcohol!",
+        Descripe = "Du kannst damit Alkohol destillieren!",
         Needed = {
             [1] = {
                 Name = "Plug",
@@ -435,25 +354,25 @@ Config.Crafts = { --All things that can be crafted with Old Man
                 Item = 'plug'
             },
             [2] = {
-                Name = "Spare Change",
+                Name = "Kleingeld",
                 Amount = 2,
                 Item = 'sChange'
             }
         }
     },
     [12] = {
-        Name = "Booze",
+        Name = "Schnaps",
         Time = 15,
         MakeItem = 'booze',
-        Descripe = "You can use this to get drunk!",
+        Descripe = "Damit kannst du dich betrinken!",
         Needed = {
             [1] = {
-                Name = "Immersion Heater",
+                Name = "Tauchheizkörper",
                 Amount = 1,
                 Item = 'iHeat'
             },
             [2] = {
-                Name = "Prison Punch",
+                Name = "Gefängnispunsch",
                 Amount = 1,
                 Item = 'pPunch'
             }
@@ -489,20 +408,20 @@ Config.SeeTaskMark = 5 --How close you have to be to see the 3d marker
 Config.SeeTaskText = 0.8 --How close you have to be to do the task
 Config.JobOptions = {
     [1] = {
-        Name = "Cook",
+        Name = "Kochen",
         TimeRemove = 25,
         StealChance = 4,
         StealItems = {
-            [1] = {Name = "Bottle", Item = 'bottle', Chance = 2},
-            [2] = {Name = "Grease", Item = 'grease', Chance = 5},
-            [3] = {Name = "Dirty Liquid", Item = 'dLiquid', Chance = 5},
-            [4] = {Name = "Spoon", Item = 'spoon', Chance = 8},
-            [5] = {Name = "Ladle", Item = 'ladle', Chance = 7},
-            [6] = {Name = "Flavor Packet", Item = 'fPacket', Chance = 10}
+            [1] = {Name = "Flasche", Item = 'bottle', Chance = 2},
+            [2] = {Name = "Fett", Item = 'grease', Chance = 5},
+            [3] = {Name = "Schmutzige Flüssigkeit", Item = 'dLiquid', Chance = 5},
+            [4] = {Name = "Löffel", Item = 'spoon', Chance = 8},
+            [5] = {Name = "Kelle", Item = 'ladle', Chance = 7},
+            [6] = {Name = "Geschmackpaket", Item = 'fPacket', Chance = 10}
         },
         Tasks = {
             [1] = {
-                TaskName = "Grab Pan",
+                TaskName = "Pfanne nehmen",
                 TaskLoc = {Loc = vector3(1777.892578125, 2563.3972167969, 45.673080444336), Heading = 80.78},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -514,7 +433,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'prop_copper_pan', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [2] = {
-                TaskName = "Start Cooker",
+                TaskName = "Pfanne erhitzen",
                 TaskLoc = {Loc = vector3(1780.5457763672, 2564.2126464844, 45.673080444336), Heading = 351.55},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 10,
@@ -526,7 +445,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = false, Prop = 'nil', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [3] = {
-                TaskName = "Grab Food",
+                TaskName = "Essen nehmen",
                 TaskLoc = {Loc = vector3(1786.4158935547, 2564.3146972656, 45.673080444336), Heading = 353.08},
                 Anim = {Dict = 'mp_arresting', AnimName = 'a_uncuff'},
                 Time = 10,
@@ -538,7 +457,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'ng_proc_food_ornge1a', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [4] = {
-                TaskName = "Cook Food",
+                TaskName = "Essen kochen",
                 TaskLoc = {Loc = vector3(1780.8120117188, 2564.2136230469, 45.673080444336), Heading = 359.29},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 20,
@@ -550,7 +469,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = false, Prop = 'nil', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [5] = {
-                TaskName = "Grab Trays",
+                TaskName = "Tablett nehmen",
                 TaskLoc = {Loc = vector3(1787.3264160156, 2561.5522460938, 45.673080444336), Heading = 271.05},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -562,7 +481,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'ng_proc_food_burg02a', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [6] = {
-                TaskName = "Set Trays Down",
+                TaskName = "Tabletts abstellen",
                 TaskLoc = {Loc = vector3(1783.5938720703, 2560.744140625, 45.673080444336), Heading = 171.9},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -574,7 +493,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = false, Prop = 'nil', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [7] = {
-                TaskName = "Grab Cooked Food",
+                TaskName = "Gekochtes Essen nehmen",
                 TaskLoc = {Loc = vector3(1780.6555175781, 2564.2763671875, 45.673080444336), Heading = 355.99},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -586,7 +505,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'prop_copper_pan', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [8] = {
-                TaskName = "Set Cooked Food Down",
+                TaskName = "Gekochtes Essen abstellen",
                 TaskLoc = {Loc = vector3(1781.2731933594, 2560.783203125, 45.673080444336), Heading = 182.83},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -600,22 +519,22 @@ Config.JobOptions = {
         }
     },
     [2] = {
-        Name = "Trash Cleaner",
+        Name = "Müll entsorgen",
         TimeRemove = 25,
         StealChance = 3,
         StealItems = {
-            [1] = {Name = "Bottle", Item = 'bottle', Chance = 2},
-            [2] = {Name = "Rock", Item = 'rock', Chance = 5},
-            [3] = {Name = "Broken Ladle", Item = 'bLadle', Chance = 3},
-            [4] = {Name = "Metal", Item = 'metal', Chance = 4},
-            [5] = {Name = "Broken Spoon", Item = 'jspoon', Chance = 6},
-            [6] = {Name = "Spare Change", Item = 'sChange', Chance = 6},
-            [7] = {Name = "Cloth", Item = 'cloth', Chance = 6},
+            [1] = {Name = "Flasche", Item = 'bottle', Chance = 2},
+            [2] = {Name = "Stein", Item = 'rock', Chance = 5},
+            [3] = {Name = "Zerbrochene Schöpfkelle", Item = 'bLadle', Chance = 3},
+            [4] = {Name = "Metall", Item = 'metal', Chance = 4},
+            [5] = {Name = "Gebrochener Löffel", Item = 'jspoon', Chance = 6},
+            [6] = {Name = "Kleingeld", Item = 'sChange', Chance = 6},
+            [7] = {Name = "Stoff", Item = 'cloth', Chance = 6},
             [8] = {Name = "Plug", Item = 'plug', Chance = 4}
         },
         Tasks = {
             [1] = {
-                TaskName = "Grab Trash",
+                TaskName = "Müll holen",
                 TaskLoc = {Loc = vector3(1704.4982910156, 2551.7905273438, 45.564895629883), Heading = 91.44},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -627,7 +546,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'hei_prop_heist_binbag', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [2] = {
-                TaskName = "Drop Trash",
+                TaskName = "Müll ablegen",
                 TaskLoc = {Loc = vector3(1622.4766845703, 2615.7399902344, 45.564853668213), Heading = 192.76},
                 Anim = {Dict = 'amb@prop_human_bum_bin@base', AnimName = 'base'},
                 Time = 5,
@@ -639,7 +558,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = false, Prop = 'nil', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [3] = {
-                TaskName = "Grab Trash",
+                TaskName = "Müll holen",
                 TaskLoc = {Loc = vector3(1700.7912597656, 2555.5249023438, 45.56489944458), Heading = 188.0},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -651,7 +570,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'hei_prop_heist_binbag', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [4] = {
-                TaskName = "Drop Trash",
+                TaskName = "Müll ablegen",
                 TaskLoc = {Loc = vector3(1622.4766845703, 2615.7399902344, 45.564853668213), Heading = 192.76},
                 Anim = {Dict = 'amb@prop_human_bum_bin@base', AnimName = 'base'},
                 Time = 5,
@@ -663,7 +582,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = false, Prop = 'nil', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [5] = {
-                TaskName = "Grab Trash",
+                TaskName = "Müll holen",
                 TaskLoc = {Loc = vector3(1719.0423583984, 2501.5693359375, 45.564853668213), Heading = 275.89},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -675,7 +594,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'hei_prop_heist_binbag', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [6] = {
-                TaskName = "Drop Trash",
+                TaskName = "Müll ablegen",
                 TaskLoc = {Loc = vector3(1622.4766845703, 2615.7399902344, 45.564853668213), Heading = 192.76},
                 Anim = {Dict = 'amb@prop_human_bum_bin@base', AnimName = 'base'},
                 Time = 5,
@@ -687,7 +606,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = false, Prop = 'nil', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [7] = {
-                TaskName = "Grab Trash",
+                TaskName = "Müll holen",
                 TaskLoc = {Loc = vector3(1719.6976318359, 2503.8447265625, 45.564853668213), Heading = 274.05},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -699,7 +618,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'hei_prop_heist_binbag', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [8] = {
-                TaskName = "Drop Trash",
+                TaskName = "Müll ablegen",
                 TaskLoc = {Loc = vector3(1622.4766845703, 2615.7399902344, 45.564853668213), Heading = 192.76},
                 Anim = {Dict = 'amb@prop_human_bum_bin@base', AnimName = 'base'},
                 Time = 5,
@@ -711,7 +630,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = false, Prop = 'nil', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [9] = {
-                TaskName = "Grab Empty Bags",
+                TaskName = "Müllbeutel holen",
                 TaskLoc = {Loc = vector3(1779.5200195312, 2545.5639648438, 45.673049926758), Heading = 95.18},
                 Anim = {Dict = 'amb@prop_human_bum_bin@base', AnimName = 'base'},
                 Time = 10,
@@ -723,7 +642,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = false, Prop = 'nil', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [10] = {
-                TaskName = "Put Trash Bag In",
+                TaskName = "Müllsack anbringen",
                 TaskLoc = {Loc = vector3(1704.4982910156, 2551.7905273438, 45.564895629883), Heading = 91.44},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -735,7 +654,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = false, Prop = 'nil', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [11] = {
-                TaskName = "Put Trash Bag In",
+                TaskName = "Müllsack anbringen",
                 TaskLoc = {Loc = vector3(1700.7912597656, 2555.5249023438, 45.56489944458), Heading = 188.0},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -747,7 +666,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = false, Prop = 'nil', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [12] = {
-                TaskName = "Put Trash Bag In",
+                TaskName = "Müllsack anbringen",
                 TaskLoc = {Loc = vector3(1719.0423583984, 2501.5693359375, 45.564853668213), Heading = 275.89},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -759,7 +678,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = false, Prop = 'nil', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [13] = {
-                TaskName = "Put Trash Bag In",
+                TaskName = "Müllsack anbringen",
                 TaskLoc = {Loc = vector3(1719.6976318359, 2503.8447265625, 45.564853668213), Heading = 274.05},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -773,19 +692,19 @@ Config.JobOptions = {
         }
     },
     [3] = {
-        Name = "Tray Cleaner",
+        Name = "Geschirrspühlen",
         TimeRemove = 25,
         StealChance = 4,
         StealItems = {
-            [1] = {Name = "Bottle", Item = 'bottle', Chance = 2},
-            [2] = {Name = "Grease", Item = 'grease', Chance = 5},
-            [3] = {Name = "Dirty Liquid", Item = 'dLiquid', Chance = 5},
-            [4] = {Name = "Spoon", Item = 'spoon', Chance = 8},
-            [5] = {Name = "Flavor Packet", Item = 'fPacket', Chance = 10}
+            [1] = {Name = "Flasche", Item = 'bottle', Chance = 2},
+            [2] = {Name = "Fett", Item = 'grease', Chance = 5},
+            [3] = {Name = "Schmutzige Flüssigkeit", Item = 'dLiquid', Chance = 5},
+            [4] = {Name = "Löffel", Item = 'spoon', Chance = 8},
+            [5] = {Name = "Geschmackpaket", Item = 'fPacket', Chance = 10}
         },
         Tasks = {
             [1] = {
-                TaskName = "Grab Tray",
+                TaskName = "Tablett nehmen",
                 TaskLoc = {Loc = vector3(1781.5991210938, 2555.8354492188, 45.673080444336), Heading = 182.01},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -797,7 +716,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'prop_food_bs_tray_02', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [2] = {
-                TaskName = "Put In Sink",
+                TaskName = "In Spüle stecken",
                 TaskLoc = {Loc = vector3(1778.3990478516, 2564.4326171875, 45.673080444336), Heading = 357.18},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -809,7 +728,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = false, Prop = 'nil', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [3] = {
-                TaskName = "Grab Tray",
+                TaskName = "Tablett nehmen",
                 TaskLoc = {Loc = vector3(1780.7900390625, 2549.4860839844, 45.67308807373), Heading = 353.27},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -821,7 +740,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'prop_food_bs_tray_02', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [4] = {
-                TaskName = "Put In Sink",
+                TaskName = "In Spüle stecken",
                 TaskLoc = {Loc = vector3(1778.3990478516, 2564.4326171875, 45.673080444336), Heading = 357.18},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -833,7 +752,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = false, Prop = 'nil', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [5] = {
-                TaskName = "Grab Tray",
+                TaskName = "Tablett nehmen",
                 TaskLoc = {Loc = vector3(1787.3134765625, 2548.6909179688, 45.67308807373), Heading = 173.54},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -845,7 +764,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'prop_food_bs_tray_02', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [6] = {
-                TaskName = "Put In Sink",
+                TaskName = "In Spüle stecken",
                 TaskLoc = {Loc = vector3(1778.3990478516, 2564.4326171875, 45.673080444336), Heading = 357.18},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -857,7 +776,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = false, Prop = 'nil', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [7] = {
-                TaskName = "Wash Trays",
+                TaskName = "Tablett waschen",
                 TaskLoc = {Loc = vector3(1778.3990478516, 2564.4326171875, 45.673080444336), Heading = 357.18},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 10,
@@ -883,17 +802,17 @@ Config.JobOptions = {
         }
     },
     [4] = {
-        Name = "Wall Cleaner",
+        Name = "Wände reinigen",
         TimeRemove = 25,
         StealChance = 4,
         StealItems = {
-            [1] = {Name = "Bottle", Item = 'bottle', Chance = 2},
-            [2] = {Name = "Dirty Liquid", Item = 'dLiquid', Chance = 5},
-            [3] = {Name = "Cleaner", Item = 'cleaner', Chance = 5}
+            [1] = {Name = "Flasche", Item = 'bottle', Chance = 2},
+            [2] = {Name = "Schmutzige Flüssigkeit", Item = 'dLiquid', Chance = 5},
+            [3] = {Name = "Reiniger", Item = 'cleaner', Chance = 5}
         },
         Tasks = {
             [1] = {
-                TaskName = "Grab Cleaner",
+                TaskName = "Reiniger holen",
                 TaskLoc = {Loc = vector3(1778.146484375, 2546.1821289062, 45.673091888428), Heading = 176.86},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -905,7 +824,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'prop_sponge_01', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [2] = {
-                TaskName = "Clean Spot",
+                TaskName = "Stelle reinigen",
                 TaskLoc = {Loc = vector3(1771.7099609375, 2497.0373535156, 45.740657806396), Heading = 304.25},
                 Anim = {Dict = 'amb@world_human_maid_clean@', AnimName = 'base'},
                 Time = 10,
@@ -917,7 +836,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'prop_sponge_01', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [3] = {
-                TaskName = "Clean Spot",
+                TaskName = "Stelle reinigen",
                 TaskLoc = {Loc = vector3(1773.87109375, 2493.15234375, 45.740657806396), Heading = 300.58},
                 Anim = {Dict = 'amb@world_human_maid_clean@', AnimName = 'base'},
                 Time = 10,
@@ -929,7 +848,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'prop_sponge_01', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [4] = {
-                TaskName = "Clean Spot",
+                TaskName = "Stelle reinigen",
                 TaskLoc = {Loc = vector3(1775.8498535156, 2489.8669433594, 45.740657806396), Heading = 302.28},
                 Anim = {Dict = 'amb@world_human_maid_clean@', AnimName = 'base'},
                 Time = 10,
@@ -941,7 +860,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'prop_sponge_01', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [5] = {
-                TaskName = "Clean Spot",
+                TaskName = "Stelle reinigen",
                 TaskLoc = {Loc = vector3(1752.3601074219, 2480.5798339844, 45.740669250488), Heading = 119.21},
                 Anim = {Dict = 'amb@world_human_maid_clean@', AnimName = 'base'},
                 Time = 10,
@@ -953,7 +872,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'prop_sponge_01', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [6] = {
-                TaskName = "Clean Spot",
+                TaskName = "Stelle reinigen",
                 TaskLoc = {Loc = vector3(1754.1047363281, 2477.3103027344, 49.690319061279), Heading = 121.47},
                 Anim = {Dict = 'amb@world_human_maid_clean@', AnimName = 'base'},
                 Time = 10,
@@ -965,7 +884,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'prop_sponge_01', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [7] = {
-                TaskName = "Clean Spot",
+                TaskName = "Stelle reinigen",
                 TaskLoc = {Loc = vector3(1750.1640625, 2483.8474121094, 49.690319061279), Heading = 115.98},
                 Anim = {Dict = 'amb@world_human_maid_clean@', AnimName = 'base'},
                 Time = 10,
@@ -977,7 +896,7 @@ Config.JobOptions = {
                 CarryItem = {Attach = true, Prop = 'prop_sponge_01', Offsets = {First = 0.0, Second =  0.0, Third = -0.01, Four = 90.0, Five = 0.0, Six = 0.0}}
             },
             [8] = {
-                TaskName = "Put Back Cleaner",
+                TaskName = "Reiniger zurücklegen",
                 TaskLoc = {Loc = vector3(1778.146484375, 2546.1821289062, 45.673091888428), Heading = 176.86},
                 Anim = {Dict = 'mini@repair', AnimName = 'fixing_a_ped'},
                 Time = 5,
@@ -1197,7 +1116,7 @@ Config.SolRunTime = 1 --Time in mins for the one above
 Config.FailBreakToSol = true --If you want solitary for when they fail to breakout in time
 Config.SolBreakTime = 1 --Time in mins for the one above
 
-Config.Sol4Lock = false --If you want solitary for when they try to leave their cell on lockdown
+Config.Sol4Lock = false --If you want solitary for when they try to leave their cell on Lockdown
 Config.SolLockTime = 1 --Time in mins for the one above
 
 Config.Sol4Kill = true --IF you want solitary for when you kill someone
@@ -1308,25 +1227,25 @@ Config.BreakLocs = { --All cutting / digging locations when breaking out (StartL
 
 Config.RoomTools = { --All the tools for cell and exit locations
     [1] = {
-        Name = "Broken Spoon", --Name of the tool
+        Name = "Gebrochener Löffel", --Name of the tool
         Item = 'jspoon', --DB item name of the tool
         Time = 10, --How long it takes to use
         Percent = 2 --Percentage chance of it working (ex. 2 = 20%)
     },
     [2] = {
-        Name = "Broken Spoon With Wet Cloth",
+        Name = "Zerbrochener Löffel mit nassem Tuch",
         Item = 'bCloth',
         Time = 7,
         Percent = 5
     },
     [3] = {
-        Name = "Sharp Metal",
+        Name = "Scharfes Metall",
         Item = 'sMetal',
         Time = 5,
         Percent = 8
     },
     [4] = {
-        Name = "Acid",
+        Name = "Säure",
         Item = 'acid',
         Time = 20,
         Percent = 8
@@ -1341,19 +1260,19 @@ Config.RoomTools = { --All the tools for cell and exit locations
 
 Config.FenceTool = { --Tools for fences that are not exit locations
     [1] = {
-        Name = "File", --Name of the tool
+        Name = "Feile", --Name of the tool
         Item = 'file', --DB name of the tool
         Time = 10, --How long it takes
         Percent = 4 --Percentage of it working (ex. 4 = 40%)
     },
     [2] = {
-        Name = "Sharp Metal",
+        Name = "Scharfes Metall",
         Item = 'sMetal',
         Time = 4,
         Percent = 7
     },
     [3] = {
-        Name = "Acid",
+        Name = "Säure",
         Item = 'acid',
         Time = 20,
         Percent = 9
@@ -1365,7 +1284,7 @@ Config.FenceTool = { --Tools for fences that are not exit locations
         Percent = 7
     },
     [5] = {
-        Name = "Immersion Heater",
+        Name = "Tauchheizkörper",
         Item = 'iHeat',
         Time = 20,
         Percent = 9
@@ -1521,193 +1440,176 @@ Config.WorkoutFit = { --Workout fit for female and male
     }
 }
 
-
---All Sayings
-Config.RanMessages = {
-    [1] = "You smell! Go take a shower!",
-    [2] = "You're lookin weak! Go workout!",
-    [3] = "You're being lazy! Go do your job!"
-}
-
 Config.Sayings = { --All sayings in the whole script
-    [1] = "Prison",
-    [2] = "Doing Task",
-    [3] = " ~y~Jail~w~ | Time Left:~r~ ",
+    [1] = "Gefängnis",
+    [2] = "Aufgabe erledigen",
+    [3] = " ~y~Gefängnis~w~ | verbleibende zeit:~r~ ",
     [4] = "(s) ~w~| Job =~o~ ",
-    [5] = "You Are Being Sent To Jail",
-    [6] = "None",
-    [7] = "Judge ",
-    [8] = " is being sentenced ",
-    [9] = "Jail Job Manager",
-    [10] = "Old Man",
-    [11] = "Jail Item Retreival",
+    [5] = "Du wurdest Inhaftiert",
+    [6] = "Kein",
+    [7] = "Richter ",
+    [8] = " wird verurteilt ",
+    [9] = "Jobmanager im Gefängnis",
+    [10] = "Alter Mann",
+    [11] = "Gefängnisgegenständen",
 	[12] = "[~p~E~w~] Retreive Items",
-    [13] = "Grabbing Belongings",
-    [14] = "[~p~E~w~] Job Manager",
-    [15] = "Available Jobs",
-    [16] = "No Job",
-    [17] = "Tasks: ",
-    [18] = "Time Deduction: ",
-    [19] = "Start Job",
-    [20] = "You chose a job! Go do the tasks!",
-    [21] = "(mins) in Bolingbroke Penitentiary | Reason: ",
+    [13] = "Besitztümer nehmen",
+    [14] = "[~p~E~w~] Jobmanager",
+    [15] = "Verfügbare Berufe",
+    [16] = "Keine Arbeit",
+    [17] = "Aufgaben: ",
+    [18] = "Zeitabzug: ",
+    [19] = "Job starten",
+    [20] = "Du hast dich für einen Beruf entschieden! Geh und erledige die Aufgaben!",
+    [21] = "(Minuten) in Bolingbroke Gefängnis | Grund: ",
     [22] = "[~y~E~w~] ",
-    [23] = "Doing Task",
-    [24] = "You completed a task! Go to the next task!",
-    [25] = "You completed all the tasks! Your time was reduced and tasks reset!",
-    [26] = "Task: ",
-    [27] = "[~y~E~w~] Old Man",
-    [28] = "[~o~E~w~] Start Digging",
-    [29] = "[~b~E~w~] Lift Bed",
+    [23] = "Aufgabe erledigen",
+    [24] = "Du hast eine Aufgabe erledigt! Geh zur nächsten Aufgabe!",
+    [25] = "Du hast alle Aufgaben erledigt! Ihre Zeit wurde reduziert!",
+    [26] = "Aufgabe: ",
+    [27] = "[~y~E~w~] Alter Mann",
+    [28] = "[~o~E~w~] Beginnen zu graben",
+    [29] = "[~b~E~w~] Matratze anheben",
     [30] = "[~g~E~w~] Get Food",
-    [31] = "Inventory",
+    [31] = "Inventar",
     [32] = "Food Court",
-    [33] = "No Items",
-    [34] = "Under the Bed",
-    [35] = "Lifting Bed",
-    [36] = "Lowering Bed",
-    [37] = "How many do you want to pull out?",
-    [38] = "Invalid Amount/Message",
-    [39] = "Amount is too much",
-    [40] = "Remove Items",
-    [41] = "Add Items",
-    [42] = "How many would you like to add?",
-    [43] = "Grabbing tray of food",
-    [44] = "[~y~E~w~] Eat Food [~g~G~w~] Throw Away",
-    [45] = "What would you like to talk about?",
-    [46] = "Breaking out of here",
-    [47] = "Making Items",
-    [48] = "What were you looking to make?",
-    [49] = "What about breaking out?",
-    [50] = "What I need",
-    [51] = "Make it",
-    [52] = "Needed",
-    [53] = " ~r~Solitary ~w~| Time Left: ~y~",
+    [33] = "Keine Gegenstände",
+    [34] = "Versteck",
+    [35] = "Matratze anheben",
+    [36] = "Matratze ablegen",
+    [37] = "Wie viele willst du herausziehen?",
+    [38] = "Ungültiger Betrag/Nachricht",
+    [39] = "Betrag ist zu viel",
+    [40] = "Gegenstand nehmen",
+    [41] = "Geenstand verstecken",
+    [42] = "Wie viele möchten du hinzufügen?",
+    [43] = "Tablett mit Essen nehmen",
+    [44] = "[~y~E~w~] Essen [~g~G~w~] Wegwerfen",
+    [45] = "Über was würdest du gerne sprechen?",
+    [46] = "Von hier ausbrechen",
+    [47] = "Gegenstände herstellen",
+    [48] = "Was willst du machen?",
+    [49] = "Wie wäre es mit einem Ausbruch?",
+    [50] = "Was ich brauche",
+    [51] = "Mach es",
+    [52] = "Erforderlich",
+    [53] = " ~r~Einzelhaft ~w~| Zeit: ~y~",
     [54] = "~w~(~r~s~w~)",
-    [55] = "Jailing Info",
+    [55] = "Inhaftierung Info",
     [56] = "ID: ",
-    [57] = "Time: ",
-    [58] = "Time: None",
-    [59] = "Reason",
-    [60] = "Confirm",
-    [61] = "Change ID For Jailing",
-    [62] = "Jail Time is too long, above max Jail Time!",
-    [63] = "Change Time Amount",
-    [64] = "Reason For Jailing",
-    [65] = "Edit Reason",
-    [66] = "Confirm Reason",
-    [67] = "See Reason",
-    [68] = "Reason For Jail",
-    [69] = "None",
-    [70] = "The Doctor Is Checking You Up",
-    [71] = "What would you like to know?",
-    [72] = "Breaking Out Of Cell",
-    [73] = "Breaking Through Fence 1",
-    [74] = "Breaking Through Fence 2",
-    [75] = "Description",
-    [76] = "Tools that can be used",
-    [77] = "You need a tool to dig through the wall! Once you make a hole you can climb through!",
-    [78] = "You need a tool to cut through the fence! Once you cut through you can climb through!",
-    [79] = "You need a tool to dig through the ground and wall! Once you make a hole you can crawl out!",
-    [80] = "Time: ",
+    [57] = "Zeit: ",
+    [58] = "Zeit: ---",
+    [59] = "Grund",
+    [60] = "Bestätigen",
+    [61] = "ID für Inhaftierung ändern",
+    [62] = "Die Gefängniszeit ist zu lang, über der maximalen Gefängniszeit!",
+    [63] = "Zeit ändern",
+    [64] = "Benachrichtigung",
+    [65] = "Grund ändern",
+    [66] = "Bestätigen",
+    [67] = "Siehe Grund",
+    [68] = "Benachrichtigung",
+    [69] = "Keine",
+    [70] = "Der Arzt untersucht dich",
+    [71] = "Was würdest du gerne wissen?",
+    [72] = "Aus der Zelle ausbrechen",
+    [73] = "Zaun durchbrechen 1",
+    [74] = "Zaun durchbrechen 2",
+    [75] = "Beschreibung",
+    [76] = "Werkzeuge, die verwendet werden können",
+    [77] = "Du brauchst ein Werkzeug, um durch die Wand zu graben! Sobald Sie ein Loch gemacht haben, können Sie hindurchklettern!",
+    [78] = "Du brauchst ein Werkzeug, um den Zaun zu durchtrennen! Wenn du durchschneidest, kannst du hindurchklettern!",
+    [79] = "Du brauchst ein Werkzeug, um durch den Boden und die Wand zu graben! Sobald du ein Loch gemacht hast, kannst du herauskriechen!",
+    [80] = "Zeit: ",
     [81] = "~w~(~y~s~w~)",
-    [82] = "Success Percentage: ",
-    [83] = "Missing Items To Craft",
-    [84] = "Action Not Possible",
-    [85] = "Crafting",
-    [86] = "You stole a ",
-    [87] = "What would you like to dig with?",
-    [88] = "You do not have this item!",
-    [89] = "[~o~E~w~] Break Out",
-    [90] = "You your dig was successful",
-    [91] = "Your tool broke",
-    [92] = "You Are ~b~Breaking Out~w~! | Time Until Gaurds Notice:~o~ ",
-    [93] = "[~g~E~w~] Cut Fence",
-    [94] = "What would you like to cut with?",
-    [95] = "You don't have this item!",
-    [96] = "Digging",
-    [97] = "Cutting",
-    [98] = "Dig / Cut",
-    [99] = "Watch Tower",
-    [100] = "You have to successfully dig ",
-    [101] = " times to go through the wall!",
-    [102] = "You finished digging! Crawl through the hole to start your escape!",
-    [103] = "That ID is not in jail!",
+    [82] = "Erfolg: ",
+    [83] = "Fehlende Gegenstände zum Herstellen",
+    [84] = "Aktion nicht möglich",
+    [85] = "Herstellen",
+    [86] = "Gegenstand gestohlen: ",
+    [87] = "Womit möchtest du graben?",
+    [88] = "Du hast diesen Gegensand nicht!",
+    [89] = "[~o~E~w~] Ausbrechen",
+    [90] = "Erfolgreich gegraben",
+    [91] = "Dein Werkzeug ist kaputt",
+    [92] = "~b~Ausbrechen~w~! | Zeit bis zum Alarm:~o~ ",
+    [93] = "[~g~E~w~] Zaun schneiden",
+    [94] = "Womit möchtest du schneiden?",
+    [95] = "Du hast diesen Gegensand nicht!",
+    [96] = "Graben",
+    [97] = "Schneiden",
+    [98] = "Graben / Schneiden",
+    [99] = "Wachturm",
+    [100] = "Du musst noch ",
+    [101] = " mal graben!",
+    [102] = "Du hast fertig gegraben! Krieche durch das Loch, um deine Flucht zu beginnen!",
+    [103] = "Diese ID ist nicht im Gefängnis!",
     [104] = "(s) was added to your sentence!",
-    [105] = "Your reason is invalid",
-    [106] = "Your ID is invalid",
-    [107] = "Your time is invalid",
-    [108] = "Failed To Break Out In Time",
-    [109] = "Got To Far From Prison",
-    [110] = "Killed Someone In Prison",
-    [111] = "You walked too far away and the Menu Closed!",
-    [112] = "Showers",
-    [113] = "[~b~E~w~] Get Ready For Shower",
+    [105] = "Dein Grund ist ungültig",
+    [106] = "Deine ID ist ungültig",
+    [107] = "Deine Zeit ist ungültig",
+    [108] = "Ausbruch fehlgeschlagen",
+    [109] = "Zu weit weg vom Gefängnis",
+    [110] = "Jemanden im Gefängnis getötet",
+    [111] = "Du bist zu weit weggegangen!",
+    [112] = "Duschen",
+    [113] = "[~b~E~w~] Mach dich bereit für die Dusche",
     [114] = "Changing Clothes",
-    [115] = "Go to one of the showers",
-    [116] = "[~b~G~w~] Shower",
-    [117] = "Shower Cancelled! You walked to far away!",
-    [118] = "Showering",
-    [119] = "Working Out",
-    [120] = "[~r~E~w~] Start Working Out",
-    [121] = "You are working out! Go and use one of the machines or use the ground!",
+    [115] = "Geh zu einer der Duschen",
+    [116] = "[~b~G~w~] Dusche",
+    [117] = "Dusche beendet! Du bist zu weit weg gegangen!",
+    [118] = "Duschen",
+    [119] = "Trainieren",
+    [120] = "[~r~E~w~] Beginne mit dem Training",
+    [121] = "Du trainierst! Geh und benutze eine der Maschinen!",
     [122] = "[~r~G~w~] ",
-    [123] = "Working Out",
-    [124] = "Workout Cancelled! You walked to far away!",
-    [125] = "Workout Ended",
-    [126] = "[~r~E~w~] End Working Out",
-    [127] = "Invalid ID",
-    [128] = "Jail Someone",
-    [129] = "UnJail Someone",
-    [130] = "Add Time to Someone",
-    [131] = "Remove Time from Someone",
-    [132] = "Send Someone to Solitary",
-    [133] = "Jail Options",
-    [134] = "Enter ID of Player",
-    [135] = "No Players Nearby",
-    [136] = "Solitary Is Not Allowed",
+    [123] = "Trainieren",
+    [124] = "Training beendet! Du bist zu weit weg gegangen!",
+    [125] = "Training beendet",
+    [126] = "[~r~E~w~] Training beenden",
+    [127] = "Ungültige ID",
+    [128] = "Person ins Gefängnis bringen",
+    [129] = "Person aus Gefängnis entlassen",
+    [130] = "Haftzeit verlängern",
+    [131] = "Zeit von Inhaftierten entfernen",
+    [132] = "Inhaftierten in die Einzelhaft bringen",
+    [133] = "Gefängnisoptionen",
+    [134] = "ID des Spielers",
+    [135] = "Keine Spieler in der Nähe",
+    [136] = "Einzelgänger sind nicht erlaubt",
 
-    [137] = " ~y~Jail~w~ | Time:~r~ ",
+    [137] = " ~y~Gefängnis~w~ | Zeit:~r~ ",
     [138] = " | Job =~o~ ",
-    [139] = "Eating",
-    [140] = " was added to your sentence!",
-    [141] = "Time is too much to remove!",
-    [142] = " was removed from your sentence!",
-    [143] = "(s) was removed from your sentence!",
-    [144] = "Remove Someone From Solitary",
+    [139] = "Essen",
+    [140] = " wurde zu deiner Zeit hinzugefügt!",
+    [141] = "Die Zeit ist zu viel, um sie zu entfernen!",
+    [142] = " wurde aus deiner Zeit entfernt!",
+    [143] = "(s) wurde aus deiner Zeit entfernt!",
+    [144] = "Inhaftierten aus der Einzelhaft entfernen",
     [145] = "Lockdown: ",
-    [146] = "On",
-    [147] = "Off",
-    [148] = "Can't Turn On/Off Lockdown, Currently Counting Down!",
-    [149] = "(s) Until Lockdown! Get to Your Cell!",
-    [150] = "Left Cell During Lockdown",
-    [151] = "No Longer in LockDown",
-    [152] = "You are now in LockDown!",
-    [153] = "LockDown Started, Will be in Effect in ",
+    [146] = "an",
+    [147] = "aus",
+    [148] = "Lockdown kann nicht ein- und ausgeschaltet werden, Countdown läuft derzeit!",
+    [149] = "(s) Bis zum Lockdown! Geh zu deiner Zelle!",
+    [150] = "Zelle während dem Lockdown verlassen",
+    [151] = "Nicht mehr im Lockdown",
+    [152] = "Du bist jetzt im Lockdown!",
+    [153] = "Lockdown gestartet, wird in Kraft sein in ",
     [154] = "(s)!",
-    [155] = "All Players In This Cell",
+    [155] = "Alle Inhaftierte in dieser Zelle",
     [156] = " | ID: ",
-    [157] = "'s Bed",
-    [158] = "[~o~E~w~] Lift Bed",
-    [159] = "Action Not Allowed",
-    [160] = "Prison",
-    [161] = "Crawling Through Hole",
-    [162] = "Cant use!",
-    [163] = "You drank some booze!",
-    [164] = "You drank some punch!",
-    [165] = "Notify All Prisoners",
-    [166] = "What would you like to tell them?",
-    [167] = "Can't confirm! Invalid reason!",
-    [168] = "[Prison Intercom] : ",
+    [157] = "'s Bett",
+    [158] = "[~o~E~w~] Matratze anheben",
+    [159] = "Aktion nicht zulässig",
+    [160] = "Gefängnis",
+    [161] = "Durch Loch kriechen",
+    [162] = "Kann nicht verwenden!",
+    [163] = "Du hast etwas Alkohol getrunken!",
+    [164] = "Du hast Punsch getrunken!",
+    [165] = "Alle Gefangenen benachrichtigen",
+    [166] = "Was möchtest du ihnen sagen?",
+    [167] = "Kann nicht bestätigen! Ungültiger Grund!",
+    [168] = "[Gefängnis Sprechanlage]: ",
 
-    [169] = "In This Prison You Can",
-    [170] = "~y~Work A Job To Get Time Removed",
-    [171] = "~g~Grab Food To Eat",
-    [172] = "~r~Get Sent To Solitary",
-    [173] = "~o~Workout To Get Strong",
-    [174] = "~b~Take Showers To Stay Clean",
-    [175] = "~r~Get Help From A Doctor",
-    [176] = "~y~Retrive Items Upon Release",
-    [177] = "~g~Much More Hidden Things",
-    [178] = " Is Not In Their Cell! They Escaped The Jail!"
+    [169] = " ist nicht in der Zelle!"
 }

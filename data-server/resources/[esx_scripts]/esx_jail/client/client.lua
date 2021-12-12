@@ -1,5 +1,9 @@
 ESX = nil
 
+local infoped = nil
+local jobmanped = nil
+local docped = nil
+
 Citizen.CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
@@ -111,25 +115,19 @@ AddEventHandler('esx_jail_Blips:ReturnDelete', function(resource, shit)
 	end
 end)
 
-local FirstSpawn = true
-local restarted = false
-AddEventHandler('onResourceStart', function(resource)
-    if resource == GetCurrentResourceName() then
-		restarted = true
-		Wait(10000)
-		restarted = false
-    end
+
+
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function()
+    Spawned()
 end)
-Citizen.CreateThread(function() 
-	Spawned()
-end)
+
 function Spawned()
 	Citizen.CreateThread(function()
 		while true do
 			Citizen.Wait(1000)
-			if ESX ~= nil and FirstSpawn then
-				if ESX.PlayerData.job ~= nil and not restarted then
-					FirstSpawn = false
+			if ESX ~= nil then
+				if ESX.PlayerData.job ~= nil then
 					Citizen.Wait(3000)
 					TriggerServerEvent('esx_jail:LoadedIn')
 					break
@@ -182,302 +180,6 @@ RegisterNetEvent('esx_jail:JailStart')
 AddEventHandler('esx_jail:JailStart', function(timez)
 	local ped = PlayerPedId()
 	Citizen.CreateThread(function()
-		DoScreenFadeOut(1000)
-		RequestAnimDict('mp_character_creation@customise@male_a')
-		Citizen.Wait(3000)
-		beingMsg.msg = '~r~'..Config.Sayings[5]
-		beingMsg.size = 1.0
-		beingSent = true
-
-		SetEntityCoords(ped, Config.HandCuffLoc.x, Config.HandCuffLoc.y, Config.HandCuffLoc.z - 1, false, false, false, false)
-		Citizen.Wait(500)
-		SetEntityCoords(ped, Config.HandCuffLoc.x, Config.HandCuffLoc.y, Config.HandCuffLoc.z - 1, false, false, false, false)
-		RequestModel(Config.GuardPed)
-		RequestModel(Config.ClothesProp)
-		RequestAnimDict('mp_arresting')
-		while not HasAnimDictLoaded('mp_arresting') do
-			Citizen.Wait(100)
-		end
-		if not HasModelLoaded(Config.GuardPed) then
-			LoadPropDict(Config.GuardPed)
-		end
-		if not HasModelLoaded(Config.ClothesProp) then
-			LoadPropDict(Config.ClothesProp)
-		end
-
-		TaskPlayAnim(ped, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0, 0, 0, 0)
-		inAnim.Dict = 'mp_arresting'
-		inAnim.Anim = 'idle'
-		inAnim.Atr = 49
-		inAnim.Freeze = true
-		SetEnableHandcuffs(ped, true)
-		DisablePlayerFiring(ped, true)
-		SetCurrentPedWeapon(ped, GetHashKey('WEAPON_UNARMED'), true) -- unarm player
-		SetPedCanPlayGestureAnims(ped, false)
-		FreezeEntityPosition(ped, true)
-
-		local byped = CreatePed(5, Config.GuardPed, Config.GuardSpawn.Loc.x, Config.GuardSpawn.Loc.y, Config.GuardSpawn.Loc.z - 1, Config.GuardSpawn.Heading, false, true)
-		PlaceObjectOnGroundProperly(byped)
-		SetEntityAsMissionEntity(byped)
-		SetPedDropsWeaponsWhenDead(byped, false)
-		SetPedAsEnemy(byped, false)
-		SetEntityInvincible(byped, true)
-		SetModelAsNoLongerNeeded(Config.GuardPed)
-		table.insert(peds, {id = 'guard', data = byped})
-
-		local propo = CreateObject(GetHashKey(Config.ClothesProp), Config.ClothPropLoc.Loc.x, Config.ClothPropLoc.Loc.y, Config.ClothPropLoc.Loc.z - 1,  true,  true, true)
-		SetEntityHeading(propo, Config.ClothPropLoc.Heading)
-		FreezeEntityPosition(propo, true)
-		SetModelAsNoLongerNeeded(Config.ClothesProp)
-		table.insert(PlayerHasProp, {id = 'clothesProp', object = propo})
-
-		Citizen.Wait(500)
-		AttachEntityToEntity(ped, byped, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-		SetFocusArea(Config.Cam.x, Config.Cam.y, Config.Cam.z, Config.Cam.x, Config.Cam.y, Config.Cam.z)
-		ChangeSecurityCamera(Config.Cam.x, Config.Cam.y, Config.Cam.z, Config.CamRot)
-		DoScreenFadeIn(500)
-	
-		TaskGoStraightToCoord(byped, Config.StopnTurn.Loc.x, Config.StopnTurn.Loc.y, Config.StopnTurn.Loc.z, 1.0, 2500, Config.StopnTurn.Heading, 0)
-		Citizen.Wait(2500)
-		TaskGoStraightToCoord(byped, Config.EnterLoc.x, Config.EnterLoc.y, Config.EnterLoc.z, 1.0, 2000, 160.0, 0)
-		Citizen.Wait(2000)
-		TaskGoStraightToCoord(byped, Config.ClothesLoc.Loc.x, Config.ClothesLoc.Loc.y, Config.ClothesLoc.Loc.z, 1.0, 3000, Config.ClothesLoc.Heading, 0)
-		Citizen.Wait(3000)
-		DetachEntity(ped, true, false)
-		inAnim.Dict = nil
-		inAnim.Anim = nil
-		inAnim.Atr = 0
-		inAnim.Freeze = false
-		ClearPedSecondaryTask(ped)
-		SetEnableHandcuffs(ped, false)
-		DisablePlayerFiring(ped, false)
-		SetPedCanPlayGestureAnims(ped, true)
-		FreezeEntityPosition(ped, false)
-
-		RequestAnimDict('clothingtie')
-		
-		if not HasAnimDictLoaded('clothingtie') then
-			Citizen.Wait(0)
-		end
-
-		TaskGoStraightToCoord(byped, Config.StopnLook.Loc.x, Config.StopnLook.Loc.y, Config.StopnLook.Loc.z, 1.0, 1500, Config.StopnLook2, 0)
-
-		RequestAnimDict('mp_prison_break')
-		
-		if not HasAnimDictLoaded('mp_prison_break') then
-			Citizen.Wait(0)
-		end
-		Citizen.Wait(1500)
-		TaskGoStraightToCoord(byped, Config.ComputerLoc.Loc.x, Config.ComputerLoc.Loc.y, Config.ComputerLoc.Loc.z, 1.0, 2000, Config.ComputerLoc.Heading, 0)
-		Citizen.Wait(2000)
-		TaskPlayAnim(byped, "mp_prison_break", "hack_loop", 8.0, 8.0, -1, 1, 1, 0, 0, 0)
-		TaskPlayAnim(ped, "clothingtie", "try_tie_positive_a", 8.0, 8.0, -1, 1, 1, 0, 0, 0)
-		inAnim.Dict = 'clothingtie'
-		inAnim.Anim = 'try_tie_positive_a'
-		inAnim.Atr = 1
-		inAnim.Freeze = true
-
-		RequestAnimDict('anim@heists@prison_heistig1_p1_guard_checks_bus')
-		
-		if not HasAnimDictLoaded('anim@heists@prison_heistig1_p1_guard_checks_bus') then
-			Citizen.Wait(0)
-		end
-
-		Citizen.Wait(2000)
-		inAnim.Dict = nil
-		inAnim.Anim = nil
-		inAnim.Atr = 0
-		inAnim.Freeze = false
-		ClearPedTasksImmediately(ped)
-
-		TriggerEvent('skinchanger:getSkin', function(skin)
-			TriggerServerEvent('esx_jail:UpdateClothes', skin)
-			if skin.sex == 0 then
-				TriggerEvent('skinchanger:loadClothes', skin, Config.Undressed.male)
-			else
-				TriggerEvent('skinchanger:loadClothes', skin, Config.Undressed.female)
-			end
-		end)
-		Citizen.Wait(100)
-		TaskPlayAnim(ped, "anim@heists@prison_heistig1_p1_guard_checks_bus", "loop", 8.0, 8.0, -1, 1, 1, 0, 0, 0)
-		inAnim.Dict = 'anim@heists@prison_heistig1_p1_guard_checks_bus'
-		inAnim.Anim = 'loop'
-		inAnim.Atr = 1
-		inAnim.Freeze = true
-		local rem = {}
-		for i = 1, #PlayerHasProp, 1 do
-			if PlayerHasProp[i].id == 'clothesProp' then
-				DeleteObject(PlayerHasProp[i].object)
-				table.insert(rem, i)
-			end
-		end
-		for i = 1, #rem, 1 do
-			table.remove(PlayerHasProp, rem[i])
-		end
-		rem = {}
-		
-		Citizen.Wait(1500)
-		inAnim.Dict = nil
-		inAnim.Anim = nil
-		inAnim.Atr = 0
-		inAnim.Freeze = false
-		ClearPedTasksImmediately(ped)
-		RequestAnimDict('anim@heists@box_carry@')
-								
-		if not HasAnimDictLoaded('anim@heists@box_carry@') then
-			LoadAnim('anim@heists@box_carry@')
-		end
-	
-		TaskPlayAnim(ped, 'anim@heists@box_carry@', 'idle', 8.0, 8.0, -1, 1, 1, 0, 0, 0)
-		inAnim.Dict = 'anim@heists@box_carry@'
-		inAnim.Anim = 'idle'
-		inAnim.Atr = 1
-		inAnim.Freeze = true
-		RemoveAnimDict('anim@heists@box_carry@')
-		AddPropToPlayer(Config.ClothesProp, 60309, 0.000, -0.08, 0.200, -55.0, 290.0, 0.0, 'clothing', nil, false)
-		Citizen.Wait(1500)
-		inAnim.Dict = nil
-		inAnim.Anim = nil
-		inAnim.Atr = 0
-		inAnim.Freeze = false
-		ClearPedTasksImmediately(ped)
-		TaskPlayAnim(ped, "clothingtie", "try_tie_positive_a", 8.0, 8.0, -1, 1, 1, 0, 0, 0)
-		inAnim.Dict = 'clothingtie'
-		inAnim.Anim = 'try_tie_positive_a'
-		inAnim.Atr = 1
-		inAnim.Freeze = true
-		RemoveAnimDict('clothingtie')
-		ClearPedTasksImmediately(byped)
-		TaskGoStraightToCoord(byped, Config.PointLoc.Loc.x, Config.PointLoc.Loc.y, Config.PointLoc.Loc.z, 1.0, 2500, Config.PointLoc.Heading, 0)
-
-		RequestAnimDict('gestures@f@standing@casual')
-								
-		if not HasAnimDictLoaded('gestures@f@standing@casual') then
-			LoadAnim('gestures@f@standing@casual')
-		end
-		Citizen.Wait(2500)
-		TriggerEvent('skinchanger:getSkin', function(skin)
-			if skin.sex == 0 then
-				TriggerEvent('skinchanger:loadClothes', skin, Config.Uniforms.male)
-			else
-				TriggerEvent('skinchanger:loadClothes', skin, Config.Uniforms.female)
-			end
-		end)
-		inAnim.Dict = nil
-		inAnim.Anim = nil
-		inAnim.Atr = 0
-		inAnim.Freeze = false
-		ClearPedTasksImmediately(ped)
-		for i = 1, #PlayerHasProp, 1 do
-			if PlayerHasProp[i].id == 'clothing' then
-				DeleteObject(PlayerHasProp[i].object)
-				table.insert(rem, i)
-			end
-		end
-		for i = 1, #rem, 1 do
-			table.remove(PlayerHasProp, rem[i])
-		end
-		rem = {}
-		AddPropToPlayer('prop_police_id_board', 58868, 0.12, 0.24, 0.0, 5.0, 0.0, 70.0, 'enter', nil, false)
-
-		TaskPlayAnim(byped, 'gestures@f@standing@casual', 'gesture_point', 8.0, 8.0, -1, 1, 1, 0, 0, 0)
-		RemoveAnimDict('gestures@f@standing@casual')
-		Citizen.Wait(200)
-		TaskGoStraightToCoord(ped, Config.EnterLoc.x, Config.EnterLoc.y, Config.EnterLoc.z, 1.0, 4000, Config.EnterHeadings.Front, 0)
-		Citizen.Wait(2000)
-		ClearPedTasksImmediately(byped)
-		TaskGoStraightToCoord(byped, Config.ComputerLoc.Loc.x, Config.ComputerLoc.Loc.y, Config.ComputerLoc.Loc.z, 1.0, 2500, Config.ComputerLoc.Heading, 0)
-		Citizen.Wait(2500)
-		TaskPlayAnim(byped, "mp_prison_break", "hack_loop", 8.0, 8.0, -1, 1, 1, 0, 0, 0)
-		RemoveAnimDict('anim@heists@prison_heistig1_p1_guard_checks_bus')
-		RemoveAnimDict('mp_prison_break')
-
-		RequestAnimDict('mp_character_creation@customise@male_a')
-
-		if not HasAnimDictLoaded('mp_character_creation@customise@male_a') then
-			Citizen.Wait(0)
-		end
-		TaskPlayAnim(ped, "mp_character_creation@customise@male_a", "loop", 8.0, 8.0, -1, 1, 1, 0, 0, 0)
-		inAnim.Dict = 'mp_character_creation@customise@male_a'
-		inAnim.Anim = 'loop'
-		inAnim.Atr = 1
-		inAnim.Freeze = true
-		FreezeEntityPosition(ped, true)
-
-		Citizen.Wait(5500)
-		FreezeEntityPosition(ped, false)
-		inAnim.Dict = nil
-		inAnim.Anim = nil
-		inAnim.Atr = 0
-		inAnim.Freeze = false
-		TaskAchieveHeading(ped, Config.EnterHeadings.Side, 3000)
-		Citizen.Wait(3000)
-		TaskPlayAnim(ped, "mp_character_creation@customise@male_a", "loop", 8.0, 8.0, -1, 1, 1, 0, 0, 0)
-		inAnim.Dict = 'mp_character_creation@customise@male_a'
-		inAnim.Anim = 'loop'
-		inAnim.Atr = 1
-		inAnim.Freeze = true
-		FreezeEntityPosition(ped, true)
-		Citizen.Wait(6000)
-		FreezeEntityPosition(ped, false)
-		inAnim.Dict = nil
-		inAnim.Anim = nil
-		inAnim.Atr = 0
-		inAnim.Freeze = false
-		ClearPedTasksImmediately(ped)
-		RemoveAnimDict('mp_character_creation@customise@male_a')
-		local rem = {}
-		for i = 1, #PlayerHasProp, 1 do
-			if PlayerHasProp[i].id == 'enter' then
-				DeleteObject(PlayerHasProp[i].object)
-				table.insert(rem, i)
-			end
-		end
-		for i = 1, #rem, 1 do
-			table.remove(PlayerHasProp, rem[i])
-		end
-		rem = {}
-
-		ClearPedTasksImmediately(byped)
-		TaskGoStraightToCoord(byped, Config.StopnLook.Loc.x, Config.StopnLook.Loc.y, Config.StopnLook.Loc.z, 1.0, 2000, Config.StopnLook.Heading, 0)
-		Citizen.Wait(2000)
-		TaskGoStraightToCoord(byped, Config.GrabLoc.Loc.x, Config.GrabLoc.Loc.y, Config.GrabLoc.Loc.z, 1.0, 5500, Config.GrabLoc.Heading, 0)
-		TaskAchieveHeading(ped, Config.PedGrabHeading, 5500)
-		Citizen.Wait(6000)
-		TaskPlayAnim(ped, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0, 0, 0, 0)
-		RemoveAnimDict('mp_arresting')
-		SetEnableHandcuffs(ped, true)
-		DisablePlayerFiring(ped, true)
-		SetCurrentPedWeapon(ped, GetHashKey('WEAPON_UNARMED'), true) -- unarm player
-		SetPedCanPlayGestureAnims(ped, false)
-		FreezeEntityPosition(ped, true)
-		Citizen.Wait(500)
-		AttachEntityToEntity(ped, byped, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-		Citizen.Wait(500)
-		TaskAchieveHeading(byped, Config.GrabTurnHead, 1500)
-		Citizen.Wait(1500)
-		TaskGoStraightToCoord(byped, Config.WalkLoc.x, Config.WalkLoc.y, Config.WalkLoc.z, 1.0, 5500, 100, 0)
-		Citizen.Wait(5500)
-		DetachEntity(ped, true, false)
-		ClearPedSecondaryTask(ped)
-		SetEnableHandcuffs(ped, false)
-		DisablePlayerFiring(ped, false)
-		SetPedCanPlayGestureAnims(ped, true)
-		FreezeEntityPosition(ped, false)
-
-		local removes = {}
-		for i = 1, #peds, 1 do
-			if peds[i].id == 'guard' then
-				table.insert(removes, i)
-			end
-		end
-		for i = 1, #removes, 1 do
-			if DoesEntityExist(peds[removes[i]].data) then
-				SetPedAsNoLongerNeeded(peds[removes[i]].data)
-				DeletePed(peds[removes[i]].data)
-			end
-			table.remove(peds[removes[i]])
-		end
 		DoScreenFadeOut(1000)
 		Citizen.Wait(1000)
 		LoadJailCell(timez, true)
@@ -570,6 +272,7 @@ AddEventHandler('esx_jail:ChangeLoc', function(newLoc)
 		SetModelAsNoLongerNeeded(Config.InfoPed)
 		SetPedCanBeTargetted(byped, false)
 		table.insert(peds, {id = 'info', data = byped})
+		infoped = byped
 	
 		for i = 1, #jailLocs, 1 do
 			if jailLocs[i].Id == 'info' then
@@ -691,6 +394,7 @@ function LoadJailCell(timu, firstTime)
 	SetModelAsNoLongerNeeded(Config.InfoPed)
 	SetPedCanBeTargetted(byped, false)
 	table.insert(peds, {id = 'info', data = byped})
+	infoped = byped
 	local byped2 = CreatePed(5, Config.JobManPed, Config.JobManLoc.Loc.x, Config.JobManLoc.Loc.y, Config.JobManLoc.Loc.z - 1, Config.JobManLoc.Heading, false, true)
 	PlaceObjectOnGroundProperly(byped2)
 	SetEntityAsMissionEntity(byped2)
@@ -701,6 +405,7 @@ function LoadJailCell(timu, firstTime)
 	SetModelAsNoLongerNeeded(Config.JobManPed)
 	SetPedCanBeTargetted(byped2, false)
 	table.insert(peds, {id = 'jobman', data = byped2})
+	jobmanped = byped2
 
 
 	table.insert(jailLocs, {Text = Config.Sayings[27], Id = 'info', Loc = Config.InfoPedLoc[infoLoc].Loc, Sub = true, Mark = {Num = Config.IMarkNum, Color = Config.IMarkColor, Size = Config.IMarkSize}})
@@ -734,110 +439,9 @@ function LoadJailCell(timu, firstTime)
 				BeginTextCommandSetBlipName("STRING")
 				AddTextComponentString(Config.Sayings[31])
 				EndTextCommandSetBlipName(blip5)
-				table.insert(blips, {id = 'chest', data = blip5})
+			--	table.insert(blips, {id = 'chest', data = blip5})
 
 				Citizen.Wait(1500)
-				if Config.HaveGuide and firstTime then
-					local perTime = Config.TimePer *1000
-
-					SetFocusArea(Config.PrisonCam.x, Config.PrisonCam.y, Config.PrisonCam.z, Config.PrisonCam.x, Config.PrisonCam.y, Config.PrisonCam.z)
-					ChangeSecurityCamera(Config.PrisonCam.x, Config.PrisonCam.y, Config.PrisonCam.z, Config.PrisonCamRot)
-					beingMsg.size = 0.75
-					beingMsg.msg = Config.Sayings[169]
-					Citizen.Wait(100)
-					DoScreenFadeIn(1000)
-					Citizen.Wait(perTime + 1000)
-					DoScreenFadeOut(1000)
-					Citizen.Wait(1000)
-
-					SetFocusArea(Config.JobCam.x, Config.JobCam.y, Config.JobCam.z, Config.JobCam.x, Config.JobCam.y, Config.JobCam.z)
-					ChangeSecurityCamera(Config.JobCam.x, Config.JobCam.y, Config.JobCam.z, Config.JobCamRot)
-					beingMsg.size = 0.75
-					beingMsg.msg = Config.Sayings[170]
-					Citizen.Wait(100)
-					DoScreenFadeIn(1000)
-					Citizen.Wait(perTime + 1000)
-					DoScreenFadeOut(1000)
-					Citizen.Wait(1000)
-
-					SetFocusArea(Config.FoodCam.x, Config.FoodCam.y, Config.FoodCam.z, Config.FoodCam.x, Config.FoodCam.y, Config.FoodCam.z)
-					ChangeSecurityCamera(Config.FoodCam.x, Config.FoodCam.y, Config.FoodCam.z, Config.FoodCamRot)
-					beingMsg.size = 0.75
-					beingMsg.msg = Config.Sayings[171]
-					Citizen.Wait(100)
-					DoScreenFadeIn(1000)
-					Citizen.Wait(perTime + 1000)
-					DoScreenFadeOut(1000)
-					Citizen.Wait(1000)
-
-					if Config.Solitary then
-						SetFocusArea(Config.SolCam.x, Config.SolCam.y, Config.SolCam.z, Config.SolCam.x, Config.SolCam.y, Config.SolCam.z)
-						ChangeSecurityCamera(Config.SolCam.x, Config.SolCam.y, Config.SolCam.z, Config.SolCamRot)
-						beingMsg.size = 0.75
-						beingMsg.msg = Config.Sayings[172]
-						Citizen.Wait(100)
-						DoScreenFadeIn(1000)
-						Citizen.Wait(perTime + 1000)
-						DoScreenFadeOut(1000)
-						Citizen.Wait(1000)
-					end
-
-					if Config.WorkingOut then
-						SetFocusArea(Config.WorkOutCam.x, Config.WorkOutCam.y, Config.WorkOutCam.z, Config.WorkOutCam.x, Config.WorkOutCam.y, Config.WorkOutCam.z)
-						ChangeSecurityCamera(Config.WorkOutCam.x, Config.WorkOutCam.y, Config.WorkOutCam.z, Config.WorkOutCamRot)
-						beingMsg.size = 0.75
-						beingMsg.msg = Config.Sayings[173]
-						Citizen.Wait(100)
-						DoScreenFadeIn(1000)
-						Citizen.Wait(perTime + 1000)
-						DoScreenFadeOut(1000)
-						Citizen.Wait(1000)
-					end
-
-					if Config.Showers then
-						SetFocusArea(Config.ShowerCam.x, Config.ShowerCam.y, Config.ShowerCam.z, Config.ShowerCam.x, Config.ShowerCam.y, Config.ShowerCam.z)
-						ChangeSecurityCamera(Config.ShowerCam.x, Config.ShowerCam.y, Config.ShowerCam.z, Config.ShowerCamRot)
-						beingMsg.size = 0.75
-						beingMsg.msg = Config.Sayings[174]
-						Citizen.Wait(100)
-						DoScreenFadeIn(1000)
-						Citizen.Wait(perTime + 1000)
-						DoScreenFadeOut(1000)
-						Citizen.Wait(1000)
-					end
-
-					if Config.Hospital then
-						SetFocusArea(Config.HospitalCam.x, Config.HospitalCam.y, Config.HospitalCam.z, Config.HospitalCam.x, Config.HospitalCam.y, Config.HospitalCam.z)
-						ChangeSecurityCamera(Config.HospitalCam.x, Config.HospitalCam.y, Config.HospitalCam.z, Config.HospitalCamRot)
-						beingMsg.size = 0.75
-						beingMsg.msg = Config.Sayings[175]
-						Citizen.Wait(100)
-						DoScreenFadeIn(1000)
-						Citizen.Wait(perTime + 1000)
-						DoScreenFadeOut(1000)
-						Citizen.Wait(1000)
-					end
-
-					SetFocusArea(Config.ItemCam.x, Config.ItemCam.y, Config.ItemCam.z, Config.ItemCam.x, Config.ItemCam.y, Config.ItemCam.z)
-					ChangeSecurityCamera(Config.ItemCam.x, Config.ItemCam.y, Config.ItemCam.z, Config.ItemCamRot)
-					beingMsg.size = 0.75
-					beingMsg.msg = Config.Sayings[176]
-					Citizen.Wait(100)
-					DoScreenFadeIn(1000)
-					Citizen.Wait(perTime + 1000)
-					DoScreenFadeOut(1000)
-					Citizen.Wait(1000)
-
-					SetFocusArea(Config.PrisonCam.x, Config.PrisonCam.y, Config.PrisonCam.z, Config.PrisonCam.x, Config.PrisonCam.y, Config.PrisonCam.z)
-					ChangeSecurityCamera(Config.PrisonCam.x, Config.PrisonCam.y, Config.PrisonCam.z, Config.PrisonCamRot)
-					beingMsg.size = 0.75
-					beingMsg.msg = Config.Sayings[177]
-					Citizen.Wait(100)
-					DoScreenFadeIn(1000)
-					Citizen.Wait(perTime + 1000)
-					DoScreenFadeOut(1000)
-					Citizen.Wait(1000)
-				end
 				beingSent = false
 				beingMsg = {msg = nil, size = 0.0}
 				CloseSecurityCamera()
@@ -884,6 +488,21 @@ end)
 
 Citizen.CreateThread(function()
 	while true do
+		Citizen.Wait(5)
+		if infoped ~= nil then
+			TaskSetBlockingOfNonTemporaryEvents(infoped, true)
+		end
+		if jobmanped ~= nil then
+			TaskSetBlockingOfNonTemporaryEvents(jobmanped, true)
+		end
+		if docped ~= nil then
+			TaskSetBlockingOfNonTemporaryEvents(docped, true)
+		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
 		Citizen.Wait(1000)
 		local ped = PlayerPedId()
 		local coords = GetEntityCoords(ped)
@@ -901,7 +520,6 @@ Citizen.CreateThread(function()
 			for i = 1, #Config.BreakLocs, 1 do
 				dist = Vdist(Config.BreakLocs[i].StartLoc.Loc.x, Config.BreakLocs[i].StartLoc.Loc.y, Config.BreakLocs[i].StartLoc.Loc.z, coords)
 				if dist < minDistance2 then
-					print("yoo")
 					minDistance2 = dist
 					closestBreak = i
 				end
@@ -1065,7 +683,7 @@ Citizen.CreateThread(function()
 			
 			if not using and not isDead then
 				if dist <= Config.SeeDist then
-					Citizen.Wait(5)
+					Citizen.Wait(1)
 					if jailLocs[closestLoc] ~= nil then
 						if jailLocs[closestLoc].Sub then
 							DrawMarker(jailLocs[closestLoc].Mark.Num, jailLocs[closestLoc].Loc.x, jailLocs[closestLoc].Loc.y, jailLocs[closestLoc].Loc.z - 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, jailLocs[closestLoc].Mark.Size.x, jailLocs[closestLoc].Mark.Size.y, jailLocs[closestLoc].Mark.Size.z, jailLocs[closestLoc].Mark.Color.r, jailLocs[closestLoc].Mark.Color.g, jailLocs[closestLoc].Mark.Color.b, 100, false, false, 2, true, nil, nil, false)
@@ -1128,7 +746,6 @@ Citizen.CreateThread(function()
 			local ped = PlayerPedId()
 			local coords = GetEntityCoords(ped)
 			local dist = Vdist(Config.BreakLocs[closestBreak].StartLoc.Loc.x, Config.BreakLocs[closestBreak].StartLoc.Loc.y, Config.BreakLocs[closestBreak].StartLoc.Loc.z, coords)
-			print(dist)
 			if dist <= Config.SeeBreakDist and not isDead then
 				Citizen.Wait(5)
 				DrawMarker(Config.BreakMarkNum, Config.BreakLocs[closestBreak].StartLoc.Loc.x, Config.BreakLocs[closestBreak].StartLoc.Loc.y, Config.BreakLocs[closestBreak].StartLoc.Loc.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Config.BreakMarkSize.x, Config.BreakMarkSize.y, Config.BreakMarkSize.z, Config.BreakMarkColor.r, Config.BreakMarkColor.g, Config.BreakMarkColor.b, 100, false, false, 2, true, nil, nil, false)
@@ -1453,7 +1070,6 @@ function OpenBreakingMenu()
 						local rannum = math.random(1,10)
 						hnum = rannum
 						if hnum <= Config.RoomTools[data.current.value].Percent then
-							print('no')
 							using = true
 							RequestAnimDict('mini@repair')
 										
@@ -2553,7 +2169,7 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		if injail and time > 0 and breakout4 then
-			Citizen.Wait(5)
+			Citizen.Wait(1)
 			if breakout > 0 then
 				if not Config.SimpleTime then
 					drawTxt(Config.Sayings[92]..diffBreak.Hours..'~w~H~o~ '..diffBreak.Mins..'~w~M~o~ '..diffBreak.Seconds..'~w~S',0,1,0.5,0.9,0.35,255,255,255,255)
@@ -2564,9 +2180,9 @@ Citizen.CreateThread(function()
 				local ped = PlayerPedId()
 
 				if not Config.SimpleTime then
-					drawTxt(Config.ServerName..Config.Sayings[53]..diffSol.Hours..'~w~H~y~ '..diffSol.Mins..'~w~M~y~ '..diffSol.Seconds..'~w~S',0,1,0.5,0.9,0.35,255,255,255,255)
+					drawTxt(Config.Sayings[53]..diffSol.Hours..'~w~H~y~ '..diffSol.Mins..'~w~M~y~ '..diffSol.Seconds..'~w~S',0,1,0.5,0.9,0.35,255,255,255,255)
 				else
-					drawTxt(Config.ServerName..Config.Sayings[53]..soltime..Config.Sayings[54],0,1,0.5,0.9,0.35,255,255,255,255)
+					drawTxt(Config.Sayings[53]..soltime..Config.Sayings[54],0,1,0.5,0.9,0.35,255,255,255,255)
 				end
 
 				SetEntityCanBeDamaged(ped, false)
@@ -2576,15 +2192,15 @@ Citizen.CreateThread(function()
 			else
 				if Config.SimpleTime then
 					if job ~= 0 then
-						drawTxt(Config.ServerName..Config.Sayings[3]..time..Config.Sayings[4]..Config.JobOptions[job].Name..Config.Sayings[26]..doneTasks..'~w~/~b~'..taskMax,0,1,0.5,0.9,0.35,255,255,255,255)
+						drawTxt(Config.Sayings[3]..time..Config.Sayings[4]..Config.JobOptions[job].Name..Config.Sayings[26]..doneTasks..'~w~/~b~'..taskMax,0,1,0.5,0.9,0.35,255,255,255,255)
 					else
-						drawTxt(Config.ServerName..Config.Sayings[3]..time..Config.Sayings[4]..Config.Sayings[6],0,1,0.5,0.9,0.35,255,255,255,255)
+						drawTxt(Config.Sayings[3]..time..Config.Sayings[4]..Config.Sayings[6],0,1,0.5,0.9,0.35,255,255,255,255)
 					end
 				else
 					if job ~= 0 then
-						drawTxt(Config.ServerName..Config.Sayings[137]..difftime.Hours..'~w~H~r~ '..difftime.Mins..'~w~M~r~ '..difftime.Seconds..'~w~S'..Config.Sayings[138]..Config.JobOptions[job].Name,0,1,0.5,0.9,0.35,255,255,255,255)
+						drawTxt(Config.Sayings[137]..difftime.Hours..'~w~H~r~ '..difftime.Mins..'~w~M~r~ '..difftime.Seconds..'~w~S'..Config.Sayings[138]..Config.JobOptions[job].Name,0,1,0.5,0.9,0.35,255,255,255,255)
 					else
-						drawTxt(Config.ServerName..Config.Sayings[137]..difftime.Hours..'~w~H~r~ '..difftime.Mins..'~w~M~r~ '..difftime.Seconds..'~w~S'..Config.Sayings[138]..Config.Sayings[6],0,1,0.5,0.9,0.35,255,255,255,255)
+						drawTxt(Config.Sayings[137]..difftime.Hours..'~w~H~r~ '..difftime.Mins..'~w~M~r~ '..difftime.Seconds..'~w~S'..Config.Sayings[138]..Config.Sayings[6],0,1,0.5,0.9,0.35,255,255,255,255)
 					end
 				end
 			end
@@ -3176,7 +2792,6 @@ end)
 
 RegisterNetEvent('esx_jail:JailMenu')
 AddEventHandler('esx_jail:JailMenu', function()
-	print("emte")
 	ESX.TriggerServerCallback('esx_jail:CheckLockdown', function(elemento)
 		local element = {}
 		element = elemento
@@ -3965,6 +3580,7 @@ AddEventHandler('esx_jail:onPlayerSpawn', function()
 				TaskPlayAnim(byped, 'missfam4', 'base', 8.0, 8.0, -1, 51, 1, 0, 0, 0)
 				RemoveAnimDict('missfam4')
 				AddPropToPlayer('p_amb_clipboard_01', 36029, 0.16, 0.08, 0.1, -130.0, -50.0, 0.0, 'doc', byped, false)
+				docped = byped
 		
 				DoScreenFadeIn(1000)
 				Citizen.Wait(1500)
@@ -4058,7 +3674,7 @@ AddEventHandler('esx_jail:PoliceWarning', function(name)
 
 	if goodo then
 		Wait(Config.PoliceNotifyTime *60000)
-		Notification(name..Config.Sayings[178])
+		Notification(name..Config.Sayings[169])
 	end
 end)
 
