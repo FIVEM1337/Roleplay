@@ -432,6 +432,7 @@ AddEventHandler('esx_grovejob:hasEnteredMarker', function(station, part, partNum
 end)
 
 AddEventHandler('esx_grovejob:hasExitedMarker', function(station, part, partNum)
+	print(station)
 	if not isInShopMenu then
 		ESX.UI.Menu.CloseAll()
 	end
