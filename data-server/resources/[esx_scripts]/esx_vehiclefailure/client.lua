@@ -331,7 +331,6 @@ Citizen.CreateThread(function()
 				if healthBodyCurrent < config.cascadingFailureThreshold then
 					healthBodyNew = config.cascadingFailureThreshold
 				end
-				pedInSameVehicleLast = true
 			end
 
 			-- set the actual new values
@@ -347,17 +346,6 @@ Citizen.CreateThread(function()
 			healthPetrolTankLast = healthPetrolTankNew
 			lastVehicle=vehicle
 			if config.randomTireBurstInterval ~= 0 and GetEntitySpeed(vehicle) > 10 then tireBurstLottery() end
-		else
-			if pedInSameVehicleLast == true then
-				-- We just got out of the vehicle
-				lastVehicle = GetVehiclePedIsIn(ped, true)				
-				if config.deformationMultiplier ~= -1 then SetVehicleHandlingFloat(lastVehicle, 'CHandlingData', 'fDeformationDamageMult', fDeformationDamageMult) end -- Restore deformation multiplier
-				SetVehicleHandlingFloat(lastVehicle, 'CHandlingData', 'fBrakeForce', fBrakeForce)  -- Restore Brake Force multiplier
-				if config.weaponsDamageMultiplier ~= -1 then SetVehicleHandlingFloat(lastVehicle, 'CHandlingData', 'fWeaponDamageMult', config.weaponsDamageMultiplier) end	-- Since we are out of the vehicle, we should no longer compensate for bodyDamageFactor
-				SetVehicleHandlingFloat(lastVehicle, 'CHandlingData', 'fCollisionDamageMult', fCollisionDamageMult) -- Restore the original CollisionDamageMultiplier
-				SetVehicleHandlingFloat(lastVehicle, 'CHandlingData', 'fEngineDamageMult', fEngineDamageMult) -- Restore the original EngineDamageMultiplier
-			end
-			pedInSameVehicleLast = false
 		end
 	end
 end)
