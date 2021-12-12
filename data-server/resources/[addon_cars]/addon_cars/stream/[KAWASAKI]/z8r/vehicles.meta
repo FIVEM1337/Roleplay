@@ -115,9 +115,39 @@
     </Item>
   </InitDatas>
   <txdRelationships>
+
     <Item>
-      <parent>vehicles_chopperbk_interior</parent>
+      <parent>z8r2</parent>
       <child>z8r</child>
     </Item>
+
+    <Item>
+      <parent>z8r3</parent>
+      <child>z8r2</child>
+    </Item>
+
+    <Item>
+      <parent>z8r4</parent>
+      <child>z8r3</child>
+    </Item>
+
+    <Item>
+      <parent>z8r5</parent>
+      <child>z8r4</child>
+    </Item>
+
+    <Item>
+      <parent>z8r6</parent>
+      <child>z8r5</child>
+    </Item>
+
+
+    <Item>
+      <parent>vehicles_chopperbk_interior</parent>
+      <child>z8r6</child>
+    </Item>
+
+
+
   </txdRelationships>
 </CVehicleModelInfo__InitDataList>	
