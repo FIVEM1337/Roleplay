@@ -6,7 +6,6 @@ Citizen.CreateThread(function()
 	AddTextEntry('911ts2021', 'Porsche 911 Turbo S 2021')
 
 	--LAMBORGHINI
-	AddTextEntry('urus2021', 'Lamborghini Urus 2021')
 
 	--MCLAREN
 	AddTextEntry('p1wide', 'McLaren P1')
@@ -34,7 +33,6 @@ Citizen.CreateThread(function()
 
 	--BMW
 	AddTextEntry('m5a', 'BMW M5')
-	AddTextEntry('x5bmw', 'BMW MX5')
 
 	--KAWASAKI
 	AddTextEntry('z8r', 'Kawasaki z8r')
@@ -43,7 +41,6 @@ Citizen.CreateThread(function()
 	AddTextEntry('defender', 'Land Rover Defender')
 
 	--MERCEDES BENZ
-	AddTextEntry('gle63', 'Mercedes Benz GLE63')
 
 	--AUDI
 	AddTextEntry('a9', 'Audi A9')
