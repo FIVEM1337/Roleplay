@@ -231,6 +231,7 @@ Locales['en'] = {
 	['admin_bring_button'] = 'Spieler zu dir Teleportieren',
 	['admin_tpxyz_button'] = 'Zu Koordinaten Teleportieren',
 	['admin_noclip_button'] = 'NoClip An/Aus schalten',
+	['admin_changesound_button'] = 'Sound ändern',
 	['admin_godmode_button'] = 'Godmode An/Aus schalten',
 	['admin_ghostmode_button'] = 'Ghostmode An/Aus schalten',
 	['admin_spawnveh_button'] = 'Fahrzeug spawnen',

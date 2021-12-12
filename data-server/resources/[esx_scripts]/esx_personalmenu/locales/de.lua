@@ -1,6 +1,7 @@
 Locales['de'] = {
 	-- DialogBox Name
 	['dialogbox_playerid'] = 'Spieler ID:',
+	['dialogbox_soundname'] = 'Sound Name:',
 	['dialogbox_amount'] = 'Menge:',
 	['dialogbox_amount_ammo'] = 'Munition Menge:',
 	['dialogbox_vehiclespawner'] = 'Auto Spawn Name:',
@@ -233,6 +234,7 @@ Locales['de'] = {
 	['admin_bring_button'] = 'TP Player zu mir',
 	['admin_tpxyz_button'] = 'TP zu Koordinaten',
 	['admin_noclip_button'] = 'NoClip',
+	['admin_changesound_button'] = 'Sound ändern',
 	['admin_godmode_button'] = 'God Mode',
 	['admin_ghostmode_button'] = 'Unsichtbarkeits Mode',
 	['admin_spawnveh_button'] = 'Spawn ein Auto',

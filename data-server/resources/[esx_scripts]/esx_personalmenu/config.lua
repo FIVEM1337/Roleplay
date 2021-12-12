@@ -122,6 +122,23 @@ Config.Admin = {
 		end
 	},
 	{
+		name = 'changesound',
+		label = _U('admin_changesound_button'),
+		groups = {'_dev', 'owner', 'admin', 'admin', 'mod'},
+		command = function()
+			local sound = KeyboardInput('KORIOZ_BOX_ID', _U('dialogbox_soundname'), '', 20)
+
+			local closestVehicle, Distance = ESX.Game.GetClosestVehicle()
+			local veh = GetVehiclePedIsIn(PlayerPedId())
+
+			if IsPedInAnyVehicle(PlayerPedId(), false) and veh then
+				ForceVehicleEngineAudio(veh,sound)
+			end
+
+			RageUI.CloseAll()
+		end
+	},
+	{
 		name = 'godmode',
 		label = _U('admin_godmode_button'),
 		groups = {'_dev', 'owner', 'admin'},
