@@ -126,9 +126,34 @@
   </InitDatas>
   <txdRelationships>
 
+  <Item>
+      <parent>defender2</parent>
+      <child>defender</child>
+    </Item>
+
+  <Item>
+      <parent>defender3</parent>
+      <child>defender2</child>
+    </Item>
+
+  <Item>
+      <parent>defender4</parent>
+      <child>defender3</child>
+    </Item>
+
+    <Item>
+      <parent>defender5</parent>
+      <child>defender4</child>
+    </Item>
+
+    <Item>
+      <parent>defender6</parent>
+      <child>defender5</child>
+    </Item>
+
     <Item>
       <parent>vehicles_cav_interior</parent>
-      <child>defender</child>
+      <child>defender6</child>
     </Item>
 	
   </txdRelationships>
