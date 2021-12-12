@@ -116,9 +116,24 @@
 
   <txdRelationships>
     <Item>
-      <parent>vehshare_worn</parent>
+      <parent>p1wide2</parent>
       <child>p1wide</child>
     </Item>
-  </txdRelationships>
 
+    <Item>
+      <parent>p1wide3</parent>
+      <child>p1wide2</child>
+    </Item>
+
+     <Item>
+      <parent>p1wide4</parent>
+      <child>p1wide3</child>
+    </Item>
+
+    <Item>
+      <parent>vehshare_worn</parent>
+      <child>p1wide4</child>
+    </Item>
+    
+  </txdRelationships>
 </CVehicleModelInfo__InitDataList>
