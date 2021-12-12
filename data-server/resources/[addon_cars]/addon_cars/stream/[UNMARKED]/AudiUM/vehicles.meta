@@ -127,5 +127,35 @@
   </InitDatas>
   <txdRelationships>
 
+   <Item>
+      <parent>AudiUM2</parent>
+      <child>AudiUM</child>
+  </Item>
+
+   <Item>
+      <parent>AudiUM3</parent>
+      <child>AudiUM2</child>
+   </Item>
+
+    <Item>
+      <parent>AudiUM4</parent>
+      <child>AudiUM3</child>
+    </Item>
+
+   <Item>
+      <parent>AudiUM5</parent>
+      <child>AudiUM4</child>
+   </Item>
+
+    <Item>
+      <parent>AudiUM6</parent>
+      <child>AudiUM5</child>
+    </Item>
+
+    <Item>
+      <parent>vehicles_dom_interior</parent>
+      <child>AudiUM6</child>
+    </Item>
+
   </txdRelationships>
 </CVehicleModelInfo__InitDataList>
