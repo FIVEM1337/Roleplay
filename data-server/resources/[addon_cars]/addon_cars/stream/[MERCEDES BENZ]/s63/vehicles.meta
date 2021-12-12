@@ -154,11 +154,6 @@
     </Item>
 
     <Item>
-      <parent>s63</parent>
-      <child>s63</child>
-    </Item>
-
-    <Item>
       <parent>vehicles_race_generic</parent>
       <child>s636</child>
     </Item>
