@@ -123,9 +123,40 @@
 
   </InitDatas>
   <txdRelationships>
+
+    <Item>
+      <parent>taxi42</parent>
+      <child>taxi4</child>
+    </Item>
+
+    <Item>
+      <parent>taxi43</parent>
+      <child>taxi42</child>
+    </Item>
+
+    <Item>
+      <parent>taxi44</parent>
+      <child>taxi43</child>
+    </Item>
+
+    <Item>
+      <parent>taxi45</parent>
+      <child>taxi44</child>
+    </Item>
+
+    <Item>
+      <parent>taxi46</parent>
+      <child>taxi45</child>
+    </Item>
+
+    <Item>
+      <parent>taxi47</parent>
+      <child>taxi46</child>
+    </Item>
+
     <Item>
       <parent>vehicles_dom_interior</parent>
-      <child>fpace</child>
+      <child>taxi47</child>
     </Item>
 
   </txdRelationships>
