@@ -370,17 +370,95 @@
     </Item>
 </InitDatas>
  <txdRelationships>
+
+    <Item>
+      <parent>m5per</parent>
+      <child>m5per</child>
+    </Item>
+
+    <Item>
+      <parent>m5per</parent>
+      <child>m5per</child>
+    </Item>
+
+    <Item>
+      <parent>m5per</parent>
+      <child>m5per</child>
+    </Item>
+
+    <Item>
+      <parent>m5per</parent>
+      <child>m5per</child>
+    </Item>
+
+    <Item>
+      <parent>m5per</parent>
+      <child>m5per</child>
+    </Item>
+
     <Item>
       <parent>vehicles_supergt_interior</parent>
       <child>m5per</child>
     </Item>
-		<Item>
-      <parent>vehicles_supergt_interior</parent>
+
+    <Item>
+      <parent>m5a2</parent>
       <child>m5a</child>
     </Item>
+
+    <Item>
+      <parent>m5a3</parent>
+      <child>m5a2</child>
+    </Item>
+
+    <Item>
+      <parent>m5a4</parent>
+      <child>m5a3</child>
+    </Item>
+
+    <Item>
+      <parent>m5a5</parent>
+      <child>m5a4</child>
+    </Item>
+
+    <Item>
+      <parent>m5a6</parent>
+      <child>m5a5</child>
+    </Item>
+
 		<Item>
       <parent>vehicles_supergt_interior</parent>
+      <child>m5a6</child>
+    </Item>
+
+        <Item>
+      <parent>m5b2</parent>
       <child>m5b</child>
+    </Item>
+
+    <Item>
+      <parent>m5b3</parent>
+      <child>m5b2</child>
+    </Item>
+
+    <Item>
+      <parent>m5b4</parent>
+      <child>m5b3</child>
+    </Item>
+
+    <Item>
+      <parent>m5b5</parent>
+      <child>m5b4</child>
+    </Item>
+
+    <Item>
+      <parent>m5b6</parent>
+      <child>m5b5</child>
+    </Item>
+
+		<Item>
+      <parent>vehicles_supergt_interior</parent>
+      <child>m5b6</child>
     </Item>
  </txdRelationships>
 </CVehicleModelInfo__InitDataList> 
