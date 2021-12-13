@@ -42,8 +42,13 @@ Citizen.CreateThread(function()
 
 	--MERCEDES BENZ
 	AddTextEntry('s63', 'Mercedes Benz s63 AMG')
+	AddTextEntry('benze55', 'Mercedes Benz e55 AMG')
+	AddTextEntry('mercedesgls', 'Mercedes Benz GLS Maybach')
 
 	--AUDI
 	AddTextEntry('a9', 'Audi A9')
+
+	--BUGATTI
+	AddTextEntry('bugatticentodieci', 'Bugatti Centodieci')
 
 end)
