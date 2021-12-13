@@ -48,4 +48,7 @@ Citizen.CreateThread(function()
 	--AUDI
 	AddTextEntry('a9', 'Audi A9')
 
+	--BUGATTI
+	AddTextEntry('bugatticentodieci', 'Bugatti Centodieci')
+
 end)
