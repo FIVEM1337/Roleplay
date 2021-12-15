@@ -115,7 +115,14 @@ ESX.RegisterServerCallback('esx_vehicleshop:buyVehicle', function (source, cb, v
 	end
 
 	if Job then
-		cb(true, CarType, Job)
+		TriggerEvent('esx_addonaccount:getSharedAccount', 'society_'..Job, function(account)
+			if account.money >= vehicleData.price then
+				account.removeMoney(vehicleData.price)
+				cb(true, CarType, Job)
+			else
+				cb(false, CarType, nil)
+			end
+		end)
 	else
 		if xPlayer.getMoney() >= vehicleData.price then
 			xPlayer.removeMoney(vehicleData.price)
