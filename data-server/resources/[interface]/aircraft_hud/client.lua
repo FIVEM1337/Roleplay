@@ -29,7 +29,7 @@ Citizen.CreateThread(function()
 		local class = GetVehicleClass(PedVehicle)
 
 
-		if IsPedInAnyVehicle(Ped) and not IsEntityDead(Ped) and class == 15 and class == 16 then
+		if IsPedInAnyVehicle(Ped) and not IsEntityDead(Ped) and class == 15 or class == 16 then
 			local Speed = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 3.6 or 0
 			local Engine = GetIsVehicleEngineRunning(PedVehicle) or 0
 			local Height = GetEntityHeightAboveGround(PedVehicle) or 0
