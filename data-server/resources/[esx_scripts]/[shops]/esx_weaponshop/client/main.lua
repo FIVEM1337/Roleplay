@@ -188,6 +188,23 @@ Citizen.CreateThread(function()
 end)
 
 
+-- Key Controls
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		if CurrentAction ~= nil then
+
+			if IsControlJustReleased(0, 38) then
+				if CurrentAction == 'shop_menu' then
+					OpenShopMenu(CurrentActionData.zone)
+				end
+				CurrentAction = nil
+			end
+		end
+	end
+end)
+
+
 RegisterNUICallback('buyItem', function(data, cb)
 	ESX.TriggerServerCallback('esx_weaponshop:buyWeapon', function(success)
 		if success then
