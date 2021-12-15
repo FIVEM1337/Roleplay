@@ -8,8 +8,6 @@ Config.Type          = 27
 Config.Locale        = 'de'
 Config.Blur			 = true
 
-Config.LicenseEnable = false
-Config.LicensePrice  = 5000
 
 Config.Zones = {
 	GunShop = {

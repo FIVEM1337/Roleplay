@@ -34,30 +34,6 @@ AddEventHandler('esx_weaponshop:sendShop', function(shopItems)
 	end
 end)
 
-function OpenBuyLicenseMenu(zone)
-	ESX.UI.Menu.CloseAll()
-
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'shop_license', {
-		title = _U('buy_license'),
-		align = 'top-left',
-		elements = {
-			{label = _U('no'), value = 'no'},
-			{label = _U('yes', ('<span style="color: green;">%s</span>'):format((_U('shop_menu_item', ESX.Math.GroupDigits(Config.LicensePrice))))), value = 'yes'},
-		}
-	}, function(data, menu)
-		if data.current.value == 'yes' then
-			ESX.TriggerServerCallback('esx_weaponshop:buyLicense', function(bought)
-				if bought then
-					menu.close()
-					OpenShopMenu(zone)
-				end
-			end)
-		end
-	end, function(data, menu)
-		menu.close()
-	end)
-end
-
 function OpenShopMenu(zone)
 	if ESX.PlayerData.job == nil then
 		ESX.PlayerData = ESX.GetPlayerData()
@@ -211,32 +187,6 @@ Citizen.CreateThread(function()
 	end
 end)
 
--- Key Controls
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		if CurrentAction ~= nil then
-
-			if IsControlJustReleased(0, 38) then
-				if CurrentAction == 'shop_menu' then
-					if Config.LicenseEnable and Config.Zones[CurrentActionData.zone].Legal then
-						ESX.TriggerServerCallback('esx_license:checkLicense', function(hasWeaponLicense)
-							if hasWeaponLicense then
-								OpenShopMenu(CurrentActionData.zone)
-							else
-								OpenBuyLicenseMenu(CurrentActionData.zone)
-								print("You don't have a license!")
-							end
-						end, GetPlayerServerId(PlayerId()), 'weapon')
-					else
-						OpenShopMenu(CurrentActionData.zone)
-					end
-				end
-				CurrentAction = nil
-			end
-		end
-	end
-end)
 
 RegisterNUICallback('buyItem', function(data, cb)
 	ESX.TriggerServerCallback('esx_weaponshop:buyWeapon', function(success)

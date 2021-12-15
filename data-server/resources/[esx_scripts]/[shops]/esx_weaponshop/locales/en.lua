@@ -1,5 +1,4 @@
 Locales ['en'] = {
-  ['buy_license'] = 'buy weapon license?',
   ['yes'] = '%s',
   ['no'] = 'no',
   ['weapon_bought'] = 'purchased for $%s',
