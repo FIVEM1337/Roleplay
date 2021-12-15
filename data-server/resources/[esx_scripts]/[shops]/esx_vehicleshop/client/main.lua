@@ -172,6 +172,34 @@ function OpenShopMenu()
 	end
 
 
+
+	local Allowed_Category = {}
+
+	for i=1, #Allowed_Vehicles, 1 do
+		exist = false
+		local vehicle = Allowed_Vehicles[i]
+
+		for j=1, #Categories, 1 do
+			local categories = Categories[j]
+
+			if Categories[j].name == vehicle.category then
+
+				for k=1, #Allowed_Category, 1 do
+					local test = Allowed_Category[k]
+					if test.label == categories.label then
+						exist = true
+					end
+				end
+
+				if not exist then
+					table.insert(Allowed_Category, categories)
+				end
+			end
+		end
+	end
+
+
+
 	if count > 0 then
 		if not IsInShopMenu then
 			IsInShopMenu = true
@@ -180,7 +208,7 @@ function OpenShopMenu()
 			SendNUIMessage({
     	        show = true,
 				cars = Allowed_Vehicles,
-				categories = Categories
+				categories = Allowed_Category
     	    })
 		end
 	else
