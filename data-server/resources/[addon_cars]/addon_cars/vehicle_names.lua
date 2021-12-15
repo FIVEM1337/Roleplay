@@ -51,4 +51,7 @@ Citizen.CreateThread(function()
 	--BUGATTI
 	AddTextEntry('bugatticentodieci', 'Bugatti Centodieci')
 
+	--FERRARI
+	AddTextEntry('f8spider', 'Ferrari F8 Spider')
+
 end)
