@@ -160,7 +160,7 @@ function OpenShopMenu()
 		local vehicle = Vehicles[i]
 		if vehicle.type == _Config.VehType then
 			if vehicle.job ~= "" then
-				if vehicle.job == ESX.PlayerData.job.name then
+				if vehicle.job == ESX.PlayerData.job.name and ESX.PlayerData.job.can_managemoney then
 					count = count + 1
 					table.insert(Allowed_Vehicles, vehicle)
 				end
