@@ -231,6 +231,35 @@ body {
   display: block;
 }
 
+.modal1 {
+  display: none;
+  position: fixed;
+  top: 30%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.2);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(71, 71, 71, 0.3) 100%
+  );
+  width: 320px;
+  height: 320px;
+  text-align: center;
+  box-sizing: border-box;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+
+  transform: translateY(-100px);
+  animation-name: slide-modal;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+}
+
+.modal1.visible {
+  display: block;
+}
+
 .modal_header {
   color: white;
   background: #333;
@@ -294,6 +323,56 @@ button {
 }
 
 .btn-1:hover::after {
+  opacity: 1;
+  transition: all 0.5s;
+}
+
+.btn-2 {
+  top: 5.4vh;
+  background: rgba(80, 119, 71, 0.76);
+}
+
+.btn-2::after {
+  content: '';
+  font-family: 'Font Awesome 5 Pro';
+  font-weight: 400;
+  opacity: 0.5;
+}
+
+.btn-2:hover {
+  background: rgba(80, 119, 71, 0.904);
+  transition: all 0.5s;
+  transform: scale(1.05);
+  box-shadow: rgba(156, 156, 156, 0.25) 0px 30px 60px -12px inset,
+    rgba(133, 133, 133, 0.3) 0px 18px 36px -18px inset;
+}
+
+.btn-2:hover::after {
+  opacity: 1;
+  transition: all 0.5s;
+}
+
+.btn-3 {
+  top: 5.4vh;
+  background: rgba(131, 56, 37, 0.76);
+}
+
+.btn-3::after {
+  content: '';
+  font-family: 'Font Awesome 5 Pro';
+  font-weight: 400;
+  opacity: 0.5;
+}
+
+.btn-3:hover {
+  background: rgba(131, 56, 37, 0.904);
+  transition: all 0.5s;
+  transform: scale(1.05);
+  box-shadow: rgba(156, 156, 156, 0.25) 0px 30px 60px -12px inset,
+    rgba(133, 133, 133, 0.3) 0px 18px 36px -18px inset;
+}
+
+.btn-3:hover::after {
   opacity: 1;
   transition: all 0.5s;
 }

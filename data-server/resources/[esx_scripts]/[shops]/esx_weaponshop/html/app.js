@@ -11,6 +11,7 @@ function CloseShop() {
 	$('.items').empty();
 	$('.container').fadeOut(100);
 	$('.modal').removeClass('visible');
+	$('.modal1').removeClass('visible');
 	$.post('http://esx_weaponshop/focusOff');
 }
 
@@ -18,7 +19,60 @@ document.addEventListener('DOMContentLoaded', function () {
 	$('.container').hide();
 });
 
-function buyItem(item, zone) {
+
+function confirmbox(item, zone, itemLabel, desc, price, job) {
+	$('.modal1').addClass('visible');
+
+	if (job == "undefined")
+		$('.modalimage').html(
+			`<p class="modal-desc">` + "Möchtest du das Kaufen?" + `</p>
+			<img src="./img/` + item + `.png">`
+		);
+
+	else
+		$('.modalimage').html(
+			`<p class="modal-desc">` + "Möchtest du das für deine Fraktion Kaufen?" + `</p>
+			<img src="./img/` + item + `.png">`
+		);
+	
+	
+
+	$('.btn-yes').html(
+		`<button class="btn-2" onclick="buyItem('` +
+			item +
+			`', '` +
+			zone +
+			`', '` +
+			itemLabel +
+			`', '` +
+			desc +
+			`', '` +
+			price +
+			`', '` +
+			job +
+			`')"></button>`
+	);
+	$('.btn-no').html(
+		`<button class="btn-3"</button>`
+	);
+
+
+	$(document).click((event) => {
+		if ($(event.target).closest('.btn-2').length) {
+			$('.modal1').removeClass('visible');
+		}
+	});
+
+	$(document).click((event) => {
+		if ($(event.target).closest('.btn-3').length) {
+			$('.modal1').removeClass('visible');
+		}
+	});
+
+
+}
+
+function buyItem(item, zone, itemLabel, desc, price, job) {
 	
 	$.post(
 		'http://esx_weaponshop/buyItem',
@@ -29,8 +83,9 @@ function buyItem(item, zone) {
 	);
 }
 
-function showModal(item, zone, itemLabel, desc, price) {
+function showModal(item, zone, itemLabel, desc, price, job) {
 	$('.items').click(function () {
+		$('.modal1').removeClass('visible');
 		$('.modal').addClass('visible');
 		$('.modalimage').html(
 			`<img src="./img/` +
@@ -44,11 +99,20 @@ function showModal(item, zone, itemLabel, desc, price) {
 				`</p>`
 		);
 		$('.btn-open').html(
-			`<button class="btn-1" onclick="buyItem('` +
+			`<button class="btn-1" onclick="confirmbox('` +
 				item +
 				`', '` +
 				zone +
-				`')"></button>`
+				`', '` +
+				itemLabel +
+				`', '` +
+				desc +
+				`', '` +
+				price +
+				`', '` +
+				job +
+				`')">
+				</button>`
 		);
 	});
 
@@ -70,81 +134,88 @@ $(document).ready(function(){
 		$('.items').empty();
 		let index = 0	
 
-		
-		while (index < result.length) {
-			var element = result[index];
+		if (result) {
+			while (index < result.length) {
+				var element = result[index];
+	
+				if (category == null)
+					AppendItem(element)
+				else if (category == -1)
+					AppendItem(element)
+	
+				else if (element.category == category)
+					AppendItem(element)
+	
+				index++;
+			}
+	
+			function AppendItem(element)
+			{
+				if (element.job)
+					$('.items').append(
+						`
+						<div class="item2" onclick="showModal('` +
+							element.item +
+							`', '` +
+							element.zone +
+							`', '` +
+							element.label +
+							`', '` +
+							element.desc +
+							`', '` +
+							element.price +
+							`', '` +
+							element.job +
+							`')">
+							<img class="img-item" src="./img/` +
+							element.item +
+							`.png">
+								<div class="label">
+									<p class="itemString2">` +
+							element.label +
+							`</p>
+									<p class="itemPrice"><span class="bg-price">$` +
+							element.price +
+							`</span></p>
 
-			if (category == null)
-				AppendItem(element)
-			else if (category == -1)
-				AppendItem(element)
+								</div>
+						</div>
+					`
+					);
+				else
+					$('.items').append(
+						`
+						<div class="item" onclick="showModal('` +
+							element.item +
+							`', '` +
+							element.zone +
+							`', '` +
+							element.label +
+							`', '` +
+							element.desc +
+							`', '` +
+							element.price +
+							`')">
+							<img class="img-item" src="./img/` +
+							element.item +
+							`.png">
+								<div class="label">
+									<p class="itemString">` +
+							element.label +
+							`</p>
+									<p class="itemPrice"><span class="bg-price">$` +
+							element.price +
+							`</span></p>
+								</div>
+						</div>
+					`
+					);
+	
+			}
 
-			else if (element.category == category)
-				AppendItem(element)
 
-			index++;
 		}
 
-		function AppendItem(element)
-		{
-			if (element.job)
-				$('.items').append(
-					`
-					<div class="item2" onclick="showModal('` +
-						element.item +
-						`', '` +
-						element.zone +
-						`', '` +
-						element.label +
-						`', '` +
-						element.desc +" " + element.job +
-						`', '` +
-						element.price +
-						`')">
-						<img class="img-item" src="./img/` +
-						element.item +
-						`.png">
-							<div class="label">
-								<p class="itemString2">` +
-						element.label +
-						`</p>
-								<p class="itemPrice"><span class="bg-price">$` +
-						element.price +
-						`</span></p>
-							</div>
-					</div>
-				`
-				);
-			else
-				$('.items').append(
-					`
-					<div class="item" onclick="showModal('` +
-						element.item +
-						`', '` +
-						element.zone +
-						`', '` +
-						element.label +
-						`', '` +
-						element.desc +
-						`', '` +
-						element.price +
-						`')">
-						<img class="img-item" src="./img/` +
-						element.item +
-						`.png">
-							<div class="label">
-								<p class="itemString">` +
-						element.label +
-						`</p>
-								<p class="itemPrice"><span class="bg-price">$` +
-						element.price +
-						`</span></p>
-							</div>
-					</div>
-				`
-				);
-
-		}
 
 	}
 
@@ -177,11 +248,12 @@ $(document).ready(function(){
 			$('.container').fadeOut(100);
 		}
 
-		$('#brand').html(`<option selected value="-1">All the brands</option>`)
-		categories.forEach(element => {
-				$('#brand').append(`<option value="${element}">${element}</option>`)
-		});
-
+		if (categories) {
+			$('#brand').html(`<option selected value="-1">All the brands</option>`)
+			categories.forEach(element => {
+					$('#brand').append(`<option value="${element}">${element}</option>`)
+			});
+		}
 
 		LoadItems()
 
