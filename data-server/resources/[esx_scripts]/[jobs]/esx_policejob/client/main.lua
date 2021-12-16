@@ -206,9 +206,7 @@ function OpenCloakroomMenu()
 end
 
 function OpenArmoryMenu(station)
-	local elements = {
-		{label = _U('buy_weapons'), value = 'buy_weapons'}
-	}
+	local elements = {}
 
 	if Config.EnableArmoryManagement then
 		table.insert(elements, {label = _U('get_weapon'),     value = 'get_weapon'})
@@ -229,8 +227,6 @@ function OpenArmoryMenu(station)
 			OpenGetWeaponMenu()
 		elseif data.current.value == 'put_weapon' then
 			OpenPutWeaponMenu()
-		elseif data.current.value == 'buy_weapons' then
-			OpenBuyWeaponsMenu()
 		elseif data.current.value == 'put_stock' then
 			OpenPutStocksMenu()
 		elseif data.current.value == 'get_stock' then
@@ -718,122 +714,6 @@ function OpenPutWeaponMenu()
 		ESX.TriggerServerCallback('esx_policejob:addArmoryWeapon', function()
 			OpenPutWeaponMenu()
 		end, data.current.value, true)
-	end, function(data, menu)
-		menu.close()
-	end)
-end
-
-function OpenBuyWeaponsMenu()
-	local elements = {}
-	local playerPed = PlayerPedId()
-
-	for k,v in ipairs(Config.AuthorizedWeapons[ESX.PlayerData.job.grade_name]) do
-		local weaponNum, weapon = ESX.GetWeapon(v.weapon)
-		local components, label = {}
-		local hasWeapon = HasPedGotWeapon(playerPed, GetHashKey(v.weapon), false)
-
-		if v.components then
-			for i=1, #v.components do
-				if v.components[i] then
-					local component = weapon.components[i]
-					local hasComponent = HasPedGotWeaponComponent(playerPed, GetHashKey(v.weapon), component.hash)
-
-					if hasComponent then
-						label = ('%s: <span style="color:green;">%s</span>'):format(component.label, _U('armory_owned'))
-					else
-						if v.components[i] > 0 then
-							label = ('%s: <span style="color:green;">%s</span>'):format(component.label, _U('armory_item', ESX.Math.GroupDigits(v.components[i])))
-						else
-							label = ('%s: <span style="color:green;">%s</span>'):format(component.label, _U('armory_free'))
-						end
-					end
-
-					table.insert(components, {
-						label = label,
-						componentLabel = component.label,
-						hash = component.hash,
-						name = component.name,
-						price = v.components[i],
-						hasComponent = hasComponent,
-						componentNum = i
-					})
-				end
-			end
-		end
-
-		if hasWeapon and v.components then
-			label = ('%s: <span style="color:green;">></span>'):format(weapon.label)
-		elseif hasWeapon and not v.components then
-			label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, _U('armory_owned'))
-		else
-			if v.price > 0 then
-				label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, _U('armory_item', ESX.Math.GroupDigits(v.price)))
-			else
-				label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, _U('armory_free'))
-			end
-		end
-
-		table.insert(elements, {
-			label = label,
-			weaponLabel = weapon.label,
-			name = weapon.name,
-			components = components,
-			price = v.price,
-			hasWeapon = hasWeapon
-		})
-	end
-
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_buy_weapons', {
-		title    = _U('armory_weapontitle'),
-		align    = 'top-left',
-		elements = elements
-	}, function(data, menu)
-		if data.current.hasWeapon then
-			if #data.current.components > 0 then
-				OpenWeaponComponentShop(data.current.components, data.current.name, menu)
-			end
-		else
-			ESX.TriggerServerCallback('esx_policejob:buyWeapon', function(bought)
-				if bought then
-					if data.current.price > 0 then
-						ESX.ShowNotification(_U('armory_bought', data.current.weaponLabel, ESX.Math.GroupDigits(data.current.price)))
-					end
-
-					menu.close()
-					OpenBuyWeaponsMenu()
-				else
-					ESX.ShowNotification(_U('armory_money'))
-				end
-			end, data.current.name, 1)
-		end
-	end, function(data, menu)
-		menu.close()
-	end)
-end
-
-function OpenWeaponComponentShop(components, weaponName, parentShop)
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_buy_weapons_components', {
-		title    = _U('armory_componenttitle'),
-		align    = 'top-left',
-		elements = components
-	}, function(data, menu)
-		if data.current.hasComponent then
-			ESX.ShowNotification(_U('armory_hascomponent'))
-		else
-			ESX.TriggerServerCallback('esx_policejob:buyWeapon', function(bought)
-				if bought then
-					if data.current.price > 0 then
-						ESX.ShowNotification(_U('armory_bought', data.current.componentLabel, ESX.Math.GroupDigits(data.current.price)))
-					end
-
-					menu.close()
-					parentShop.close()
-					OpenBuyWeaponsMenu()
-				else
-					ESX.ShowNotification(_U('armory_money'))
-				end
-			end, weaponName, 2, data.current.componentNum)
-		end
 	end, function(data, menu)
 		menu.close()
 	end)

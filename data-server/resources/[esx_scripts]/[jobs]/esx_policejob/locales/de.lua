@@ -12,7 +12,6 @@ Locales['de'] = {
   ['deposit_object'] = 'deposit object',
   ['get_weapon'] = 'Waffen holen',
   ['put_weapon'] = 'Waffen bringen',
-  ['buy_weapons'] = 'Waffen kaufen',
   ['armory'] = 'Waffenkammer',
   ['open_armory'] = 'Drücke ~INPUT_CONTEXT~ um die Waffenkammer zu öffnen',
   ['armory_owned'] = 'owned',

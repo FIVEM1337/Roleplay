@@ -12,7 +12,6 @@ Locales['en'] = {
   ['deposit_object'] = 'deposit object',
   ['get_weapon'] = 'withdraw weapon from armory',
   ['put_weapon'] = 'store weapon in armory',
-  ['buy_weapons'] = 'buy weapons',
   ['armory'] = 'armory',
   ['open_armory'] = 'press ~INPUT_CONTEXT~ to access the ~y~Armory~s~.',
   ['armory_owned'] = 'owned',
