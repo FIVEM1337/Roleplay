@@ -8,8 +8,8 @@ Locales['de'] = {
   ['no_outfit'] = 'there\'s no uniform that fits you!',
   ['open_cloackroom'] = 'Drücke ~INPUT_CONTEXT~ um dich umzuziehen',
   -- Armory
-  ['remove_object'] = 'take object',
-  ['deposit_object'] = 'deposit object',
+  ['remove_object'] = 'Item holen',
+  ['deposit_object'] = 'Item bringen',
   ['get_weapon'] = 'Waffen holen',
   ['put_weapon'] = 'Waffen bringen',
   ['armory'] = 'Waffenkammer',
