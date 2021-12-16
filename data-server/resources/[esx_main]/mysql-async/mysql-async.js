@@ -16077,15 +16077,9 @@ class profiler_Profiler {
       this.addSlowQuery(sql, resource, queryTime);
     }
 
-    if (this.config.slowQueryWarningTime < queryTime) {
-      this.logger.warning(`[${resource}] [${queryTime.toFixed()}ms] ${sql}`, {
-        tag: this.version
-      });
-    } else {
-      this.logger.log(`[${resource}] [${queryTime.toFixed()}ms] ${sql}`, {
-        tag: this.version
-      });
-    }
+  
+    this.logger.log(`[${resource}] [${queryTime.toFixed()}ms] ${sql}`, {tag: this.version});
+    
   }
 
 }
