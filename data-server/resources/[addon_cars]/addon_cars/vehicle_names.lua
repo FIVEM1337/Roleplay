@@ -57,4 +57,7 @@ Citizen.CreateThread(function()
 	--FERRARI
 	AddTextEntry('f8spider', 'Ferrari F8 Spider')
 
+	--SONSTIGES
+	AddTextEntry('zombiev8', 'Western Zombie V8')
+
 end)
