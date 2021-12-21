@@ -62,9 +62,11 @@ Citizen.CreateThread(function()
 	
 	--POLICE
 	AddTextEntry('pd1', 'Ford Interceptor LSPD')
-	AddTextEntry('pd2', 'Ford Interceptor LSPD')
-	AddTextEntry('pd3', 'Cheveolet Impala LSPD')
+	AddTextEntry('pd2', 'Ford Crown Victoria LSPD')
+	AddTextEntry('pd3', 'Chevrolet Camaro LSPD')
 	AddTextEntry('pd4', 'Dodge Durrango LSPD')
-	AddTextEntry('pd5', 'Chevrolet Westin LSPD')
+	AddTextEntry('pd5', 'Chevrolet Tahoe LSPD')
+
+	--AMBULANCE
 
 end)
