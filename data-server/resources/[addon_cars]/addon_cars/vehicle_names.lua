@@ -56,8 +56,15 @@ Citizen.CreateThread(function()
 
 	--FERRARI
 	AddTextEntry('f8spider', 'Ferrari F8 Spider')
-
+	AddTextEntry('f12ber', 'Ferrari F12 Berlinetta')
 	--SONSTIGES
 	AddTextEntry('zombiev8', 'Western Zombie V8')
+	
+	--POLICE
+	AddTextEntry('pd1', 'Ford Interceptor LSPD')
+	AddTextEntry('pd2', 'Ford Interceptor LSPD')
+	AddTextEntry('pd3', 'Cheveolet Impala LSPD')
+	AddTextEntry('pd4', 'Dodge Durrango LSPD')
+	AddTextEntry('pd5', 'Chevrolet Westin LSPD')
 
 end)
