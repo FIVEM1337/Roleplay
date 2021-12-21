@@ -1,19 +1,24 @@
 ESX               = nil
 
 
+local enginerunning
+local invehicle
+local vehicle 
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 
 		local ped = GetPlayerPed(-1)
-		
 		if DoesEntityExist(ped) and IsPedInAnyVehicle(ped, false) and IsControlPressed(2, 75) and not IsEntityDead(ped) and not IsPauseMenuActive() then
-			local engineWasRunning = GetIsVehicleEngineRunning(GetVehiclePedIsIn(ped, true))
-			Citizen.Wait(1000)
-			if DoesEntityExist(ped) and not IsPedInAnyVehicle(ped, false) and not IsEntityDead(ped) and not IsPauseMenuActive() then
-				local veh = GetVehiclePedIsIn(ped, true)
-				if (engineWasRunning) then
+			local engineRunning = GetIsVehicleEngineRunning(GetVehiclePedIsIn(ped, true))
+			while engineRunning do
+				Citizen.Wait(0)
+				if DoesEntityExist(ped) and not IsPedInAnyVehicle(ped, false) and not IsEntityDead(ped) and not IsPauseMenuActive() then
+					local veh = GetVehiclePedIsIn(ped, true)
 					SetVehicleEngineOn(veh, true, true, true)
+					SetVehicleJetEngineOn(veh, true, true, true)
+					break
 				end
 			end
 		end
