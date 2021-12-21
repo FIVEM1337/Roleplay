@@ -37,10 +37,14 @@ Citizen.CreateThread(function()
 	end
 end)
 
+RegisterNetEvent('esx:setJob')
+AddEventHandler('esx:setJob', function(job)
+	PlayerData = ESX.GetPlayerData()
+end)
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		PlayerData = ESX.GetPlayerData()
 		if PlayerData.job then
 			for k, v in pairs (gangs) do
 				if v.job ~= nil and v.job == PlayerData.job.name then
