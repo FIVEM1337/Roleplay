@@ -5,3 +5,5 @@ data-server/cache/**
 data-server/db/**
 
 **crashes**
+
+binary-server/txData/*
