@@ -158,15 +158,17 @@ function OpenShopMenu()
 	local count = 0
 	for i=1, #Vehicles, 1 do
 		local vehicle = Vehicles[i]
-		if vehicle.type == _Config.VehType then
-			if vehicle.job ~= "" then
-				if vehicle.job == ESX.PlayerData.job.name and ESX.PlayerData.job.can_managemoney then
+		if vehicle.donator == _Config.DonatorShop then
+			if vehicle.type == _Config.VehType then
+				if vehicle.job ~= "" then
+					if vehicle.job == ESX.PlayerData.job.name and ESX.PlayerData.job.can_managemoney then
+						count = count + 1
+						table.insert(Allowed_Vehicles, vehicle)
+					end
+				else
 					count = count + 1
 					table.insert(Allowed_Vehicles, vehicle)
 				end
-			else
-				count = count + 1
-				table.insert(Allowed_Vehicles, vehicle)
 			end
 		end
 	end

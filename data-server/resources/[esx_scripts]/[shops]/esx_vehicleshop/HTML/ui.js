@@ -40,20 +40,39 @@ $(document).ready(function(){
                     
                     var car = result[index];
                     
-                    html += `<div class="col-4 mb-4">
-                                <div class="card h-100">
-                                    <img src="`+car.imglink+`" class="card-img-top" alt="`+car.name+`">
-                                    <div class="card-body">
-                                        <h5 class="card-title">`+car.name+`</h5>
-                                        <p class="card-text">Brand: <b>`+car.categoryLabel+`</b></p>
-                                        <p class="card-text">Price: <b>`+car.price+`€</b></p>
+
+                    if (car.donator) {
+                        html += `<div class="col-4 mb-4">
+                                    <div class="card h-100">
+                                        <img src="`+car.imglink+`" class="card-img-top" alt="`+car.name+`">
+                                        <div class="card-body">
+                                            <h5 class="card-title">`+car.name+`</h5>
+                                            <p class="card-text">Brand: <b>`+car.categoryLabel+`</b></p>
+                                            <p class="card-text">Price: <b>`+car.price+` BTC</b></p>
+                                        </div>
+                                        <div class="card-footer bg-white border-0 ">
+                                            <button type="button" id="action1" data-value="buy" data-model="`+ car.model +`" class="btn btn-danger w-auto btn-lg buy">Buy</button>
+                                            <button type="button" id="action2" data-value="test-drive" data-model="`+ car.model +`" class="btn btn-success w-auto float-right btn-lg test-drive">Test Drive</button>
+                                        </div>
                                     </div>
-                                    <div class="card-footer bg-white border-0 ">
-                                        <button type="button" id="action1" data-value="buy" data-model="`+ car.model +`" class="btn btn-danger w-auto btn-lg buy">Buy</button>
-                                        <button type="button" id="action2" data-value="test-drive" data-model="`+ car.model +`" class="btn btn-success w-auto float-right btn-lg test-drive">Test Drive</button>
+                                </div>`
+                    } else {
+                        html += `<div class="col-4 mb-4">
+                                    <div class="card h-100">
+                                        <img src="`+car.imglink+`" class="card-img-top" alt="`+car.name+`">
+                                        <div class="card-body">
+                                            <h5 class="card-title">`+car.name+`</h5>
+                                            <p class="card-text">Brand: <b>`+car.categoryLabel+`</b></p>
+                                            <p class="card-text">Price: <b>`+car.price+`€</b></p>
+                                        </div>
+                                        <div class="card-footer bg-white border-0 ">
+                                            <button type="button" id="action1" data-value="buy" data-model="`+ car.model +`" class="btn btn-danger w-auto btn-lg buy">Buy</button>
+                                            <button type="button" id="action2" data-value="test-drive" data-model="`+ car.model +`" class="btn btn-success w-auto float-right btn-lg test-drive">Test Drive</button>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>`
+                                </div>`
+                    }
+
                     index++;
                     count++;
                 }

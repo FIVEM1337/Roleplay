@@ -97,10 +97,16 @@ ESX.RegisterServerCallback('esx_vehicleshop:buyVehicle', function (source, cb, v
 	local Job = nil
 	local CarType = "car"
 	local bankMoney = xPlayer.getAccount('bank').money
+	local donator = false
+
 	for i=1, #Vehicles, 1 do
 		local vehicle = Vehicles[i]
 		if Vehicles[i].model == vehicleModel then
 			vehicleData = Vehicles[i]
+
+			if vehicleData.donator then
+				donator = true
+			end
 	
 			if vehicleData.type ~= "" then
 				CarType = vehicleData.type
@@ -114,28 +120,41 @@ ESX.RegisterServerCallback('esx_vehicleshop:buyVehicle', function (source, cb, v
 		end
 	end
 
-	if Job then
-		TriggerEvent('esx_addonaccount:getSharedAccount', 'society_'..Job, function(account)
-			if account.money >= vehicleData.price then
-				account.removeMoney(vehicleData.price)
-				cb(true, CarType, Job)
-			else
-				cb(false, CarType, nil)
-			end
-		end)
-	else
-		if xPlayer.getMoney() >= vehicleData.price then
-			xPlayer.removeMoney(vehicleData.price)
-			TriggerEvent('CryptoHooker:SendBuyLog', source, vehicleData.name, 1, vehicleData.price)
-			cb(true, CarType, nil)
-		else if bankMoney >= vehicleData.price then
-			xPlayer.setAccountMoney('bank',bankMoney-vehicleData.price)
-			TriggerEvent('CryptoHooker:SendBuyLog', source, vehicleData.name, 1, vehicleData.price)
-			cb(true, CarType, nil)
+
+	if donator then
+		local crypto = xPlayer.getAccount('crypto').money
+		if crypto >= vehicleData.price then
+			xPlayer.removeAccountMoney('crypto', tonumber(vehicleData.price))
+			cb(true, CarType, Job)
 		else
 			cb(false, CarType, nil)
 		end
+
+	else
+		if Job then
+			TriggerEvent('esx_addonaccount:getSharedAccount', 'society_'..Job, function(account)
+				if account.money >= vehicleData.price then
+					account.removeMoney(vehicleData.price)
+					cb(true, CarType, Job)
+				else
+					cb(false, CarType, nil)
+				end
+			end)
+		else
+			if xPlayer.getMoney() >= vehicleData.price then
+				xPlayer.removeMoney(vehicleData.price)
+				TriggerEvent('CryptoHooker:SendBuyLog', source, vehicleData.name, 1, vehicleData.price)
+				cb(true, CarType, nil)
+			else if bankMoney >= vehicleData.price then
+				xPlayer.setAccountMoney('bank',bankMoney-vehicleData.price)
+				TriggerEvent('CryptoHooker:SendBuyLog', source, vehicleData.name, 1, vehicleData.price)
+				cb(true, CarType, nil)
+			else
+				cb(false, CarType, nil)
+			end
+		end
 	end
+
 end
 end)
 
