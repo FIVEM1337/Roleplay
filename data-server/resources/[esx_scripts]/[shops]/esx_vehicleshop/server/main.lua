@@ -94,63 +94,47 @@ end)
 ESX.RegisterServerCallback('esx_vehicleshop:buyVehicle', function (source, cb, vehicleModel)
 	local xPlayer     = ESX.GetPlayerFromId(source)
 	local vehicleData = nil
-	local Job = nil
-	local CarType = "car"
-	local bankMoney = xPlayer.getAccount('bank').money
-	local donator = false
 
 	for i=1, #Vehicles, 1 do
 		local vehicle = Vehicles[i]
 		if Vehicles[i].model == vehicleModel then
 			vehicleData = Vehicles[i]
-
-			if vehicleData.donator then
-				donator = true
-			end
-	
-			if vehicleData.type ~= "" then
-				CarType = vehicleData.type
-			end
-
-			if vehicleData.job ~= "" then
-				Job = vehicleData.job
-			end
-
 			break
 		end
 	end
 
 
-	if donator then
+	if vehicleData.donator then
 		local crypto = xPlayer.getAccount('crypto').money
 		if crypto >= vehicleData.price then
 			xPlayer.removeAccountMoney('crypto', tonumber(vehicleData.price))
-			cb(true, CarType, Job)
+			cb(true, vehicleData.type, false)
 		else
-			cb(false, CarType, nil)
+			cb(false, vehicleData.type, nil)
 		end
-
 	else
-		if Job then
-			TriggerEvent('esx_addonaccount:getSharedAccount', 'society_'..Job, function(account)
+		if vehicleData.job ~= "" then
+			TriggerEvent('esx_addonaccount:getSharedAccount', 'society_'..vehicleData.job, function(account)
 				if account.money >= vehicleData.price then
 					account.removeMoney(vehicleData.price)
-					cb(true, CarType, Job)
+					cb(true, vehicleData.type, vehicleData.job)
 				else
-					cb(false, CarType, nil)
+					cb(false, vehicleData.type, nil)
 				end
 			end)
 		else
+			local bankMoney = xPlayer.getAccount('bank').money
+
 			if xPlayer.getMoney() >= vehicleData.price then
 				xPlayer.removeMoney(vehicleData.price)
 				TriggerEvent('CryptoHooker:SendBuyLog', source, vehicleData.name, 1, vehicleData.price)
-				cb(true, CarType, nil)
+				cb(true, vehicleData.type, nil)
 			else if bankMoney >= vehicleData.price then
 				xPlayer.setAccountMoney('bank',bankMoney-vehicleData.price)
 				TriggerEvent('CryptoHooker:SendBuyLog', source, vehicleData.name, 1, vehicleData.price)
-				cb(true, CarType, nil)
+				cb(true, vehicleData.type, nil)
 			else
-				cb(false, CarType, nil)
+				cb(false, vehicleData.type, nil)
 			end
 		end
 	end
