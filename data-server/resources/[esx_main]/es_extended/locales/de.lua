@@ -49,6 +49,7 @@ Locales['de'] = {
   ['account_bank'] = 'bank',
   ['account_black_money'] = 'dirty Money',
   ['account_money'] = 'cash',
+  ['account_crypto'] = 'crypto Money',
 
   ['act_imp'] = 'Aktion nicht möglich',
   ['in_vehicle'] = 'you can\'t give anything to someone in a vehicle',
