@@ -49,7 +49,7 @@ end)
 if bankMenu then
 	Citizen.CreateThread(function()
 		while true do
-			Wait(0)
+			Citizen.Wait(0)
 			if nearBank() or nearATM() then
 					DisplayHelpText(_U('atm_open'))
 
