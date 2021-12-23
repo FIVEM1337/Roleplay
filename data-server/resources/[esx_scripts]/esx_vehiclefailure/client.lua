@@ -195,32 +195,6 @@ if config.torqueMultiplierEnabled or config.preventVehicleFlip or config.limpMod
 								isBrakingReverse = true
 								brk = fscale(accelerator, 127.0, 254.0, 0.01, fBrakeForce, 10.0-(config.sundayDriverBrakeCurve*2.0))
 							end
-						else
-							-- Stopped or almost stopped or sliding sideways
-							local entitySpeed = GetEntitySpeed(vehicle)
-							if entitySpeed < 1 then
-								-- Not sliding sideways
-								if isBrakingForward == true then
-									--Stopped or going slightly forward while braking
-									DisableControlAction(2,72,true) -- Disable Brake until user lets go of brake
-									SetVehicleForwardSpeed(vehicle,speed*0.98)
-									SetVehicleBrakeLights(vehicle,true)
-								end
-								if isBrakingReverse == true then
-									--Stopped or going slightly in reverse while braking
-									DisableControlAction(2,71,true) -- Disable reverse Brake until user lets go of reverse brake (Accelerator)
-									SetVehicleForwardSpeed(vehicle,speed*0.98)
-									SetVehicleBrakeLights(vehicle,true)
-								end
-								if isBrakingForward == true and GetDisabledControlNormal(2,72) == 0 then
-									-- We let go of the brake
-									isBrakingForward=false
-								end
-								if isBrakingReverse == true and GetDisabledControlNormal(2,71) == 0 then
-									-- We let go of the reverse brake (Accelerator)
-									isBrakingReverse=false
-								end
-							end
 						end
 						if brk > fBrakeForce - 0.02 then brk = fBrakeForce end -- Make sure we can brake max.
 						SetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fBrakeForce', brk)  -- Set new Brake Force multiplier
@@ -355,6 +329,7 @@ Citizen.CreateThread(function()
 				if healthBodyCurrent < config.cascadingFailureThreshold then
 					healthBodyNew = config.cascadingFailureThreshold
 				end
+				pedInSameVehicleLast = true
 			end
 
 			-- set the actual new values
