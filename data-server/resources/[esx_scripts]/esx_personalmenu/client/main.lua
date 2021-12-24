@@ -730,6 +730,11 @@ function RenderWalletMenu()
 					PersonalMenu.WalletIndex[ESX.PlayerData.accounts[i].name] = Index
 				end)
 			end
+
+			if ESX.PlayerData.accounts[i].name == 'crypto' then
+				RageUI.Button(_U('wallet_cryptomoney_button', ESX.Math.GroupDigits(ESX.PlayerData.accounts[i].money)), nil, {}, true, function() end)
+			end
+
 		end
 
 		if Config.JSFourIDCard then

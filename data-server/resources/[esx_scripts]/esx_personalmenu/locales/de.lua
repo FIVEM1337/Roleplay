@@ -76,6 +76,7 @@ Locales['de'] = {
 	['wallet_money_button'] = 'Geld: $%s',
 	['wallet_bankmoney_button'] = 'Bank: $%s',
 	['wallet_blackmoney_button'] = 'Schwarzgeld: $%s',
+	['wallet_cryptomoney_button'] = 'Bitcoins: %s BTC',
 	['wallet_show_idcard_button'] = 'Personalausweis zeigen',
 	['wallet_check_idcard_button'] = 'Personalausweis anschauen',
 	['wallet_show_visum_button'] = 'Visum zeigen',
