@@ -6,7 +6,7 @@ author 'Cfx.re <root@cfx.re>'
 description 'Example spawn points for FiveM with a "hipster" model.'
 repository 'https://github.com/citizenfx/cfx-server-data'
 
-resource_type 'map' { gameTypes = { ['basic-gamemode'] = true } }
+resource_type 'map' { gameTypes = { ['basic-gamemode'] = true }, name = 'Los Santos' }
 
 map 'map.lua'
 

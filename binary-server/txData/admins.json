@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Crytpx1337",
+    "master": true,
+    "password_hash": "$2a$11$JudlrGlsZ75zLj0ETZbZy.Kb5MVxzcXKFcvXicOtq5rlAQZ9skY9q",
+    "providers": {
+      "citizenfx": {
+        "id": "Crytpx1337",
+        "identifier": "fivem:4878720",
+        "data": {
+          "sub": "38cd11c9b6a364cb840d7fb77b5ab185",
+          "nameid": "https://forum.cfx.re/internal/user/4878720",
+          "name": "Crytpx1337",
+          "picture": "https://avatars.discourse.org/v4/letter/c/7933a0/256.png",
+          "profile": "https://forum.cfx.re/u/Crytpx1337"
+        }
+      },
+      "discord": {
+        "id": "856832098345025557",
+        "identifier": "discord:856832098345025557",
+        "data": {}
+      }
+    },
+    "permissions": []
+  },
+  {
+    "name": "Sherlock666",
+    "master": false,
+    "password_hash": "$2a$11$z6jnEgVZbQoEzBrJKl420OYKFLvMtyAonhcF5YzLKbItr1GM9W7Aq",
+    "providers": {
+      "citizenfx": {
+        "id": "Sherlock666",
+        "identifier": "fivem:4986410",
+        "data": {}
+      },
+      "discord": {
+        "id": "512746636028542986",
+        "identifier": "discord:512746636028542986",
+        "data": {}
+      }
+    },
+    "permissions": [
+      "all_permissions"
+    ]
+  }
+]
