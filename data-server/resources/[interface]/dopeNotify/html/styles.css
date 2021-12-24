@@ -96,6 +96,40 @@ body {
     font-weight: 300;
 }
 
+.locked-icon::before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f084";
+    color: #069a19;
+}
+
+.locked {
+    background: #191c1f;
+    box-shadow: 0 0 40px #00000069;
+    color: #fff;
+    padding: 5px 5px 5px 5px;
+    word-spacing: 1px;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    font-weight: 300;
+}
+
+.unlocked-icon::before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f084";
+    color: #ff2121;
+}
+
+.unlocked {
+    background: #191c1f;
+    box-shadow: 0 0 40px #00000069;
+    color: #fff;
+    padding: 5px 5px 5px 5px;
+    word-spacing: 1px;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    font-weight: 300;
+}
+
 /*---[ Timer NOTIFY ]---*/
 
 .timer-icon::before {

@@ -64,14 +64,33 @@ RegisterCommand('usevehiclekey', function()
 			if lockStatus == 1 then -- unlocked
 				SetVehicleDoorsLocked(vehicle, 2)
 				PlayVehicleDoorCloseSound(vehicle, 1)
-				TriggerEvent('dopeNotify:Alert', "", _U('message_locked'), 5000, 'success')
+				TriggerEvent('dopeNotify:Alert', "", _U('message_locked'), 5000, 'locked')
+				BlinkVehicleLights(vehicle)
 			elseif lockStatus == 2 then -- locked
 				SetVehicleDoorsLocked(vehicle, 1)
 				PlayVehicleDoorOpenSound(vehicle, 0)
-				TriggerEvent('dopeNotify:Alert', "", _U('message_unlocked'), 5000, 'success')
+				TriggerEvent('dopeNotify:Alert', "", _U('message_unlocked'), 5000, 'unlocked')
+				BlinkVehicleLights(vehicle)
 			end
 		end
 
 	end, ESX.Math.Trim(GetVehicleNumberPlateText(vehicle)))
 end, true)
 RegisterKeyMapping('usevehiclekey', _U('keymapping_desc'), 'keyboard', Config.DefaultOpenKey)
+
+
+
+function BlinkVehicleLights(vehicle)
+	Citizen.Wait(100)
+	SetVehicleLights(vehicle, 2)
+	Citizen.Wait(200)
+	SetVehicleLights(vehicle, 1)
+	Citizen.Wait(200)
+	SetVehicleLights(vehicle, 2)
+	Citizen.Wait(200)
+	SetVehicleLights(vehicle, 1)
+	Citizen.Wait(200)
+	SetVehicleLights(vehicle, 2)
+	Citizen.Wait(200)
+	SetVehicleLights(vehicle, 0)
+end
