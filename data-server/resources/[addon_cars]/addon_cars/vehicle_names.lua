@@ -68,5 +68,7 @@ Citizen.CreateThread(function()
 	AddTextEntry('pd5', 'Chevrolet Tahoe LSPD')
 
 	--AMBULANCE
+	AddTextEntry('ambu', 'Chevrolet Tahoe LSMD')
+	AddTextEntry('ambu2', 'Chevrolet Tahoe LSMD')
 
 end)
