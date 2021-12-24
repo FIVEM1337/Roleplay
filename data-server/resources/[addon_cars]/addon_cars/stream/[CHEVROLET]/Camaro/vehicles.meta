@@ -4,9 +4,9 @@
   <residentAnims />
   <InitDatas>
 	    <Item>
-      <modelName>camaro_zl1</modelName>
-      <txdName>camaro_zl1</txdName>
-      <handlingId>camaro_zl1</handlingId>
+      <modelName>camarozl1</modelName>
+      <txdName>camarozl1</txdName>
+      <handlingId>camarozl1</handlingId>
       <gameName>CamaroLTZ</gameName>
       <vehicleMakeName>Chevrolet</vehicleMakeName>
       <expressionDictName>null</expressionDictName>
@@ -116,7 +116,7 @@
   <txdRelationships>
 	    <Item>
       <parent>vehicles_bob_brown_interior</parent>
-      <child>camaro_zl1</child>
+      <child>camarozl1</child>
     </Item>
   </txdRelationships>
 </CVehicleModelInfo__InitDataList>

@@ -2,8 +2,8 @@
 
 <CHandlingDataMgr>
   <HandlingData>
-      <Item type="CHandlingData"><!--camaro_zl1 HANDLING STARTS HERE-->
-      <handlingName>camaro_zl1</handlingName>
+      <Item type="CHandlingData"><!--camarozl1 HANDLING STARTS HERE-->
+      <handlingName>camarozl1</handlingName>
       <fMass value="1200.000000" />
       <fInitialDragCoeff value="10.500000" />
       <fPercentSubmerged value="85.000000" />
@@ -62,6 +62,6 @@
         <Item type="NULL" />
         <Item type="NULL" />
       </SubHandlingData>
-    </Item><!--camaro_zl1 HANDLING ENDS HERE-->
+    </Item><!--camarozl1 HANDLING ENDS HERE-->
   </HandlingData>
 </CHandlingDataMgr>

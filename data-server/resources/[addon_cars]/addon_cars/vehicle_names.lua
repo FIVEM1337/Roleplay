@@ -15,7 +15,7 @@ Citizen.CreateThread(function()
 
 
 	--Chevrolet
-	AddTextEntry('camaro_zl1', 'Chevrolet Camaro ZL1')
+	AddTextEntry('camarozl1', 'Chevrolet Camaro ZL1')
 
 	--SWAT
 	AddTextEntry('riot', 'LSPD Riot')

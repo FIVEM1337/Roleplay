@@ -130,4 +130,17 @@
       </firstPersonDrivebyData>
     </Item>
   </txdRelationships>
+      <Item>
+      <parent>ambu2</parent>
+      <child>ambu</child>
+    </Item>
+    <Item>
+      <parent>ambu3</parent>
+      <child>ambu2</child>
+    </Item>
+		<Item>
+      <parent>vehicles_cav_interior</parent>
+      <child>ambu3</child>
+    </Item>
+  </txdRelationships>
 </CVehicleModelInfo__InitDataList>
