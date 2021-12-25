@@ -9,6 +9,15 @@ ESX.RegisterServerCallback('esx_vehiclelock:requestPlayerCars', function(source,
 		['@owner'] = xPlayer.identifier,
 		['@plate'] = plate
 	}, function(result)
-		cb(result[1] ~= nil)
+		if result[1] == nil then
+			MySQL.Async.fetchAll('SELECT 1 FROM job_vehicles WHERE job = @job AND plate = @plate', {
+				['@job'] = xPlayer.job.name,
+				['@plate'] = plate
+			}, function(result)
+				cb(result[1] ~= nil)
+			end)
+		else
+			cb(result[1] ~= nil)
+		end
 	end)
 end)

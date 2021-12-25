@@ -108,7 +108,7 @@ ESX.RegisterServerCallback('esx_vehicleshop:buyVehicle', function (source, cb, v
 		local crypto = xPlayer.getAccount('crypto').money
 		if crypto >= vehicleData.price then
 			xPlayer.removeAccountMoney('crypto', tonumber(vehicleData.price))
-			cb(true, vehicleData.type, false)
+			cb(true, vehicleData.type, nil)
 		else
 			cb(false, vehicleData.type, nil)
 		end

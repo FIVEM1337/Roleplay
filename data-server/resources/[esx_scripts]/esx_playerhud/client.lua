@@ -16,16 +16,16 @@ end)
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer) 
-	TriggerEvent("esx_playerhud:LoadPlayerData", xPlayer)
+	TriggerEvent("esx_playerhud:LoadPlayerDataHUD", xPlayer)
 end)
 
 RegisterNetEvent("reload_esx_playerhud") 
 AddEventHandler("reload_esx_playerhud", function(xPlayer)
-	TriggerEvent("esx_playerhud:LoadPlayerData", xPlayer)
+	TriggerEvent("esx_playerhud:LoadPlayerDataHUD", xPlayer)
 end)
 
-RegisterNetEvent("esx_playerhud:LoadPlayerData") 
-AddEventHandler("esx_playerhud:LoadPlayerData", function(xPlayer)
+RegisterNetEvent("esx_playerhud:LoadPlayerDataHUD") 
+AddEventHandler("esx_playerhud:LoadPlayerDataHUD", function(xPlayer)
 	local data = xPlayer
 	local accounts = data.accounts
 	for k,v in pairs(accounts) do
@@ -36,6 +36,8 @@ AddEventHandler("esx_playerhud:LoadPlayerData", function(xPlayer)
 			SendNUIMessage({action = "setValue", key = "bankmoney", value = "$"..account.money})
 		elseif account.name == "black_money" then
 			SendNUIMessage({action = "setValue", key = "dirtymoney", value = "$"..account.money})
+		elseif account.name == "crypto" then
+			SendNUIMessage({action = "setValue", key = "cryptomoney", value = account.money .." BTC"})
 		end
 	end
 	-- Job
@@ -78,6 +80,8 @@ AddEventHandler('esx:setAccountMoney', function(account)
 		SendNUIMessage({action = "setValue", key = "bankmoney", value = "$"..account.money})
 	elseif account.name == "black_money" then
 		SendNUIMessage({action = "setValue", key = "dirtymoney", value = "$"..account.money})
+	elseif account.name == "crypto" then
+		SendNUIMessage({action = "setValue", key = "cryptomoney", value = account.money .." BTC"})
 	end
 end)
 

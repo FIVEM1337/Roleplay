@@ -22,6 +22,7 @@ files {
 	'html/img/credit-card.png',
 	'html/img/money-bag.png',
 	'html/img/wallet.png',
+	'html/img/crypto.png',
 	-- Job Images
 	'html/img/jobs/banker.png',
 	'html/img/jobs/unicorn.png',

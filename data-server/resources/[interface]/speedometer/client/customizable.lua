@@ -32,7 +32,6 @@ RegisterCommand('*seat_belt', function()
 		else
 			TriggerServerEvent('InteractSound_SV:PlayOnSource', 'carunbuckle', 0.25)
 		end
-		print("emte")
 
 		SetPedConfigFlag(PlayerPed, 32, not seat_belt)
 		TriggerEvent('seatbelt:client:ToggleSeatbelt', seat_belt)

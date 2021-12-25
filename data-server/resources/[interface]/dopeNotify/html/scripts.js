@@ -56,6 +56,22 @@ $(function () {
                 $(`.notification_main-${number}`).addClass('warning-icon')
                 $(`.wrapper-${number}`).addClass('warning')
                 sound.play();
+            } else if (event.data.type == 'locked') {
+                $(`.title-${number}`).html(event.data.title).css({
+                    "font-size": "16px",
+                    "font-weight": "600"
+                })
+                $(`.notification_main-${number}`).addClass('locked-icon')
+                $(`.wrapper-${number}`).addClass('locked')
+                sound.play();
+            } else if (event.data.type == 'unlocked') {
+                $(`.title-${number}`).html(event.data.title).css({
+                    "font-size": "16px",
+                    "font-weight": "600"
+                })
+                $(`.notification_main-${number}`).addClass('unlocked-icon')
+                $(`.wrapper-${number}`).addClass('unlocked')
+                sound.play();
             } else if (event.data.type == 'sms') {
                 $(`.title-${number}`).html(event.data.title).css({
                     "font-size": "16px",
