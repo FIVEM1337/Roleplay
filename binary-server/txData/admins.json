@@ -31,7 +31,13 @@
       "citizenfx": {
         "id": "Sherlock666",
         "identifier": "fivem:4986410",
-        "data": {}
+        "data": {
+          "sub": "f7651178ac95a90b90e1106e6a3e9649",
+          "nameid": "https://forum.cfx.re/internal/user/4986410",
+          "name": "Sherlock666",
+          "picture": "https://forum.cfx.re/user_avatar/forum.cfx.re/sherlock666/256/698320_2.png",
+          "profile": "https://forum.cfx.re/u/Sherlock666"
+        }
       },
       "discord": {
         "id": "512746636028542986",
