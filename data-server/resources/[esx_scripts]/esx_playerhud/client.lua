@@ -3,6 +3,9 @@ local isTalking = false
 local isMuted = false
 local currentRange = 3.5
 
+local markerOn = false
+local markerTimer = 0
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
@@ -112,6 +115,7 @@ end)
 AddEventHandler("SaltyChat_VoiceRangeChanged", function(range)
 	currentRange = range
 
+	MarkerTimer()
 	SendNUIMessage({action = "setVoiceRange", range = range, muted = isMuted})
 end)
 
@@ -125,6 +129,38 @@ AddEventHandler("SaltyChat_TalkStateChanged", function(talking)
     end
 
 end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1)
+		if markerOn == true then
+			coords = GetEntityCoords(PlayerPedId())
+			Marker(1, coords.x, coords.y, coords.z, currentRange)
+		end
+	end
+end)
+
+function MarkerTimer()
+	markerOn = true
+	Citizen.CreateThread(function()
+		markerTimer = 10
+
+		while markerTimer > 0 do
+			Citizen.Wait(1000)
+			markerTimer = markerTimer - 1
+		end
+
+		if markerTimer <= 0 then
+			markerOn = false
+		end
+	end)
+end
+
+function Marker(type, x, y, z, range)
+	if range ~= nil then
+		DrawMarker(type, x, y, z - 0.5, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, range, range, 2.0, 3, 252, 28, 60, false, true, 2, nil, nil, false)
+	end
+end
 
 AddEventHandler("SaltyChat_MicStateChanged", function(muted)
 	isMuted = muted
