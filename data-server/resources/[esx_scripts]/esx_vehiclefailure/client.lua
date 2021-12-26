@@ -388,9 +388,9 @@ Citizen.CreateThread(function()
 		Citizen.Wait(1)
 		local ped = PlayerPedId()
 		if Vehicle.Vehicle ~= nil then
-				if IsVehicleSeatFree(Vehicle.Vehicle, -1) and GetVehicleEngineHealth(Vehicle.Vehicle) <= config.engineSafeGuard then
-					ESX.Game.Utils.DrawText3D({x = Vehicle.Coords.x, y = Vehicle.Coords.y, z = Vehicle.Coords.z}, 'Drücke [~g~SHIFT~w~] und [~g~ALT~w~] um Fahrzeug zu schieben', 0.8)
-				end
+			if IsVehicleSeatFree(Vehicle.Vehicle, -1) and GetVehicleEngineHealth(Vehicle.Vehicle) <= config.engineSafeGuard then
+				ESX.Game.Utils.DrawText3D({x = Vehicle.Coords.x, y = Vehicle.Coords.y, z = Vehicle.Coords.z}, 'Drücke [~g~SHIFT~w~] und [~g~ALT~w~] um Fahrzeug zu schieben', 0.8)
+			end
 	 
 
 			if IsControlPressed(0, 21) and IsControlPressed(0, 19) and IsVehicleSeatFree(Vehicle.Vehicle, -1) and not IsEntityAttachedToEntity(ped, Vehicle.Vehicle) and GetVehicleEngineHealth(Vehicle.Vehicle) <= config.engineSafeGuard then
