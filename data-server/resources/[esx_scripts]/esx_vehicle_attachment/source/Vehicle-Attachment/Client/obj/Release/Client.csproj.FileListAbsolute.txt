@@ -1,0 +1,6 @@
+C:\Users\devcr\Desktop\sourcevehicleattachment\Vehicle-Attachment\Client\obj\Release\Client.csproj.CoreCompileInputs.cache
+C:\Users\devcr\Desktop\sourcevehicleattachment\Vehicle-Attachment\bld\config.json
+C:\Users\devcr\Desktop\sourcevehicleattachment\Vehicle-Attachment\bld\fxmanifest.lua
+C:\Users\devcr\Desktop\sourcevehicleattachment\Vehicle-Attachment\bld\VehicleAttachment.Client.net.dll
+C:\Users\devcr\Desktop\sourcevehicleattachment\Vehicle-Attachment\Client\obj\Release\Client.csproj.CopyComplete
+C:\Users\devcr\Desktop\sourcevehicleattachment\Vehicle-Attachment\Client\obj\Release\VehicleAttachment.Client.net.dll
