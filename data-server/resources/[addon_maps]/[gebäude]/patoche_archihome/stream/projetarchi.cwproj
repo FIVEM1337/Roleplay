@@ -1,0 +1,17 @@
+<CodeWalkerProject>
+  <Name>New CodeWalker Project</Name>
+  <Version value="1" />
+  <YmapFilenames>
+    <Item>patoche_archihome_ext_pose.ymap</Item>
+    <Item>patoche_archihome_milo_.ymap</Item>
+  </YmapFilenames>
+  <YtypFilenames>
+    <Item>patoche_archihome.ytyp</Item>
+  </YtypFilenames>
+  <YbnFilenames />
+  <YndFilenames />
+  <YnvFilenames />
+  <TrainsFilenames />
+  <ScenarioFilenames />
+  <AudioRelFilenames />
+</CodeWalkerProject>
