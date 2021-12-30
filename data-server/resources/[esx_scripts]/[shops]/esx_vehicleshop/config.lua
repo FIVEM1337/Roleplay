@@ -16,7 +16,7 @@ Config.PlateUseSpace = true
 
 Config.Zones = {
 	DonatorShop = {
-		ShopName = "DonatorShop",
+		ShopName = "Premium Deluxe Cars",
 		VehicleShop = true,
 		DonatorShop = true,
 		Pos   = vector3(-1257.38, -368.84, 37.00),
@@ -64,11 +64,19 @@ Config.Zones = {
 	},
 
 
+
 	-- Vehicle Spawns
 	car = {
 		Pos   = vector3(-29.16, -1082.18, 26.62),
 		Size  = vector3(1.5, 1.5, 1.0),
 		Heading = 338.17,
+		Type  = -1
+	},
+
+	car_donator = {
+		Pos   = vector3(-1234.48, -344.84, 36.90),
+		Size  = vector3(1.5, 1.5, 1.0),
+		Heading = 28.09,
 		Type  = -1
 	},
 
