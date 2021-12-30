@@ -117,9 +117,14 @@ RegisterNUICallback('BuyVehicle', function(data, cb)
 	IsInShopMenu = false
 	TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('wait_vehicle'), 5000, 'info')
 
-    ESX.TriggerServerCallback('esx_vehicleshop:buyVehicle', function(hasEnoughMoney, CarType, Job)
+    ESX.TriggerServerCallback('esx_vehicleshop:buyVehicle', function(hasEnoughMoney, CarType, Job, Donator)
 		if hasEnoughMoney then
-			local _Config = Config.Zones[CarType]
+			local _Config
+			if Donator then
+				_Config = Config.Zones[tostring(CarType .. '_donator')]
+			else
+				_Config = Config.Zones[CarType]
+			end
 			ESX.Game.SpawnVehicle(model, _Config.Pos, _Config.Heading, function (vehicle)
 				TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
 

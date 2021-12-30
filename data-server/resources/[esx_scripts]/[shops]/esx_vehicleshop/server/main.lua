@@ -108,9 +108,9 @@ ESX.RegisterServerCallback('esx_vehicleshop:buyVehicle', function (source, cb, v
 		local crypto = xPlayer.getAccount('crypto').money
 		if crypto >= vehicleData.price then
 			xPlayer.removeAccountMoney('crypto', tonumber(vehicleData.price))
-			cb(true, vehicleData.type, nil)
+			cb(true, vehicleData.type, nil, true)
 		else
-			cb(false, vehicleData.type, nil)
+			cb(false, vehicleData.type, nil, true)
 		end
 	else
 		if vehicleData.job ~= "" then
@@ -119,7 +119,7 @@ ESX.RegisterServerCallback('esx_vehicleshop:buyVehicle', function (source, cb, v
 					account.removeMoney(vehicleData.price)
 					cb(true, vehicleData.type, vehicleData.job)
 				else
-					cb(false, vehicleData.type, nil)
+					cb(false, vehicleData.type, nil, false)
 				end
 			end)
 		else
@@ -128,13 +128,13 @@ ESX.RegisterServerCallback('esx_vehicleshop:buyVehicle', function (source, cb, v
 			if xPlayer.getMoney() >= vehicleData.price then
 				xPlayer.removeMoney(vehicleData.price)
 				TriggerEvent('CryptoHooker:SendBuyLog', source, vehicleData.name, 1, vehicleData.price)
-				cb(true, vehicleData.type, nil)
+				cb(true, vehicleData.type, nil, false)
 			else if bankMoney >= vehicleData.price then
 				xPlayer.setAccountMoney('bank',bankMoney-vehicleData.price)
 				TriggerEvent('CryptoHooker:SendBuyLog', source, vehicleData.name, 1, vehicleData.price)
-				cb(true, vehicleData.type, nil)
+				cb(true, vehicleData.type, nil, false)
 			else
-				cb(false, vehicleData.type, nil)
+				cb(false, vehicleData.type, nil, false)
 			end
 		end
 	end
