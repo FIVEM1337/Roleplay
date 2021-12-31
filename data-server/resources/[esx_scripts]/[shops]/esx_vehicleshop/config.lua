@@ -67,9 +67,9 @@ Config.Zones = {
 
 	-- Vehicle Spawns
 	car = {
-		Pos   = vector3(-29.16, -1082.18, 26.62),
+		Pos   = vector3(-27.6, -1082.4, 26.2),
 		Size  = vector3(1.5, 1.5, 1.0),
-		Heading = 338.17,
+		Heading = 69.66,
 		Type  = -1
 	},
 

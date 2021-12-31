@@ -59,7 +59,7 @@ Config.BlacklistedVehicleTypesGB = {13, 8} -- vehicle types that should not have
 
 -- Trunk
 Config.TrunkKey = "j" -- default trunk open key (users can change in their settings) | FiveM Keys
-Config.TrunkSave = true -- must have a owned_vehicles table in your database
+Config.TrunkSave = true -- must have a owned_vehicles and job_vehicles table in your database
 Config.TrunkTimeout = 1000 -- amount of time it takes for the Trunk to load (server loading wont be affected) (milliseconds)
 Config.BlacklistedVehicleTypes = {13, 8} -- Cycles and Motorcycles
 Config.TrunkWeights = {

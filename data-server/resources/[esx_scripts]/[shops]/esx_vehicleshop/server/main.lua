@@ -209,101 +209,18 @@ ESX.RegisterServerCallback('esx_vehicleshop:isPlateTaken', function (source, cb,
 	MySQL.Async.fetchAll('SELECT * FROM owned_vehicles WHERE plate = @plate', {
 		['@plate'] = plate
 	}, function (result)
-		cb(result[1] ~= nil)
-	end)
-end)
-
-ESX.RegisterServerCallback('esx_vehicleshop:retrieveJobVehicles', function (source, cb, type)
-	local xPlayer = ESX.GetPlayerFromId(source)
-
-	MySQL.Async.fetchAll('SELECT * FROM owned_vehicles WHERE owner = @owner AND type = @type AND job = @job', {
-		['@owner'] = xPlayer.identifier,
-		['@type'] = type,
-		['@job'] = xPlayer.job.name
-	}, function (result)
-		cb(result)
-	end)
-end)
-
-RegisterServerEvent('esx_vehicleshop:setJobVehicleState')
-AddEventHandler('esx_vehicleshop:setJobVehicleState', function(plate, state)
-	local xPlayer = ESX.GetPlayerFromId(source)
-
-	MySQL.Async.execute('UPDATE owned_vehicles SET `stored` = @stored WHERE plate = @plate AND job = @job', {
-		['@stored'] = state,
-		['@plate'] = plate,
-		['@job'] = xPlayer.job.name
-	}, function(rowsChanged)
-		if rowsChanged == 0 then
-			print(('esx_vehicleshop: %s exploited the garage!'):format(xPlayer.identifier))
+		if result[1] then
+			cb(true)
+		else
+			MySQL.Async.fetchAll('SELECT * FROM job_vehicles WHERE plate = @plate', {
+				['@plate'] = plate
+			}, function (result)
+				if result[1] then
+					cb(true)
+				else
+					cb(false)
+				end
+			end)
 		end
 	end)
-end)
-
---SCRIPT PARA TRANSFERIR VEÍCULOS
-RegisterCommand('transfervehicle', function(source, args)
-	
-	myself = source
-	other = args[1]
-	
-	if(GetPlayerName(tonumber(args[1])))then
-			
-	else
-			
-            TriggerClientEvent('chatMessage', source, "SYSTEM", {255, 0, 0}, "Incorrect player ID!")
-			return
-	end
-	
-	
-	local plate1 = args[2]
-	local plate2 = args[3]
-	local plate3 = args[4]
-	local plate4 = args[5]
-	
-  
-	if plate1 ~= nil then plate01 = plate1 else plate01 = "" end
-	if plate2 ~= nil then plate02 = plate2 else plate02 = "" end
-	if plate3 ~= nil then plate03 = plate3 else plate03 = "" end
-	if plate4 ~= nil then plate04 = plate4 else plate04 = "" end
-  
-  
-	local plate = (plate01 .. " " .. plate02 .. " " .. plate03 .. " " .. plate04)
-
-	
-	mySteamID = GetPlayerIdentifiers(source)
-	mySteam = mySteamID[1]
-	myID = ESX.GetPlayerFromId(source).identifier
-	myName = ESX.GetPlayerFromId(source).name
-
-	targetSteamID = GetPlayerIdentifiers(args[1])
-	targetSteamName = ESX.GetPlayerFromId(args[1]).name
-	targetSteam = targetSteamID[1]
-	
-	MySQL.Async.fetchAll(
-        'SELECT * FROM owned_vehicles WHERE plate = @plate',
-        {
-            ['@plate'] = plate
-        },
-        function(result)
-            if result[1] ~= nil then
-                local playerName = ESX.GetPlayerFromIdentifier(result[1].owner).identifier
-				local pName = ESX.GetPlayerFromIdentifier(result[1].owner).name
-				CarOwner = playerName
-				if myID == CarOwner then
-					
-					data = {}
-						TriggerClientEvent('chatMessage', other, "^4Vehicle with the plate ^*^1" .. plate .. "^r^4was transfered to you by: ^*^2" .. myName)
-			 
-						MySQL.Sync.execute("UPDATE owned_vehicles SET owner=@owner WHERE plate=@plate", {['@owner'] = targetSteam, ['@plate'] = plate})
-						TriggerClientEvent('chatMessage', source, "^4You have ^*^3transfered^0^4 your vehicle with the plate ^*^1" .. plate .. "\" ^r^4to ^*^2".. targetSteamName)
-				else
-					TriggerClientEvent('chatMessage', source, "^*^1You do not own the vehicle")
-				end
-			else
-				TriggerClientEvent('chatMessage', source, "^1^*ERROR: ^r^0This vehicle plate does not exist or the plate was incorrectly written.")
-            end
-		
-        end
-    )
-	
 end)
