@@ -7,6 +7,11 @@ local markerOn = false
 local markerTimer = 0
 
 Citizen.CreateThread(function()
+	while ESX == nil do
+		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+		Citizen.Wait(0)
+	end
+
 	while true do
 		Citizen.Wait(0)
 		if IsPauseMenuActive() then
