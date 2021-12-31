@@ -17,6 +17,15 @@ Citizen.CreateThread(function()
 	end
 end)
 
+
+-- Disable Cinematic AFK Camera
+Citizen.CreateThread(function() 
+	while true do
+		N_0xf4f2c0d4ee209e20() 
+		Wait(1000)
+	end 
+end)
+
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer) 
 	TriggerEvent("esx_playerhud:LoadPlayerDataHUD", xPlayer)
