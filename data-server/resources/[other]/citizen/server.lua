@@ -107,7 +107,7 @@ end)
 RegisterCommand("raus2", function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	if xPlayer.getGroup() == "mod" or xPlayer.getGroup() == "guide" or xPlayer.getGroup() == "supporter" or xPlayer.getGroup() == "admin" or xPlayer.getGroup() == "superadmin" then
-		TriggerClientEvent("citizen:teleport", xPlayer.source, Config.raus2, Config.angle_raus)
+		TriggerClientEvent("citizen:teleport", xPlayer.source, Config.raus2, Config.angle_raus2)
 	else
 		TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Um diesen Befehl benutzen zu können benötigst du mehr Rechte!", 5000, 'error')
 	end
