@@ -6,6 +6,7 @@ local CurrentActionMsg
 local CurrentActionData = {}
 local isHandcuffed = false
 local dragStatus = {}
+local blips_list = {}
 dragStatus.isDragged = false
 
 Citizen.CreateThread(function()
@@ -22,24 +23,32 @@ Citizen.CreateThread(function()
 
 	Wait(5000)
 	PlayerData = ESX.GetPlayerData()
+	DeleteBlips()
 	for k, v in pairs (gangs) do
 		if v.job ~= nil and v.job == PlayerData.job.name then
-			local blip = AddBlipForCoord(v.pos)
-			SetBlipSprite(blip, v.Blip.sprite)
-			SetBlipDisplay(blip, 4)
-			SetBlipScale(blip, v.Blip.scale)
-			SetBlipColour(blip, v.Blip.color)
-			SetBlipAsShortRange(blip, true)
-			BeginTextCommandSetBlipName('STRING')	
-			AddTextComponentSubstringPlayerName(PlayerData.job.label)
-			EndTextCommandSetBlipName(blip)
+			blip = CreateBlip(v.pos, v.Blip.sprite, v.Blip.scale, v.Blip.color, PlayerData.job.label)
+			table.insert(blips_list, blip)
+
 		end
+
 	end
 end)
+
+
+
 
 RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(job)
 	PlayerData = ESX.GetPlayerData()
+
+
+	DeleteBlips()
+	for k, v in pairs (gangs) do
+		if v.job ~= nil and v.job == PlayerData.job.name then
+			blip = CreateBlip(v.pos, v.Blip.sprite, v.Blip.scale, v.Blip.color, PlayerData.job.label)
+			table.insert(blips_list, blip)
+		end
+	end
 end)
 
 Citizen.CreateThread(function()
@@ -571,4 +580,36 @@ function OpenGetStocksMenu(station)
 			menu.close()
 		end)
 	end, station)
+end
+
+function DeleteBlips()
+	for i, station in ipairs(blips_list) do
+		if DoesBlipExist(station) then
+			RemoveBlip(station)
+		end
+	end
+	
+	blips_list = {}
+end
+
+function CreateBlip(pos, sprite, scale, color, label)
+
+	for i, station in ipairs(blips_list) do
+		if DoesBlipExist(station) then
+			RemoveBlip(station)
+		end
+	end
+	blips_list = {}
+
+	local blip = AddBlipForCoord(pos)
+	SetBlipSprite(blip, sprite)
+	SetBlipDisplay(blip, 4)
+	SetBlipScale(blip, scale)
+	SetBlipColour(blip, color)
+	SetBlipAsShortRange(blip, true)
+	BeginTextCommandSetBlipName('STRING')	
+	AddTextComponentSubstringPlayerName(label)
+	EndTextCommandSetBlipName(blip)
+
+	return blip
 end
