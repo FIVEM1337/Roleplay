@@ -8,6 +8,7 @@ dependencies {
 client_scripts {
 	"config.lua",
 	"client/main.lua",
+	"client/events.lua",
 	"client/class/*.lua",
 	"client/threads.lua",
 }
