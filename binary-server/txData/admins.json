@@ -48,5 +48,25 @@
     "permissions": [
       "all_permissions"
     ]
+  },
+  {
+    "name": "Jokah1",
+    "master": false,
+    "password_hash": "$2a$11$dJ78tGNNYPtQMCr5pkjto.fbbdbiQjy8kO5CiXbGqJuPScXRFRxhS",
+    "providers": {
+      "citizenfx": {
+        "id": "Jokah1",
+        "identifier": "fivem:3825963",
+        "data": {}
+      },
+      "discord": {
+        "id": "616360056019091709",
+        "identifier": "discord:616360056019091709",
+        "data": {}
+      }
+    },
+    "permissions": [
+      "all_permissions"
+    ]
   }
 ]
