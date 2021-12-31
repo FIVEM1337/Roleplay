@@ -17,3 +17,9 @@ Config.raus = {
     vector3(-1069.8175048828, -2743.72265625, 21.314428329468)
 }
 Config.angle_raus = 234.83993
+
+
+Config.raus2 = {
+    vector3(258.06, -785.98, 30.45)
+}
+Config.angle_raus2 = 69.05
