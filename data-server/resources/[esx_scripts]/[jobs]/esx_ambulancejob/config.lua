@@ -30,7 +30,7 @@ Config.Hospitals = {
 	CentralLosSantos = {
 
 		Blip = {
-			coords = vector3(295, -590.66, 43.05),
+			coords = vector3(-447.73, -333.83, 34.5),
 			sprite = 61,
 			scale  = 1.2,
 			color  = 2
