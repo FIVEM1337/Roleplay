@@ -36,11 +36,11 @@ Config.PoliceStations = {
 		},
 
 		Cloakrooms = {
-			vector3(462.72, -996.58, 30.69)
+			vector3(471.32, -990.9, 25.73)
 		},
 
 		Armories = {
-			vector3(485.25, -995.93, 30.69)
+			vector3(484.4, -1006.17, 25.73)
 		},
 
 		Vehicles = {

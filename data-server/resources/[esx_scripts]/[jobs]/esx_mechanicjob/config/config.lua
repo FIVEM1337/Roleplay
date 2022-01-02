@@ -9,7 +9,7 @@ Config.Keys = {
 
 Config.Positions = {
     {
-        pos = {x = 731.07531738281, y = -1089.4586181641, z = 21.71880531311},
+        pos = {x = 1020.87, y = -2310.03, z = 30.51},
         whitelistJobName = 'mechanic' 
     }
 }
