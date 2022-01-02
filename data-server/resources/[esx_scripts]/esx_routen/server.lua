@@ -1,0 +1,227 @@
+ESX                             = nil
+local Playertasks               = {}
+
+TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+
+function Harvest(source)
+    zone = Playertasks[source].zone
+
+    if not zone then return end
+
+	SetTimeout(zone.time, function()
+	    local xPlayer = ESX.GetPlayerFromId(source)
+
+        if Playertasks[source].zone then
+
+            if not rawequal(next(zone.need), nil) then
+                hasInventoryItem = hasItem(source)
+                if not hasInventoryItem then return end
+            end
+    
+           if not rawequal(next(zone.item), nil) then
+                hasInventorySpace = hasSpace(source)
+                if not hasInventorySpace then return end
+            end
+
+             if not rawequal(next(zone.need), nil) then
+                if xPlayer.getInventoryItem(zone.need.item).count >= zone.need.count then
+                    if xPlayer.canCarryItem(zone.item.item, zone.item.count) then
+                        if zone.need.removeItem then
+                            xPlayer.removeInventoryItem(zone.need.item, zone.need.count)
+                        end
+		                xPlayer.addInventoryItem(zone.item.item, zone.item.count)
+                    end
+                end
+		        Harvest(source)
+            else
+                if xPlayer.canCarryItem(zone.item.item, zone.item.count) then
+                    xPlayer.addInventoryItem(zone.item.item, zone.item.count)
+                    Harvest(source)
+                end
+            end
+        end
+	end)
+end
+
+
+function Process(source)
+    zone = Playertasks[source].zone
+    local xPlayer = ESX.GetPlayerFromId(source)
+
+    if not zone then return end
+
+	SetTimeout(zone.time, function()
+	    local xPlayer = ESX.GetPlayerFromId(source)
+
+        if Playertasks[source].zone then
+
+            if not rawequal(next(zone.need), nil) then
+                hasInventoryItem = hasItem(source)
+                if not hasInventoryItem then return end
+            end
+    
+           if not rawequal(next(zone.item), nil) then
+                hasInventorySpace = hasSpace(source)
+                if not hasInventorySpace then return end
+            end
+
+             if not rawequal(next(zone.need), nil) then
+                if xPlayer.getInventoryItem(zone.need.item).count >= zone.need.count then
+                    if xPlayer.canCarryItem(zone.item.item, zone.item.count) then
+                        if zone.need.removeItem then
+                            xPlayer.removeInventoryItem(zone.need.item, zone.need.count)
+                        end
+                        xPlayer.addInventoryItem(zone.item.item, zone.item.count)
+                        Process(source)
+                    end
+                end
+            else
+                if xPlayer.canCarryItem(zone.item.item, zone.item.count) then
+                    xPlayer.addInventoryItem(zone.item.item, zone.item.count)
+                    Process(source)
+                end
+            end
+        end
+	end)
+end
+
+
+function Sell(source)
+    zone = Playertasks[source].zone
+    local xPlayer = ESX.GetPlayerFromId(source)
+
+    if not zone then return end
+
+	SetTimeout(zone.time, function()
+	    local xPlayer = ESX.GetPlayerFromId(source)
+
+        if Playertasks[source].zone then
+
+            if not rawequal(next(zone.need), nil) then
+                hasInventoryItem = hasItem(source)
+                if not hasInventoryItem then return end
+            end
+
+           if not rawequal(next(zone.item), nil) then
+                hasInventorySpace = hasSpace(source)
+                if not hasInventorySpace then return end
+            end
+
+             if not rawequal(next(zone.need), nil) then
+                if xPlayer.getInventoryItem(zone.need.item).count >= zone.need.count then
+                    if zone.item.item == "money" or zone.item.item == "black_money"  then
+                        if zone.need.removeItem then
+                            xPlayer.removeInventoryItem(zone.need.item, zone.need.count)
+                        end
+                        xPlayer.addAccountMoney(zone.item.item, zone.item.count)
+                    else
+                        if xPlayer.canCarryItem(zone.item.item, zone.item.count) then
+                            xPlayer.removeInventoryItem(zone.need.item, zone.need.count)
+                            xPlayer.addInventoryItem(zone.item.item, zone.item.count)
+                        end
+                    end
+                    Sell(source) 
+                end
+            else
+                if xPlayer.canCarryItem(zone.item.item, zone.item.count) then
+                    xPlayer.addInventoryItem(zone.item.item, zone.item.count)
+                    Sell(source) 
+                end
+            end
+        end
+	end)
+end
+
+ESX.RegisterServerCallback('esx_routen:done', function(source, cb)
+	local xPlayer = ESX.GetPlayerFromId(source)
+    if not Playertasks[source] then
+        Playertasks[source] = {}
+    end
+
+    if Playertasks[source].zone then
+	    cb(true)
+    else
+        cb(false)
+    end
+end)
+
+RegisterServerEvent('esx_routen:startRoute')
+AddEventHandler('esx_routen:startRoute', function(zone)
+    if not Playertasks[source] then
+        Playertasks[source] = {}
+    end 
+
+    if not Playertasks[source].zone then
+        Playertasks[source].zone = zone
+
+        if not rawequal(next(zone.need), nil) then
+            hasInventoryItem = hasItem(source)
+            if not hasInventoryItem then return end
+        end
+
+       if not rawequal(next(zone.item), nil) then
+            hasInventorySpace = hasSpace(source)
+            if not hasInventorySpace then return end
+        end
+
+        TriggerClientEvent('esx_routen:changestatus', source, true)
+
+        if zone.type == "harvest" then
+	        TriggerClientEvent('esx:showNotification', source, "harvest")
+	        Harvest(source)
+        elseif zone.type == "process" then
+            TriggerClientEvent('esx:showNotification', source, "process")
+            Process(source)
+        elseif zone.type == "sell" then
+            TriggerClientEvent('esx:showNotification', source, "sell")
+            Sell(source)       
+        end
+    else
+        TriggerClientEvent('esx:showNotification', source, "cancel")
+        TriggerClientEvent('esx_routen:changestatus', source, false)
+        Playertasks[source] = {}
+    end
+end)
+
+RegisterServerEvent('esx_routen:stopRoute')
+AddEventHandler('esx_routen:stopRoute', function(zone)
+    TriggerClientEvent('esx:showNotification', source, "cancel")
+    TriggerClientEvent('esx_routen:changestatus', source, false)
+    Playertasks[source] = {}
+end)
+
+function hasItem(source)
+    zone = Playertasks[source].zone
+    if not zone then return end
+
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+    if Playertasks[source].zone then
+        if xPlayer.getInventoryItem(zone.need.item).count >= zone.need.count then
+            return true
+        else
+            TriggerClientEvent('esx:showNotification', source, "you dont have the item")
+            TriggerClientEvent('esx_routen:changestatus', source, false)
+            Playertasks[source] = {}
+            return false
+        end
+	end
+end
+
+function hasSpace(source)
+    zone = Playertasks[source].zone
+    if not zone then return end
+
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+    if Playertasks[source].zone then
+        if xPlayer.canCarryItem(zone.item.item, zone.item.count) then
+            return true
+        else
+            TriggerClientEvent('esx:showNotification', source, "inventory full")
+            TriggerClientEvent('esx_routen:changestatus', source, false)
+            Playertasks[source] = {}
+            return false
+        end
+	end
+end
