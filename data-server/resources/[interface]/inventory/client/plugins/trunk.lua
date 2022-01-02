@@ -64,5 +64,5 @@ if Config.Trunk then
             end
         end
     end, true)
-    RegisterKeyMapping('openTrunk', 'Open Trunk', 'keyboard', Config.TrunkKey)
+    RegisterKeyMapping('openTrunk', 'Kofferraum öffnen', 'keyboard', Config.TrunkKey)
 end

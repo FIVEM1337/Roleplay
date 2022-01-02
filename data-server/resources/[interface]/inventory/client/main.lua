@@ -241,7 +241,7 @@ if Config.Hotbar then
     RegisterCommand('hotbar', function()
         ShowHotbar()
     end, true)
-    RegisterKeyMapping('hotbar', 'Show Hotbar', 'keyboard', Config.HotbarKey) 
+    RegisterKeyMapping('hotbar', 'Hotbar anzeigen', 'keyboard', Config.HotbarKey) 
 end
 
 if Config.UseHandsUP then
