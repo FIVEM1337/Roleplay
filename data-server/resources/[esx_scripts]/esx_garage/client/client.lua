@@ -620,6 +620,12 @@ AddEventHandler('esx_garage:receive_vehicles', function(tb, vehdata, jobveh)
             end
             local default_thumb = string.lower(GetDisplayNameFromVehicleModel(tonumber(props.model)))
             local img = 'https://cfx-nui-renzu_garage/imgs/uploads/'..default_thumb..'.jpg'
+
+            local torquemax = 500.0
+            if value.type == "helicopter" then
+                torquemax = 50000.0
+            end
+
             local VTable = 
             {
                 brand = GetVehicleClassnamemodel(tonumber(props.model)),
@@ -629,6 +635,7 @@ AddEventHandler('esx_garage:receive_vehicles', function(tb, vehdata, jobveh)
                 topspeed = math.ceil(GetVehicleModelEstimatedMaxSpeed(vehicleModel)*4.605936),
                 power = math.ceil(GetVehicleModelAcceleration(vehicleModel)*pmult),
                 torque = math.ceil(GetVehicleModelAcceleration(vehicleModel)*tmult),
+                torquemax = torquemax,
                 model = string.lower(GetDisplayNameFromVehicleModel(tonumber(props.model))),
                 model2 = tonumber(props.model),
                 plate = value.plate,
@@ -681,6 +688,11 @@ AddEventHandler('esx_garage:receive_vehicles', function(tb, vehdata, jobveh)
             local default_thumb = string.lower(GetDisplayNameFromVehicleModel(tonumber(props.model)))
             local img = 'https://cfx-nui-renzu_garage/imgs/uploads/'..default_thumb..'.jpg'
             
+            local torquemax = 500.0
+            if value.type == "helicopter" then
+                torquemax = 50000.0
+            end
+            
             local VTable = 
             {
                 brand = GetVehicleClassnamemodel(tonumber(props.model)),
@@ -690,6 +702,7 @@ AddEventHandler('esx_garage:receive_vehicles', function(tb, vehdata, jobveh)
                 topspeed = math.ceil(GetVehicleModelEstimatedMaxSpeed(vehicleModel)*4.605936),
                 power = math.ceil(GetVehicleModelAcceleration(vehicleModel)*pmult),
                 torque = math.ceil(GetVehicleModelAcceleration(vehicleModel)*tmult),
+                torquemax = torquemax,
                 model = string.lower(GetDisplayNameFromVehicleModel(tonumber(props.model))),
                 model2 = tonumber(props.model),
                 plate = value.plate,
@@ -783,6 +796,7 @@ function OpenGarage(garageid,garage_type,jobonly,default)
                     topspeed = v.topspeed or 1.0,
                     power = v.power or 1.0,
                     torque = v.torque or 1.0,
+                    torquemax = v.torquemax or 10000.0,
                     model = v.model,
                     model2 = v.model2,
                     img = v.img,
@@ -896,6 +910,7 @@ function OpenJobGarage(garageid,garage_type,job)
                     topspeed = v.topspeed or 1.0,
                     power = v.power or 1.0,
                     torque = v.torque or 1.0,
+                    torquemax = v.torquemax or 1.0,
                     model = v.model,
                     model2 = v.model2,
                     img = v.img,
@@ -994,6 +1009,7 @@ function OpenImpound(garageid)
                 topspeed = v.topspeed or 1.0,
                 power = v.power or 1.0,
                 torque = v.torque or 1.0,
+                torquemax = v.torquemax or 10000.0,
                 model = v.model,
                 img = v.img,
                 model2 = v.model2,
@@ -1031,6 +1047,7 @@ function OpenImpound(garageid)
                 topspeed = v.topspeed or 1.0,
                 power = v.power or 1.0,
                 torque = v.torque or 1.0,
+                torquemax = v.torquemax or 10000.0,
                 model = v.model,
                 img = v.img,
                 model2 = v.model2,

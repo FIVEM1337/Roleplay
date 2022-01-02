@@ -173,6 +173,24 @@ garagecoord = {
         spawn_z = 28.840564727783,
         heading = 85.93824005127,
     },
+
+    {
+        garage = "Police Garage", --PALETO
+        job = "police",
+        joblabel = "Polizei",
+        job_garage = true,
+        Type = "helicopter",
+        Dist = 10,
+        Blip = {color = 38, sprite = 662, scale = 0.6},
+        garage_x = 449,
+        garage_y = -981.53,
+        garage_z = 43.69,
+        spawn_x = 432.20071411133,
+        spawn_y = -1015.4301757813,
+        spawn_z = 28.840564727783,
+        heading = 85.93824005127,
+    },
+
     {
         garage = "Police Public Garage", -- public garage job
         garage_type = 'public', -- public = every police job can acccess the garage vehicle list (this can be used in other job garages too)
@@ -272,7 +290,7 @@ garagecoord = {
     {
         garage = "Plane Hangar A", --Devin Westons Hangar
         --job = "all", -- uncomment if job
-        Type = "aircraft",
+        Type = "plane",
         Dist = 10,
         Store_dist = 50,
         Blip = {color = 38, sprite = 423, scale = 0.8},

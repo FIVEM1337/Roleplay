@@ -357,7 +357,7 @@ function ShowVehicle(currentTarget) {
 
                     <div class="row">
                     <div class="w3-border" style="width: 100%;
-                    margin-left: 10px;"> <div class="w3-grey" style="height:5px;width:`+data.torque.toFixed(1)/500*100+`%"></div> </div>
+                    margin-left: 10px;"> <div class="w3-grey" style="height:5px;width:`+data.torque.toFixed(1)/data.torquemax*100+`%"></div> </div>
                     </div>
 
                     <div class="row spacebetween">
@@ -367,7 +367,7 @@ function ShowVehicle(currentTarget) {
 
                     <div class="row">
                     <div class="w3-border" style="width: 100%;
-                    margin-left: 10px;"> <div class="w3-grey" style="height:5px;width:`+data.brake.toFixed(1)/2*100+`%"></div> </div>
+                    margin-left: 10px;"> <div class="w3-grey" style="height:5px;width:`+data.brake.toFixed(1)/5*100+`%"></div> </div>
                     </div>
                 `);
                 $.post("https://esx_garage/SpawnVehicle", JSON.stringify({ modelcar: data.model2, price: 1,  plate: data.plate }));
