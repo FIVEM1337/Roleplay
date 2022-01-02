@@ -101,15 +101,20 @@ RegisterNUICallback('fetchStorage', function(data, cb)
             Wait(cfg.waitBeforeWalk)
             Play.Walk({style = savedWalk}, p)
             local result = Citizen.Await(p)
-            if result.passed then
-                Play.Notification('info', 'Set old walk style back.')
-            end
         end
     end
     cb({})
 end)
 
 RegisterNUICallback('beginAnimation', function(data, cb)
+    if cfg.panelStatus then
+        cfg.panelStatus = false
+        SetNuiFocus(false, false)
+        TriggerScreenblurFadeOut(3000)
+        SendNUIMessage({action = 'panelStatus', panelStatus = cfg.panelStatus})
+    end
+
+
     Load.Cancel()
     local animState = promise.new()
     animType(data, animState)

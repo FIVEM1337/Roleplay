@@ -235,13 +235,13 @@ RegisterCommand('openInventory', function()
         OpenInventory()
     end
 end, true)
-RegisterKeyMapping('openInventory', 'Open Inventory', 'keyboard', Config.DefaultOpenKey)
+RegisterKeyMapping('openInventory', 'Inventar öffnen', 'keyboard', Config.DefaultOpenKey)
 
 if Config.Hotbar then
     RegisterCommand('hotbar', function()
         ShowHotbar()
     end, true)
-    RegisterKeyMapping('hotbar', 'Show Hotbar', 'keyboard', Config.HotbarKey) 
+    RegisterKeyMapping('hotbar', 'Hotbar anzeigen', 'keyboard', Config.HotbarKey) 
 end
 
 if Config.UseHandsUP then

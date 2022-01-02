@@ -8,7 +8,7 @@
   "SwissChannelIds": [ 9999, 10000 ],
   "VoiceRanges": [ 3.5, 8, 15, 32 ],
   "EnableVoiceRangeNotification": true,
-  "VoiceRangeNotification": "New voice range is {voicerange} metres.",
+  "VoiceRangeNotification": "Die neue Sprachreichweite beträgt {voicerange} Meter.",
   "RadioType": 4,
   "EnableRadioHardcoreMode": true,
   "UltraShortRangeDistance": 1800.0,

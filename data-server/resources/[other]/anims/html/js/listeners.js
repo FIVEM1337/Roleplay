@@ -3,49 +3,47 @@ import { fetchNUI } from "./modules/fetch.js"
 
 const doc = document;
 
-doc.getElementById('home').addEventListener('mouseover', _ => changeInfo(true, 'home', 'Show all animations.'));
+doc.getElementById('home').addEventListener('mouseover', _ => changeInfo(true, 'home', 'Alle Animationen anzeigen.'));
 doc.getElementById('home').addEventListener('mouseleave', _ => changeInfo(false));
 doc.getElementById('home').addEventListener('click', e => changeClass(e.target));
 
-doc.getElementById('settings').addEventListener('mouseover', _ => changeInfo(true, 'settings', 'Show the animation menu settings.'));
+doc.getElementById('settings').addEventListener('mouseover', _ => changeInfo(true, 'Einstellungen', 'Zeigen Sie die Animationsmenüeinstellungen an.'));
 doc.getElementById('settings').addEventListener('mouseleave', _ => changeInfo(false));
 doc.getElementById('settings').addEventListener('click', e => changeClass(e.target));
 
-doc.getElementById('exit').addEventListener('mouseover', _ => changeInfo(true, 'exit', 'Close the animation menu.'));
+doc.getElementById('exit').addEventListener('mouseover', _ => changeInfo(true, 'Beenden', 'Schließen Sie das Animationsmenü.'));
 doc.getElementById('exit').addEventListener('mouseleave', _ => changeInfo(false));
 doc.getElementById('exit').addEventListener('click', e => {
-    changeClass(doc.getElementById('home'));
     fetchNUI('exitPanel');
 });
 
 doc.addEventListener('keyup', e => {
     if (e.key == 'Escape') {
-        changeClass(doc.getElementById('home'));
         fetchNUI('exitPanel');
     }
 })
 
-doc.getElementById('favorite').addEventListener('mouseover', _ => changeInfo(true, 'favorites', 'Show your bookmarked animations.'));
+doc.getElementById('favorite').addEventListener('mouseover', _ => changeInfo(true, 'Favoriten', 'Zeigen Sie Ihre mit Lesezeichen versehenen Animationen.'));
 doc.getElementById('favorite').addEventListener('mouseleave', _ => changeInfo(false));
 doc.getElementById('favorite').addEventListener('click', e => changeClass(e.target));
 
-doc.getElementById('dances').addEventListener('mouseover', _ => changeInfo(true, 'dances', 'Show dancing animations.'));
+doc.getElementById('dances').addEventListener('mouseover', _ => changeInfo(true, 'Tanz Animationen', 'Tanzanimationen zeigen.'));
 doc.getElementById('dances').addEventListener('mouseleave', _ => changeInfo(false));
 doc.getElementById('dances').addEventListener('click', e => changeClass(e.target));
 
-doc.getElementById('scenarios').addEventListener('mouseover', _ => changeInfo(true, 'scenarios', 'Show scenario animations.'));
+doc.getElementById('scenarios').addEventListener('mouseover', _ => changeInfo(true, 'Szenario Animationen', 'Szenario-Animationen anzeigen.'));
 doc.getElementById('scenarios').addEventListener('mouseleave', _ => changeInfo(false));
 doc.getElementById('scenarios').addEventListener('click', e => changeClass(e.target));
 
-doc.getElementById('walks').addEventListener('mouseover', _ => changeInfo(true, 'walks', 'Show walking animations.'));
+doc.getElementById('walks').addEventListener('mouseover', _ => changeInfo(true, 'Lauf Animationen', 'Laufanimationen anzeigen.'));
 doc.getElementById('walks').addEventListener('mouseleave', _ => changeInfo(false));
 doc.getElementById('walks').addEventListener('click', e => changeClass(e.target));
 
-doc.getElementById('expressions').addEventListener('mouseover', _ => changeInfo(true, 'expressions', 'Show facial expressions.'));
+doc.getElementById('expressions').addEventListener('mouseover', _ => changeInfo(true, 'Mimik Animationen', 'Mimik anzeigen.'));
 doc.getElementById('expressions').addEventListener('mouseleave', _ => changeInfo(false));
 doc.getElementById('expressions').addEventListener('click', e => changeClass(e.target));
 
-doc.getElementById('shared').addEventListener('mouseover', _ => changeInfo(true, 'shared', 'Show shared animations.'));
+doc.getElementById('shared').addEventListener('mouseover', _ => changeInfo(true, 'Geteilte Animationen', 'Geteilte Animationen anzeigen.'));
 doc.getElementById('shared').addEventListener('mouseleave', _ => changeInfo(false));
 doc.getElementById('shared').addEventListener('click', e => changeClass(e.target));
 
@@ -70,7 +68,7 @@ doc.getElementById('search-bar').addEventListener('input', e => {
 })
 
 
-doc.getElementById('cancel').addEventListener('mouseover', _ => changeInfo(true, 'Cancel', 'Cancel current playing animation.'));
+doc.getElementById('cancel').addEventListener('mouseover', _ => changeInfo(true, 'Abbrechen', 'Aktuelle abgespielte Animation abbrechen.'));
 doc.getElementById('cancel').addEventListener('mouseleave', _ => changeInfo(false));
 doc.getElementById('cancel').addEventListener('click', e => {
     e.target.classList.add('pop');
@@ -82,7 +80,7 @@ doc.getElementById('cancel').addEventListener('click', e => {
     fetchNUI('cancelAnimation');
 });
 
-doc.getElementById('delete').addEventListener('mouseover', _ => changeInfo(true, 'Delete Props', 'Deletes all props if you have them stuck to you.'));
+doc.getElementById('delete').addEventListener('mouseover', _ => changeInfo(true, 'Requisiten löschen', 'Löscht alle Requisiten, wenn sie an dir hängen bleiben.'));
 doc.getElementById('delete').addEventListener('mouseleave', _ => changeInfo(false));
 doc.getElementById('delete').addEventListener('click', e => {
     e.target.classList.add('pop');
@@ -93,11 +91,11 @@ doc.getElementById('delete').addEventListener('click', e => {
     }, 300);
     fetchNUI('removeProps');
 });
-doc.getElementById('movement').addEventListener('mouseover', _ => changeInfo(true, 'Movement', 'Allows movement while playing an animation (not shared).'));
+doc.getElementById('movement').addEventListener('mouseover', _ => changeInfo(true, 'Bewegung', 'Ermöglicht Bewegung während der Wiedergabe einer Animation (nicht geteilt).'));
 doc.getElementById('movement').addEventListener('mouseleave', _ => changeInfo(false));
 doc.getElementById('movement').addEventListener('click', e => (getStatus(e.target)));
 
-doc.getElementById('loop').addEventListener('mouseover', _ => changeInfo(true, 'Loop', 'Loops animations (overwrites duration in animations).'));
+doc.getElementById('loop').addEventListener('mouseover', _ => changeInfo(true, 'Schleife', 'Schleift Animationen (überschreibt die Dauer in Animationen).'));
 doc.getElementById('loop').addEventListener('mouseleave', _ => changeInfo(false));
 doc.getElementById('loop').addEventListener('click', e => getStatus(e.target));
 
