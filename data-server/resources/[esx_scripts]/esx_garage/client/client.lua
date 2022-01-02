@@ -19,6 +19,7 @@ local propertyspawn = {}
 local lastcat = nil
 local deleting = false
 local garage_public = false
+local blips_list = {}
 
 Citizen.CreateThread(function()
     Wait(1000)
@@ -45,46 +46,7 @@ Citizen.CreateThread(function()
 
 	PlayerData = ESX.GetPlayerData()
     Wait(2000)
-    for k, v in pairs (garagecoord) do
-        if v.job ~= nil and v.job == PlayerData.job.name or v.job == nil then
-            local blip = AddBlipForCoord(v.garage_x, v.garage_y, v.garage_z)
-            SetBlipSprite (blip, v.Blip.sprite)
-            SetBlipDisplay(blip, 4)
-            SetBlipScale  (blip, v.Blip.scale)
-            SetBlipColour (blip, v.Blip.color)
-            SetBlipAsShortRange(blip, true)
-            BeginTextCommandSetBlipName('STRING')
-            if Config.BlipNamesStatic then
-                if v.job ~= nil and v.joblabel ~= nil then
-                    AddTextComponentSubstringPlayerName(v.joblabel .. " Garage")
-                else
-                    AddTextComponentSubstringPlayerName("Garage")
-                end
-            else
-                AddTextComponentSubstringPlayerName("Garage: "..v.garage.."")
-            end
-            EndTextCommandSetBlipName(blip)
-        end
-    end
-    if Config.EnableImpound then
-        for k, v in pairs (impoundcoord) do
-            if PlayerData.job ~= nil and JobImpounder[PlayerData.job.name] ~= nil then
-                local blip = AddBlipForCoord(v.garage_x, v.garage_y, v.garage_z)
-                SetBlipSprite (blip, v.Blip.sprite)
-                SetBlipDisplay(blip, 4)
-                SetBlipScale  (blip, v.Blip.scale)
-                SetBlipColour (blip, v.Blip.color)
-                SetBlipAsShortRange(blip, true)
-                BeginTextCommandSetBlipName('STRING')
-                if Config.BlipNamesStatic then
-                    AddTextComponentSubstringPlayerName("Abschlepphof")
-                else
-                    AddTextComponentSubstringPlayerName("Garage: "..v.garage.."")
-                end
-                EndTextCommandSetBlipName(blip)
-            end
-        end
-    end
+    CreateBlip()
 end)
 
 RegisterNetEvent('esx:playerLoaded')
@@ -93,19 +55,7 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
     Wait(1000)
     LocalPlayer.state:set( 'loaded', true, true)
     LocalPlayer.state.loaded = true
-    if Config.EnableHeliGarage and PlayerData.job ~= nil and helispawn[PlayerData.job.name] ~= nil then
-        for k, v in pairs (helispawn[PlayerData.job.name]) do
-            local blip = AddBlipForCoord(v.coords.x, v.coords.y, v.coords.z)
-            SetBlipSprite (blip, v.Blip.sprite)
-            SetBlipDisplay(blip, 4)
-            SetBlipScale  (blip, v.Blip.scale)
-            SetBlipColour (blip, v.Blip.color)
-            SetBlipAsShortRange(blip, true)
-            BeginTextCommandSetBlipName('STRING')
-            AddTextComponentSubstringPlayerName(""..v.garage.."")
-            EndTextCommandSetBlipName(blip)
-        end
-    end
+
 end)
 
 
@@ -113,19 +63,7 @@ RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(job)
 	PlayerData.job = job
 	playerjob = PlayerData.job.name
-    if Config.EnableHeliGarage and PlayerData.job ~= nil and helispawn[PlayerData.job.name] ~= nil then
-        for k, v in pairs (helispawn[PlayerData.job.name]) do
-            local blip = AddBlipForCoord(v.coords.x, v.coords.y, v.coords.z)
-            SetBlipSprite (blip, v.Blip.sprite)
-            SetBlipDisplay(blip, 4)
-            SetBlipScale  (blip, v.Blip.scale)
-            SetBlipColour (blip, v.Blip.color)
-            SetBlipAsShortRange(blip, true)
-            BeginTextCommandSetBlipName('STRING')
-            AddTextComponentSubstringPlayerName("Garage: "..v.garage.."")
-            EndTextCommandSetBlipName(blip)
-        end
-    end
+    CreateBlip()
 end)
 
 local drawtext = false
@@ -2803,4 +2741,58 @@ function getveh()
         end
 	end
 	return tonumber(v)
+end
+
+function DeleteBlips()
+	for i, station in ipairs(blips_list) do
+		if DoesBlipExist(station) then
+			RemoveBlip(station)
+		end
+	end	
+	blips_list = {}
+end
+
+
+function CreateBlip()
+    DeleteBlips()
+    for k, v in pairs (garagecoord) do
+        if v.job ~= nil and v.job == PlayerData.job.name or v.job == nil then
+            local blip = AddBlipForCoord(v.garage_x, v.garage_y, v.garage_z)
+            SetBlipSprite (blip, v.Blip.sprite)
+            SetBlipDisplay(blip, 4)
+            SetBlipScale  (blip, v.Blip.scale)
+            SetBlipColour (blip, v.Blip.color)
+            SetBlipAsShortRange(blip, true)
+            BeginTextCommandSetBlipName('STRING')
+            if Config.BlipNamesStatic then
+                if v.job ~= nil and v.joblabel ~= nil then
+                    AddTextComponentSubstringPlayerName(v.joblabel .. " Garage")
+                else
+                    AddTextComponentSubstringPlayerName("Garage")
+                end
+            else
+                AddTextComponentSubstringPlayerName("Garage: "..v.garage.."")
+            end
+            EndTextCommandSetBlipName(blip)
+            table.insert(blips_list, blip)
+        end
+    end
+    for k, v in pairs (impoundcoord) do
+        if PlayerData.job ~= nil and JobImpounder[PlayerData.job.name] ~= nil then
+            local blip = AddBlipForCoord(v.garage_x, v.garage_y, v.garage_z)
+            SetBlipSprite (blip, v.Blip.sprite)
+            SetBlipDisplay(blip, 4)
+            SetBlipScale  (blip, v.Blip.scale)
+            SetBlipColour (blip, v.Blip.color)
+            SetBlipAsShortRange(blip, true)
+            BeginTextCommandSetBlipName('STRING')
+            if Config.BlipNamesStatic then
+                AddTextComponentSubstringPlayerName("Abschlepphof")
+            else
+                AddTextComponentSubstringPlayerName("Garage: "..v.garage.."")
+            end
+            EndTextCommandSetBlipName(blip)
+            table.insert(blips_list, blip)
+        end
+    end
 end
