@@ -19,6 +19,7 @@ local propertyspawn = {}
 local lastcat = nil
 local deleting = false
 local garage_public = false
+local blips_list = {}
 
 Citizen.CreateThread(function()
     Wait(1000)
@@ -45,46 +46,7 @@ Citizen.CreateThread(function()
 
 	PlayerData = ESX.GetPlayerData()
     Wait(2000)
-    for k, v in pairs (garagecoord) do
-        if v.job ~= nil and v.job == PlayerData.job.name or v.job == nil then
-            local blip = AddBlipForCoord(v.garage_x, v.garage_y, v.garage_z)
-            SetBlipSprite (blip, v.Blip.sprite)
-            SetBlipDisplay(blip, 4)
-            SetBlipScale  (blip, v.Blip.scale)
-            SetBlipColour (blip, v.Blip.color)
-            SetBlipAsShortRange(blip, true)
-            BeginTextCommandSetBlipName('STRING')
-            if Config.BlipNamesStatic then
-                if v.job ~= nil and v.joblabel ~= nil then
-                    AddTextComponentSubstringPlayerName(v.joblabel .. " Garage")
-                else
-                    AddTextComponentSubstringPlayerName("Garage")
-                end
-            else
-                AddTextComponentSubstringPlayerName("Garage: "..v.garage.."")
-            end
-            EndTextCommandSetBlipName(blip)
-        end
-    end
-    if Config.EnableImpound then
-        for k, v in pairs (impoundcoord) do
-            if PlayerData.job ~= nil and JobImpounder[PlayerData.job.name] ~= nil then
-                local blip = AddBlipForCoord(v.garage_x, v.garage_y, v.garage_z)
-                SetBlipSprite (blip, v.Blip.sprite)
-                SetBlipDisplay(blip, 4)
-                SetBlipScale  (blip, v.Blip.scale)
-                SetBlipColour (blip, v.Blip.color)
-                SetBlipAsShortRange(blip, true)
-                BeginTextCommandSetBlipName('STRING')
-                if Config.BlipNamesStatic then
-                    AddTextComponentSubstringPlayerName("Abschlepphof")
-                else
-                    AddTextComponentSubstringPlayerName("Garage: "..v.garage.."")
-                end
-                EndTextCommandSetBlipName(blip)
-            end
-        end
-    end
+    CreateBlip()
 end)
 
 RegisterNetEvent('esx:playerLoaded')
@@ -93,19 +55,7 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
     Wait(1000)
     LocalPlayer.state:set( 'loaded', true, true)
     LocalPlayer.state.loaded = true
-    if Config.EnableHeliGarage and PlayerData.job ~= nil and helispawn[PlayerData.job.name] ~= nil then
-        for k, v in pairs (helispawn[PlayerData.job.name]) do
-            local blip = AddBlipForCoord(v.coords.x, v.coords.y, v.coords.z)
-            SetBlipSprite (blip, v.Blip.sprite)
-            SetBlipDisplay(blip, 4)
-            SetBlipScale  (blip, v.Blip.scale)
-            SetBlipColour (blip, v.Blip.color)
-            SetBlipAsShortRange(blip, true)
-            BeginTextCommandSetBlipName('STRING')
-            AddTextComponentSubstringPlayerName(""..v.garage.."")
-            EndTextCommandSetBlipName(blip)
-        end
-    end
+
 end)
 
 
@@ -113,19 +63,7 @@ RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(job)
 	PlayerData.job = job
 	playerjob = PlayerData.job.name
-    if Config.EnableHeliGarage and PlayerData.job ~= nil and helispawn[PlayerData.job.name] ~= nil then
-        for k, v in pairs (helispawn[PlayerData.job.name]) do
-            local blip = AddBlipForCoord(v.coords.x, v.coords.y, v.coords.z)
-            SetBlipSprite (blip, v.Blip.sprite)
-            SetBlipDisplay(blip, 4)
-            SetBlipScale  (blip, v.Blip.scale)
-            SetBlipColour (blip, v.Blip.color)
-            SetBlipAsShortRange(blip, true)
-            BeginTextCommandSetBlipName('STRING')
-            AddTextComponentSubstringPlayerName("Garage: "..v.garage.."")
-            EndTextCommandSetBlipName(blip)
-        end
-    end
+    CreateBlip()
 end)
 
 local drawtext = false
@@ -200,64 +138,46 @@ CreateThread(function()
         local mycoord = GetEntityCoords(PlayerPedId())
         local inveh = IsPedInAnyVehicle(PlayerPedId())
         for k,v in pairs(garagecoord) do
+            if v.job ~= nil and v.job == PlayerData.job.name or v.job == nil then
+                local vec = vector3(v.garage_x,v.garage_y,v.garage_z)
+                local req_dis = v.Dist
+                if inveh and v.store_x ~= nil then
+                    vec = vector3(v.store_x,v.store_y,v.store_z)
+                    req_dis = v.Store_dist
+                end
+                local dist = #(vec - mycoord)
+                if Config.UseMarker and dist < Config.MarkerDistance then
+                    Config.UseMarker = false
+                    DrawZuckerburg(v.garage,vec,Config.MarkerDistance)
+                end
+                if dist < req_dis then
+                    tid = k
+                    garageid = v.garage
+                    neargarage = true
+                    --PopUI(v.garage,vec,req_dis)
+                    if IsPedInAnyVehicle(PlayerPedId()) then
+                        msg = 'Drücke [E] um Fahrzeug zu Parken'
+                    else
+                        msg = 'Drücke [E] um Garage zu öffnen'
+                    end
+                    DrawInteraction(v.garage,vec,{req_dis,req_dis*3},msg,'opengarage',false,false,false)
+                end
+            end
+        end
+        for k,v in pairs(impoundcoord) do
             local vec = vector3(v.garage_x,v.garage_y,v.garage_z)
-            local req_dis = v.Dist
-            if inveh and v.store_x ~= nil then
-                vec = vector3(v.store_x,v.store_y,v.store_z)
-                req_dis = v.Store_dist
-            end
             local dist = #(vec - mycoord)
-            if Config.UseMarker and dist < Config.MarkerDistance then
-                Config.UseMarker = false
-                DrawZuckerburg(v.garage,vec,Config.MarkerDistance)
-            end
-            if dist < req_dis then
+            if dist < v.Dist then
                 tid = k
                 garageid = v.garage
                 neargarage = true
-                --PopUI(v.garage,vec,req_dis)
+                --PopUI(v.garage,vec)
                 if IsPedInAnyVehicle(PlayerPedId()) then
                     msg = 'Drücke [E] um Fahrzeug zu Parken'
                 else
                     msg = 'Drücke [E] um Garage zu öffnen'
                 end
-                DrawInteraction(v.garage,vec,{req_dis,req_dis*3},msg,'opengarage',false,false,false)
-            end
-        end
-        if Config.EnableImpound then
-            for k,v in pairs(impoundcoord) do
-                local vec = vector3(v.garage_x,v.garage_y,v.garage_z)
-                local dist = #(vec - mycoord)
-                if dist < v.Dist then
-                    tid = k
-                    garageid = v.garage
-                    neargarage = true
-                    --PopUI(v.garage,vec)
-                    if IsPedInAnyVehicle(PlayerPedId()) then
-                        msg = 'Drücke [E] um Fahrzeug zu Parken'
-                    else
-                        msg = 'Drücke [E] um Garage zu öffnen'
-                    end
-                    DrawInteraction(v.garage,vec,{v.Dist,v.Dist*3},msg,'opengarage',false,false,false)
-                end
-            end
-        end
-        if Config.EnableHeliGarage and PlayerData.job ~= nil and helispawn[PlayerData.job.name] ~= nil then
-            for k,v in pairs(helispawn[PlayerData.job.name]) do
-                local vec = vector3(v.coords.x,v.coords.y,v.coords.z)
-                local dist = #(vec - mycoord)
-                if dist < v.distance then
-                    tid = k
-                    garageid = v.garage
-                    neargarage = true
-                    if IsPedInAnyVehicle(PlayerPedId()) then
-                        msg = 'Drücke [E] um Fahrzeug zu Parken'
-                    else
-                        msg = 'Drücke [E] um Garage zu öffnen'
-                    end
-                    DrawInteraction(v.garage,vec,{10,15},msg,'opengarage',false,false,false)
-                    --PopUI(v.garage,vec)
-                end
+                DrawInteraction(v.garage,vec,{v.Dist,v.Dist*3},msg,'opengarage',false,false,false)
             end
         end
         Wait(1000)
@@ -334,59 +254,33 @@ AddEventHandler('opengarage', function()
 
 
     --IMPOUND
-
-    if Config.EnableImpound then
-        for k,v in pairs(impoundcoord) do
-            local actualShop = v
-            local dist = #(vector3(v.garage_x,v.garage_y,v.garage_z) - GetEntityCoords(ped))
-            if v.job ~= nil then
-                jobgarage = true
-                ispolice = PlayerData.job.name == v.job
+    for k,v in pairs(impoundcoord) do
+        local actualShop = v
+        local dist = #(vector3(v.garage_x,v.garage_y,v.garage_z) - GetEntityCoords(ped))
+        if v.job ~= nil then
+            jobgarage = true
+            ispolice = PlayerData.job.name == v.job
+        end
+        if DoesEntityExist(vehiclenow) then
+            if dist <= v.Dist and not jobgarage or dist <= 3.0 and PlayerData.job ~= nil and PlayerData.job.name == v.job and jobgarage then
+                garageid = v.garage
+                Storevehicle(vehiclenow)
+                break
             end
-            if DoesEntityExist(vehiclenow) then
-                if dist <= v.Dist and not jobgarage or dist <= 3.0 and PlayerData.job ~= nil and PlayerData.job.name == v.job and jobgarage then
-                    garageid = v.garage
-                    Storevehicle(vehiclenow)
-                    break
+        elseif not DoesEntityExist(vehiclenow) then
+            if dist <= v.Dist and Impoundforall or not Impoundforall and dist <= 3.0 and PlayerData.job ~= nil and PlayerData.job.name == v.job and jobgarage then
+                garageid = v.garage
+                TriggerServerEvent("esx_garage:GetVehiclesTableImpound")
+                fetchdone = false
+                while not fetchdone do
+                    Wait(0)
                 end
-            elseif not DoesEntityExist(vehiclenow) then
-                if dist <= v.Dist and Impoundforall or not Impoundforall and dist <= 3.0 and PlayerData.job ~= nil and PlayerData.job.name == v.job and jobgarage then
-                    garageid = v.garage
-                    TriggerServerEvent("esx_garage:GetVehiclesTableImpound")
-                    fetchdone = false
-                    while not fetchdone do
-                        Wait(0)
-                    end
-                    OpenImpound(v.garage)
-                    break
-                end
-            end
-            if dist > 11 or ingarage then
-                indist = false
+                OpenImpound(v.garage)
+                break
             end
         end
-    end
-
-
-    if Config.EnableHeliGarage and PlayerData.job ~= nil and helispawn[PlayerData.job.name] ~= nil then
-        for k,v in pairs(helispawn[PlayerData.job.name]) do
-            local coord = v.coords
-            local v = v.coords
-            local dist = #(vector3(coord.x,coord.y,coord.z) - GetEntityCoords(ped))
-            if DoesEntityExist(vehiclenow) then
-                if dist <= 7.0 then
-                    helidel(vehiclenow)
-                    break
-                end
-            elseif not DoesEntityExist(vehiclenow) then
-                if dist <= 10.0 then
-                    TriggerEvent("esx_garage:getchopper",PlayerData.job.name, PlayerData.job.grade, heli[PlayerData.job.name])
-                    break
-                end
-            end
-            if dist > 11 or ingarage then
-                indist = false
-            end
+        if dist > 11 or ingarage then
+            indist = false
         end
     end
 end)
@@ -815,69 +709,6 @@ AddEventHandler('esx_garage:receive_vehicles', function(tb, vehdata, jobveh)
     fetchdone = true
 end)
 
-RegisterNetEvent('esx_garage:getchopper')
-AddEventHandler('esx_garage:getchopper', function(job, jobgrade, available)
-    OwnedVehicles = {}
-    Wait(100)
-    tableVehicles = {}
-    tableVehicles = tb
-    local vehdata = vehdata
-    local vehicle_data = {}
-
-    for _,value in pairs(available) do
-        OwnedVehicles[job] = {}
-    end
-    local gstate = GlobalState and GlobalState.VehicleImages
-    local vehiclecount = 0
-    for _,value in pairs(available) do
-        if jobgrade >= value.grade then
-            vehiclecount = vehiclecount + 1
-
-            local default_thumb = string.lower(GetDisplayNameFromVehicleModel(value.model))
-            local img = 'https://cfx-nui-renzu_garage/imgs/uploads/'..default_thumb..'.jpg'
-            local vehicleModel = tonumber(value.model)  
-            local label = nil
-            if label == nil then
-                label = 'Unknow'
-            end
-
-            local vehname = value.model
-
-            if vehname == nil then
-                vehname = GetDisplayNameFromVehicleModel(tonumber(value.model))
-            end
-            local VTable = 
-            {
-                brand = GetVehicleClassnamemodel(tonumber(value.model)),
-                name = vehname:upper(),
-                brake = GetPerformanceStats(vehicleModel).brakes,
-                handling = GetPerformanceStats(vehicleModel).handling,
-                topspeed = math.ceil(GetVehicleModelEstimatedMaxSpeed(vehicleModel)*4.605936),
-                power = math.ceil(GetVehicleModelAcceleration(vehicleModel)*1000),
-                torque = math.ceil(GetVehicleModelAcceleration(vehicleModel)*800),
-                model = value.model,
-                model2 = value.model,
-                plate = value.plate,
-                img = img,
-                props = value.vehicle,
-                fuel = 100,
-                bodyhealth = 1000,
-                enginehealth = 1000,
-                garage_id = job,
-                impound = 0,
-                stored = 1
-            }
-            table.insert(OwnedVehicles[job], VTable)
-        end
-    end
-    fetchdone = true
-    if vehiclecount > 0 then
-        OpenHeli(job, jobgrade)
-    else
-        TriggerEvent('dopeNotify:Alert', "Garage", "Es steht kein Helicopter für dein Rang zur verfügung..", 5000, 'error')
-    end
-end)
-
 local Charset = {}
 for i = 65,  90 do table.insert(Charset, string.char(i)) end
 for i = 97, 122 do table.insert(Charset, string.char(i)) end
@@ -1126,78 +957,6 @@ function OpenJobGarage(garageid,garage_type,job)
         CloseNui()
     end
 end
-
-
-function OpenHeli(garageid, jobgrade)
-    inGarage = true
-    local ped = PlayerPedId()
-    while not fetchdone do
-    Citizen.Wait(333)
-    end
-    local vehtable = {}
-    for k,v2 in pairs(OwnedVehicles) do
-        for k2,v in pairs(v2) do
-            if vehtable[v.garage_id] == nil then
-                vehtable[v.garage_id] = {}
-            end
-            veh = 
-            {
-            brand = v.brand,
-            name = v.name,
-            brake = v.brake,
-            handling = v.handling,
-            topspeed = v.topspeed,
-            power = v.power,
-            torque = v.torque,
-            model = v.model,
-            model2 = v.model2,
-            img = v.img,
-            plate = v.plate,
-            --props = v.props,
-            fuel = v.fuel,
-            bodyhealth = v.bodyhealth,
-            enginehealth = v.enginehealth,
-            garage_id = v.garage_id,
-            impound = v.impound,
-            ingarage = v.ingarage
-            }
-            table.insert(vehtable[v.garage_id], veh)
-        end
-    end
-    SendNUIMessage(
-        {
-            garage_id = garageid,
-            data = vehtable,
-            type = "display",
-            chopper = true
-        }
-    )
-    SetNuiFocus(true, true)
-    if not Config.Quickpick then
-        for k,v in pairs(helispawn[garageid]) do
-            local v = v.coords
-            local dist = #(vector3(v.x,v.y,v.z) - GetEntityCoords(ped))
-            if dist <= 10.0 then
-                cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", v.x-8.0, v.y, v.z+0.6, 360.00, 0.00, 0.00, 60.00, false, 0)
-                PointCamAtCoord(cam, v.x, v.y, v.z+2.0)
-                SetCamActive(cam, true)
-                RenderScriptCams(true, true, 1, true, true)
-                SetFocusPosAndVel(v.x, v.y, v.z+4.0, 0.0, 0.0, 0.0)
-                DisplayHud(false)
-                DisplayRadar(false)
-            end
-        end
-    end
-    while inGarage do
-        SetNuiFocus(true, true)
-        SetNuiFocusKeepInput(false)
-        Citizen.Wait(111)
-    end
-    if LastVehicleFromGarage ~= nil then
-        DeleteEntity(LastVehicleFromGarage)
-    end
-end
-
 
 function OpenImpound(garageid)
     inGarage = true
@@ -2116,10 +1875,6 @@ function Storevehicle(vehicle,impound, impound_data, public)
     neargarage = false	
 end
 
-function helidel(vehicle)
-    DeleteEntity(vehicle)
-end
-
 function SpawnVehicle(vehicle, plate ,coord)
     local veh = nil
 	ESX.Game.SpawnVehicle(vehicle.model, {
@@ -2202,44 +1957,6 @@ function SpawnVehicleLocal(model, props)
     end
 end
 
-function SpawnChopperLocal(model, props)
-    local ped = PlayerPedId()
-
-    SetNuiFocus(true, true)
-    if LastVehicleFromGarage ~= nil then
-        DeleteEntity(LastVehicleFromGarage)
-        SetModelAsNoLongerNeeded(hash)
-    end
-
-    for k,v in pairs(helispawn[PlayerData.job.name]) do
-        local v = v.coords
-        local dist = #(vector3(v.x,v.y,v.z) - GetEntityCoords(ped))
-        local actualShop = v
-        if dist <= 10.0 then
-            local zaxis = actualShop.z
-            local hash = GetHashKey(model)
-            local count = 0
-            if not HasModelLoaded(hash) then
-                RequestModel(hash)
-                while not HasModelLoaded(hash) do
-                    RequestModel(hash)
-                    Citizen.Wait(10)
-                end
-            end
-            LastVehicleFromGarage = CreateVehicle(hash, actualShop.x,actualShop.y,zaxis+0.3, 42.0, 0, 1)
-            SetEntityHeading(LastVehicleFromGarage, 50.117)
-            FreezeEntityPosition(LastVehicleFromGarage, true)
-            SetEntityCollision(LastVehicleFromGarage,false)
-            currentcar = LastVehicleFromGarage
-            if currentcar ~= LastVehicleFromGarage then
-                DeleteEntity(LastVehicleFromGarage)
-                SetModelAsNoLongerNeeded(hash)
-            end
-            TaskWarpPedIntoVehicle(PlayerPedId(), LastVehicleFromGarage, -1)
-            InGarageShell('enter')
-        end
-    end
-end
 
 myoldcoords = nil
 
@@ -2270,20 +1987,7 @@ RegisterNUICallback("SpawnVehicle",function(data, cb)
     end
 end)
 
-RegisterNUICallback("SpawnChopper",function(data, cb)
-    if not Config.Quickpick then
-        local props = nil
-        for k,v in pairs(OwnedVehicles['garage']) do
-            if v.plate == data.plate then
-                props = json.decode(v.props)
-            end
-        end
-        SpawnChopperLocal(data.modelcar, props)
-    end
-end)
-
 local vhealth = 1000
-
 RegisterNUICallback(
     "GetVehicleFromGarage",
     function(data, cb)
@@ -2430,60 +2134,6 @@ RegisterNUICallback(
     end, props.plate,garageid,false)
     end
 )
-
-
-RegisterNUICallback(
-    "flychopper",
-    function(data, cb)
-        local ped = PlayerPedId()
-        local veh = nil
-
-        for k,v in pairs(helispawn[PlayerData.job.name]) do
-            local v = v.coords
-            local actualShop = v
-            local dist = #(vector3(v.x,v.y,v.z) - GetEntityCoords(PlayerPedId()))
-            if dist <= 10.0 then
-                DoScreenFadeOut(333)
-                Citizen.Wait(333)
-                DeleteEntity(LastVehicleFromGarage)
-                Citizen.Wait(1000)
-                Citizen.Wait(333)
-                SetEntityCoords(PlayerPedId(), v.x,v.y,v.z, false, false, false, true)
-                local hash = GetHashKey(data.modelcar)
-                local count = 0
-                if not HasModelLoaded(hash) then
-                    RequestModel(hash)
-                    while not HasModelLoaded(hash) do
-                        Citizen.Wait(1)
-                    end
-                end
-                v = CreateVehicle(hash, actualShop.x,actualShop.y,actualShop.z, 256.0, 1, 1)
-                SetVehicleBobo(vehicle)
-                Spawn_Vehicle_Forward(v, vector3(actualShop.x,actualShop.y,actualShop.z))
-                veh = v
-                DoScreenFadeIn(333)
-                while veh == nil do
-                    Citizen.Wait(101)
-                end
-                TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
-                veh = v
-            end
-        end
-
-        while veh == nil do
-            Citizen.Wait(10)
-        end
-        LastVehicleFromGarage = nil
-        TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
-        CloseNui()
-        TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
-        i = 0
-        min = 0
-        max = 10
-        plus = 0
-        drawtext = false
-        indist = false
-    end)
 
 RegisterNUICallback(
     "ReturnVehicle",
@@ -2803,4 +2453,58 @@ function getveh()
         end
 	end
 	return tonumber(v)
+end
+
+function DeleteBlips()
+	for i, station in ipairs(blips_list) do
+		if DoesBlipExist(station) then
+			RemoveBlip(station)
+		end
+	end	
+	blips_list = {}
+end
+
+
+function CreateBlip()
+    DeleteBlips()
+    for k, v in pairs (garagecoord) do
+        if v.job ~= nil and v.job == PlayerData.job.name or v.job == nil then
+            local blip = AddBlipForCoord(v.garage_x, v.garage_y, v.garage_z)
+            SetBlipSprite (blip, v.Blip.sprite)
+            SetBlipDisplay(blip, 4)
+            SetBlipScale  (blip, v.Blip.scale)
+            SetBlipColour (blip, v.Blip.color)
+            SetBlipAsShortRange(blip, true)
+            BeginTextCommandSetBlipName('STRING')
+            if Config.BlipNamesStatic then
+                if v.job ~= nil and v.joblabel ~= nil then
+                    AddTextComponentSubstringPlayerName(v.joblabel .. " Garage")
+                else
+                    AddTextComponentSubstringPlayerName("Garage")
+                end
+            else
+                AddTextComponentSubstringPlayerName("Garage: "..v.garage.."")
+            end
+            EndTextCommandSetBlipName(blip)
+            table.insert(blips_list, blip)
+        end
+    end
+    for k, v in pairs (impoundcoord) do
+        if PlayerData.job ~= nil and JobImpounder[PlayerData.job.name] ~= nil then
+            local blip = AddBlipForCoord(v.garage_x, v.garage_y, v.garage_z)
+            SetBlipSprite (blip, v.Blip.sprite)
+            SetBlipDisplay(blip, 4)
+            SetBlipScale  (blip, v.Blip.scale)
+            SetBlipColour (blip, v.Blip.color)
+            SetBlipAsShortRange(blip, true)
+            BeginTextCommandSetBlipName('STRING')
+            if Config.BlipNamesStatic then
+                AddTextComponentSubstringPlayerName("Abschlepphof")
+            else
+                AddTextComponentSubstringPlayerName("Garage: "..v.garage.."")
+            end
+            EndTextCommandSetBlipName(blip)
+            table.insert(blips_list, blip)
+        end
+    end
 end

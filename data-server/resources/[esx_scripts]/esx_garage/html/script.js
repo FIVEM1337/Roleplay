@@ -3,7 +3,6 @@ var CurrentVehicle_ = {};
 var VehicleArr = []
 var garage_id = undefined
 var currentcar
-var chopper = false
 var inGarageVehicle = {}
 var impound_left = '0'
 var isimpounder = false
@@ -106,9 +105,6 @@ window.addEventListener('message', function(event) {
         document.getElementById("duration").innerHTML = impound_data.duration || 'not specified';
         document.getElementById("fine").innerHTML = impound_data.fine || 'not specified';
     }
-    if (event.data.chopper) {
-        chopper = true
-    }
     if (event.data.type == "stats") {
         if (event.data.show) {
             document.getElementById("perf").style.display = 'block';
@@ -192,10 +188,6 @@ window.addEventListener('message', function(event) {
     }
     if (event.data.type == "display") {
         garage_id = event.data.garage_id
-        chopper = false
-        if (event.data.chopper) {
-            chopper = true
-        }
         VehicleArr = undefined
         currentcar = undefined;
         VehicleArr = [];
@@ -378,11 +370,7 @@ function ShowVehicle(currentTarget) {
                     margin-left: 10px;"> <div class="w3-grey" style="height:5px;width:`+data.brake.toFixed(1)/2*100+`%"></div> </div>
                     </div>
                 `);
-                if (chopper) {
-                    $.post("https://esx_garage/SpawnChopper", JSON.stringify({ modelcar: data.model2, price: 1,  plate: data.plate }));
-                } else {
-                    $.post("https://esx_garage/SpawnVehicle", JSON.stringify({ modelcar: data.model2, price: 1,  plate: data.plate }));
-                }
+                $.post("https://esx_garage/SpawnVehicle", JSON.stringify({ modelcar: data.model2, price: 1,  plate: data.plate }));
             } else if(!itemDisabled && garage_id.search("impound") !== -1) {
                 $(currentTarget).addClass('active');         
                 $('.vehiclegarage').animate({scrollLeft:scrollAmount}, 'fast');
@@ -611,31 +599,17 @@ function onimpound(){
 }
 
 function GetVehicle(option) {
-    if (chopper) {
-        $('.modal').css("display","none");
-        VehicleArr = []
-        switch(option){
-            case 'cancel':
-                break;
-            case 'confirm':
-                $.post('https://esx_garage/flychopper', JSON.stringify(CurrentVehicle));
-                CurrentVehicle_ = CurrentVehicle
-                CurrentVehicle = {}
-                break;
-        }
-    } else {
-        $('.modal').css("display","none");
-        VehicleArr = []
-        switch(option){
-            case 'cancel':
-                break;
-            case 'confirm':
-                $.post('https://esx_garage/GetVehicleFromGarage', JSON.stringify(CurrentVehicle));
-                CurrentVehicle_ = CurrentVehicle
-                CurrentVehicle = {}
-                break;
-        }
-    }  
+    $('.modal').css("display","none");
+    VehicleArr = []
+    switch(option){
+        case 'cancel':
+            break;
+        case 'confirm':
+            $.post('https://esx_garage/GetVehicleFromGarage', JSON.stringify(CurrentVehicle));
+            CurrentVehicle_ = CurrentVehicle
+            CurrentVehicle = {}
+            break;
+    } 
 }
 
 function returnvehicle(option) {
