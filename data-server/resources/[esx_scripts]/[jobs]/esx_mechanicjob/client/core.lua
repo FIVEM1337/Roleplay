@@ -83,24 +83,25 @@ CreateThread(function()
 
                 for i = 1, #Config.Positions, 1 do
                     local tempPos = Config.Positions[i]
-                    
+                
                     if (not tempPos.whitelistJobName or jobName == tempPos.whitelistJobName) then
-                        local tempDist = #(playerPos - vector3(tempPos.pos.x, tempPos.pos.y, tempPos.pos.z))
-                        local tempActionDist = tempPos.actionDistance or Config.ActionDistance
-                        if (tempDist <= tempActionDist) then
-                            waitTime = 0
-                            
-                            if (not IsHudHidden()) then
-                                DrawHelpText('Drücke ~' .. Config.Keys.action.name .. '~ um das Fahrzeug zu bearbeiten', true)
+                        for k, v in pairs (tempPos.lifter) do
+                            local tempDist = #(playerPos - vector3(v))
+                            if (tempDist <= Config.ActionDistance) then
+                                waitTime = 0
+
+                                if (not IsHudHidden()) then
+                                    DrawHelpText('Drücke ~' .. Config.Keys.action.name .. '~ um das Fahrzeug zu bearbeiten', true)
+                                end
+
+                                if (IsControlJustReleased(0, Config.Keys.action.key)) then
+                                    customConfigPosIndex = i
+                                    openUI()
+                                end
+
+
+                                break
                             end
-
-                            if (IsControlJustReleased(0, Config.Keys.action.key)) then
-                                customConfigPosIndex = i
-                                openUI()
-                            end
-
-
-                            break
                         end
                     end
                 end
@@ -118,7 +119,7 @@ CreateThread(function()
                     local tempActionDist = tempPos.actionDistance or Config.ActionDistance
 
                     local tempDist = GetDistanceBetweenCoords(playerPos.x, playerPos.y, playerPos.z, tempPos.pos.x, tempPos.pos.y, tempPos.pos.z, true)
-                    if (tempDist > tempActionDist) then
+                    if (tempDist > 40) then
                         closeUI(1, 1)
                     end
                 end
