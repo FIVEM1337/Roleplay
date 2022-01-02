@@ -85,8 +85,8 @@ export const createPanels = (panelData) => {
                 if (e.target.textContent != 'bookmark_add') {
                     fetchNUI('beginAnimation', {dance: JSON.parse(block.getAttribute('data-dances')), scene: JSON.parse(block.getAttribute('data-scenarios')), expression: JSON.parse(block.getAttribute('data-expressions')), walk: JSON.parse(block.getAttribute('data-walks')), prop: JSON.parse(block.getAttribute('data-props')), particle: JSON.parse(block.getAttribute('data-particles')), shared: JSON.parse(block.getAttribute('data-shared'))}).then((resp) => {
                         (resp.e)
-                            ? fetchNUI('sendNotification', {type: 'success', message: 'Animation started!'})
-                            : fetchNUI('sendNotification', {type: 'error', message: 'Animation could not load!'});
+                            ? fetchNUI('sendNotification', {type: 'success', message: 'Animation gestartet!'})
+                            : fetchNUI('sendNotification', {type: 'error', message: 'Animation konnte nicht geladen werden!'});
                         return;
                     })
                     block.classList.add('pop');

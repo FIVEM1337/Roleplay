@@ -19,22 +19,22 @@ window.addEventListener('load', (e) => {
                     if (panelEmote.toLowerCase() == e.data.name.toLowerCase()) {
                         fetchNUI('beginAnimation', {dance: JSON.parse(panels[i].getAttribute('data-dances')), scene: JSON.parse(panels[i].getAttribute('data-scenarios')), expression: JSON.parse(panels[i].getAttribute('data-expressions')), walk: JSON.parse(panels[i].getAttribute('data-walks')), prop: JSON.parse(panels[i].getAttribute('data-props')), particle: JSON.parse(panels[i].getAttribute('data-particles')), shared: JSON.parse(panels[i].getAttribute('data-shared'))}).then((resp) => {
                             if (resp.e == 'nearby') {
-                                fetchNUI('sendNotification', {type: 'info', message: 'No one nearby...'})
+                                fetchNUI('sendNotification', {type: 'info', message: 'Niemand in der Nähe...'})
                             } else {
                                 (resp.e)
-                                ? fetchNUI('sendNotification', {type: 'success', message: 'Animation executed!'})
-                                : fetchNUI('sendNotification', {type: 'error', message: 'Animation could not load!'});
+                                ? fetchNUI('sendNotification', {type: 'success', message: 'Animation ausgeführt!'})
+                                : fetchNUI('sendNotification', {type: 'error', message: 'Animation konnte nicht geladen werden!'});
                             }
                             return;
                         })
                         return;
                     }
                 }
-                fetchNUI('sendNotification', {type: 'info', message: 'Animation was not found...'})
+                fetchNUI('sendNotification', {type: 'info', message: 'Animation wurde nicht gefunden...'})
             break;
 
             default:
-                console.log('Something did not load properly when sending a message')
+                console.log('Beim Senden einer Nachricht wurde etwas nicht richtig geladen')
             break;
         }
     })

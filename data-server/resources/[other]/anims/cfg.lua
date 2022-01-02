@@ -1,17 +1,17 @@
 ---Config with all global variables
 cfg = {
     commandName = 'emotePanel', -- Open the animations panel
-    commandSuggestion = 'Open the emote panel', -- Open the animations panel suggestion
+    commandSuggestion = 'Emote-Panel öffnen', -- Open the animations panel suggestion
     commandNameEmote = 'e', -- Play an animation by command
-    commandNameSuggestion = 'Play an animation by command', -- Play an animation by command suggestion
-    keyActive = false, -- Use key for opening the panel
-    keyLetter = 'F5', -- Which key for opening the panel if cfg.keyActive is true
-    keySuggestion = 'Open the emote panel by key', -- Suggestion on keybind mapping
+    commandNameSuggestion = 'Animation per Befehl', -- Play an animation by command suggestion
+    keyActive = true, -- Use key for opening the panel
+    keyLetter = 'F3', -- Which key for opening the panel if cfg.keyActive is true
+    keySuggestion = 'Emote-Panel öffnen', -- Suggestion on keybind mapping
     walkingTransition = 0.5,
 
     acceptKey = 38,
     denyKey = 182,
-    waitBeforeWalk = 5000, -- Wait before setting back walking style (If someone has a better method pls make a pull request because multichars are a pain in the ass)
+    waitBeforeWalk = 100, -- Wait before setting back walking style (If someone has a better method pls make a pull request because multichars are a pain in the ass)
 
     -- Do not touch
     useTnotify = GetResourceState('t-notify') == 'started',
@@ -19,8 +19,8 @@ cfg = {
 
     animActive = false,
     animDuration = 1500, -- You can change this but I recommend not to.
-    animLoop = false,
-    animMovement = false,
+    animLoop = true,
+    animMovement = true,
 
     sceneActive = false,
 
