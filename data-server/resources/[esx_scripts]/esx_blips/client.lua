@@ -19,9 +19,7 @@ Citizen.CreateThread(function()
 	PlayerData = ESX.GetPlayerData()
 	DeleteBlips()
 	for k, v in pairs(blips) do
-		print(v.job)
 		if v.job == false or v.job == nil or v.job == PlayerData.job.name then
-			print("enter")
 			blip = CreateBlip(v)
 			table.insert(blips_list, blip)
 		end

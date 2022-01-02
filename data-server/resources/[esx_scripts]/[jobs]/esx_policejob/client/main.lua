@@ -1296,24 +1296,6 @@ Citizen.CreateThread(function()
 					else
 						ESX.ShowNotification(_U('service_not'))
 					end
-				elseif CurrentAction == 'menu_vehicle_spawner' then
-					if not Config.EnableESXService then
-						OpenVehicleSpawnerMenu('car', CurrentActionData.station, CurrentActionData.part, CurrentActionData.partNum)
-					elseif playerInService then
-						OpenVehicleSpawnerMenu('car', CurrentActionData.station, CurrentActionData.part, CurrentActionData.partNum)
-					else
-						ESX.ShowNotification(_U('service_not'))
-					end
-				elseif CurrentAction == 'Helicopters' then
-					if not Config.EnableESXService then
-						OpenVehicleSpawnerMenu('helicopter', CurrentActionData.station, CurrentActionData.part, CurrentActionData.partNum)
-					elseif playerInService then
-						OpenVehicleSpawnerMenu('helicopter', CurrentActionData.station, CurrentActionData.part, CurrentActionData.partNum)
-					else
-						ESX.ShowNotification(_U('service_not'))
-					end
-				elseif CurrentAction == 'delete_vehicle' then
-					ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
 				elseif CurrentAction == 'menu_boss_actions' then
 					ESX.UI.Menu.CloseAll()
 					TriggerEvent('esx_society:openBossMenu', 'police', function(data, menu)
