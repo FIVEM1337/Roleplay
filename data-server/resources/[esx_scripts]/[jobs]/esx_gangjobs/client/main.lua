@@ -593,14 +593,6 @@ function DeleteBlips()
 end
 
 function CreateBlip(pos, sprite, scale, color, label)
-
-	for i, station in ipairs(blips_list) do
-		if DoesBlipExist(station) then
-			RemoveBlip(station)
-		end
-	end
-	blips_list = {}
-
 	local blip = AddBlipForCoord(pos)
 	SetBlipSprite(blip, sprite)
 	SetBlipDisplay(blip, 4)
@@ -610,6 +602,5 @@ function CreateBlip(pos, sprite, scale, color, label)
 	BeginTextCommandSetBlipName('STRING')	
 	AddTextComponentSubstringPlayerName(label)
 	EndTextCommandSetBlipName(blip)
-
 	return blip
 end
