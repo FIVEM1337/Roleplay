@@ -235,7 +235,7 @@ RegisterCommand('openInventory', function()
         OpenInventory()
     end
 end, true)
-RegisterKeyMapping('openInventory', 'Open Inventory', 'keyboard', Config.DefaultOpenKey)
+RegisterKeyMapping('openInventory', 'Inventar öffnen', 'keyboard', Config.DefaultOpenKey)
 
 if Config.Hotbar then
     RegisterCommand('hotbar', function()
