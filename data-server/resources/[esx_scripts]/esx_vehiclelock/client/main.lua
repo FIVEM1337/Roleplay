@@ -61,6 +61,12 @@ RegisterCommand('usevehiclekey', function()
 		if isOwnedVehicle then
 			local lockStatus = GetVehicleDoorLockStatus(vehicle)
 
+
+			ESX.Streaming.RequestAnimDict("anim@mp_player_intmenu@key_fob@", function()
+				TaskPlayAnim(PlayerPedId(), "anim@mp_player_intmenu@key_fob@", "fob_click_fp", 8.0, -8.0, -1, 0, 0.0, false, false, false)
+			end)
+
+
 			if lockStatus == 1 then -- unlocked
 				SetVehicleDoorsLocked(vehicle, 2)
 				PlayVehicleDoorCloseSound(vehicle, 1)
