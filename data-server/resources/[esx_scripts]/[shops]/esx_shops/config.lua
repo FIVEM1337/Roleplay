@@ -22,7 +22,6 @@ Config.Map = {
 	{name="Shop",color=2, id=52,scale=0.8, x = 1166.024,  y = 2708.930,  z = 37.157},
 	{name="Shop",color=2, id=52,scale=0.8, x = 1392.562,  y = 3604.684,  z = 33.980},
 	{name="Shop",color=2, id=52,scale=0.8, x = 127.830,   y = -1284.796, z = 28.280},
-	{name="Shop",color=2, id=52,scale=0.8, x = -1393.409, y = -606.624,  z = 29.319},
 	{name="Shop",color=2, id=52,scale=0.8, x = -559.906,  y = 287.093,   z = 81.176},
 	{name="Shop",color=2, id=52,scale=0.8, x = -48.519,   y = -1757.514, z = 28.421},
 	{name="Shop",color=2, id=52,scale=0.8, x = 1163.373,  y = -323.801,  z = 68.205},
