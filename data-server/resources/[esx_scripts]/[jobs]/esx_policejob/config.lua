@@ -22,7 +22,6 @@ Config.MaxInService               = -1 -- How much people can be in service at o
 Config.Locale                     = 'de'
 
 Config.EnableVehicleGarage		= false
-Config.EnableHeliGarage			= false
 
 Config.PoliceStations = {
 

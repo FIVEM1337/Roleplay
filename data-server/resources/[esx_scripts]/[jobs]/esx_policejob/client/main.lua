@@ -1167,21 +1167,6 @@ Citizen.CreateThread(function()
 					end
 				end
 
-				if Config.EnableHeliGarage then
-					for i=1, #v.Helicopters, 1 do
-						local distance =  #(playerCoords - v.Helicopters[i].Spawner)
-
-						if distance < Config.DrawDistance then
-							DrawMarker(Config.MarkerType.Helicopters, v.Helicopters[i].Spawner, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-							letSleep = false
-
-							if distance < Config.MarkerSize.x then
-								isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Helicopters', i
-							end
-						end
-					end
-				end
-
 				if Config.EnablePlayerManagement and ESX.PlayerData.job.grade_name == 'chief' then
 					for i=1, #v.BossActions, 1 do
 						local distance = #(playerCoords - v.BossActions[i])

@@ -10,8 +10,6 @@ Config.Quickpick = true -- if false system will create a garage shell and spawn 
 Config.BlipNamesStatic = true -- if true no more garage a garage b blip names from MAP , only says  Garage
 --GENERAL SETTING
 
-Config.EnableImpound = true -- enable/disable impound
-Config.EnableHeliGarage = true -- enable/disable Helis
 Config.PlateSpace = true -- enable / disable plate spaces (compatibility with esx 1.1?)
 Config.EnableReturnVehicle = true -- enable / disable return vehicle feature
 Config.DefaultPlate = 'ROLEPLAY' -- default plate being used to default_vehicles args
