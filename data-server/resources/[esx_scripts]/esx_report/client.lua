@@ -1,7 +1,4 @@
-Citizen.CreateThread(function()
-	Wait(5000)
-	TriggerServerEvent("esx_reports:FetchFeedbackTable")
-end)
+ESX 							= nil
 
 -------------------------- VARS
 
@@ -12,6 +9,20 @@ local canFeedback = true
 local timeLeft = Config.FeedbackCooldown
 
 -------------------------- COMMANDS
+
+Citizen.CreateThread(function()
+	while ESX == nil do
+		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+		Citizen.Wait(0)
+	end
+end)
+
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer)
+	Wait(5000)
+	TriggerServerEvent("esx_reports:FetchFeedbackTable")
+end)
+
 
 RegisterCommand(Config.FeedbackClientCommand, function(source, args, rawCommand)
 	if canFeedback then
