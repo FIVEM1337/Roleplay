@@ -46,7 +46,7 @@ Config.SeeDist = 5 --How close you have to be to see 3D markers
 Config.TextDist = 1 --How close you have to be to see 3D text
 Config.TextLift = 0.3 --How much the 3D text is lifted over marker
 
-Config.JailBlip = {Spawn = true, Sprite = 238, Color = 1, Size = 0.7} --All blip related things for the Prison Blip
+Config.JailBlip = {Spawn = true, Sprite = 189, Color = 1, Size = 1.0} --All blip related things for the Prison Blip
 Config.JailLoc = vector3(1702.8293457031, 2584.7778320312, 45.524826049805) --Location of the prison (usually center so that it doesn read wrong for checking location)
 Config.TpBack = true --If players get tp'd back when they walk out of the jail without using script breakout (suggest to keep true)
 Config.MaxTpDist = 250 --How far until it will tp you back
