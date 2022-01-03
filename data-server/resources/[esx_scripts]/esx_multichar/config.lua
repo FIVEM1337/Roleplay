@@ -1,14 +1,14 @@
 Config = {}
 Translation = {}
 
-Config.Locale = 'en'
+Config.Locale = 'de'
 
 Config.useMyDrugs = false -- If you use myDrugs enable this
 Config.useMyProperties = false -- If you use myProperties enable this
-Config.useSpawnmanager = false
+Config.useSpawnmanager = true
 
-Config.useRegisterMenu = false
-Config.useMyCharCreator = false
+Config.useRegisterMenu = false   -- Enable if you want to register with firstname and lastname ...
+Config.use_esx_charactercreator = true
 
 Config.ApplyDelay = 3000 -- Don't edit this if you don't know what you do ^^
 Config.ForceMultiplayerPed = true -- Don't edit this if you don't know what you do ^^
@@ -23,7 +23,20 @@ Config.PermissionsCommand = 'giveperm'
 Config.Tables = {
 	--{table = "phone_users_contacts", column = "identifier"},
 	{table = "users", column = "identifier"},
-	--{table = "user_inventory", column = "identifier"},
+    {table = "billing", column = "identifier"},
+    {table = "datastore_data", column = "owner"},
+    {table = "owned_vehicles", column = "owner"},
+    {table = "phone_banking", column = "identifier"},
+    {table = "phone_contacts", column = "identifier"},
+    {table = "phone_information", column = "identifier"},
+    {table = "phone_twitter_accounts", column = "identifier"},
+    {table = "phone_twitter_likes", column = "identifier"},
+    {table = "phone_twitter_messages", column = "identifier"},
+    {table = "sprays", column = "identifier"},
+    {table = "user_licenses", column = "owner"},
+    {table = "phone_information", column = "identifier"},
+    {table = "phone_information", column = "identifier"},
+    
 }
 
 Config.SpawnLocations = {
@@ -37,7 +50,15 @@ Config.SpawnLocations = {
 }
 
 Config.ShowSpawnSelectionOnFirstJoin = false
-Config.FirstSpawnLocation = {x = -1035.2248535156, y = -2729.5324707031, z = 13.756646156311} -- only if the setting above is disabled.
+
+
+Config.FirstSpawnLocations = {
+    {x = 3864.57, y = 4463.69, z = 2.72},
+    {x = 3822.24, y = 4516.16, z = 2.9},
+    {x = 3792.85, y = 4546.85, z = 1.96},
+    {x = 3915.56, y = 4341.13, z = 3.29},
+    {x = 3881.12, y = 4312.46, z = 2.03},
+}
 
 Config.ShowSpawnSelectionForEverybody = false
 
@@ -143,89 +164,5 @@ Translation = {
         ['giveperm_wrong_usage'] = '~r~Wrong usage! ~w~/giveperm [Player-ID] [charamount/pedmode] [Value]',
         ['giveperm_success'] = '~g~Successfully added permission',
         ['giveperm_error'] = '~r~Player is not online!',
-    },
-    ['es'] = {
-        ['select_character'] = 'Mis personajes',
-        ['select_character_desc'] = '~b~Escoje un personaje.',
-        ['new_character'] = '~b~Crea un nuevo personaje',
-        ['new_character_desc'] = 'Crea un nuevo personaje.',
-        ['slots_full'] = 'Usted no tiene espacios para personaje!',
-
-        ['select_title'] = 'Registrar',
-        ['last_position'] = '~b~→ ~s~Ultima posicion',
-        ['position_desc'] = 'Presiona para spawn ~b~',
-        ['position_desc_2'] = '~s~.',    
-        
-        ['register_title'] = 'Crea tu personaje',
-        ['register_title_desc'] = 'Completa tu informacion!',
-        ['gender_m'] = ' hombre ',
-        ['gender_f'] = ' mujer ',
-        ['name'] = 'Primer nombre',
-        ['lastname'] = 'Apellido',
-        ['dob'] = 'Fecha de nacimiento',
-        ['height'] = 'Altura',
-        ['sex'] = 'Genero',
-        ['confirm'] = '~b~Entra a la isla',
-        ['confirm_desc'] = 'Todo correcto?',
-        ['insert_name'] = 'Entra tu primer nombre',
-        ['insert_lastname'] = 'Entra tu apellido',
-        ['insert_dob'] = 'Entra fecha de nacimiento(ejemplo: 01.01.2000)',
-        ['insert_height'] = 'Insert height (140-200)',
-        ['height_unit'] = 'cm',
-        ['register_error'] = '~r~Hay un error revisa el formato!',
-
-        ['ped_models'] = 'Modelo Ped',
-        ['default_ped'] = 'Ped default',
-        ['pedmode_no_perms'] = '~r~No puedes hacer esto!',
-
-        ['enter_char'] = 'Enter',
-        ['delete_char'] = '~r~Delete character',
-        ['delete_char_conirm'] = '~r~Delete character confirm',
-
-        ['giveperm_wrong_usage'] = '~r~Invalido! ~w~/giveperm [Player-ID] [charamount/pedmode] [Value]',
-        ['giveperm_success'] = '~g~Permiso añadido exitosamente',
-        ['giveperm_error'] = '~r~Este jugador no esta en linea!',
-    },
-	['it'] = {
-        ['select_character'] = 'I miei personaggi',
-        ['select_character_desc'] = '~b~Scegli un personaggio.',
-        ['new_character'] = '~b~Crea un nuovo personaggio',
-        ['new_character_desc'] = 'Crea un nuovo personaggio.',
-        ['slots_full'] = 'Non hai abbastanza Char Slots!',
-
-        ['select_title'] = 'Registrati',
-        ['last_position'] = '~b~→ ~s~Ultima posizione',
-        ['position_desc'] = 'Fare clic per spawnare in ~b~',
-        ['position_desc_2'] = '~s~.',
-
-        ['register_title'] = 'Crea personaggio',
-        ['register_title_desc'] = 'Completa la tua carta d identità!',
-        ['gender_m'] = ' maschio ',
-        ['gender_f'] = ' femmina ',
-        ['name'] = 'Nome',
-        ['dob'] = 'Data di nascita',
-        ['lastname'] = 'Cognome',
-        ['height'] = 'Altezza',
-        ['sex'] = 'Sesso',
-        ['confirm'] = '~b~Conferma',
-        ['confirm_desc'] = 'Tutto corretto?',
-        ['insert_name'] = 'Inserisci il nome ',
-        ['insert_lastname'] = 'Inserisci il cognome',
-        ['insert_dob'] = 'Inserisci la data di nascita (esempio: 01.01.2000)',
-        ['insert_height'] = 'Altezza  (140-200)',
-        ['height_unit'] = 'cm',
-        ['register_error'] = '~r~Attenzione un campo non è corretto oppure vuoto ',
-
-        ['ped_models'] = 'Modelli Ped',
-        ['default_ped'] = 'Ped. Predefinito',
-        ['pedmode_no_perms'] = '~r~Non puoi farlo!',
-
-        ['enter_char'] = 'Enter',
-        ['delete_char'] = '~r~Delete character',
-        ['delete_char_conirm'] = '~r~Delete character confirm',
-
-        ['giveperm_wrong_usage'] = '~r~Utilizzo errato! ~w~/giveperm [Player-ID] [charamount/pedmode] [Value]',
-        ['giveperm_success'] = '~g~Autorizzazione aggiunta con successo',
-        ['giveperm_error'] = '~r~Il giocatore non è online!',
-	}
+    }
 }

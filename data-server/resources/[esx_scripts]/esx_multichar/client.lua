@@ -70,7 +70,7 @@ AddEventHandler('esx_multichar:SpawnCharacter', function(spawn, isnew)
 
     local pos = spawn
     if pos == nil then
-        pos = Config.FirstSpawnLocation
+        pos = Config.FirstSpawnLocations[math.random(#Config.FirstSpawnLocations)]
     end
 
     DoScreenFadeIn(500)
@@ -120,9 +120,10 @@ function generateMenu(chars, max)
 
 
         -- mainMenu:AddItem(character_item)
-		if char.firstname == nil or char.lastname == nil then
-			char.firstname = 'Unknown'
-			char.lastname = 'Unknown'
+
+		if char.firstname == nil or char.lastname == nil or char.firstname == "" or char.lastname == "" then
+			char.firstname = 'Unbekannt'
+			char.lastname = 'Unbekannt'
 		end
 		
         local character_sub = _menuPool:AddSubMenu(mainMenu, char.firstname .. ' ' .. char.lastname, '~b~')
@@ -212,7 +213,6 @@ function generateMenu(chars, max)
 
     mainMenu:Visible(not mainMenu:Visible())
     TriggerEvent('endLoadingScreen')
-    print('Loadingscreen will be closed')
     ShutdownLoadingScreenNui()
     _menuPool:RefreshIndex()
     _menuPool:MouseEdgeEnabled(false)
@@ -295,6 +295,8 @@ function finishSpawn(pos, isnew)
     if isnew then
 		if Config.useRegisterMenu then
 			TriggerEvent('esx_multichar:RegisterNewAccount')
+        else
+            TriggerEvent('esx_multichar:RegisterNewAccount2')
 		end
     end
 
@@ -522,7 +524,8 @@ AddEventHandler('esx_multichar:RegisterNewAccount', function(firstnameOld, lastn
                 isInRegistration = false
                 TriggerServerEvent('esx_multichar:updateAccount', firstnameStr, lastnameStr, dateofbirthStr, sexStr, heightStr)
                 Wait(500)
-                if Config.useMyCharCreator then
+
+                if Config.use_esx_charactercreator then
 					TriggerEvent('myCreator:openMenu')
 				else
 					TriggerEvent('esx_skin:openSaveableMenu')
@@ -542,6 +545,14 @@ AddEventHandler('esx_multichar:RegisterNewAccount', function(firstnameOld, lastn
     _menuPool:RefreshIndex()
 	_menuPool:MouseControlsEnabled (false)
 
+end)
+
+
+RegisterNetEvent('esx_multichar:RegisterNewAccount2')
+AddEventHandler('esx_multichar:RegisterNewAccount2', function()
+    TriggerServerEvent('esx_multichar:updateAccount', nil, nil, nil, nil, nil)
+
+    TriggerEvent('myCreator:openMenu', true)
 end)
 
 -- ped stuff

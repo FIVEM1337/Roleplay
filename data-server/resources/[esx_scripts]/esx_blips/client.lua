@@ -50,7 +50,6 @@ end
 
 
 function CreateBlip(config)
-	print(config.name)
 	local blip = AddBlipForCoord(config.coord)
 	SetBlipSprite(blip, config.sprite)
 	SetBlipDisplay(blip, 4)

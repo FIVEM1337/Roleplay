@@ -35,7 +35,7 @@ AddEventHandler('esx_multichar:GetPlayerCharacters', function()
     local license = GetRockstarID(src)
     SetIdentifierToChar(GetIdentifierWithoutLicense(license), LastCharId)
 
-    print('md: ' .. GetIdentifierWithoutLicense(license) .. ' to ' .. LastCharId..':'..GetIdentifierWithoutLicense(license))
+--    print('md: ' .. GetIdentifierWithoutLicense(license) .. ' to ' .. LastCharId..':'..GetIdentifierWithoutLicense(license))
     if Config.useMyDrugs then
         TriggerEvent('myDrugs:updateIdentifier', src, GetIdentifierWithoutLicense(license), LastCharId..':'..GetIdentifierWithoutLicense(license))
     end
@@ -68,13 +68,13 @@ AddEventHandler('esx_multichar:CharSelected', function(charid, isnew)
     if not isnew then
         
         if GetSpawnPos(src) == nil then
-            spawn = Config.FirstSpawnLocation
+            spawn = Config.FirstSpawnLocations[math.random(#Config.FirstSpawnLocations)]
         end
 		spawn = GetSpawnPos(src)
 		TriggerClientEvent("esx_multichar:SpawnCharacter", src, spawn, false)
     else
 		TriggerClientEvent('skinchanger:loadDefaultModel', src, true, cb)
-        spawn = Config.FirstSpawnLocation -- DEFAULT SPAWN POSITION
+        spawn = Config.FirstSpawnLocations[math.random(#Config.FirstSpawnLocations)] -- DEFAULT SPAWN POSITION
 		TriggerClientEvent("esx_multichar:SpawnCharacter", src, spawn, true)
     end
     
@@ -120,7 +120,7 @@ end
 
 function SetIdentifierToChar(identifier, charid)
 
-    print('Char'..charid..':'..GetIdentifierWithoutLicense(identifier) .. ' WHERE ' .. identifier)
+--    print('Char'..charid..':'..GetIdentifierWithoutLicense(identifier) .. ' WHERE ' .. identifier)
     for k, data in pairs(Config.Tables) do
         executeMySQL("UPDATE `"..data.table.."` SET `"..data.column.."` = '"..charid..":"..GetIdentifierWithoutLicense(identifier).."' WHERE `"..data.column.."` = '"..identifier.."'")
     end
@@ -130,7 +130,7 @@ end
 
 function SetCharToIdentifier(identifier, charid)
 
-    print(identifier .. ' WHERE  ' .. 'Char'..charid..':'..GetIdentifierWithoutLicense(identifier))
+--    print(identifier .. ' WHERE  ' .. 'Char'..charid..':'..GetIdentifierWithoutLicense(identifier))
 
     for k, data in pairs(Config.Tables) do
         executeMySQL("UPDATE `"..data.table.."` SET `"..data.column.."` = '"..identifier.."' WHERE `"..data.column.."` = '"..charid..":"..GetIdentifierWithoutLicense(identifier).."'")
