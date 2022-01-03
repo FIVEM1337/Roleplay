@@ -95,8 +95,10 @@ Citizen.CreateThread(function()
 end)
 
 AddEventHandler('onResourceStop', function(resource)
-	if infoped ~= nil then
-		DeletePed(infoped)
+	if resourceName == GetCurrentResourceName() then
+		if infoped ~= nil then
+			DeletePed(infoped)
+		end
 	end
 end)
 
