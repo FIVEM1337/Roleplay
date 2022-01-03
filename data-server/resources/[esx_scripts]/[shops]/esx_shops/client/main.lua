@@ -15,11 +15,6 @@ Citizen.CreateThread(function()
 	Citizen.Wait(500)
 	
 	PlayerData = ESX.GetPlayerData()
-	ESX.TriggerServerCallback('esx_shops:requestDBItems', function(ShopItems)
-		for k,v in pairs(ShopItems) do
-			Config.Zones[k].Items = v
-		end
-	end)
 end)
 
 function OpenShopMenu(zone)
@@ -31,7 +26,6 @@ function OpenShopMenu(zone)
 			if k == zone then
 				for x,item in pairs(v) do
 					isEmpty = false
-					print(isEmpty)
 
 					label = item.label
 					name = item.item
