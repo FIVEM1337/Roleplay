@@ -20,6 +20,7 @@ local lastcat = nil
 local deleting = false
 local garage_public = false
 local blips_list = {}
+local npc_list = {}
 
 Citizen.CreateThread(function()
     Wait(1000)
@@ -47,6 +48,16 @@ Citizen.CreateThread(function()
 	PlayerData = ESX.GetPlayerData()
     Wait(2000)
     CreateBlip()
+    SpawnNPC()
+
+	while true do
+        Citizen.Wait(1)
+        if npc_list then
+            for i, ped in ipairs(npc_list) do
+		        TaskSetBlockingOfNonTemporaryEvents(ped, true)
+            end
+        end
+	end
 end)
 
 RegisterNetEvent('esx:playerLoaded')
@@ -2372,6 +2383,13 @@ end
 AddEventHandler("onResourceStop",function(resourceName)
     if resourceName == GetCurrentResourceName() then
         CloseNui()
+
+        if npc_list then
+            for i, ped in ipairs(npc_list) do
+	            DeletePed(ped)
+            end
+            npc_list = {}
+        end
     end
 end)
 
@@ -2524,4 +2542,46 @@ function CreateBlip()
             table.insert(blips_list, blip)
         end
     end
+end
+
+
+function SpawnNPC()
+    for k, v in pairs (garagecoord) do
+        if v.job == nil or v.job == false then
+            RequestModel("a_m_y_mexthug_01")
+            LoadPropDict("a_m_y_mexthug_01")
+            local ped = CreatePed(5, "a_m_y_mexthug_01" , v.garage_x, v.garage_y, v.garage_z, v.npc_heading, false, true)
+            PlaceObjectOnGroundProperly(ped)
+            SetEntityAsMissionEntity(ped)
+            SetPedDropsWeaponsWhenDead(ped, false)
+            FreezeEntityPosition(ped, true)
+            SetPedAsEnemy(ped, false)
+            SetEntityInvincible(ped, true)
+            SetModelAsNoLongerNeeded("a_m_y_mexthug_01")
+            SetPedCanBeTargetted(ped, false)
+            table.insert(npc_list, ped)
+        end
+    end
+
+    for k, v in pairs (impoundcoord) do
+        RequestModel("a_m_y_mexthug_01")
+        LoadPropDict("a_m_y_mexthug_01")
+        local ped = CreatePed(5, "a_m_y_mexthug_01" , v.garage_x, v.garage_y, v.garage_z, 90.0, false, true)
+        PlaceObjectOnGroundProperly(ped)
+        SetEntityAsMissionEntity(ped)
+        SetPedDropsWeaponsWhenDead(ped, false)
+        FreezeEntityPosition(ped, true)
+        SetPedAsEnemy(ped, false)
+        SetEntityInvincible(ped, true)
+        SetModelAsNoLongerNeeded("a_m_y_mexthug_01")
+        SetPedCanBeTargetted(ped, false)
+        table.insert(npc_list, ped)
+    end
+end
+
+function LoadPropDict(model)
+	while not HasModelLoaded(GetHashKey(model)) do
+	  RequestModel(GetHashKey(model))
+	  Wait(10)
+	end
 end
