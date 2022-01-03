@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS `user_lastcharacter` (
 ALTER TABLE `users` ADD COLUMN `pedModeAllowed` TINYINT(4) NULL DEFAULT NULL;
 ALTER TABLE `users` ADD COLUMN `pedModel` VARCHAR(255) NULL DEFAULT NULL;
 
+ALTER TABLE users CHANGE identifier identifier VARCHAR(80) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+
 ALTER TABLE `users`
   ADD COLUMN `firstname` VARCHAR(50) NULL DEFAULT '',
   ADD COLUMN `lastname` VARCHAR(50) NULL DEFAULT '',
@@ -17,3 +19,4 @@ ALTER TABLE `users`
 ;
 
 ALTER TABLE `user_lastcharacter` ADD COLUMN `maxChars` INT(11) NOT NULL DEFAULT 1;
+

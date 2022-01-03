@@ -1,6 +1,13 @@
-RegisterNetEvent('esx:playerJoined')
-AddEventHandler('esx:playerJoined', function()
-	onPlayerJoined(source)
+Citizen.CreateThread(function()
+	SetMapName('San Andreas')
+	SetGameType('Roleplay')
+end)
+
+RegisterNetEvent('esx:onPlayerJoined')
+AddEventHandler('esx:onPlayerJoined', function()
+	if not ESX.Players[source] then
+		onPlayerJoined(source)
+	end
 end)
 
 function onPlayerJoined(playerId)
@@ -14,23 +21,58 @@ function onPlayerJoined(playerId)
 	end
 
 	if identifier then
-		MySQL.Async.fetchScalar('SELECT 1 FROM users WHERE identifier = @identifier', {
-			['@identifier'] = identifier
-		}, function(result)
-			if result then
-				loadESXPlayer(identifier, playerId)
-			else
-				MySQL.Async.execute('INSERT INTO users (identifier) VALUES (@identifier)', {
-					['@identifier'] = identifier
-				}, function(rowsChanged)
+		if ESX.GetPlayerFromIdentifier(identifier) then
+			DropPlayer(playerId, ('there was an error loading your character!\nError code: identifier-active-ingame\n\nThis error is caused by a player on this server who has the same identifier as you have. Make sure you are not playing on the same Rockstar account.\n\nYour Rockstar identifier: %s'):format(identifier))
+		else
+			MySQL.Async.fetchScalar('SELECT 1 FROM users WHERE identifier = @identifier', {
+				['@identifier'] = identifier
+			}, function(result)
+				if result then
 					loadESXPlayer(identifier, playerId)
-				end)
-			end
-		end)
+				else
+					local accounts = {}
+
+					for account,money in pairs(Config.StartingAccountMoney) do
+						accounts[account] = money
+					end
+
+					MySQL.Async.execute('INSERT INTO users (accounts, identifier) VALUES (@accounts, @identifier)', {
+						['@accounts'] = json.encode(accounts),
+						['@identifier'] = identifier
+					}, function(rowsChanged)
+						loadESXPlayer(identifier, playerId)
+					end)
+				end
+			end)
+		end
 	else
-		DropPlayer(playerId, 'Your Rockstar license could not be found')
+		DropPlayer(playerId, 'there was an error loading your character!\nError code: identifier-missing-ingame\n\nThe cause of this error is not known, your identifier could not be found. Please come back later or report this problem to the server administration team.')
 	end
 end
+
+AddEventHandler('playerConnecting', function(name, setCallback, deferrals)
+	deferrals.defer()
+	local playerId, identifier = source
+	Citizen.Wait(100)
+
+	for k,v in ipairs(GetPlayerIdentifiers(playerId)) do
+		if string.match(v, 'license:') then
+			identifier = string.sub(v, 9)
+			break
+		end
+	end
+
+	if identifier then
+		if ESX.GetPlayerFromIdentifier(identifier) then
+			deferrals.done(('There was an error loading your character!\nError code: identifier-active\n\nThis error is caused by a player on this server who has the same identifier as you have. Make sure you are not playing on the same Rockstar account.\n\nYour Rockstar identifier: %s'):format(identifier))
+		else
+			deferrals.done()
+		end
+	else
+		deferrals.done('There was an error loading your character!\nError code: identifier-missing\n\nThe cause of this error is not known, your identifier could not be found. Please come back later or report this problem to the server administration team.')
+	end
+end)
+
 
 function loadESXPlayer(identifier, playerId)
 	local tasks = {}
@@ -40,34 +82,35 @@ function loadESXPlayer(identifier, playerId)
 		inventory = {},
 		job = {},
 		loadout = {},
-		playerName = GetPlayerName(playerId)
+		playerName = GetPlayerName(playerId),
+		weight = 0
 	}
 
-	-- get accounts
 	table.insert(tasks, function(cb)
-		MySQL.Async.fetchAll('SELECT name, money FROM user_accounts WHERE identifier = @identifier', {
-			['@identifier'] = identifier
-		}, function(accounts)
-			for k,v in ipairs(accounts) do
-				if Config.Accounts[v.name] then
-					table.insert(userData.accounts, {
-						name  = v.name,
-						money = v.money,
-						label = Config.Accounts[v.name]
-					})
-				end
-			end
-
-			cb()
-		end)
-	end)
-
-	table.insert(tasks, function(cb)
-		MySQL.Async.fetchAll('SELECT job, job_grade, `group`, loadout, position, inventory FROM users WHERE identifier = @identifier', {
+		MySQL.Async.fetchAll('SELECT accounts, job, job_grade, `group`, loadout, position, inventory FROM users WHERE identifier = @identifier', {
 			['@identifier'] = identifier
 		}, function(result)
 			local job, grade, jobObject, gradeObject = result[1].job, tostring(result[1].job_grade)
+			local foundAccounts, foundItems = {}, {}
 
+			-- Accounts
+			if result[1].accounts and result[1].accounts ~= '' then
+				local accounts = json.decode(result[1].accounts)
+
+				for account,money in pairs(accounts) do
+					foundAccounts[account] = money
+				end
+			end
+
+			for account,label in pairs(Config.Accounts) do
+				table.insert(userData.accounts, {
+					name = account,
+					money = foundAccounts[account] or Config.StartingAccountMoney[account] or 0,
+					label = label
+				})
+			end
+
+			-- Job
 			if ESX.DoesJobExist(job, grade) then
 				jobObject, gradeObject = ESX.Jobs[job], ESX.Jobs[job].grades[grade]
 			else
@@ -75,8 +118,6 @@ function loadESXPlayer(identifier, playerId)
 				job, grade = 'unemployed', '0'
 				jobObject, gradeObject = ESX.Jobs[job], ESX.Jobs[job].grades[grade]
 			end
-
-			userData.job = {}
 
 			userData.job.id = jobObject.id
 			userData.job.name = jobObject.name
@@ -86,8 +127,6 @@ function loadESXPlayer(identifier, playerId)
 			userData.job.grade_name = gradeObject.name
 			userData.job.grade_label = gradeObject.label
 			userData.job.grade_salary = gradeObject.salary
-			userData.job.can_invite = gradeObject.can_invite
-			userData.job.can_managemoney = gradeObject.can_managemoney
 
 			userData.job.skin_male = {}
 			userData.job.skin_female = {}
@@ -95,8 +134,7 @@ function loadESXPlayer(identifier, playerId)
 			if gradeObject.skin_male then userData.job.skin_male = json.decode(gradeObject.skin_male) end
 			if gradeObject.skin_female then userData.job.skin_female = json.decode(gradeObject.skin_female) end
 
-			local foundItems = {}
-
+			-- Inventory
 			if result[1].inventory and result[1].inventory ~= '' then
 				local inventory = json.decode(result[1].inventory)
 
@@ -113,6 +151,7 @@ function loadESXPlayer(identifier, playerId)
 
 			for name,item in pairs(ESX.Items) do
 				local count = foundItems[name] or 0
+				if count > 0 then userData.weight = userData.weight + (item.weight * count) end
 
 				table.insert(userData.inventory, {
 					name = name,
@@ -125,26 +164,40 @@ function loadESXPlayer(identifier, playerId)
 				})
 			end
 
+			table.sort(userData.inventory, function(a, b)
+				return a.label < b.label
+			end)
+
+			-- Group
 			if result[1].group then
 				userData.group = result[1].group
 			else
 				userData.group = 'user'
 			end
 
-			table.sort(userData.inventory, function(a, b)
-				return a.label < b.label
-			end)
+			-- Loadout
+			if result[1].loadout and result[1].loadout ~= '' then
+				local loadout = json.decode(result[1].loadout)
 
-			if result[1].loadout then
-				userData.loadout = json.decode(result[1].loadout)
+				for name,weapon in pairs(loadout) do
+					local label = ESX.GetWeaponLabel(name)
 
-				-- compatibility with old loadouts
-				for k,v in ipairs(userData.loadout) do
-					if not v.components then v.components = {} end
-					if not v.tintIndex then v.tintIndex = 0 end
+					if label then
+						if not weapon.components then weapon.components = {} end
+						if not weapon.tintIndex then weapon.tintIndex = 0 end
+
+						table.insert(userData.loadout, {
+							name = name,
+							ammo = weapon.ammo,
+							label = label,
+							components = weapon.components,
+							tintIndex = weapon.tintIndex
+						})
+					end
 				end
 			end
 
+			-- Position
 			if result[1].position and result[1].position ~= '' then
 				userData.coords = json.decode(result[1].position)
 			else
@@ -157,40 +210,34 @@ function loadESXPlayer(identifier, playerId)
 	end)
 
 	Async.parallel(tasks, function(results)
-		local xPlayer = CreateExtendedPlayer(playerId, identifier, userData.group, userData.accounts, userData.inventory, userData.job, userData.loadout, userData.playerName, userData.coords)
+		local xPlayer = CreateExtendedPlayer(playerId, identifier, userData.group, userData.accounts, userData.inventory, userData.weight, userData.job, userData.loadout, userData.playerName, userData.coords)
+		ESX.Players[playerId] = xPlayer
+		TriggerEvent('esx:playerLoaded', playerId, xPlayer)
 
-		xPlayer.getMissingAccounts(function(missingAccounts)
-			if #missingAccounts > 0 then
-				for k,v in ipairs(missingAccounts) do
-					table.insert(xPlayer.accounts, {
-						name = v,
-						money = 0,
-						label = Config.Accounts[v]
-					})
-				end
+		xPlayer.triggerEvent('esx:playerLoaded', {
+			accounts = xPlayer.getAccounts(),
+			coords = xPlayer.getCoords(),
+			identifier = xPlayer.getIdentifier(),
+			inventory = xPlayer.getInventory(),
+			job = xPlayer.getJob(),
+			loadout = xPlayer.getLoadout(),
+			maxWeight = xPlayer.getMaxWeight(),
+			money = xPlayer.getMoney()
+		})
 
-				xPlayer.createMissingAccounts(missingAccounts)
-			end
-
-			ESX.Players[playerId] = xPlayer
-			TriggerEvent('esx:playerLoaded', playerId, xPlayer)
-
-			xPlayer.triggerEvent('esx:playerLoaded', {
-				identifier = xPlayer.identifier,
-				money = xPlayer.getMoney(),
-				accounts = xPlayer.getAccounts(),
-				coords = xPlayer.getCoords(),
-				inventory = xPlayer.getInventory(),
-				job = xPlayer.getJob(),
-				loadout = xPlayer.getLoadout(),
-				money = xPlayer.getMoney(),
-				maxWeight = xPlayer.maxWeight
-			})
-
-			xPlayer.triggerEvent('esx:createMissingPickups', ESX.Pickups)
-		end)
+		xPlayer.triggerEvent('esx:createMissingPickups', ESX.Pickups)
+		xPlayer.triggerEvent('esx:registerSuggestions', ESX.RegisteredCommands)
+		print(('[es_extended] [^2INFO^7] A player with name "%s^7" has connected to the server with assigned player id %s'):format(xPlayer.getName(), playerId))
 	end)
 end
+
+AddEventHandler('chatMessage', function(playerId, author, message)
+	if message:sub(1, 1) == '/' and playerId > 0 then
+		CancelEvent()
+		local commandName = message:sub(1):gmatch("%w+")()
+		TriggerClientEvent('chat:addMessage', playerId, {args = {'^1SYSTEM', _U('commanderror_invalidcommand', commandName)}})
+	end
+end)
 
 AddEventHandler('playerDropped', function(reason)
 	local playerId = source
@@ -201,7 +248,6 @@ AddEventHandler('playerDropped', function(reason)
 
 		ESX.SavePlayer(xPlayer, function()
 			ESX.Players[playerId] = nil
-			ESX.LastPlayerData[playerId] = nil
 		end)
 	end
 end)
@@ -215,10 +261,13 @@ AddEventHandler('esx:updateCoords', function(coords)
 	end
 end)
 
-RegisterNetEvent('esx:updateLoadout')
-AddEventHandler('esx:updateLoadout', function(loadout)
+RegisterNetEvent('esx:updateWeaponAmmo')
+AddEventHandler('esx:updateWeaponAmmo', function(weaponName, ammoCount)
 	local xPlayer = ESX.GetPlayerFromId(source)
-	xPlayer.loadout = loadout
+
+	if xPlayer then
+		xPlayer.updateWeaponAmmo(weaponName, ammoCount)
+	end
 end)
 
 RegisterNetEvent('esx:giveInventoryItem')
@@ -229,7 +278,6 @@ AddEventHandler('esx:giveInventoryItem', function(target, type, itemName, itemCo
 
 	if type == 'item_standard' then
 		local sourceItem = sourceXPlayer.getInventoryItem(itemName)
-		local targetItem = targetXPlayer.getInventoryItem(itemName)
 
 		if itemCount > 0 and sourceItem.count >= itemCount then
 			if targetXPlayer.canCarryItem(itemName, itemCount) then
@@ -281,8 +329,9 @@ AddEventHandler('esx:giveInventoryItem', function(target, type, itemName, itemCo
 		end
 	elseif type == 'item_ammo' then
 		if sourceXPlayer.hasWeapon(itemName) then
+			local weaponNum, weapon = sourceXPlayer.getWeapon(itemName)
+
 			if targetXPlayer.hasWeapon(itemName) then
-				local weaponNum, weapon = sourceXPlayer.getWeapon(itemName)
 				local _, weaponObject = ESX.GetWeapon(itemName)
 
 				if weaponObject.ammo then
@@ -345,8 +394,7 @@ AddEventHandler('esx:removeInventoryItem', function(type, itemName, itemCount)
 		if xPlayer.hasWeapon(itemName) then
 			local _, weapon = xPlayer.getWeapon(itemName)
 			local _, weaponObject = ESX.GetWeapon(itemName)
-			local pickupLabel
-
+			local components, pickupLabel = ESX.Table.Clone(weapon.components)
 			xPlayer.removeWeapon(itemName)
 
 			if weaponObject.ammo and weapon.ammo > 0 then
@@ -358,7 +406,7 @@ AddEventHandler('esx:removeInventoryItem', function(type, itemName, itemCount)
 				xPlayer.showNotification(_U('threw_weapon', weapon.label))
 			end
 
-			ESX.CreatePickup('item_weapon', itemName, weapon.ammo, pickupLabel, playerId, weapon.components, weapon.tintIndex)
+			ESX.CreatePickup('item_weapon', itemName, weapon.ammo, pickupLabel, playerId, components, weapon.tintIndex)
 		end
 	end
 end)
@@ -370,15 +418,14 @@ AddEventHandler('esx:useItem', function(itemName)
 
 	if count > 0 then
 		ESX.UseItem(source, itemName)
-		TriggerEvent('CryptoHooker:SendUseLog', source, itemName, "1")
 	else
 		xPlayer.showNotification(_U('act_imp'))
 	end
 end)
 
 RegisterNetEvent('esx:onPickup')
-AddEventHandler('esx:onPickup', function(id)
-	local pickup, xPlayer, success = ESX.Pickups[id], ESX.GetPlayerFromId(source)
+AddEventHandler('esx:onPickup', function(pickupId)
+	local pickup, xPlayer, success = ESX.Pickups[pickupId], ESX.GetPlayerFromId(source)
 
 	if pickup then
 		if pickup.type == 'item_standard' then
@@ -406,8 +453,8 @@ AddEventHandler('esx:onPickup', function(id)
 		end
 
 		if success then
-			ESX.Pickups[id] = nil
-			TriggerClientEvent('esx:removePickup', -1, id)
+			ESX.Pickups[pickupId] = nil
+			TriggerClientEvent('esx:removePickup', -1, pickupId)
 		end
 	end
 end)

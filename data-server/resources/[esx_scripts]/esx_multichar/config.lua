@@ -5,11 +5,13 @@ Config.Locale = 'en'
 
 Config.useMyDrugs = false -- If you use myDrugs enable this
 Config.useMyProperties = false -- If you use myProperties enable this
-Config.ApplyDelay = 3000 -- Don't edit this if you don't know what you do ^^
-Config.ForceMultiplayerPed = true -- Don't edit this if you don't know what you do ^^
+Config.useSpawnmanager = false
 
 Config.useRegisterMenu = false
 Config.useMyCharCreator = false
+
+Config.ApplyDelay = 3000 -- Don't edit this if you don't know what you do ^^
+Config.ForceMultiplayerPed = true -- Don't edit this if you don't know what you do ^^
 
 Config.CanPlayersDeleteTheirCharacter = true
 
@@ -20,7 +22,8 @@ Config.PermissionsCommand = 'giveperm'
 -- Also when the column name is owner or steamID or....
 Config.Tables = {
 	--{table = "phone_users_contacts", column = "identifier"},
-	{table = "users", column = "identifier"}
+	{table = "users", column = "identifier"},
+	--{table = "user_inventory", column = "identifier"},
 }
 
 Config.SpawnLocations = {

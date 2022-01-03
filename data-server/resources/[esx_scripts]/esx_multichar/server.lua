@@ -28,40 +28,41 @@ AddEventHandler('esx:playerLoaded', function(playerId, xPlayer)
 	end)
 end)
 
-
-RegisterServerEvent('esx_multichar:GetPlayerCharacters')
-AddEventHandler('esx_multichar:GetPlayerCharacters', function()
+RegisterServerEvent('myMultichar:GetPlayerCharacters')
+AddEventHandler('myMultichar:GetPlayerCharacters', function()
     local src = source
     local LastCharId = GetLastCharacter(src)
-    SetIdentifierToChar(GetPlayerIdentifiers(src)[1], LastCharId)
+    local license = GetRockstarID(src)
+    SetIdentifierToChar(GetIdentifierWithoutLicense(license), LastCharId)
 
+    print('md: ' .. GetIdentifierWithoutLicense(license) .. ' to ' .. LastCharId..':'..GetIdentifierWithoutLicense(license))
     if Config.useMyDrugs then
-        TriggerEvent('myDrugs:updateIdentifier', src, GetPlayerIdentifiers(src)[1], 'Char'..LastCharId..GetIdentifierWithoutSteam(GetPlayerIdentifiers(src)[1]))
+        TriggerEvent('myDrugs:updateIdentifier', src, GetIdentifierWithoutLicense(license), LastCharId..':'..GetIdentifierWithoutLicense(license))
     end
     
     if Config.useMyProperties then
-        TriggerEvent('myProperties:updateIdentifier', src, GetPlayerIdentifiers(src)[1], 'Char'..LastCharId..GetIdentifierWithoutSteam(GetPlayerIdentifiers(src)[1]))
+        TriggerEvent('myProperties:updateIdentifier', src, GetIdentifierWithoutLicense(license), LastCharId..':'..GetIdentifierWithoutLicense(license))
     end
 	
 
     local chars = GetPlayerCharacters(src)
     local maxChars = GetPlayerMaxChars(src)
-    TriggerClientEvent('esx_multichar:receiveChars', src, chars, maxChars[1].maxChars)
+    TriggerClientEvent('myMultichar:receiveChars', src, chars, maxChars[1].maxChars)
 end)
 
-RegisterServerEvent('esx_multichar:CharSelected')
-AddEventHandler('esx_multichar:CharSelected', function(charid, isnew)
+RegisterServerEvent('myMultichar:CharSelected')
+AddEventHandler('myMultichar:CharSelected', function(charid, isnew)
     local src = source
     local spawn = {}
     SetLastCharacter(src, tonumber(charid))
-    SetCharToIdentifier(GetPlayerIdentifiers(src)[1], tonumber(charid))
+    SetCharToIdentifier(GetIdentifierWithoutLicense(GetRockstarID(src)), tonumber(charid))
     
     if Config.useMyDrugs then
-        TriggerEvent('myDrugs:updateIdentifier', src, 'Char'..tonumber(charid)..GetIdentifierWithoutSteam(GetPlayerIdentifiers(src)[1]), GetPlayerIdentifiers(src)[1])
+        TriggerEvent('myDrugs:updateIdentifier', src, tonumber(charid)..':'..GetIdentifierWithoutLicense(GetRockstarID(src)), GetIdentifierWithoutLicense(GetRockstarID(src)))
     end
 
     if Config.useMyProperties then
-        TriggerEvent('myProperties:updateIdentifier', src, 'Char'..tonumber(charid)..GetIdentifierWithoutSteam(GetPlayerIdentifiers(src)[1]), GetPlayerIdentifiers(src)[1])
+        TriggerEvent('myProperties:updateIdentifier', src, tonumber(charid)..':'..GetIdentifierWithoutLicense(GetRockstarID(src)), GetIdentifierWithoutLicense(GetRockstarID(src)))
     end
 
     if not isnew then
@@ -70,44 +71,44 @@ AddEventHandler('esx_multichar:CharSelected', function(charid, isnew)
             spawn = Config.FirstSpawnLocation
         end
 		spawn = GetSpawnPos(src)
-		TriggerClientEvent("esx_multichar:SpawnCharacter", src, spawn, false)
+		TriggerClientEvent("myMultichar:SpawnCharacter", src, spawn, false)
     else
 		TriggerClientEvent('skinchanger:loadDefaultModel', src, true, cb)
         spawn = Config.FirstSpawnLocation -- DEFAULT SPAWN POSITION
-		TriggerClientEvent("esx_multichar:SpawnCharacter", src, spawn, true)
+		TriggerClientEvent("myMultichar:SpawnCharacter", src, spawn, true)
     end
     
 end)
 
 function GetPlayerCharacters(source)
-    local identifier = GetIdentifierWithoutSteam(GetPlayerIdentifiers(source)[1])
+    local identifier = GetIdentifierWithoutLicense(GetRockstarID(source))
     local Chars = executeMySQL("SELECT * FROM `users` WHERE identifier LIKE '%"..identifier.."%'")
     return Chars
 end
 
 function GetPlayerMaxChars(source)
-    local identifier = GetIdentifierWithoutSteam(GetPlayerIdentifiers(source)[1])
+    local identifier = GetIdentifierWithoutLicense(GetRockstarID(source))
     local maxChars = executeMySQL("SELECT `maxChars` FROM `user_lastcharacter` WHERE steamid LIKE '%"..identifier.."%'")
     return maxChars
 end
 
 function GetLastCharacter(source)
-    local LastChar = executeMySQL("SELECT `charid` FROM `user_lastcharacter` WHERE `steamid` = '"..GetPlayerIdentifiers(source)[1].."'")
+    local LastChar = executeMySQL("SELECT `charid` FROM `user_lastcharacter` WHERE `steamid` = '"..GetIdentifierWithoutLicense(GetRockstarID(source)).."'")
     if LastChar[1] ~= nil and LastChar[1].charid ~= nil then
         return tonumber(LastChar[1].charid)
     else
-        executeMySQL("INSERT INTO `user_lastcharacter` (`steamid`, `charid`) VALUES('"..GetPlayerIdentifiers(source)[1].."', 1)")
+        executeMySQL("INSERT INTO `user_lastcharacter` (`steamid`, `charid`) VALUES('"..GetIdentifierWithoutLicense(GetRockstarID(source)).."', 1)")
         return 1
     end
 end
 
 function SetLastCharacter(source, charid)
-    executeMySQL("UPDATE `user_lastcharacter` SET `charid` = '"..charid.."' WHERE `steamid` = '"..GetPlayerIdentifiers(source)[1].."'")
+    executeMySQL("UPDATE `user_lastcharacter` SET `charid` = '"..charid.."' WHERE `steamid` = '"..GetIdentifierWithoutLicense(GetRockstarID(source)).."'")
 end
 
 function GetSpawnPos(source)
 
-    local posRes = executeMySQL("SELECT `position` FROM `users` WHERE `identifier` = '"..GetPlayerIdentifiers(source)[1].."'")
+    local posRes = executeMySQL("SELECT `position` FROM `users` WHERE `identifier` = '"..GetIdentifierWithoutLicense(GetRockstarID(source)).."'")
 	
 	if posRes[1] ~= nil then
 		return json.decode(posRes[1].position)
@@ -119,8 +120,9 @@ end
 
 function SetIdentifierToChar(identifier, charid)
 
+    print('Char'..charid..':'..GetIdentifierWithoutLicense(identifier) .. ' WHERE ' .. identifier)
     for k, data in pairs(Config.Tables) do
-        executeMySQL("UPDATE `"..data.table.."` SET `"..data.column.."` = 'Char"..charid..GetIdentifierWithoutSteam(identifier).."' WHERE `"..data.column.."` = '"..identifier.."'")
+        executeMySQL("UPDATE `"..data.table.."` SET `"..data.column.."` = '"..charid..":"..GetIdentifierWithoutLicense(identifier).."' WHERE `"..data.column.."` = '"..identifier.."'")
     end
     -- REPLACE steam:111 to CharX:111
     
@@ -128,8 +130,10 @@ end
 
 function SetCharToIdentifier(identifier, charid)
 
+    print(identifier .. ' WHERE  ' .. 'Char'..charid..':'..GetIdentifierWithoutLicense(identifier))
+
     for k, data in pairs(Config.Tables) do
-        executeMySQL("UPDATE `"..data.table.."` SET `"..data.column.."` = '"..identifier.."' WHERE `"..data.column.."` = 'Char"..charid..GetIdentifierWithoutSteam(identifier).."'")
+        executeMySQL("UPDATE `"..data.table.."` SET `"..data.column.."` = '"..identifier.."' WHERE `"..data.column.."` = '"..charid..":"..GetIdentifierWithoutLicense(identifier).."'")
     end
     -- REPLACE CharX:111 to steam:111
     
@@ -138,7 +142,7 @@ end
 function DeleteCharacter(identifier, charid, maxChars)
 
     for k, data in pairs(Config.Tables) do
-        executeMySQL("DELETE FROM `"..data.table.."` WHERE `"..data.column.."` = 'Char"..charid..GetIdentifierWithoutSteam(identifier).."'")
+        executeMySQL("DELETE FROM `"..data.table.."` WHERE `"..data.column.."` = '"..charid..":"..GetIdentifierWithoutLicense(identifier).."'")
     end
     --executeMySQL("DELETE FROM users WHERE identifier = 'Char"..charid..GetIdentifierWithoutSteam(identifier).."'")
 
@@ -151,21 +155,34 @@ function DeleteCharacter(identifier, charid, maxChars)
             --print('change: Char' .. oldID .. ' to ' .. 'Char' .. newId)
 
             for k, data in pairs(Config.Tables) do
-                executeMySQL("UPDATE `"..data.table.."` SET `"..data.column.."` = 'Char"..newId..GetIdentifierWithoutSteam(identifier).."' WHERE `"..data.column.."` = 'Char"..oldID..GetIdentifierWithoutSteam(identifier).."'")
+                executeMySQL("UPDATE `"..data.table.."` SET `"..data.column.."` = '"..newId..":"..GetIdentifierWithoutLicense(identifier).."' WHERE `"..data.column.."` = '"..oldID..":"..GetIdentifierWithoutLicense(identifier).."'")
             end
         end
     end
 end
 
 
-RegisterServerEvent('esx_multichar:deleteChar')
-AddEventHandler('esx_multichar:deleteChar', function(charid, maxChars)
-    local steamID = GetPlayerIdentifiers(source)[1]
+RegisterServerEvent('myMultichar:deleteChar')
+AddEventHandler('myMultichar:deleteChar', function(charid, maxChars)
+    local steamID = GetRockstarID(source)
     DeleteCharacter(steamID, charid, maxChars)
 end)
 
-function GetIdentifierWithoutSteam(Identifier)
-    return string.gsub(Identifier, "steam", "")
+function GetIdentifierWithoutLicense(Identifier)
+    return string.gsub(Identifier, "license:", "")
+end
+
+function GetRockstarID(playerId)
+    local identifier
+
+    for k,v in ipairs(GetPlayerIdentifiers(playerId)) do
+        if string.match(v, 'license') then
+            identifier = v
+            break
+        end
+    end
+
+    return identifier
 end
 
 function executeMySQL(queryString)
@@ -189,10 +206,10 @@ end
 
 function getIdentity(source, callback)
 
-    local identifier = GetPlayerIdentifiers(source)[1]
+    local identifier = GetRockstarID(source)
     MySQL.Async.fetchAll("SELECT * FROM `users` WHERE `identifier` = @identifier",
     {
-        ['@identifier'] = identifier
+        ['@identifier'] = GetIdentifierWithoutLicense(identifier)
     },
     function(result)
         if #result > 0 then
@@ -235,19 +252,19 @@ function RegisterNewAccount(identifier_res, firstname_res, lastname_res, dateofb
 end
 
 
-RegisterServerEvent('esx_multichar:updateAccount')
-AddEventHandler('esx_multichar:updateAccount', function(firstname_res, lastname_res, dateofbirth_res, sex_res, height_res)
+RegisterServerEvent('myMultichar:updateAccount')
+AddEventHandler('myMultichar:updateAccount', function(firstname_res, lastname_res, dateofbirth_res, sex_res, height_res)
 
 
-    local identifier_res = GetPlayerIdentifiers(source)[1]
+    local identifier_res = GetIdentifierWithoutLicense(GetRockstarID(source))
     RegisterNewAccount(identifier_res, firstname_res, lastname_res, dateofbirth_res, sex_res, height_res)
 
 end)
 
 
-RegisterServerEvent('esx_multichar:updatePedModel')
-AddEventHandler('esx_multichar:updatePedModel', function(newModel)
-    local steamID = GetPlayerIdentifiers(source)[1]
+RegisterServerEvent('myMultichar:updatePedModel')
+AddEventHandler('myMultichar:updatePedModel', function(newModel)
+    local steamID = GetIdentifierWithoutLicense(GetRockstarID(source))
     MySQL.Async.execute("UPDATE `users` SET `pedModel` = @pedModel WHERE identifier = @identifier",
     {
       ['@identifier']   = steamID,
@@ -255,9 +272,9 @@ AddEventHandler('esx_multichar:updatePedModel', function(newModel)
     })
 end)
 
-RegisterServerEvent('esx_multichar:updatePermissions')
-AddEventHandler('esx_multichar:updatePermissions', function(target, type, value)
-    local steamID = GetPlayerIdentifiers(target)[1]
+RegisterServerEvent('myMultichar:updatePermissions')
+AddEventHandler('myMultichar:updatePermissions', function(target, type, value)
+    local steamID = GetIdentifierWithoutLicense(GetRockstarID(source))
 
     if steamID ~= nil then
         if type == 'pedmode' then
@@ -266,7 +283,7 @@ AddEventHandler('esx_multichar:updatePermissions', function(target, type, value)
             ['@identifier']   = steamID,
             ['@pedAllowed']    = value,
             })
-            TriggerClientEvent('esx_multichar:msg', source, Translation[Config.Locale]['giveperm_success'])
+            TriggerClientEvent('myMultichar:msg', source, Translation[Config.Locale]['giveperm_success'])
 
         elseif type == 'charamount' then
             MySQL.Async.execute("UPDATE `user_lastcharacter` SET `maxChars` = @maxChars WHERE steamid = @identifier",
@@ -274,10 +291,10 @@ AddEventHandler('esx_multichar:updatePermissions', function(target, type, value)
             ['@identifier']   = steamID,
             ['@maxChars']    = value,
             })
-            TriggerClientEvent('esx_multichar:msg', source, Translation[Config.Locale]['giveperm_success'])
+            TriggerClientEvent('myMultichar:msg', source, Translation[Config.Locale]['giveperm_success'])
         end
     else
-        TriggerClientEvent('esx_multichar:msg', source, Translation[Config.Locale]['giveperm_error'])
+        TriggerClientEvent('myMultichar:msg', source, Translation[Config.Locale]['giveperm_error'])
     end
 
    
@@ -289,15 +306,15 @@ AddEventHandler('es:playerLoaded', function(source)
     
         if data.firstname == '' then
 			if Config.useRegisterMenu then
-				TriggerClientEvent('esx_multichar:RegisterNewAccount', source)
+				TriggerClientEvent('myMultichar:RegisterNewAccount', source)
 			end
         else
-            --print('Character loaded: ' .. data.firstname .. ' ' .. data.lastname)
+            print('Character loaded: ' .. data.firstname .. ' ' .. data.lastname)
         end
     
     end)
 
-    local steamID = GetPlayerIdentifiers(source)[1]
+    local steamID = GetIdentifierWithoutLicense(GetRockstarID(source))
 
     MySQL.Async.fetchAll('SELECT pedModel FROM users WHERE identifier = @identifier',
     {
@@ -307,7 +324,7 @@ AddEventHandler('es:playerLoaded', function(source)
     function(result)
         if #result > 0 then
             if result[1].pedModel ~= nil then
-                TriggerClientEvent('esx_multichar:applyPed', source, result[1].pedModel)
+                TriggerClientEvent('myMultichar:applyPed', source, result[1].pedModel)
             end
         end
     end
@@ -318,7 +335,7 @@ end)
 if Config.useRegisterMenu then
 	RegisterCommand('register', function(source, args, raw)
 
-		local steamID = GetPlayerIdentifiers(source)[1]
+		local steamID = GetIdentifierWithoutLicense(GetRockstarID(source))
 
 		MySQL.Async.fetchAll('SELECT * FROM users WHERE identifier = @identifier',
 		{
@@ -327,9 +344,9 @@ if Config.useRegisterMenu then
 		},
 		function(result)
 			if #result > 0 then
-				TriggerClientEvent('esx_multichar:RegisterNewAccount', source, result[1].firstname, result[1].lastname, result[1].dateofbirth, result[1].sex, result[1].height)
+				TriggerClientEvent('myMultichar:RegisterNewAccount', source, result[1].firstname, result[1].lastname, result[1].dateofbirth, result[1].sex, result[1].height)
 			else
-				TriggerClientEvent('esx_multichar:RegisterNewAccount', source)
+				TriggerClientEvent('myMultichar:RegisterNewAccount', source)
 			end
 		end
 		)
@@ -338,7 +355,7 @@ end
 
 RegisterCommand('changePed', function(source, args, raw)
 
-    local steamID = GetPlayerIdentifiers(source)[1]
+    local steamID = GetIdentifierWithoutLicense(GetRockstarID(source))
 
     MySQL.Async.fetchAll('SELECT pedModeAllowed, pedModel FROM users WHERE identifier = @identifier',
     {
@@ -348,12 +365,12 @@ RegisterCommand('changePed', function(source, args, raw)
     function(result)
         if #result > 0 then
             if result[1].pedModeAllowed ~= nil then
-                TriggerClientEvent('esx_multichar:openPedMenu', source, result[1].pedModel)
+                TriggerClientEvent('myMultichar:openPedMenu', source, result[1].pedModel)
             else
-                TriggerClientEvent('esx_multichar:msg', source, Translation[Config.Locale]['pedmode_no_perms'])
+                TriggerClientEvent('myMultichar:msg', source, Translation[Config.Locale]['pedmode_no_perms'])
             end
         else
-            TriggerClientEvent('esx_multichar:msg', source, Translation[Config.Locale]['pedmode_no_perms'])
+            TriggerClientEvent('myMultichar:msg', source, Translation[Config.Locale]['pedmode_no_perms'])
         end
     end
     )

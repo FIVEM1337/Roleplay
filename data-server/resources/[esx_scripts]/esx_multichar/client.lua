@@ -41,20 +41,25 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(0)
-        if NetworkIsSessionStarted() then
-            Citizen.Wait(100)
-			gotCharData = false
-            TriggerServerEvent('esx_multichar:GetPlayerCharacters')
-            setPlayerInVoid()
-            return -- break the loop
+        Citizen.Wait(1000)
+        --print('check')
+        if ESX ~= nil then
+            --print('ESX~=nil')
+            if NetworkIsSessionStarted() then
+                --print('final do')
+                Citizen.Wait(100)
+                gotCharData = false
+                TriggerServerEvent('myMultichar:GetPlayerCharacters')
+                setPlayerInVoid()
+                return -- break the loop
+            end
         end
     end
 end)
 
 
-RegisterNetEvent('esx_multichar:SpawnCharacter')
-AddEventHandler('esx_multichar:SpawnCharacter', function(spawn, isnew)
+RegisterNetEvent('myMultichar:SpawnCharacter')
+AddEventHandler('myMultichar:SpawnCharacter', function(spawn, isnew)
 
 	IsChoosing = false
 
@@ -74,7 +79,10 @@ AddEventHandler('esx_multichar:SpawnCharacter', function(spawn, isnew)
     PointCamAtCoord(cam2, pos.x,pos.y,pos.z+200)
     SetCamActiveWithInterp(cam2, cam, 900, true, true)
     Citizen.Wait(1500)
-    exports.spawnmanager:setAutoSpawn(false)
+	
+	if Config.useSpawnmanager then
+		exports.spawnmanager:setAutoSpawn(false)
+	end
 	
 	 if (Config.ShowSpawnSelectionForEverybody and not isnew) then
         selectSpawnPoint(spawn, isnew)
@@ -85,6 +93,8 @@ AddEventHandler('esx_multichar:SpawnCharacter', function(spawn, isnew)
      elseif isnew and not Config.ShowSpawnSelectionOnFirstJoin then
         finishSpawn(pos, isnew)
      end
+
+     
 end)
 
 local selectedIndex
@@ -110,7 +120,6 @@ function generateMenu(chars, max)
 
 
         -- mainMenu:AddItem(character_item)
-		
 		if char.firstname == nil or char.lastname == nil then
 			char.firstname = 'Unknown'
 			char.lastname = 'Unknown'
@@ -127,7 +136,7 @@ function generateMenu(chars, max)
 
         enter.Activated = function(sender, index)
             character_sub.SubMenu:Visible(false)
-            TriggerServerEvent('esx_multichar:CharSelected', selectedIndex, false)
+            TriggerServerEvent('myMultichar:CharSelected', selectedIndex, false)
         end
 
         if Config.CanPlayersDeleteTheirCharacter then
@@ -137,11 +146,11 @@ function generateMenu(chars, max)
             delete.SubMenu:AddItem(deleteConfirm)
 
             deleteConfirm.Activated = function(sender, index)
-                TriggerServerEvent('esx_multichar:deleteChar', selectedIndex, max)
+                TriggerServerEvent('myMultichar:deleteChar', selectedIndex, max)
                 _menuPool:CloseAllMenus()
                 --ShowNotification('~g~Charakter wird gelöscht...')
                 gotCharData = false
-                TriggerServerEvent('esx_multichar:GetPlayerCharacters')
+                TriggerServerEvent('myMultichar:GetPlayerCharacters')
                 return
             end
 
@@ -186,7 +195,7 @@ function generateMenu(chars, max)
         if item == createChar then
             if #chars < max then
                 mainMenu:Visible(false)
-                TriggerServerEvent('esx_multichar:CharSelected', #chars + 1, true)
+                TriggerServerEvent('myMultichar:CharSelected', #chars + 1, true)
             end
         else
             
@@ -196,7 +205,7 @@ function generateMenu(chars, max)
         end
         --[[else
             mainMenu:Visible(false)
-            TriggerServerEvent('esx_multichar:CharSelected', index, false)
+            TriggerServerEvent('myMultichar:CharSelected', index, false)
         end--]]
         
     end
@@ -285,11 +294,11 @@ function finishSpawn(pos, isnew)
 
     if isnew then
 		if Config.useRegisterMenu then
-			TriggerEvent('esx_multichar:RegisterNewAccount')
+			TriggerEvent('myMultichar:RegisterNewAccount')
 		end
     end
-	
-	TriggerEvent('esx_multichar:loaded')
+
+    TriggerEvent('myMultichar:loaded')
 	
 end
 
@@ -357,6 +366,7 @@ function setPedClothing(skin, pedModel)
 		else
 			SetPedHeadBlendData(playerPed, skin.mom, skin.dad, 0, skin.mom, skin.dad, 0, skin.face_md_weight,  skin.skin_md_weight, 0.0, true)
 		end
+		
 		SetPedHairColor         (playerPed,       skin.hair_color_1,   skin.hair_color_2)           -- Hair Color
 		SetPedHeadOverlay       (playerPed, 3,    skin.age_1,         (skin.age_2 / 10) + 0.0)      -- Age + opacity
 		SetPedHeadOverlay       (playerPed, 1,    skin.beard_1,       (skin.beard_2 / 10) + 0.0)    -- Beard + opacity
@@ -390,8 +400,8 @@ function setPedClothing(skin, pedModel)
 	end
 end
 
-RegisterNetEvent('esx_multichar:receiveChars')
-AddEventHandler('esx_multichar:receiveChars', function(characters, maxCharacters)
+RegisterNetEvent('myMultichar:receiveChars')
+AddEventHandler('myMultichar:receiveChars', function(characters, maxCharacters)
 
     generateMenu(characters, maxCharacters)
 
@@ -409,11 +419,11 @@ local sexStr = 'm'
 
 local registerMenu
 
-RegisterNetEvent('esx_multichar:RegisterNewAccount')
-AddEventHandler('esx_multichar:RegisterNewAccount', function(firstnameOld, lastnameOld, dobOld, sexOld, heightOld)
+RegisterNetEvent('myMultichar:RegisterNewAccount')
+AddEventHandler('myMultichar:RegisterNewAccount', function(firstnameOld, lastnameOld, dobOld, sexOld, heightOld)
     _menuPool:Remove()
     collectgarbage()
-    
+	    
 	if registerMenu ~= nil and registerMenu:Visible() then
         registerMenu:Visible(false)
     end
@@ -510,14 +520,13 @@ AddEventHandler('esx_multichar:RegisterNewAccount', function(firstnameOld, lastn
             if firstnameStr ~= nil and lastnameStr ~= nil and dateofbirthStr ~= nil and heightStr ~= nil then
                 registerMenu:Visible(false)
                 isInRegistration = false
-                TriggerServerEvent('esx_multichar:updateAccount', firstnameStr, lastnameStr, dateofbirthStr, sexStr, heightStr)
+                TriggerServerEvent('myMultichar:updateAccount', firstnameStr, lastnameStr, dateofbirthStr, sexStr, heightStr)
                 Wait(500)
-				if Config.useMyCharCreator then
+                if Config.useMyCharCreator then
 					TriggerEvent('myCreator:openMenu')
 				else
 					TriggerEvent('esx_skin:openSaveableMenu')
 				end
-                
                 _menuPool:CloseAllMenus()
 				
             else
@@ -537,14 +546,14 @@ end)
 
 -- ped stuff
 
-RegisterNetEvent('esx_multichar:applyPed')
-AddEventHandler('esx_multichar:applyPed', function(currentPedModel)
+RegisterNetEvent('myMultichar:applyPed')
+AddEventHandler('myMultichar:applyPed', function(currentPedModel)
     Citizen.Wait(Config.ApplyDelay)
     loadPed(GetHashKey(currentPedModel))
 end)
 
-RegisterNetEvent('esx_multichar:openPedMenu')
-AddEventHandler('esx_multichar:openPedMenu', function(currentPedModel)
+RegisterNetEvent('myMultichar:openPedMenu')
+AddEventHandler('myMultichar:openPedMenu', function(currentPedModel)
     _menuPool:Remove()
     collectgarbage()
 
@@ -556,7 +565,7 @@ AddEventHandler('esx_multichar:openPedMenu', function(currentPedModel)
 
     default.Activated = function(sender, index)  
         loadDefault()
-        TriggerServerEvent('esx_multichar:updatePedModel', nil)
+        TriggerServerEvent('myMultichar:updatePedModel', nil)
     end
 
     for k, v in pairs(Config.Peds) do
@@ -565,7 +574,7 @@ AddEventHandler('esx_multichar:openPedMenu', function(currentPedModel)
 
         pedOption.Activated = function(sender, index)
             loadPed(GetHashKey(v.hash))
-            TriggerServerEvent('esx_multichar:updatePedModel', v.hash)
+            TriggerServerEvent('myMultichar:updatePedModel', v.hash)
         end
     end
 
@@ -663,7 +672,7 @@ RegisterCommand(Config.PermissionsCommand, function(source, args, raw)
                 local targetSource = args[1]
                 local type = args[2]
                 local allowed = args[3]
-                TriggerServerEvent('esx_multichar:updatePermissions', targetSource, type, allowed)
+                TriggerServerEvent('myMultichar:updatePermissions', targetSource, type, allowed)
             else
                 ShowNotification(Translation[Config.Locale]['giveperm_wrong_usage'])
             end
@@ -695,8 +704,8 @@ function KeyboardInput(TextEntry, ExampleText, MaxStringLenght)
 	end
 end
 
-RegisterNetEvent('esx_multichar:msg')
-AddEventHandler('esx_multichar:msg', function(message)
+RegisterNetEvent('myMultichar:msg')
+AddEventHandler('myMultichar:msg', function(message)
     ShowNotification(message)
 end)
 

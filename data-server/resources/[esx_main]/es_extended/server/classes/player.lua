@@ -1,18 +1,19 @@
-function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, job, loadout, name, coords)
+function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, weight, job, loadout, name, coords)
 	local self = {}
 
 	self.accounts = accounts
+	self.coords = coords
+	self.group = group
+	self.identifier = identifier
 	self.inventory = inventory
 	self.job = job
-	self.group = group
 	self.loadout = loadout
 	self.name = name
-	self.maxWeight = Config.MaxWeight
-	self.coords = coords
-	self.variables = {}
-	self.source = playerId
 	self.playerId = playerId
-	self.identifier = identifier
+	self.source = playerId
+	self.variables = {}
+	self.weight = weight
+	self.maxWeight = Config.MaxWeight
 
 	ExecuteCommand(('add_principal identifier.license:%s group.%s'):format(self.identifier, self.group))
 
@@ -82,8 +83,18 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		return self.variables[k]
 	end
 
-	self.getAccounts = function()
-		return self.accounts
+	self.getAccounts = function(minimal)
+		if minimal then
+			local minimalAccounts = {}
+
+			for k,v in ipairs(self.accounts) do
+				minimalAccounts[v.name] = v.money
+			end
+
+			return minimalAccounts
+		else
+			return self.accounts
+		end
 	end
 
 	self.getAccount = function(account)
@@ -96,15 +107,15 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 
 	self.getInventory = function(minimal)
 		if minimal then
-			local items = {}
+			local minimalInventory = {}
 
 			for k,v in ipairs(self.inventory) do
 				if v.count > 0 then
-					items[v.name] = v.count
+					minimalInventory[v.name] = v.count
 				end
 			end
 
-			return items
+			return minimalInventory
 		else
 			return self.inventory
 		end
@@ -114,8 +125,33 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		return self.job
 	end
 
-	self.getLoadout = function()
-		return self.loadout
+	self.getLoadout = function(minimal)
+		if minimal then
+			local minimalLoadout = {}
+
+			for k,v in ipairs(self.loadout) do
+				minimalLoadout[v.name] = {ammo = v.ammo}
+				if v.tintIndex > 0 then minimalLoadout[v.name].tintIndex = v.tintIndex end
+
+				if #v.components > 0 then
+					local components = {}
+
+					for k2,component in ipairs(v.components) do
+						if component ~= 'clip_default' then
+							table.insert(components, component)
+						end
+					end
+
+					if #components > 0 then
+						minimalLoadout[v.name].components = components
+					end
+				end
+			end
+
+			return minimalLoadout
+		else
+			return self.loadout
+		end
 	end
 
 	self.getName = function()
@@ -126,39 +162,6 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		self.name = newName
 	end
 
-	self.getMissingAccounts = function(cb)
-		local missingAccounts = {}
-
-		for account,label in pairs(Config.Accounts) do
-			local found = false
-
-			for k2,v2 in ipairs(self.accounts) do
-				if account == v2.name then
-					found = true
-				end
-			end
-
-			if not found then
-				table.insert(missingAccounts, account)
-			end
-		end
-
-		cb(missingAccounts)
-	end
-
-	self.createMissingAccounts = function(missingAccounts, cb)
-		for k,v in ipairs(missingAccounts) do
-			MySQL.Async.execute('INSERT INTO user_accounts (identifier, name) VALUES (@identifier, @name)', {
-				['@identifier'] = self.identifier,
-				['@name'] = v
-			}, function(rowsChanged)
-				if cb then
-					cb()
-				end
-			end)
-		end
-	end
-
 	self.setAccountMoney = function(accountName, money)
 		if money >= 0 then
 			local account = self.getAccount(accountName)
@@ -166,12 +169,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 			if account then
 				local prevMoney = account.money
 				local newMoney = ESX.Math.Round(money)
-
 				account.money = newMoney
-
-				if accountName == 'bank' then
-					self.set('bank', newMoney)
-				end
 
 				self.triggerEvent('esx:setAccountMoney', account)
 			end
@@ -185,11 +183,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 			if account then
 				local newMoney = account.money + ESX.Math.Round(money)
 				account.money = newMoney
-	
-				if accountName == 'bank' then
-					self.set('bank', newMoney)
-				end
-	
+
 				self.triggerEvent('esx:setAccountMoney', account)
 			end
 		end
@@ -202,11 +196,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 			if account then
 				local newMoney = account.money - ESX.Math.Round(money)
 				account.money = newMoney
-	
-				if accountName == 'bank' then
-					self.set('bank', newMoney)
-				end
-	
+
 				self.triggerEvent('esx:setAccountMoney', account)
 			end
 		end
@@ -227,9 +217,8 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 
 		if item then
 			count = ESX.Math.Round(count)
-
-			local newCount = item.count + count
-			item.count = newCount
+			item.count = item.count + count
+			self.weight = self.weight + (item.weight * count)
 
 			TriggerEvent('esx:onAddInventoryItem', self.source, item.name, item.count)
 			self.triggerEvent('esx:addInventoryItem', item.name, item.count)
@@ -245,6 +234,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 
 			if newCount >= 0 then
 				item.count = newCount
+				self.weight = self.weight - (item.weight * count)
 
 				TriggerEvent('esx:onRemoveInventoryItem', self.source, item.name, item.count)
 				self.triggerEvent('esx:removeInventoryItem', item.name, item.count)
@@ -267,13 +257,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	end
 
 	self.getWeight = function()
-		local inventoryWeight = 0
-
-		for k,v in ipairs(self.inventory) do
-			inventoryWeight = inventoryWeight + (v.count * v.weight)
-		end
-
-		return inventoryWeight
+		return self.weight
 	end
 
 	self.getMaxWeight = function()
@@ -281,7 +265,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	end
 
 	self.canCarryItem = function(name, count)
-		local currentWeight, itemWeight = self.getWeight(), ESX.Items[name].weight
+		local currentWeight, itemWeight = self.weight, ESX.Items[name].weight
 		local newWeight = currentWeight + (itemWeight * count)
 
 		return newWeight <= self.maxWeight
@@ -292,7 +276,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		local testItemObject = self.getInventoryItem(testItem)
 
 		if firstItemObject.count >= firstItemCount then
-			local weightWithoutFirstItem = ESX.Math.Round(self.getWeight() - (firstItemObject.weight * firstItemCount))
+			local weightWithoutFirstItem = ESX.Math.Round(self.weight - (firstItemObject.weight * firstItemCount))
 			local weightWithTestItem = ESX.Math.Round(weightWithoutFirstItem + (testItemObject.weight * testItemCount))
 
 			return weightWithTestItem <= self.maxWeight
@@ -321,8 +305,6 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 			self.job.grade_name   = gradeObject.name
 			self.job.grade_label  = gradeObject.label
 			self.job.grade_salary = gradeObject.salary
-			self.job.can_invite   = gradeObject.can_invite
-			self.job.can_managemoney   = gradeObject.can_managemoney
 
 			if gradeObject.skin_male then
 				self.job.skin_male = json.decode(gradeObject.skin_male)
@@ -385,6 +367,16 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		end
 	end
 
+	self.updateWeaponAmmo = function(weaponName, ammoCount)
+		local loadoutNum, weapon = self.getWeapon(weaponName)
+
+		if weapon then
+			if ammoCount < weapon.ammo then
+				weapon.ammo = ammoCount
+			end
+		end
+	end
+
 	self.setWeaponTint = function(weaponName, weaponTintIndex)
 		local loadoutNum, weapon = self.getWeapon(weaponName)
 
@@ -409,7 +401,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		return 0
 	end
 
-	self.removeWeapon = function(weaponName, ammo)
+	self.removeWeapon = function(weaponName)
 		local weaponLabel
 
 		for k,v in ipairs(self.loadout) do
@@ -426,7 +418,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		end
 
 		if weaponLabel then
-			self.triggerEvent('esx:removeWeapon', weaponName, ammo)
+			self.triggerEvent('esx:removeWeapon', weaponName)
 			self.triggerEvent('esx:removeInventoryItem', weaponLabel, false, true)
 		end
 	end
@@ -440,7 +432,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 			if component then
 				if self.hasWeaponComponent(weaponName, weaponComponent) then
 					for k,v in ipairs(self.loadout[loadoutNum].components) do
-						if v.name == weaponComponent then
+						if v == weaponComponent then
 							table.remove(self.loadout[loadoutNum].components, k)
 							break
 						end
@@ -498,8 +490,8 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		return
 	end
 
-	self.showNotification = function(msg, flash, saveToBrief, hudColorIndex)
-		self.triggerEvent('esx:showNotification', msg, flash, saveToBrief, hudColorIndex)
+	self.showNotification = function(msg)
+		self.triggerEvent('esx:showNotification', msg)
 	end
 
 	self.showHelpNotification = function(msg, thisFrame, beep, duration)
