@@ -547,6 +547,122 @@ AddEventHandler('esx_multichar:RegisterNewAccount', function(firstnameOld, lastn
 
 end)
 
+RegisterNetEvent('esx_multichar:RegisterAccount')
+AddEventHandler('esx_multichar:RegisterAccount', function(firstnameOld, lastnameOld, dobOld, sexOld, heightOld)
+    _menuPool:Remove()
+    collectgarbage()
+	    
+	if registerMenu ~= nil and registerMenu:Visible() then
+        registerMenu:Visible(false)
+    end
+	
+    isInRegistration = true
+	
+	if Config.ForceMultiplayerPed then
+		loadPed("mp_m_freemode_01")
+	end
+	
+    local firstnameStr = firstnameOld
+    local lastnameStr = lastnameOld
+    local dateofbirthStr = dobOld
+    local heightStr = heightOld
+    local sexStr = sexOld or 'm'
+
+    registerMenu = NativeUI.CreateMenu(Translation[Config.Locale]['register_title'], Translation[Config.Locale]['register_title_desc'])
+    registerMenu.Controls.Back.Enabled = false
+    _menuPool:Add(registerMenu)
+    
+    local gender = {
+        Translation[Config.Locale]['gender_m'],
+        Translation[Config.Locale]['gender_f'],
+    }
+
+    local firstname = NativeUI.CreateItem(Translation[Config.Locale]['name'], '~b~')
+    firstname:RightLabel(firstnameStr)
+    local lastname = NativeUI.CreateItem(Translation[Config.Locale]['lastname'], '~b~')
+    lastname:RightLabel(lastnameStr)
+    local dateofbirth = NativeUI.CreateItem(Translation[Config.Locale]['dob'], '~b~')
+    dateofbirth:RightLabel(dateofbirthStr)
+    local height = NativeUI.CreateItem(Translation[Config.Locale]['height'], '~b~')
+    height:RightLabel(heightStr)
+    local sex = NativeUI.CreateListItem(Translation[Config.Locale]['sex'], gender, 1, nil)
+    
+
+    registerMenu:AddItem(firstname)
+    registerMenu:AddItem(lastname)
+    registerMenu:AddItem(dateofbirth)
+    registerMenu:AddItem(height)
+    registerMenu:AddItem(sex)
+
+    local spacer = NativeUI.CreateItem('', '~b~')
+    registerMenu:AddItem(spacer)
+
+    local confirm = NativeUI.CreateItem(Translation[Config.Locale]['confirm'], Translation[Config.Locale]['confirm_desc'])
+    confirm:RightLabel('~b~→→→')
+    registerMenu:AddItem(confirm)
+
+    registerMenu.OnListChange = function(sender, item, index)
+
+        if item == sex then
+            if gender[index] == Translation[Config.Locale]['gender_m'] then
+                sexStr = 'm'
+            elseif gender[index] == Translation[Config.Locale]['gender_f'] then
+                sexStr = 'f'
+            end
+        end
+
+    end
+
+    registerMenu.OnItemSelect = function(sender, item, index)
+
+        if item == firstname then
+            local inserted = KeyboardInput(Translation[Config.Locale]['insert_name'], firstnameStr, 20)
+            if tostring(inserted) then
+                local firstname_res = tostring(inserted)
+                firstname:RightLabel(firstname_res)
+                firstnameStr = firstname_res
+            end
+        elseif item == lastname then
+            local inserted = KeyboardInput(Translation[Config.Locale]['insert_lastname'], lastnameStr, 20)
+            if tostring(inserted) then
+                local lastname_res = tostring(inserted)
+                lastname:RightLabel(lastname_res)
+                lastnameStr = lastname_res
+            end
+        elseif item == dateofbirth then
+            local inserted = KeyboardInput(Translation[Config.Locale]['insert_dob'], dateofbirthStr, 20)
+            if tostring(inserted) then
+                local dob_res = tostring(inserted)
+                dateofbirth:RightLabel(dob_res)
+                dateofbirthStr = dob_res
+            end
+        elseif item == height then
+            local inserted = KeyboardInput(Translation[Config.Locale]['insert_height'], heightStr, 20)
+            if tostring(inserted) then
+                local height_res = tostring(inserted)
+                height:RightLabel(height_res .. Translation[Config.Locale]['height_unit'])
+                heightStr = height_res
+            end
+        elseif item == confirm then
+
+            if firstnameStr ~= nil and lastnameStr ~= nil and dateofbirthStr ~= nil and heightStr ~= nil then
+                registerMenu:Visible(false)
+                isInRegistration = false
+                TriggerServerEvent('esx_multichar:updateAccount', firstnameStr, lastnameStr, dateofbirthStr, sexStr, heightStr)
+                Wait(500)
+
+                _menuPool:CloseAllMenus()
+				
+            else
+                ShowNotification(Translation[Config.Locale]['register_error'])
+            end
+        end
+    end
+    registerMenu:Visible(true)
+    _menuPool:RefreshIndex()
+	_menuPool:MouseControlsEnabled (false)
+end)
+
 
 RegisterNetEvent('esx_multichar:RegisterNewAccount2')
 AddEventHandler('esx_multichar:RegisterNewAccount2', function()
