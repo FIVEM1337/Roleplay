@@ -28,8 +28,8 @@ AddEventHandler('esx:playerLoaded', function(playerId, xPlayer)
 	end)
 end)
 
-RegisterServerEvent('myMultichar:GetPlayerCharacters')
-AddEventHandler('myMultichar:GetPlayerCharacters', function()
+RegisterServerEvent('esx_multichar:GetPlayerCharacters')
+AddEventHandler('esx_multichar:GetPlayerCharacters', function()
     local src = source
     local LastCharId = GetLastCharacter(src)
     local license = GetRockstarID(src)
@@ -47,11 +47,11 @@ AddEventHandler('myMultichar:GetPlayerCharacters', function()
 
     local chars = GetPlayerCharacters(src)
     local maxChars = GetPlayerMaxChars(src)
-    TriggerClientEvent('myMultichar:receiveChars', src, chars, maxChars[1].maxChars)
+    TriggerClientEvent('esx_multichar:receiveChars', src, chars, maxChars[1].maxChars)
 end)
 
-RegisterServerEvent('myMultichar:CharSelected')
-AddEventHandler('myMultichar:CharSelected', function(charid, isnew)
+RegisterServerEvent('esx_multichar:CharSelected')
+AddEventHandler('esx_multichar:CharSelected', function(charid, isnew)
     local src = source
     local spawn = {}
     SetLastCharacter(src, tonumber(charid))
@@ -71,11 +71,11 @@ AddEventHandler('myMultichar:CharSelected', function(charid, isnew)
             spawn = Config.FirstSpawnLocation
         end
 		spawn = GetSpawnPos(src)
-		TriggerClientEvent("myMultichar:SpawnCharacter", src, spawn, false)
+		TriggerClientEvent("esx_multichar:SpawnCharacter", src, spawn, false)
     else
 		TriggerClientEvent('skinchanger:loadDefaultModel', src, true, cb)
         spawn = Config.FirstSpawnLocation -- DEFAULT SPAWN POSITION
-		TriggerClientEvent("myMultichar:SpawnCharacter", src, spawn, true)
+		TriggerClientEvent("esx_multichar:SpawnCharacter", src, spawn, true)
     end
     
 end)
@@ -162,8 +162,8 @@ function DeleteCharacter(identifier, charid, maxChars)
 end
 
 
-RegisterServerEvent('myMultichar:deleteChar')
-AddEventHandler('myMultichar:deleteChar', function(charid, maxChars)
+RegisterServerEvent('esx_multichar:deleteChar')
+AddEventHandler('esx_multichar:deleteChar', function(charid, maxChars)
     local steamID = GetRockstarID(source)
     DeleteCharacter(steamID, charid, maxChars)
 end)
@@ -252,8 +252,8 @@ function RegisterNewAccount(identifier_res, firstname_res, lastname_res, dateofb
 end
 
 
-RegisterServerEvent('myMultichar:updateAccount')
-AddEventHandler('myMultichar:updateAccount', function(firstname_res, lastname_res, dateofbirth_res, sex_res, height_res)
+RegisterServerEvent('esx_multichar:updateAccount')
+AddEventHandler('esx_multichar:updateAccount', function(firstname_res, lastname_res, dateofbirth_res, sex_res, height_res)
 
 
     local identifier_res = GetIdentifierWithoutLicense(GetRockstarID(source))
@@ -262,8 +262,8 @@ AddEventHandler('myMultichar:updateAccount', function(firstname_res, lastname_re
 end)
 
 
-RegisterServerEvent('myMultichar:updatePedModel')
-AddEventHandler('myMultichar:updatePedModel', function(newModel)
+RegisterServerEvent('esx_multichar:updatePedModel')
+AddEventHandler('esx_multichar:updatePedModel', function(newModel)
     local steamID = GetIdentifierWithoutLicense(GetRockstarID(source))
     MySQL.Async.execute("UPDATE `users` SET `pedModel` = @pedModel WHERE identifier = @identifier",
     {
@@ -272,8 +272,8 @@ AddEventHandler('myMultichar:updatePedModel', function(newModel)
     })
 end)
 
-RegisterServerEvent('myMultichar:updatePermissions')
-AddEventHandler('myMultichar:updatePermissions', function(target, type, value)
+RegisterServerEvent('esx_multichar:updatePermissions')
+AddEventHandler('esx_multichar:updatePermissions', function(target, type, value)
     local steamID = GetIdentifierWithoutLicense(GetRockstarID(source))
 
     if steamID ~= nil then
@@ -283,7 +283,7 @@ AddEventHandler('myMultichar:updatePermissions', function(target, type, value)
             ['@identifier']   = steamID,
             ['@pedAllowed']    = value,
             })
-            TriggerClientEvent('myMultichar:msg', source, Translation[Config.Locale]['giveperm_success'])
+            TriggerClientEvent('esx_multichar:msg', source, Translation[Config.Locale]['giveperm_success'])
 
         elseif type == 'charamount' then
             MySQL.Async.execute("UPDATE `user_lastcharacter` SET `maxChars` = @maxChars WHERE steamid = @identifier",
@@ -291,10 +291,10 @@ AddEventHandler('myMultichar:updatePermissions', function(target, type, value)
             ['@identifier']   = steamID,
             ['@maxChars']    = value,
             })
-            TriggerClientEvent('myMultichar:msg', source, Translation[Config.Locale]['giveperm_success'])
+            TriggerClientEvent('esx_multichar:msg', source, Translation[Config.Locale]['giveperm_success'])
         end
     else
-        TriggerClientEvent('myMultichar:msg', source, Translation[Config.Locale]['giveperm_error'])
+        TriggerClientEvent('esx_multichar:msg', source, Translation[Config.Locale]['giveperm_error'])
     end
 
    
@@ -306,7 +306,7 @@ AddEventHandler('es:playerLoaded', function(source)
     
         if data.firstname == '' then
 			if Config.useRegisterMenu then
-				TriggerClientEvent('myMultichar:RegisterNewAccount', source)
+				TriggerClientEvent('esx_multichar:RegisterNewAccount', source)
 			end
         else
             print('Character loaded: ' .. data.firstname .. ' ' .. data.lastname)
@@ -324,7 +324,7 @@ AddEventHandler('es:playerLoaded', function(source)
     function(result)
         if #result > 0 then
             if result[1].pedModel ~= nil then
-                TriggerClientEvent('myMultichar:applyPed', source, result[1].pedModel)
+                TriggerClientEvent('esx_multichar:applyPed', source, result[1].pedModel)
             end
         end
     end
@@ -344,9 +344,9 @@ if Config.useRegisterMenu then
 		},
 		function(result)
 			if #result > 0 then
-				TriggerClientEvent('myMultichar:RegisterNewAccount', source, result[1].firstname, result[1].lastname, result[1].dateofbirth, result[1].sex, result[1].height)
+				TriggerClientEvent('esx_multichar:RegisterNewAccount', source, result[1].firstname, result[1].lastname, result[1].dateofbirth, result[1].sex, result[1].height)
 			else
-				TriggerClientEvent('myMultichar:RegisterNewAccount', source)
+				TriggerClientEvent('esx_multichar:RegisterNewAccount', source)
 			end
 		end
 		)
@@ -365,12 +365,12 @@ RegisterCommand('changePed', function(source, args, raw)
     function(result)
         if #result > 0 then
             if result[1].pedModeAllowed ~= nil then
-                TriggerClientEvent('myMultichar:openPedMenu', source, result[1].pedModel)
+                TriggerClientEvent('esx_multichar:openPedMenu', source, result[1].pedModel)
             else
-                TriggerClientEvent('myMultichar:msg', source, Translation[Config.Locale]['pedmode_no_perms'])
+                TriggerClientEvent('esx_multichar:msg', source, Translation[Config.Locale]['pedmode_no_perms'])
             end
         else
-            TriggerClientEvent('myMultichar:msg', source, Translation[Config.Locale]['pedmode_no_perms'])
+            TriggerClientEvent('esx_multichar:msg', source, Translation[Config.Locale]['pedmode_no_perms'])
         end
     end
     )

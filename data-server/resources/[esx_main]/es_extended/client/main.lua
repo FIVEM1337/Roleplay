@@ -22,8 +22,8 @@ end)
 --end)
 
 
-RegisterNetEvent('myMultichar:loaded')
-AddEventHandler('myMultichar:loaded', function()
+RegisterNetEvent('esx_multichar:loaded')
+AddEventHandler('esx_multichar:loaded', function()
     TriggerServerEvent('esx:onPlayerJoined')
 end)
 
