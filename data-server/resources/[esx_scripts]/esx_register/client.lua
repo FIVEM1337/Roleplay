@@ -13,7 +13,6 @@ Citizen.CreateThread(function()
 	TriggerEvent('esx_register:spawnnpc')
 
 	while infoped ~= nil do
-		print("jo")
 		Citizen.Wait(1)
 		TaskSetBlockingOfNonTemporaryEvents(infoped, true)
 	end
