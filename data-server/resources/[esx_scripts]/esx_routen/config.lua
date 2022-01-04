@@ -2,6 +2,7 @@ Config = {}
 Config.PlayAnimations = true
 Config.ControlKey = 38
 routen = {
+	--Legale Routen
 	{ 
 		Tabakroute = {
 			illegal = false,
@@ -115,5 +116,44 @@ routen = {
 				npc = {model = "a_m_m_soucent_04", heading = 37.40}
 			}
 		}
-	}	
+	},
+	--Illegale Routen
+	{ 
+		Westenroute = {
+			illegal = true,
+			weed_harvest = {
+				name = "Weed sammeln | Weedroute",
+				item = {item = "weed", count = 1},
+				need = {},
+				time = 5,
+				animation = "WORLD_HUMAN_GARDENER_PLANT",
+				blip = {sprite = 496, color = 2, scale = 0.8},
+				marker = {type = 27, range = 50.0, red = 50, green = 50, blue = 204, show = false},
+				coord = vector3(5373.04, -5245.00, 34.10),
+				npc = false
+			},
+			weed_process = {
+				name = "Joints drehen | Weedroute",
+				time = 3,
+				item = {item = "joint", count = 1},
+				need = {item = "weed", count = 2, removeItem = true},
+				animation = "WORLD_HUMAN_GARDENER_PLANT",
+				blip = {sprite = 496, color = 2, scale = 0.8},
+				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
+				coord = vector3(5011.20, -5750.90, 27.85),
+				npc = {model = "a_m_y_soucent_02", heading = 152.85}
+			},
+			weed_sell = {
+				name = "Joints verkaufen | Weedroute",
+				time = 3,
+				item = {item = "black_money", count = 200},
+				need = {item = "joint", count = 5, removeItem = true},
+				animation = "WORLD_HUMAN_GARDENER_PLANT",
+				blip = {sprite = 496, color = 2, scale = 0.8},
+				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
+				coord = vector3(4447.55, -4443.70, 6.24),
+				npc = {model = "a_m_y_soucent_02", heading = 108.50}
+			}
+		}
+	}		
 }
