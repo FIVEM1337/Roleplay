@@ -1,5 +1,5 @@
 Config = {}
-Config.PlayAnimations = false
+Config.PlayAnimations = true
 Config.ControlKey = 38
 routen = {
 	{ 

@@ -182,7 +182,7 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1)
-        if work and PlayAnimations then
+        if work and Config.PlayAnimations then
             if not IsPedUsingScenario(PlayerPedId(), LastZone.animation) then
                 TaskStartScenarioInPlace(PlayerPedId(), LastZone.animation, 0, true)
             end
