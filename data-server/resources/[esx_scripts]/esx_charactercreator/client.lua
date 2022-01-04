@@ -463,8 +463,6 @@ function generateClothesMenu(skin_result)
             end
         end
 
-        local spacerItem = NativeUI.CreateItem('~b~', '~b~')
-        mainMenu:AddItem(spacerItem)
 
         local saveItem = NativeUI.CreateItem(Translation[Cfg.Locale]['save_skin'], '~b~')
         mainMenu:AddItem(saveItem)
@@ -646,9 +644,6 @@ function generateFaceMenu(skin_result)
                 end
             end
         end
-
-        local spacerItem = NativeUI.CreateItem('~b~', '~b~')
-        mainMenu:AddItem(spacerItem)
 
         local saveItem = NativeUI.CreateItem(Translation[Cfg.Locale]['save_skin'], '~b~')
         mainMenu:AddItem(saveItem)
