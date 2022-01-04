@@ -1,5 +1,6 @@
 ESX = nil
 local blips_list = {}
+local npc_list = {}
 local HasAlreadyEnteredMarker = false
 local LastZone                = nil
 local work  = false
@@ -22,6 +23,17 @@ Citizen.CreateThread(function()
             end
         end
 	end
+
+    TriggerEvent('esx_routen:spawnnpcs')
+
+	while true do
+        Citizen.Wait(1)
+        if npc_list then
+            for i, ped in ipairs(npc_list) do
+		        TaskSetBlockingOfNonTemporaryEvents(ped, true)
+            end
+        end
+	end
 end)
 
 RegisterNetEvent('esx:setJob')
@@ -38,6 +50,32 @@ AddEventHandler('esx:setJob', function(job)
 	end
 end)
 
+
+AddEventHandler('esx_routen:spawnnpcs', function ()
+    for k, v in pairs (routen) do
+        for k, v in pairs (v) do
+            for k, v in pairs (v) do
+                if (type(v) == "table") then
+		            if v.npc then
+                        RequestModel(v.npc.model)
+                        LoadPropDict(v.npc.model)
+                        local ped = CreatePed(5, v.npc.model , v.coord, v.npc.heading, false, true)
+                        PlaceObjectOnGroundProperly(ped)
+                        SetEntityAsMissionEntity(ped)
+                        SetPedDropsWeaponsWhenDead(ped, false)
+                        FreezeEntityPosition(ped, true)
+                        SetPedAsEnemy(ped, false)
+                        SetEntityInvincible(ped, true)
+                        SetModelAsNoLongerNeeded(v.npc.model)
+                        SetPedCanBeTargetted(ped, false)
+                        table.insert(npc_list, ped)
+                    end
+                end
+            end
+        end
+	end
+end)
+
 -- Display markers
 Citizen.CreateThread(function()
     while true do
@@ -48,8 +86,10 @@ Citizen.CreateThread(function()
                 if not v.illegal then
                     for k, v in pairs (v) do
                         if (type(v) == "table") then
-                            if(GetDistanceBetweenCoords(coords, v.coord.x, v.coord.y, v.coord.z, true) < 30.0) then
-                                DrawMarker(v.marker.type, v.coord, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.marker.range, v.marker.range, 1.0, v.marker.red, v.marker.green, v.marker.blue, 100, false, true, 2, true, false, false, false)
+                            if v.marker.show then
+                                if(GetDistanceBetweenCoords(coords, v.coord.x, v.coord.y, v.coord.z, true) < 30.0) then
+                                    DrawMarker(v.marker.type, v.coord, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.marker.range, v.marker.range, 1.0, v.marker.red, v.marker.green, v.marker.blue, 100, false, true, 2, true, false, false, false)
+                                end
                             end
                         end
                     end
@@ -73,7 +113,7 @@ Citizen.CreateThread(function ()
                 for k, v in pairs (v) do
                     zone = v
                     if (type(v) == "table") then
-			            if(#(coords - v.coord) < v.marker.range) then
+			            if(#(coords - v.coord) < (v.marker.range / 2)) then
 			            	isInMarker  = true
 			            	currentZone = zone
 			            end
@@ -142,7 +182,7 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1)
-        if work and PlayAnimations then
+        if work and Config.PlayAnimations then
             if not IsPedUsingScenario(PlayerPedId(), LastZone.animation) then
                 TaskStartScenarioInPlace(PlayerPedId(), LastZone.animation, 0, true)
             end
@@ -170,4 +210,24 @@ function CreateBlip(config)
     AddTextComponentSubstringPlayerName(config.name)
     EndTextCommandSetBlipName(blip)
     table.insert(blips_list, blip)
+end
+
+
+AddEventHandler('onResourceStop', function(resource)
+    if resourceName == GetCurrentResourceName() then
+
+        if npc_list then
+            for i, ped in ipairs(npc_list) do
+	            DeletePed(ped)
+            end
+            npc_list = {}
+        end
+    end
+end)    
+
+function LoadPropDict(model)
+	while not HasModelLoaded(GetHashKey(model)) do
+	  RequestModel(GetHashKey(model))
+	  Wait(10)
+	end
 end
