@@ -30,37 +30,10 @@ Citizen.CreateThread(function()
             _menuPool:ProcessMenus()
         end
 
-        if isCameraActive then
-			if IsControlJustReleased(1, 202) then
-				DeleteSkinCam()
-			end
-        end
 
         if cam ~= nil and not _menuPool:IsAnyMenuOpen() then
 			DeleteSkinCam()
 		end
-
-        if IsDisabledControlJustReleased(1, 191) then
-            -- if mainMenu ~= nil and mainMenu:Visible() then
-            --     mainMenu:Visible(false)
-            --     TriggerEvent('skinchanger:getSkin', function(finalSkin)
-            --         TriggerServerEvent('register:saveSkin', finalSkin)
-            --         --generateClothesMenu()
-            --     end)
-            --     DeleteSkinCam()
-                
-            -- else
-            if creatorMenu ~= nil and creatorMenu:Visible() then
-                creatorMenu:Visible(false)
-                TriggerEvent('skinchanger:getSkin', function(finalSkin)
-                    TriggerServerEvent('register:saveSkin', finalSkin)
-                    if not firstspawn then
-                 --       generateClothesMenu(finalSkin)
-                    end
-                end)
-                DeleteSkinCam()
-            end
-        end
 
         Citizen.Wait(1)
     end
@@ -122,6 +95,8 @@ function generateGenderMenu(firstspawn)
 	if creatorMenu ~= nil and creatorMenu:Visible() then
 		creatorMenu:Visible(false)
 	end
+
+    FreezeEntityPosition(PlayerPedId(), true)
 
     local hash = GetEntityModel(PlayerPedId())
 
@@ -307,6 +282,20 @@ function generateGenderMenu(firstspawn)
         end
     end
 
+
+    local saveItem = NativeUI.CreateItem(Translation[Cfg.Locale]['save_skin'], '~b~')
+    creatorMenu:AddItem(saveItem)
+
+    saveItem.Activated = function(sender, item, index)
+        creatorMenu:Visible(false)
+        TriggerEvent('skinchanger:getSkin', function(finalSkin)
+            TriggerServerEvent('register:saveSkin', finalSkin)
+            FreezeEntityPosition(PlayerPedId(), false)
+        end)
+        DeleteSkinCam()
+    end
+
+
     creatorMenu:Visible(true)
     _menuPool:RefreshIndex()
 	_menuPool:MouseEdgeEnabled (false)
@@ -316,6 +305,8 @@ function generateClothesMenu(skin_result)
 	if mainMenu ~= nil and mainMenu:Visible() then
 		mainMenu:Visible(false)
 	end
+
+    FreezeEntityPosition(PlayerPedId(), true)
 
     _menuPool:Remove()
     mainMenu = NativeUI.CreateMenu(Translation[Cfg.Locale]['face_title'], nil, nil)
@@ -482,6 +473,7 @@ function generateClothesMenu(skin_result)
             mainMenu:Visible(false)
             TriggerEvent('skinchanger:getSkin', function(finalSkin)
                 TriggerServerEvent('register:saveSkin', finalSkin)
+                FreezeEntityPosition(PlayerPedId(), false)
             end)
             DeleteSkinCam()
         end
@@ -499,6 +491,7 @@ function generateFaceMenu(skin_result)
 	if mainMenu ~= nil and mainMenu:Visible() then
 		mainMenu:Visible(false)
 	end
+    FreezeEntityPosition(PlayerPedId(), true)
 
     _menuPool:Remove()
     mainMenu = NativeUI.CreateMenu(Translation[Cfg.Locale]['face_title'], nil, nil)
@@ -664,6 +657,7 @@ function generateFaceMenu(skin_result)
             mainMenu:Visible(false)
             TriggerEvent('skinchanger:getSkin', function(finalSkin)
                 TriggerServerEvent('register:saveSkin', finalSkin)
+                FreezeEntityPosition(PlayerPedId(), false)
             end)
             DeleteSkinCam()
         end
