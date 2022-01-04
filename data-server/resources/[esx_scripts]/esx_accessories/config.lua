@@ -12,7 +12,7 @@ Config.Color  = {r = 102, g = 102, b = 204}
 Config.Type   = 1
 
 -- Fill this if you want to see the blips,
--- If you have esx_clothesshop you should not fill this
+-- If you have esx_clotheshop you should not fill this
 -- more than it's already filled.
 Config.ShopsBlips = {
 	Ears = {

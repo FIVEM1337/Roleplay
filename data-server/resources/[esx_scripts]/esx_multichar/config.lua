@@ -34,9 +34,7 @@ Config.Tables = {
     {table = "phone_twitter_messages", column = "identifier"},
     {table = "sprays", column = "identifier"},
     {table = "user_licenses", column = "owner"},
-    {table = "phone_information", column = "identifier"},
-    {table = "phone_information", column = "identifier"},
-    
+    {table = "user_clothes", column = "identifier"},   
 }
 
 Config.SpawnLocations = {
