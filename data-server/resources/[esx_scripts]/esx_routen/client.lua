@@ -4,6 +4,7 @@ local npc_list = {}
 local HasAlreadyEnteredMarker = false
 local LastZone                = nil
 local work  = false
+local cantrigger = true
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -142,6 +143,9 @@ AddEventHandler('esx_routen:changestatus', function(status)
     if status == false then
         ClearPedTasks(PlayerPedId())
     end
+
+    Citizen.Wait(5000)
+    cantrigger = true
 end)
 
 AddEventHandler('esx_routen:hasEnteredMarker', function (zone)
@@ -166,8 +170,9 @@ Citizen.CreateThread(function()
 		if CurrentAction == nil then
 			Citizen.Wait(0)
 		else		
-			if IsControlJustReleased(0, Config.ControlKey) then
+			if IsControlJustReleased(0, Config.ControlKey) and cantrigger then
                 ESX.TriggerServerCallback('esx_routen:done', function(running)
+                    cantrigger = false
                     if running then
                         TriggerServerEvent('esx_routen:stopRoute', LastZone)
                     else
