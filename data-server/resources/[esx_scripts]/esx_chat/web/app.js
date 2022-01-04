@@ -32,7 +32,7 @@ window.APP = {
 		window.removeEventListener('message', this.listener);
 	},
 	mounted() {
-		post('http://okokChat/loaded', JSON.stringify({}));
+		post('http://esx_chat/loaded', JSON.stringify({}));
 		this.listener = window.addEventListener('message', (event) => {
 			const item = event.data || event.detail; //'detail' is for debuging via browsers
 			if (this[item.type]) {
@@ -250,7 +250,7 @@ window.APP = {
 		},
 		send(e) {
 			if(this.message !== '') {
-				post('http://okokChat/chatResult', JSON.stringify({
+				post('http://esx_chat/chatResult', JSON.stringify({
 					message: this.message,
 				}));
 				this.oldMessages.unshift(this.message);
@@ -262,7 +262,7 @@ window.APP = {
 		},
 		hideInput(canceled = false) {
 			if (canceled) {
-				post('http://okokChat/chatResult', JSON.stringify({ canceled }));
+				post('http://esx_chat/chatResult', JSON.stringify({ canceled }));
 			}
 			this.message = '';
 			this.showInput = false;

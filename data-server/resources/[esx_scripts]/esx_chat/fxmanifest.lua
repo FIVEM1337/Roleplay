@@ -3,7 +3,7 @@ fx_version 'adamant'
 game 'gta5'
 
 author 'okok#3488'
-description 'okokChat'
+description 'esx_chat'
 
 ui_page 'web/ui.html'
 
