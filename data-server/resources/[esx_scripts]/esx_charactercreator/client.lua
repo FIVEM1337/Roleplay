@@ -11,7 +11,6 @@ end)
 
 local _menuPool = NativeUI.CreatePool()
 local creatorMenu
-local firstspawn = false
 local mainMenu
 -- CAM STUFF
 local cam            = nil
@@ -56,7 +55,7 @@ Citizen.CreateThread(function()
                 TriggerEvent('skinchanger:getSkin', function(finalSkin)
                     TriggerServerEvent('register:saveSkin', finalSkin)
                     if not firstspawn then
-                        generateClothesMenu(finalSkin)
+                 --       generateClothesMenu(finalSkin)
                     end
                 end)
                 DeleteSkinCam()
@@ -69,8 +68,7 @@ end)
 
 RegisterNetEvent('myCreator:openMenu')
 AddEventHandler('myCreator:openMenu', function(status)
-    showCreator()
-    firstspawn = status
+    generateGenderMenu(status)
 end)
 
 if Cfg.useCommand then
@@ -78,13 +76,36 @@ if Cfg.useCommand then
 		if Cfg.PermissionsRequired then
 			ESX.TriggerServerCallback('esx_charactercreator:getGroup', function(group_res)
 				if group_res == Cfg.AdminGroup then
-					showCreator()
+					generateGenderMenu()
 				end
 			end)
 		else
-			showCreator()
+			generateGenderMenu()
 		end
-        
+    end)
+
+    RegisterCommand('skin2', function(source, args, raw)
+		if Cfg.PermissionsRequired then
+			ESX.TriggerServerCallback('esx_charactercreator:getGroup', function(group_res)
+				if group_res == Cfg.AdminGroup then
+					generateClothesMenu()
+				end
+			end)
+		else
+			generateClothesMenu()
+		end  
+    end)
+
+    RegisterCommand('skin3', function(source, args, raw)
+		if Cfg.PermissionsRequired then
+			ESX.TriggerServerCallback('esx_charactercreator:getGroup', function(group_res)
+				if group_res == Cfg.AdminGroup then
+					generateFaceMenu()
+				end
+			end)
+		else
+			generateFaceMenu()
+		end
     end)
 end
 
@@ -97,12 +118,28 @@ local selectedComplexion
 
 local currentGender = 0
 
-function showCreator()
+function generateGenderMenu(firstspawn)
 	if creatorMenu ~= nil and creatorMenu:Visible() then
 		creatorMenu:Visible(false)
 	end
-	
-	loadPed("mp_m_freemode_01")
+
+    local hash = GetEntityModel(PlayerPedId())
+
+    local model, type
+    if hash == 1885233650 then
+        model = "mp_m_freemode_01"
+        type = 1
+    else
+        model = "mp_f_freemode_01"
+        type = 2
+    end
+
+    if firstspawn then
+        loadPed(model)
+    end
+
+    RequestModel(model)
+
 
     creatorMenu = NativeUI.CreateMenu(Translation[Cfg.Locale]['face_title'])
     _menuPool:Add(creatorMenu)
@@ -110,7 +147,7 @@ function showCreator()
     creatorMenu.Controls.Back.Enabled = false
 
     local gender = {Translation[Cfg.Locale]['male'], Translation[Cfg.Locale]['female']}
-    local sex = NativeUI.CreateListItem(Translation[Cfg.Locale]['sex'], gender, 1)
+    local sex = NativeUI.CreateListItem(Translation[Cfg.Locale]['sex'], gender, type)
     creatorMenu:AddItem(sex)
 
     local parents = _menuPool:AddSubMenu(creatorMenu, Translation[Cfg.Locale]['parents'])
@@ -144,10 +181,7 @@ function showCreator()
         zoomOffset = 0.6
         camOffset = 0.7
 
-        print('selectedFather: ' .. selectedFather)
-        print('selectedMother: ' .. selectedMother)
         heritageWindow:Index(selectedMother, selectedFather)
-        --SetPedHeadBlendData	(GetPlayerPed(-1), selectedMother, selectedFather, nil, selectedMother, selectedFather, nil, selectedSimilarity, selectedComplexion, nil, true)
         TriggerEvent('skinchanger:change', 'mom', selectedMother)
         TriggerEvent('skinchanger:change', 'dad', selectedFather)
         TriggerEvent('skinchanger:change', 'face_md_weight', selectedSimilarity)
@@ -166,7 +200,6 @@ function showCreator()
         zoomOffset = 0.6
         camOffset = 0.7
 
-        --SetPedHeadBlendData	(GetPlayerPed(-1), selectedMother, selectedFather, nil, selectedMother, selectedFather, nil, selectedSimilarity, selectedComplexion, nil, true)
         TriggerEvent('skinchanger:change', 'mom', selectedMother)
         TriggerEvent('skinchanger:change', 'dad', selectedFather)
         TriggerEvent('skinchanger:change', 'face_md_weight', selectedSimilarity)
@@ -227,33 +260,6 @@ function showCreator()
     local sunDamageIntensityList = NativeUI.CreateListItem(Translation[Cfg.Locale]['sun_damage_intensity'], intensityValues, 1)
     creatorMenu:AddItem(sunDamageIntensityList)
 
-    -- CONFIRM BUTTON
-    -- local spacer = NativeUI.CreateItem('~b~', '~b~')
-    -- creatorMenu:AddItem(spacer)
-
-    -- local continue = NativeUI.CreateItem('~g~Continue', '~g~Click to save the face of your character')
-    -- creatorMenu:AddItem(continue)
-
-    -- continue.Activated = function(sender, index)
-    --     TriggerEvent('skinchanger:getSkin', function(finalSkin)
-    --         TriggerServerEvent('register:saveSkin', finalSkin)
-    --         generateClothesMenu()
-    --     end)
-    --     creatorMenu:Visible(false)
-    -- end
-
-    -- local hairList = NativeUI.CreateListItem('Hair', Cfg.hairList[currentGender+1], 1)
-    -- creatorMenu:AddItem(hairList)
-
-    -- local highlightValues = {}
-    -- for i=0, GetNumberOfPedTextureVariations(PlayerPedId(), 2, 0)-1, 1 do
-    --     table.insert(highlightValues, i)
-    -- end
-
-    -- local hairHighlightList = NativeUI.CreateListItem('Hair Highlight', highlightValues, 1)
-    -- creatorMenu:AddItem(hairHighlightList)
-
-
     creatorMenu.OnListChange = function(sender, item, index)
         CreateSkinCam()
         if item == sex then
@@ -262,25 +268,6 @@ function showCreator()
 
             zoomOffset = 1.5
             camOffset = 0.2
-            -- hairList.Items = Cfg.hairList[currentGender+1]
-
-            -- local highlightValues = {}
-            -- for i=0, GetNumberOfPedTextureVariations(PlayerPedId(), 2, 0)-1, 1 do
-            --     table.insert(highlightValues, i)
-            -- end
-
-            -- hairHighlightList.Items = highlightValues
-        -- elseif item == hairList then
-        --     TriggerEvent('skinchanger:change', 'hair_1', index - 1)
-        --     TriggerEvent('skinchanger:change', 'hair_2', 0)
-        --     local highlightValues = {}
-        --     for i=0, GetNumberOfPedTextureVariations(PlayerPedId(), 2, index-1)-1, 1 do
-        --         table.insert(highlightValues, i)
-        --     end
-
-        --     hairHighlightList.Items = highlightValues
-        -- elseif item == hairHighlightList then
-        --     TriggerEvent('skinchanger:change', 'hair_2', index - 1)
         elseif item == eyeColourList then
             TriggerEvent('skinchanger:change', 'eye_color', index - 1)
             zoomOffset = 0.6
@@ -322,9 +309,7 @@ function showCreator()
 
     creatorMenu:Visible(true)
     _menuPool:RefreshIndex()
-    --_menuPool:MouseControlsEnabled (false)
 	_menuPool:MouseEdgeEnabled (false)
-	--_menuPool:ControlDisablingEnabled(false)
 end
 
 function generateClothesMenu(skin_result)
@@ -437,18 +422,15 @@ function generateClothesMenu(skin_result)
             end
             mainMenu.OnListChange = function(sender, item, index)
                 local selectedIndex = index 
-                --print(selectedIndex)
-    
+
                 for k2, v2 in pairs(menuItems) do
                     if v2.item == item then
     
                         if v2.type == 1 then
                             if v2.data.name ~= "arms" and v2.data.type ~= 3 then
-                              --print('type: ' .. v2.data.type)
                               TriggerEvent('skinchanger:change', v2.data.name2, 0)
                             end
                             TriggerEvent('skinchanger:change', v2.data.name, componentValues[v2.data.name][selectedIndex])
-                            print(componentValues[v2.data.name][selectedIndex])
     
                             CreateSkinCam()
                             zoomOffset = v2.data.zoomOffset
@@ -470,7 +452,6 @@ function generateClothesMenu(skin_result)
                                 end
                                 v2.parent._Index = 1
                                 v2.parent.Items = variationValues
-                               -- print('Variation Values updated to ' .. #variationValues)
                             end
     
                             if v2.data.componentID == 11 then
@@ -488,7 +469,6 @@ function generateClothesMenu(skin_result)
                         break
                     end
                 end
-    
             end
         end
 
@@ -502,7 +482,6 @@ function generateClothesMenu(skin_result)
             mainMenu:Visible(false)
             TriggerEvent('skinchanger:getSkin', function(finalSkin)
                 TriggerServerEvent('register:saveSkin', finalSkin)
-                --generateClothesMenu()
             end)
             DeleteSkinCam()
         end
@@ -514,10 +493,188 @@ function generateClothesMenu(skin_result)
         _menuPool:ControlDisablingEnabled(false)
 
     end)
+end
 
+function generateFaceMenu(skin_result)
+	if mainMenu ~= nil and mainMenu:Visible() then
+		mainMenu:Visible(false)
+	end
+
+    _menuPool:Remove()
+    mainMenu = NativeUI.CreateMenu(Translation[Cfg.Locale]['face_title'], nil, nil)
+    _menuPool:Add(mainMenu)
+	
+	mainMenu.Controls.Back.Enabled = false
+
+    local LastSkin
+
+    ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
+		if skin ~= nil then
+			LastSkin = skin
+		else
+			LastSkin = skin_result
+		end
+
+        if LastSkin.sex == 0 then
+            torsoData = Cfg.MaleTorsoData
+        elseif LastSkin.sex == 1 then
+            torsoData = Cfg.FemaleTorsoData
+        end
     
+        local menuItems = {}
+        local componentValues = {}
+        for k, v in pairs(Cfg.faceContent) do
+            componentValues[v.name] = {}
+    
+            local amountOfComponents
+            if v.type == 1 then
+                amountOfComponents = GetNumberOfPedDrawableVariations(GetPlayerPed(-1), v.componentID)-1
+            elseif v.type == 2 then
+                amountOfComponents = GetNumberOfPedPropDrawableVariations(GetPlayerPed(-1), v.componentID)-1
+            else
+                amountOfComponents = v.amountComponents
+            end
+            
+            if v.name == 'ears_1' or v.name == 'helmet_1' then
+                table.insert(componentValues[v.name], -1)
+            end
+    
+    
+            for i2=0, amountOfComponents-1, 1 do
+                if v.blockedParts[LastSkin.sex] ~= nil and #v.blockedParts[LastSkin.sex] > 0 then
+                    for j2, blockedNumber in pairs(v.blockedParts[LastSkin.sex]) do
+                        if i2 == blockedNumber then
+                            break
+                        elseif j2 == #v.blockedParts[LastSkin.sex] then
+                            table.insert(componentValues[v.name], i2)
+    
+                        end
+                    end
+                else
+                    table.insert(componentValues[v.name], i2)
+                end    
+            end
+    
+            local finalIndex = LastSkin[v.name]
+            for findIndexCount, findIndexData in pairs(componentValues[v.name]) do
+                if findIndexData == LastSkin[v.name] then
+                    finalIndex = findIndexCount
+                    break
+                end
+            end
+            local newValues = {}
+            for i=1, #componentValues[v.name], 1 do
+                table.insert(newValues, i)
+            end
+            local Component1ListItem = NativeUI.CreateListItem('~o~→ ~s~' .. v.label, componentValues[v.name], finalIndex)
+            mainMenu:AddItem(Component1ListItem)
+            table.insert(menuItems, {
+                item = Component1ListItem,
+                type = 1,
+                data = v})
+    
+    
+            if v.name2 ~= nil then
+                variationValues = {}
+                local amountOfVariations
+                if v.type == 1 then
+                    amountOfVariations = GetNumberOfPedTextureVariations(GetPlayerPed(-1), v.componentID, LastSkin[v.name])
+                elseif v.type == 2 then
+                    amountOfVariations = GetNumberOfPedPropTextureVariations(PlayerPedId(-1), v.componentID, LastSkin[v.name])
+                else 
+                    amountOfVariations = v.amountVariations
+                end
+                for i2=0, amountOfVariations, 1 do
+                    table.insert(variationValues, i2)
+                end
+                
+                local variationString = Translation[Cfg.Locale]['change_colour']
+                if v.type == 3 then
+                    variationString = Translation[Cfg.Locale]['change_variation']
+                end
+                Component2ListItem = NativeUI.CreateListItem(variationString, variationValues, LastSkin[v.name2])
+                mainMenu:AddItem(Component2ListItem)
+    
+                menuItems[#menuItems].parent = Component2ListItem
+                table.insert(menuItems, {
+                    item = Component2ListItem,
+                    type = 2,
+                    data = v})
+    
+            end
+            mainMenu.OnListChange = function(sender, item, index)
+                local selectedIndex = index 
+    
+                for k2, v2 in pairs(menuItems) do
+                    if v2.item == item then
+    
+                        if v2.type == 1 then
+                            if v2.data.name ~= "arms" and v2.data.type ~= 3 then
+                              TriggerEvent('skinchanger:change', v2.data.name2, 0)
+                            end
+                            TriggerEvent('skinchanger:change', v2.data.name, componentValues[v2.data.name][selectedIndex])
+    
+                            CreateSkinCam()
+                            zoomOffset = v2.data.zoomOffset
+                            camOffset = v2.data.camOffset
+    
+                            if v2.parent ~= nil then
+    
+                                variationValues = {}
+                                local amountOfVariations
+                                if v2.data.type == 1 then
+                                    amountOfVariations = GetNumberOfPedTextureVariations(GetPlayerPed(-1), v2.data.componentID, componentValues[v2.data.name][selectedIndex])
+                                elseif v2.data.type == 2 then
+                                    amountOfVariations = GetNumberOfPedPropTextureVariations(PlayerPedId(-1), v2.data.componentID, componentValues[v2.data.name][selectedIndex])
+                                else
+                                    amountOfVariations = v2.data.amountVariations
+                                end
+                                for i3=0, amountOfVariations, 1 do
+                                    table.insert(variationValues, i3)
+                                end
+                                v2.parent._Index = 1
+                                v2.parent.Items = variationValues
+                            end
+    
+                            if v2.data.componentID == 11 then
+                                if torsoData[componentValues[v2.data.name][selectedIndex]] ~= nil then
+                                    TriggerEvent('skinchanger:change', 'arms', torsoData[componentValues[v2.data.name][selectedIndex]].arms)
+                                    TriggerEvent('skinchanger:change', 'tshirt_2', 0)
+                                    TriggerEvent('skinchanger:change', 'tshirt_1', torsoData[componentValues[v2.data.name][selectedIndex]].validShirts[1])
+                                end
+                
+                            end
+                        elseif v2.type == 2 then
+                            TriggerEvent('skinchanger:change', v2.data.name2, selectedIndex-1)
+                        end
+    
+                        break
+                    end
+                end
+            end
+        end
 
+        local spacerItem = NativeUI.CreateItem('~b~', '~b~')
+        mainMenu:AddItem(spacerItem)
 
+        local saveItem = NativeUI.CreateItem(Translation[Cfg.Locale]['save_skin'], '~b~')
+        mainMenu:AddItem(saveItem)
+
+        saveItem.Activated = function(sender, item, index)
+            mainMenu:Visible(false)
+            TriggerEvent('skinchanger:getSkin', function(finalSkin)
+                TriggerServerEvent('register:saveSkin', finalSkin)
+            end)
+            DeleteSkinCam()
+        end
+
+        mainMenu:Visible(true)
+        _menuPool:RefreshIndex()
+        _menuPool:MouseControlsEnabled (false)
+        _menuPool:MouseEdgeEnabled (false)
+        _menuPool:ControlDisablingEnabled(false)
+
+    end)
 end
 
 function CreateSkinCam()

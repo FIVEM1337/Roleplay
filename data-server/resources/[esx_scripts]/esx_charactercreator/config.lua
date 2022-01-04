@@ -91,48 +91,50 @@ Cfg.AdvancedFaceParts = {
     --{label = 'Chest hair', type = 'chest_2'},
 }
 
-Cfg.skinContent = { -- normal shop
+Cfg.faceContent = {
+    {componentID = 2, name = 'hair_1', name2 = 'hair_2', label = 'Hair', zoomOffset = 0.6, camOffset = 0.7, type = 1, 
+    blockedParts = {
+    [0] = {},
+    [1] = {}}},
+    {componentID = nil, name = 'hair_color_1', name2 = 'hair_color_2', label = 'Hair colour', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHairColors()-1, amountVariations = GetNumHairColors()-1, 
+    blockedParts = {
+    [0] = {},
+    [1] = {}}}, 
+    {componentID = nil, name = 'beard_1', name2 = 'beard_2', label = 'Beard', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHeadOverlayValues(1)-1, amountVariations = 10, 
+    blockedParts = {
+    [0] = {},
+    [1] = {}}}, 
+    {componentID = nil, name = 'beard_3', name2 = 'beard_4', label = 'Beard colour', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHairColors()-1, amountVariations = GetNumHairColors()-1, 
+    blockedParts = {
+    [0] = {},
+    [1] = {}}}, 
+    {componentID = nil, name = 'eyebrows_1', name2 = 'eyebrows_2', label = 'Eyebrows', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHeadOverlayValues(2)-1, amountVariations = 10, 
+    blockedParts = {
+    [0] = {},
+    [1] = {}}}, 
+    {componentID = nil, name = 'eyebrows_3', name2 = 'eyebrows_4', label = 'Eyebrows colour', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHairColors()-1, amountVariations = GetNumHairColors()-1, 
+    blockedParts = {
+    [0] = {},
+    [1] = {}}}, 
+    {componentID = nil, name = 'makeup_1', name2 = 'makeup_2', label = 'Make-Up', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHeadOverlayValues(4)-1, amountVariations = 10, 
+    blockedParts = {
+    [0] = {},
+    [1] = {}}},
+    {componentID = nil, name = 'makeup_3', name2 = 'makeup_4', label = 'Make-Up colour', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHairColors()-1, amountVariations = GetNumHairColors()-1, 
+    blockedParts = {
+    [0] = {},
+    [1] = {}}}, 
+    {componentID = nil, name = 'lipstick_1', name2 = 'lipstick_2', label = 'Lipstick', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHeadOverlayValues(8)-1, amountVariations = 10, 
+    blockedParts = {
+    [0] = {},
+    [1] = {}}}, 
+    {componentID = nil, name = 'lipstick_3', name2 = 'lipstick_4', label = 'Lipstick colour', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHairColors()-1, amountVariations = GetNumHairColors()-1, 
+    blockedParts = {
+    [0] = {},
+    [1] = {}}},
+}
 
-  {componentID = 2, name = 'hair_1', name2 = 'hair_2', label = 'Hair', zoomOffset = 0.6, camOffset = 0.7, type = 1, 
-  blockedParts = {
-  [0] = {},
-  [1] = {}}},
-  {componentID = nil, name = 'hair_color_1', name2 = 'hair_color_2', label = 'Hair colour', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHairColors()-1, amountVariations = GetNumHairColors()-1, 
-  blockedParts = {
-  [0] = {},
-  [1] = {}}}, 
-  {componentID = nil, name = 'beard_1', name2 = 'beard_2', label = 'Beard', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHeadOverlayValues(1)-1, amountVariations = 10, 
-  blockedParts = {
-  [0] = {},
-  [1] = {}}}, 
-  {componentID = nil, name = 'beard_3', name2 = 'beard_4', label = 'Beard colour', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHairColors()-1, amountVariations = GetNumHairColors()-1, 
-  blockedParts = {
-  [0] = {},
-  [1] = {}}}, 
-  {componentID = nil, name = 'eyebrows_1', name2 = 'eyebrows_2', label = 'Eyebrows', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHeadOverlayValues(2)-1, amountVariations = 10, 
-  blockedParts = {
-  [0] = {},
-  [1] = {}}}, 
-  {componentID = nil, name = 'eyebrows_3', name2 = 'eyebrows_4', label = 'Eyebrows colour', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHairColors()-1, amountVariations = GetNumHairColors()-1, 
-  blockedParts = {
-  [0] = {},
-  [1] = {}}}, 
-  {componentID = nil, name = 'makeup_1', name2 = 'makeup_2', label = 'Make-Up', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHeadOverlayValues(4)-1, amountVariations = 10, 
-  blockedParts = {
-  [0] = {},
-  [1] = {}}},
-  {componentID = nil, name = 'makeup_3', name2 = 'makeup_4', label = 'Make-Up colour', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHairColors()-1, amountVariations = GetNumHairColors()-1, 
-  blockedParts = {
-  [0] = {},
-  [1] = {}}}, 
-  {componentID = nil, name = 'lipstick_1', name2 = 'lipstick_2', label = 'Lipstick', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHeadOverlayValues(8)-1, amountVariations = 10, 
-  blockedParts = {
-  [0] = {},
-  [1] = {}}}, 
-  {componentID = nil, name = 'lipstick_3', name2 = 'lipstick_4', label = 'Lipstick colour', zoomOffset = 0.6, camOffset = 0.7, type = 3, amountComponents = GetNumHairColors()-1, amountVariations = GetNumHairColors()-1, 
-  blockedParts = {
-  [0] = {},
-  [1] = {}}}, 
+Cfg.skinContent = { -- normal shop
   {componentID = 11, name = 'torso_1', name2 = 'torso_2', label = 'Torso', zoomOffset = 0.75, camOffset = 0.15, type = 1, 
   blockedParts = {
   [0] = {1,4,5},

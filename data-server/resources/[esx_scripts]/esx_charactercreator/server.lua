@@ -5,8 +5,6 @@ RegisterServerEvent('register:saveSkin')
 AddEventHandler('register:saveSkin', function(skin)
 
   local xPlayer = ESX.GetPlayerFromId(source)
-  print(skin.face_dad)
---print(steamID)
   MySQL.Async.execute(
     'UPDATE users SET `skin` = @skin WHERE identifier = @identifier',
     {

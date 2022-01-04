@@ -1,4 +1,5 @@
 ESX = nil
+
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 RegisterNetEvent('esx:playerLoaded')
@@ -22,7 +23,6 @@ AddEventHandler('esx:playerLoaded', function(playerId, xPlayer)
 				xPlayer.set('dateofbirth', playerIdentity.dateOfBirth)
 				xPlayer.set('sex', playerIdentity.sex)
 				xPlayer.set('height', playerIdentity.height)
-
 			end
 		end
 	end)
@@ -35,7 +35,6 @@ AddEventHandler('esx_multichar:GetPlayerCharacters', function()
     local license = GetRockstarID(src)
     SetIdentifierToChar(GetIdentifierWithoutLicense(license), LastCharId)
 
---    print('md: ' .. GetIdentifierWithoutLicense(license) .. ' to ' .. LastCharId..':'..GetIdentifierWithoutLicense(license))
     if Config.useMyDrugs then
         TriggerEvent('myDrugs:updateIdentifier', src, GetIdentifierWithoutLicense(license), LastCharId..':'..GetIdentifierWithoutLicense(license))
     end
@@ -43,7 +42,6 @@ AddEventHandler('esx_multichar:GetPlayerCharacters', function()
     if Config.useMyProperties then
         TriggerEvent('myProperties:updateIdentifier', src, GetIdentifierWithoutLicense(license), LastCharId..':'..GetIdentifierWithoutLicense(license))
     end
-	
 
     local chars = GetPlayerCharacters(src)
     local maxChars = GetPlayerMaxChars(src)
@@ -76,8 +74,7 @@ AddEventHandler('esx_multichar:CharSelected', function(charid, isnew)
 		TriggerClientEvent('skinchanger:loadDefaultModel', src, true, cb)
         spawn = Config.FirstSpawnLocations[math.random(#Config.FirstSpawnLocations)] -- DEFAULT SPAWN POSITION
 		TriggerClientEvent("esx_multichar:SpawnCharacter", src, spawn, true)
-    end
-    
+    end  
 end)
 
 function GetPlayerCharacters(source)
@@ -107,44 +104,31 @@ function SetLastCharacter(source, charid)
 end
 
 function GetSpawnPos(source)
-
     local posRes = executeMySQL("SELECT `position` FROM `users` WHERE `identifier` = '"..GetIdentifierWithoutLicense(GetRockstarID(source)).."'")
 	
 	if posRes[1] ~= nil then
 		return json.decode(posRes[1].position)
 	else
 		return nil
-	end
-    
+	end 
 end
 
 function SetIdentifierToChar(identifier, charid)
-
---    print('Char'..charid..':'..GetIdentifierWithoutLicense(identifier) .. ' WHERE ' .. identifier)
     for k, data in pairs(Config.Tables) do
         executeMySQL("UPDATE `"..data.table.."` SET `"..data.column.."` = '"..charid..":"..GetIdentifierWithoutLicense(identifier).."' WHERE `"..data.column.."` = '"..identifier.."'")
-    end
-    -- REPLACE steam:111 to CharX:111
-    
+    end  
 end
 
 function SetCharToIdentifier(identifier, charid)
-
---    print(identifier .. ' WHERE  ' .. 'Char'..charid..':'..GetIdentifierWithoutLicense(identifier))
-
     for k, data in pairs(Config.Tables) do
         executeMySQL("UPDATE `"..data.table.."` SET `"..data.column.."` = '"..identifier.."' WHERE `"..data.column.."` = '"..charid..":"..GetIdentifierWithoutLicense(identifier).."'")
-    end
-    -- REPLACE CharX:111 to steam:111
-    
+    end  
 end
 
 function DeleteCharacter(identifier, charid, maxChars)
-
     for k, data in pairs(Config.Tables) do
         executeMySQL("DELETE FROM `"..data.table.."` WHERE `"..data.column.."` = '"..charid..":"..GetIdentifierWithoutLicense(identifier).."'")
     end
-    --executeMySQL("DELETE FROM users WHERE identifier = 'Char"..charid..GetIdentifierWithoutSteam(identifier).."'")
 
     if charid ~= maxChars then
         for i=charid, maxChars-1, 1 do
@@ -152,15 +136,12 @@ function DeleteCharacter(identifier, charid, maxChars)
             local oldID = math.floor(i + 1)
             local newId = math.floor(i)
 
-            --print('change: Char' .. oldID .. ' to ' .. 'Char' .. newId)
-
             for k, data in pairs(Config.Tables) do
                 executeMySQL("UPDATE `"..data.table.."` SET `"..data.column.."` = '"..newId..":"..GetIdentifierWithoutLicense(identifier).."' WHERE `"..data.column.."` = '"..oldID..":"..GetIdentifierWithoutLicense(identifier).."'")
             end
         end
     end
 end
-
 
 RegisterServerEvent('esx_multichar:deleteChar')
 AddEventHandler('esx_multichar:deleteChar', function(charid, maxChars)
@@ -181,7 +162,6 @@ function GetRockstarID(playerId)
             break
         end
     end
-
     return identifier
 end
 
@@ -201,9 +181,6 @@ function executeMySQL(queryString)
     return result
 end
 
-
-
-
 function getIdentity(source, callback)
 
     local identifier = GetRockstarID(source)
@@ -214,7 +191,6 @@ function getIdentity(source, callback)
     function(result)
         if #result > 0 then
             if result[1].firstname ~= nil or result[1].firstname ~= '' then
-                --print('Character is there')
                 local data = {
                     identifier  = result[1].identifier,
                     firstname  = result[1].firstname,
@@ -225,12 +201,10 @@ function getIdentity(source, callback)
                 }
                 callback(data)
             else
-                print(result[1].identifier)
                 local data = nil
                 callback(data)
             end
         else
-            print('nothing there')
             local data = nil
             callback(data)
         end
@@ -301,17 +275,12 @@ AddEventHandler('esx_multichar:updatePermissions', function(target, type, value)
 end)
 
 AddEventHandler('es:playerLoaded', function(source)
-
     getIdentity(source, function(data)
-    
         if data.firstname == '' then
 			if Config.useRegisterMenu then
 				TriggerClientEvent('esx_multichar:RegisterNewAccount', source)
 			end
-        else
-            print('Character loaded: ' .. data.firstname .. ' ' .. data.lastname)
         end
-    
     end)
 
     local steamID = GetIdentifierWithoutLicense(GetRockstarID(source))
@@ -327,9 +296,7 @@ AddEventHandler('es:playerLoaded', function(source)
                 TriggerClientEvent('esx_multichar:applyPed', source, result[1].pedModel)
             end
         end
-    end
-    )
-
+    end)
 end)
 
 if Config.useRegisterMenu then
@@ -372,7 +339,6 @@ RegisterCommand('changePed', function(source, args, raw)
         else
             TriggerClientEvent('esx_multichar:msg', source, Translation[Config.Locale]['pedmode_no_perms'])
         end
-    end
-    )
+    end)
 end, false)
 

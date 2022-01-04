@@ -42,16 +42,13 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1000)
-        --print('check')
         if ESX ~= nil then
-            --print('ESX~=nil')
             if NetworkIsSessionStarted() then
-                --print('final do')
                 Citizen.Wait(100)
                 gotCharData = false
                 TriggerServerEvent('esx_multichar:GetPlayerCharacters')
                 setPlayerInVoid()
-                return -- break the loop
+                return
             end
         end
     end
@@ -201,7 +198,6 @@ function generateMenu(chars, max)
         else
             
             selectedIndex = index
-            --print(selectedIndex)
 
         end
         --[[else
@@ -431,8 +427,9 @@ AddEventHandler('esx_multichar:RegisterNewAccount', function(firstnameOld, lastn
     end
 	
     isInRegistration = true
-	
-	if Config.ForceMultiplayerPed then
+    FreezeEntityPosition(PlayerPedId(), true)
+
+    if Config.ForceMultiplayerPed then
 		loadPed("mp_m_freemode_01")
 	end
 	
@@ -522,6 +519,7 @@ AddEventHandler('esx_multichar:RegisterNewAccount', function(firstnameOld, lastn
             if firstnameStr ~= nil and lastnameStr ~= nil and dateofbirthStr ~= nil and heightStr ~= nil then
                 registerMenu:Visible(false)
                 isInRegistration = false
+                FreezeEntityPosition(PlayerPedId(), false)
                 TriggerServerEvent('esx_multichar:updateAccount', firstnameStr, lastnameStr, dateofbirthStr, sexStr, heightStr)
                 Wait(500)
 
@@ -544,7 +542,6 @@ AddEventHandler('esx_multichar:RegisterNewAccount', function(firstnameOld, lastn
     registerMenu:Visible(true)
     _menuPool:RefreshIndex()
 	_menuPool:MouseControlsEnabled (false)
-
 end)
 
 RegisterNetEvent('esx_multichar:RegisterAccount')
@@ -557,7 +554,9 @@ AddEventHandler('esx_multichar:RegisterAccount', function(firstnameOld, lastname
     end
 	
     isInRegistration = true
-	
+    FreezeEntityPosition(PlayerPedId(), true)
+
+
 	if Config.ForceMultiplayerPed then
 		loadPed("mp_m_freemode_01")
 	end
@@ -648,6 +647,7 @@ AddEventHandler('esx_multichar:RegisterAccount', function(firstnameOld, lastname
             if firstnameStr ~= nil and lastnameStr ~= nil and dateofbirthStr ~= nil and heightStr ~= nil then
                 registerMenu:Visible(false)
                 isInRegistration = false
+                FreezeEntityPosition(PlayerPedId(), false)
                 TriggerServerEvent('esx_multichar:updateAccount', firstnameStr, lastnameStr, dateofbirthStr, sexStr, heightStr)
                 Wait(500)
 
@@ -804,7 +804,6 @@ RegisterCommand(Config.PermissionsCommand, function(source, args, raw)
                 ShowNotification(Translation[Config.Locale]['giveperm_wrong_usage'])
             end
         end
-        
     end
 end)
 -- General functions
