@@ -305,6 +305,8 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 			self.job.grade_name   = gradeObject.name
 			self.job.grade_label  = gradeObject.label
 			self.job.grade_salary = gradeObject.salary
+			self.job.can_invite   = gradeObject.can_invite
+			self.job.can_managemoney   = gradeObject.can_managemoney
 
 			if gradeObject.skin_male then
 				self.job.skin_male = json.decode(gradeObject.skin_male)
