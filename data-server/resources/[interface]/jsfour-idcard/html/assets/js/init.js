@@ -45,7 +45,7 @@ $(document).ready(function(){
 
           $('#id-card').css('background', 'url(assets/images/license.png)');
         } else {
-          $('#id-card').css('background', 'url(assets/images/idcard_' + String(userData.state) + '.png)');
+          $('#id-card').css('background', 'url(assets/images/idcard.png)');
         }
       } else if ( type == 'weapon' ) {
         $('img').hide();
