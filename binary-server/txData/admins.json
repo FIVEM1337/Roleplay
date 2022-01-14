@@ -68,25 +68,5 @@
     "permissions": [
       "all_permissions"
     ]
-  },
-  {
-    "name": "Preacher",
-    "master": false,
-    "password_hash": "$2a$11$6ZeWnATKICCpcyiZuGNx0uH3Ens72nPueHNU/8rnQ6TjGmjupUBoG",
-    "providers": {
-      "citizenfx": {
-        "id": "great-state",
-        "identifier": "fivem:617324",
-        "data": {}
-      },
-      "discord": {
-        "id": "340970578900942859",
-        "identifier": "discord:340970578900942859",
-        "data": {}
-      }
-    },
-    "permissions": [
-      "all_permissions"
-    ]
   }
 ]
