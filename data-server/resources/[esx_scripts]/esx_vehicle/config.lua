@@ -1,4 +1,10 @@
 config = {
+	DefaultOpenKey = "O", -- default key (users can change in their settings) | FiveM Keys
+	message_locked = 'Fahrzeug wurde abgeschlossen',
+	message_unlocked = 'Fahrzeug wurde aufgeschlossen',
+	keymapping_desc = 'Fahrzeugschlüssel benutzen',
+
+
 	deformationMultiplier = -1,					-- How much should the vehicle visually deform from a collision. Range 0.0 to 10.0 Where 0.0 is no deformation and 10.0 is 10x deformation. -1 = Don't touch. Visual damage does not sync well to other players.
 	deformationExponent = 0.4,					-- How much should the handling file deformation setting be compressed toward 1.0. (Make cars more similar). A value of 1=no change. Lower values will compress more, values above 1 it will expand. Dont set to zero or negative.
 	collisionDamageExponent = 0.6,				-- How much should the handling file deformation setting be compressed toward 1.0. (Make cars more similar). A value of 1=no change. Lower values will compress more, values above 1 it will expand. Dont set to zero or negative.
@@ -58,4 +64,3 @@ config = {
 				1.0			--	21: Trains
 	}
 }
-
