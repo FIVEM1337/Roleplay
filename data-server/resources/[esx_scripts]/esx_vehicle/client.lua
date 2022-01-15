@@ -517,19 +517,19 @@ RegisterCommand('usevehiclekey', function()
 
 
 			ESX.Streaming.RequestAnimDict("anim@mp_player_intmenu@key_fob@", function()
-				TaskPlayAnim(PlayerPedId(), "anim@mp_player_intmenu@key_fob@", "fob_click_fp", 8.0, -8.0, -1, 0, 0.0, false, false, false)
+				TaskPlayAnim(PlayerPedId(), "anim@mp_player_intmenu@key_fob@", "fob_click_fp", 8.0, 8.0, -1, 48, 1, false, false, false)
 			end)
 
 
 			if lockStatus == 1 then -- unlocked
 				SetVehicleDoorsLocked(vehicle, 2)
-				PlayVehicleDoorCloseSound(vehicle, 1)
 				TriggerEvent('dopeNotify:Alert', "", config.message_locked, 5000, 'locked')
+				TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 5.0, 'lock', 0.7)
 				BlinkVehicleLights(vehicle)
 			elseif lockStatus == 2 then -- locked
 				SetVehicleDoorsLocked(vehicle, 1)
-				PlayVehicleDoorOpenSound(vehicle, 0)
 				TriggerEvent('dopeNotify:Alert', "", config.message_unlocked, 5000, 'unlocked')
+				TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 5.0, 'unlock', 0.7)
 				BlinkVehicleLights(vehicle)
 			end
 		end
