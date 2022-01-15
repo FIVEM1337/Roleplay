@@ -524,12 +524,12 @@ RegisterCommand('usevehiclekey', function()
 			if lockStatus == 1 then -- unlocked
 				SetVehicleDoorsLocked(vehicle, 2)
 				TriggerEvent('dopeNotify:Alert', "", config.message_locked, 5000, 'locked')
-				TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 5.0, 'lock', 0.7)
+				TriggerServerEvent('InteractSound_SV:PlayOnCoord',GetEntityCoords(vehicle, false), 10.0, 'lock', 1.0)
 				BlinkVehicleLights(vehicle)
 			elseif lockStatus == 2 then -- locked
 				SetVehicleDoorsLocked(vehicle, 1)
 				TriggerEvent('dopeNotify:Alert', "", config.message_unlocked, 5000, 'unlocked')
-				TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 5.0, 'unlock', 0.7)
+				TriggerServerEvent('InteractSound_SV:PlayOnCoord',GetEntityCoords(vehicle, false), 10.0, 'unlock', 1.0)
 				BlinkVehicleLights(vehicle)
 			end
 		end
