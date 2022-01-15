@@ -83,44 +83,52 @@ AddEventHandler('hudevents:enteredVehicle', function(currentVehicle, currentSeat
 			local PlayerPed = PlayerPedId()
 
 			if not isHudHidden then
-				local carRPM = GetVehicleCurrentRpm(currentVehicle)
 
-				local multiplierUnit = 2.8
-
-				if Config.Unit == "KMH" then
-					multiplierUnit = 3.6
-				end
-
-				local carSpeed = math.floor(GetEntitySpeed(currentVehicle) * multiplierUnit)
-				local carGear = GetVehicleCurrentGear(currentVehicle)
-				local carHandbrake = GetVehicleHandbrake(currentVehicle)
-				local carBrakePressure = GetVehicleWheelBrakePressure(currentVehicle, 0)
-				local fuelamount = GetVehicleFuelLevel(currentVehicle) or 0
-
-				shouldSendNUIUpdate = false
-
-				if lastCarRPM ~= carRPM then lastCarRPM = carRPM shouldSendNUIUpdate = true end
-				if lastCarSpeed ~= carSpeed then lastCarSpeed = carSpeed shouldSendNUIUpdate = true end
-				if lastCarGear ~= carGear then lastCarGear = carGear shouldSendNUIUpdate = true end
-				if lastCarHandbreak ~= carHandbrake then lastCarHandbreak = carHandbrake shouldSendNUIUpdate = true end
-				if lastCarBrakePressure ~= carBrakePressure then lastCarBrakePressure = carBrakePressure shouldSendNUIUpdate = true end
-				if lastseatbelt ~= seatbeltOn then lastseatbelt = seatbeltOn shouldSendNUIUpdate = true end
-				if lastCarFuelAmount ~= fuelamount then lastCarFuelAmount = fuelamount shouldSendNUIUpdate = true end
-
-				if shouldSendNUIUpdate then
+				if IsPauseMenuActive() then
 					SendNUIMessage({
-						ShowHud = true,
-						CurrentCarRPM = carRPM * 10,
-						CurrentUnitDistance = Config.Unit,
-						CurrentCarGear = carGear,
-						CurrentCarSpeed = carSpeed,
-						CurrentCarHandbrake = carHandbrake,
-						CurrentCarFuelAmount = math.ceil(fuelamount),
-						CurrentDisplayKMH = displayKMH,
-						CurrentCarBrake = carBrakePressure,
-						CurrentNitro = nitro,						
-						seatbelt = seatbeltOn
-					})		
+						HideHud = true
+					})
+				else
+
+					local carRPM = GetVehicleCurrentRpm(currentVehicle)
+
+					local multiplierUnit = 2.8
+	
+					if Config.Unit == "KMH" then
+						multiplierUnit = 3.6
+					end
+	
+					local carSpeed = math.floor(GetEntitySpeed(currentVehicle) * multiplierUnit)
+					local carGear = GetVehicleCurrentGear(currentVehicle)
+					local carHandbrake = GetVehicleHandbrake(currentVehicle)
+					local carBrakePressure = GetVehicleWheelBrakePressure(currentVehicle, 0)
+					local fuelamount = GetVehicleFuelLevel(currentVehicle) or 0
+	
+					shouldSendNUIUpdate = false
+	
+					if lastCarRPM ~= carRPM then lastCarRPM = carRPM shouldSendNUIUpdate = true end
+					if lastCarSpeed ~= carSpeed then lastCarSpeed = carSpeed shouldSendNUIUpdate = true end
+					if lastCarGear ~= carGear then lastCarGear = carGear shouldSendNUIUpdate = true end
+					if lastCarHandbreak ~= carHandbrake then lastCarHandbreak = carHandbrake shouldSendNUIUpdate = true end
+					if lastCarBrakePressure ~= carBrakePressure then lastCarBrakePressure = carBrakePressure shouldSendNUIUpdate = true end
+					if lastseatbelt ~= seatbeltOn then lastseatbelt = seatbeltOn shouldSendNUIUpdate = true end
+					if lastCarFuelAmount ~= fuelamount then lastCarFuelAmount = fuelamount shouldSendNUIUpdate = true end
+	
+					if shouldSendNUIUpdate then
+						SendNUIMessage({
+							ShowHud = true,
+							CurrentCarRPM = carRPM * 10,
+							CurrentUnitDistance = Config.Unit,
+							CurrentCarGear = carGear,
+							CurrentCarSpeed = carSpeed,
+							CurrentCarHandbrake = carHandbrake,
+							CurrentCarFuelAmount = math.ceil(fuelamount),
+							CurrentDisplayKMH = displayKMH,
+							CurrentCarBrake = carBrakePressure,
+							CurrentNitro = nitro,						
+							seatbelt = seatbeltOn
+						})		
+					end
 				end
 			end
 		end
