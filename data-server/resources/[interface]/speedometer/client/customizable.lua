@@ -37,8 +37,10 @@ RegisterCommand('*seat_belt', function()
 
 		if not seat_belt then
 			TriggerServerEvent('InteractSound_SV:PlayOnSource', 'carbuckle', 0.25)
+			TriggerEvent('dopeNotify:Alert', "", "Du hast dich angeschnallt", 5000, 'info')
 		else
 			TriggerServerEvent('InteractSound_SV:PlayOnSource', 'carunbuckle', 0.25)
+			TriggerEvent('dopeNotify:Alert', "", "Du hast dich abgeschnallt", 5000, 'info')
 		end
 
 		SetPedConfigFlag(PlayerPed, 32, seat_belt)
