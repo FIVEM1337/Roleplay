@@ -12,8 +12,8 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Dumping structure for table es_extended.weashops
-CREATE TABLE IF NOT EXISTS `weashops` (
+-- Dumping structure for table es_extended.weaponshops
+CREATE TABLE IF NOT EXISTS `weaponshops` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `zone` varchar(255) NOT NULL,
   `item` varchar(255) NOT NULL,
@@ -26,10 +26,10 @@ INSERT INTO `licenses` (`type`, `label`) VALUES
 	('weapon', "Weapon license")
 ;
 
--- Copiando dados para a tabela es_extended.weashops: ~0 rows (aproximadamente)
-DELETE FROM `weashops`;
-/*!40000 ALTER TABLE `weashops` DISABLE KEYS */;
-INSERT INTO `weashops` (`id`, `zone`, `item`, `price`, `desc`) VALUES
+-- Copiando dados para a tabela es_extended.weaponshops: ~0 rows (aproximadamente)
+DELETE FROM `weaponshops`;
+/*!40000 ALTER TABLE `weaponshops` DISABLE KEYS */;
+INSERT INTO `weaponshops` (`id`, `zone`, `item`, `price`, `desc`) VALUES
 	(1, 'GunShop', 'WEAPON_PISTOL', 300, 'Generic description'),
 	(3, 'GunShop', 'WEAPON_VINTAGEPISTOL', 60, 'Generic description'),
 	(5, 'GunShop', 'WEAPON_HATCHET', 90, 'Generic description'),
@@ -40,7 +40,7 @@ INSERT INTO `weashops` (`id`, `zone`, `item`, `price`, `desc`) VALUES
 	(17, 'GunShop', 'WEAPON_HAMMER', 10000, 'Generic description'),
 	(23, 'GunShop', 'WEAPON_CROWBAR', 18000, 'Generic description'),
 	(24, 'GunShop', 'WEAPON_BAT', 100, 'Generic description');
-/*!40000 ALTER TABLE `weashops` ENABLE KEYS */;
+/*!40000 ALTER TABLE `weaponshops` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;

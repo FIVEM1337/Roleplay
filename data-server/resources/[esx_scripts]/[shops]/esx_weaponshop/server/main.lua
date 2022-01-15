@@ -5,7 +5,7 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 MySQL.ready(function()
 
-	MySQL.Async.fetchAll('SELECT * FROM weashops', {}, function(result)
+	MySQL.Async.fetchAll('SELECT * FROM weaponshops', {}, function(result)
 		for i=1, #result, 1 do
 			if shopItems[result[i].zone] == nil then
 				shopItems[result[i].zone] = {}
@@ -105,7 +105,7 @@ ESX.RegisterServerCallback('esx_weaponshop:buyWeapon', function(source, cb, weap
 end)
 
 function GetPrice(weaponName, zone)
-	local price = MySQL.Sync.fetchScalar('SELECT price FROM weashops WHERE zone = @zone AND item = @item', {
+	local price = MySQL.Sync.fetchScalar('SELECT price FROM weaponshops WHERE zone = @zone AND item = @item', {
 		['@zone'] = zone,
 		['@item'] = weaponName
 	})
@@ -118,7 +118,7 @@ function GetPrice(weaponName, zone)
 end
 
 function GetJob(weaponName, zone)
-	local job = MySQL.Sync.fetchScalar('SELECT job FROM weashops WHERE zone = @zone AND item = @item', {
+	local job = MySQL.Sync.fetchScalar('SELECT job FROM weaponshops WHERE zone = @zone AND item = @item', {
 		['@zone'] = zone,
 		['@item'] = weaponName
 	})
