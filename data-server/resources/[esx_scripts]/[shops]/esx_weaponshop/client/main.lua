@@ -198,7 +198,6 @@ Citizen.CreateThread(function()
 				if CurrentAction == 'shop_menu' then
 					OpenShopMenu(CurrentActionData.zone)
 				end
-				CurrentAction = nil
 			end
 		end
 	end
