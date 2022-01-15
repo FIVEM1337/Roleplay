@@ -45,7 +45,7 @@ $(document).ready(function(){
                                     <img src="`+car.imglink+`" class="card-img-top" alt="`+car.name+`">
                                     <div class="card-body">
                                         <h5 class="card-title">`+car.name+`</h5>
-                                        <p class="card-text">Marca: <b>`+car.categoryLabel+`</b></p>
+                                        <p class="card-text">Marca: <b>`+car.category+`</b></p>
                                         <p class="card-text">Preço: <b>`+car.price+`€</b></p>
                                     </div>
                                     <div class="card-footer bg-white border-0 ">

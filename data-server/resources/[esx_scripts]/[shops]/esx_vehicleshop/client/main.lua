@@ -34,21 +34,12 @@ Citizen.CreateThread(function ()
 	ESX.TriggerServerCallback('esx_vehicleshop:getVehicles', function (vehicles)
 		Vehicles = vehicles
 	end)
-	Citizen.Wait(1000)
-	ESX.TriggerServerCallback('esx_vehicleshop:getCategories', function (categories)
-		Categories = categories
-	end)
-	
+	Citizen.Wait(1000)	
 end)
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
 	ESX.PlayerData = xPlayer
-end)
-
-RegisterNetEvent('esx_vehicleshop:sendCategories')
-AddEventHandler('esx_vehicleshop:sendCategories', function (categories)
-	Categories = categories
 end)
 
 RegisterNetEvent('esx_vehicleshop:sendVehicles')
@@ -184,28 +175,21 @@ function OpenShopMenu()
 		exist = false
 		local vehicle = Allowed_Vehicles[i]
 
-		for j=1, #Categories, 1 do
-			local categories = Categories[j]
-
-			if Categories[j].name == vehicle.category then
-
-				for k=1, #Allowed_Category, 1 do
-					local test = Allowed_Category[k]
-					if test.label == categories.label then
-						exist = true
-					end
+		if type(next(Allowed_Category)) == "nil" then
+			table.insert(Allowed_Category, vehicle.category)
+		else
+			for k=1, #Allowed_Category, 1 do
+				local cat = Allowed_Category[k]
+				if cat == vehicle.category then
+					exist = true
 				end
-
-				if not exist then
-					table.insert(Allowed_Category, categories)
-				end
+			end
+			if not exist then
+				table.insert(Allowed_Category, vehicle.category)
 			end
 		end
 	end
-
-
-
-	if count > 0 then
+	if type(next(Allowed_Vehicles)) ~= "nil" then
 		if not IsInShopMenu then
 			IsInShopMenu = true
 			SetNuiFocus(true, true)

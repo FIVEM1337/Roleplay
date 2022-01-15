@@ -47,7 +47,7 @@ $(document).ready(function(){
                                         <img src="`+car.imglink+`" class="card-img-top" alt="`+car.name+`">
                                         <div class="card-body">
                                             <h5 class="card-title">`+car.name+`</h5>
-                                            <p class="card-text">Brand: <b>`+car.categoryLabel+`</b></p>
+                                            <p class="card-text">Brand: <b>`+car.category+`</b></p>
                                             <p class="card-text">Price: <b>`+car.price+` BTC</b></p>
                                         </div>
                                         <div class="card-footer bg-white border-0 ">
@@ -62,7 +62,7 @@ $(document).ready(function(){
                                         <img src="`+car.imglink+`" class="card-img-top" alt="`+car.name+`">
                                         <div class="card-body">
                                             <h5 class="card-title">`+car.name+`</h5>
-                                            <p class="card-text">Brand: <b>`+car.categoryLabel+`</b></p>
+                                            <p class="card-text">Brand: <b>`+car.category+`</b></p>
                                             <p class="card-text">Price: <b>`+car.price+`€</b></p>
                                         </div>
                                         <div class="card-footer bg-white border-0 ">
@@ -155,7 +155,7 @@ $(document).ready(function(){
         });
         $('#brand').html(`<option selected value="-1">All the brands</option>`)
         categories.forEach(element => {
-            $('#brand').append(`<option value="${element.name}">${element.label}</option>`)
+            $('#brand').append(`<option value="${element}">${element}</option>`)
         });
         
         LoadCarsPage()

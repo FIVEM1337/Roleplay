@@ -1,5 +1,4 @@
 ESX              = nil
-local Categories = {}
 local Vehicles   = {}
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
@@ -39,20 +38,9 @@ AddEventHandler('esx_vehicleshop:sendvehicledata', function ()
 
 	for i=1, #vehicles, 1 do
 		local vehicle = vehicles[i]
-
-		for j=1, #Categories, 1 do
-			if Categories[j].name == vehicle.category then
-				vehicle.categoryLabel = Categories[j].label
-
-				break
-			end
-		end
-
 		table.insert(Vehicles, vehicle)
 	end
 
-	-- send information after db has loaded, making sure everyone gets vehicle information
-	TriggerClientEvent('esx_vehicleshop:sendCategories', -1, Categories)
 	TriggerClientEvent('esx_vehicleshop:sendVehicles', -1, Vehicles)
 end)
 
@@ -81,10 +69,6 @@ AddEventHandler('esx_vehicleshop:setVehicleOwned', function (vehicleProps, CarTy
 		}, function (rowsChanged)
 		end)
 	end
-end)
-
-ESX.RegisterServerCallback('esx_vehicleshop:getCategories', function (source, cb)
-	cb(Categories)
 end)
 
 ESX.RegisterServerCallback('esx_vehicleshop:getVehicles', function (source, cb)
