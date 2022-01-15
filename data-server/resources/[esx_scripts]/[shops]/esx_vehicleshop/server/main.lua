@@ -29,7 +29,7 @@ end)
 
 RegisterServerEvent('esx_vehicleshop:sendvehicledata')
 AddEventHandler('esx_vehicleshop:sendvehicledata', function ()
-	local vehicles = MySQL.Sync.fetchAll('SELECT * FROM vehicles')
+	local vehicles = MySQL.Sync.fetchAll('SELECT * FROM vehicleshops')
 
 	for i=1, #vehicles, 1 do
 		local vehicle = vehicles[i]
