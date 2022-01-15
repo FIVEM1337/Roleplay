@@ -1,6 +1,6 @@
 $(function () {
     var sound = new Audio('sound.mp3');
-    sound.volume = 0.5;
+    sound.volume = 0.0;
     window.addEventListener('message', function (event) {
         if (event.data.action == 'open') {
             var number = Math.floor((Math.random() * 1000) + 1);

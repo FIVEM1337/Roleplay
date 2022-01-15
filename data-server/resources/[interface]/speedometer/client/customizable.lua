@@ -25,7 +25,6 @@ RegisterCommand('*seat_belt', function()
 	local VehicleClass = GetVehicleClass(PlayerVehicle)
 	local seat_belt
 
-	print(GetPedConfigFlag(PlayerPed, 32))
 
 	if GetPedConfigFlag(PlayerPed, 32) == false then
 		seat_belt = true
