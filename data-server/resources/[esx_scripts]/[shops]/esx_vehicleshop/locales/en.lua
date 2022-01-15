@@ -7,11 +7,5 @@ Locales['en'] = {
     ['not_yours'] = 'This vehicle is not yours',
     ['watch_catalog'] = '~g~[E]~w~ Watch catalog',
     ['wait_vehicle'] = 'Wait until we load your vehicle!',
-
-      -- Test Drive
-    ['testdrive_notification'] = 'You have ~g~%s~w~ seconds of test drive!',
-    ['testdrive_timer'] = 'Test drive finish in: %s seconds!',
-    ['testdrive_finished'] = 'Test drive finished'
-
   }
   

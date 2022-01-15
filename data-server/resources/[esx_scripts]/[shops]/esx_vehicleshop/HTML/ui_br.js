@@ -50,7 +50,6 @@ $(document).ready(function(){
                                     </div>
                                     <div class="card-footer bg-white border-0 ">
                                         <button type="button" id="action1" data-value="buy" data-model="`+ car.model +`" class="btn btn-danger w-auto btn-lg buy">Comprar</button>
-                                        <button type="button" id="action2" data-value="test-drive" data-model="`+ car.model +`" class="btn btn-success w-auto float-right btn-lg test-drive">Test Drive</button>
                                     </div>
                                 </div>
                             </div>`
@@ -80,8 +79,6 @@ $(document).ready(function(){
         
         if($(this).data('value') == "buy")
             $.post('http://esx_vehicleshop/BuyVehicle', JSON.stringify({model: $(this).data('model')}));
-        else if($(this).data('value') == "test-drive")
-            $.post('http://esx_vehicleshop/TestDrive', JSON.stringify({model: $(this).data('model')}));
     });
 
     $('#search').click(function() {

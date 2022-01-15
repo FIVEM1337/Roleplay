@@ -9,11 +9,5 @@ Locales['de'] = {
     ['not_sellable'] = 'This vehicle is not sellable',
     ['watch_catalog'] = '~g~[E]~w~ Watch catalog',
     ['wait_vehicle'] = 'Wait until we load your vehicle!',
-      -- Test Drive
-    ['testdrive_notification'] = 'You have ',
-    ['testdrive_notification2'] = ' seconds of test drive!',
-    ['testdrive_timer'] = 'Test drive finish in: %s seconds!',
-    ['testdrive_finished'] = 'Test drive finished'
-
   }
   

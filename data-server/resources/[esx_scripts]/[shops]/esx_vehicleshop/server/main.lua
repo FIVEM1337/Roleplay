@@ -24,16 +24,11 @@ MySQL.ready(function()
 	TriggerEvent('esx_vehicleshop:sendvehicledata')
 end)
 
-AddEventHandler('onResourceStart', function(resource)
-	if resource == GetCurrentResourceName() and test then
-		TriggerEvent('esx_vehicleshop:sendvehicledata')
-	end
-end)
+
 
 
 RegisterServerEvent('esx_vehicleshop:sendvehicledata')
 AddEventHandler('esx_vehicleshop:sendvehicledata', function ()
-	Categories     = MySQL.Sync.fetchAll('SELECT * FROM vehicle_categories')
 	local vehicles = MySQL.Sync.fetchAll('SELECT * FROM vehicles')
 
 	for i=1, #vehicles, 1 do

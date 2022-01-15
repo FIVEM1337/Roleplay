@@ -21,7 +21,6 @@ local Categories              = {}
 local Vehicles                = {}
 local LastVehicles            = {}
 local CurrentVehicleData      = nil
-local testdrive_timer 		  = 40
 
 ESX                           = nil
 
@@ -68,37 +67,6 @@ function StartShopRestriction()
 	end)
 
 end
-
-RegisterNUICallback('TestDrive', function(data, cb) 
-	SetNuiFocus(false, false)
-	
-	local model = data.model
-	local playerPed = PlayerPedId()
-	local playerpos = GetEntityCoords(playerPed)
-	local coords = vector3(-1733.25, -2901.43, 13.94)
-	
-	IsInShopMenu = false
-	TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('wait_vehicle'), 5000, 'info')
-	ESX.Game.SpawnVehicle(model, coords, 330.0, function(vehicle)
-		TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
-		SetVehicleNumberPlateText(vehicle, "TEST")
-		TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('testdrive_notification') .. testdrive_timer .. _U('testdrive_notification2'), 5000, 'info')
-		Citizen.CreateThread(function () 
-			local counter = testdrive_timer
-			
-			while counter > 0 do 
-				TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('testdrive_timer',counter), 200, 'timer')
-				counter = counter -1
-				Citizen.Wait(1000)
-			end
-			DeleteVehicle(vehicle)
-			SetEntityCoords(playerPed, playerpos, false, false, false, false)
-			TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('testdrive_finished'), 5000, 'info')
-		end)
-
-	end)
-	SetEntityCoords(playerPed, coords)
-end)
 
 RegisterNUICallback('BuyVehicle', function(data, cb)
     SetNuiFocus(false, false)
