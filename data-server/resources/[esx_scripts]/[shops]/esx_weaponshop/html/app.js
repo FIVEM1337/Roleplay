@@ -126,11 +126,10 @@ function showModal(item, zone, itemLabel, desc, price, job) {
 
 $(document).ready(function(){
 	var result
-	var category = null
 
-	function LoadItems()
+	function LoadItems(category)
 	{
-
+		console.log(category)
 		$('.items').empty();
 		let index = 0	
 
@@ -220,8 +219,7 @@ $(document).ready(function(){
 	}
 
 	$('#brand').on('change', function (){
-		category = this.value
-		LoadItems()
+		LoadItems(this.value)
 	})
 
 
@@ -255,7 +253,7 @@ $(document).ready(function(){
 			});
 		}
 
-		LoadItems()
+		LoadItems(null)
 
 	});
 
