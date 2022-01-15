@@ -130,6 +130,41 @@ body {
     font-weight: 300;
 }
 
+
+.carbuckle-icon::before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f0c1";
+    color: #069a19;
+}
+
+.carbuckle {
+    background: #191c1f;
+    box-shadow: 0 0 40px #00000069;
+    color: #fff;
+    padding: 5px 5px 5px 5px;
+    word-spacing: 1px;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    font-weight: 300;
+}
+
+.carunbuckle-icon::before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f127";
+    color: #ff2121;
+}
+
+.carunbuckle {
+    background: #191c1f;
+    box-shadow: 0 0 40px #00000069;
+    color: #fff;
+    padding: 5px 5px 5px 5px;
+    word-spacing: 1px;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    font-weight: 300;
+}
+
 /*---[ Timer NOTIFY ]---*/
 
 .timer-icon::before {

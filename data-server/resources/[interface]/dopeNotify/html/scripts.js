@@ -72,6 +72,24 @@ $(function () {
                 $(`.notification_main-${number}`).addClass('unlocked-icon')
                 $(`.wrapper-${number}`).addClass('unlocked')
                 sound.play();
+            } else if (event.data.type == 'carbuckle') {
+                $(`.title-${number}`).html(event.data.title).css({
+                    "font-size": "16px",
+                    "font-weight": "600"
+                })
+                $(`.notification_main-${number}`).addClass('carbuckle-icon')
+                $(`.wrapper-${number}`).addClass('carbuckle')
+                sound.play();
+            } else if (event.data.type == 'carunbuckle') {
+                $(`.title-${number}`).html(event.data.title).css({
+                    "font-size": "16px",
+                    "font-weight": "600"
+                })
+                $(`.notification_main-${number}`).addClass('carunbuckle-icon')
+                $(`.wrapper-${number}`).addClass('carunbuckle')
+                sound.play();
+
+
             } else if (event.data.type == 'sms') {
                 $(`.title-${number}`).html(event.data.title).css({
                     "font-size": "16px",

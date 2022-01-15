@@ -31,15 +31,15 @@ RegisterCommand('*seat_belt', function()
 	else
 		seat_belt = false
 	end
-	
+
 	if IsPedInAnyVehicle(PlayerPed, false) and VehicleClass ~= 8 and VehicleClass ~= 13 and VehicleClass ~= 14 and VehicleClass ~= 15 and VehicleClass ~= 16 then
 
 		if not seat_belt then
 			TriggerServerEvent('InteractSound_SV:PlayOnSource', 'carbuckle', 0.25)
-			TriggerEvent('dopeNotify:Alert', "", "Du hast dich angeschnallt", 2000, 'info')
+			TriggerEvent('dopeNotify:Alert', "", "Du hast dich angeschnallt", 2000, 'carbuckle')
 		else
 			TriggerServerEvent('InteractSound_SV:PlayOnSource', 'carunbuckle', 0.25)
-			TriggerEvent('dopeNotify:Alert', "", "Du hast dich abgeschnallt", 2000, 'info')
+			TriggerEvent('dopeNotify:Alert', "", "Du hast dich abgeschnallt", 2000, 'carunbuckle')
 		end
 
 		SetPedConfigFlag(PlayerPed, 32, seat_belt)
