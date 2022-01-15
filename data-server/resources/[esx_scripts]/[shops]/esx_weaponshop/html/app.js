@@ -129,7 +129,6 @@ $(document).ready(function(){
 
 	function LoadItems(category)
 	{
-		console.log(category)
 		$('.items').empty();
 		let index = 0	
 
