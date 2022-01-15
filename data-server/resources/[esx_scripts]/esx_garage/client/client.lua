@@ -221,12 +221,15 @@ AddEventHandler('opengarage', function()
             if DoesEntityExist(vehiclenow) then
                 local req_dist = v.Store_dist or v.Dist
                 if dist <= req_dist and not jobgarage and not string.find(v.garage, "impound") or dist <= 7.0 and PlayerData.job ~= nil and PlayerData.job.name == v.job and jobgarage and not string.find(v.garage, "impound") then
-
                     garageid = v.garage
                     local vehicleProps = GetVehicleProperties(vehiclenow)
                     ESX.TriggerServerCallback("esx_garage:canstore",function(canstore)
                         if canstore then
-                            Storevehicle(vehiclenow,false,false,v.garage_type == 'public' or false)
+                            if GetPedConfigFlag(PlayerPedId(), 32) == false then
+                                TriggerEvent('dopeNotify:Alert', "Garage", "Du musst dich zuerst abschnallen", 5000, 'error')
+                            else
+                                Storevehicle(vehiclenow,false,false,v.garage_type == 'public' or false)
+                            end
                         else
                             TriggerEvent('dopeNotify:Alert', "Garage", "Das Fahrzeug kann hier nicht Geparkt werden", 5000, 'error')
                         end

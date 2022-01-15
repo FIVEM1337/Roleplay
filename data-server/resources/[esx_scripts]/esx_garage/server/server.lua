@@ -9,7 +9,6 @@ local jobplates = {}
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 Citizen.CreateThread(function()
     Wait(1000)
-    vehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM vehicles', {})
     GlobalState.VehicleinDb = vehicles
     globalvehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles', {}) or {}
  
@@ -21,18 +20,6 @@ Citizen.CreateThread(function()
             tempvehicles[plate].owner = v.owner
             tempvehicles[plate].plate = v.plate
             tempvehicles[plate].name = 'NULL'
-        end
-    end
-    for k,v in pairs(globalvehicles) do
-        local plate = string.gsub(v.plate, '^%s*(.-)%s*$', '%1')
-        for k2,v2 in pairs(vehicles) do
-            if v.vehicle then
-                local prop = json.decode(v.vehicle) or {model = ''}
-                if prop.model == GetHashKey(v2.model) then
-                    tempvehicles[plate].name = v2.name
-                    break
-                end
-            end
         end
     end
     GlobalState.GVehicles = tempvehicles 
