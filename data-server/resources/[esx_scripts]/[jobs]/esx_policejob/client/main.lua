@@ -1420,8 +1420,15 @@ end
 --   - return to garage if owned
 --   - message owner that his vehicle has been impounded
 function ImpoundVehicle(vehicle)
-	--local vehicleName = GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)))
-	ESX.Game.DeleteVehicle(vehicle)
-	ESX.ShowNotification(_U('impound_successful'))
-	currentTask.busy = false
+	local plate = GetVehicleNumberPlateText(vehicle)
+	ESX.TriggerServerCallback('esx_policejob:impound', function(isimpounded)
+		if isimpounded then
+			ESX.Game.DeleteVehicle(vehicle)
+			ESX.ShowNotification(_U('impound_successful'))
+			currentTask.busy = false
+		else
+			ESX.ShowNotification(_U('impound_decined'))
+			currentTask.busy = false
+		end
+	end, plate)
 end

@@ -89,6 +89,7 @@ Locales['de'] = {
   ['impound_canceled'] = 'you canceled the impound',
   ['impound_canceled_moved'] = 'the impound has been canceled because the vehicle moved',
   ['impound_successful'] = 'you have impounded the vehicle',
+  ['impound_decined'] = 'you cant impound the vehicle',
   ['search_database'] = 'vehicle information',
   ['search_database_title'] = 'vehicle information - search with registration number',
   ['search_database_error_invalid'] = 'that is ~r~not~s~ a ~y~valid~s~ registration number',
