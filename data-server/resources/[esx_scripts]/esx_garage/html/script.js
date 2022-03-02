@@ -70,41 +70,6 @@ window.addEventListener('message', function(event) {
     if (event.data.garage_id) {
         garage_id = event.data.garage_id
     }
-    if (event.data.type == "ownerinfo") {
-        impound_left = '0'
-        impound_fine = 0
-        var utcSeconds = event.data.impound_data.date || (Date.now() + 3600000) / 1000;
-        var impound_data = event.data.impound_data || {reason: 'No Reason', impounder: 'bobo', duration: 0, fine: 10000};
-        var duration_left = (utcSeconds * 1000) + impound_data.duration * 3600000
-        impound_fine = impound_data.fine
-        const milliseconds = utcSeconds * 1000 // 1575909015000
-        const dateObject = new Date(milliseconds)
-        const humanDateFormat = dateObject.toLocaleString()
-        isimpounder = event.data.job
-        if (Date.now() < duration_left && !event.data.job) {
-            const impound_epoch = duration_left
-            impound_left = duration_left
-            //impound_left = impound_left.replace(",", "")
-        }
-        document.getElementById("dateissue").innerHTML = humanDateFormat;
-        for(var [key,value] of Object.entries(data.info)){
-            for(var [k,v] of Object.entries(value)){
-                if (k == 'firstname') {
-                    document.getElementById("ownerinfo").innerHTML = ''+v+' '+value.lastname+'';
-                }
-                if (k == 'phone_number') {
-                    document.getElementById("contact").innerHTML = v;
-                }
-                if (k == 'job') {
-                    document.getElementById("job").innerHTML = v;
-                }
-            }     
-        }
-        document.getElementById("reason").innerHTML = impound_data.reason || 'not specified';
-        document.getElementById("impounder").innerHTML = impound_data.impounder || 'not specified';
-        document.getElementById("duration").innerHTML = impound_data.duration || 'not specified';
-        document.getElementById("fine").innerHTML = impound_data.fine || 'not specified';
-    }
     if (event.data.type == "stats") {
         if (event.data.show) {
             document.getElementById("perf").style.display = 'block';
@@ -456,7 +421,6 @@ function ShowVehicle(currentTarget) {
                         <span id="fine">$ 4000.0</span>
                     </div>
                 `);
-                $.post("https://esx_garage/ownerinfo", JSON.stringify({ plate: data.plate, identifier: data.identifier, chopstatus: 1 }));
                 $.post("https://esx_garage/SpawnVehicle", JSON.stringify({ modelcar: data.model2, price: 1, plate: data.plate }));
             }
         }

@@ -10,11 +10,6 @@ Config.Quickpick = true -- if false system will create a garage shell and spawn 
 Config.BlipNamesStatic = true -- if true no more garage a garage b blip names from MAP , only says  Garage
 --GENERAL SETTING
 
-Config.PlateSpace = true -- enable / disable plate spaces (compatibility with esx 1.1?)
-Config.EnableReturnVehicle = true -- enable / disable return vehicle feature
-Config.DefaultPlate = 'ROLEPLAY' -- default plate being used to default_vehicles args
-
 -- MARKER
 Config.UseMarker = true -- Drawmarker
 Config.MarkerDistance = 20 -- distance to draw the marker
---MARKER

@@ -7,35 +7,6 @@ local impound_G = {}
 local jobplates = {}
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-Citizen.CreateThread(function()
-    Wait(1000)
-    GlobalState.VehicleinDb = vehicles
-    globalvehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles', {}) or {}
- 
-    local tempvehicles = {}
-    for k,v in ipairs(globalvehicles) do
-        if v.plate then
-            local plate = string.gsub(v.plate, '^%s*(.-)%s*$', '%1')
-            tempvehicles[plate] = {}
-            tempvehicles[plate].owner = v.owner
-            tempvehicles[plate].plate = v.plate
-            tempvehicles[plate].name = 'NULL'
-        end
-    end
-    GlobalState.GVehicles = tempvehicles 
-    tempvehicles = nil
-    impoundget = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM impound_garage', {})
-    for k,v in pairs(impoundget) do
-        impound_G[v.garage] = json.decode(v.data) or {}
-    end
-    for k,v in pairs(impoundcoord) do
-        MysqlGarage(Config.Mysql,'execute','INSERT IGNORE INTO impound_garage (garage, data) VALUES (@garage, @data)', {
-            ['@garage']   = v.garage,
-            ['@data']   = '[]'
-        })
-    end
-    Wait(100)
-end)
 
 function MysqlGarage(plugin,type,query,var)
 	local wait = promise.new()
@@ -78,8 +49,12 @@ AddEventHandler('esx_garage:GetVehiclesTable', function(garageid,public)
     local xPlayer = ESX.GetPlayerFromId(src)
     local identifier = xPlayer.identifier
 
-    local Owned_Vehicle = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE owner = @owner', {['@owner'] = identifier})
-    local Job_Vehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM job_vehicles WHERE job = @job', {['@job'] = xPlayer.job.name}) 
+    local Owned_Vehicle = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE owner = @owner', {
+        ['@owner'] = identifier
+    })
+    local Job_Vehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM job_vehicles WHERE job = @job', {
+        ['@job'] = xPlayer.job.name
+    }) 
     TriggerClientEvent("esx_garage:receive_vehicles", src , Owned_Vehicle or {},vehicles or {}, Job_Vehicles or {})
 end)
 
@@ -88,16 +63,16 @@ AddEventHandler('esx_garage:GetVehiclesTableImpound', function()
     local src = source  
     local xPlayer = ESX.GetPlayerFromId(src)
     local identifier = xPlayer.identifier
-    --local Impounds = MySQL.Sync.fetchAll('SELECT * FROM owned_vehicles WHERE impound = 1', {})
-    local q = 'SELECT * FROM owned_vehicles WHERE `stored` = 0 OR impound = 1'
-    if not ImpoundedLostVehicle then
-        q = 'SELECT * FROM owned_vehicles WHERE impound = 1'
-    end
-    local Impounds = MysqlGarage(Config.Mysql,'fetchAll',q, {})
+ 
+    local Impound_Owned_Vehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE `impound` = 1 and owner = @owner', {
+        ['@owner'] = identifier
+    })
 
-    local Job_Vehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM job_vehicles WHERE `stored` = 0 and job = @job', {['@job'] = xPlayer.job.name}) 
+    local Impound_Job_Vehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM job_vehicles WHERE `impound` = 1 and job = @job', {
+        ['@job'] = xPlayer.job.name
+    }) 
 
-    TriggerClientEvent("esx_garage:receive_vehicles", src , Impounds,vehicles,Job_Vehicles or {})
+    TriggerClientEvent("esx_garage:receive_vehicles", src , Impound_Owned_Vehicles or {} ,vehicles, Impound_Job_Vehicles or {})
 end)
 
 
@@ -145,60 +120,37 @@ function DoiOwnthis(xPlayer,id)
 end
 
 
-ESX.RegisterServerCallback('esx_garage:isvehicleingarage', function (source, cb, plate, id, ispolice, patrol)
+ESX.RegisterServerCallback('esx_garage:isvehicleingarage', function (source, cb, plate, garageid)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
-    if not Config.PlateSpace then
-        plate = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper()
+    money = 1000
+    plate = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper()
+
+    local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT `stored`, impound FROM owned_vehicles WHERE TRIM(UPPER(plate)) = @plate', {
+        ['@plate'] = plate
+    })
+    if #result > 0 then
+        vehicle = result[1]
+        if vehicle.impound then
+            if xPlayer.getMoney() >= money then
+                xPlayer.removeMoney(money)
+                TriggerClientEvent('dopeNotify:Alert', source, "Garage", "Fahrzeug abgeholt", 5000, 'success')
+                cb(vehicle.stored, vehicle.impound, garageid, nil)
+            else
+                TriggerClientEvent('dopeNotify:Alert', source, "Garage", "Du hast nicht genug Geld es werden $".. money.. " benötigt", 5000, 'error')
+                cb(vehicle.stored, vehicle.impound, garageid, money)
+            end
+        else
+            cb(vehicle.stored, vehicle.impound, garageid, nil)
+        end
     else
-        plate = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper()
-    end
-    if patrol then
-        cb(true,0)
-    else
-        local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT `stored` ,impound FROM owned_vehicles WHERE TRIM(UPPER(plate)) = @plate', {
+        local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT `stored` FROM job_vehicles WHERE TRIM(UPPER(plate)) = @plate', {
             ['@plate'] = plate
         })
         if #result > 0 then
-            if string.find(id, "impound") then
-                local garage_impound = impoundcoord[1].garage
-                local impound_fee = ImpoundPayment
-                if result[1] and result[1].impound then
-                    for k,v in pairs(impound_G) do
-                        for k2,v2 in pairs(v) do
-                            if k2 == plate then
-                                garage_impound = k
-                                impound_fee = v2.fine or ImpoundPayment
-                                break
-                            end
-                        end
-                    end
-                end
-            end
-            if string.find(id, "impound") and Impoundforall and not ispolice then
-                local money = impound_G[garage] ~= nil and impound_G[garage][plate] ~= nil and impound_G[garage][plate].fine or ImpoundPayment
-                if xPlayer.getMoney() >= money then
-                    xPlayer.removeMoney(money)
-                    TriggerClientEvent('dopeNotify:Alert', source, "Garage", "Fahrzeug abgeholt", 5000, 'success')
-                    cb(1,0)
-                else
-                    TriggerClientEvent('dopeNotify:Alert', source, "Garage", "Fahrzeug kann nicht abgeholt werden, du hast nicht genug Geld", 5000, 'error')
-                    cb(false,1,garage_impound,impound_fee)
-                end
-            elseif result and result[1].stored ~= nil then
+            if result and result[1].stored ~= nil then
                 local stored = result[1].stored
-                local impound = result[1].impound
-                cb(stored,impound,garage_impound or false,impound_fee)
-            end
-        else
-            local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT `stored` FROM job_vehicles WHERE TRIM(UPPER(plate)) = @plate', {
-                ['@plate'] = plate
-            })
-            if #result > 0 then
-                if result and result[1].stored ~= nil then
-                    local stored = result[1].stored
-                    cb(stored,false,false,impound_fee)
-                end
+                cb(stored,false,false,impound_fee)
             end
         end
     end
@@ -266,24 +218,18 @@ ESX.RegisterServerCallback('esx_garage:canstore', function (source, cb, plate, j
 end)
 
 
-ESX.RegisterServerCallback('esx_garage:changestate', function (source, cb, plate,state,garage_id,model,props,impound_cdata, public)
-    if not Config.PlateSpace then
-        plate = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper()
-    else
-        plate = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper()
-    end
+ESX.RegisterServerCallback('esx_garage:changestate', function (source, cb, plate,state,garage_id,model,props,impound_cdata, public, impound)
+    plate = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper()
     local state = tonumber(state)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
-    local ply = Player(source).state
     local identifier = xPlayer.identifier
-
     if xPlayer then
         local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE owner = @owner and TRIM(UPPER(plate)) = @plate LIMIT 1', {
             ['@owner'] = identifier,
             ['@plate'] = plate
         })
-        if #result > 0 and not string.find(garage_id, "impound") then
+        if #result > 0 then
             if result[1].vehicle ~= nil then
                 local veh = json.decode(result[1].vehicle)
                 if veh.model == model then
@@ -293,9 +239,10 @@ ESX.RegisterServerCallback('esx_garage:changestate', function (source, cb, plate
                         ['@plate'] = plate:upper(),
                         ['@owner'] = identifier,
                         ['@stored'] = state,
+                        ['@impound'] = impound,
                         ['@job'] = state == 1 and public and xPlayer.job.name or state == 1 and result[1].job ~= nil and result[1].job or 'civ',
                     }
-                    local result = MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET `stored` = @stored, garage_id = @garage_id, vehicle = @vehicle, `job` = @job WHERE TRIM(UPPER(plate)) = @plate and owner = @owner', var)
+                    local result = MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET `stored` = @stored, impound = @impound, garage_id = @garage_id, vehicle = @vehicle, `job` = @job WHERE TRIM(UPPER(plate)) = @plate and owner = @owner', var)
                     if state == 1 then
                         TriggerClientEvent('dopeNotify:Alert', source, "Garage", "Fahrzeug eingeparkt", 5000, 'success')
                     else
@@ -311,7 +258,7 @@ ESX.RegisterServerCallback('esx_garage:changestate', function (source, cb, plate
             local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM job_vehicles WHERE TRIM(UPPER(plate)) = @plate LIMIT 1', {
                 ['@plate'] = plate
             })
-            if #result > 0 and not string.find(garage_id, "impound") then
+            if #result > 0 then
                 if result[1].vehicle ~= nil then
                     local veh = json.decode(result[1].vehicle)
                     if veh.model == model then
@@ -319,8 +266,9 @@ ESX.RegisterServerCallback('esx_garage:changestate', function (source, cb, plate
                             ['@vehicle'] = json.encode(props),
                             ['@plate'] = plate:upper(),
                             ['@stored'] = state,
+                            ['@impound'] = impound,
                         }
-                        local result = MysqlGarage(Config.Mysql,'execute','UPDATE job_vehicles SET `stored` = @stored, vehicle = @vehicle WHERE TRIM(UPPER(plate)) = @plate', var)
+                        local result = MysqlGarage(Config.Mysql,'execute','UPDATE job_vehicles SET `stored` = @stored, impound = @impound, vehicle = @vehicle WHERE TRIM(UPPER(plate)) = @plate', var)
                         if state == 1 then
                             TriggerClientEvent('dopeNotify:Alert', source, "Garage", "Fahrzeug eingeparkt", 5000, 'success')
                         else
@@ -350,30 +298,6 @@ AddEventHandler('onResourceStop', function(resourceName)
     print('The resource ' .. resourceName .. ' was stopped.')
 end)
 
-AddEventHandler('onResourceStart', function(resource)
-	if resource == GetCurrentResourceName() then
-		Citizen.Wait(50)
-        local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE `stored` = 0 OR impound = 1', {}) or {}
-        for k,v in ipairs(result) do    
-            local veh = json.decode(result[k].vehicle)
-            local var = {
-                ['@plate'] = veh.plate,
-                ['@stored'] = 1,
-                ['@impound'] = 0,
-            }
-            local result = MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET `stored` = @stored, impound = @impound WHERE TRIM(UPPER(plate)) = @plate', var)       
-        end
-        local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM job_vehicles WHERE `stored` = 0', {}) or {}
-        for k,v in ipairs(result) do    
-            local veh = json.decode(result[k].vehicle)
-            local var = {
-                ['@plate'] = veh.plate,
-                ['@stored'] = 1,
-            }
-            local result = MysqlGarage(Config.Mysql,'execute','UPDATE job_vehicles SET `stored` = @stored WHERE TRIM(UPPER(plate)) = @plate', var)       
-        end
-	end
-end)
 
 RegisterServerEvent('statebugupdate') -- this will be removed once syncing of statebug from client is almost instant
 AddEventHandler('statebugupdate', function(name,value,net)
