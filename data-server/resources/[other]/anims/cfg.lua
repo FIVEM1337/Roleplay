@@ -40,6 +40,6 @@ cfg = {
     cancelKey = 73, -- Default key for cancelling an animation. Users can change this manually too.
     defaultCommand = 'fav', -- Emote command execution
     defaultEmote = 'dance', -- Default emote by default
-    defaultEmoteUseKey = true, -- Don't recommend setting this to false unless you change UI
+    defaultEmoteUseKey = false, -- Don't recommend setting this to false unless you change UI
     defaultEmoteKey = 20 -- Default emote command key
 }
