@@ -465,15 +465,16 @@ ESX.RegisterServerCallback('esx_policejob:impound', function(source, cb, plate)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	MySQL.Async.execute('UPDATE owned_vehicles SET `stored` = @stored, impound = @impound WHERE TRIM(UPPER(plate)) = @plate', {
 		['@plate'] = plate,
-		['@stored'] = false,
+		['@stored'] = true,
 		['@impound'] = true
 	}, function(rowsChanged)
 		if rowsChanged > 0 then
 			cb(true)
 		else
-			MySQL.Async.execute('UPDATE job_vehicles SET `stored` = @stored WHERE TRIM(UPPER(plate)) = @plate', {
+			MySQL.Async.execute('UPDATE job_vehicles SET `stored` = @stored, impound = @impound WHERE TRIM(UPPER(plate)) = @plate', {
 				['@plate'] = plate,
-				['@stored'] = true
+				['@stored'] = true,
+				['@impound'] = true
 			}, function(rowsChanged)
 				if rowsChanged > 0 then
 					cb(true)
