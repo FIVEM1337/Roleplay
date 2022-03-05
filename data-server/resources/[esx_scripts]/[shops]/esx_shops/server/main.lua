@@ -48,7 +48,8 @@ function LoadShop()
 			label = itemInformation[shopResult[i].item].label,
 			item  = shopResult[i].item,
 			price = shopResult[i].price,
-			limit = itemInformation[shopResult[i].item].limit
+			limit = itemInformation[shopResult[i].item].limit,
+			moneytype = shopResult[i].moneytype
 		})
 	end
 end

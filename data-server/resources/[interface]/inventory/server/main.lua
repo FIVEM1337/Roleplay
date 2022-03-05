@@ -27,7 +27,8 @@ ESX.RegisterServerCallback("inventory:getOtherInventory", function(source, cb, o
                     type = 'item_weapon',
                     name = v.name,
                     label = ESX.GetWeaponLabel(v.name),
-                    count = v.price
+                    count = v.price,
+                    moneytype = v.moneytype
                 })
             elseif v.type == 'item' then  
                 local info = xPlayer.getInventoryItem(v.name)
@@ -36,7 +37,8 @@ ESX.RegisterServerCallback("inventory:getOtherInventory", function(source, cb, o
                     type = 'item_standard',
                     name = v.name,
                     label = info.label or '',
-                    count = v.price
+                    count = v.price,
+                    moneytype = v.moneytype
                 })
             else 
                 local info = xPlayer.getInventoryItem(v.name)
@@ -45,7 +47,8 @@ ESX.RegisterServerCallback("inventory:getOtherInventory", function(source, cb, o
                     type = 'item_standard',
                     name = v.name,
                     label = info.label or '',
-                    count = v.price
+                    count = v.price,
+                    moneytype = v.moneytype
                 })
             end
         end
@@ -81,11 +84,19 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
     local src = source
 
     local xPlayer = ESX.GetPlayerFromId(src)
+
+    local currency
+	for k,v in pairs(xPlayer.accounts) do
+		if v.name == item.moneytype then
+            currency = v.money
+		end
+	end
+    
     if not xPlayer then return end
     if otherInv.type == 'shop' then
         if item.type == 'item_weapon' then
-            if not xPlayer.hasWeapon(item.name) and xPlayer.getMoney() >= item.count then
-                xPlayer.removeMoney(item.count)
+            if not xPlayer.hasWeapon(item.name) and currency >= item.count then
+                xPlayer.removeAccountMoney(item.moneytype, item.count)
                 xPlayer.addWeapon(item.name, item.count)
                 TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> purchased!'):format(count, item.label))
                 TriggerEvent('CryptoHooker:SendBuyLog', src, item.label, count, count * item.count)
@@ -95,8 +106,8 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
         elseif item.type == 'item_standard' then
             if Config.PlayerWeight then
                 if xPlayer.canCarryItem(item.name, count) then
-                    if xPlayer.getMoney() >= (count * item.count) then
-                        xPlayer.removeMoney(count * item.count)
+                    if currency >= (count * item.count) then
+                        xPlayer.removeAccountMoney(item.moneytype, count * item.count)
                         xPlayer.addInventoryItem(item.name, count)
                         TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> purchased!'):format(count, item.label))
                         TriggerEvent('CryptoHooker:SendBuyLog', src, item.label, count, count * item.count)
@@ -109,8 +120,8 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
             else 
                 local newCount = xPlayer.getInventoryItem(item.name).count + count
                 if newCount <= xPlayer.getInventoryItem(item.name).limit then
-                    if xPlayer.getMoney() >= (count * item.count) then
-                        xPlayer.removeMoney(count * item.count)
+                    if currency >= (count * item.count) then
+                        xPlayer.removeAccountMoney(item.moneytype, count * item.count)
                         xPlayer.addInventoryItem(item.name, count)
                         TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> purchased!'):format(count, item.label))
                         TriggerEvent('CryptoHooker:SendBuyLog', src, item.label, count, count * item.count)

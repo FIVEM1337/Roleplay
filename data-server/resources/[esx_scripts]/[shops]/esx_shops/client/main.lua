@@ -31,11 +31,13 @@ function OpenShopMenu(zone)
 					name = item.item
 					price = item.price
 					limit = item.limit
+					moneytype = item.moneytype
 
 					table.insert(items, {
 						type = "shop",
 						name = name,
-						price = price
+						price = price,
+						moneytype = moneytype
 					})
 
 				end
@@ -87,7 +89,7 @@ end)
 -- Display markers
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(5)
+		Citizen.Wait(3)
 		local coords = GetEntityCoords(GetPlayerPed(-1))
 
 		for k,v in pairs(Config.Zones) do
