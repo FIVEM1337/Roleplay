@@ -369,6 +369,15 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		end
 	end
 
+	self.setWeaponAmmo = function(weaponName, ammoCount)
+		local loadoutNum, weapon = self.getWeapon(weaponName)
+
+		if weapon then
+			weapon.ammo = ammoCount
+			self.triggerEvent('esx:setWeaponAmmo', weaponName, weapon.ammo)
+		end
+	end
+
 	self.updateWeaponAmmo = function(weaponName, ammoCount)
 		local loadoutNum, weapon = self.getWeapon(weaponName)
 

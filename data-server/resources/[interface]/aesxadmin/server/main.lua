@@ -384,7 +384,7 @@ AddEventHandler("AesxAdmin:revive", function(target)
     local targetPlayer = ESX.GetPlayerFromId(target)
     local playerGroup = xPlayer.getGroup()
     if Config.Perms[playerGroup] and Config.Perms[playerGroup].CanRevive then
-        targetPlayer.triggerEvent('esx_ambulancejob:revive')
+        targetPlayer.triggerEvent('esx_jobs:revive')
         TriggerClientEvent('esx:showNotification', source, "You revived "..GetPlayerName(target))
         TriggerClientEvent('esx:showNotification', target, "You have been revived by an admin")
     else

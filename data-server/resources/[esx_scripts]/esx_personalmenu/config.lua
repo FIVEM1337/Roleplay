@@ -356,7 +356,7 @@ Config.Admin = {
 				plyId = tonumber(plyId)
 				
 				if type(plyId) == 'number' then
-					TriggerServerEvent('esx_ambulancejob:revive', plyId)
+					TriggerServerEvent('esx_jobs:revive', plyId)
 				end
 			end
 

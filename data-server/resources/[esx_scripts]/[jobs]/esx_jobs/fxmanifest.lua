@@ -11,14 +11,16 @@ server_scripts {
 	'@es_extended/locale.lua',
 	'config.lua',
 	'locales/de.lua',
-	'server/main.lua'
+	'server/main.lua',
+	'server/ambulance.lua'
 }
 
 client_scripts {
 	'@es_extended/locale.lua',
 	'config.lua',
 	'locales/de.lua',
-	'client/main.lua'
+	'client/main.lua',
+	'client/ambulance.lua'
 }
 
 dependencies {
