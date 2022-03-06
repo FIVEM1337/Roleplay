@@ -7,20 +7,8 @@ local SharedDataStores = {}
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
+MySQL.ready(function()
 
-AddEventHandler('onResourceStart', function(resource)
-	if resource == GetCurrentResourceName() then
-		TriggerEvent('esx_datastore:getdata')
-	end
-end)
-
-AddEventHandler('onMySQLReady', function()
-  TriggerEvent('esx_datastore:getdata')
-end)
-
-
-RegisterServerEvent('esx_datastore:getdata')
-AddEventHandler('esx_datastore:getdata', function ()
   local result = MySQL.Sync.fetchAll('SELECT * FROM datastore')
 
   for i=1, #result, 1 do
@@ -85,6 +73,8 @@ function GetDataStore(name, owner)
   for i=1, #DataStores[name], 1 do
     if DataStores[name][i].owner == owner then
       return DataStores[name][i]
+    elseif (tonumber(DataStores[name][i].owner) and tonumber(owner) and tonumber(DataStores[name][i].owner) == tonumber(owner)) then
+      return DataStores[name][i]
     end
   end
 end
@@ -117,12 +107,44 @@ AddEventHandler('esx_datastore:getSharedDataStore', function(name, cb)
   cb(GetSharedDataStore(name))
 end)
 
+RegisterServerEvent('esx_datastore:receiveProperties')
+AddEventHandler('esx_datastore:receiveProperties', function(prop_res)
+
+	properties = prop_res
+
+end)
+
 AddEventHandler('esx:playerLoaded', function(source)
 
   local _source = source
   local xPlayer = ESX.GetPlayerFromId(_source)
   local dataStores = {}
+  
+  TriggerEvent('esx_properties:getPlayerProperties', 'data', xPlayer.identifier)
+	if properties ~= nil then
+		for k, prop in pairs(properties) do
+			
+			local dataStore = GetDataStore('property', prop)
+			--local inventory = nil
+			
+			if dataStore == nil then
+			  MySQL.Async.execute(
+				'INSERT INTO datastore_data (name, owner, data) VALUES (@name, @owner, @data)',
+				{
+				  ['@name']  = 'property',
+				  ['@owner'] = prop,
+				  ['@data']  = '{}'
+				}
+			  )
 
+			  dataStore = CreateDataStore('property', prop, {})
+			  table.insert(DataStores['property'], dataStore)
+			end
+
+			table.insert(dataStores, dataStore)
+			
+		end
+	end
   for i=1, #DataStoresIndex, 1 do
 
     local name      = DataStoresIndex[i]

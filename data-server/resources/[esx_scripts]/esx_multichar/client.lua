@@ -242,7 +242,7 @@ function selectSpawnPoint(lastLocation, isnew)
     end
 
     if Config.useMyProperties then
-        ESX.TriggerServerCallback('myProperties:receiveAllPropertiesFromPlayer', function(props)
+        ESX.TriggerServerCallback('esx_properties:receiveAllPropertiesFromPlayer', function(props)
             if props ~= nil then
                 for k2, v2 in pairs(props) do
                     local propSpawn = NativeUI.CreateItem(v2.label, '~b~')

@@ -40,7 +40,7 @@ AddEventHandler('esx_multichar:GetPlayerCharacters', function()
     end
     
     if Config.useMyProperties then
-        TriggerEvent('myProperties:updateIdentifier', src, GetIdentifierWithoutLicense(license), LastCharId..':'..GetIdentifierWithoutLicense(license))
+        TriggerEvent('esx_properties:updateIdentifier', src, GetIdentifierWithoutLicense(license), LastCharId..':'..GetIdentifierWithoutLicense(license))
     end
 
     local chars = GetPlayerCharacters(src)
@@ -60,7 +60,7 @@ AddEventHandler('esx_multichar:CharSelected', function(charid, isnew)
     end
 
     if Config.useMyProperties then
-        TriggerEvent('myProperties:updateIdentifier', src, tonumber(charid)..':'..GetIdentifierWithoutLicense(GetRockstarID(src)), GetIdentifierWithoutLicense(GetRockstarID(src)))
+        TriggerEvent('esx_properties:updateIdentifier', src, tonumber(charid)..':'..GetIdentifierWithoutLicense(GetRockstarID(src)), GetIdentifierWithoutLicense(GetRockstarID(src)))
     end
 
     if not isnew then

@@ -1,6 +1,9 @@
-Items = {}
-local InventoriesIndex, Inventories, SharedInventories = {}, {}, {}
-ESX = nil
+ESX                     = nil
+Items                   = {}
+local InventoriesIndex  = {}
+local Inventories       = {}
+local SharedInventories = {}
+
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
@@ -18,9 +21,12 @@ MySQL.ready(function()
 		local label  = result[i].label
 		local shared = result[i].shared
 
-		local result2 = MySQL.Sync.fetchAll('SELECT * FROM addon_inventory_items WHERE inventory_name = @inventory_name', {
-			['@inventory_name'] = name
-		})
+		local result2 = MySQL.Sync.fetchAll(
+			'SELECT * FROM addon_inventory_items WHERE inventory_name = @inventory_name',
+			{
+				['@inventory_name'] = name
+			}
+		)
 
 		if shared == 0 then
 
@@ -68,8 +74,10 @@ MySQL.ready(function()
 end)
 
 function GetInventory(name, owner)
-	for i=1, #Inventories[name], 1 do
+for i=1, #Inventories[name], 1 do
 		if Inventories[name][i].owner == owner then
+			return Inventories[name][i]
+		elseif (tonumber(Inventories[name][i].owner) and tonumber(owner) and tonumber(Inventories[name][i].owner) == tonumber(owner)) then
 			return Inventories[name][i]
 		end
 	end
@@ -87,9 +95,43 @@ AddEventHandler('esx_addoninventory:getSharedInventory', function(name, cb)
 	cb(GetSharedInventory(name))
 end)
 
-AddEventHandler('esx:playerLoaded', function(playerId, xPlayer)
-	local addonInventories = {}
+local properties = {}
 
+RegisterServerEvent('esx_addoninventory:receiveProperties')
+AddEventHandler('esx_addoninventory:receiveProperties', function(prop_res)
+	properties = prop_res
+end)
+
+RegisterServerEvent('esx_addoninventory:registerNewProperty')
+AddEventHandler('esx_addoninventory:registerNewProperty', function(propertyID)
+	local inventory = GetInventory('property', propertyID)
+		--local inventory = nil	
+	if inventory == nil then
+		inventory = CreateAddonInventory('property', propertyID, {})
+		table.insert(Inventories['property'], inventory)
+	end
+
+	table.insert(addonInventories, inventory)
+end)
+
+AddEventHandler('esx:playerLoaded', function(source)
+	local _source = source
+    local xPlayer = ESX.GetPlayerFromId(_source)
+	local addonInventories = {}
+	
+	TriggerEvent('esx_properties:getPlayerProperties', 'addon', xPlayer.identifier)
+	
+	for k, prop in pairs(properties) do
+		local inventory = GetInventory('property', prop)
+		--local inventory = nil
+		if inventory == nil then
+			inventory = CreateAddonInventory('property', prop, {})
+			table.insert(Inventories['property'], inventory)
+		end
+
+		table.insert(addonInventories, inventory)
+	end
+	
 	for i=1, #InventoriesIndex, 1 do
 		local name      = InventoriesIndex[i]
 		local inventory = GetInventory(name, xPlayer.identifier)
