@@ -129,6 +129,7 @@ function loadESXPlayer(identifier, playerId)
 			userData.job.grade_salary = gradeObject.salary
 			userData.job.can_invite = gradeObject.can_invite
 			userData.job.can_managemoney = gradeObject.can_managemoney
+			userData.job.can_manageoutfits = gradeObject.can_manageoutfits
 
 			userData.job.skin_male = {}
 			userData.job.skin_female = {}

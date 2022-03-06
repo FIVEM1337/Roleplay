@@ -1,7 +1,7 @@
 Config = {}
 Translation = {}
 
-Config.Locale = 'en'
+Config.Locale = 'de'
 
 Config.useESXClothesData = false -- Clothing is saved in esx_addonaccount. 
 Config.useesx_clotheshopapi = true -- Optimized API to work with a Multichar script. If you don't use myProperties, you need to edit your property script!
@@ -119,6 +119,17 @@ Translation = {
     ['outfit_removed'] = 'Das Outfit ~y~',
     ['outfit_removed2'] = ' ~s~wurde gelöscht.',
     ['saved_outfits'] = 'Gespeicherte Outfits',
+
+    ['menu_select_private_or_business'] = 'Privat oder Job?',
+    ['menu_select_private_desc'] = 'Kaufe Private Kleidung',
+    ['menu_select_grade'] = 'Wähle den Rang aus',
+    ['menu_select_business_desc'] = 'Kleidung für Mitarbeiter speichern',
+    ['menu_private'] = 'Privat',
+    ['menu_business'] = 'Job',
+    ['select_sex'] = 'Geschlecht wählen',
+    ['male'] = 'Männlich',
+    ['female'] = 'Weiblich',
+    ['save_job_complete'] = '~y~Verkäuferin~s~: Vielen Dank das Outfit steht nun für Ihr Team zur verfügung.',
   },
   ['en'] = {
     ['press_e_interact'] = 'Press ~g~E~s~, to change clothes',
