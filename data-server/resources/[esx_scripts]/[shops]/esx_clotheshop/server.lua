@@ -124,3 +124,44 @@ AddEventHandler('skin:save', function(skin)
   )
 
 end)
+
+
+ESX.RegisterServerCallback('esx_clotheshop:getjobgrades', function(source, cb)
+	local _source = source
+	local xPlayer = ESX.GetPlayerFromId(_source)
+
+	MySQL.Async.fetchAll('SELECT * FROM job_grades WHERE job_name = @job_name', {
+		['@job_name'] = xPlayer.job.name
+	}, function(result)
+    cb(result)
+	end)
+end)
+
+
+
+
+RegisterServerEvent('esx_clotheshop:setJobSkin')
+AddEventHandler('esx_clotheshop:setJobSkin', function(sex, grade, skin)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    if sex == "male" then
+        MySQL.Async.execute(
+          'UPDATE job_grades SET skin_male = @skin_male WHERE job_name = @job_name AND label = @label',
+          {
+            ['@skin_male']   = json.encode(skin),
+            ['@job_name'] = xPlayer.job.name,
+            ['@label']    = grade
+          },
+          function(rowsChanged)
+        end)
+    else
+        MySQL.Async.execute(
+          'UPDATE job_grades SET skin_female = @skin_female WHERE job_name = @job_name AND label = @label',
+          {
+            ['@skin_female']   = json.encode(skin),
+            ['@job_name'] = xPlayer.job.name,
+            ['@label']    = grade
+          },
+          function(rowsChanged)
+        end)
+    end
+end)

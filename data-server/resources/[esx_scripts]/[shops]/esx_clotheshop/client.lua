@@ -16,6 +16,7 @@ local isPedLoaded = false
 local npc = nil
 local hasBought = false
 local wasInMenu = false
+local sexchange = false
 
 local LastSkin = nil
 local torsoData = {}
@@ -29,6 +30,15 @@ Citizen.CreateThread(function()
     PlayerData = ESX.GetPlayerData()
     
 end)
+
+
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer)
+	ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
+		LastSkin = skin
+	end)
+end)
+
 
 local ped = Config.NormalShopPed
 Citizen.CreateThread(function()
@@ -90,6 +100,36 @@ Citizen.CreateThread(function()
 		
 		if (wasInMenu and not isInShop) then
 			if not hasBought then
+				if sexchange then
+					ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+						local model = nil
+				
+						if skin.sex == 0 then
+							model = GetHashKey("mp_m_freemode_01")
+						else
+							model = GetHashKey("mp_f_freemode_01")
+						end
+				
+						RequestModel(model)
+						while not HasModelLoaded(model) do
+							RequestModel(model)
+							Citizen.Wait(1)
+						end
+				
+						SetPlayerModel(PlayerId(), model)
+						SetModelAsNoLongerNeeded(model)
+				
+						TriggerEvent('skinchanger:loadSkin', LastSkin)
+						TriggerEvent('esx:restoreLoadout')
+				
+						SetEntityCanBeDamaged(PlayerPedId(), true)
+					end)
+				else
+					TriggerEvent('skinchanger:loadSkin', LastSkin)
+				end
+				
+
+					
 				TriggerEvent('skinchanger:loadSkin', LastSkin)
 				TriggerEvent('lils_accessoires:setAccessoires')
 			end
@@ -105,10 +145,19 @@ Citizen.CreateThread(function()
 
 end)
 
+RegisterNetEvent('esx:setJob')
+AddEventHandler('esx:setJob', function (job)
+	ESX.PlayerData.job = job
+end)
+
 Citizen.CreateThread(function()
 
 	while true do
 		Citizen.Wait(1)
+
+		if ESX.PlayerData.job == nil then
+			ESX.PlayerData = ESX.GetPlayerData()
+		end
 
 		if isInShop then
 			_menuPool:ProcessMenus()
@@ -116,13 +165,23 @@ Citizen.CreateThread(function()
 			if IsControlJustReleased(1, 38) then
 				hasBought = false
                 wasInMenu = true
-                if menuWallpaper == 'HAT' then
-                    generateClothesMenu(Config.HATersContent)
-                elseif menuWallpaper == 'MASK' then
-					generateClothesMenu(Config.MaskContent)
+				if ESX.PlayerData.job and ESX.PlayerData.job.can_manageoutfits then
+					if menuWallpaper == 'HAT' then
+						generateClothesMenuSelect(Config.HATersContent)
+					elseif menuWallpaper == 'MASK' then
+						generateClothesMenuSelect(Config.MaskContent)
+					else
+						generateClothesMenuSelect(Config.shopContent)
+					end
 				else
-                    generateClothesMenu(Config.shopContent)
-                end
+					if menuWallpaper == 'HAT' then
+						generateClothesMenu(Config.HATersContent)
+					elseif menuWallpaper == 'MASK' then
+						generateClothesMenu(Config.MaskContent)
+					else
+						generateClothesMenu(Config.shopContent)
+					end
+				end
 			end
 		else
 			_menuPool:CloseAllMenus()
@@ -133,14 +192,7 @@ Citizen.CreateThread(function()
 				DeleteSkinCam()
 			end
         end
-        
-        if mainMenu ~= nil and mainMenu:Visible() then
-            if IsControlJustReleased(1, 191) then
-                mainMenu:Visible(false)
-                DeleteSkinCam()
-                generateConfirmMenu()
-            end
-        end
+
 	
 	end
 
@@ -207,7 +259,7 @@ end
 
 local confirmMenu = nil
 
-function generateConfirmMenu()
+function generateConfirmMenu(sex, grade)
 
 	if confirmMenu ~= nil and confirmMenu:Visible() then
 		confirmMenu:Visible(false)
@@ -216,7 +268,11 @@ function generateConfirmMenu()
     confirmMenu = NativeUI.CreateMenu(Translation[Config.Locale]['menu_buy_clothes'], nil)
     _menuPool:Add(confirmMenu)
     local buy = NativeUI.CreateItem(Translation[Config.Locale]['menu_confirm'], '~b~')
-    buy:RightLabel('~g~' .. Config.Price .. '.00$')
+
+	if not sex and not grade then
+    	buy:RightLabel('~g~' .. Config.Price .. '.00$')
+	end
+
     local abort = NativeUI.CreateItem(Translation[Config.Locale]['menu_abort'], '~b~')
     abort:SetRightBadge(BadgeStyle.Alert)
 
@@ -226,11 +282,18 @@ function generateConfirmMenu()
     confirmMenu.OnItemSelect = function(sender, item, index)
 
         if item == buy then
-            TriggerServerEvent('esx_clotheshop:buy')
+			if sex and grade then
+				TriggerEvent('skinchanger:getSkin', function(finalSkin)
+					TriggerServerEvent('esx_clotheshop:setJobSkin', sex, grade, finalSkin)
+					ShowNotification(Translation[Config.Locale]['save_job_complete'])
+					_menuPool:CloseAllMenus()
+				end)
+			else
+            	TriggerServerEvent('esx_clotheshop:buy')
+			end
         elseif item == abort then
             _menuPool:CloseAllMenus()
         end
-
     end
 
     confirmMenu:Visible(true)
@@ -243,8 +306,212 @@ end
 local variationValues
 local Component2ListItem
 
-function generateClothesMenu(content)
+
+function generateClothesMenuSelect(content)
+	if selectMenu ~= nil and selectMenu:Visible() then
+		selectMenu:Visible(false)
+	end
 	
+	selectedIndex = 1
+	
+	_menuPool:Remove()
+	_menuPool:RefreshIndex()
+	selectMenu = NativeUI.CreateMenu(nil, nil, nil)
+
+	selectMenu = NativeUI.CreateMenu(Translation[Config.Locale]['menu_select_private_or_business'], nil, nil)
+	_menuPool:Add(selectMenu)
+
+	local Privat = NativeUI.CreateItem(Translation[Config.Locale]['menu_private'], Translation[Config.Locale]['menu_select_private_desc'])
+	local Business = NativeUI.CreateItem(Translation[Config.Locale]['menu_business'], Translation[Config.Locale]['menu_select_business_desc'])
+	selectMenu:AddItem(Privat)
+	selectMenu:AddItem(Business)
+
+	selectMenu.OnItemSelect = function(sender, item, index)
+
+        if item == Privat then
+			generateClothesMenu(content)
+			selectMenu:Visible(false)
+		else
+			generateselectSex(content)	
+			selectMenu:Visible(false)
+        end
+    end
+
+	selectMenu:Visible(true)
+	_menuPool:MouseControlsEnabled (false)
+	_menuPool:MouseEdgeEnabled (false)
+	_menuPool:ControlDisablingEnabled(false)
+end
+
+function generateselectSex(content)
+	if selectSexMenu ~= nil and selectSexMenu:Visible() then
+		selectSexMenu:Visible(false)
+	end
+
+    selectSexMenu = NativeUI.CreateMenu(Translation[Config.Locale]['select_sex'], nil)
+
+	local male = NativeUI.CreateItem(Translation[Config.Locale]['male'], '~b~')
+	local female = NativeUI.CreateItem(Translation[Config.Locale]['female'], '~b~')
+
+	selectSexMenu:AddItem(male)
+	selectSexMenu:AddItem(female)
+
+	_menuPool:Add(selectSexMenu)
+
+    selectSexMenu.OnItemSelect = function(sender, item, index)
+        if item == male then
+			generateselectGrade(content, "male")
+		else
+			generateselectGrade(content, "female")
+        end
+		selectSexMenu:Visible(false)
+    end
+
+    selectSexMenu:Visible(true)
+	_menuPool:MouseControlsEnabled (false)
+	_menuPool:MouseEdgeEnabled (false)
+	_menuPool:ControlDisablingEnabled(false)
+end
+
+function generateselectGrade(content, sex)
+	if selectGradeMenu ~= nil and selectGradeMenu:Visible() then
+		selectGradeMenu:Visible(false)
+	end
+
+    selectGradeMenu = NativeUI.CreateMenu(Translation[Config.Locale]['menu_select_grade'], nil)
+
+
+	local done = false
+	ESX.TriggerServerCallback('esx_clotheshop:getjobgrades', function(grades)
+		for k, v in ipairs(grades) do
+			local buy = NativeUI.CreateItem(v.label, '~b~')
+			selectGradeMenu:AddItem(buy)
+		end
+		done = true
+	end)
+
+
+	while true do
+		Citizen.Wait(1)
+		if done then
+			_menuPool:Add(selectGradeMenu)
+			break
+		end
+	end
+
+    local abort = NativeUI.CreateItem(Translation[Config.Locale]['menu_abort'], '~b~')
+    abort:SetRightBadge(BadgeStyle.Alert)
+
+    selectGradeMenu:AddItem(abort)
+
+    selectGradeMenu.OnItemSelect = function(sender, item, index)
+
+        if item == abort then
+            _menuPool:CloseAllMenus()
+		else
+			TriggerEvent('skinchanger:getSkin', function(finalSkin)
+				generateClothesMenu(content, sex, item.Text:Text())
+			end)
+        end
+		selectGradeMenu:Visible(false)
+    end
+
+    selectGradeMenu:Visible(true)
+	_menuPool:MouseControlsEnabled (false)
+	_menuPool:MouseEdgeEnabled (false)
+	_menuPool:ControlDisablingEnabled(false)
+end
+
+function generateClothesMenu(content, sex, grade)
+
+	newskin = {
+		sex          = 0,
+		face         = 0,
+		skin         = 0,
+		hair_1       = 0,
+		hair_2       = 0,
+		hair_color_1 = 0,
+		hair_color_2 = 0,
+		decals_1     = 0,
+		decals_2     = 0,
+		tshirt_1     = 0,
+		tshirt_2     = 0,
+		torso_1      = 0,
+		torso_2      = 0,
+		arms         = 0,
+		pants_1      = 0,
+		pants_2      = 0,
+		shoes_1      = 0,
+		shoes_2      = 0,
+		mask_1       = 0,
+		mask_2       = 0,
+		bproof_1     = 0,
+		bproof_2     = 0,
+		bags_1		 = 0,
+		bags_2		 = 0,
+		beard_1      = 0,
+		beard_2      = 0,
+		beard_3      = 0,
+		beard_4      = 0,
+		chain_1      = 0,
+		chain_2      = 0,
+		glasses_1    = 0,
+		glasses_2    = 0,
+	}
+
+	if sex and grade then
+		ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+			local model = nil
+			
+			if sex == "male" then
+				model = GetHashKey("mp_m_freemode_01")
+			elseif sex == "female" then
+				model = GetHashKey("mp_f_freemode_01")
+			end
+
+			RequestModel(model)
+			while not HasModelLoaded(model) do
+				RequestModel(model)
+				Citizen.Wait(1)
+			end
+
+			SetPlayerModel(PlayerId(), model)
+			SetModelAsNoLongerNeeded(model)
+
+			TriggerEvent('skinchanger:loadSkin', newskin)
+			TriggerEvent('esx:restoreLoadout')
+
+			SetEntityCanBeDamaged(PlayerPedId(), true)
+			sexchange = true
+		end)
+	else
+		if sexchange then
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+				local model = nil
+		
+				if skin.sex == 0 then
+					model = GetHashKey("mp_m_freemode_01")
+				else
+					model = GetHashKey("mp_f_freemode_01")
+				end
+		
+				RequestModel(model)
+				while not HasModelLoaded(model) do
+					RequestModel(model)
+					Citizen.Wait(1)
+				end
+		
+				SetPlayerModel(PlayerId(), model)
+				SetModelAsNoLongerNeeded(model)
+		
+				TriggerEvent('skinchanger:loadSkin', LastSkin)
+				TriggerEvent('esx:restoreLoadout')
+		
+				SetEntityCanBeDamaged(PlayerPedId(), true)
+			end)
+		end	
+	end
+
 	if mainMenu ~= nil and mainMenu:Visible() then
 		mainMenu:Visible(false)
 	end
@@ -272,98 +539,100 @@ function generateClothesMenu(content)
     end
 
     if Config.enableSavedOutfits then
-        local savedOutfits_sub = _menuPool:AddSubMenu(mainMenu, Translation[Config.Locale]['saved_outfits'])
-        local background = Sprite.New(menuWallpaper, menuWallpaper, 0, 0, 431, 38)
-		if content == Config.shopContent then
-			savedOutfits_sub.SubMenu:SetBannerSprite(background, true)
-		end
-        if Config.useesx_clotheshopapi then
-            ESX.TriggerServerCallback('clothes:requestData', function(dressing)
-                for i=1, #dressing, 1 do
-                    local dress = _menuPool:AddSubMenu(savedOutfits_sub.SubMenu, dressing[i].name)
-                    local takeOn = NativeUI.CreateItem(Translation[Config.Locale]['outfin_use'], '~b~')
-                    local remove = NativeUI.CreateItem(Translation[Config.Locale]['outfit_remove'], '~b~')
-                    dress.SubMenu:AddItem(takeOn)
-                    dress.SubMenu:AddItem(remove)
-        
-                    savedOutfits_sub.SubMenu.OnIndexChange = function(sender, index)
-                        selectedIndex = index
-                    end
-        
-                    dress.SubMenu.OnItemSelect = function(sender, item, index)
-                        if item == takeOn then
-                            TriggerEvent('skinchanger:getSkin', function(skin)
-        
-                                --ESX.TriggerServerCallback('lils_properties:getPlayerOutfit', function(clothes)
-                    
-                                TriggerEvent('skinchanger:loadClothes', skin, dressing[selectedIndex].clothesData)
-                                TriggerEvent('esx_skin:setLastSkin', skin)
-                
-                                TriggerEvent('skinchanger:getSkin', function(skinnew)
-									TriggerServerEvent('esx_skin:save', skinnew)
-									LastSkin = skinnew
-                                end)
-								
-								hasBought = true
-								
-                    
-                                --end, selectedIndex)
-                    
-                            end)
-                        elseif item == remove then
-                            TriggerServerEvent('clothes:removeOutfit', dressing[selectedIndex].id)
-                            ShowNotification(Translation[Config.Locale]['outfit_removed'] .. dressing[selectedIndex].name .. Translation[Config.Locale]['outfit_removed2'])
-                            _menuPool:CloseAllMenus()
-                        end
-                    end
-                    _menuPool:RefreshIndex()
-                    _menuPool:MouseEdgeEnabled (false)
-                end
-            end)
-        else
-            ESX.TriggerServerCallback('esx_clotheshop:getPlayerDressing', function(dressing)
-                for i=1, #dressing, 1 do
-                    local dress = _menuPool:AddSubMenu(savedOutfits_sub.SubMenu, dressing[i])
-                    local takeOn = NativeUI.CreateItem(Translation[Config.Locale]['outfin_use'], '~b~')
-                    local remove = NativeUI.CreateItem(Translation[Config.Locale]['outfit_remove'], '~b~')
-                    dress.SubMenu:AddItem(takeOn)
-                    dress.SubMenu:AddItem(remove)
-        
-                    savedOutfits_sub.SubMenu.OnIndexChange = function(sender, index)
-                        selectedIndex = index
-                    end
-        
-                    dress.SubMenu.OnItemSelect = function(sender, item, index)
-                        if item == takeOn then
-                            TriggerEvent('skinchanger:getSkin', function(skin)
-        
-                                ESX.TriggerServerCallback('esx_clotheshop:getPlayerOutfit', function(clothes)
-                    
-                                    TriggerEvent('skinchanger:loadClothes', skin, clothes)
-                                    TriggerEvent('esx_skin:setLastSkin', skin)
-                    
-                                    TriggerEvent('skinchanger:getSkin', function(skinnew)
+		if not sex and not grade then
+			local savedOutfits_sub = _menuPool:AddSubMenu(mainMenu, Translation[Config.Locale]['saved_outfits'])
+			local background = Sprite.New(menuWallpaper, menuWallpaper, 0, 0, 431, 38)
+			if content == Config.shopContent then
+				savedOutfits_sub.SubMenu:SetBannerSprite(background, true)
+			end
+			if Config.useesx_clotheshopapi then
+				ESX.TriggerServerCallback('clothes:requestData', function(dressing)
+					for i=1, #dressing, 1 do
+						local dress = _menuPool:AddSubMenu(savedOutfits_sub.SubMenu, dressing[i].name)
+						local takeOn = NativeUI.CreateItem(Translation[Config.Locale]['outfin_use'], '~b~')
+						local remove = NativeUI.CreateItem(Translation[Config.Locale]['outfit_remove'], '~b~')
+						dress.SubMenu:AddItem(takeOn)
+						dress.SubMenu:AddItem(remove)
+			
+						savedOutfits_sub.SubMenu.OnIndexChange = function(sender, index)
+							selectedIndex = index
+						end
+			
+						dress.SubMenu.OnItemSelect = function(sender, item, index)
+							if item == takeOn then
+								TriggerEvent('skinchanger:getSkin', function(skin)
+			
+									--ESX.TriggerServerCallback('lils_properties:getPlayerOutfit', function(clothes)
+						
+									TriggerEvent('skinchanger:loadClothes', skin, dressing[selectedIndex].clothesData)
+									TriggerEvent('esx_skin:setLastSkin', skin)
+					
+									TriggerEvent('skinchanger:getSkin', function(skinnew)
 										TriggerServerEvent('esx_skin:save', skinnew)
 										LastSkin = skinnew
-                                    end)
+									end)
 									
 									hasBought = true
 									
-                    
-                                end, selectedIndex)
-                    
-                            end)
-                        elseif item == remove then
-                            TriggerServerEvent('esx_clotheshop:removeOutfit', selectedIndex)
-                            ShowNotification(Translation[Config.Locale]['outfit_removed'] .. dressing[selectedIndex] .. Translation[Config.Locale]['outfit_removed2'])
-                            _menuPool:CloseAllMenus()
-                        end
-                    end
-                    _menuPool:RefreshIndex()
-                    _menuPool:MouseEdgeEnabled (false)
-                end
-            end) --]]
-        end
+						
+									--end, selectedIndex)
+						
+								end)
+							elseif item == remove then
+								TriggerServerEvent('clothes:removeOutfit', dressing[selectedIndex].id)
+								ShowNotification(Translation[Config.Locale]['outfit_removed'] .. dressing[selectedIndex].name .. Translation[Config.Locale]['outfit_removed2'])
+								_menuPool:CloseAllMenus()
+							end
+						end
+						_menuPool:RefreshIndex()
+						_menuPool:MouseEdgeEnabled (false)
+					end
+				end)
+			else
+				ESX.TriggerServerCallback('esx_clotheshop:getPlayerDressing', function(dressing)
+					for i=1, #dressing, 1 do
+						local dress = _menuPool:AddSubMenu(savedOutfits_sub.SubMenu, dressing[i])
+						local takeOn = NativeUI.CreateItem(Translation[Config.Locale]['outfin_use'], '~b~')
+						local remove = NativeUI.CreateItem(Translation[Config.Locale]['outfit_remove'], '~b~')
+						dress.SubMenu:AddItem(takeOn)
+						dress.SubMenu:AddItem(remove)
+			
+						savedOutfits_sub.SubMenu.OnIndexChange = function(sender, index)
+							selectedIndex = index
+						end
+			
+						dress.SubMenu.OnItemSelect = function(sender, item, index)
+							if item == takeOn then
+								TriggerEvent('skinchanger:getSkin', function(skin)
+			
+									ESX.TriggerServerCallback('esx_clotheshop:getPlayerOutfit', function(clothes)
+						
+										TriggerEvent('skinchanger:loadClothes', skin, clothes)
+										TriggerEvent('esx_skin:setLastSkin', skin)
+						
+										TriggerEvent('skinchanger:getSkin', function(skinnew)
+											TriggerServerEvent('esx_skin:save', skinnew)
+											LastSkin = skinnew
+										end)
+										
+										hasBought = true
+										
+						
+									end, selectedIndex)
+						
+								end)
+							elseif item == remove then
+								TriggerServerEvent('esx_clotheshop:removeOutfit', selectedIndex)
+								ShowNotification(Translation[Config.Locale]['outfit_removed'] .. dressing[selectedIndex] .. Translation[Config.Locale]['outfit_removed2'])
+								_menuPool:CloseAllMenus()
+							end
+						end
+						_menuPool:RefreshIndex()
+						_menuPool:MouseEdgeEnabled (false)
+					end
+				end) --]]
+			end
+		end
     end
 
     local menuItems = {}
@@ -448,7 +717,6 @@ function generateClothesMenu(content)
         end
         mainMenu.OnListChange = function(sender, item, index)
             local selectedIndex = index 
-            print(selectedIndex)
             --local selectedIndex = index - 1
 
             for k2, v2 in pairs(menuItems) do
@@ -461,8 +729,6 @@ function generateClothesMenu(content)
 						  TriggerEvent('skinchanger:change', v2.data.name2, 0)
 						end
                         TriggerEvent('skinchanger:change', v2.data.name, componentValues[v2.data.name][selectedIndex])
-                        print(componentValues[v2.data.name][selectedIndex])
-
                         CreateSkinCam()
                         zoomOffset = v2.data.zoomOffset
                         camOffset = v2.data.camOffset
@@ -502,13 +768,21 @@ function generateClothesMenu(content)
 
         end
     end
+	local save = NativeUI.CreateItem(Translation[Config.Locale]['menu_confirm'], '~b~')
+	mainMenu:AddItem(save)
+
+    mainMenu.OnItemSelect = function(sender, item, index)
+        if item == save then
+			mainMenu:Visible(false)
+			DeleteSkinCam()
+			generateConfirmMenu(sex, grade)
+		end
+	end
 
     mainMenu:Visible(true)
 	_menuPool:MouseControlsEnabled (false)
 	_menuPool:MouseEdgeEnabled (false)
 	_menuPool:ControlDisablingEnabled(false)
-
-
 end
 
 function CreateSkinCam()
