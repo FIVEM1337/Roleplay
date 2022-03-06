@@ -194,7 +194,6 @@ ESX.RegisterServerCallback('esx_properties:getPlayersInArea', function(source, c
 				  table.insert(players, playerInfo)
 			  end
 		  else
-			print('[Info] ESX was not able to fetch the player')
 		  end
       end
   end
@@ -214,10 +213,8 @@ AddEventHandler('esx_properties:enterProperty', function(propertyID, propertyDat
 		SetPlayerRoutingBucket(_source, tonumber(propertyID))
 	end
 	
-	print(_source .. ' has entered ' .. propertyID)
 	if #playersInProperties > 0 then
 		for k, property in pairs(playersInProperties) do
-			print(property.propid .. ' ' .. property.name)
 			if property.propid == propertyID then
 				if property.player ~= _source then
 					local playerEnter = ESX.GetPlayerFromId(_source)
@@ -261,14 +258,10 @@ AddEventHandler('esx_properties:leaveProperty', function(propertyData)
 	
     for k, property in pairs(playersInProperties) do
         if property.name == xPlayer.name then
-			print('Players in prop before: ' .. #playersInProperties)
-			print(playersInProperties[k].name)
 			if Config.useRoutingBuckets then
 				SetPlayerRoutingBucket(property.player, 0)
 			end
             table.remove(playersInProperties, k)
-			print(_source .. ' has left ' .. propertyData.name)
-			print('Players in prop after: ' .. #playersInProperties)
             break
         end
     end
@@ -953,7 +946,6 @@ RegisterServerEvent('esx_properties:editPropDeposit')
 AddEventHandler('esx_properties:editPropDeposit', function(useBlackMoney, type, amount, propertyID)
   local xPlayer = ESX.GetPlayerFromId(source)
   if type == 'deposit' then
-  print('deposit: ' .. tostring(useBlackMoney))
 	if useBlackMoney then
 		local playerAccountMoney = xPlayer.getAccount(Config.BlackMoneyName).money
 		if amount >= 0 and playerAccountMoney >= amount then

@@ -351,7 +351,6 @@ function generateWardrobeMenu(owner)
 		local trustedPlayersList = {}
 		local currentDeposit = 0
 		local currentBlackDeposit = 0
-		print('initial set: ' .. currentBlackDeposit)
 
 		local trust = _menuPool:AddSubMenu(wardrobeMenu, Translation[Config.Locale]['manage_keys'])
 		local highestIndex = 0
@@ -766,7 +765,6 @@ function generateWardrobeMenu(owner)
 					local selectedItem = itemstoSelect[index]
 					
 					if selectedItem.type == 'item_weapon' then
-						print('got put item: ' .. selectedItem.name .. ' x' .. selectedItem.ammo)
 						TriggerServerEvent('esx_properties:putItem', propertyID, 'item_weapon', selectedItem.name, selectedItem.ammo)
 						_menuPool:CloseAllMenus()
 					elseif selectedItem.type == 'item_standard' then
@@ -785,7 +783,6 @@ function generateWardrobeMenu(owner)
 					local selectedItem = itemstoSelect[index]
 					
 					if selectedItem.type == 'item_weapon' then
-						print('got put item: ' .. selectedItem.name .. ' x' .. selectedItem.ammo)
 						TriggerServerEvent('esx_properties:putItem', propertyID, 'item_weapon', selectedItem.name, selectedItem.ammo)
 						_menuPool:CloseAllMenus()
 					elseif selectedItem.type == 'item_standard' then
@@ -807,10 +804,7 @@ function generateWardrobeMenu(owner)
 		for k, props in pairs(propertyOwner) do
 			if propertyID == props.id then
 				currentDeposit = props.deposit
-				print(currentBlackDeposit)
-				print('from db: ' .. props.blackMoneyDeposit)
 				currentBlackDeposit = props.blackMoneyDeposit
-				print(currentBlackDeposit)
 			end
 
 		end
@@ -823,7 +817,6 @@ function generateWardrobeMenu(owner)
 		else
 			propDeposit:AddItem(depositBalance)
 		end
-		print('show ' .. tostring(currentBlackDeposit))
 		local blackMoneyBalance = NativeUI.CreateItem(Translation[Config.Locale]['black_credit'], Translation[Config.Locale]['current_blackcredit'] .. currentBlackDeposit .. Translation[Config.Locale]['currency'])
 		blackMoneyBalance:RightLabel('~g~' .. currentBlackDeposit .. Translation[Config.Locale]['currency'])
 		if Config.useNativeUIReloaded then
