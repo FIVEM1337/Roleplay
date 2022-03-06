@@ -36,6 +36,7 @@ Citizen.CreateThread(function()
 
 	--KAWASAKI
 	AddTextEntry('z8r', 'Kawasaki z8r')
+	AddTextEntry('zx10r', 'Kawasaki zx10r')
 
 	--LAND ROVER
 	AddTextEntry('defender', 'Land Rover Defender')
@@ -47,6 +48,7 @@ Citizen.CreateThread(function()
 
 	--AUDI
 	AddTextEntry('a9', 'Audi A9')
+	AddTextEntry('rs4avant', 'Audi RS4')
 
 	--KTM
 	AddTextEntry('duke', 'KTM Duke690')
