@@ -1,1 +1,0 @@
-gtautil genpeddefs --input project --output build --fivem

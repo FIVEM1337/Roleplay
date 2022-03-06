@@ -1,0 +1,1163 @@
+{
+  "CreateSubfolderForClothDrawableTypes": false,
+  "DisableExtraYmtCreation": false,
+  "ClothData": [
+    {
+      "PedComponentFlags": {
+        "UnkFlag1": false,
+        "UnkFlag2": false,
+        "UnkFlag3": false,
+        "UnkFlag4": false,
+        "Flag5": false
+      },
+      "PedPropFlags": {
+        "UnkFlag1": false,
+        "UnkFlag2": false,
+        "UnkFlag3": false,
+        "UnkFlag4": false,
+        "UnkFlag5": false
+      },
+      "PedPropOptions": {
+        "CutHairs": false,
+        "HideHairs": false
+      },
+      "Textures": [
+        {
+          "Position": 0,
+          "Id": "90cf6c89-2e82-45f5-8a08-8a4a7297100a",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_a_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 1,
+          "Id": "db83895c-18e0-45de-9ce8-5ed38c262c2d",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_b_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 2,
+          "Id": "a8aa29d9-8d16-469e-8029-530212c4ecd8",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_c_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 3,
+          "Id": "e04ae8f2-fcf6-45f2-b311-c8046b9cc654",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_d_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 4,
+          "Id": "1740960e-82b8-4c12-a578-ecac3e1999fd",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_e_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 5,
+          "Id": "6517a22d-9f1d-400d-af16-eaf2a2395780",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_f_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 6,
+          "Id": "2acb3217-64d2-4cee-a583-b6fd74c035df",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_g_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 7,
+          "Id": "1580751b-3b86-4d0b-871e-d1f448e748e8",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_h_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 8,
+          "Id": "3e8a21a8-2251-4a95-86ab-c64f2bd6b469",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_i_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 9,
+          "Id": "e6114984-3c5b-45bc-a9f3-a0f8c2764309",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_j_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 10,
+          "Id": "c1288483-b7e3-46d8-995e-5bb2f612471b",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_k_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 11,
+          "Id": "422396a7-6ece-47cd-8852-a36fc25a203d",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_l_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 12,
+          "Id": "7c4ac1d8-4b30-480a-9a37-2558e1eec430",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_m_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 13,
+          "Id": "7e272464-326d-4e88-b1d1-11c3ae7b0c22",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_n_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 14,
+          "Id": "c1f198f2-5c04-43d1-8371-23d5e7237028",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_o_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 15,
+          "Id": "a2152065-4eb1-43a5-8a63-de7f993fed30",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_p_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 16,
+          "Id": "518225ec-9e62-42a6-aca1-b6931c2900bc",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_q_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 17,
+          "Id": "2173397b-381c-4fa6-ad25-fdf76140da09",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_r_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 18,
+          "Id": "dd01c595-2992-4f0f-b073-d76e8d4e3e9a",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_s_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 19,
+          "Id": "6fcdc132-a802-49cb-8044-dbaa977ee0d2",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_001_t_uni.ytd",
+          "IsDummy": false
+        }
+      ],
+      "IsDummy": false,
+      "ClothType": 0,
+      "DrawableSkinType": 0,
+      "FirstPersonModelFilePath": null,
+      "MeshPhysicsFilePath": null,
+      "DrawableType": 5,
+      "AudioPreset": 0,
+      "TargetGender": 0,
+      "MainPath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_001_u.ydd",
+      "Name": "Bag_001",
+      "Position": 100
+    },
+    {
+      "PedComponentFlags": {
+        "UnkFlag1": false,
+        "UnkFlag2": false,
+        "UnkFlag3": false,
+        "UnkFlag4": false,
+        "Flag5": false
+      },
+      "PedPropFlags": {
+        "UnkFlag1": false,
+        "UnkFlag2": false,
+        "UnkFlag3": false,
+        "UnkFlag4": false,
+        "UnkFlag5": false
+      },
+      "PedPropOptions": {
+        "CutHairs": false,
+        "HideHairs": false
+      },
+      "Textures": [
+        {
+          "Position": 0,
+          "Id": "18228c20-8799-47fa-99cb-42d717d96d8b",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_a_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 1,
+          "Id": "ce9d9be4-b341-4c28-ab6f-f7c2b5530027",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_b_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 2,
+          "Id": "3d653f3d-ad8b-4fb6-9f68-c2a52afaad20",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_c_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 3,
+          "Id": "f2c58807-197e-43a5-9c82-5b5474374c0f",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_d_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 4,
+          "Id": "c6d64cf8-4aab-4bd7-a545-6f8dd4e31d31",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_e_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 5,
+          "Id": "19a5d23e-17b4-4e01-872a-55653c9a7468",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_f_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 6,
+          "Id": "7acad076-5579-4e90-923d-0b1b062c6811",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_g_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 7,
+          "Id": "74c0f52a-7e27-486d-a8b4-0313185448e5",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_h_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 8,
+          "Id": "8ffbe1f8-1e68-462c-b299-91ab213e5f49",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_i_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 9,
+          "Id": "f96924d3-9498-49bc-8b3e-389b2a76e3ac",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_j_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 10,
+          "Id": "f157df37-b59b-4bf0-a653-dfe280cd66b2",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_k_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 11,
+          "Id": "0e2265f5-061d-4ff5-85b7-8a30dee9b40b",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_l_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 12,
+          "Id": "b3c37d8a-1a08-4766-9ef9-e68519f19df0",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_m_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 13,
+          "Id": "83232ed7-0b4a-46ce-8796-5bd82c1679d7",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_n_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 14,
+          "Id": "e1baba88-f10d-4870-bcda-aa2516d2d73a",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_o_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 15,
+          "Id": "1c96a918-2ac5-4c31-a75e-29fcd20b203b",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_p_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 16,
+          "Id": "6d5da994-7ae4-4f96-8750-b755b95928c1",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_q_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 17,
+          "Id": "84ad3b74-255d-49af-b82e-d1efba9c8a1b",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_r_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 18,
+          "Id": "07a6b979-8166-46d1-9d65-a5e0416e57e6",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_s_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 19,
+          "Id": "66e02bd6-f4f3-4e54-9c78-36652f629e86",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_002_t_uni.ytd",
+          "IsDummy": false
+        }
+      ],
+      "IsDummy": false,
+      "ClothType": 0,
+      "DrawableSkinType": 0,
+      "FirstPersonModelFilePath": null,
+      "MeshPhysicsFilePath": null,
+      "DrawableType": 5,
+      "AudioPreset": 0,
+      "TargetGender": 0,
+      "MainPath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_002_u.ydd",
+      "Name": "Bag_002",
+      "Position": 101
+    },
+    {
+      "PedComponentFlags": {
+        "UnkFlag1": false,
+        "UnkFlag2": false,
+        "UnkFlag3": false,
+        "UnkFlag4": false,
+        "Flag5": false
+      },
+      "PedPropFlags": {
+        "UnkFlag1": false,
+        "UnkFlag2": false,
+        "UnkFlag3": false,
+        "UnkFlag4": false,
+        "UnkFlag5": false
+      },
+      "PedPropOptions": {
+        "CutHairs": false,
+        "HideHairs": false
+      },
+      "Textures": [
+        {
+          "Position": 0,
+          "Id": "ea664ca4-79c7-4565-86e6-5622fcc5199c",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_a_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 1,
+          "Id": "18b78739-2777-447e-8bf6-6f850a37dcc4",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_b_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 2,
+          "Id": "1b966d84-1d2d-454c-badd-a5fac8d0036c",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_c_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 3,
+          "Id": "67a355a7-b425-4088-9f53-89693f4023c7",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_d_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 4,
+          "Id": "00d378ef-fce9-436c-a527-3a02da3ad896",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_e_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 5,
+          "Id": "a43aa507-717d-4f35-8924-9d05adb5e868",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_f_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 6,
+          "Id": "a9e27843-0f3c-4626-ad36-4b8edcef5170",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_g_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 7,
+          "Id": "b58953a0-c746-4e9e-8269-487649ec8cae",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_h_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 8,
+          "Id": "7c3695b3-80a7-4abd-8198-dc1774359dae",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_i_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 9,
+          "Id": "7ae2bba5-3365-4ab4-bfa4-a36ad1421a28",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_j_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 10,
+          "Id": "0e556b26-df28-431a-972f-b4206a3552ca",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_k_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 11,
+          "Id": "034edcd3-bb9c-4b77-be99-774538aed681",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_l_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 12,
+          "Id": "47fcd26c-bb51-4945-8c90-f626d18400d8",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_m_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 13,
+          "Id": "3fbcb5d7-c352-45e7-8f74-82306db1f1c0",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_n_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 14,
+          "Id": "7e7d0659-d0a0-4ba4-afab-244d260f5ede",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_o_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 15,
+          "Id": "a1708bcc-592e-4007-b35d-05ba7ef9fe2b",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_p_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 16,
+          "Id": "1992deb7-82e5-4f61-94ca-6a8a62db2ed1",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_q_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 17,
+          "Id": "fcd7199c-c7c0-4346-a3a8-fb4e45afd024",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_r_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 18,
+          "Id": "47c41495-84e0-408a-a360-74d3f36f6eae",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_s_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 19,
+          "Id": "de1a62af-29d0-4051-a7fd-5b5b665ce4e5",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_diff_003_t_uni.ytd",
+          "IsDummy": false
+        }
+      ],
+      "IsDummy": false,
+      "ClothType": 0,
+      "DrawableSkinType": 0,
+      "FirstPersonModelFilePath": null,
+      "MeshPhysicsFilePath": null,
+      "DrawableType": 5,
+      "AudioPreset": 0,
+      "TargetGender": 0,
+      "MainPath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\bags01\\mp_m_freemode_01_male_freemode_mplts^hand_003_u.ydd",
+      "Name": "Bag_003",
+      "Position": 102
+    },
+    {
+      "PedComponentFlags": {
+        "UnkFlag1": false,
+        "UnkFlag2": false,
+        "UnkFlag3": false,
+        "UnkFlag4": false,
+        "Flag5": false
+      },
+      "PedPropFlags": {
+        "UnkFlag1": false,
+        "UnkFlag2": false,
+        "UnkFlag3": false,
+        "UnkFlag4": false,
+        "UnkFlag5": false
+      },
+      "PedPropOptions": {
+        "CutHairs": false,
+        "HideHairs": false
+      },
+      "Textures": [
+        {
+          "Position": 0,
+          "Id": "9382c1ef-7d1a-4786-9f64-5446fc1ed4a2",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\head01\\mp_m_freemode_01_p_mp_m_christmas2018^p_head_diff_001_a.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 1,
+          "Id": "e44c1c01-3805-4754-8289-6fe1cee0ff99",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\head01\\mp_m_freemode_01_p_mp_m_christmas2018^p_head_diff_001_b.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 2,
+          "Id": "63bc17c8-858a-453e-b822-cf43d1dadb4d",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\head01\\mp_m_freemode_01_p_mp_m_christmas2018^p_head_diff_001_c.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 3,
+          "Id": "4afa7b35-f47c-424a-90d3-f2b44d8507d8",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\head01\\mp_m_freemode_01_p_mp_m_christmas2018^p_head_diff_001_d.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 4,
+          "Id": "7399d865-4576-4ca8-849c-c5a24fa43136",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\head01\\mp_m_freemode_01_p_mp_m_christmas2018^p_head_diff_001_e.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 5,
+          "Id": "03915a11-821b-4b4f-8c5a-686ba7456503",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\head01\\mp_m_freemode_01_p_mp_m_christmas2018^p_head_diff_001_f.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 6,
+          "Id": "d9dd060c-1486-4bb7-8d53-664ae373b1e1",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\head01\\mp_m_freemode_01_p_mp_m_christmas2018^p_head_diff_001_g.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 7,
+          "Id": "40d1ac85-3a06-4b28-9a9e-6f46f3b78e21",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\head01\\mp_m_freemode_01_p_mp_m_christmas2018^p_head_diff_001_h.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 8,
+          "Id": "69e61c5c-20e5-4b5c-bf3d-81ee3ab37696",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\head01\\mp_m_freemode_01_p_mp_m_christmas2018^p_head_diff_001_i.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 9,
+          "Id": "4a247166-6c63-4668-ae0b-02b6acd8afca",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\head01\\mp_m_freemode_01_p_mp_m_christmas2018^p_head_diff_001_j.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 10,
+          "Id": "fe24252e-b686-44a2-a7cf-b2cadafffce8",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\head01\\mp_m_freemode_01_p_mp_m_christmas2018^p_head_diff_001_k.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 11,
+          "Id": "75656adb-d978-4271-aec3-a4a5a9631c54",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\head01\\mp_m_freemode_01_p_mp_m_christmas2018^p_head_diff_001_l.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 12,
+          "Id": "f5de3f56-a2d8-4d6a-82ee-09f7b2ca1fa4",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\head01\\mp_m_freemode_01_p_mp_m_christmas2018^p_head_diff_001_m.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 13,
+          "Id": "f83d57e1-a4bf-4317-a9fa-1bc84b7f1fda",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\head01\\mp_m_freemode_01_p_mp_m_christmas2018^p_head_diff_001_n.ytd",
+          "IsDummy": false
+        }
+      ],
+      "IsDummy": false,
+      "ClothType": 1,
+      "DrawableSkinType": 0,
+      "FirstPersonModelFilePath": null,
+      "MeshPhysicsFilePath": null,
+      "DrawableType": 12,
+      "AudioPreset": 0,
+      "TargetGender": 0,
+      "MainPath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_m_freemode_01\\head01\\p_head_001.ydd",
+      "Name": "PropHead_001",
+      "Position": 156
+    },
+    {
+      "PedComponentFlags": {
+        "UnkFlag1": false,
+        "UnkFlag2": false,
+        "UnkFlag3": false,
+        "UnkFlag4": false,
+        "Flag5": false
+      },
+      "PedPropFlags": {
+        "UnkFlag1": false,
+        "UnkFlag2": false,
+        "UnkFlag3": false,
+        "UnkFlag4": false,
+        "UnkFlag5": false
+      },
+      "PedPropOptions": {
+        "CutHairs": false,
+        "HideHairs": false
+      },
+      "Textures": [
+        {
+          "Position": 0,
+          "Id": "be86d526-7a86-48b4-add3-402a1236d989",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_a_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 1,
+          "Id": "9e980072-340a-447a-ad84-9182644df382",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_b_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 2,
+          "Id": "a1c6e7fe-0c05-40fe-bcc1-7731e41845f7",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_c_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 3,
+          "Id": "00f4a941-0f9e-47e3-8654-6c1c822a507c",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_d_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 4,
+          "Id": "406cafe2-cc00-4376-ad8d-2b7da6b1fea4",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_e_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 5,
+          "Id": "a5c069c9-06ec-4e7e-acc2-42b253a08c73",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_f_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 6,
+          "Id": "e99b6ff6-c94e-45b8-b62b-0ec4749627c6",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_g_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 7,
+          "Id": "34b9c4b8-1afa-4f1b-a51d-b2402bf1dbba",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_h_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 8,
+          "Id": "e2eec3da-98e2-44e5-853f-b73ae40cc9ed",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_i_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 9,
+          "Id": "89fd8166-f029-41fa-80ed-90a9f8c947cb",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_j_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 10,
+          "Id": "d0767304-1074-4925-94df-33fec8bccbc6",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_k_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 11,
+          "Id": "81483b79-4635-424e-97fb-c2e3b2e70338",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_l_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 12,
+          "Id": "ec2c583d-5cc6-4fa6-83b0-bc4b4623cf74",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_m_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 13,
+          "Id": "11f9b4d4-f18e-4bf4-a560-8c1b44c6ca43",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_n_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 14,
+          "Id": "138030d7-8225-4434-9a98-2d4a538d802e",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_o_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 15,
+          "Id": "add03f79-52c1-4adc-b004-b349d649d04a",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_p_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 16,
+          "Id": "463311e5-62b1-4c7f-96bc-746be57f6ef1",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_q_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 17,
+          "Id": "3b48b021-d0a1-4b4a-888d-66b710a2dbf3",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_r_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 18,
+          "Id": "a0a654bd-7c7b-4192-acbf-ad0683494c0f",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_s_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 19,
+          "Id": "b893c268-74f9-4213-a3fe-5f363a1eec2c",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_001_t_uni.ytd",
+          "IsDummy": false
+        }
+      ],
+      "IsDummy": false,
+      "ClothType": 0,
+      "DrawableSkinType": 0,
+      "FirstPersonModelFilePath": null,
+      "MeshPhysicsFilePath": null,
+      "DrawableType": 5,
+      "AudioPreset": 0,
+      "TargetGender": 1,
+      "MainPath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_001_u.ydd",
+      "Name": "Bag_001",
+      "Position": 100
+    },
+    {
+      "PedComponentFlags": {
+        "UnkFlag1": false,
+        "UnkFlag2": false,
+        "UnkFlag3": false,
+        "UnkFlag4": false,
+        "Flag5": false
+      },
+      "PedPropFlags": {
+        "UnkFlag1": false,
+        "UnkFlag2": false,
+        "UnkFlag3": false,
+        "UnkFlag4": false,
+        "UnkFlag5": false
+      },
+      "PedPropOptions": {
+        "CutHairs": false,
+        "HideHairs": false
+      },
+      "Textures": [
+        {
+          "Position": 0,
+          "Id": "69cca029-dde6-4af5-9ef8-06f62f8ddf50",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_a_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 1,
+          "Id": "dce3ffed-2432-4490-9660-40d68137401a",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_b_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 2,
+          "Id": "7732227e-9a18-4e47-8b2f-29d2df828ee5",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_c_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 3,
+          "Id": "817f8cb7-c4e1-4ea8-a068-68f55b229141",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_d_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 4,
+          "Id": "be9913c0-7e5b-4692-8989-4570248834fb",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_e_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 5,
+          "Id": "05f68444-1468-47ca-b107-6144164e6baa",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_f_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 6,
+          "Id": "159b6650-7b08-41ea-8125-12e100843b45",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_g_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 7,
+          "Id": "b0f8a4a1-e380-4fb9-8235-efb260c889cc",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_h_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 8,
+          "Id": "2f0f1cd2-9975-4df3-85a3-e5f9e370f678",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_i_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 9,
+          "Id": "8a0f9ad4-a537-4cf3-86f4-b3615d0f16b3",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_j_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 10,
+          "Id": "b2633d78-881f-4505-8f69-4ab338ab2a04",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_k_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 11,
+          "Id": "b087d007-f016-487f-8cdd-e2934fb7dd53",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_l_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 12,
+          "Id": "1d9aa6ae-61e1-4508-8113-fd4a7729aa92",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_m_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 13,
+          "Id": "89e36971-b808-4d2d-b791-273b4b0cfa82",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_n_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 14,
+          "Id": "7720d825-3506-4d45-a260-544476a17ae7",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_o_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 15,
+          "Id": "295538d9-b2d0-4759-8d67-ce9f9211c7a6",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_p_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 16,
+          "Id": "b67ffa10-fdf5-4171-bf2c-ca2266efbb5e",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_q_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 17,
+          "Id": "b03a232c-53b1-4135-9908-9eb6cbb21069",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_r_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 18,
+          "Id": "ebd2cfa4-6a5b-41af-9733-5196782c64cd",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_s_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 19,
+          "Id": "c69907bb-3aac-4fb0-8993-226842e96149",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_003_t_uni.ytd",
+          "IsDummy": false
+        }
+      ],
+      "IsDummy": false,
+      "ClothType": 0,
+      "DrawableSkinType": 0,
+      "FirstPersonModelFilePath": null,
+      "MeshPhysicsFilePath": null,
+      "DrawableType": 5,
+      "AudioPreset": 0,
+      "TargetGender": 1,
+      "MainPath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_003_u.ydd",
+      "Name": "Bag_003",
+      "Position": 101
+    },
+    {
+      "PedComponentFlags": {
+        "UnkFlag1": false,
+        "UnkFlag2": false,
+        "UnkFlag3": false,
+        "UnkFlag4": false,
+        "Flag5": false
+      },
+      "PedPropFlags": {
+        "UnkFlag1": false,
+        "UnkFlag2": false,
+        "UnkFlag3": false,
+        "UnkFlag4": false,
+        "UnkFlag5": false
+      },
+      "PedPropOptions": {
+        "CutHairs": false,
+        "HideHairs": false
+      },
+      "Textures": [
+        {
+          "Position": 0,
+          "Id": "0fa08535-39fe-48cf-a0b3-ef19db56682d",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_a_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 1,
+          "Id": "b08ab460-f0b9-4d12-ab3b-ed9d92f66ba9",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_b_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 2,
+          "Id": "3bf7cb83-b749-4a1d-9d7f-c365be18bcff",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_c_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 3,
+          "Id": "f6775e40-8a91-4c8b-9648-2c57a14a4208",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_d_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 4,
+          "Id": "f5971caf-94b8-4349-9719-a626c710da4b",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_e_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 5,
+          "Id": "05821d1d-35ca-4e15-a986-4bbe67de7f99",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_f_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 6,
+          "Id": "f08197a0-d5c6-4c29-a62b-3ff190ce91af",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_g_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 7,
+          "Id": "64d167fd-befe-4f1f-8113-79f8ca683384",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_h_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 8,
+          "Id": "dd60a6e9-3e38-440e-91e8-b561f1b482f3",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_i_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 9,
+          "Id": "3b73bf4e-336b-4004-8475-fa71727cebd5",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_j_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 10,
+          "Id": "b0e48cdb-64d1-4b83-bced-7198da05e774",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_k_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 11,
+          "Id": "9726e349-0b17-48d6-ad1e-cc75bcf417be",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_l_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 12,
+          "Id": "ee37ae50-4fa1-474d-a8c2-e63b3a0f45d6",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_m_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 13,
+          "Id": "12d528e1-b7ee-4b58-8dc7-5140c6af865e",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_n_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 14,
+          "Id": "11c0aebf-99e1-4359-9655-173462cdfc26",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_o_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 15,
+          "Id": "bd660d5c-d152-4ff4-9d7e-04b0dd476ba3",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_p_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 16,
+          "Id": "eb10fbf2-5e29-46b2-80c6-92af4134dfda",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_q_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 17,
+          "Id": "5b72a3ef-dc57-468e-ace9-da1c8c5b395e",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_r_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 18,
+          "Id": "492aeb20-e54b-43eb-b915-754d76252c0f",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_s_uni.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 19,
+          "Id": "cab56c4c-414c-4f4a-a687-b06e97618480",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_diff_002_t_uni.ytd",
+          "IsDummy": false
+        }
+      ],
+      "IsDummy": false,
+      "ClothType": 0,
+      "DrawableSkinType": 0,
+      "FirstPersonModelFilePath": null,
+      "MeshPhysicsFilePath": null,
+      "DrawableType": 5,
+      "AudioPreset": 0,
+      "TargetGender": 1,
+      "MainPath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\bags01\\mp_f_freemode_01_female_freemode_mplts^hand_002_u.ydd",
+      "Name": "Bag_002",
+      "Position": 102
+    },
+    {
+      "PedComponentFlags": {
+        "UnkFlag1": false,
+        "UnkFlag2": false,
+        "UnkFlag3": false,
+        "UnkFlag4": false,
+        "Flag5": false
+      },
+      "PedPropFlags": {
+        "UnkFlag1": false,
+        "UnkFlag2": false,
+        "UnkFlag3": false,
+        "UnkFlag4": false,
+        "UnkFlag5": false
+      },
+      "PedPropOptions": {
+        "CutHairs": false,
+        "HideHairs": false
+      },
+      "Textures": [
+        {
+          "Position": 0,
+          "Id": "1590a40f-bd57-4fe3-92c0-70b4578f76e4",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\head01\\mp_f_freemode_01_p_mp_f_christmas2018^p_head_diff_001_a.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 1,
+          "Id": "7228e64f-c771-48d3-900c-6c631ad8cb32",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\head01\\mp_f_freemode_01_p_mp_f_christmas2018^p_head_diff_001_b.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 2,
+          "Id": "da6ec4bb-e745-41a3-ae43-3ed0543b533c",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\head01\\mp_f_freemode_01_p_mp_f_christmas2018^p_head_diff_001_c.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 3,
+          "Id": "e41d0b20-e66e-4893-85c2-e485c18ee213",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\head01\\mp_f_freemode_01_p_mp_f_christmas2018^p_head_diff_001_d.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 4,
+          "Id": "0521222d-3d5c-42d5-bb3f-daf620704ae3",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\head01\\mp_f_freemode_01_p_mp_f_christmas2018^p_head_diff_001_e.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 5,
+          "Id": "5fbef672-c653-489f-b03f-e6b4c69d2ca2",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\head01\\mp_f_freemode_01_p_mp_f_christmas2018^p_head_diff_001_f.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 6,
+          "Id": "94e51fcb-5aae-4710-9b6c-922560ae99a3",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\head01\\mp_f_freemode_01_p_mp_f_christmas2018^p_head_diff_001_g.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 7,
+          "Id": "854dd0dd-978d-4109-9abf-e01caf6b935d",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\head01\\mp_f_freemode_01_p_mp_f_christmas2018^p_head_diff_001_h.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 8,
+          "Id": "c8ff7bf6-b673-4baa-84d2-f50d7f050b5a",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\head01\\mp_f_freemode_01_p_mp_f_christmas2018^p_head_diff_001_i.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 9,
+          "Id": "06b88d24-fb53-420a-90c5-fa5739f5de67",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\head01\\mp_f_freemode_01_p_mp_f_christmas2018^p_head_diff_001_j.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 10,
+          "Id": "83123fce-fcfa-4f43-b056-284e7da7fe62",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\head01\\mp_f_freemode_01_p_mp_f_christmas2018^p_head_diff_001_k.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 11,
+          "Id": "e03dd8b9-6026-4238-82a6-63105372e281",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\head01\\mp_f_freemode_01_p_mp_f_christmas2018^p_head_diff_001_l.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 12,
+          "Id": "bf5c51a2-2c99-4948-bf9f-49b5886ed1f7",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\head01\\mp_f_freemode_01_p_mp_f_christmas2018^p_head_diff_001_m.ytd",
+          "IsDummy": false
+        },
+        {
+          "Position": 13,
+          "Id": "f1573438-c806-413e-a87c-627baf234e2a",
+          "FilePath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\head01\\mp_f_freemode_01_p_mp_f_christmas2018^p_head_diff_001_n.ytd",
+          "IsDummy": false
+        }
+      ],
+      "IsDummy": false,
+      "ClothType": 1,
+      "DrawableSkinType": 0,
+      "FirstPersonModelFilePath": null,
+      "MeshPhysicsFilePath": null,
+      "DrawableType": 12,
+      "AudioPreset": 0,
+      "TargetGender": 1,
+      "MainPath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\clothes\\mp_f_freemode_01\\head01\\p_head_001.ydd",
+      "Name": "PropHead_001",
+      "Position": 155
+    }
+  ],
+  "DecorationData": [],
+  "CollectionName": "_",
+  "CollectionOutputPath": "C:\\Users\\Sherlock1337\\Desktop\\ClotheTool\\ressource",
+  "TargetResourceType": 2,
+  "SaveVersion": 3
+}
