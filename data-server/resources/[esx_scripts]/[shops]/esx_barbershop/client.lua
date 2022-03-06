@@ -100,7 +100,7 @@ Citizen.CreateThread(function()
 
 		if isInShop then
 			_menuPool:ProcessMenus()
-			showInfobar('Press ~g~E~s~, to change your haircut')
+			showInfobar('Drücke ~g~E~s~, um deinen Haarschnitt zu ändern')
 			if IsControlJustReleased(1, 38) then
 				hasBought = false
 				wasInMenu = true
@@ -179,28 +179,28 @@ function generateMenu()
 	local lipstick1 = GetNumHeadOverlayValues(8)-1
 	local lipstickColorAmount = GetNumHairColors()-1
 	--Menus
-	local hairs = _menuPool:AddSubMenu(mainMenu, 'Hair')
+	local hairs = _menuPool:AddSubMenu(mainMenu, 'Haar')
 	mainMenu.Items[1]:RightLabel(LastSkin['hair_1']-1 .. ' / ' .. hair1)
-	local hairColor = _menuPool:AddSubMenu(mainMenu, 'Hair colour')
+	local hairColor = _menuPool:AddSubMenu(mainMenu, 'Haarfarbe')
 	mainMenu.Items[2]:RightLabel(LastSkin['hair_color_1']-1 .. ' / ' .. hairColorsAmount)
-	local beard = _menuPool:AddSubMenu(mainMenu, 'Beard type and thickness')
+	local beard = _menuPool:AddSubMenu(mainMenu, 'Barttyp und Bartdicke')
 	mainMenu.Items[3]:RightLabel(LastSkin['beard_1']-1 .. ' / ' .. beard1)
-	local beardColor = _menuPool:AddSubMenu(mainMenu, 'Beard colour')
+	local beardColor = _menuPool:AddSubMenu(mainMenu, 'Bartfarbe')
 	mainMenu.Items[4]:RightLabel(LastSkin['beard_3']-1 .. ' / ' .. beardColorsAmount)
 
-	local cosmetic = _menuPool:AddSubMenu(mainMenu, 'Cosmetic')
+	local cosmetic = _menuPool:AddSubMenu(mainMenu, 'Kosmetik')
 	mainMenu.Items[5]:RightLabel('~y~→→→')
-	local eyebrows = _menuPool:AddSubMenu(cosmetic.SubMenu, 'Eyebrows')
+	local eyebrows = _menuPool:AddSubMenu(cosmetic.SubMenu, 'Augenbrauen')
 	cosmetic.SubMenu.Items[1]:RightLabel(LastSkin['eyebrows_1']-1 .. ' / ' .. eyebrows1)
-	local eyebrowsColor = _menuPool:AddSubMenu(cosmetic.SubMenu, 'Eyebrows colour')
+	local eyebrowsColor = _menuPool:AddSubMenu(cosmetic.SubMenu, 'Farbe der Augenbrauen')
 	cosmetic.SubMenu.Items[2]:RightLabel(LastSkin['eyebrows_3']-1 .. ' / ' .. eyebrowColorsAmount)
 	local makeup = _menuPool:AddSubMenu(cosmetic.SubMenu, 'Make-Up')
 	cosmetic.SubMenu.Items[3]:RightLabel(LastSkin['makeup_1']-1 .. ' / ' .. makeup1)
-	local makeupColor = _menuPool:AddSubMenu(cosmetic.SubMenu, 'Make-Up colour')
+	local makeupColor = _menuPool:AddSubMenu(cosmetic.SubMenu, 'Schminkfarbe')
 	cosmetic.SubMenu.Items[4]:RightLabel(LastSkin['makeup_3']-1 .. ' / ' .. makeupColorsAmount)
-	local lipstick = _menuPool:AddSubMenu(cosmetic.SubMenu, 'Lipstick')
+	local lipstick = _menuPool:AddSubMenu(cosmetic.SubMenu, 'Lippenstift')
 	cosmetic.SubMenu.Items[5]:RightLabel(LastSkin['lipstick_1']-1 .. ' / ' .. lipstick1)
-	local lipstickColor = _menuPool:AddSubMenu(cosmetic.SubMenu, 'Lipstick colour')
+	local lipstickColor = _menuPool:AddSubMenu(cosmetic.SubMenu, 'Lippenstiftfarbe')
 	cosmetic.SubMenu.Items[6]:RightLabel(LastSkin['lipstick_3']-1 .. ' / ' .. lipstickColorAmount)
 
 	cosmetic.SubMenu:SetBannerSprite(background, true)
@@ -219,7 +219,7 @@ function generateMenu()
 
 
 	local spacer = NativeUI.CreateItem('~b~', '~b~')
-	local confirm = NativeUI.CreateItem('~g~Confirm', 'Get your hair cut by the barber.')
+	local confirm = NativeUI.CreateItem('~g~Bestätigen', 'Lassen Sie sich vom Friseur die Haare schneiden.')
 	if Config.useESX then
 		confirm:RightLabel('~g~' .. Config.Price .. '$')
 	end
@@ -239,10 +239,10 @@ function generateMenu()
 			end
 			
 			if LastSkin['hair_1']-1 == i then
-				local variation = NativeUI.CreateListItem('~y~Hair cut (#' .. i .. ')', values, LastSkin['hair_2'])
+				local variation = NativeUI.CreateListItem('~y~Haarschnitt (#' .. i .. ')', values, LastSkin['hair_2'])
 				hairs.SubMenu:AddItem(variation)
 			else
-				local variation = NativeUI.CreateListItem('Hair cut (#' .. i .. ')', values, 1)
+				local variation = NativeUI.CreateListItem('Haarschnitt (#' .. i .. ')', values, 1)
 				hairs.SubMenu:AddItem(variation)
 			end
 
@@ -254,10 +254,10 @@ function generateMenu()
 			end
 		else
 			if LastSkin['hair_1']-1 == i then
-				local variation = NativeUI.CreateItem('~y~Hair cut (#' .. i .. ')', '~b~')
+				local variation = NativeUI.CreateItem('~y~Haarschnitt (#' .. i .. ')', '~b~')
 				hairs.SubMenu:AddItem(variation)
 			else
-				local variation = NativeUI.CreateItem('Hair cut (#' .. i .. ')', '~b~')
+				local variation = NativeUI.CreateItem('Haarschnitt (#' .. i .. ')', '~b~')
 				hairs.SubMenu:AddItem(variation)
 			end
 		end
@@ -284,10 +284,10 @@ function generateMenu()
 				table.insert(values, i)
 			end
 			if LastSkin['hair_color_1']-1 == i then
-				local variation = NativeUI.CreateListItem('~y~Hair colour (#' .. i .. ')', values, LastSkin['hair_color_2'])
+				local variation = NativeUI.CreateListItem('~y~Haarfarbe (#' .. i .. ')', values, LastSkin['hair_color_2'])
 				hairColor.SubMenu:AddItem(variation)
 			else
-				local variation = NativeUI.CreateListItem('Hair colour (#' .. i .. ')', values, 1)
+				local variation = NativeUI.CreateListItem('Haarfarbe (#' .. i .. ')', values, 1)
 				hairColor.SubMenu:AddItem(variation)
 			end
 
@@ -320,10 +320,10 @@ function generateMenu()
 				table.insert(values, i)
 			end
 			if LastSkin['beard_1']-1 == i then
-				local variation = NativeUI.CreateListItem('~y~Beard (#' .. i .. ')', values, LastSkin['beard_2'])
+				local variation = NativeUI.CreateListItem('~y~Bart (#' .. i .. ')', values, LastSkin['beard_2'])
 				beard.SubMenu:AddItem(variation)
 			else
-				local variation = NativeUI.CreateListItem('Beard (#' .. i .. ')', values, 1)
+				local variation = NativeUI.CreateListItem('Bart (#' .. i .. ')', values, 1)
 				beard.SubMenu:AddItem(variation)
 			end
 
@@ -356,10 +356,10 @@ function generateMenu()
 			end
 			
 			if LastSkin['beard_3']-1 == i then
-				local variation = NativeUI.CreateListItem('~y~Beard colour (#' .. i .. ')', values, LastSkin['beard_4'])
+				local variation = NativeUI.CreateListItem('~y~Bartfarbe (#' .. i .. ')', values, LastSkin['beard_4'])
 				beardColor.SubMenu:AddItem(variation)
 			else
-				local variation = NativeUI.CreateListItem('Beard colour (#' .. i .. ')', values, 1)
+				local variation = NativeUI.CreateListItem('Bartfarbe (#' .. i .. ')', values, 1)
 				beardColor.SubMenu:AddItem(variation)
 			end
 			
@@ -392,10 +392,10 @@ function generateMenu()
 			end
 			
 			if LastSkin['eyebrows_1']-1 == i then
-				local variation = NativeUI.CreateListItem('~y~Eyebrows (#' .. i .. ')', values, LastSkin['eyebrows_2'])
+				local variation = NativeUI.CreateListItem('~y~Augenbrauen (#' .. i .. ')', values, LastSkin['eyebrows_2'])
 				eyebrows.SubMenu:AddItem(variation)
 			else
-				local variation = NativeUI.CreateListItem('Eyebrows (#' .. i .. ')', values, 1)
+				local variation = NativeUI.CreateListItem('Augenbrauen (#' .. i .. ')', values, 1)
 				eyebrows.SubMenu:AddItem(variation)
 			end
 
@@ -428,10 +428,10 @@ function generateMenu()
 			end
 			
 			if LastSkin['eyebrows_3']-1 == i then
-				local variation = NativeUI.CreateListItem('~y~Eyebrows colour (#' .. i .. ')', values, LastSkin['eyebrows_4'])
+				local variation = NativeUI.CreateListItem('~y~Farbe der Augenbrauen (#' .. i .. ')', values, LastSkin['eyebrows_4'])
 				eyebrowsColor.SubMenu:AddItem(variation)
 			else
-				local variation = NativeUI.CreateListItem('Eyebrows colour (#' .. i .. ')', values, 1)
+				local variation = NativeUI.CreateListItem('Farbe der Augenbrauen (#' .. i .. ')', values, 1)
 				eyebrowsColor.SubMenu:AddItem(variation)
 			end
 
@@ -504,10 +504,10 @@ function generateMenu()
 			end
 			
 			if LastSkin['makeup_3']-1 == i then
-				local variation = NativeUI.CreateListItem('~y~Make-Up colour (#' .. i .. ')', values, LastSkin['makeup_4'])
+				local variation = NativeUI.CreateListItem('~y~Schminkfarbe (#' .. i .. ')', values, LastSkin['makeup_4'])
 				makeupColor.SubMenu:AddItem(variation)
 			else
-				local variation = NativeUI.CreateListItem('Make-Up colour (#' .. i .. ')', values, 1)
+				local variation = NativeUI.CreateListItem('Schminkfarbe (#' .. i .. ')', values, 1)
 				makeupColor.SubMenu:AddItem(variation)
 			end
 
@@ -542,10 +542,10 @@ function generateMenu()
 			end
 
 			if LastSkin['lipstick_1']-1 == i then
-				local variation = NativeUI.CreateListItem('~y~Lipstick (#' .. i .. ')', values, LastSkin['lipstick_2'])
+				local variation = NativeUI.CreateListItem('~y~Lippenstift (#' .. i .. ')', values, LastSkin['lipstick_2'])
 				lipstick.SubMenu:AddItem(variation)
 			else
-				local variation = NativeUI.CreateListItem('Lipstick (#' .. i .. ')', values, 1)
+				local variation = NativeUI.CreateListItem('Lippenstift (#' .. i .. ')', values, 1)
 				lipstick.SubMenu:AddItem(variation)
 			end
 
@@ -580,10 +580,10 @@ function generateMenu()
 			end
 			
 			if LastSkin['lipstick_3']-1 == i then
-				local variation = NativeUI.CreateListItem('~y~Lipstick colour (#' .. i .. ')', values, LastSkin['lipstick_4'])
+				local variation = NativeUI.CreateListItem('~y~Lippenstiftfarbe (#' .. i .. ')', values, LastSkin['lipstick_4'])
 				lipstickColor.SubMenu:AddItem(variation)
 			else
-				local variation = NativeUI.CreateListItem('Lipstick colour (#' .. i .. ')', values, 1)
+				local variation = NativeUI.CreateListItem('Lippenstiftfarbe (#' .. i .. ')', values, 1)
 				lipstickColor.SubMenu:AddItem(variation)
 			end
 
