@@ -3,7 +3,6 @@ Translation = {}
 
 Config.Locale = 'de'
 
-Config.useESXClothesData = false -- Clothing is saved in esx_addonaccount. 
 Config.useesx_clotheshopapi = true -- Optimized API to work with a Multichar script. If you don't use myProperties, you need to edit your property script!
 
 Config.enableSavedOutfits = true -- Should the player able to access saved clothes
@@ -34,12 +33,10 @@ Config.Shops = {
     {type = 'shopui_title_midfashion', x = -1194.1501464844, y = -766.68597412109, z = 17.315553665161, rot = 217.00065612793},
     {type = 'shopui_title_midfashion', x = -3169.0966796875, y = 1043.171875, z = 20.863214492798, rot = 61.406246185303},
     {type = 'shopui_title_lowendfashion', x = -1102.4339599609, y = 2711.7355957031, z = 19.10786819458, rot = 227.7255859375},
-    {type = 'HAT', x = -1127.3669433594, y = -1439.6357421875, z = 5.2283296585083, rot = 286.5080871582},
 	  {type = 'MASK', x = -1337.1248779297, y = -1278.2264404297, z = 4.8689041137695, rot = 118.77864837646},
 }
 
 Config.shopContent = { -- normal shop
-
   {componentID = 11, name = 'torso_1', name2 = 'torso_2', label = 'Torso', zoomOffset = 0.75, camOffset = 0.15, type = 1, 
   blockedParts = {
   [0] = {1,4,5},
@@ -76,10 +73,6 @@ Config.shopContent = { -- normal shop
   blockedParts = {
   [0] = {},
   [1] = {}}}, -- 0 = male; 1 = female
-  
-}
-
-Config.HATersContent = { -- accessoires shop
   {componentID = 5, name = 'bags_1', name2 = 'bags_2', label = 'Bags', zoomOffset = 0.75, camOffset = 0.15, type = 1, 
   blockedParts = {
   [0] = {},
@@ -88,7 +81,6 @@ Config.HATersContent = { -- accessoires shop
   blockedParts = {
   [0] = {},
   [1] = {}}}, -- 0 = male; 1 = female
-
 }
 
 Config.MaskContent = {
@@ -98,6 +90,56 @@ Config.MaskContent = {
   [1] = {}}}, -- 0 = male; 1 = female
 }
 
+Config.AllContent = {
+  {componentID = 1, name = 'mask_1', name2 = 'mask_2', label = 'Mask', zoomOffset = 0.6, camOffset = 0.65, type = 1, 
+  blockedParts = {
+  [0] = {},
+  [1] = {}}}, -- 0 = male; 1 = female
+  {componentID = 5, name = 'bags_1', name2 = 'bags_2', label = 'Bags', zoomOffset = 0.75, camOffset = 0.15, type = 1, 
+  blockedParts = {
+  [0] = {},
+  [1] = {}}}, -- 0 = male; 1 = female
+  {componentID = 0, name = 'helmet_1', name2 = 'helmet_2', label = 'Helmet', zoomOffset = 0.6, camOffset = 0.65, type = 2, 
+  blockedParts = {
+  [0] = {},
+  [1] = {}}}, -- 0 = male; 1 = female
+  {componentID = 11, name = 'torso_1', name2 = 'torso_2', label = 'Torso', zoomOffset = 0.75, camOffset = 0.15, type = 1, 
+  blockedParts = {
+  [0] = {1,4,5},
+  [1] = {1,4,5}}}, -- 0 = male; 1 = female
+  {componentID = 8, name = 'tshirt_1', name2 = 'tshirt_2', label = 'T-Shirts', zoomOffset = 0.75, camOffset = 0.15, type = 1, 
+  blockedParts = {
+  [0] = {},
+  [1] = {}}}, -- 0 = male; 1 = female
+  {componentID = 3, name = 'arms', name2 = nil, label = 'Arms', zoomOffset = 0.75, camOffset = 0.15, type = 1, 
+  blockedParts = {
+  [0] = {},
+  [1] = {}}}, -- 0 = male; 1 = female
+  {componentID = 4, name = 'pants_1', name2 = 'pants_2', label = 'Pants', zoomOffset = 0.8, camOffset = -0.5, type = 1, 
+  blockedParts = {
+  [0] = {},
+  [1] = {}}}, -- 0 = male; 1 = female
+  {componentID = 6, name = 'shoes_1', name2 = 'shoes_2', label = 'Shoes', zoomOffset = 0.8, camOffset = -0.8, type = 1, 
+  blockedParts = {
+  [0] = {},
+  [1] = {}}}, -- 0 = male; 1 = female
+  {componentID = 7, name = 'chain_1', name2 = 'chain_2', label = 'Chain', zoomOffset = 1.0, camOffset = 0.45, type = 1, 
+  blockedParts = {
+  [0] = {},
+  [1] = {}}}, -- 0 = male; 1 = female
+  {componentID = 1, name = 'glasses_1', name2 = 'glasses_2', label = 'Glasses', zoomOffset = 0.6, camOffset = 0.65, type = 2, 
+  blockedParts = {
+  [0] = {},
+  [1] = {}}}, -- 0 = male; 1 = female
+  {componentID = 2, name = 'ears_1', name2 = 'ears_2', label = 'Ear accessoires', zoomOffset = 0.4, camOffset = 0.65, type = 2, 
+  blockedParts = {
+  [0] = {},
+  [1] = {}}}, -- 0 = male; 1 = female
+  {componentID = 1, name = 'bproof_1', name2 = 'bproof_2', label = 'Body Armour & Accessories', zoomOffset = 0.6, camOffset = 0.25, type = 2,
+  blockedParts = {
+  [0] = {},
+  [1] = {}}}, -- 0 = male; 1 = female
+}
 
 Translation = {
   ['de'] = {
@@ -133,26 +175,6 @@ Translation = {
 
 
     ['save_outfit'] = 'Outfit speichern?',
-  },
-  ['en'] = {
-    ['press_e_interact'] = 'Press ~g~E~s~, to change clothes',
-    ['blip_normal'] = 'Clothes shop',
-    ['blip_haters'] = 'HATers shop',
-    ['blip_mask'] = 'Vespucci masks',
-    ['menu_buy_clothes'] = 'Buy clothes?',
-    ['menu_confirm'] = 'Confirm',
-    ['menu_abort'] = 'Abort',
-    ['title_haters'] = 'Accessoires shop',
-    ['change_colour'] = '~s~Change variation',
-    ['saved'] = '~g~Outfit ~w~',
-    ['saved_2'] = '~g~ was saved.',
-    ['not_enough_money'] = '~r~You do not have enough money.',
-    ['buy_complete'] = '~y~Seller~s~: Thank you for your purchase and see you next time.',
-    ['outfin_use'] = 'Put on clothes',
-    ['outfit_remove'] = 'Remove clothes',
-    ['outfit_removed'] = 'The outfit ~y~',
-    ['outfit_removed2'] = ' ~s~was removed.',
-    ['saved_outfits'] = 'Saved outfits',
   }
 }
 

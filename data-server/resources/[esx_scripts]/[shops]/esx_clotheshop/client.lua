@@ -59,9 +59,7 @@ Citizen.CreateThread(function()
 				isNearShop = true
                 if not isPedLoaded then
                     
-                    if loc.type == 'HAT' then
-                        ped = Config.HATersShopPed
-                    elseif loc.type == 'MASK' then
+                    if loc.type == 'MASK' then
 						ped = Config.MaskShopPed
 					end
 					RequestModel(GetHashKey(ped))
@@ -166,17 +164,13 @@ Citizen.CreateThread(function()
 				hasBought = false
                 wasInMenu = true
 				if ESX.PlayerData.job and ESX.PlayerData.job.can_manageoutfits then
-					if menuWallpaper == 'HAT' then
-						generateClothesMenuSelect(Config.HATersContent)
-					elseif menuWallpaper == 'MASK' then
-						generateClothesMenuSelect(Config.MaskContent)
+					if menuWallpaper == 'MASK' then
+						generateClothesMenu(Config.MaskContent)
 					else
 						generateClothesMenuSelect(Config.shopContent)
 					end
 				else
-					if menuWallpaper == 'HAT' then
-						generateClothesMenu(Config.HATersContent)
-					elseif menuWallpaper == 'MASK' then
+					if menuWallpaper == 'MASK' then
 						generateClothesMenu(Config.MaskContent)
 					else
 						generateClothesMenu(Config.shopContent)
@@ -201,19 +195,7 @@ end)
 Citizen.CreateThread(function()
 	
 	for i=1, #Config.Shops, 1 do
-		if Config.Shops[i].type == 'HAT' then			
-			local blip = AddBlipForCoord(Config.Shops[i].x, Config.Shops[i].y, Config.Shops[i].z)
-
-			SetBlipSprite (blip, 73)
-			SetBlipDisplay(blip, 4)
-			SetBlipScale  (blip, 1.0)
-			SetBlipColour (blip, 7)
-			SetBlipAsShortRange(blip, true)
-
-			BeginTextCommandSetBlipName("STRING")
-			AddTextComponentString(Translation[Config.Locale]['blip_haters'])
-			EndTextCommandSetBlipName(blip)
-		elseif Config.Shops[i].type == 'MASK' then
+		if Config.Shops[i].type == 'MASK' then
 			local blip = AddBlipForCoord(Config.Shops[i].x, Config.Shops[i].y, Config.Shops[i].z)
 
 			SetBlipSprite (blip, 362)
@@ -332,7 +314,7 @@ function generateClothesMenuSelect(content)
 			generateClothesMenu(content)
 			selectMenu:Visible(false)
 		else
-			generateselectSex(content)	
+			generateselectSex(Config.AllContent)	
 			selectMenu:Visible(false)
         end
     end
