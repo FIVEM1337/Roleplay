@@ -86,7 +86,6 @@ Citizen.CreateThread(function()
 					if name.firstname == nil or name.lastname == nil or name.firstname == "" or name.lastname == "" then
 						TriggerEvent('esx_multichar:RegisterAccount')
 					else
-						TriggerEvent('esx_multichar:RegisterAccount')
 						TriggerEvent('dopeNotify:Alert', "", "Du bist bereits registriert", 5000, 'error')
 					end
 				end)

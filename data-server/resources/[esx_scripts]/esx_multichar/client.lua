@@ -554,12 +554,12 @@ AddEventHandler('esx_multichar:RegisterAccount', function(firstnameOld, lastname
     end
 	
     isInRegistration = true
-    FreezeEntityPosition(PlayerPedId(), true)
+  --  FreezeEntityPosition(PlayerPedId(), true)
 
 
-	if Config.ForceMultiplayerPed then
-		loadPed("mp_m_freemode_01")
-	end
+--	if Config.ForceMultiplayerPed then
+--		loadPed("mp_m_freemode_01")
+--	end
 	
     local firstnameStr = firstnameOld
     local lastnameStr = lastnameOld
@@ -571,10 +571,6 @@ AddEventHandler('esx_multichar:RegisterAccount', function(firstnameOld, lastname
     registerMenu.Controls.Back.Enabled = false
     _menuPool:Add(registerMenu)
     
-    local gender = {
-        Translation[Config.Locale]['gender_m'],
-        Translation[Config.Locale]['gender_f'],
-    }
 
     local firstname = NativeUI.CreateItem(Translation[Config.Locale]['name'], '~b~')
     firstname:RightLabel(firstnameStr)
@@ -584,33 +580,19 @@ AddEventHandler('esx_multichar:RegisterAccount', function(firstnameOld, lastname
     dateofbirth:RightLabel(dateofbirthStr)
     local height = NativeUI.CreateItem(Translation[Config.Locale]['height'], '~b~')
     height:RightLabel(heightStr)
-    local sex = NativeUI.CreateListItem(Translation[Config.Locale]['sex'], gender, 1, nil)
     
 
     registerMenu:AddItem(firstname)
     registerMenu:AddItem(lastname)
     registerMenu:AddItem(dateofbirth)
     registerMenu:AddItem(height)
-    registerMenu:AddItem(sex)
 
-    local spacer = NativeUI.CreateItem('', '~b~')
-    registerMenu:AddItem(spacer)
 
     local confirm = NativeUI.CreateItem(Translation[Config.Locale]['confirm'], Translation[Config.Locale]['confirm_desc'])
     confirm:RightLabel('~b~→→→')
     registerMenu:AddItem(confirm)
 
-    registerMenu.OnListChange = function(sender, item, index)
 
-        if item == sex then
-            if gender[index] == Translation[Config.Locale]['gender_m'] then
-                sexStr = 'm'
-            elseif gender[index] == Translation[Config.Locale]['gender_f'] then
-                sexStr = 'f'
-            end
-        end
-
-    end
 
     registerMenu.OnItemSelect = function(sender, item, index)
 
