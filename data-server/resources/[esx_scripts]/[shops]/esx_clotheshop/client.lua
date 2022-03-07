@@ -875,30 +875,9 @@ AddEventHandler('esx_clotheshop:confirm', function(enoughMoney)
 			TriggerEvent('skinchanger:getSkin', function(finalSkin)
 				TriggerServerEvent('skin:save', finalSkin)
 				LastSkin = finalSkin
-				
-				if Config.useesx_clotheshopapi then
-					local outfitname = CreateDialog('Name des Outfits eingeben')
-					if tostring(outfitname) then
-						ShowNotification(Translation[Config.Locale]['saved'] .. outfitname .. Translation[Config.Locale]['saved_2'])
-						TriggerServerEvent('clothes:saveOutfit', outfitname, skin)
-					end
-				else
-					ESX.TriggerServerCallback('esx_clotheshop:checkHavePropertyStore', function(foundStore)
-						if foundStore then
-							local outfitname = CreateDialog('Name des Outfits eingeben')
-							if tostring(outfitname) then
-								ShowNotification(Translation[Config.Locale]['saved'] .. outfitname .. Translation[Config.Locale]['saved_2'])
-								TriggerServerEvent('esx_clotheshop:saveOutfit', outfitname, skin)
-								--TriggerServerEvent('clothes:saveOutfit', outfitname, skin)
-							end
-						end
-					end)
-				end
+				menu_ask_to_save(finalSkin)
 			end)
-            
 		end)
-
-        _menuPool:CloseAllMenus()
         hasBought = true
         ShowNotification(Translation[Config.Locale]['buy_complete'])
 
@@ -910,6 +889,54 @@ AddEventHandler('esx_clotheshop:confirm', function(enoughMoney)
 	end
 
 end)
+
+
+function menu_ask_to_save(skin)
+	if confirmMenu ~= nil and confirmMenu:Visible() then
+		confirmMenu:Visible(false)
+	end
+
+    confirmMenu = NativeUI.CreateMenu(Translation[Config.Locale]['save_outfit'], nil)
+    _menuPool:Add(confirmMenu)
+    local save = NativeUI.CreateItem(Translation[Config.Locale]['menu_confirm'], '~b~')
+	local abort = NativeUI.CreateItem(Translation[Config.Locale]['menu_abort'], '~b~')
+    abort:SetRightBadge(BadgeStyle.Alert)
+
+    confirmMenu:AddItem(save)
+	confirmMenu:AddItem(abort)
+
+    confirmMenu.OnItemSelect = function(sender, item, index)
+
+        if item == save then
+			if Config.useesx_clotheshopapi then
+				local outfitname = CreateDialog('Name des Outfits eingeben')
+				if tostring(outfitname) then
+					ShowNotification(Translation[Config.Locale]['saved'] .. outfitname .. Translation[Config.Locale]['saved_2'])
+					TriggerServerEvent('clothes:saveOutfit', outfitname, skin)
+				end
+			else
+				ESX.TriggerServerCallback('esx_clotheshop:checkHavePropertyStore', function(foundStore)
+					if foundStore then
+						local outfitname = CreateDialog('Name des Outfits eingeben')
+						if tostring(outfitname) then
+							ShowNotification(Translation[Config.Locale]['saved'] .. outfitname .. Translation[Config.Locale]['saved_2'])
+							TriggerServerEvent('esx_clotheshop:saveOutfit', outfitname, skin)
+							--TriggerServerEvent('clothes:saveOutfit', outfitname, skin)
+						end
+					end
+				end)
+			end
+			_menuPool:CloseAllMenus()
+        elseif item == abort then
+            _menuPool:CloseAllMenus()
+        end
+    end
+
+    confirmMenu:Visible(true)
+	_menuPool:MouseControlsEnabled (false)
+	_menuPool:MouseEdgeEnabled (false)
+	_menuPool:ControlDisablingEnabled(false)
+end
 	
 Citizen.CreateThread(function()
 	while true do

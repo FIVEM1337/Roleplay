@@ -33,7 +33,7 @@ Config.Shops = {
     {type = 'shopui_title_lowendfashion2', x = 1196.9788818359, y = 2711.7102050781, z = 38.222637176514, rot = 183.91091918945},
     {type = 'shopui_title_midfashion', x = -1194.1501464844, y = -766.68597412109, z = 17.315553665161, rot = 217.00065612793},
     {type = 'shopui_title_midfashion', x = -3169.0966796875, y = 1043.171875, z = 20.863214492798, rot = 61.406246185303},
-    {type = 'shopui_title_lowendfashion', x = -1102.4339599609, y = 2711.7355957031, z = 19.10786819458, rot = 227.7255859375},
+    {type = 'shopui_title_lowendfashion', x = -1343.4339599609, y = -1275.7355957031, z = 4.10786819458, rot = 227.7255859375},
     {type = 'HAT', x = -1127.3669433594, y = -1439.6357421875, z = 5.2283296585083, rot = 286.5080871582},
 	  {type = 'MASK', x = -1337.1248779297, y = -1278.2264404297, z = 4.8689041137695, rot = 118.77864837646},
 }
@@ -130,6 +130,9 @@ Translation = {
     ['male'] = 'Männlich',
     ['female'] = 'Weiblich',
     ['save_job_complete'] = '~y~Verkäuferin~s~: Vielen Dank das Outfit steht nun für Ihr Team zur verfügung.',
+
+
+    ['save_outfit'] = 'Outfit speichern?',
   },
   ['en'] = {
     ['press_e_interact'] = 'Press ~g~E~s~, to change clothes',
