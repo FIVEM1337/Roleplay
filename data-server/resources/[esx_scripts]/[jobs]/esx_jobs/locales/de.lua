@@ -108,5 +108,7 @@ Locales['de'] = {
     ['open_cloackroom'] = 'Drücke ~INPUT_CONTEXT~ um dich umzuziehen',
     ['cloakroom'] = 'Garderobe',
     ['citizen_wear'] = 'Zivilkleidung',
-    ['job_wear'] = 'Arbeitskleidung',
+    ['job_wear1'] = 'Arbeitskleidung 1',
+    ['job_wear2'] = 'Arbeitskleidung 2',
+    ['job_wear3'] = 'Arbeitskleidung 3',
 }

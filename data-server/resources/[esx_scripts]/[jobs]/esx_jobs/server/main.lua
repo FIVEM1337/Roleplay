@@ -143,19 +143,32 @@ ESX.RegisterServerCallback('esx_jobs:getStockItems', function(source, cb, statio
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_jobs:getjobskin', function(source, cb, sex)
+ESX.RegisterServerCallback('esx_jobs:getjobskin', function(source, cb, sex, outfittype)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
 
-	MySQL.Async.fetchAll('SELECT skin_male, skin_female FROM job_grades WHERE job_name = @job_name and grade = @grade', {
+
+	MySQL.Async.fetchAll('SELECT skin_male1, skin_male2, skin_male3, skin_female1, skin_female2, skin_female3 FROM job_grades WHERE job_name = @job_name and grade = @grade', {
 		['@job_name'] = xPlayer.job.name,
 		['@grade'] = xPlayer.job.grade,
 	}, function(result)
 		if result[1] then
 			if sex == 0 then
-				cb(result[1].skin_male)
+				if outfittype == 1 then
+					cb(result[1].skin_male1)
+				elseif outfittype == 2 then
+					cb(result[1].skin_male2)
+				elseif outfittype == 3 then
+					cb(result[1].skin_male3)
+				end
 			else
-				cb(result[1].skin_female)
+				if outfittype == 1 then
+					cb(result[1].skin_female1)
+				elseif outfittype == 2 then
+					cb(result[1].skin_female2)
+				elseif outfittype == 3 then
+					cb(result[1].skin_female3)
+				end
 			end
 		end
 	end)

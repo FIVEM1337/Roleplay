@@ -515,7 +515,9 @@ function OpenCloakroomMenu(job)
 
 	local elements = {
 		{label = _U('citizen_wear'), value = 'citizen_wear'},
-		{label = _U('job_wear'), value = 'job_wear'}
+		{label = _U('job_wear1'), value = 'job_wear1'},
+		{label = _U('job_wear2'), value = 'job_wear2'},
+		{label = _U('job_wear3'), value = 'job_wear3'}
 	}
 
 	ESX.UI.Menu.CloseAll()
@@ -532,11 +534,24 @@ function OpenCloakroomMenu(job)
 			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
 				TriggerEvent('skinchanger:loadSkin', skin)
 			end)
-		elseif action == 'job_wear' then
+		elseif action == 'job_wear1' then
 			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
 				ESX.TriggerServerCallback('esx_jobs:getjobskin', function(jobskin)
 					TriggerEvent('skinchanger:loadClothes', skin, json.decode(jobskin))
-				end, skin.sex)
+				end, skin.sex, 1)
+			end)
+		elseif action == 'job_wear2' then
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
+				ESX.TriggerServerCallback('esx_jobs:getjobskin', function(jobskin)
+					TriggerEvent('skinchanger:loadClothes', skin, json.decode(jobskin))
+				end, skin.sex, 2)
+			end)
+
+		elseif action == 'job_wear3' then
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
+				ESX.TriggerServerCallback('esx_jobs:getjobskin', function(jobskin)
+					TriggerEvent('skinchanger:loadClothes', skin, json.decode(jobskin))
+				end, skin.sex, 3)
 			end)
 		end
 

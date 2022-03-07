@@ -241,7 +241,7 @@ end
 
 local confirmMenu = nil
 
-function generateConfirmMenu(sex, grade)
+function generateConfirmMenu(sex, grade, outfittype)
 
 	if confirmMenu ~= nil and confirmMenu:Visible() then
 		confirmMenu:Visible(false)
@@ -266,7 +266,7 @@ function generateConfirmMenu(sex, grade)
         if item == buy then
 			if sex and grade then
 				TriggerEvent('skinchanger:getSkin', function(finalSkin)
-					TriggerServerEvent('esx_clotheshop:setJobSkin', sex, grade, finalSkin)
+					TriggerServerEvent('esx_clotheshop:setJobSkin', sex, grade, finalSkin, outfittype)
 					ShowNotification(Translation[Config.Locale]['save_job_complete'])
 					_menuPool:CloseAllMenus()
 				end)
@@ -392,7 +392,7 @@ function generateselectGrade(content, sex)
             _menuPool:CloseAllMenus()
 		else
 			TriggerEvent('skinchanger:getSkin', function(finalSkin)
-				generateClothesMenu(content, sex, item.Text:Text())
+				selectjoboutfittype(content, sex, item.Text:Text())
 			end)
         end
 		selectGradeMenu:Visible(false)
@@ -404,7 +404,57 @@ function generateselectGrade(content, sex)
 	_menuPool:ControlDisablingEnabled(false)
 end
 
-function generateClothesMenu(content, sex, grade)
+
+function selectjoboutfittype(content, sex, grade)
+	if selectjoboutfittypeMenu ~= nil and selectjoboutfittypeMenu:Visible() then
+		selectjoboutfittypeMenu:Visible(false)
+	end
+
+    selectjoboutfittypeMenu = NativeUI.CreateMenu(Translation[Config.Locale]['menu_select_grade'], nil)
+	_menuPool:Add(selectjoboutfittypeMenu)
+
+	local outfit1 = NativeUI.CreateItem("Arbeitskleidung 1", '~b~')
+	local outfit2 = NativeUI.CreateItem("Arbeitskleidung 2", '~b~')
+	local outfit3 = NativeUI.CreateItem("Arbeitskleidung 3", '~b~')
+	selectjoboutfittypeMenu:AddItem(outfit1)
+	selectjoboutfittypeMenu:AddItem(outfit2)
+	selectjoboutfittypeMenu:AddItem(outfit3)
+
+
+    local abort = NativeUI.CreateItem(Translation[Config.Locale]['menu_abort'], '~b~')
+    abort:SetRightBadge(BadgeStyle.Alert)
+
+    selectjoboutfittypeMenu:AddItem(abort)
+
+    selectjoboutfittypeMenu.OnItemSelect = function(sender, item, index)
+
+        if item == abort then
+            _menuPool:CloseAllMenus()
+		elseif item == outfit1 then
+			TriggerEvent('skinchanger:getSkin', function(finalSkin)
+				generateClothesMenu(content, sex, grade, 1)
+			end)
+
+		elseif item == outfit2 then
+			TriggerEvent('skinchanger:getSkin', function(finalSkin)
+				generateClothesMenu(content, sex, grade, 2)
+			end)
+
+		elseif item == outfit3 then
+			TriggerEvent('skinchanger:getSkin', function(finalSkin)
+				generateClothesMenu(content, sex, grade, 3)
+			end)
+        end
+		selectjoboutfittypeMenu:Visible(false)
+    end
+
+    selectjoboutfittypeMenu:Visible(true)
+	_menuPool:MouseControlsEnabled (false)
+	_menuPool:MouseEdgeEnabled (false)
+	_menuPool:ControlDisablingEnabled(false)
+end
+
+function generateClothesMenu(content, sex, grade, outfittype)
 
 	newskin = {
 		sex          = 0,
@@ -757,7 +807,7 @@ function generateClothesMenu(content, sex, grade)
         if item == save then
 			mainMenu:Visible(false)
 			DeleteSkinCam()
-			generateConfirmMenu(sex, grade)
+			generateConfirmMenu(sex, grade, outfittype)
 		end
 	end
 
