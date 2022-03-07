@@ -35,6 +35,7 @@ Config.Tables = {
     {table = "sprays", column = "identifier"},
     {table = "user_licenses", column = "owner"},
     {table = "user_clothes", column = "identifier"},   
+    {table = "prop_owner", column = "owner"},
 }
 
 Config.SpawnLocations = {
