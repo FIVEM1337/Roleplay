@@ -123,13 +123,18 @@ function hasSpace(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
     if Playertasks[source].zone then
-        if xPlayer.canCarryItem(zone.item.item, zone.item.count) then
+        print(zone.item.item)
+        if zone.item.item == "money" or zone.item.item == "bank" or zone.item.item == "black_money" or zone.item.item == "crypto"then
             return true
         else
-            TriggerClientEvent('esx:showNotification', source, "inventory full")
-            TriggerClientEvent('esx_routen:changestatus', source, false)
-            Playertasks[source] = {}
-            return false
+            if xPlayer.canCarryItem(zone.item.item, zone.item.count) then
+                return true
+            else
+                TriggerClientEvent('esx:showNotification', source, "inventory full")
+                TriggerClientEvent('esx_routen:changestatus', source, false)
+                Playertasks[source] = {}
+                return false
+            end
         end
 	end
 end
