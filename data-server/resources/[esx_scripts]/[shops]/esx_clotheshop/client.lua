@@ -426,13 +426,13 @@ function generateClothesMenu(sex, grade, outfittype)
 	while true do
 		Citizen.Wait(1)
 		if LastSkin then
-			generateClothesMenu2(sex, grade, outfittype, LastSkin)
+			LoadCorrectSkin(sex, grade, outfittype, LastSkin)
 			break
 		end
 	end
 end
 
-function generateClothesMenu2(sex, grade, outfittype, TestSkin)
+function LoadCorrectSkin(sex, grade, outfittype, CurrentSkin)
 
 	if menuWallpaper == 'MASK' then
 		content = Config.MaskContent
@@ -462,9 +462,9 @@ function generateClothesMenu2(sex, grade, outfittype, TestSkin)
     end
     _menuPool:Add(mainMenu)
 
-    if TestSkin.sex == 0 then
+    if CurrentSkin.sex == 0 then
         torsoData = Config.MaleTorsoData
-    elseif TestSkin.sex == 1 then
+    elseif CurrentSkin.sex == 1 then
         torsoData = Config.FemaleTorsoData
     end
 
@@ -495,11 +495,11 @@ function generateClothesMenu2(sex, grade, outfittype, TestSkin)
 									--ESX.TriggerServerCallback('lils_properties:getPlayerOutfit', function(clothes)
 						
 									TriggerEvent('skinchanger:loadClothes', skin, dressing[selectedIndex].clothesData)
-									TriggerEvent('esx_skin:setTestSkin', skin)
+									TriggerEvent('esx_skin:setCurrentSkin', skin)
 					
 									TriggerEvent('skinchanger:getSkin', function(skinnew)
 										TriggerServerEvent('esx_skin:save', skinnew)
-									--	TestSkin = skinnew
+									--	CurrentSkin = skinnew
 									end)
 									
 									hasBought = true
@@ -538,11 +538,11 @@ function generateClothesMenu2(sex, grade, outfittype, TestSkin)
 									ESX.TriggerServerCallback('esx_clotheshop:getPlayerOutfit', function(clothes)
 						
 										TriggerEvent('skinchanger:loadClothes', skin, clothes)
-										TriggerEvent('esx_skin:setTestSkin', skin)
+										TriggerEvent('esx_skin:setCurrentSkin', skin)
 						
 										TriggerEvent('skinchanger:getSkin', function(skinnew)
 											TriggerServerEvent('esx_skin:save', skinnew)
-											TestSkin = skinnew
+											CurrentSkin = skinnew
 										end)
 										
 										hasBought = true
@@ -584,14 +584,14 @@ function generateClothesMenu2(sex, grade, outfittype, TestSkin)
         --print('amount of comp:' .. amountOfComponents)
 
         for i2=0, amountOfComponents-1, 1 do
-			--print(#v.blockedParts[TestSkin.sex])
-            if v.blockedParts[TestSkin.sex] ~= nil and #v.blockedParts[TestSkin.sex] > 0 then
-                for j2, blockedNumber in pairs(v.blockedParts[TestSkin.sex]) do
+			--print(#v.blockedParts[CurrentSkin.sex])
+            if v.blockedParts[CurrentSkin.sex] ~= nil and #v.blockedParts[CurrentSkin.sex] > 0 then
+                for j2, blockedNumber in pairs(v.blockedParts[CurrentSkin.sex]) do
                     if i2 == blockedNumber then
 
                         --print(i2 .. ' is blocked')
                         break
-                    elseif j2 == #v.blockedParts[TestSkin.sex] then
+                    elseif j2 == #v.blockedParts[CurrentSkin.sex] then
                         table.insert(componentValues[v.name], i2)
                         --print(i2 .. ' is free')
                     end
@@ -603,9 +603,9 @@ function generateClothesMenu2(sex, grade, outfittype, TestSkin)
         end
 
         --print('after block: ' .. #componentValues[v.name])
-        local finalIndex = TestSkin[v.name]
+        local finalIndex = CurrentSkin[v.name]
         for findIndexCount, findIndexData in pairs(componentValues[v.name]) do
-            if findIndexData == TestSkin[v.name] then
+            if findIndexData == CurrentSkin[v.name] then
                 finalIndex = findIndexCount
                 break
             end
@@ -626,16 +626,16 @@ function generateClothesMenu2(sex, grade, outfittype, TestSkin)
             variationValues = {}
             local amountOfVariations
             if v.type == 1 then
-                amountOfVariations = GetNumberOfPedTextureVariations(GetPlayerPed(-1), v.componentID, TestSkin[v.name])
+                amountOfVariations = GetNumberOfPedTextureVariations(GetPlayerPed(-1), v.componentID, CurrentSkin[v.name])
             else
-                amountOfVariations = GetNumberOfPedPropTextureVariations(PlayerPedId(-1), v.componentID, TestSkin[v.name])
+                amountOfVariations = GetNumberOfPedPropTextureVariations(PlayerPedId(-1), v.componentID, CurrentSkin[v.name])
             end
 			-- -1 here?
             for i2=0, amountOfVariations, 1 do
                 table.insert(variationValues, i2)
             end
             --print(amountOfVariations)
-            Component2ListItem = NativeUI.CreateListItem(Translation[Config.Locale]['change_colour'], variationValues, TestSkin[v.name2])
+            Component2ListItem = NativeUI.CreateListItem(Translation[Config.Locale]['change_colour'], variationValues, CurrentSkin[v.name2])
             mainMenu:AddItem(Component2ListItem)
 
             menuItems[#menuItems].parent = Component2ListItem
