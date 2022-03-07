@@ -123,7 +123,6 @@ function hasSpace(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
     if Playertasks[source].zone then
-        print(zone.item.item)
         if zone.item.item == "money" or zone.item.item == "bank" or zone.item.item == "black_money" or zone.item.item == "crypto"then
             return true
         else
