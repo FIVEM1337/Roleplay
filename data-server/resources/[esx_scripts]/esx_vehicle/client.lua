@@ -410,12 +410,13 @@ Citizen.CreateThread(function()
 				local currentVehicle = Vehicle.Vehicle
 				 while true do
 					Citizen.Wait(5)
-					local tangle = GetVehicleSteeringAngle(Vehicle.Vehicle)
+					vehicle = GetVehiclePedIsIn(ped, false)
+					local rotangle = GetVehicleSteeringAngle(Vehicle.Vehicle)
 					if IsDisabledControlPressed(0, 34) then -- KEY A
 					  --TaskVehicleTempAction(PlayerPedId(), currentVehicle, 11, 1000)
 					  if angle < anglemax then
 						angle = angle + rotangle
-						SetVehicleSteeringAngle(Vehicle.Vehicle, angle)
+						SetVehicleSteeringAngle(vehicle, angle)
 					  end
 					end
 
@@ -423,30 +424,30 @@ Citizen.CreateThread(function()
 					  --TaskVehicleTempAction(PlayerPedId(), currentVehicle, 10, 1000)
 					  if angle > anglemin then
 						angle = angle - rotangle
-						SetVehicleSteeringAngle(Vehicle.Vehicle, angle)
+						SetVehicleSteeringAngle(vehicle, angle)
 					  end
-					  SetVehicleSteeringAngle(Vehicle.Vehicle, angle)
+					  SetVehicleSteeringAngle(vehicle, angle)
 					end
 
 					if IsDisabledControlPressed(0, 32) then -- KEY W
 					  --TaskVehicleTempAction(PlayerPedId(), currentVehicle, 11, 1000)
 					  if angle > 0.0 then
 						angle = angle - rotangle
-						SetVehicleSteeringAngle(Vehicle.Vehicle, angle)
+						SetVehicleSteeringAngle(vehicle, angle)
 					  elseif angle < 0.0 then
 						angle = angle + rotangle
-						SetVehicleSteeringAngle(Vehicle.Vehicle, angle)
+						SetVehicleSteeringAngle(vehicle, angle)
 					  end
 					end
 
-					if Vehicle.IsInFront then
-						SetVehicleForwardSpeed(currentVehicle, -1.0)
+					if vehicle then
+						SetVehicleForwardSpeed(vehicle, -1.0)
 					else
-						SetVehicleForwardSpeed(currentVehicle, 1.0)
+						SetVehicleForwardSpeed(vehicle, 1.0)
 					end
 
-					if HasEntityCollidedWithAnything(currentVehicle) then
-						SetVehicleOnGroundProperly(currentVehicle)
+					if HasEntityCollidedWithAnything(vehicle) then
+						SetVehicleOnGroundProperly(vehicle)
 					end
 
 					if not IsDisabledControlPressed(0, 21) then -- KEY E
