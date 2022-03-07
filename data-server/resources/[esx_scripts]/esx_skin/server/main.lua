@@ -42,11 +42,8 @@ ESX.RegisterServerCallback('esx_skin:getPlayerSkin', function(source, cb)
         local user = users[1]
         local skin = nil
   
-        local jobSkin = {
-          skin_male   = xPlayer.job.skin_male,
-          skin_female = xPlayer.job.skin_female
-        }
-  
+        local jobSkin = nil
+
         if user.skin ~= nil then
           skin = json.decode(user.skin)
         end

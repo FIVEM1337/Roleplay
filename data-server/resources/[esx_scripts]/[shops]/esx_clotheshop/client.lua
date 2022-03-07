@@ -16,9 +16,7 @@ local isPedLoaded = false
 local npc = nil
 local hasBought = false
 local wasInMenu = false
-local sexchange = false
 
-local LastSkin = nil
 local torsoData = {}
 
 Citizen.CreateThread(function()
@@ -29,14 +27,6 @@ Citizen.CreateThread(function()
     
     PlayerData = ESX.GetPlayerData()
     
-end)
-
-
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer)
-	ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
-		LastSkin = skin
-	end)
 end)
 
 
@@ -72,14 +62,6 @@ Citizen.CreateThread(function()
 					SetEntityInvincible(npc, true)
 					SetBlockingOfNonTemporaryEvents(npc, true)                    
 					isPedLoaded = true
-					
-					ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
-						--TriggerEvent('skinchanger:loadSkin', skin)
-						LastSkin = skin
-					end)
-					--[[TriggerEvent('skinchanger:getSkin', function(skin)
-						LastSkin = skin
-					end)--]]
 				end
 			end
 
@@ -98,37 +80,9 @@ Citizen.CreateThread(function()
 		
 		if (wasInMenu and not isInShop) then
 			if not hasBought then
-				if sexchange then
-					ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-						local model = nil
-				
-						if skin.sex == 0 then
-							model = GetHashKey("mp_m_freemode_01")
-						else
-							model = GetHashKey("mp_f_freemode_01")
-						end
-				
-						RequestModel(model)
-						while not HasModelLoaded(model) do
-							RequestModel(model)
-							Citizen.Wait(1)
-						end
-				
-						SetPlayerModel(PlayerId(), model)
-						SetModelAsNoLongerNeeded(model)
-				
-						TriggerEvent('skinchanger:loadSkin', LastSkin)
-						TriggerEvent('esx:restoreLoadout')
-				
-						SetEntityCanBeDamaged(PlayerPedId(), true)
-					end)
-				else
-					TriggerEvent('skinchanger:loadSkin', LastSkin)
-				end
-				
-
-					
-				TriggerEvent('skinchanger:loadSkin', LastSkin)
+				ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
+					TriggerEvent('skinchanger:loadSkin', skin)
+				end)
 				TriggerEvent('lils_accessoires:setAccessoires')
 			end
 			wasInMenu = false
@@ -164,17 +118,9 @@ Citizen.CreateThread(function()
 				hasBought = false
                 wasInMenu = true
 				if ESX.PlayerData.job and ESX.PlayerData.job.can_manageoutfits then
-					if menuWallpaper == 'MASK' then
-						generateClothesMenu(Config.MaskContent)
-					else
-						generateClothesMenuSelect(Config.shopContent)
-					end
+					generateClothesMenuSelect()
 				else
-					if menuWallpaper == 'MASK' then
-						generateClothesMenu(Config.MaskContent)
-					else
-						generateClothesMenu(Config.shopContent)
-					end
+					generateClothesMenu()
 				end
 			end
 		else
@@ -289,7 +235,7 @@ local variationValues
 local Component2ListItem
 
 
-function generateClothesMenuSelect(content)
+function generateClothesMenuSelect()
 	if selectMenu ~= nil and selectMenu:Visible() then
 		selectMenu:Visible(false)
 	end
@@ -311,10 +257,10 @@ function generateClothesMenuSelect(content)
 	selectMenu.OnItemSelect = function(sender, item, index)
 
         if item == Privat then
-			generateClothesMenu(content)
+			generateClothesMenu()
 			selectMenu:Visible(false)
 		else
-			generateselectSex(Config.AllContent)	
+			generateselectSex()	
 			selectMenu:Visible(false)
         end
     end
@@ -325,7 +271,7 @@ function generateClothesMenuSelect(content)
 	_menuPool:ControlDisablingEnabled(false)
 end
 
-function generateselectSex(content)
+function generateselectSex()
 	if selectSexMenu ~= nil and selectSexMenu:Visible() then
 		selectSexMenu:Visible(false)
 	end
@@ -342,9 +288,9 @@ function generateselectSex(content)
 
     selectSexMenu.OnItemSelect = function(sender, item, index)
         if item == male then
-			generateselectGrade(content, "male")
+			generateselectGrade("male")
 		else
-			generateselectGrade(content, "female")
+			generateselectGrade("female")
         end
 		selectSexMenu:Visible(false)
     end
@@ -355,7 +301,7 @@ function generateselectSex(content)
 	_menuPool:ControlDisablingEnabled(false)
 end
 
-function generateselectGrade(content, sex)
+function generateselectGrade(sex)
 	if selectGradeMenu ~= nil and selectGradeMenu:Visible() then
 		selectGradeMenu:Visible(false)
 	end
@@ -392,7 +338,7 @@ function generateselectGrade(content, sex)
             _menuPool:CloseAllMenus()
 		else
 			TriggerEvent('skinchanger:getSkin', function(finalSkin)
-				selectjoboutfittype(content, sex, item.Text:Text())
+				selectjoboutfittype(sex, item.Text:Text())
 			end)
         end
 		selectGradeMenu:Visible(false)
@@ -405,7 +351,7 @@ function generateselectGrade(content, sex)
 end
 
 
-function selectjoboutfittype(content, sex, grade)
+function selectjoboutfittype(sex, grade)
 	if selectjoboutfittypeMenu ~= nil and selectjoboutfittypeMenu:Visible() then
 		selectjoboutfittypeMenu:Visible(false)
 	end
@@ -432,17 +378,17 @@ function selectjoboutfittype(content, sex, grade)
             _menuPool:CloseAllMenus()
 		elseif item == outfit1 then
 			TriggerEvent('skinchanger:getSkin', function(finalSkin)
-				generateClothesMenu(content, sex, grade, 1)
+				generateClothesMenu(sex, grade, 1)
 			end)
 
 		elseif item == outfit2 then
 			TriggerEvent('skinchanger:getSkin', function(finalSkin)
-				generateClothesMenu(content, sex, grade, 2)
+				generateClothesMenu(sex, grade, 2)
 			end)
 
 		elseif item == outfit3 then
 			TriggerEvent('skinchanger:getSkin', function(finalSkin)
-				generateClothesMenu(content, sex, grade, 3)
+				generateClothesMenu(sex, grade, 3)
 			end)
         end
 		selectjoboutfittypeMenu:Visible(false)
@@ -454,94 +400,48 @@ function selectjoboutfittype(content, sex, grade)
 	_menuPool:ControlDisablingEnabled(false)
 end
 
-function generateClothesMenu(content, sex, grade, outfittype)
-
-	newskin = {
-		sex          = 0,
-		face         = 0,
-		skin         = 0,
-		hair_1       = 0,
-		hair_2       = 0,
-		hair_color_1 = 0,
-		hair_color_2 = 0,
-		decals_1     = 0,
-		decals_2     = 0,
-		tshirt_1     = 0,
-		tshirt_2     = 0,
-		torso_1      = 0,
-		torso_2      = 0,
-		arms         = 0,
-		pants_1      = 0,
-		pants_2      = 0,
-		shoes_1      = 0,
-		shoes_2      = 0,
-		mask_1       = 0,
-		mask_2       = 0,
-		bproof_1     = 0,
-		bproof_2     = 0,
-		bags_1		 = 0,
-		bags_2		 = 0,
-		beard_1      = 0,
-		beard_2      = 0,
-		beard_3      = 0,
-		beard_4      = 0,
-		chain_1      = 0,
-		chain_2      = 0,
-		glasses_1    = 0,
-		glasses_2    = 0,
-	}
+function generateClothesMenu(sex, grade, outfittype)
+	local LastSkin = nil
 
 	if sex and grade then
-		ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-			local model = nil
-			
-			if sex == "male" then
-				model = GetHashKey("mp_m_freemode_01")
-			elseif sex == "female" then
-				model = GetHashKey("mp_f_freemode_01")
-			end
-
-			RequestModel(model)
-			while not HasModelLoaded(model) do
-				RequestModel(model)
-				Citizen.Wait(1)
-			end
-
-			SetPlayerModel(PlayerId(), model)
-			SetModelAsNoLongerNeeded(model)
-
-			TriggerEvent('skinchanger:loadSkin', newskin)
-			TriggerEvent('esx:restoreLoadout')
-
-			SetEntityCanBeDamaged(PlayerPedId(), true)
-			sexchange = true
-		end)
-	else
-		if sexchange then
-			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-				local model = nil
-		
-				if skin.sex == 0 then
-					model = GetHashKey("mp_m_freemode_01")
+		ESX.TriggerServerCallback('esx_jobs:getjobskinwithgrade', function(jobskin)
+			if jobskin then
+				LastSkin = json.decode(jobskin)
+			else
+				if sex == "male" then
+					LastSkin = Config.MaleSkin
 				else
-					model = GetHashKey("mp_f_freemode_01")
+					LastSkin = Config.FemaleSkin
 				end
-		
-				RequestModel(model)
-				while not HasModelLoaded(model) do
-					RequestModel(model)
-					Citizen.Wait(1)
-				end
-		
-				SetPlayerModel(PlayerId(), model)
-				SetModelAsNoLongerNeeded(model)
-		
-				TriggerEvent('skinchanger:loadSkin', LastSkin)
-				TriggerEvent('esx:restoreLoadout')
-		
-				SetEntityCanBeDamaged(PlayerPedId(), true)
-			end)
-		end	
+			end
+			TriggerEvent('skinchanger:loadSkin', LastSkin)
+		end, sex, outfittype, grade)
+	else
+		ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
+			LastSkin = skin
+			TriggerEvent('skinchanger:loadSkin', skin)
+		end)
+	end
+
+	while true do
+		Citizen.Wait(1)
+		if LastSkin then
+			generateClothesMenu2(sex, grade, outfittype, LastSkin)
+			break
+		end
+	end
+end
+
+function generateClothesMenu2(sex, grade, outfittype, TestSkin)
+
+	if menuWallpaper == 'MASK' then
+		content = Config.MaskContent
+	else
+		if sex and grade then
+			content = Config.AllContent
+		else
+			content = Config.shopContent
+		end
 	end
 
 	if mainMenu ~= nil and mainMenu:Visible() then
@@ -562,11 +462,9 @@ function generateClothesMenu(content, sex, grade, outfittype)
     end
     _menuPool:Add(mainMenu)
 
-    --print('sex: ' .. LastSkin.sex)
-
-    if LastSkin.sex == 0 then
+    if TestSkin.sex == 0 then
         torsoData = Config.MaleTorsoData
-    elseif LastSkin.sex == 1 then
+    elseif TestSkin.sex == 1 then
         torsoData = Config.FemaleTorsoData
     end
 
@@ -597,11 +495,11 @@ function generateClothesMenu(content, sex, grade, outfittype)
 									--ESX.TriggerServerCallback('lils_properties:getPlayerOutfit', function(clothes)
 						
 									TriggerEvent('skinchanger:loadClothes', skin, dressing[selectedIndex].clothesData)
-									TriggerEvent('esx_skin:setLastSkin', skin)
+									TriggerEvent('esx_skin:setTestSkin', skin)
 					
 									TriggerEvent('skinchanger:getSkin', function(skinnew)
 										TriggerServerEvent('esx_skin:save', skinnew)
-										LastSkin = skinnew
+									--	TestSkin = skinnew
 									end)
 									
 									hasBought = true
@@ -640,11 +538,11 @@ function generateClothesMenu(content, sex, grade, outfittype)
 									ESX.TriggerServerCallback('esx_clotheshop:getPlayerOutfit', function(clothes)
 						
 										TriggerEvent('skinchanger:loadClothes', skin, clothes)
-										TriggerEvent('esx_skin:setLastSkin', skin)
+										TriggerEvent('esx_skin:setTestSkin', skin)
 						
 										TriggerEvent('skinchanger:getSkin', function(skinnew)
 											TriggerServerEvent('esx_skin:save', skinnew)
-											LastSkin = skinnew
+											TestSkin = skinnew
 										end)
 										
 										hasBought = true
@@ -686,14 +584,14 @@ function generateClothesMenu(content, sex, grade, outfittype)
         --print('amount of comp:' .. amountOfComponents)
 
         for i2=0, amountOfComponents-1, 1 do
-			--print(#v.blockedParts[LastSkin.sex])
-            if v.blockedParts[LastSkin.sex] ~= nil and #v.blockedParts[LastSkin.sex] > 0 then
-                for j2, blockedNumber in pairs(v.blockedParts[LastSkin.sex]) do
+			--print(#v.blockedParts[TestSkin.sex])
+            if v.blockedParts[TestSkin.sex] ~= nil and #v.blockedParts[TestSkin.sex] > 0 then
+                for j2, blockedNumber in pairs(v.blockedParts[TestSkin.sex]) do
                     if i2 == blockedNumber then
 
                         --print(i2 .. ' is blocked')
                         break
-                    elseif j2 == #v.blockedParts[LastSkin.sex] then
+                    elseif j2 == #v.blockedParts[TestSkin.sex] then
                         table.insert(componentValues[v.name], i2)
                         --print(i2 .. ' is free')
                     end
@@ -705,9 +603,9 @@ function generateClothesMenu(content, sex, grade, outfittype)
         end
 
         --print('after block: ' .. #componentValues[v.name])
-        local finalIndex = LastSkin[v.name]
+        local finalIndex = TestSkin[v.name]
         for findIndexCount, findIndexData in pairs(componentValues[v.name]) do
-            if findIndexData == LastSkin[v.name] then
+            if findIndexData == TestSkin[v.name] then
                 finalIndex = findIndexCount
                 break
             end
@@ -728,16 +626,16 @@ function generateClothesMenu(content, sex, grade, outfittype)
             variationValues = {}
             local amountOfVariations
             if v.type == 1 then
-                amountOfVariations = GetNumberOfPedTextureVariations(GetPlayerPed(-1), v.componentID, LastSkin[v.name])
+                amountOfVariations = GetNumberOfPedTextureVariations(GetPlayerPed(-1), v.componentID, TestSkin[v.name])
             else
-                amountOfVariations = GetNumberOfPedPropTextureVariations(PlayerPedId(-1), v.componentID, LastSkin[v.name])
+                amountOfVariations = GetNumberOfPedPropTextureVariations(PlayerPedId(-1), v.componentID, TestSkin[v.name])
             end
 			-- -1 here?
             for i2=0, amountOfVariations, 1 do
                 table.insert(variationValues, i2)
             end
             --print(amountOfVariations)
-            Component2ListItem = NativeUI.CreateListItem(Translation[Config.Locale]['change_colour'], variationValues, LastSkin[v.name2])
+            Component2ListItem = NativeUI.CreateListItem(Translation[Config.Locale]['change_colour'], variationValues, TestSkin[v.name2])
             mainMenu:AddItem(Component2ListItem)
 
             menuItems[#menuItems].parent = Component2ListItem
@@ -915,7 +813,9 @@ AddEventHandler('esx_clotheshop:confirm', function(enoughMoney)
 
 	else
 		ShowNotification(Translation[Config.Locale]['not_enough_money'])
-		TriggerEvent('skinchanger:loadSkin', LastSkin)
+		ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
+			TriggerEvent('skinchanger:loadSkin', skin)
+		end)
 		TriggerEvent('lils_accessoires:setAccessoires')
 
 	end
