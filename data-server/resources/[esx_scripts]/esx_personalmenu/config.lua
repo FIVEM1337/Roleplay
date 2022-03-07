@@ -183,7 +183,7 @@ Config.Admin = {
 				plyId = tonumber(plyId)
 				
 				if type(plyId) == 'number' then
-					TriggerServerEvent('esx_personalmenu:Admin_BringS', GetPlayerServerId(PlayerId()), plyId)
+					TriggerServerEvent('esx_personalmenu:Admin_BringS', plyId, GetPlayerServerId(PlayerId()))
 				end
 			end
 
