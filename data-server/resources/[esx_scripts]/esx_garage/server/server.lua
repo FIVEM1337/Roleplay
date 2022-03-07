@@ -316,7 +316,6 @@ end)
 
 AddEventHandler('onResourceStart', function(resource)
 	if resource == GetCurrentResourceName() then
-        print("enter")
 		Citizen.Wait(50)
         local owned_vehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE `stored` = 0 and impound = 0', {}) or {}
         for k,v in ipairs(owned_vehicles) do    
@@ -330,7 +329,6 @@ AddEventHandler('onResourceStart', function(resource)
         end
         local job_vehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM job_vehicles WHERE `stored` = 0 and impound = 0', {}) or {}
         for k,v in ipairs(job_vehicles) do
-            print("do something with") 
             local veh = json.decode(job_vehicles[k].vehicle)
             local var_job_vehicles = {
                 ['@plate'] = veh.plate,
