@@ -20,7 +20,7 @@ routen = {
 			tobacco_process = {
 				name = "Zigaretten stopfen | Zigarettenroute",
 				time = 3,
-				item = {item = "cigarette", count = 1},
+				item = {item = "np_cigarette", count = 1},
 				need = {item = "tabacco", count = 2, removeItem = true},
 				animation = "WORLD_HUMAN_GARDENER_PLANT",
 				blip = {sprite = 501, color = 21, scale = 0.8},
@@ -32,7 +32,7 @@ routen = {
 				name = "Zigaretten verkaufen | Zigarettenroute",
 				time = 3,
 				item = {item = "money", count = 200},
-				need = {item = "cigarette", count = 1, removeItem = true},
+				need = {item = "np_cigarette", count = 1, removeItem = true},
 				animation = "WORLD_HUMAN_GARDENER_PLANT",
 				blip = {sprite = 501, color = 21, scale = 0.8},
 				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
@@ -107,7 +107,7 @@ routen = {
 			kevler_sell = {
 				name = "Schutzweste herstellen | Westenroute",
 				time = 3,
-				item = {item = "gun_vest", count = 200},
+				item = {item = "armor", count = 200},
 				need = {item = "kevlar", count = 5, removeItem = true},
 				animation = "WORLD_HUMAN_GARDENER_PLANT",
 				blip = {sprite = 366, color = 40, scale = 0.8},
@@ -119,11 +119,11 @@ routen = {
 	},
 	--Illegale Routen
 	{ 
-		Westenroute = {
-			illegal = true,
+		Weedroute = {
+			illegal = false,
 			weed_harvest = {
 				name = "Weed sammeln | Weedroute",
-				item = {item = "weed", count = 1},
+				item = {item = "amnesia", count = 1},
 				need = {},
 				time = 5,
 				animation = "WORLD_HUMAN_GARDENER_PLANT",
@@ -136,7 +136,7 @@ routen = {
 				name = "Joints drehen | Weedroute",
 				time = 3,
 				item = {item = "joint", count = 1},
-				need = {item = "weed", count = 2, removeItem = true},
+				need = {item = "amnesia", count = 2, removeItem = true},
 				animation = "WORLD_HUMAN_GARDENER_PLANT",
 				blip = {sprite = 496, color = 2, scale = 0.8},
 				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
