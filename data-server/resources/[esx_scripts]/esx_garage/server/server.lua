@@ -312,3 +312,30 @@ AddEventHandler('statebugupdate', function(name,value,net)
         SetVehicleDoorsLocked(vehicle,tonumber(val))
     end
 end)
+
+
+AddEventHandler('onResourceStart', function(resource)
+	if resource == GetCurrentResourceName() then
+		Citizen.Wait(50)
+        local owned_vehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE `stored` = 0 and impound = 0', {}) or {}
+        for k,v in ipairs(owned_vehicles) do    
+            local veh = json.decode(owned_vehicles[k].vehicle)
+            local var_owned_vehicles = {
+                ['@plate'] = veh.plate,
+                ['@stored'] = 0,
+                ['@impound'] = 1,
+            }
+            MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET `stored` = @stored, impound = @impound WHERE TRIM(UPPER(plate)) = @plate', var_owned_vehicles)       
+        end
+        local job_vehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM job_vehicles WHERE `stored` = 0 and impound = 0', {}) or {}
+        for k,v in ipairs(job_vehicles) do
+            local veh = json.decode(job_vehicles[k].vehicle)
+            local var_job_vehicles = {
+                ['@plate'] = veh.plate,
+                ['@stored'] = 0,
+                ['@impound'] = 1,
+            }
+            MysqlGarage(Config.Mysql,'execute','UPDATE job_vehicles SET `stored` = @stored, impound = @impound WHERE TRIM(UPPER(plate)) = @plate', var_job_vehicles)       
+        end
+	end
+end)

@@ -86,3 +86,14 @@ AddEventHandler('esx:playerLoaded', function(playerId, xPlayer)
 
 	xPlayer.set('addonAccounts', addonAccounts)
 end)
+
+
+AddEventHandler('esx_addonaccount:giveAccountMoney', function(society, moneytype, amount)
+	if moneytype == "crypto" then
+		return
+	else
+		TriggerEvent('esx_addonaccount:getSharedAccount', society, function(account)
+			account.addMoney(amount)
+		end)
+	end
+end)

@@ -100,6 +100,7 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                 xPlayer.addWeapon(item.name, item.count)
                 TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> purchased!'):format(count, item.label))
                 TriggerEvent('CryptoHooker:SendBuyLog', src, item.label, count, count * item.count)
+                GiveSocietyMoney(item.moneytype, item.count)
             else 
                 TriggerClientEvent('inventory:notify', src, 'error', 'You already have this weapon!')
             end
@@ -111,6 +112,7 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                         xPlayer.addInventoryItem(item.name, count)
                         TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> purchased!'):format(count, item.label))
                         TriggerEvent('CryptoHooker:SendBuyLog', src, item.label, count, count * item.count)
+                        GiveSocietyMoney(item.moneytype, count * item.count)
                     else 
                         TriggerClientEvent('inventory:notify', src, 'error', 'Cannot afford this item!')
                     end
@@ -125,6 +127,7 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                         xPlayer.addInventoryItem(item.name, count)
                         TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> purchased!'):format(count, item.label))
                         TriggerEvent('CryptoHooker:SendBuyLog', src, item.label, count, count * item.count)
+                        GiveSocietyMoney(item.moneytype, count * item.count)
                     else 
                         TriggerClientEvent('inventory:notify', src, 'error', 'Cannot afford this item!')
                     end
@@ -486,3 +489,8 @@ end)
 AddEventHandler('esx:playerDropped', function(source)
     CloseAllInventoriesForPlayer(source)
 end)
+
+function GiveSocietyMoney(moneytype, amount)
+    money = (amount / 100) * Config.Tax
+    TriggerEvent('esx_addonaccount:giveAccountMoney', 'society_government', "society_government", money)
+end
