@@ -155,5 +155,44 @@ routen = {
 				npc = {model = "a_m_y_soucent_02", heading = 108.50}
 			}
 		}
-	}		
+	},		
+	--Illegale Routen
+	{ 
+		Koksroute = {
+			illegal = false,
+			weed_harvest = {
+				name = "Koks sammeln | Koksroute",
+				item = {item = "cocainepflanze", count = 1},
+				need = {},
+				time = 5,
+				animation = "WORLD_HUMAN_GARDENER_PLANT",
+				blip = {sprite = 514, color = 0, scale = 0.8},
+				marker = {type = 27, range = 50.0, red = 50, green = 50, blue = 204, show = false},
+				coord = vector3(2219.5, 5576.54, 53.66),
+				npc = false
+			},
+			weed_process = {
+				name = "Koks verarbeiten | Koksroute",
+				time = 3,
+				item = {item = "cocainepflanze", count = 1},
+				need = {item = "coke_small_brick", count = 2, removeItem = true},
+				animation = "WORLD_HUMAN_GARDENER_PLANT",
+				blip = {sprite = 514, color = 0, scale = 0.8},
+				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
+				coord = vector3(-8.05, -759.85, 21.55),
+				npc = {model = "a_m_y_soucent_02", heading = 152.85}
+			},
+			weed_sell = {
+				name = "Koks verkaufen | Koksroute",
+				time = 3,
+				item = {item = "black_money", count = 200},
+				need = {item = "coke_small_brick", count = 5, removeItem = true},
+				animation = "WORLD_HUMAN_GARDENER_PLANT",
+				blip = {sprite = 514, color = 0, scale = 0.8},
+				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
+				coord = vector3(1832.29, 3868.24, 34.3),
+				npc = {model = "a_m_y_soucent_02", heading = 108.50}
+			}
+		}
+	}
 }
