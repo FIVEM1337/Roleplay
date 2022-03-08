@@ -5,6 +5,7 @@ local CurrentAction           = nil
 local CurrentActionMsg        = ''
 local CurrentActionData       = {}
 local PlayerData              = {}
+local ShopType 				  = "shop"
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -33,8 +34,12 @@ function OpenShopMenu(zone)
 					limit = item.limit
 					moneytype = item.moneytype
 
+					if zone == "WeaponShop" then
+						ShopType = "weapon"
+					end
+
 					table.insert(items, {
-						type = "shop",
+						type = ShopType,
 						name = name,
 						price = price,
 						moneytype = moneytype

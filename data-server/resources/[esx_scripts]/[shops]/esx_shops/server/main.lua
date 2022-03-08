@@ -40,64 +40,30 @@ function LoadShop()
 			ShopItems[shopResult[i].store] = {}
 		end
 
-		if itemInformation[shopResult[i].item].limit == -1 then
-			itemInformation[shopResult[i].item].limit = 30
-		end
+		if itemInformation[shopResult[i].item] == nil then
+			table.insert(ShopItems[shopResult[i].store], {
+				label = ESX.GetWeaponLabel(shopResult[i].item),
+				item  = shopResult[i].item,
+				price = shopResult[i].price,
+				limit = 2,
+				moneytype = shopResult[i].moneytype
+			})
+		else
+			if itemInformation[shopResult[i].item].limit == -1 then
+				itemInformation[shopResult[i].item].limit = 30
+			end
 
-		table.insert(ShopItems[shopResult[i].store], {
-			label = itemInformation[shopResult[i].item].label,
-			item  = shopResult[i].item,
-			price = shopResult[i].price,
-			limit = itemInformation[shopResult[i].item].limit,
-			moneytype = shopResult[i].moneytype
-		})
+			table.insert(ShopItems[shopResult[i].store], {
+				label = itemInformation[shopResult[i].item].label,
+				item  = shopResult[i].item,
+				price = shopResult[i].price,
+				limit = itemInformation[shopResult[i].item].limit,
+				moneytype = shopResult[i].moneytype
+			})
+		end
 	end
 end
 
 ESX.RegisterServerCallback('esx_shops:requestDBItems', function(source, cb)
 	cb(ShopItems)
-end)
-
-RegisterServerEvent('esx_shops:buyItem')
-AddEventHandler('esx_shops:buyItem', function(itemName, amount, zone)
-	local _source = source
-	local xPlayer = ESX.GetPlayerFromId(_source)
-	local sourceItem = xPlayer.getInventoryItem(itemName)
-
-	amount = ESX.Round(amount)
-
-	-- is the player trying to exploit?
-	if amount < 0 then
-		print('esx_shops: ' .. xPlayer.identifier .. ' attempted to exploit the shop!')
-		return
-	end
-
-	-- get price
-	local price = 0
-	local itemLabel = ''
-
-	for i=1, #ShopItems[zone], 1 do
-		if ShopItems[zone][i].item == itemName then
-			price = ShopItems[zone][i].price
-			itemLabel = ShopItems[zone][i].label
-			break
-		end
-	end
-
-	price = price * amount
-
-	-- can the player afford this item?
-	if xPlayer.getMoney() >= price then
-		-- can the player carry the said amount of x item?
-		if sourceItem.limit ~= -1 and (sourceItem.count + amount) > sourceItem.limit then
-			TriggerClientEvent('esx:showNotification', _source, _U('player_cannot_hold'))
-		else
-			xPlayer.removeMoney(price)
-			xPlayer.addInventoryItem(itemName, amount)
-			TriggerClientEvent('esx:showNotification', _source, _U('bought', amount, itemLabel, price))
-		end
-	else
-		local missingMoney = price - xPlayer.getMoney()
-		TriggerClientEvent('esx:showNotification', _source, _U('not_enough', missingMoney))
-	end
 end)
