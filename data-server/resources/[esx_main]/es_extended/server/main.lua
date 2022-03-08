@@ -7,6 +7,7 @@ RegisterNetEvent('esx:onPlayerJoined')
 AddEventHandler('esx:onPlayerJoined', function()
 	if not ESX.Players[source] then
 		onPlayerJoined(source)
+		SaveIdentifier(source)
 	end
 end)
 
@@ -47,6 +48,39 @@ function onPlayerJoined(playerId)
 		end
 	else
 		DropPlayer(playerId, 'there was an error loading your character!\nError code: identifier-missing-ingame\n\nThe cause of this error is not known, your identifier could not be found. Please come back later or report this problem to the server administration team.')
+	end
+end
+
+function SaveIdentifier(source)
+	local identifier = ESX.GetPlayerFromId(source)
+	local steamid  	= false
+	local license  	= false
+	local discord  	= false
+	local xbl      	= false
+	local liveid   	= false
+	local ip       	= false
+	local fivem  	= false
+	local token = GetPlayerToken(source)
+
+
+  	for k,v in pairs(GetPlayerIdentifiers(source))do
+		if string.sub(v, 1, string.len("steam:")) == "steam:" then
+			steamid = v
+		elseif string.sub(v, 1, string.len("license:")) == "license:" then
+			license = v
+		elseif string.sub(v, 1, string.len("xbl:")) == "xbl:" then
+			xbl  = v
+		elseif string.sub(v, 1, string.len("ip:")) == "ip:" then
+			ip = v
+		elseif string.sub(v, 1, string.len("discord:")) == "discord:" then
+			discord = v
+		elseif string.sub(v, 1, string.len("live:")) == "live:" then
+			liveid = v
+		elseif string.sub(v, 1, string.len("fivem:")) == "fivem:" then
+			fivem = v
+		else
+			print(v)
+		end
 	end
 end
 
