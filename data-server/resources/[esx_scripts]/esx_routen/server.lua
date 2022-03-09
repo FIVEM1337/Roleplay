@@ -85,7 +85,7 @@ AddEventHandler('esx_routen:startRoute', function(zone)
 
         Start(source)
     else
-        TriggerClientEvent('esx:showNotification', source, "cancel")
+        TriggerClientEvent('esx:showNotification', source, "Die Aktion wurde abgebrochen")
         TriggerClientEvent('esx_routen:changestatus', source, false)
         Playertasks[source] = {}
     end
@@ -93,7 +93,7 @@ end)
 
 RegisterServerEvent('esx_routen:stopRoute')
 AddEventHandler('esx_routen:stopRoute', function(zone)
-    TriggerClientEvent('esx:showNotification', source, "cancel")
+    TriggerClientEvent('esx:showNotification', source, "Die Aktion wurde abgebrochen")
     TriggerClientEvent('esx_routen:changestatus', source, false)
     Playertasks[source] = {}
 end)
@@ -108,7 +108,8 @@ function hasItem(source)
         if xPlayer.getInventoryItem(zone.need.item).count >= zone.need.count then
             return true
         else
-            TriggerClientEvent('esx:showNotification', source, "you dont have the item")
+
+            TriggerClientEvent('esx:showNotification', source, "Du benötist "..zone.need.count.."x "..ESX.GetItemLabel(zone.need.item))
             TriggerClientEvent('esx_routen:changestatus', source, false)
             Playertasks[source] = {}
             return false

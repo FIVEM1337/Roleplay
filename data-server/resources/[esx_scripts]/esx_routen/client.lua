@@ -155,6 +155,7 @@ AddEventHandler('esx_routen:hasEnteredMarker', function (zone)
 	CurrentActionMsg  = "test"
 	CurrentActionData = {}
 	actionDisplayed = true
+    showInfobar('Drücke ~g~E~s~, um zu starten')
 end)
 
 AddEventHandler('esx_routen:hasExitedMarker', function (zone)
@@ -235,4 +236,10 @@ function LoadPropDict(model)
 	  RequestModel(GetHashKey(model))
 	  Wait(10)
 	end
+end
+
+function showInfobar(msg)
+	SetTextComponentFormat('STRING')
+	AddTextComponentString(msg)
+	DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 end
