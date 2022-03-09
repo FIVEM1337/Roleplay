@@ -12,5 +12,5 @@ libssl1.1
 libstdc++
 libunwind
 musl-dbg
-v8
+v8~9.3
 zlib
