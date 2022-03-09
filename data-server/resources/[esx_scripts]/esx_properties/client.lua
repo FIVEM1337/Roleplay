@@ -37,24 +37,6 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
 
 	TriggerServerEvent('esx_properties:getProperties')
 	TriggerServerEvent('esx_properties:registerPlayer') -- muss bei playerloaded ausgeführt werden
-
-	ESX.TriggerServerCallback('esx_properties:getLastProperty', function(propertyName)
-		if propertyName ~= 0 then
-			for k, props in pairs(propertyOwner) do
-				if tonumber(props.id) == tonumber(propertyName) then
-					local name = props.property
-					for k2, v in pairs(properties) do
-						if v.name == name then
-							propertyID = props.id
-							TriggerServerEvent('esx_properties:enterProperty', tonumber(propertyName), v)
-						end
-					end
-					break
-				end
-			end
-			
-		end
-	end)
 	
 
 end)
