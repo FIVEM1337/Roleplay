@@ -195,4 +195,75 @@ routen = {
 			}
 		}
 	}
-}
+	--Illegale Routen
+	{ 
+		Waffenroute = {
+			illegal = false,
+			waffen_harvest = {
+				name = "Metall sammeln | Waffenroute",
+				item = {item = "ironplate", count = 1},
+				need = {},
+				time = 5,
+				animation = "WORLD_HUMAN_GARDENER_PLANT",
+				blip = {sprite = 514, color = 0, scale = 0.8},
+				marker = {type = 27, range = 50.0, red = 50, green = 50, blue = 204, show = false},
+				coord = vector3(2219.5, 5576.54, 53.66),
+				npc = false
+			},
+			waffen_process = {
+				name = "Metall verarbeiten | Waffenroute",
+				time = 3,
+				item = {item = "rifle_extendedclip", count = 1},
+				need = {item = "ironplate", count = 1, removeItem = true},
+				animation = "WORLD_HUMAN_GARDENER_PLANT",
+				blip = {sprite = 514, color = 0, scale = 0.8},
+				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
+				coord = vector3(-8.05, -759.85, 21.55),
+				npc = false
+			},
+			waffen_process = {
+				name = "Metall verarbeiten | Waffenroute",
+				time = 3,
+				item = {item = "smg_grip", count = 1},
+				need = {item = "ironplate", count = 1, removeItem = true},
+				animation = "WORLD_HUMAN_GARDENER_PLANT",
+				blip = {sprite = 514, color = 0, scale = 0.8},
+				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
+				coord = vector3(1832.29, 3868.24, 34.3),
+				npc = false
+			}
+			waffen_progess = {
+				name = "Metall verarbeiten | Waffenroute",
+				time = 3,
+				item = {item = "pistol_flashlight", count = 1},
+				need = {item = "ironplate", count = 1, removeItem = true},
+				animation = "WORLD_HUMAN_GARDENER_PLANT",
+				blip = {sprite = 514, color = 0, scale = 0.8},
+				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
+				coord = vector3(1832.29, 3868.24, 34.3),
+				npc = false
+			}
+			weed_process = {
+				name = "Metall verarbeiten | Waffenroute",
+				time = 3,
+				item = {item = "rifle_scope", count = 1},
+				need = {item = "ironplate", count = 1, removeItem = true},
+				animation = "WORLD_HUMAN_GARDENER_PLANT",
+				blip = {sprite = 514, color = 0, scale = 0.8},
+				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
+				coord = vector3(1832.29, 3868.24, 34.3),
+				npc = false
+			}
+			Waffen_production = {
+				name = "Waffen herstellen | Waffenroute",
+				time = 3,
+				item = {item = "rifle_scope", count = 1},
+				need = {item = "pistol", count = 1, removeItem = true},
+				animation = "WORLD_HUMAN_GARDENER_PLANT",
+				blip = {sprite = 514, color = 0, scale = 0.8},
+				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
+				coord = vector3(1832.29, 3868.24, 34.3),
+				npc = false
+			}
+		}
+	}
