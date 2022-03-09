@@ -194,7 +194,7 @@ routen = {
 				npc = {model = "a_m_y_soucent_02", heading = 108.50}
 			}
 		}
-	}
+	},
 	--Illegale Routen
 	{ 
 		Waffenroute = {
@@ -231,7 +231,7 @@ routen = {
 				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
 				coord = vector3(1832.29, 3868.24, 34.3),
 				npc = false
-			}
+			},
 			waffen_progess = {
 				name = "Metall verarbeiten | Waffenroute",
 				time = 3,
@@ -242,7 +242,7 @@ routen = {
 				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
 				coord = vector3(1832.29, 3868.24, 34.3),
 				npc = false
-			}
+			},
 			weed_process = {
 				name = "Metall verarbeiten | Waffenroute",
 				time = 3,
@@ -253,7 +253,7 @@ routen = {
 				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
 				coord = vector3(1832.29, 3868.24, 34.3),
 				npc = false
-			}
+			},
 			Waffen_production = {
 				name = "Waffen herstellen | Waffenroute",
 				time = 3,
@@ -267,3 +267,4 @@ routen = {
 			}
 		}
 	}
+}
