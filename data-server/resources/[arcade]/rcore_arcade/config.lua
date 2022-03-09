@@ -15,7 +15,7 @@ Config.Arcade = {
             blipId = 521,
             scale = 1.0,
             color = 0,
-            name = "Arcade house",
+            name = "Spielhalle",
             shortRange = true,
             enable = true,
         },
