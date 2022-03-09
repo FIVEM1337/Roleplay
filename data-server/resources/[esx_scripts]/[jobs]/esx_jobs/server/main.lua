@@ -1,4 +1,5 @@
 ESX = nil
+societyloaded = false
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
@@ -9,6 +10,21 @@ ESX.RegisterServerCallback('esx_jobs:getPlayerInventory', function(source, cb)
 	cb( { items = items } )
 end)
 
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1)
+
+		if ESX and not societyloaded then
+			societyloaded = true
+			for k, v in pairs (gangs) do
+				if v.society then
+					TriggerEvent('esx_society:registerSociety', v.job, v.job, 'society_'..v.job, 'society_'..v.job, 'society_'..v.job, {type = 'public'})
+				end
+			end
+		end
+	end
+end)
 
 RegisterServerEvent('esx_jobs:handcuff')
 AddEventHandler('esx_jobs:handcuff', function(target)

@@ -42,6 +42,7 @@ vehicle_interaction:
 gangs = {
 	police = {
 			job = "police",
+			society = true,
 			Blip = {name = "Polizeistation", color = 2, sprite = 543, scale = 0.8, alwayshow = true},
 			pos = vector3(106.15, -1941.8, 20.80),
 			armory = vector3(432.42, -1023.84, 28.68),
