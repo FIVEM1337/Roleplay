@@ -19,8 +19,8 @@
 }
 
 body {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
+    font-family: 'RobotoMedium';
+    font-weight: 500;
     background-color: transparent!important;
     /* change to TRANSPARENT */
     overflow: hidden;
@@ -38,7 +38,8 @@ body {
     right: 0vh;
     background-color: transparent!important;
     /* change to TRANSPARENT */
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'RobotoMedium';
+    font-weight: 500;
     transform: scale(1.0); /* Equal to scaleX(0.7) scaleY(0.7) */
 }
 
@@ -56,7 +57,7 @@ body {
     height: 61.7vh;
     width: 29vh;
     bottom: 1vh;
-    border-radius: 3vh;
+    border-radius: 4vh;
     right: 0.5vh;
     margin: 5vh;
     overflow: hidden;
@@ -64,7 +65,7 @@ body {
 }
 
 .phone-background {
-    background-image: url('https://cdn.discordapp.com/attachments/810895845603016724/860234371147235338/whitenewwp.png');
+    background-image: url('https://cdn.discordapp.com/attachments/875495427938611271/922880662447484948/whitemodebg.png');
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -91,43 +92,45 @@ body {
 }
 
 #phone-time {
-    font-size: 1.3vh;
-    font-family: 'Samsung Sans thin';
-    padding: 2.3vh 0 0 1.9vh;
+    font-size: 1.5vh;
+    font-family: 'Roboto';
+    padding: 2vh 0 0 3vh;
     float: left;
 }
 
 #phone-icons {
     font-size: 0.95vh;
-    padding: 2.5vh 7.5vh 0 0vh;
+    padding: 2vh 3vh 0 0vh;
     float: right;
 }
 
 #phone-flightmode {
-    font-size: 1.2vh;
+    font-size: 1.5vh;
     left: -0.3vh;
     position: relative;
     display: none;
 }
 
 #phone-mute {
-    font-size: 1.2vh;
+    font-size: 1.5vh;
     left: -0.5vh;
     position: relative;
     display: none;
 }
 
 #phone-signal {
-    font-size: 1.2vh;
-    left: -0.3vh;
+    font-size: 1.5vh;
+    left: -1vh;
+    top: -0.1vh;
     position: relative;
 }
 
 #phone-battery {
-    transform: rotate(-90deg);
-    top: -0.1vh;
+    transform: rotate(0deg);
+    top: 0vh;
     position: relative;
-    font-size: 1.2vh;
+    font-size: 2vh;
+    color: rgb(157, 230, 157);
 }
 
 
@@ -148,9 +151,9 @@ body {
     float: left;
     margin-left: 1.75vh;
     margin-top: 1.5vh;
-    border-radius: 1vh;
+    border-radius: 1.2vh;
     text-align: center;
-    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px rgba(0, 0, 0, 0.2);
     opacity: 0.91;
     transition: .05s;
 }
@@ -168,12 +171,12 @@ body {
     bottom: 2vh;
     left: 5%;
     border-radius: 2vh;
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.4);
     box-shadow: 2px 2px 2px 2px rgba(32, 32, 32, 0.2);
 }
 
 .darkphone-footer-applications {
-    background-color: rgba(14, 14, 14, 0.6);
+    background-color: rgba(14, 14, 14, 0.5);
 }
 
 .phone-home-applications {
@@ -219,6 +222,7 @@ body {
     border-radius: 3vh;
     background-color: #000000;
     display: none;
+    z-index: 12;
 }
 
 .darkphone-homebar {
@@ -226,7 +230,7 @@ body {
 }
 
 .phone-homebar:hover {
-    background-color: rgb(27, 131, 216);
+    background-color: rgb(74, 76, 246);
     transition: 0.5s;
 }
 
@@ -241,20 +245,20 @@ body {
 }
 
 .phone-underheadline>i {
-    color: rgb(27, 131, 216);
+    color: rgb(74, 76, 246);
 }
 
 .phone-underheadline>i:hover {
-    color: rgb(24, 118, 196);
+    color: rgb(57, 59, 192);
     transition: 0.5s;
 }
 
 .backiconcolor {
-    color: rgb(27, 131, 216);
+    color: rgb(74, 76, 246);
 }
 
 .backiconcolor:hover {
-    color: rgb(24, 118, 196);
+    color: rgb(57, 59, 192);
     transition: 0.5s;
 }
 
@@ -286,7 +290,7 @@ body {
 }
 
 .phone-button {
-    background-color: rgb(27, 131, 216);
+    background-color: rgb(74, 76, 246);
     width: 90%;
     margin-left: 5%;
     height: 5vh;
@@ -299,7 +303,7 @@ body {
 }
 
 .phone-button:hover {
-    background-color: rgb(24, 118, 196);
+    background-color: rgb(57, 59, 192);
     transition: 0.5s;
 }
 
@@ -326,7 +330,7 @@ body {
     color: rgb(172, 16, 16);
     transition: 0.5s;
 }
-
+/* 
 .phone-app-header {
     position: relative;
     display: flex;
@@ -345,15 +349,53 @@ body {
     font-size: 2.5vh;
     font-weight: 500;
     margin-right: 1vh;
-}
+} */
 
 #headerback {
     display: none;
     font-size: 2.3vh;
-    color: rgb(0, 140, 255);
+    color: #4A4CF6;
 }
 
 #headerback:hover {
     transition: 0.5s;
-    color: rgb(0, 117, 212);
+    color: #4042d8;
+}
+
+.whitecolor  {
+   color: white;
+}
+
+.purplecolor {
+    color: #4A4CF6;
+}
+
+.purplecolor:hover {
+    color: #4042d8;
+}
+
+.purple {
+    background-color: #4A4CF6;
+    color: white;
+}
+
+.purple:hover {
+    background-color: #4042d8;
+    transition: 0.5s;
+}
+.redcolor {
+    color: rgb(202, 21, 21)!important;
+}
+
+.redcolorhover {
+    color: rgb(172, 20, 20)!important;
+}
+
+.border-none {
+    border: none!important;
+}
+
+.show {
+    display: block!important;
+    z-index: 99;
 }

@@ -172,3 +172,54 @@ end
 function PhonePlayOut ()
 	DoPhoneAnimation('cellphone_text_out')
 end
+
+
+Radio = {
+	On = false,
+	Enabled = true,
+	Handle = nil,
+	Prop = 'prop_cs_hand_radio',
+	Bone = 28422,
+	Offset = vector3(0.0, 0.0, 0.0),
+	Rotation = vector3(0.0, 0.0, 0.0),
+	Dictionary = {
+		"cellphone@",
+		"cellphone@in_car@ds",
+		"cellphone@str",    
+		"random@arrests",  
+	},
+	Animation = {
+		"cellphone_text_in",
+		"cellphone_text_out",
+		"cellphone_call_listen_a",
+		"generic_radio_chatter",
+	},
+	Clicks = true, -- Radio clicks
+}
+
+
+function loadAnimDict(dict)
+	while ( not HasAnimDictLoaded( dict ) ) do
+		RequestAnimDict(dict)
+		Citizen.Wait( 0 )
+	end
+end
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+        local ped = PlayerPedId()
+
+		if Config.RadioAnimation == true and Radio.On == true then
+			loadAnimDict( "random@arrests" )
+			if IsControlJustReleased( 0, Config.Broadcastkey ) then
+				ClearPedTasks(ped)
+			else
+				if IsControlJustPressed( 0, Config.Broadcastkey ) then
+					TaskPlayAnim(ped, "random@arrests", "generic_radio_enter", 8.0, 2.0, -1, 50, 2.0, 0, 0, 0 )
+				end 
+			end
+		end
+
+    end
+end)

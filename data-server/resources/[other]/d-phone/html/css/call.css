@@ -23,7 +23,7 @@
     position: relative;
     text-align: center;
     top: 7.5vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Roboto';
     font-size: 2.5vh;
     font-weight: 500;
 }
@@ -32,7 +32,7 @@
     position: relative;
     text-align: center;
     top: 7vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Roboto';
     font-weight: 500;
     font-size: 2vh;
 }
@@ -56,7 +56,6 @@
     position: absolute;
     bottom: 4vh;
     left: 3vh;
-    transform: rotate(90deg);
     color: white;
     background-color: #1f9450e5;
     padding: 1.5vh;
@@ -76,7 +75,6 @@
     position: absolute;
     bottom: 4vh;
     right: 3vh;
-    transform: rotate(-135deg);
     color: #fff;
     background-color: #ce2816e0;
     padding: 1.5vh;
@@ -84,6 +82,7 @@
     border-radius: 50%;
     transition: .1s;
     animation: pulse 2s infinite;
+    transform: rotate(270deg);
 }
 
 #incoming-deny:hover {
@@ -105,7 +104,7 @@
     position: relative;
     text-align: center;
     top: 7.5vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Roboto';
     font-size: 2.5vh;
     font-weight: 500;
     text-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
@@ -115,7 +114,7 @@
     position: relative;
     text-align: center;
     top: 8vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Roboto';
     font-size: 2vh;
     font-weight: 500;
     text-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
@@ -141,7 +140,6 @@
     bottom: 8vh;
     margin: 0 auto;
     left: 40.8%;
-    transform: rotate(-135deg);
     color: #fff;
     background-color: #ce2816e0;
     padding: 1.5vh;
@@ -149,6 +147,7 @@
     border-radius: 50%;
     transition: background-color .1s ease-in-out;
     animation: pulse 2s infinite;
+    transform: rotate(270deg);
 }
 
 #outgoing-cancel:hover {
@@ -233,7 +232,7 @@
     position: relative;
     text-align: center;
     top: 7.5vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Roboto';
     font-weight: 500;
     font-size: 2.5vh;
 }
@@ -242,7 +241,7 @@
     position: relative;
     text-align: center;
     top: 8vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Roboto';
     font-weight: 500;
     font-size: 2vh;
 }
@@ -266,7 +265,7 @@
     position: relative;
     text-align: center;
     top: 15vh;
-    font-family: 'Samsung Sans Regular';
+    font-family: 'Roboto';
     font-size: 2vh;
     font-weight: 500;
 }
@@ -276,7 +275,6 @@
     bottom: 8vh;
     margin: 0 auto;
     left: 40.8%;
-    transform: rotate(-135deg);
     color: #fff;
     background-color: #ce2816e0;
     padding: 1.5vh;
@@ -284,6 +282,7 @@
     border-radius: 50%;
     transition: background-color .1s ease-in-out;
     animation: pulse 2s infinite;
+    transform: rotate(270deg);
 }
 
 #ongoing-cancel:hover {
@@ -340,7 +339,7 @@
     width: 100%;
     background-color: rgba(116, 116, 116, 0.05);
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    font-family: 'Samsung Sans medium';
+    font-family: 'Roboto';
     font-size: 1.5vh;
 }
 
@@ -360,7 +359,7 @@
 }
 
 .pacs-icon {
-    color: rgb(27, 131, 216);
+    color: rgb(74, 76, 246);
     font-size: 2.5vh;
     margin-left: 1vh;
 }
@@ -392,7 +391,7 @@
     line-height: 5vh;
     left: 5%;
     top: 2vh;
-    font-family: 'Samsung Sans medium';
+    font-family: 'Roboto';
     text-align: center;
     font-size: 3vh;
 }
@@ -412,7 +411,7 @@
     text-align: center;
     line-height: 6vh;
     font-size: 3vh;
-    font-family: 'Samsung Sans medium';
+    font-family: 'Roboto';
     height: 6vh;
     width: 6vh;
     background-color: rgb(241, 241, 241);
@@ -431,7 +430,7 @@
     text-align: center;
     line-height: 6vh;
     font-size: 3vh;
-    font-family: 'Samsung Sans medium';
+    font-family: 'Roboto';
     height: 6vh;
     width: 6vh;
     background-color: #1b9916;
@@ -450,7 +449,7 @@
     text-align: center;
     line-height: 6vh;
     font-size: 3vh;
-    font-family: 'Samsung Sans medium';
+    font-family: 'Roboto';
     height: 6vh;
     width: 6vh;
     background-color: rgba(224, 224, 224, 0);
@@ -472,12 +471,8 @@
 }
 
 .darkmode {
-    background: rgb(20, 20, 20)!important;
+    background: rgb(10, 10, 10)!important;
     color: white!important;
-}
-
-.darkmodeheader {
-    box-shadow: 2px 1px 2px rgba(105, 105, 105, 0.2)!important;
 }
 
 .darkphone-enter {
@@ -499,7 +494,7 @@
     top: 88.5%;
     width: 100%;
     height: 8%;
-    border-top: solid 1px rgba(0, 0, 0, 0.2);
+    /* border-top: solid 1px rgba(0, 0, 0, 0.2); */
 }
 
 .phone-call-footer-icon {
@@ -516,7 +511,7 @@
 }
 
 .phone-call-footer-icons:hover {
-    color: #00a2ff;
+    color: #4A4CF6;
     transition: 0.5s;
 }
 
@@ -542,7 +537,6 @@
     color: white;
     line-height: 4vh;
     font-size: 2.5vh;
-    transform: rotate(315deg);
 }
 
 .bigincallsymbol {
@@ -612,4 +606,48 @@
 #headermaximize:hover {
     color: rgb(139, 124, 204);
     transition: 0.5s;
+}
+
+.phone-call-history-div-icon {
+    float: left;
+    height: 6vh;
+    line-height: 4vh;
+    font-size: 2.25vh;
+    width: 6vh;
+    padding: 1vh;
+    padding-left: 1vh;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.phone-call-history-div-icon2 {
+    float: left;
+    height: 6vh;
+    line-height: 6vh;
+    font-size: 2vh;
+    width: 6vh;
+    padding: 2vh;
+    padding-left: 2vh;
+    text-align: center;
+}
+
+.phone-call-history-div-font {
+    float: left;
+    height: 6vh;
+    font-weight: 400;
+    line-height: 6vh;
+    font-size: 2.5vh;
+    width: 14vh;
+    text-align: center;
+    font-family: 'Roboto';
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.call-outgoing {
+    color: rgb(212, 144, 144);
+}
+
+.call-incoming {
+    color: rgb(144, 212, 144);
 }

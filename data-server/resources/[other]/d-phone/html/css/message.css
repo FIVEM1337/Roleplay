@@ -43,6 +43,7 @@
     height: 5vh!important;
     width: 18vh!important;
     border: none!important;
+    background: none!important;
     outline: none;
     font-size: 2vh!important;
     float: left;
@@ -88,7 +89,7 @@
 }
 
 #phone-chat-send {
-    color: rgb(27, 131, 216);
+    color: rgb(74, 76, 246);
 }
 
 #phone-chat-send:hover {
@@ -126,7 +127,7 @@
 #phone-chat-message-name {
     position: relative;
     width: 5vh;
-    /* margin-left: 0.75vh; */
+    margin-left: 0.75vh;
     font-size: 1.5vh;
 }
 
@@ -317,7 +318,7 @@
 }
 
 .messagesettings:hover {
-    color: rgb(27, 131, 216);
+    color: rgb(74, 76, 246);
     transition: 0.5s;
 }
 
@@ -398,7 +399,7 @@
     font-weight: 500;
     font-size: 1.75vh;
     float: right;
-    color: #3B77BE;
+    color: #4A4CF6;
 }
 
 .phone-recent-message-header-right:hover {

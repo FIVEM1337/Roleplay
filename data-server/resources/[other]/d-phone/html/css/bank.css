@@ -4,7 +4,7 @@
     background: #f3f8ff;
     overflow: hidden;
     display: none;
-    font-family: 'Samsung Sans regular';
+    font-family: 'Roboto';
 }
 
 .darkphone-bankapp {
@@ -230,12 +230,12 @@
 }
 
 .phone-bankapp-footer-icons:hover {
-    color: rgb(27, 131, 216);
+    color: rgb(74, 76, 246);
     transition: 0.5s;
 }
 
 .activeposition {
-    color: rgb(27, 131, 216)!important;
+    color: rgb(74, 76, 246)!important;
 }
 
 .bankapp-welcome {
@@ -303,7 +303,7 @@
     height: 6vh;
     line-height: 6vh;
     font-size: 2vh;
-    background-color: rgb(27, 131, 216);
+    background-color: rgb(74, 76, 246);
     color: white;
     border-radius: 1vh;
 }

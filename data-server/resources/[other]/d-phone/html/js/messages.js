@@ -18,7 +18,11 @@ document.onkeyup = function(data) {
                         number: selectednumber
                     });
                 } else {
-                    sendData("notification", { text: locale.notempty, length: 5000 })
+                    if (locale == "de") {
+                        $("#phone-constant-radio").html(localede.notempty);
+                    } else {
+                        $("#phone-constant-radio").html(locale.notempty);
+                    }
                 }
             };
 
@@ -36,7 +40,11 @@ document.onkeyup = function(data) {
                         job: currentjob
                     });
                 } else {
-                    sendData("notification", { text: locale.notempty, length: 5000 })
+                    if (locale == "de") {
+                        $("#phone-constant-radio").html(localede.notempty);
+                    } else {
+                        $("#phone-constant-radio").html(locale.notempty);
+                    }
                 }
             };
 
@@ -72,7 +80,11 @@ $(document).on('click', '#phone-chat-send', function() {
                 number: selectednumber
             });
         } else {
-            sendData("notification", { text: locale.notempty, length: 5000 })
+            if (locale == "de") {
+                $("#phone-constant-radio").html(localede.notempty);
+            } else {
+                $("#phone-constant-radio").html(locale.notempty);
+            }
         }
     };
 
@@ -149,7 +161,7 @@ function loadrecentmessages(html) {
     $(".phone-contacts-edit").hide();
     $(".phone-recent-message").hide();
     $(".phone-message").hide();
-    $(".phone-settings").hide();
+    $("#phone-app-settings").hide();
     $(".phone-services").hide();
     $(".phone-businessapp").hide();
     $(".phone-radio").hide();

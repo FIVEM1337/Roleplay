@@ -9,7 +9,7 @@ Locales['de'] = {
     ['needphone'] =  "Du brauchst ein Handy um es zu öffnen",
     ['waypointset'] =  "Wegpunkt wurde erfolgreich gesetzt",
     ['cantcall'] =  "Entweder ist die Person derzeit schon in einem Anruf oder sie ist im Flugmodus",
-    ['setfreq'] =  "Deine Frequenz ist: %s",
+    ['setfreq'] =  "Du hast deine Frequenz gesetzt",
     ['cantsetfreq'] =  "Diese Frequenz ist gesperrt. Du kannst diese Frequenz nur betreten wenn dein Job %s ist",
     ['leftfreq'] =  "Du hast den Funk verlassen",
     ['numbernotexist'] =  "Diese Nummer existiert nicht",
@@ -82,4 +82,9 @@ Locales['de'] = {
 
     -- 0.72
     ['newnumber'] = "Du hast eine neue Nummer zugewiesen bekommen. Deine neue Nummer lautet %s",
+
+    -- 0.73
+    ['newcallrequest'] = "Du hast einen neuen Anruf von %s",
+    ['changedcase'] =  "Du hast erfolgreich dein Gehäuse geändert",
+    ['changedringtone'] =  "Du hast erfolgreich dein Klingelton geändert",
 }

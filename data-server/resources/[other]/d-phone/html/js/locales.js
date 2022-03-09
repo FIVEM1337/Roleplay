@@ -137,3 +137,26 @@ locale.stock = "Stock"
 // 0.72
 locale.enableconstant = "ENABLE CONSTANT RADIO"
 locale.disableconstant = "DISABLE CONSTANT RADIO"
+
+// 0.73
+locale.add = "Add"
+locale.edit = "Edit"
+locale.notAvailable = " No result"
+locale.contact = "Contact"
+locale.delete = "Delete"
+locale.firstname = "First name"
+locale.lastname = "Last name"
+locale.number = "Number"
+locale.save = "save"
+locale.save2 = "SAVE"
+locale.sendlocation = "Send location"
+locale.sharecontact = "Share contact"
+locale.deletecontact = "Delete contact"
+
+locale.edit = "Edit";
+
+// Settings
+locale.phonesettingsselectioncase = "Case";
+locale.phonesettingsselectionringtone = "Ringtone";
+locale.callhistoryheadline = "Call history"
+locale.time = "Time"

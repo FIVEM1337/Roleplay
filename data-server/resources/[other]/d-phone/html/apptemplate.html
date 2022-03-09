@@ -1,0 +1,309 @@
+<html>
+
+<head>
+    <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- CDN's -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- JQuery -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-color/2.1.2/jquery.color.js"></script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <!-- Color CDN -->
+
+    <link rel="stylesheet" href="./css/all.css">
+    <link rel="stylesheet" href="./css/bank.css">
+    <link rel="stylesheet" href="./css/business.css">
+    <link rel="stylesheet" href="./css/call.css">
+    <link rel="stylesheet" href="./css/contacts2.css">
+    <link rel="stylesheet" href="./css/fonts.css">
+    <link rel="stylesheet" href="./css/message.css">
+    <link rel="stylesheet" href="./css/notification.css">
+    <link rel="stylesheet" href="./css/radio.css">
+    <link rel="stylesheet" href="./css/settings.css">
+    <link rel="stylesheet" href="./css/services.css">
+    <link rel="stylesheet" href="./css/tooltip.css">
+    <link rel="stylesheet" href="./css/twitter.css">
+    <link rel="stylesheet" href="./css/advertisement.css">
+    <link rel="stylesheet" href="./css/dmarket.css">
+    <link href="./css/main.css" rel="stylesheet" type="text/css" />
+
+    <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+    <script src="./js/main.js" type="text/javascript"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <img src="./img/samsung-s10.png" class="phone-frame">
+
+        <div class="phone-container phone-background">
+            <div class="phone-header">
+                <div id="phone-time">08:05</div>
+                <div id="phone-icons">
+                    <i class="fas fa-volume-mute" id="phone-mute" data-toggle="tooltip" data-placement="left"></i>
+                    <i class="fas fa-plane" id="phone-flightmode" data-toggle="tooltip" data-placement="left"></i>
+                    <i class="fas fa-signal" id="phone-signal" data-toggle="tooltip" data-placement="left"></i>
+                    <i class="fas fa-battery-three-quarters" id="phone-battery"></i>
+                </div>
+            </div>
+
+            
+            <div class="phone-applications hide">
+                <div class="phone-footer-applications">
+                    <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="1" style="background: linear-gradient(to bottom, #70fd77 0%, #63e26a 100%); margin-left: 0vh; margin-top: 1vh; " title="call" tooltipText="call" tooltipPos="top"
+                        data-app="call">
+                        <i class="ApplicationIcon fas fa-phone" style="transform: rotate(100deg);"></i>
+                    </div>
+                    <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="2" style="background: linear-gradient(to bottom, #f8783c 0%, #e46e37 100%); margin-top: 1vh;" title="contacts" data-app="contacts">
+                        <i class="ApplicationIcon fas fa-address-book"></i>
+                    </div>
+                    <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="3" style="background: linear-gradient(to bottom, #3696d6 0%, #2991d6 100%); margin-top: 1vh;" title="messages" data-app="messages">
+                        <i class="ApplicationIcon fas fa-comment-alt"></i>
+                    </div>
+                    <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="4" style="background: linear-gradient(to bottom, #2c2c2c 0%, #2b2b2b 100%); margin-top: 1vh;" title="settings" data-app="settings">
+                        <i class="ApplicationIcon fas fa-cogs"></i>
+                    </div>
+                </div>
+
+                <div class="phone-home-applications">
+                    <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="5" style="background: linear-gradient(to bottom, #2664eb 0%, #2d12c7 100%);" title="services" data-app="services">
+                        <i class="ApplicationIcon fas fa-info"></i>
+                    </div>
+                    <div class="phone-application" data-toggle="tooltip" id="businessicon" data-placement="bottom" data-appslot="6" style="background: linear-gradient(to bottom, #8c47fc 0%, #6612c7 100%);" title="business" data-app="business">
+                        <i class="ApplicationIcon fas fa-briefcase"></i>
+                    </div>
+                    <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="7" style="background: linear-gradient(to bottom, #1cddff 0%, #11a5a5 100%);" title="radio" data-app="radio">
+                        <i class="ApplicationIcon fas fa-microphone-alt"></i>
+                    </div>
+                    <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="8" style="background: linear-gradient(to bottom, #d6d6d6 0%, #b4b4b4 100%);" title="camera" data-app="camera">
+                        <i class="ApplicationIcon fas fa-camera" style="color: rgb(24, 24, 24);"></i>
+                    </div>
+                    <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="9" style="background: linear-gradient(to bottom, #319ffa 0%, #006eff 100%);" title="twitter" data-app="twitter">
+                        <i class="ApplicationIcon fab fa-twitter"></i>
+                    </div>
+                    <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="9" style="background: linear-gradient(to bottom, #44b871 0%, #20db74 100%);" title="bank" data-app="bank">
+                        <i class="ApplicationIcon fas fa-money-bill-alt"></i>
+                    </div>
+                    <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="9" style="background: linear-gradient(to bottom, #e64d4d 0%, #db2020 100%);" title="bank" data-app="advertisement">
+                        <i class="ApplicationIcon fas fa-ad"></i>
+                    </div>
+                    <div class="phone-application" data-toggle="tooltip" id="dmarketicon" data-placement="bottom" data-appslot="9" style="background: linear-gradient(to bottom, #f095e1 0%, #cf81c2 100%);" title="bank" data-app="dmarket">
+                        <i class="ApplicationIcon fas fa-cubes"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="wallpaperpreviewclose">
+                <i class="fas fa-times wallpaperpreviewcloseicon" id="wallpaperpreviewclose"></i>
+            </div>
+
+
+            <div class="phone-app" id="phone-app-contact">
+                <div class="phone-app-header">
+                    <h2 id="headerback"> <i class="fas fa-chevron-left"></i> </h2>
+                    <h2> Contacts </h2>
+                    <div class="phone-app-header-right" id="phone-recent-message-edit"> Edit </div>
+                </div>
+                <form class="phone-app-header-searchbarform" id="search-contacts">
+                    <input type="text" class="phone-app-header-searchbar"  id="phonerecentmessagesearchbar" placeholder="Search">
+                </form>
+                <div class="phone-app-content">
+                    <div class="phone-app-div">
+                        <div id="phone-contact-name">
+                            
+                        </div>
+                    </div>
+                    <div id="notAvailable" style="display: none;">
+                        No result
+                     </div>
+                </div>
+            </div>
+
+            <div class="phone-app">
+                
+
+                <div class="phone-contacts">
+                    <div class="phone-contact-list">
+                        <div class="phone-contact" data-contactid="1">
+                            <i class="phone-contact-favourite far fa-star"></i>
+                            <div class="phone-contact-name">Pieter Post</div>
+                            <div class="phone-contact-actions"><i class="fas fa-chevron-right"></i></div>
+
+                            <div class="phone-contact-action-buttons">
+                                <i class="fas fa-phone-volume"></i>
+                                <i class="fas fa-comment"></i>
+                                <i class="fas fa-user-edit"></i>
+                            </div>
+                        </div>
+                        <div class="phone-contact" data-contactid="1">
+                            <div class="phone-contact-name">Pieter Post</div>
+                            <div class="phone-contact-actions"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="phone-contact-add">
+                        <i class="fas fa-plus" style="font-size: 1.6vh; margin-top: 1.2vh"></i>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+
+    <div class="notification ">
+
+    </div>
+
+    <script src="./js/bank.js "></script>
+    <script src="./js/call.js "></script>
+    <script src="./js/contact.js "></script>
+    <script src="./js/messages.js "></script>
+    <script src="./js/locales.js "></script>
+    <script src="./js/twitter.js "></script>
+    <script src="./js/advertisement.js "></script>
+    <script src="./js/dmarket.js "></script>
+    <script src="./js/settings.js "></script>
+</body>
+
+<script>
+    $(document).ready(function() {
+        $(".phone-call-incoming-title ").html(locale.callincomingtitle);
+        $(".phone-call-outgoing-title ").html(locale.calloutgoingtitle);
+        $(".phone-call-ongoing-title ").html(locale.callongoingtitle);
+        $("#phone-contact-headline ").html(locale.phonecontactheadline);
+        $("#pciheadoverview ").html(locale.pciheadoverview);
+        $("#pcinumbertext ").html(locale.pcinumber);
+        $("#pcicall2 ").html(locale.pcicall);
+        $("#pcimessage2 ").html(locale.pcimessage);
+        $("#pcifavourit2 ").html(locale.pcifavorit);
+        $("#pcigps ").html(locale.pcigps);
+        $("#pcishare ").html(locale.pcishare);
+        $("#pcidelete ").html(locale.pcidelete);
+        $("#pciheadadd ").html(locale.pciheadadd);
+        $("#pciinputsubmit ").html(locale.pciinputsubmit);
+        $("#pciheadedit ").html(locale.pciheadedit);
+        $("#pcieditsubmit ").html(locale.pcieditsubmit);
+        $("#phoneheadlinemessage ").html(locale.phoneheadlinemessage);
+        $("#phoneheadlinechat ").html(locale.phoneheadlinechat);
+        $("#phoneheadlinephone ").html(locale.phoneheadlinephone);
+        $("#phoneheadlinesettings ").html(locale.phoneheadlinesettings);
+        $("#phonesettingsselectionflightmode ").html('<i class="fas fa-plane"></i> &nbsp' + locale.phonesettingsselectionflightmode);
+        $("#phonesettingsselectionmute ").html('<i class="fas fa-volume-mute"></i> &nbsp' + locale.phonesettingsselectionmute);
+        $("#phonesettingsselectiondarkmode ").html('<i class="fas fa-adjust"></i> &nbsp' + locale.phonesettingsselectiondarkmode);
+        $("#phonesettingsselectionwallpaper ").html('<i class="fas fa-image"></i> &nbsp' + locale.phonesettingsselectionwallpaper);
+        $("#pswh ").html(locale.pswh);
+        $("#pswsubmitbutton ").html(locale.pswsubmitbutton);
+        $("#phservice ").html(locale.phservice);
+        $("#psmn ").html(locale.psmn);
+        $("#pss ").html(locale.pss);
+        $("#pssposition ").html(locale.pssposition);
+        $("#phone-service-button ").html(locale.phoneservicebutton);
+        $("#phbusiness ").html(locale.phbusiness);
+        $("#motdchange ").html(locale.motdchange);
+        $("#pbbacceptfont ").html(locale.pbbacceptfont);
+        $("#pbbacceptfont2 ").html(locale.pbbacceptfont2);
+        $("#pbsjobnumber ").html(locale.jobnumber);
+        $("#pbsmfont ").html(locale.motdchange);
+        $("#pbsmfont2 ").html(locale.pbsmfont2);
+        $("#pbsmfont3 ").html(locale.pbsmfont3);
+        $("#phfunk ").html(locale.phfunk);
+        $("#phone-frequenz-join-button ").html(locale.pfjb);
+        $("#phone-frequenz-leave-button ").html(locale.pflb);
+        $("#phonesettingsnumbertext ").html("<i class='fas fa-phone-alt'></i> &nbsp" + locale.phonenumber);
+        $(".ptw-submit ").each(function() {
+            $(this).html(locale.ptwtweetsubmit);
+        });
+        $(".twitter-firsttime-button ").html(locale.ptwtweetsubmit);
+        $(".ptw-pbsubmit ").each(function() {
+            $(this).html(locale.ptwtweetsubmit);
+        });
+        $("#phoneheadlinetwitter ").html(locale.phoneheadlinetwitter);
+        $("#ptw-tweetheader-font ").html(locale.ptwtweetheaderfont);
+        $("#ptw-header-font ").html(locale.ptwheaderfont);
+        $("#ptw-header-font2 ").html(locale.ptwheaderfont2);
+        $("#ptw-header-font3 ").html(locale.ptwheaderfont3);
+        $("#ptw-header-font4 ").html(locale.ptwheaderfont4);
+        $("#ptw-header-font5 ").html(locale.ptwheaderfont5);
+        $("#ptw-header-font6 ").html(locale.ptwheaderfont3);
+        $("#ptw-header-font7 ").html(locale.ptwheaderfont7);
+        $("#phonetwitternotification ").html(locale.tweetnotificaton);
+
+        // 0.60
+        // Banking app
+        $("#bankapp-headline").html(locale.bankappheadline);
+        $(".phone-bankapp-cards-headline").html(locale.phonebankappcardsheadline);
+        $(".phone-card-cardholder").html(locale.cardcardholder);
+        $(".phone-card-expires").html(locale.cardexpires);
+        $(".phone-bankapp-cards-headline").html(locale.phonebankappcardsheadline);
+        $(".bankapp-transfer-headline").html(locale.bankapptransferheadline);
+        $(".bankapp-transfer-cardnumber").html(locale.bankapptransfercardnumber);
+        $(".bankapp-transfer-amount").html(locale.bankapptransferamount);
+        $(".bankapp-transfer-button").html(locale.bankapptransferbutton);
+
+        // 0.61
+        // Businessapp
+        $("#pbrs-headlineheadline").html(locale.magnagment);
+        $("#pbrs-nameheadline").html(locale.pbrsnameheadline);
+        $("#pbrs-gradeheadline").html(locale.pbrsgradeheadline);
+        $("#pbrs-rankheadline").html(locale.pbrsrankheadline);
+        $("#pbrs-uprank").html(locale.pbrsuprank);
+        $("#pbrs-derank").html(locale.pbrsderank);
+        $("#pbrs-updaterank").html(locale.pbrsupdaterank);
+        $("#pbrs-fire").html(locale.pbrsfire);
+        $("#pbrs-recruitheadline").html(locale.pbrsrecruitheadline);
+        $("#pbrs-recruit").html(locale.pbrsrecruit);
+        $("#pbms-headlineheadline").html(locale.pbmsheadlineheadline);
+        $("#pbms-nameheadline").html(locale.pbmsnameheadline);
+        $("#pmbs-deposit").html(locale.pmbsdeposit);
+        $("#pmbs-withdraw").html(locale.pmbswithdraw);
+
+        // 0.7
+        $("#prmsheadline").html(locale.prmsheadline);
+        $("#prmsdelete").html(locale.prmsdelete);
+
+        // Placeholder
+        $('#pbms-amount').attr("placeholder", locale.pbmsamount);
+        $('#inputcardnumber').attr("placeholder", locale.placeholdercardnumber);
+        $('#inputtransferamoutn').attr("placeholder", locale.placeholderamount);
+        $('#pciinputname').attr("placeholder", locale.name);
+        $('#pciinputname2').attr("placeholder", locale.name);
+        $('#pciinputnumber').attr("placeholder", locale.number);
+        $('#pciinputnumber2').attr("placeholder", locale.number);
+        $('#phone-chat-input-message').attr("placeholder", locale.message);
+        $('#psw').attr("placeholder", locale.png);
+        $('.phone-service-message-input').attr("placeholder", locale.description);
+        $('#phone-business-input-message').attr("placeholder", locale.message);
+        $('#motd').attr("placeholder", locale.message);
+        $('#ptw-tweetinput').attr("placeholder", locale.message);
+        $('#phone-radio-frequenz-input').attr("placeholder", locale.frequency);
+        $('#ptw-imageurl').attr("placeholder", locale.url);
+        $('#ptw-pbinput').attr("placeholder", locale.url);
+        $('#ptw-username').attr("placeholder", locale.name);
+        $('#ptw-ftavatarurl').attr("placeholder", locale.url);
+        $('#ptw-ftusername').attr("placeholder", locale.name);
+        $('#ptw-ftid').attr("placeholder", locale.name);
+
+        // Lifeinvader
+        $("#advertisement-headline").html(locale.advertisementheadline);
+        $("#abtext").html(locale.abtext);
+        $("#yourname").html(locale.yourname);
+        $("#abmessage").html(locale.abmessage);
+        $("#advertisement-sendnewmessage").html(locale.advertisementsendnewmessage);
+
+        // Market
+        $("#dmarketheadline").html(locale.dmarketheadline);
+        $("#price").html(locale.price);
+        $("#stock").html(locale.stock);
+
+        // 0.72
+        $("#phone-constant-radio").html(locale.enableconstant);
+    });
+</script>
+
+</html>

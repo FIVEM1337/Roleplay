@@ -61,7 +61,12 @@ $(document).on('click', '#advertisement-sendnewmessage', function() {
         if (message.length > 0) {
             sendData("advertisement:newmessage",{name: name, message: message})
         } else {
-            sendData("notification", { text: locale.notempty, length: 5000 })
+            if (locale == "de") {
+                sendData("notification", { text: localede.notempty, length: 5000 })
+            } else {
+                sendData("notification", { text: locale.notempty, length: 5000 })
+            }
+            
         }
     }
 
@@ -86,14 +91,19 @@ $(document).on('click', '#life-m-call', function() {
     $(".phone-call-outgoing").fadeIn(250);
 
     if (mutes == true) {
-        sendData("notification", { text: locale.yourecallingsb, length: 5000 })
+        if (locale == "de") {
+            sendData("notification", { text: localede.yourecallingsb, length: 5000 })
+        } else {
+            sendData("notification", { text: locale.yourecallingsb, length: 5000 })
+        }
+        
     } else {
         if (outgoingsound != null) {
             outgoingsound.pause();
         }
 
         outgoingsound = new Audio("./sound/Phonecall.ogg");
-        outgoingsound.volume = 0.2;
+        outgoingsound.volume = soundvolume;
         outgoingsound.currentTime = 0;
         outgoingsound.loop = true;
         outgoingsound.play();

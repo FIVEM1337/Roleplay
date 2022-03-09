@@ -7,7 +7,7 @@
 }
 .phone-settings-header {
     position: relative;
-    font-family: 'Samsung Sans thin';
+    font-family: 'Roboto';
     font-size: 2.5vh;
     top: 8%;
     left: 0%;
@@ -52,8 +52,8 @@
     color: rgb(36, 36, 36);
     background-color: rgba(116, 116, 116, 0.1);
     margin-bottom: 1vh;
-    font-family: 'Samsung Sans thin';
-    font-weight: 600;
+    font-family: 'Roboto';
+    font-weight: 400;
 }
 
 .darkphone-settings-selection {
@@ -66,7 +66,7 @@
 }
 
 .phone-settings-selection>i:hover {
-    color: rgb(27, 131, 216);
+    color: rgb(74, 76, 246);
 }
 
 .phone-settings-selection input {
@@ -79,8 +79,8 @@
     top: 0vh;
     color: rgb(36, 36, 36);
     background-color: rgba(116, 116, 116, 0);
-    font-family: 'Samsung Sans thin';
-    font-weight: 600;
+    font-family: 'Roboto';
+    font-weight: 400;
     outline: none;
     border: none;
 }
@@ -129,6 +129,31 @@
     transition: 0.5s;
 }
 
+.phone-settings-switch-home-active {
+    position: absolute;
+    right: 2vh!important;
+    top: 1.25vh!important;
+    font-size: 2.5vh!important;
+    color: rgb(219, 135, 135)!important;
+}
+
+.phone-settings-switch-home-active:hover {
+    color: rgb(189, 106, 106)!important;
+    transition: 0.5s;
+}
+
+.phone-settings-switch-home2 {
+    position: absolute;
+    right: 1.25vh!important;
+    top: 1.25vh!important;
+    font-size: 2.5vh!important;
+    color: rgb(106, 241, 15)!important;
+}
+
+.phone-settings-switch-home2:hover {
+    color: rgb(102, 211, 30)!important;
+    transition: 0.5s;
+}
 
 .phone-settings-switch3 {
     position: absolute;
@@ -166,19 +191,19 @@
     line-height: 5vh;
     font-size: 2.5vh;
     text-align: center;
-    font-family: 'Samsung Sans thin';
+    font-family: 'Roboto';
     font-weight: 600;
 }
 
 .phone-settings-wallpaper-headline>i:hover {
-    color: rgb(27, 131, 216);
+    color: rgb(74, 76, 246);
 }
 
 .pswdiv {
     position: relative;
     height: 4vh;
     width: 90%;
-    font-family: 'Samsung Sans thin';
+    font-family: 'Roboto';
     font-weight: 600;
     left: 5%;
     top: 0vh;
@@ -189,7 +214,7 @@
     position: relative;
     height: 5vh;
     width: 100%;
-    font-family: 'Samsung Sans thin';
+    font-family: 'Roboto';
     font-weight: 600;
     left: 0%;
     top: 1vh;
@@ -206,7 +231,7 @@
 
 .pswsubmitbutton {
     position: relative;
-    background-color: rgb(27, 131, 216);
+    background-color: rgb(74, 76, 246);
     width: 80%;
     height: 80%;
     left: 10%;
@@ -221,7 +246,7 @@
 }
 
 .pswsubmitbutton:hover {
-    color: rgb(27, 131, 216);
+    color: rgb(74, 76, 246);
     background-color: rgb(255, 255, 255);
     transition: .5s;
 }
@@ -549,11 +574,11 @@
 }
 
 .switch-blue input[type="checkbox"]:checked+.switcher {
-    background: rgb(27, 131, 216);
+    background: #4A4CF6;
 }
 
 .switch-blue input[type="checkbox"]:checked+.switcher:before {
-    background: rgb(22, 104, 170);
+    background:#4A4CF6;
 }
 
 #phonesettingsnumbertext {
@@ -598,4 +623,9 @@
 .wallpaperpreviewcloseicon:hover {
     color: rgb(185, 51, 51);
     transition: 0.5s;
+}
+
+#phone-app-settings {
+    display: block;
+    margin-left: 0vh;
 }

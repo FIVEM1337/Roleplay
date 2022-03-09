@@ -1,0 +1,232 @@
+#bitcoinicon {
+    display: none;
+}
+
+.phone-bitcoin-container {
+    position: absolute;
+    height: 73%;
+    left: 0%;
+    margin-left: 0vh;
+    max-height: 100%;
+    overflow-x: hidden;
+    width: 100%;
+    display: none;
+    /* background-color: #1f3e2c; */
+}
+
+.phone-bitcoin-container::-webkit-scrollbar {
+    width: 0vh!important;
+}
+
+.phone-bitcoin-container::-webkit-scrollbar-thumb {
+    background-color: #686ce000!important;
+}
+
+.phone-bitcoin-container::-webkit-scrollbar-track {
+    background-color: #de1616!important;
+}
+
+
+
+#phone-app-bitcoin {
+    display: none;
+    margin-left: 0vh;
+}
+
+.phone-bitcoin-bigcachel {
+    margin-left: 5%;
+    width: 90%;
+    height: 40%;
+    background-color: #f0f0f0;
+    border-radius: 1vh;
+}
+
+.darkphone-bitcoin-bigcachel {
+    background-color: #202020!important;
+}
+
+
+.phone-bitcoin-home-info {
+    width: 100%;
+    height: 7vh;
+    margin-left: 0%;
+    text-align: center;
+}
+
+.phone-bitcoin-home-info>h3 {
+    font-size: 2vh;
+}
+
+.phone-bitcoin-home-info>h2 {
+    font-size: 3vh;
+    font-weight: 300;
+    font-family: 'RobotoMedium';
+    margin-top: 0vh;
+}
+
+#totalbalance {
+    color: #61BA87;
+}
+
+#totalbitcoins {
+    color: #FFD855;
+}
+
+#bitcoinprice {
+    color: #67A8B7 ;
+}
+
+.phone-bitcoin-smallcachel-blank {
+    margin-left: 5%;
+    width: 90%;
+    height: 4vh;
+    line-height: 4vh;
+    /* margin-top: 5%; */
+    font-family: 'Roboto';
+    font-size: 2vh;
+    text-align: left;
+
+    border-radius: 1vh;
+    border: none;
+    outline: none;
+}
+
+.phone-bitcoin-input-smallcachel {
+    margin-left: 5%;
+    width: 90%;
+    height: 5vh;
+    line-height: 5vh;
+
+    background-color: #f0f0f0;
+
+    font-family: 'RobotoMedium';
+    font-size: 2.5vh;
+    text-align: center;
+
+    border-radius: 1vh;
+    border: none;
+    outline: none;
+    margin-bottom: 1vh;
+}
+
+.phone-bitcoin-button-small {
+    margin-left: 5%;
+    width: 90%;
+    height: 5vh;
+    line-height: 5vh;
+    margin-top: 1vh;
+    background-color: #f0f0f0;
+
+    font-family: 'RobotoMedium';
+    font-size: 2.5vh;
+    text-align: center;
+
+    border-radius: 1vh;
+    border: none;
+    outline: none;
+}
+
+.darkphone-smallcachel {
+    background-color: #202020!important;
+    color: white;
+}
+
+
+
+.phone-bitcoin-footer  {
+    position: absolute;
+    bottom: 3%;
+    width: 100%;
+    height: 10%;
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    align-items: center;
+   justify-items: center;
+   font-size: 3vh;
+   color: #1c1c1c;
+   z-index: 90!important;
+}
+
+#phone-app-bitcoin-home {
+    display: block;
+}
+
+.phone-bitcoin-footer-item>p  {
+    font-family: 'RobotoMedium';
+    font-size: 1.6vh;
+}
+
+.phone-bitcoin-footer-item {
+    color: #1c1c1c;
+}
+
+.phone-bitcoin-footer-item:hover {
+    color: rgb(57, 59, 192);
+    transition: 0.5s;
+}
+
+.darkphone-bitcoin-footer-item {
+    color: #ffffff;
+}
+
+.darkphone-bitcoin-footer-item:hover {
+    color: rgb(57, 59, 192);
+    transition: 0.5s;
+}
+
+.phone-bitcoin-footer-item>i  {
+    z-index: inherit;
+}
+
+#bitcoin-home {
+    grid-column: 1;
+    z-index: 99!important;
+}
+
+#bitcoin-home>i {
+    z-index: 99!important;
+}
+
+#bitcoin-home-font {
+    grid-row: 3;
+}
+
+#bitcoin-market {
+    grid-column: 2;
+}
+
+#bitcoin-transaction {
+    grid-column: 3;
+}
+
+.phone-bitcoin-historychachel {
+    margin-left: 5%;
+    width: 90%;
+    height: 5vh;
+
+    background-color: #f0f0f0;
+
+    font-family: 'Roboto';
+    font-size: 2vh;
+    text-align: center;
+
+    border-radius: 1vh;
+    margin-bottom: 1vh;
+
+    display: grid;
+    grid-template-columns: 20% 50% 30%;
+    align-items: center;
+    justify-items: center;
+}
+
+.bold {
+    font-family: 'RobotoMedium';
+}
+
+.light-green-text  {
+    color: rgb(113, 198, 113)
+}
+
+.pink-text  {
+    color: rgb(228, 154, 166)
+}

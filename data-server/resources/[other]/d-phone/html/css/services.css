@@ -35,7 +35,7 @@
 }
 
 #phone-service-return>i {
-    color: rgb(27, 131, 216);
+    color: rgb(74, 76, 246);
 }
 
 #phone-service-return>i:hover {
@@ -86,7 +86,7 @@
 }
 
 .phone-service-actions:hover {
-    color: rgb(27, 131, 216);
+    color: rgb(74, 76, 246);
 }
 
 .phone-services-message {
@@ -158,7 +158,7 @@
 }
 
 .phone-service-selection>i:hover {
-    color: rgb(27, 131, 216);
+    color: rgb(74, 76, 246);
 }
 
 .phone-settings-switch {
@@ -179,7 +179,7 @@
 
 #phone-service-button {
     position: relative;
-    background-color: rgb(27, 131, 216);
+    background-color: rgb(74, 76, 246);
     width: 80%;
     height: 80%;
     left: 10%;
@@ -194,7 +194,7 @@
 }
 
 #phone-service-button:hover {
-    color: rgb(27, 131, 216);
+    color: rgb(74, 76, 246);
     background-color: rgb(255, 255, 255);
     transition: .5s;
 }

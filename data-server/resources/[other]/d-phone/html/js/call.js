@@ -41,14 +41,18 @@ $(document).on('click', '.phone-enter-call', function() {
     $(".phone-call-outgoing").fadeIn(250);
 
     if (mutes == true) {
-        sendData("notification", { text: locale.yourecallingsb, length: 5000 })
+        if (locale == "de") {
+            sendData("notification", { text: localede.yourecallingsb, length: 5000 })
+        } else {
+            sendData("notification", { text: locale.yourecallingsb, length: 5000 })
+        }
     } else {
         if (outgoingsound != null) {
             outgoingsound.pause();
         }
 
-        outgoingsound = new Audio("./sound/Phonecall.ogg");
-        outgoingsound.volume = 0.2;
+        outgoingsound = outgoingsoundfile
+        outgoingsound.volume = soundvolume;
         outgoingsound.currentTime = 0;
         outgoingsound.loop = true;
         outgoingsound.play();
@@ -78,7 +82,11 @@ function IncomingCall(number, contact) {
     element.innerHTML = contact;
 
     if (mutes == true) {
-        sendData("notification", { text: locale.somebodyiscallingyou, length: 5000 })
+        if (locale == "de") {
+            sendData("notification", { text: localede.somebodyiscallingyou, length: 5000 })
+        } else {
+            sendData("notification", { text: locale.somebodyiscallingyou, length: 5000 })
+        }
     } else {
 
         incomingsound = null
@@ -87,8 +95,8 @@ function IncomingCall(number, contact) {
             incomingsound.pause();
         }
 
-        incomingsound = new Audio("./sound/ring.ogg");
-        incomingsound.volume = 0.2;
+        incomingsound = incomingsoundfile
+        incomingsound.volume = soundvolume;
         incomingsound.currentTime = 0;
         incomingsound.loop = true;
         incomingsound.play();
@@ -256,14 +264,18 @@ $(document).on('click', '#pacs-call', function() {
     $(".phone-call-outgoing").fadeIn(250);
     selectednumber = number;
     if (mutes == true) {
-        sendData("notification", { text: locale.yourecallingsb, length: 5000 })
+        if (locale == "de") {
+            sendData("notification", { text: localede.yourecallingsb, length: 5000 })
+        } else {
+            sendData("notification", { text: locale.yourecallingsb, length: 5000 })
+        }
     } else {
         if (outgoingsound != null) {
             outgoingsound.pause();
         }
 
-        outgoingsound = new Audio("./sound/Phonecall.ogg");
-        outgoingsound.volume = 0.2;
+        outgoingsound = outgoingsoundfile
+        outgoingsound.volume = soundvolume;
         outgoingsound.currentTime = 0;
         outgoingsound.loop = true;
         outgoingsound.play();
@@ -287,6 +299,10 @@ function loadrecentcalls(html) {
 
     $(".phone-call-sector").hide();
     $(".phone-all-call-sector").fadeIn(250);
+
+    if (darkmode == true) {
+        Darkmode();
+    }
 }
 
 $(document).on('click', '#headerminimize', function() {
@@ -367,3 +383,39 @@ $(document).on('click', '.incallsymbol', function() {
         $(".left40").show(0)
     }, 500)
 })
+
+$(document).on('click', '#phone-call-historydiv', function() {
+    var name = $(this).data('name');
+    var number = $(this).data('number');
+    var time = $(this).data('time');
+
+    selectednumber = number
+    selectedname = name
+    // $("#phone-app-contact").hide(0)
+    
+    $("#phone-app-call-history-contact-name").html(name)
+    $("#phone-app-call-history-contact-number").html(number)
+    $("#phone-app-call-history-contact-time").html(time)
+
+
+
+    currentpage = "#phone-app-call-history-contact"
+    lastpage = "#phone-call"
+    canback = true
+
+    
+    AppSlideIn(currentpage, lastpage)
+
+
+});
+
+$(document).on('click', '#phone-app-contact-page-addtocontacts', function() {
+    prepage = "#phone-call"
+    currentpage = "#phone-app-contact-new"
+    lastpage = "#phone-app-call-history-contact"
+
+    var number = selectednumber
+
+    $('#phone-app-contact-phonenumber').val(number)
+    AppSlideIn(currentpage, lastpage)
+});

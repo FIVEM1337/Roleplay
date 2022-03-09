@@ -9,7 +9,7 @@ Locales['en'] = {
     ['needphone'] =  "You need a phone in your inventory to open it",
     ['waypointset'] =  "Waypoint was set successfully",
     ['cantcall'] =  "The person is already in a call or enabled flightmode",
-    ['setfreq'] =  "Your frequency is: %s",
+    ['setfreq'] =  "You set your frequenz",
     ['cantsetfreq'] =  "This frequency is blocked. You can only enter this Frequency if your job is %s",
     ['leftfreq'] =  "You left the radio",
     ['numbernotexist'] =  "This number doenst exist",
@@ -81,4 +81,9 @@ Locales['en'] = {
 
     -- 0.72
     ['newnumber'] = "You've got an new number. Your new number is %s",
+
+    -- 0.73
+    ['newcallrequest'] = "You've got an new call request vom %s",
+    ['changedcase'] =  "You've changed successfully changed your case",
+    ['changedringtone'] =  "You've changed successfully changed your ringtone",
 }

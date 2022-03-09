@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `phone_calls` (
 
 CREATE TABLE IF NOT EXISTS `phone_contacts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `identifier` varchar(40) NOT NULL,
+  `identifier` varchar(80) NOT NULL,
   `name` longtext NOT NULL,
   `number` longtext NOT NULL,
   `favourite` int(11) NOT NULL DEFAULT 0,
@@ -98,6 +98,7 @@ ALTER TABLE `jobs` ADD COLUMN `hasapp` int(2) NOT NULL DEFAULT '0';
 ALTER TABLE `jobs` ADD COLUMN `onlyboss` int(2) NOT NULL DEFAULT '0';
 ALTER TABLE `jobs` ADD COLUMN `number` VARCHAR(10)  NOT NULL DEFAULT '1';
 
+
 ALTER TABLE `phone_messages` ADD COLUMN `isDeleted` INT(10)  NOT NULL DEFAULT '0';
 
 CREATE TABLE IF NOT EXISTS `phone_advertisement` (
@@ -110,5 +111,10 @@ CREATE TABLE IF NOT EXISTS `phone_advertisement` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
 
+-- 0.72
 ALTER TABLE `phone_information` ADD COLUMN `flightmode` INT(10)  NOT NULL DEFAULT '0';
 
+-- 0.73
+ALTER TABLE `phone_information` ADD COLUMN `model` VARCHAR(155)  NOT NULL;
+ALTER TABLE `phone_information` ADD COLUMN `case` VARCHAR(155)  NOT NULL;
+ALTER TABLE `phone_information` ADD COLUMN `ringtone` VARCHAR(155)  NOT NULL;

@@ -113,7 +113,12 @@ $(document).on('click', '#ptw-pbsubmit', function() {
             $('.phone-twitter-settings-avatar').css("background-image", "url(" + avatar + ")");
             $(".phone-twitter-newpb").fadeOut(500);
         } else {
-            sendData("notification", { text: locale.avatarerror, length: 5000 })
+            if (locale == "de") {
+                $("#phone-constant-radio").html(localede.avatarerror);
+            } else {
+                $("#phone-constant-radio").html(locale.avatarerror);
+            }
+            
         }
     }
 
@@ -139,7 +144,11 @@ $(document).on('click', '#ptw-usernamesubmit', function() {
             $("#twitter-username").html(username)
             $(".phone-twitter-name").fadeOut(500);
         } else {
-            sendData("notification", { text: locale.usernameerror, length: 5000 })
+            if (locale == "de") {
+                $("#phone-constant-radio").html(localede.usernameerror);
+            } else {
+                $("#phone-constant-radio").html(locale.usernameerror);
+            }
         }
     }
 
@@ -163,7 +172,11 @@ $(document).on('click', '#ptw-ftavatarsubmit', function() {
             $('.phone-twitter-firsttime-avatar').data("url", avatar)
             $(".phone-twitter-ftavatar ").fadeOut(500);
         } else {
-            sendData("notification", { text: locale.avatarerror, length: 5000 })
+            if (locale == "de") {
+                $("#phone-constant-radio").html(localede.avatarerror);
+            } else {
+                $("#phone-constant-radio").html(locale.avatarerror);
+            }
         }
     }
 });
@@ -186,7 +199,11 @@ $(document).on('click', '#ptw-firsttimeusername', function() {
             $('#twitter-ftusername').html(username);
             $(".phone-twitter-firsttimename").fadeOut(500);
         } else {
-            sendData("notification", { text: locale.usernameerror, length: 5000 })
+            if (locale == "de") {
+                $("#phone-constant-radio").html(localede.usernameerror);
+            } else {
+                $("#phone-constant-radio").html(locale.usernameerror);
+            }
         }
     }
 
@@ -209,13 +226,21 @@ $(document).on('click', '#ptw-firsttimerid', function() {
     } else {
         if (username.length < 16 && username.length > 3) {
             if (username.includes("@") == true) {
-                sendData("notification", { text: locale.usernameaterror, length: 5000 })
+                if (locale == "de") {
+                    $("#phone-constant-radio").html(localede.usernameerror);
+                } else {
+                    $("#phone-constant-radio").html(locale.usernameerror);
+                }
             } else {
                 $('#twitter-ftuserid').html('@' + username.toLowerCase());
                 $(".phone-twitter-firsttimeid").fadeOut(500);
             }
         } else {
-            sendData("notification", { text: locale.usernameerror, length: 5000 })
+            if (locale == "de") {
+                $("#phone-constant-radio").html(localede.usernameerror);
+            } else {
+                $("#phone-constant-radio").html(locale.usernameerror);
+            }
         }
     }
 
@@ -239,7 +264,11 @@ $(document).on('click', '#twitter-firsttimeregister', function() {
             if (username != "Username" && userid != '@username' && username != " " && userid != " ") {
                 sendData("twitter:register", { username: username, userid: userid, avatar: avatar })
             } else {
-                sendData("notification", { text: locale.mustchange, length: 5000 })
+                if (locale == "de") {
+                    $("#phone-constant-radio").html(localede.mustchange);
+                } else {
+                    $("#phone-constant-radio").html(locale.mustchange);
+                }
             }
         }
     }
@@ -327,7 +356,11 @@ $(document).on('click', '#ptw-tweetsubmit ', function() {
         if (message.length > 0) {
             sendData("twitter:writetweet", { message: message, url: url })
         } else {
-            sendData("notification", { text: locale.notempty, length: 5000 })
+            if (locale == "de") {
+                $("#phone-constant-radio").html(localede.notempty);
+            } else {
+                $("#phone-constant-radio").html(locale.notempty);
+            }
         }
     }
 });
@@ -348,7 +381,11 @@ $(document).on('click', '#ptw-imagesubmit', function() {
             $('#ptw-addimage').data("url", '0');
             $(".phone-twitter-image ").fadeOut(500);
         } else {
-            sendData("notification", { text: locale.avatarerror, length: 5000 })
+            if (locale == "de") {
+                $("#phone-constant-radio").html(localede.avatarerror);
+            } else {
+                $("#phone-constant-radio").html(locale.avatarerror);
+            }
         }
     }
 
@@ -362,3 +399,6 @@ function twitternotification() {
         sendData("twitter:updatenotification", { state: 0 });
     };
 };
+
+
+            

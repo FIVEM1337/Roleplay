@@ -1,10 +1,3 @@
-QB = {}
-QB.Phone = {}
-QB.Screen = {}
-QB.Phone.Functions = {}
-QB.Phone.Animations = {}
-QB.Phone.Notifications = {}
-
 let currentjob = 'null'
 let businessicon = true
 let servicesloaded = false
@@ -15,6 +8,14 @@ let darkmode = false;
 let bankmoney = null
 let alwayson = false
 
+var soundvolume = 0.2
+var ringtone 
+
+var Messagesoundfile = new Audio("./sound/Google_Event.ogg");
+var BMessagesoundfile = new Audio("./sound/message_tone.ogg");
+var outgoingsoundfile = new Audio("./sound/Phonecall.ogg");
+var incomingsoundfile = null
+
 $(function() {
     var documentWidth = document.documentElement.clientWidth;
     var documentHeight = document.documentElement.clientHeight;
@@ -24,7 +25,8 @@ $(function() {
         var item = event.data;
 
         if (item.showPhone) {
-            QB.Phone.Animations.BottomSlideUp('.container', 300, 0);
+            BottomSlideUp('.container', 300, 0);
+            $(".phone-startscreen").fadeOut(500)
             ChangeWallpaper(item.data.wallpaper);
             if (item.data.darkmode == 1) {
                 Darkmode();
@@ -60,7 +62,7 @@ $(function() {
             }
         } else if (item.hidePhone) {
             if (alwayson == false) {
-                QB.Phone.Animations.BottomSlideDown('.container', 300, -70);
+                BottomSlideDown('.container', 300, -70);
             } else {
                 $(".container").animate({
                         "bottom": "-62vh",
@@ -124,6 +126,8 @@ $(function() {
             loadbusinessmessages(item.html, item.div)
         } else if (item.loadservices) {
             LoadServices(item.html)
+        } else if (item.loadservices2) {
+            LoadServices2()
         } else if (item.playmessagesound) {
             PlayMessageSound()
         } else if (item.playbusinessmessagesound) {
@@ -133,6 +137,10 @@ $(function() {
         } else if (item.setvalues) {
             backgroundurl = item.backgroundurl;
             darkbackgroundurl = item.darkbackgroundurl;
+            cas = item.cas
+            model = item.model
+            Casepreview(cas, model)
+            incomingsoundfile = new Audio(item.ringtone);
         } else if (item.syncbpbabutton) {
             syncbpbabutton(item.number)
         } else if (item.syncclosebmessage) {
@@ -143,7 +151,11 @@ $(function() {
             businessmoney = item.businessmoney
             $("#pbms-money").html(item.businessmoney + "$");
         } else if (item.isboss) {
-            $("#pbsjobmoney").html(locale.pbsjobmoney);
+            // if (locale == "de") {
+            //     sendData("notification", { text: localede.pbsjobmoney, length: 5000 })
+            // } else {
+            //     sendData("notification", { text: locale.pbsjobmoney, length: 5000 })
+            // }
             $("#pbsboss").each(function() {
                 $(this).show();
             });
@@ -162,7 +174,12 @@ $(function() {
         }  else if (item.enablesalty) {
             $("#phone-constant-radio").show()
         } else if (item.openSettings) {
-            openSettings(item.html)
+            openSettings(item.html, item.casehtml)
+        } else if (item.LoadRingtones) {
+            LoadRingtones(item.html)
+        } else if (item.startloadingscreen) {
+            BottomSlideUp('.container', 300, 0);
+            Startloadingscreen(item.time)
         }
     });
 
@@ -192,13 +209,13 @@ function hide() {
 }
 
 
-QB.Phone.Animations.BottomSlideUp = function(Object, Timeout, Percentage) {
+BottomSlideUp = function(Object, Timeout, Percentage) {
     $(Object).css({ 'display': 'block' }).animate({
         bottom: Percentage + "%",
     }, Timeout);
 }
 
-QB.Phone.Animations.BottomSlideDown = function(Object, Timeout, Percentage) {
+BottomSlideDown = function(Object, Timeout, Percentage) {
     $(Object).css({ 'display': 'block' }).animate({
         bottom: Percentage + "%",
     }, Timeout, function() {
@@ -206,13 +223,13 @@ QB.Phone.Animations.BottomSlideDown = function(Object, Timeout, Percentage) {
     });
 }
 
-QB.Phone.Animations.TopSlideDown = function(Object, Timeout, Percentage) {
+TopSlideDown = function(Object, Timeout, Percentage) {
     $(Object).css({ 'display': 'block' }).animate({
         top: Percentage + "%",
     }, Timeout);
 }
 
-QB.Phone.Animations.TopSlideUp = function(Object, Timeout, Percentage, cb) {
+TopSlideUp = function(Object, Timeout, Percentage, cb) {
     $(Object).css({ 'display': 'block' }).animate({
         top: Percentage + "%",
     }, Timeout, function() {
@@ -222,15 +239,26 @@ QB.Phone.Animations.TopSlideUp = function(Object, Timeout, Percentage, cb) {
 
 $(document).on('click', '.phone-application', function(e) {
     e.preventDefault();
+
+    if (prepage != null) {
+        currentpage = lastpage
+        lastpage = prepage
+    }
     var PressedApplication = $(this).data('app');
     var AppObject = $("." + PressedApplication + "-app");
     CloseAll();
     if (PressedApplication == "settings") {
         sendData("LoadSettings")
+        sendData("LoadRingtones")
+        // $("#phone-app-settings").show(500)
+       
+        $("#phone-homebar").show(500)
     } else if (PressedApplication == "contacts") {
         $(".phone-applications").hide();
-        $(".phone-app").show(500)
-        $(".phone-contacts").show();
+        sendData("LoadContacts")
+        if (darkmode == true) {
+            Darkmode();
+        }
         $("#phone-homebar").show(500)
     } else if (PressedApplication == "call") {
         $(".phone-applications").hide();
@@ -260,7 +288,7 @@ $(document).on('click', '.phone-application', function(e) {
         let job = $(this).data('job');
         $(".phone-businessapp").show();
         sendData("showBusiness", { job: job })
-        $(".phone-settings").hide();
+        $("#phone-app-settings").hide();
         $("#phone-homebar").show(500)
         currentjob = job
     } else if (PressedApplication == "radio") {
@@ -292,6 +320,23 @@ $(document).on('click', '.phone-application', function(e) {
         sendData("dmarket:open");
 
         // $(".phone-dmarket").show(500)
+    }  else if (PressedApplication == "calculator") {
+        $(".phone-applications").hide();
+        $("#phone-homebar").show(500)
+        $(".phone-calculator").show(500)
+    } else if (PressedApplication == "crypto") {
+        if (bitcoinapploaded == true) {
+            $(".phone-applications").hide();
+            $("#phone-app-bitcoin").show(500)
+            if (darkmode == true) {
+                Darkmode();
+            }
+            $("#phone-homebar").show(500)
+        } else {
+            firsttimecrypto = true
+            sendData("bitcoin:firsttime")
+        }
+        
     } 
 
 });
@@ -318,7 +363,11 @@ $(document).on('click', '#pswsubmitbutton', function() {
 
             $(".phone-settings-wallpaper ").fadeOut(250);
         } else {
-            sendData("notification", { text: locale.avatarerror, length: 5000 })
+            if (locale == "de") {
+                sendData("notification", { text: localede.avatarerror, length: 5000 })
+            } else {
+                sendData("notification", { text: locale.avatarerror, length: 5000 })
+            }
         }
     }
 });
@@ -434,13 +483,18 @@ $(document).on('click', '#phone-service-button', function() {
         if (message.length > 0) {
             sendData("sendservice", { service: selectedservice, message: message, sendnumber: sendnumber, job: currentjob, sendgps: sendgps })
         } else {
-            sendData("notification", { text: locale.notempty, length: 5000 })
+            if (locale == "de") {
+                sendData("notification", { text: localede.notempty, length: 5000 })
+            } else {
+                sendData("notification", { text: locale.notempty, length: 5000 })
+            }
         }
     };
 
 });
 
 let businessapp = null
+let openbusinesswindow = null
 
 function loadBusiness(item) {
     businessapp = item
@@ -457,7 +511,12 @@ function showBusiness(member, onlinemember, motd) {
     $(".phone-ba-member-list").children().detach();
     $(".phone-ba-member-list").append(member);
 
-    document.getElementById('phone-ba-member').innerHTML = locale.memberonline + ' : ' + onlinemember;
+    if (locale == "de") {
+        document.getElementById('phone-ba-member').innerHTML = localede.memberonline + ' : ' + onlinemember;
+    } else {
+        document.getElementById('phone-ba-member').innerHTML = locale.memberonline + ' : ' + onlinemember;
+    }
+    
     document.getElementById('phone-ba-motd-inhalt').innerHTML = motd;
 
     $(".phone-recent-businessapp-sector").hide();
@@ -487,14 +546,18 @@ $(document).on('click', '#phone-ba-member-call', function() {
     $(".phone-call-outgoing").show(500)
 
     if (mutes == true) {
-        sendData("notification", { text: locale.yourecallingsb, length: 5000 })
+        if (locale == "de") {
+            sendData("notification", { text: localede.yourecallingsb, length: 5000 })
+        } else {
+            sendData("notification", { text: locale.yourecallingsb, length: 5000 })
+        }
     } else {
         if (outgoingsound != null) {
             outgoingsound.pause();
         }
 
-        outgoingsound = new Audio("./sound/Phonecall.ogg");
-        outgoingsound.volume = 0.2;
+        outgoingsound = outgoingsoundfile
+        outgoingsound.volume = soundvolume;
         outgoingsound.loop = true;
         outgoingsound.currentTime = 0;
         outgoingsound.play();
@@ -519,6 +582,7 @@ $(document).on('click', '#phone-ba-member-message', function() {
 });
 
 $(document).on('click', '#pbf-member', function() {
+    openbusinesswindow = "home"
     $(".phone-businessapp-settings").hide();
     $(".phone-businessapp-rank-sector").hide();
     $(".phone-businessapp-newrank-sector").hide();
@@ -527,6 +591,7 @@ $(document).on('click', '#pbf-member', function() {
 });
 
 $(document).on('click', '#pbf-messages', function() {
+    openbusinesswindow = "recentmessages"
     $(".phone-businessapp-settings").hide();
     $(".phone-businessapp-rank-sector").hide();
     $(".phone-businessapp-newrank-sector").hide();
@@ -535,6 +600,7 @@ $(document).on('click', '#pbf-messages', function() {
 });
 
 $(document).on('click', '#pbf-settings', function() {
+    openbusinesswindow = "settings"
     $(".phone-recent-businessapp-sector").hide();
     $(".phone-businessapp-message").hide();
     $(".phone-businessapp-rank-sector").hide();
@@ -551,8 +617,10 @@ function loadrecentbusinessmessages(html) {
         Darkmode();
     }
 
-    $(".phone-businessapp-sector").hide();
-    $(".phone-recent-businessapp-sector").show(500)
+    if (openbusinesswindow == "recentmessages") {
+        $(".phone-businessapp-sector").hide();
+        $(".phone-recent-businessapp-sector").show(500)
+    }
 }
 
 $(document).on('click', '.phone-recent-businessapp-selection', function() {
@@ -563,15 +631,20 @@ $(document).on('click', '.phone-recent-businessapp-selection', function() {
         number: number,
         job: currentjob
     });
-
-
 });
 
 function loadbusinessmessages(html, div) {
     $(".phone-businessapp-message").children().detach();
     $(".phone-businessapp-message").append(div);
-    $("#pbbacceptfont ").html(locale.pbbacceptfont);
-    $("#pbbacceptfont2 ").html(locale.pbbacceptfont2);
+    
+    if (locale == "de") {
+        $("#pbbacceptfont ").html(localede.pbbacceptfont);
+        $("#pbbacceptfont2 ").html(localede.pbbacceptfont2);
+    } else {
+        $("#pbbacceptfont ").html(locale.pbbacceptfont);
+        $("#pbbacceptfont2 ").html(locale.pbbacceptfont2);
+    }
+    
     $(".phone-businessapp-chat").children().detach();
     $(".phone-businessapp-chat").append(html);
     if (darkmode == true) {
@@ -586,8 +659,15 @@ function loadbusinessmessages(html, div) {
 function reloadbusinessmessages(html, div) {
     $(".phone-businessapp-message").children().detach();
     $(".phone-businessapp-message").append(div);
-    $("#pbbacceptfont ").html(locale.pbbacceptfont);
-    $("#pbbacceptfont2 ").html(locale.pbbacceptfont2);
+
+    if (locale == "de") {
+        $("#pbbacceptfont ").html(localede.pbbacceptfont);
+        $("#pbbacceptfont2 ").html(localede.pbbacceptfont2);
+    } else {
+        $("#pbbacceptfont ").html(locale.pbbacceptfont);
+        $("#pbbacceptfont2 ").html(locale.pbbacceptfont2);
+    }
+    
     $(".phone-businessapp-chat").children().detach();
     $(".phone-businessapp-chat").append(html);
     if (darkmode == true) {
@@ -611,7 +691,11 @@ $(document).on('click', '#phone-businessapp-send', function() {
                 job: currentjob
             });
         } else {
-            sendData("notification", { text: locale.notempty, length: 5000 })
+            if (locale == "de") {
+                sendData("notification", { text: localede.notempty, length: 5000 })
+            } else {
+                sendData("notification", { text: locale.notempty, length: 5000 })
+            }
         }
     };
 
@@ -810,8 +894,14 @@ function syncbpbabutton(selectednumber) {
     var acceptbutton = "#bpb-accept-" + selectednumber
     var declinebutton = "#bpb-decline-" + selectednumber
 
-    $("#pbbacceptfont ").html(locale.pbbacceptfont);
-    $("#pbbacceptfont2 ").html(locale.pbbacceptfont2);
+    if (locale == "de") {
+        $("#pbbacceptfont ").html(localede.pbbacceptfont);
+        $("#pbbacceptfont2 ").html(localede.pbbacceptfont2);
+    } else {
+        $("#pbbacceptfont ").html(locale.pbbacceptfont);
+        $("#pbbacceptfont2 ").html(locale.pbbacceptfont2);
+    }
+   
     $(acceptbutton).css({ 'display': 'none', "tranistion": ".5" });
     $(declinebutton).css({ 'width': '100%', "tranistion": ".5" });
 
@@ -830,6 +920,12 @@ function LoadServices(services) {
     servicesloaded = true
 }
 
+function LoadServices2() {
+    CloseAll()
+    $(".phone-services").show(500)
+
+    servicesloaded = true
+}
 
 /* Sound */
 function PlayMessageSound() {
@@ -838,15 +934,15 @@ function PlayMessageSound() {
             messagesound.pause();
         }
 
-        messagesound = new Audio("./sound/Google_Event.ogg");
-        messagesound.volume = 0.2;
+        messagesound = Messagesoundfile
+        messagesound.volume = soundvolume;
         messagesound.currentTime = 0;
         messagesound.play();
 
         setTimeout(function() {;
             messagesound.pause();
             messagesound.currentTime = 0;
-            messagesound.volume = 0.2;
+            messagesound.volume = soundvolume;
         }, 1300);
     }
 }
@@ -857,8 +953,8 @@ function PlayBMessageSound() {
             bmessagesound.pause();
         }
 
-        bmessagesound = new Audio("./sound/message_tone.ogg");
-        bmessagesound.volume = 0.2;
+        bmessagesound = BMessagesoundfile
+        bmessagesound.volume = soundvolume;
 
         bmessagesound.currentTime = 0;
         bmessagesound.play();
@@ -866,12 +962,24 @@ function PlayBMessageSound() {
         setTimeout(function() {;
             bmessagesound.pause();
             bmessagesound.currentTime = 0;
-            bmessagesound.volume = 0.2;
+            bmessagesound.volume = soundvolume;
         }, 1300);
     }
 }
 
 /* Radio */
+$(document).on('click', '#toggler', function() {
+    if (document.getElementById('phone-radio-frequenz-input').type == 'password') {  
+        document.getElementById('phone-radio-frequenz-input').type = 'number';
+        document.getElementById('toggler').classList.toggle('fa-eye-slash');  
+        document.getElementById('toggler').classList.toggle('fa-eye');
+    } else {
+        document.getElementById('toggler').classList.toggle('fa-eye');  
+        document.getElementById('toggler').classList.toggle('fa-eye-slash');
+        document.getElementById('phone-radio-frequenz-input').type = 'password';
+    }    
+});
+
 $(document).on('click', '#phone-radio-return', function() {
     $(".phone-radio").hide();
     $(".phone-applications").show(500)
@@ -904,12 +1012,21 @@ $(document).on('click', '#phone-constant-radio', function() {
     if (constantradio == false) {
         constantradio = true
         $("#phone-constant-radio").addClass("disphone-constant-radio")
-        $("#phone-constant-radio").html(locale.disableconstant);
+        if (locale == "de") {
+            $("#phone-constant-radio").html(localede.disableconstant);
+        } else {
+            $("#phone-constant-radio").html(locale.disableconstant);
+        }
+        
         sendData("constantradio", { state: constantradio })
     } else {
         constantradio = false
         $("#phone-constant-radio").removeClass("disphone-constant-radio")
-        $("#phone-constant-radio").html(locale.enableconstant);
+        if (locale == "de") {
+            $("#phone-constant-radio").html(localede.enableconstant);
+        } else {
+            $("#phone-constant-radio").html(locale.enableconstant);
+        }
         sendData("constantradio", { state: constantradio })
     }
 });
@@ -932,6 +1049,11 @@ function UpdateTime(data) {
 }
 
 function CloseAll() {
+    $(lastpage).css({
+        "margin-left": "0vh",
+    }, 0)
+        // currentpage = null
+    // lastpage = null
     $(".phone-call").hide();
     $(".phone-call-app").hide();
     $(".phone-call-ongoing").hide();
@@ -939,13 +1061,9 @@ function CloseAll() {
     $(".phone-call-outgoing").hide();
     $(".phone-applications").hide();
     $(".phone-app").hide();
-    $(".phone-contacts").hide();
-    $(".phone-contacts-information").hide();
-    $(".phone-contacts-add").hide();
-    $(".phone-contacts-edit").hide();
     $(".phone-recent-message").hide();
     $(".phone-message").hide();
-    $(".phone-settings").hide();
+    $("#phone-app-settings").hide();
     $(".phone-services").hide();
     $(".phone-businessapp").hide();
     $(".phone-businessapp-rank-sector").hide();
@@ -955,13 +1073,25 @@ function CloseAll() {
     $(".phone-twitter").hide();
     $(".phone-bankapp").hide();
     $(".phone-applications").hide();
+    $("#phone-app-settings-bgchange").hide();
     $(".phone-bankapp-transfer").fadeOut(0);
     $(".phone-bankapp-home").fadeOut(0);
     $("#pcb-transfer").removeClass("activeposition");
     $("#pcb-home").removeClass("activeposition");
-
+    $("#phone-app-settings").hide();
+    $(".phone-app").each(function() {
+        $(this).hide()
+    });
+    $("#phone-app-contact").hide();
+    $("#phone-app-contact-page").hide();
+    $("#phone-app-contact-edit").hide();
+    $("#phone-app-contact-new").hide();
     $(".phone-advertisement").fadeOut(0);
     $(".phone-dmarket").fadeOut(0);
+
+    $("#phone-app-settings-bgchange").hide(0)
+    $("#phone-app-settings-casechange").hide(0)
+    $(".phone-calculator").fadeOut(0);
 }
 
 function Home() {
@@ -993,20 +1123,26 @@ function Darkmode() {
     $(".bigincallsymbol").addClass('darkbigincallsymbol');
 
     /* Contacts App */
-    $(".phone-app").addClass('darkmode');
-    $(".phone-app-header").each(function() {
-        $(this).addClass('darkmodeheader')
+    $(".phone-app").each(function() {
+        $(this).addClass('darkphone-app')
     });
-    $(".phone-contact").addClass('darkphone-contact');
-    $("#pcinumber").addClass('darkpcinumber');
-    $(".pciinput").addClass('darkpciinput');
+    $(".phone-app-header-searchbar").addClass('darkphone-app-header-searchbar');
+    $(".phone-app-div").each(function() {
+        $(this).addClass('darkphone-app-div')
+    });
+    $(".phone-app-3box").each(function() {
+        $(this).addClass('darkphone-app-3box')
+    });
+    $(".phone-app-box").each(function() {
+        $(this).addClass('darkphone-app-box')
+    });
 
     /* Radio App */
     $(".phone-radio").addClass('darkmode');
     $(".phone-radio-frequenz-input").addClass('darkpciinput');
 
     /* Settings App */
-    $(".phone-settings").addClass('darkmode');
+    $("#phone-app-settings").addClass('darkmode');
     $(".phone-settings-header").addClass('darkmodeheader')
     $(".phone-settings-selection").addClass('darkphone-settings-selection');
     $("#customwallpaper").addClass('whitecolor');
@@ -1154,6 +1290,31 @@ function Darkmode() {
     $(".phone-input").each(function() {
         $(this).addClass('darkphone-input')
     });
+
+     // calculator
+     $(".phone-calculator").addClass('darkmode');
+     document.getElementById("output").style.color = "white";
+     $(".calculator-grid > button").each(function() {
+         $(this).addClass('darkcalculator-grid > button')
+     });
+     $(".calculator-grid > button:hover").each(function() {
+         $(this).addClass('darkcalculator-grid > button')
+     });
+
+    //  bitcoin
+    $(".phone-bitcoin-bigcachel").each(function() {
+        $(this).addClass('darkphone-bitcoin-bigcachel')
+    });
+    $(".phone-bitcoin-input-smallcachel").each(function() {
+        $(this).addClass('darkphone-smallcachel')
+    });
+    $(".phone-bitcoin-historychachel").each(function() {
+        $(this).addClass('darkphone-smallcachel')
+    });
+  
+    $(".phone-bitcoin-footer-item").each(function() {
+        $(this).addClass("darkphone-bitcoin-footer-item")
+    });
 }
 
 function Whitemode() {
@@ -1175,16 +1336,19 @@ function Whitemode() {
     $(".phone-call-app").removeClass('darkmode');
     $(".phone-call").removeClass('darkmode');
     $(".bigincallsymbol").removeClass('darkbigincallsymbol');
-
     /* Contacts App */
-    $(".phone-app").removeClass('darkmode');
-    $(".phone-app-header").each(function() {
-        $(this).removeClass('darkmodeheader')
+    $(".phone-app").each(function() {
+        $(this).removeClass('darkphone-app')
     });
-    $("#pcinumber").removeClass('darkpcinumber');
-    $(".pciinput").removeClass('darkpciinput');
-    $(".phone-contact").each(function() {
-        $(this).removeClass('darkphone-contact')
+    $(".phone-app-header-searchbar").removeClass('darkphone-app-header-searchbar');
+    $(".phone-app-div").each(function() {
+        $(this).removeClass('darkphone-app-div')
+    });
+    $(".phone-app-3box").each(function() {
+        $(this).removeClass('darkphone-app-3box')
+    });
+    $(".phone-app-box").each(function() {
+        $(this).removeClass('darkphone-app-box')
     });
 
     /* Radio App */
@@ -1192,7 +1356,7 @@ function Whitemode() {
     $(".phone-radio-frequenz-input").removeClass('darkpciinput');
 
     /* Settings App */
-    $(".phone-settings").removeClass('darkmode');
+    $("#phone-app-settings").removeClass('darkmode');
     $(".phone-settings-header").removeClass('darkmodeheader')
     $(".phone-settings-selection").removeClass('darkphone-settings-selection');
     $("#customwallpaper").removeClass('whitecolor');
@@ -1336,10 +1500,37 @@ function Whitemode() {
     $(".phone-input").each(function() {
         $(this).removeClass('darkphone-input')
     });
+
+    // calculator
+    $(".phone-calculator").removeClass('darkmode');
+    document.getElementById("output").style.color = "black";
+    $(".calculator-grid > button").each(function() {
+        $(this).removeClass('darkcalculator-grid > button')
+    });
+    $(".calculator-grid > button:hover").each(function() {
+        $(this).removeClass('darkcalculator-grid > button')
+    });
+
+    //  bitcoin
+    $(".phone-bitcoin-bigcachel").each(function() {
+        $(this).removeClass('darkphone-bitcoin-bigcachel')
+    });
+    $(".phone-calculator").removeClass('darkmode');
+    $(".phone-bitcoin-input-smallcachel").each(function() {
+        $(this).removeClass('darkphone-smallcachel')
+    });
+    $(".phone-bitcoin-historychachel").each(function() {
+        $(this).removeClass('darkphone-smallcachel')
+    });
+    $(".phone-bitcoin-historychachel").each(function() {
+        $(this).removeClass('darkphone-smallcachel')
+    });
+    $(".phone-bitcoin-footer-item").each(function() {
+        $(this).removeClass("darkphone-bitcoin-footer-item")
+    });
 }
 
 $(document).on('click', '#phone-homebar', function() {
-
     if (lastwindow == "wallpaper") {
         $(".phone-settings-sector").show(500)
         $(".phone-settings-inner").hide(500)
@@ -1365,12 +1556,17 @@ $(document).on('click', '#phone-homebar', function() {
         $(".bigincallsymbol").fadeIn(500)
         $(".callheadername").html(callnumber)
     }
-
-    sendData("SetNuiFocusKeepInputFalse");
 });
 
 $(document).on('click', '#headerback', function() {
     if (lastwindow == "wallpaper") {
+        $(".phone-settings-sector").show(500)
+        $(".phone-settings-inner").hide(500)
+        $("#headerback").hide(500)
+        $(".phone-homebar").show(500)
+        lastwindow = "settings"
+    } else if (lastwindow == "case") {
+        // Casepreview(oldcase, oldmodel)
         $(".phone-settings-sector").show(500)
         $(".phone-settings-inner").hide(500)
         $("#headerback").hide(500)
@@ -1381,6 +1577,12 @@ $(document).on('click', '#headerback', function() {
         // $(".phone-applications").fadeIn(250);
         // $("#phone-homebar").fadeOut(0);
     }
-
-    sendData("SetNuiFocusKeepInputFalse");
 });
+
+
+function Startloadingscreen(time) {
+    $(".phone-startscreen").show(0)
+    $(".phone-startscreen-loadingbar-inner").animate({
+        "width": "100%",
+    }, time)
+}

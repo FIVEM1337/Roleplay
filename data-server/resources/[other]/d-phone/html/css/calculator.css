@@ -1,0 +1,118 @@
+
+.phone-calculator {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    background: rgb(255,255,255);
+    overflow: hidden;
+    display: none;
+    font-family: 'Roboto';
+}
+
+.calculator-headline {
+    width: 100%;
+    position: relative;
+    height: 5vh;
+    line-height: 5vh;
+    font-size: 2vh;
+    text-align: center;
+    border: none!important;
+}
+
+.calculator-grid {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    min-height: 10vh;
+    grid-template-columns: repeat(4, 6.5vh);
+    grid-template-rows: minmax(12vh, auto)repeat(5, 7vh);
+}
+
+.calculator-grid > button {
+    cursor: pointer;
+    height: 6vh;
+    width: 6vh;
+    font-size: 2vh;
+    outline: none;
+    border: none;
+    color: white;
+    background-color: rgba(25,25,25, .75);
+    border-radius: 10vh;
+}
+
+.darkcalculator-grid > button {
+    background-color: rgb(255, 255, 255);
+    color: black;
+}
+
+.darkcalculator-grid > button:hover {
+    background-color: rgba(255,255,255, .9);
+}
+
+#orangebuttons {
+    background-color: rgb(255, 138, 5);
+    font-size: 1.5vh;
+}
+
+#orangebuttons:hover {
+    background-color: rgb(200, 100, 0);
+}
+
+#grey {
+    background-color: grey;
+}
+
+#grey:hover {
+    background-color: rgb(100, 100, 100);
+}
+
+#long {
+    width: 12.5vh;
+    grid-column: span 2;
+}
+
+#long2 {
+    width: 12.5vh;
+    grid-column: span 2;
+    background-color: rgb(128, 128, 128);
+}
+
+#long2:hover {
+    background-color: rgb(100, 100, 100);
+}
+
+.bigfont {
+    font-size: 5vh;
+}
+
+.calculator-grid > button:hover {
+    transition: .5s;
+    background-color: rgba(25,25,25, .5);
+}
+
+
+.output {
+    grid-column: 1 / -1;
+    height: 10vh;
+    width: 25.5vh;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    flex-direction: column;
+    padding: 1.25vh;
+    word-wrap: break-word;
+    word-break: break-all;
+    border-radius: 10px;
+    color: black;
+}
+
+.previous-operand {
+    font-size: 1.75vh;
+    user-select: all;
+}
+
+.current-operand {
+    font-size: 2.5vh;
+    user-select: all;
+}

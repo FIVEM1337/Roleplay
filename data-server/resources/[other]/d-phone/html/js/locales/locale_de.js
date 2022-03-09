@@ -1,139 +1,163 @@
-var locale = new Object();
-locale.callincomingtitle = "Eingehender Anruf";
-locale.calloutgoingtitle = "Ausgehender Anruf";
-locale.callongoingtitle = "Aktiver Anruf";
-locale.somebodyiscallingyou = "Dich ruft jemand an....";
-locale.yourecallingsb = "Du rufst jemand an....";
-locale.phonecontactheadline = "Kontakte";
-locale.pciheadoverview = "Kontakt Übersicht";
-locale.pcinumber = "Nummer:";
-locale.phonenumber = "Nummer";
-locale.pcicall = "Anrufen";
-locale.pcimessage = "Nachricht senden";
-locale.pcifavorit = "Zu Favoriten hinzufügen";
-locale.pcigps = "Standort teilen";
-locale.pcishare = "Kontakt teilen";
-locale.pcidelete = "Kontakt löschen";
-locale.pciheadadd = "Kontakt hinzufügen";
-locale.pciinputsubmit = "KONTAKT HINZUFÜGEN";
-locale.pciheadedit = "Kontakt bearbeiten";
-locale.pcieditsubmit = "KONTAKT BEARBEITEN";
-locale.phoneheadlinemessage = "Nachrichten";
-locale.phoneheadlinechat = "Chat";
-locale.phoneheadlinephone = "Telefon";
-locale.pcbnumpad = "Numpad";
-locale.pcbcalls = "Anrufe";
-locale.phoneheadlinesettings = "Einstellungen";
-locale.phonesettingsselectionflightmode = "Flugmodus";
-locale.phonesettingsselectionmute = "Stummschalten";
-locale.phonesettingsselectiondarkmode = "Darkmode";
-locale.phonesettingsselectionwallpaper = "Wallpaper";
-locale.pswh = "WALLPAPER";
-locale.pswsubmitbutton = "BESTÄTIGEN";
-locale.phservice = "Service";
-locale.psmn = "Anfrage senden";
-locale.pss = "Nummer senden";
-locale.pssposition = "Position senden";
-locale.phoneservicebutton = "ANFRAGE SENDEN";
-locale.phbusiness = "Business";
-locale.motdchange = "Message of the Day";
-locale.memberonline = "Mitglieder online";
-locale.pbbacceptfont = "Annehmen";
-locale.pbbacceptfont2 = "Beenden";
-locale.pbsmfont2 = "NACHRICHT";
-locale.pbsmfont3 = "BESTÄTIGEN";
-locale.pbfmember = "Mitglieder";
-locale.pbfmessages = "Dispatches";
-locale.pbfsettings = "Einstellungen";
-locale.phfunk = "Funk";
-locale.pfjb = "BETRETEN";
-locale.pflb = "VERLASSEN";
+localede = new Object();
+localede.callincomingtitle = "Eingehender Anruf";
+localede.calloutgoingtitle = "Ausgehender Anruf";
+localede.callongoingtitle = "Aktiver Anruf";
+localede.somebodyiscallingyou = "Dich ruft jemand an....";
+localede.yourecallingsb = "Du rufst jemand an....";
+localede.phonecontactheadline = "Kontakte";
+localede.pciheadoverview = "Kontakt Übersicht";
+localede.pcinumber = "Nummer:";
+localede.phonenumber = "Nummer";
+localede.pcicall = "Anrufen";
+localede.pcimessage = "Nachricht senden";
+localede.pcifavorit = "Zu Favoriten hinzufügen";
+localede.pcigps = "Standort teilen";
+localede.pcishare = "Kontakt teilen";
+localede.pcidelete = "Kontakt löschen";
+localede.pciheadadd = "Kontakt hinzufügen";
+localede.pciinputsubmit = "KONTAKT HINZUFÜGEN";
+localede.pciheadedit = "Kontakt bearbeiten";
+localede.pcieditsubmit = "KONTAKT BEARBEITEN";
+localede.phoneheadlinemessage = "Nachrichten";
+localede.phoneheadlinechat = "Chat";
+localede.phoneheadlinephone = "Telefon";
+localede.pcbnumpad = "Numpad";
+localede.pcbcalls = "Anrufe";
+localede.phoneheadlinesettings = "Einstellungen";
+localede.phonesettingsselectionflightmode = "Flugmodus";
+localede.phonesettingsselectionmute = "Stummschalten";
+localede.phonesettingsselectiondarkmode = "Darkmode";
+localede.phonesettingsselectionwallpaper = "Wallpaper";
+localede.pswh = "WALLPAPER";
+localede.pswsubmitbutton = "BESTÄTIGEN";
+localede.phservice = "Service";
+localede.psmn = "Anfrage senden";
+localede.pss = "Nummer senden";
+localede.pssposition = "Position senden";
+localede.phoneservicebutton = "ANFRAGE SENDEN";
+localede.phbusiness = "Business";
+localede.motdchange = "Message of the Day";
+localede.memberonline = "Mitglieder online";
+localede.pbbacceptfont = "Annehmen";
+localede.pbbacceptfont2 = "Beenden";
+localede.pbsmfont2 = "NACHRICHT";
+localede.pbsmfont3 = "BESTÄTIGEN";
+localede.pbfmember = "Mitglieder";
+localede.pbfmessages = "Dispatches";
+localede.pbfsettings = "Einstellungen";
+localede.phfunk = "Funk";
+localede.pfjb = "BETRETEN";
+localede.pflb = "VERLASSEN";
 
 // Twitter
-locale.phoneheadlinetwitter = "TWITTER";
-locale.ptwtweetheaderfont = " NEUER TWEET";
-locale.ptwtweetsubmit = "BESTÄTIGEN";
-locale.ptwheaderfont = "BILD URL";
-locale.ptwheaderfont2 = "NEUES PROFILBILD";
-locale.ptwheaderfont3 = "NEUER NAME";
-locale.ptwheaderfont4 = "ACCOUNT ERSTELLEN";
-locale.ptwheaderfont5 = "NEUES PROFILBILD";
-locale.ptwheaderfont6 = "NEUER NAME";
-locale.ptwheaderfont7 = "NEUE  ID";
-locale.ptwheaderfont6 = "NEUER NAME";
-locale.ptwheaderfont6 = "NEUER NAME";
-locale.tweetnotificaton = "Tweet Benachrichtigung";
+localede.phoneheadlinetwitter = "TWITTER";
+localede.ptwtweetheaderfont = " NEUER TWEET";
+localede.ptwtweetsubmit = "BESTÄTIGEN";
+localede.ptwheaderfont = "BILD URL";
+localede.ptwheaderfont2 = "NEUES PROFILBILD";
+localede.ptwheaderfont3 = "NEUER NAME";
+localede.ptwheaderfont4 = "ACCOUNT ERSTELLEN";
+localede.ptwheaderfont5 = "NEUES PROFILBILD";
+localede.ptwheaderfont6 = "NEUER NAME";
+localede.ptwheaderfont7 = "NEUE  ID";
+localede.ptwheaderfont6 = "NEUER NAME";
+localede.ptwheaderfont6 = "NEUER NAME";
+localede.tweetnotificaton = "Tweet Benachrichtigung";
 
 
 //  Twitter Notification
-locale.usernameerror = "Dein Name kann maximal 15 Buchstaben oder mindestens 3 Buchstaben enthalten";
-locale.avatarerror = "Dein Avatar muss eine png / jpeg / jpg sein";
-locale.usernameaterror = "Deine ID darf nicht @ enthalten";
-locale.mustchange = "Du musst den Namen und die Userid zu ändern";
-locale.notempty = "Die Nachricht darf nicht leer sein";
+localede.usernameerror = "Dein Name kann maximal 15 Buchstaben oder mindestens 3 Buchstaben enthalten";
+localede.avatarerror = "Dein Avatar muss eine png / jpeg / jpg sein";
+localede.usernameaterror = "Deine ID darf nicht @ enthalten";
+localede.mustchange = "Du musst den Namen und die Userid zu ändern";
+localede.notempty = "Die Nachricht darf nicht leer sein";
 
 // Placeholders
-locale.name = "Name";
-locale.number = "Nummer";
-locale.message = "Nachricht";
-locale.png = "Link.jpeg/png";
-locale.description = "Beschreibung eingeben";
-locale.frequency = "Frequenz";
-locale.url = "Url";
+localede.name = "Name";
+localede.number = "Nummer";
+localede.message = "Nachricht";
+localede.png = "Link.jpeg/png";
+localede.description = "Beschreibung eingeben";
+localede.frequency = "Frequenz";
+localede.url = "Url";
 
 // 0.55
-locale.jobnumber = "Leitstelle belegen";
+localede.jobnumber = "Leitstelle belegen";
 
 // 0.60
 // Banking
-locale.bankappheadline = "Banking";
-locale.phonebankappcardsheadline = "Deine Karte";
-locale.cardcardholder = "Kartenbesitzer";
-locale.cardexpires = "Ablaufdatum";
-locale.phonebankappcardsheadline = "Transaktionen";
-locale.bankapptransferheadline = "Überweisungen";
-locale.bankapptransfercardnumber = "Kartennummer";
-locale.placeholdercardnumber = "KARTENNUMMER";
-locale.bankapptransferamount = "Betrag";
-locale.placeholderamount = "BETRAG";
-locale.bankapptransferbutton = "BESTÄTIGEN";
+localede.bankappheadline = "Banking";
+localede.phonebankappcardsheadline = "Deine Karte";
+localede.cardcardholder = "Kartenbesitzer";
+localede.cardexpires = "Ablaufdatum";
+localede.phonebankappcardsheadline = "Transaktionen";
+localede.bankapptransferheadline = "Überweisungen";
+localede.bankapptransfercardnumber = "Kartennummer";
+localede.placeholdercardnumber = "KARTENNUMMER";
+localede.bankapptransferamount = "Betrag";
+localede.placeholderamount = "BETRAG";
+localede.bankapptransferbutton = "BESTÄTIGEN";
 
 // 0.61
 // Businessapp
-locale.magnagment = "MANAGMENT";
-locale.pbrsnameheadline = "Name:";
-locale.pbrsgradeheadline = "Rang:";
-locale.pbrsrankheadline = "Rankname:";
-locale.pbrsuprank = "UPRANK";
-locale.pbrsderank = "DERANK";
-locale.pbrsupdaterank = "RANG SETZEN";
-locale.pbrsfire = "FEUERN";
-locale.pbrsrecruitheadline = "REKRUTIEREN";
-locale.pbrsrecruit = "REKRUTIEREN";
+localede.magnagment = "MANAGMENT";
+localede.pbrsnameheadline = "Name:";
+localede.pbrsgradeheadline = "Rang:";
+localede.pbrsrankheadline = "Rankname:";
+localede.pbrsuprank = "UPRANK";
+localede.pbrsderank = "DERANK";
+localede.pbrsupdaterank = "RANG SETZEN";
+localede.pbrsfire = "FEUERN";
+localede.pbrsrecruitheadline = "REKRUTIEREN";
+localede.pbrsrecruit = "REKRUTIEREN";
 
-locale.pbmsheadlineheadline = "Kontostand";
-locale.pbmsnameheadline = "Kontostand";
-locale.pbmsamount = "Betrag";
-locale.pmbsdeposit = "Einzahlen";
-locale.pmbswithdraw = "Auszahlen";
-locale.pbsjobmoney = "Kontostand";
+localede.pbmsheadlineheadline = "Kontostand";
+localede.pbmsnameheadline = "Kontostand";
+localede.pbmsamount = "Betrag";
+localede.pmbsdeposit = "Einzahlen";
+localede.pmbswithdraw = "Auszahlen";
+localede.pbsjobmoney = "Kontostand";
 
 // 0.7
-locale.prmsheadline = "EINSTELLUNGEN";
-locale.prmsdelete = "löschen";
+localede.prmsheadline = "EINSTELLUNGEN";
+localede.prmsdelete = "löschen";
 
 // Lifeinvader
-locale.advertisementheadline = "Werbung";
-locale.abtext = "Schreibe eine Nachricht";
-locale.yourname = "Dein Name";
-locale.abmessage = "Nachricht";
-locale.advertisementsendnewmessage = "BESTÄTIGEN";
+localede.advertisementheadline = "Werbung";
+localede.abtext = "Schreibe eine Nachricht";
+localede.yourname = "Dein Name";
+localede.abmessage = "Nachricht";
+localede.advertisementsendnewmessage = "BESTÄTIGEN";
 
 // Market
-locale.dmarketheadline = "Markt"
-locale.price = "Preis"
-locale.stock = "Lager"
+localede.dmarketheadline = "Markt"
+localede.price = "Preis"
+localede.stock = "Lager"
 
 // 0.72
-locale.enableconstant = "DAUERFUNK AKTIVIEREN"
-locale.disableconstant = "DUAERFUNK DEAKTIVIEREN"
+localede.enableconstant = "DAUERFUNK AKTIVIEREN"
+localede.disableconstant = "DUAERFUNK DEAKTIVIEREN"
+
+// 0.73
+localede.add = "Add"
+localede.edit = "Edit"
+localede.notAvailable = "Kein ergebnis"
+localede.contact = "Kontakt"
+localede.delete = "Löschen"
+localede.firstname = "Vorname"
+localede.lastname = "Nachname"
+localede.phonenumber = "Nummer"
+localede.number = "Nummer"
+localede.save = "speichern"
+localede.save2 = "SPEICHERN"
+localede.sendlocation = "GPS schicken"
+localede.sharecontact = "Kontakt teilen"
+localede.deletecontact = "Kontakt löschen"
+
+localede.edit = "Edit";
+
+// Settings
+localede.phonesettingsselectioncase = "Gehäuse";
+localede.phonesettingsselectionringtone = "Klingelton";
+localede.callhistoryheadline = "Anruferliste"
+localede.time = "Uhrzeit"

@@ -1,776 +1,24 @@
 .phone-app {
+    position: absolute;
     height: 100%;
     width: 100%;
     background: rgb(253, 253, 253);
     overflow: hidden;
+    color: black!important;
+    font-family: 'Roboto';
     display: none;
+    margin-left: -30vh;
+    z-index: 1;
 }
 
-.phone-app-header {
-    position: relative;
-    font-family: 'Samsung Sans thin';
-    font-size: 2.5vh;
-    top: 0%;
-    left: 0%;
-    width: 100%;
-    height: 5vh;
-    border-bottom: 0px;
-    box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    line-height: 0vh;
+.darkphone-app {
+    background: rgb(10, 10, 10);
+    color: white!important;
 }
 
-#phone-edit {
+#phone-app-contact {
     display: none;
-}
-
-#total-contacts {
-    position: relative;
-    font-size: 1.1vh;
-    font-family: 'Samsung Sans Medium';
-    top: -3vh;
-    color: rgba(0, 0, 0, 0.75);
-}
-
-.phone-app-footer {
-    position: absolute;
-    height: 5vh;
-    width: 100%;
-    bottom: 0;
-    z-index: 101;
-}
-
-.phone-app-footer-button {
-    position: relative;
-    height: 100%;
-    /* width: 33.33%; */
-    width: 25%;
-    text-align: center;
-    line-height: 5vh;
-    float: left;
-    font-family: 'Samsung Sans Medium';
-    font-size: 1.1vh;
-    color: black;
-    border-bottom: .4vh solid #686de000;
-    transition: .1s;
-}
-
-.phone-app-footer-button:hover {
-    background-color: rgb(202, 202, 202);
-}
-
-.phone-selected-footer-tab {
-    color: #27ae60;
-    border-bottom: .4vh solid #27ae60;
-}
-
-.phone-contacts {
-    display: block;
-    position: absolute;
-    height: 84%;
-    width: 100%;
-    top: 14.6%;
-}
-
-.phone-keypad-header {
-    padding-top: 6vh;
-    padding-left: 3vh;
-    font-family: 'Samsung Sans Regular';
-    font-size: 1.8vh;
-}
-
-#phone-keypad-input {
-    position: absolute;
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-    top: 11vh;
-    height: 4vh;
-    width: 19vh;
-    border-radius: 1vh;
-    border: none;
-    background: none;
-    outline: none;
-    box-shadow: inset 0 0 .5vh 0 rgba(0, 0, 0, 0.171);
-    text-indent: 1vh;
-    font-family: 'Samsung Sans Regular';
-    text-align: left;
-    line-height: 3.9vh;
-    font-size: 1.75vh;
-    overflow: hidden;
-}
-
-.phone-keypad {
-    display: none;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    background: rgb(230, 230, 230);
-}
-
-.phone-recent {
-    display: none;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    background: rgb(230, 230, 230);
-}
-
-.phone-recent-header {
-    padding-top: 6vh;
-    padding-left: 3vh;
-    font-family: 'Samsung Sans Regular';
-    font-size: 1.8vh;
-}
-
-.phone-recent-calls::-webkit-scrollbar {
-    display: none;
-}
-
-.phone-recent-calls {
-    position: absolute;
-    width: 100%;
-    height: 37vh;
-    background-color: rgba(245, 245, 245, 0.788);
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-    top: 12vh;
-    border-radius: 2vh;
-    box-shadow: 0 0 .3vh 0vh rgba(0, 0, 0, 0.3);
-    overflow-x: hidden;
-    overflow-y: scroll;
-}
-
-.phone-recent-call {
-    position: relative;
-    height: 6.25vh;
-    width: 100%;
-    background-color: rgb(240, 240, 240);
-    border-bottom: .2vh solid rgba(51, 51, 51, 0.25);
-}
-
-.phone-recent-call:hover {
-    background-color: rgb(250, 250, 250);
-    border-bottom: .2vh solid rgba(51, 51, 51, 0.35);
-}
-
-.phone-recent-call-image {
-    position: absolute;
-    width: 4vh;
-    height: 4vh;
-    top: 1.2vh;
-    left: 1vh;
-    text-align: center;
-    line-height: 4.2vh;
-    font-size: 1.6vh;
-    color: white;
-    border-radius: 50%;
-    font-family: 'Samsung Sans Bold';
-    background: #4e54c8;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #8f94fb, #4e54c8);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #8f94fb, #4e54c8);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-
-.phone-recent-call-name {
-    position: absolute;
-    top: 1.1vh;
-    left: 6vh;
-    font-family: 'Samsung Sans Regular';
-}
-
-.phone-recent-call-type {
-    position: absolute;
-    bottom: 1.1vh;
-    left: 6vh;
-    font-size: 1.2vh;
-    color: rgba(54, 54, 54, 0.808);
-}
-
-.phone-recent-call-time {
-    position: absolute;
-    bottom: 1.1vh;
-    right: 1.75vh;
-    font-size: 1.2vh;
-    font-family: 'Samsung Sans Regular';
-    color: rgba(54, 54, 54, 0.808);
-}
-
-.phone-keypad-keys {
-    position: absolute;
-    width: 23vh;
-    height: 27vh;
-    left: 3vh;
-    top: 17vh;
-}
-
-.phone-keypad-key-call {
-    position: absolute;
-    margin: 0 auto;
-    bottom: 8vh;
-    left: 11.7vh;
-    font-size: 2.5vh;
-    height: 5.5vh;
-    width: 5.5vh;
-    text-align: center;
-    line-height: 5.8vh;
-    background-color: #27ae60;
-    color: white;
-    border-radius: 50%;
-    transition: .1s;
-}
-
-.phone-keypad-key-call:hover {
-    background-color: #1e8046;
-}
-
-.phone-keypad-key {
-    position: relative;
-    float: left;
-    height: 23%;
-    width: 33.33%;
-    text-align: center;
-    line-height: 7vh;
-    font-family: 'Samsung Sans Regular';
-    font-size: 2vh;
-    color: black;
-    border-bottom: 2px solid rgba(0, 0, 0, 0);
-    transition: .1s;
-}
-
-.phone-keypad-key:hover {
-    color: #6e6e6e;
-    border-bottom: 2px solid #e74c3c;
-}
-
-.phone-contacts-header {
-    position: absolute;
-    top: 0;
-    height: 4vh;
-    width: 100%;
-}
-
-.phone-contacts-header>i {
-    float: right;
-    line-height: 4vh;
-    font-size: 1.8vh;
-    padding-right: 2vh;
-    margin-left: 0.2vh;
-    transition: .1s;
-    color: #000000;
-    z-index: 150;
-}
-
-.phone-contacts-header>i:hover {
-    color: #686de0;
-}
-
-
-/* #phone-search-icon {
-    position: relative;
-}
-
-#phone-plus-icon {
-    position: relative;
-} */
-
-#contact-search {
-    display: none;
-    position: absolute;
-    background: none;
-    border: none;
-    background: rgb(226, 226, 226);
-    top: .7vh;
-    width: 17vh;
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-    opacity: 0.0;
-    height: 2.5vh;
-    border-radius: 1vh;
-    box-shadow: 0 0 .2vh 0 rgba(0, 0, 0, 0.281);
-    font-family: 'Samsung Sans Regular';
-    outline: none;
-    text-indent: 1vh;
-    z-index: 100;
-}
-
-#contact-search::placeholder {
-    font-family: 'Samsung Sans Regular';
-}
-
-.phone-contact-list::-webkit-scrollbar {
-    width: .4vh;
-}
-
-.phone-contact-list::-webkit-scrollbar-thumb {
-    background-color: #686de0;
-}
-
-.phone-contact-list::-webkit-scrollbar-track {
-    background-color: #ebebeb;
-}
-
-.phone-contact-list {
-    position: absolute;
-    height: 98.2%;
-    top: 0vh;
-    width: 99%;
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-    overflow-y: scroll;
-    overflow-x: hidden;
-}
-
-.phone-contact {
-    position: relative;
-    width: 99%;
-    left: 0.3vh;
-    height: 6vh;
-    border-bottom: .1vh solid rgb(206, 206, 206);
-}
-
-.darkphone-contact {
-    border-bottom: .3vh solid rgb(35, 35, 35)!important;
-}
-
-.phone-contact-firstletter {
-    position: absolute;
-    /* background-color: #eb4d4b; */
-    height: 3.4vh;
-    width: 3.4vh;
-    margin: .5vh;
-    margin-left: .6vh;
-    text-align: center;
-    line-height: 3.5vh;
-    border-radius: 50%;
-    font-family: 'Samsung Sans Bold';
-    color: white;
-}
-
-.phone-contact-name {
-    position: absolute;
-    left: 4vh;
-    line-height: 6vh;
-    font-family: 'Samsung Sans Regular';
-    font-size: 2vh;
-    font-weight: 500;
-}
-
-.phone-contact-actions {
-    position: absolute;
-    right: 0;
-    top: 1.8vh;
-    right: 2vh;
-    font-size: 2.2vh;
-    transition: .1s;
-}
-
-.phone-contact-actions:hover {
-    color: rgb(27, 131, 216);
-}
-
-.phone-contact-favourite {
-    position: absolute;
-    left: 1vh;
-    top: 1.75vh;
-    font-size: 2vh;
-    font-weight: 500;
-    color: gold;
-}
-
-.phone-contact-add {
-    position: absolute;
-    right: 3vh;
-    bottom: 3vh;
-    height: 4vh;
-    width: 4vh;
-    border-radius: 3vh;
-    line-height: 4vh;
-    text-align: center;
-    box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.2);
-    color: rgb(31, 29, 29);
-    background-color: white;
-}
-
-.phone-contact-add:hover {
-    color: rgb(27, 131, 216);
-}
-
-.phone-contact-action-buttons {
-    display: none;
-    position: absolute;
-    bottom: 1.2vh;
-    height: 5vh;
-    width: 95%;
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-}
-
-.phone-contact-action-buttons>i {
-    position: relative;
-    float: left;
-    margin-left: 5vh;
-    left: -.2vh;
-    top: 1vh;
-    font-size: 2.3vh;
-    color: rgb(44, 44, 44);
-    transition: .1s;
-}
-
-.phone-contact-action-buttons>i:hover {
-    color: #eb4d4b;
-}
-
-.phone-add-contact {
-    display: none;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: -100%;
-    background: rgb(230, 230, 230);
-    z-index: 102;
-}
-
-.phone-add-contact-header {
-    padding-top: 6vh;
-    padding-left: 3vh;
-    font-family: 'Samsung Sans Medium';
-    font-size: 2vh;
-}
-
-.phone-add-contact-name {
-    position: absolute;
-    top: 12vh;
-    left: 6vh;
-    background: none;
-    border: none;
-    outline: none;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.555);
-    font-family: 'Samsung Sans Regular';
-    height: 3.5vh;
-    width: 20vh;
-    text-indent: .4vh;
-    border-radius: .5vh .5vh 0 0;
-    transition: .1s;
-    font-size: 1.5vh;
-}
-
-#phone-add-contact-name-icon {
-    position: absolute;
-    top: 13.1vh;
-    left: 2.1vh;
-    font-size: 2.4vh;
-}
-
-.phone-add-contact-name:focus {
-    border-bottom: 2px solid #30336b;
-}
-
-.phone-add-contact-name:valid {
-    border-bottom: 2px solid #6ab04c;
-}
-
-.phone-add-contact-number {
-    position: absolute;
-    top: 19vh;
-    left: 6vh;
-    background: none;
-    border: none;
-    outline: none;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.555);
-    font-family: 'Samsung Sans Regular';
-    height: 3.5vh;
-    width: 20vh;
-    text-indent: .4vh;
-    border-radius: .5vh .5vh 0 0;
-    transition: .1s;
-    font-size: 1.5vh;
-}
-
-.phone-add-contact-number::-webkit-inner-spin-button {
-    display: none;
-}
-
-.phone-add-contact-number:focus {
-    border-bottom: 2px solid #30336b;
-}
-
-.phone-add-contact-number:valid {
-    border-bottom: 2px solid #6ab04c;
-}
-
-.phone-add-contact-iban {
-    position: absolute;
-    top: 26vh;
-    left: 6vh;
-    background: none;
-    border: none;
-    outline: none;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.555);
-    font-family: 'Samsung Sans Regular';
-    height: 3.5vh;
-    width: 20vh;
-    text-indent: .4vh;
-    border-radius: .5vh .5vh 0 0;
-    transition: .1s;
-    font-size: 1.5vh;
-}
-
-.phone-add-contact-iban::-webkit-inner-spin-button {
-    display: none;
-}
-
-.phone-add-contact-iban:focus {
-    border-bottom: 2px solid #30336b;
-}
-
-.phone-add-contact-iban:valid {
-    border-bottom: 2px solid #6ab04c;
-}
-
-#phone-add-contact-number-icon {
-    position: absolute;
-    top: 20.1vh;
-    left: 2.1vh;
-    font-size: 2.4vh;
-}
-
-#phone-add-contact-iban-icon {
-    position: absolute;
-    top: 27.1vh;
-    left: 2.1vh;
-    font-size: 2.4vh;
-}
-
-.phone-add-contact-buttons {
-    position: absolute;
-    bottom: 0;
-    height: 5vh;
-    width: 100%;
-}
-
-.phone-add-contact-button {
-    position: relative;
-    float: left;
-    width: 50%;
-    height: 5vh;
-    text-align: center;
-    line-height: 4.3vh;
-    font-family: 'Samsung Sans Bold';
-    border-top: 2px solid #30336b00;
-    transition: .1s;
-    font-size: 1.4vh;
-}
-
-.phone-add-contact-button:hover {
-    border-top: 2px solid #eb4d4b;
-}
-
-
-/* EDIT CONTACT YEEY */
-
-.phone-edit-contact {
-    display: none;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: -100%;
-    background: rgb(230, 230, 230);
-    z-index: 102;
-}
-
-.phone-edit-contact-header {
-    padding-top: 6vh;
-    padding-left: 3vh;
-    font-family: 'Samsung Sans Medium';
-    font-size: 2vh;
-}
-
-.phone-edit-contact-name {
-    position: absolute;
-    top: 12vh;
-    left: 6vh;
-    background: none;
-    border: none;
-    outline: none;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.555);
-    font-family: 'Samsung Sans Regular';
-    height: 3.5vh;
-    width: 20vh;
-    text-indent: .4vh;
-    border-radius: .5vh .5vh 0 0;
-    transition: .1s;
-    font-size: 1.5vh;
-}
-
-#phone-edit-contact-name-icon {
-    position: absolute;
-    top: 13.1vh;
-    left: 2.1vh;
-    font-size: 2.4vh;
-}
-
-.phone-edit-contact-name:focus {
-    border-bottom: 2px solid #30336b;
-}
-
-.phone-edit-contact-name:valid {
-    border-bottom: 2px solid #6ab04c;
-}
-
-.phone-edit-contact-number {
-    position: absolute;
-    top: 19vh;
-    left: 6vh;
-    background: none;
-    border: none;
-    outline: none;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.555);
-    font-family: 'Samsung Sans Regular';
-    height: 3.5vh;
-    width: 20vh;
-    text-indent: .4vh;
-    border-radius: .5vh .5vh 0 0;
-    transition: .1s;
-    font-size: 1.5vh;
-}
-
-.phone-edit-contact-number::-webkit-inner-spin-button {
-    display: none;
-}
-
-.phone-edit-contact-number:focus {
-    border-bottom: 2px solid #30336b;
-}
-
-.phone-edit-contact-number:valid {
-    border-bottom: 2px solid #6ab04c;
-}
-
-.phone-edit-contact-iban {
-    position: absolute;
-    top: 26vh;
-    left: 6vh;
-    background: none;
-    border: none;
-    outline: none;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.555);
-    font-family: 'Samsung Sans Regular';
-    height: 3.5vh;
-    width: 20vh;
-    text-indent: .4vh;
-    border-radius: .5vh .5vh 0 0;
-    transition: .1s;
-    font-size: 1.5vh;
-}
-
-.phone-edit-contact-iban::-webkit-inner-spin-button {
-    display: none;
-}
-
-.phone-edit-contact-iban:focus {
-    border-bottom: 2px solid #30336b;
-}
-
-.phone-edit-contact-iban:valid {
-    border-bottom: 2px solid #6ab04c;
-}
-
-#phone-edit-contact-number-icon {
-    position: absolute;
-    top: 20.1vh;
-    left: 2.1vh;
-    font-size: 2.4vh;
-}
-
-#phone-edit-contact-iban-icon {
-    position: absolute;
-    top: 27.1vh;
-    left: 2.1vh;
-    font-size: 2.4vh;
-}
-
-.phone-edit-contact-buttons {
-    position: absolute;
-    bottom: 0;
-    height: 5vh;
-    width: 100%;
-}
-
-.phone-edit-contact-button {
-    position: relative;
-    float: left;
-    width: 33.33%;
-    height: 5vh;
-    text-align: center;
-    line-height: 4.3vh;
-    font-family: 'Samsung Sans Bold';
-    border-top: 2px solid #30336b00;
-    transition: .1s;
-    font-size: 1.4vh;
-}
-
-.phone-edit-contact-button:hover {
-    border-top: 2px solid #eb4d4b;
-}
-
-.noselect {
-    -webkit-touch-callout: none;
-    /* iOS Safari */
-    -webkit-user-select: none;
-    /* Safari */
-    -khtml-user-select: none;
-    /* Konqueror HTML */
-    -moz-user-select: none;
-    /* Old versions of Firefox */
-    -ms-user-select: none;
-    /* Internet Explorer/Edge */
-    user-select: none;
-    /* Non-prefixed version, currently
-                                    supported by Chrome, Opera and Firefox */
-}
-
-.phone-contacts-information {
-    display: none;
-    position: absolute;
-    height: 84%;
-    width: 100%;
-    top: 16%;
-    padding: 1vh;
-}
-
-.phone-contacts-add {
-    display: none;
-    position: absolute;
-    height: 84%;
-    width: 100%;
-    top: 16%;
-    padding: 1vh;
-}
-
-.phone-contacts-edit {
-    display: none;
-    position: absolute;
-    height: 84%;
-    width: 100%;
-    top: 16%;
-    padding: 1vh;
-}
-
-.pcihead {
-    font-size: 1.6vh;
-    width: 100%;
-    height: 5%;
-    color: grey;
-    font-weight: 500;
+    margin-left: 0vh;
 }
 
 .pciinputdiv {
@@ -779,6 +27,8 @@
     margin-top: 2.5%;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     background: rgba(0, 0, 0, 0)!important;
+    font-family: 'RobotoMedium';
+    font-weight: 500;
 }
 
 .pciinput {
@@ -789,8 +39,8 @@
     background: rgba(0, 0, 0, 0)!important;
     font-size: 1.8vh!important;
     text-align: left!important;
-    font-family: Samsung Sans Regular;
-    font-weight: 400;
+    font-family: 'RobotoMedium';
+    font-weight: 500;
     outline: none;
     border: none;
 }
@@ -798,178 +48,445 @@
 .darkpciinput {
     border-bottom: 2px solid rgba(200, 200, 200, 0.3)!important;
     background: rgba(25, 25, 25, 0.0)!important;
+    color: white!important;
 }
-
-.pcisubmit {
-    width: 100%;
-    height: 15%;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-#pciinputsubmit {
-    position: relative;
-    background-color: rgb(27, 131, 216);
-    width: 90%;
-    height: 60%;
-    left: 5%;
-    top: 20%;
-    border: none;
-    outline: none;
-    color: white;
-    font-family: Samsung Sans Regular;
-    font-weight: 400;
-    border-radius: 0.25vh;
-    box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-#pciinputsubmit:hover {
-    color: rgb(27, 131, 216);
-    background-color: rgb(255, 255, 255);
-    transition: .5s;
-}
-
-#pcieditsubmit {
-    position: relative;
-    background-color: rgb(27, 131, 216);
-    width: 90%;
-    height: 60%;
-    left: 5%;
-    top: 20%;
-    border: none;
-    outline: none;
-    color: white;
-    font-family: Samsung Sans Regular;
-    font-weight: 400;
-    border-radius: 0.25vh;
-    box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-#pcieditsubmit:hover {
-    color: rgb(27, 131, 216);
-    background-color: rgb(255, 255, 255);
-    transition: .5s;
-}
-
-.pciname {
+/* Header */
+.phone-app-header {
+    /* position: relative; */
     font-size: 2.5vh;
-    width: 100%;
-    height: 15vh;
-    line-height: 5vh;
-    margin-top: 3vh;
-    text-align: center;
+    margin-top: 4.5vh;
+    width: 90%;
+    height: 4vh;
+    text-align: left;
+    line-height: 3vh;
+    margin-left: 5%;
+    font-family: 'Roboto';
+    /* background-color: rgb(199, 10, 10); */
+
+}
+
+.phone-app-header h2 {
+    font-family: 'Roboto';
     font-weight: 500;
+    display: inline;
 }
 
-.pciiconslist {
-    width: 100%;
-    height: 40%;
-    line-height: 40%;
-}
-
-.pciicon {
-    position: relative;
-    width: 5vh;
-    height: 5vh;
-    left: 4vh;
-    line-height: 5vh;
-    text-align: center;
-    border-radius: 5vh;
-    background-color: rgb(27, 131, 216);
-    color: white;
-    margin-left: 1vh;
-    margin-top: 0.25vh;
-    float: left;
-    box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.pciicon:hover {
-    color: rgb(27, 131, 216);
-    background-color: white;
-    transition: .2s;
-}
-
-.pciicon>i {
-    line-height: 5vh;
-    text-align: center;
-}
-
-.pcifavouriteicon {
-    background-color: gold;
-}
-
-.pcifavouriteicon:hover {
-    color: gold;
-    background-color: white;
-}
-
-#pciphone {
-    transform: rotate(90deg);
-}
-
-.pcirest {
-    width: 100%;
-    height: 60%;
-    font-size: 1.5vh;
-    line-height: 4vh;
-    font-family: Samsung Sans Medium;
+.phone-app-header-left {
+    position: absolute;
+    top: 2.5vh;
+    left: 1.5vh;
+    font-family: 'Roboto';
     font-weight: 500;
-    color: rgb(27, 131, 216);
+    font-size: 1.75vh;
+    color: rgb(74, 76, 246);
+    line-height: 7vh;
 }
 
-#pcinumber {
-    color: rgb(48, 48, 48);
+.phone-app-header-left:hover {
+    color: #292949!important;
+    transition: 0.5s;
 }
 
-.darkpcinumber {
-    color: rgb(221, 221, 221)!important;
+.phone-app-header-right {
+    position: absolute;
+    top: 2.75vh;
+    right: 1.5vh;
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 1.75vh;
+    color: #4A4CF6;
+    line-height: 7vh;
 }
 
-#phone-return {
+.phone-app-header-right:hover {
+    color: rgb(57, 59, 192)!important;
+    transition: 0.5s;
+}
+
+/* Content */
+.phone-app-content {
     position: relative;
-    left: 3vh;
-    top: 0.5vh;
-    height: 3vh;
-    width: 3vh;
-}
-
-.phone-returnicon {
-    color: rgb(27, 131, 216);
-}
-
-.phone-returnicon:hover {
-    color: rgb(12, 12, 12);
-}
-
-.darkphone-returnicon {
-    color: rgb(33, 151, 248)!important;
-}
-
-.darkphone-returnicon:hover {
-    color: rgb(255, 255, 255)!important;
-}
-
-.phone-headline {
-    position: relative;
-    left: 0vh;
     top: -1vh;
+    height: auto;
+    max-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 101%;
+    /* background-color: cadetblue; */
 }
 
-#pcidelete {
-    color: rgb(238, 16, 16);
+.phone-app-content::-webkit-scrollbar {
+    width: 0vh!important;
 }
 
-#pcidelete:hover {
-    color: rgb(172, 33, 33);
-    font-size: 1.6vh;
-    transition: .1s;
+.phone-app-content::-webkit-scrollbar-thumb {
+    background-color: #686de0;
 }
 
-.pcihover {
-    color: rgb(27, 131, 216);
+.phone-app-content::-webkit-scrollbar-track {
+    background-color: #ebebeb;
 }
 
-.pcihover:hover {
-    color: rgb(24, 106, 173);
-    font-size: 1.6vh;
-    transition: .1s;
+.phone-app-content-10vh {
+    width: 100%;
+    height: 8vh;
+    line-height: 8vh;
+    text-align: center;
+    font-family: 'Roboto';
+    font-size: 2.5vh;
+    font-weight: 500;
+    overflow: hidden;
+    /* background-color: chartreuse; */
+}
+
+/* Boxes */
+.phone-app-fontbox {
+    height: 4vh;
+    width: 90%;
+    margin-left: 5%;
+
+    font-family: 'RobotoMedium';
+    border-radius: 1vh;
+    font-weight: 500;
+    line-height: 4vh;
+    font-size: 2vh;
+}
+
+.phone-app-box {
+    height: 5vh;
+    width: 90%;
+    margin-left: 5%;
+
+    background: #F6F6F6;
+
+    font-family: 'Roboto';
+    padding-left: 1vh;
+    border-radius: 1vh;
+    line-height: 5vh;
+    font-weight: 500;
+    font-size: 2vh;
+    margin-bottom: 1vh;
+    border: none;
+    outline: none;
+}
+
+.phone-app-box:hover {
+    background: #f0f0f0;
+    transition: 0.5s;
+}
+
+.darkphone-app-box {
+    background: #202020;
+}
+
+.darkphone-app-box:hover {
+    background: #1a1919!important;
+    transition: 0.5s;
+}
+
+.phone-app-box:hover {
+    background: #f0f0f0;
+    transition: 0.5s;
+}
+
+
+.phone-app-button-box {
+    height: 6vh;
+    width: 90%;
+    margin-left: 5%;
+
+    background: #F6F6F6;
+
+    font-family: 'RobotoMedium';
+    padding-left: 1vh;
+    border-radius: 1vh;
+    line-height: 6vh;
+    font-weight: 500;
+    font-size: 2vh;
+    margin-bottom: 1vh;
+    border: none;
+    outline: none;
+}
+
+.phone-app-button-box:hover {
+    background: #f0f0f0;
+    transition: 0.5s;
+}
+
+
+
+.phone-app-3box-div {
+    width: 100%;
+    height: 6vh;
+    padding-left: 5%;
+    padding-right: 5%;
+    /* background-color: cyan; */
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    grid-template-rows: 100%;
+    gap: 5%;
+}
+
+.phone-app-3box {
+    width: 100%;
+    height: 100%;
+
+    border-radius: 1vh;
+    background: #F6F6F6;
+
+    line-height: 6vh;
+    text-align: center;
+    font-size: 2vh;
+}
+
+.phone-app-3box:hover {
+    background: #f0f0f0;
+    transition: 0.5s;
+}
+
+.darkphone-app-3box {
+    background: #202020;
+}
+
+.darkphone-app-3box:hover {
+    background: #1a1919;
+    transition: 0.5s;
+}
+
+.phone-app-3box>i {
+    line-height: 6vh;
+    text-align: center;
+    font-size: 2.5vh;
+}
+
+.phone-app-header-searchbarform{
+    position: relative;
+    height: 5vh;
+}
+
+.phone-app-header-searchbar {
+    border: none;
+    outline: none;
+    background-color: #f5f5f5;
+    border-radius: 1vh;
+    width: 90%;
+    height: 4vh;
+    line-height: 4vh;
+    margin-left: 5%;
+    margin-top: 0.5vh;
+    padding-left: 1vh;
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 1.75vh;
+}
+
+.darkphone-app-header-searchbar {
+    background-color: #202020;
+}
+
+#notAvailable {
+    border-radius: 1vh;
+    width: 90%;
+    height: 6vh;
+    line-height: 3vh;
+    margin-left: 5%;
+    padding-left: 1vh;
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 1.75vh;
+    display: none;
+}
+
+.phone-app-div {
+    position: relative;
+    width: 26vh;
+    margin-left: 1.5vh;
+    border-radius: 1vh;
+    height: 6vh;
+    background-color: #f5f5f5;
+    color: rgb(36, 36, 36);
+    font-family: 'Roboto';
+    font-weight: 500;
+    margin-bottom: 0.75vh;
+    overflow: hidden;
+}
+
+.phone-app-div:hover {
+    background-color: rgba(179, 179, 179, 0.15);
+    transition: 0.5s;
+}
+
+.darkphone-app-div {
+    position: relative;
+    width: 26vh;
+    height: 6vh;
+    font-family: 'Roboto';
+    font-weight: 500;
+    margin-bottom: 0.75vh;
+    background-color: #202020;
+    color: white;
+}
+
+.darkphone-app-div:hover {
+    background-color: #1a1919;
+    transition: 0.5s;
+}
+
+.darkmode-prms {
+    color: white!important;
+    border-bottom: 1px solid rgba(170, 170, 170, 0.2);
+}
+
+.darkmode-prms:hover {
+    background-color: rgba(228, 228, 228, 0.014);
+}
+
+#phone-contact-name {
+    float: left;
+    height: 6vh;
+    max-height: 6vh;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 4vh;
+    font-size: 2.25vh;
+    width: 22vh;
+    padding: 1vh;
+    padding-left: 1vh;
+}
+
+#phone-contact-actions {
+    float: left;
+    height: 5vh;
+    line-height: 10vh;
+    font-size: 2.25vh;
+    width: 3vh;
+    text-align: center;
+    padding: 1vh;
+}
+
+.goldbackground {
+    background-color: rgba(255, 215, 0, 0.6);
+}
+
+.goldbackground:hover {
+    background-color: rgba(255, 215, 0, 0.6);
+    transition: 0.5s;
+}
+
+.goldcolor {
+    color: rgba(255, 215, 0, 1);
+}
+
+.favouriticon {
+    background-color: rgba(255, 217, 0, 0.6);
+}
+
+.favouriticon:hover {
+    background-color: rgba(212, 181, 0, 0.6);
+}
+
+#phone-contact-actions>i {
+    float: left;
+    line-height: 4vh;
+}
+
+
+/* Other */
+.gap1 {
+    height: 1vh;
+    width: 100%;
+}
+.gap2 {
+    height: 2vh;
+    width: 100%;
+}
+.gap3 {
+    height: 3vh;
+    width: 100%;
+}
+.gap4 {
+    height: 4vh;
+    width: 100%;
+}
+.gap5 {
+    height: 5vh;
+    width: 100%;
+}
+
+.mb1 {
+    margin-bottom: 1vh;
+}
+.mb2 {
+    margin-bottom: 2vh;
+}
+.mb3 {
+    margin-bottom: 3vh;
+}
+.mb4 {
+    margin-bottom: 4vh;
+}
+.mb5 {
+    margin-bottom: 5vh;
+}
+
+.ns {
+    user-select: none; /* supported by Chrome and Opera */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+
+.selectabletext {
+    user-select: text; /* supported by Chrome and Opera */
+    -webkit-user-select: text; /* Safari */
+    -khtml-user-select: text; /* Konqueror HTML */
+    -moz-user-select: text; /* Firefox */
+    -ms-user-select: text; /* Internet Explorer/Edge */
+}
+
+/* colors */
+
+.grey-color {
+    color: grey
+}
+
+.delete-color {
+    color: rgb(202, 21, 21)!important;
+}
+
+.delete-color:hover {
+    color: rgb(172, 20, 20)!important;
+}
+
+.delete {
+    background-color: rgb(202, 21, 21)!important;
+    color: white;
+}
+
+.delete:hover {
+    background-color: rgb(172, 20, 20)!important;
+}
+
+.add-color {
+    color: rgb(202, 21, 21)!important;
+}
+
+.add-color:hover {
+    color: rgb(172, 20, 20)!important;
+}
+
+.add {
+    background-color: rgb(65, 184, 101)!important;
+    color: white;
+}
+
+.add:hover {
+    background-color: rgb(55, 153, 84)!important;
+}
+
+.white-spacenowrap {
+    white-space: nowrap;
+    overflow: hidden;
 }

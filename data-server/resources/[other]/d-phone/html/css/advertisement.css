@@ -130,7 +130,7 @@
     height: 3vh;
     line-height: 2vh;
     text-align: center;
-    background-color: rgb(27, 131, 216);
+    background-color: rgb(74, 76, 246);
     color: white;
     border-radius: 2vh;
 }
@@ -142,7 +142,7 @@
 }
 
 .advertisement-newmessage:hover {
-    background-color: rgb(24, 118, 196);
+    background-color: rgb(57, 59, 192);
     transition: 0.5s;
 }
 

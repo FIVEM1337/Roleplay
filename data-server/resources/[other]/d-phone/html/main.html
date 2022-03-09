@@ -16,10 +16,16 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <!-- Color CDN -->
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
     <link rel="stylesheet" href="./css/all.css">
     <link rel="stylesheet" href="./css/bank.css">
+    <link rel="stylesheet" href="./css/bitcoin.css">
     <link rel="stylesheet" href="./css/business.css">
     <link rel="stylesheet" href="./css/call.css">
+    <link rel="stylesheet" href="./css/calculator.css">
     <link rel="stylesheet" href="./css/contacts.css">
     <link rel="stylesheet" href="./css/fonts.css">
     <link rel="stylesheet" href="./css/message.css">
@@ -27,6 +33,7 @@
     <link rel="stylesheet" href="./css/radio.css">
     <link rel="stylesheet" href="./css/settings.css">
     <link rel="stylesheet" href="./css/services.css">
+    <link rel="stylesheet" href="./css/startscreen.css">
     <link rel="stylesheet" href="./css/tooltip.css">
     <link rel="stylesheet" href="./css/twitter.css">
     <link rel="stylesheet" href="./css/advertisement.css">
@@ -37,38 +44,49 @@
     <script src="./js/main.js" type="text/javascript"></script>
 
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 
 <body>
-    <div class="container">
-        <img src="./img/samsung-s10.png" class="phone-frame">
+    <div class="container ns">
+        <img src="./img/model1.png" class="phone-frame">
 
         <div class="phone-container phone-background">
+            <div class="phone-startscreen hide">
+                <img class="phone-startscreen-logo" src="https://cdn.discordapp.com/attachments/875495427938611271/939471822284550164/white.png">
+
+                </img>
+                <div class="phone-startscreen-loadingbar">
+                    <div class="phone-startscreen-loadingbar-inner">
+                    </div>
+                </div>
+            </div>
             <div class="phone-header">
                 <div id="phone-time">08:05</div>
                 <div id="phone-icons">
-                    <i class="fas fa-volume-mute" id="phone-mute" data-toggle="tooltip" data-placement="left"></i>
-                    <i class="fas fa-plane" id="phone-flightmode" data-toggle="tooltip" data-placement="left"></i>
+                    <!-- <i class="fas fa-volume-mute" id="phone-mute" data-toggle="tooltip" data-placement="left"></i>
+                    <i class="fas fa-plane" id="phone-flightmode" data-toggle="tooltip" data-placement="left"></i> -->
                     <i class="fas fa-signal" id="phone-signal" data-toggle="tooltip" data-placement="left"></i>
-                    <i class="fas fa-battery-three-quarters" id="phone-battery"></i>
+                    <i class="fas fa-battery-full" id="phone-battery"></i>
                 </div>
             </div>
 
-
             
+    
             <div class="phone-applications">
                 <div class="phone-footer-applications">
-                    <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="1" style="background: linear-gradient(to bottom, #70fd77 0%, #63e26a 100%); margin-left: 0vh; margin-top: 1vh; " title="call" tooltipText="call" tooltipPos="top"
+                    <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="1" style="background: linear-gradient(to bottom, #5dcc62 0%, #30b937 100%); margin-left: 0vh; margin-top: 1vh; " title="call" tooltipText="call" tooltipPos="top"
                         data-app="call">
-                        <i class="ApplicationIcon fas fa-phone" style="transform: rotate(100deg);"></i>
+                        <i class="ApplicationIcon fas fa-phone"></i>
                     </div>
-                    <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="2" style="background: linear-gradient(to bottom, #f8783c 0%, #e46e37 100%); margin-top: 1vh;" title="contacts" data-app="contacts">
-                        <i class="ApplicationIcon fas fa-address-book"></i>
+                    <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="2" style="background: linear-gradient(to bottom, #fa5306 0%, #e46e37 100%); margin-top: 1vh;" title="contacts" data-app="contacts">
+                        <i class="ApplicationIcon fa-solid fa-address-book"></i>
                     </div>
                     <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="3" style="background: linear-gradient(to bottom, #3696d6 0%, #2991d6 100%); margin-top: 1vh;" title="messages" data-app="messages">
                         <i class="ApplicationIcon fas fa-comment-alt"></i>
+                        
                     </div>
                     <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="4" style="background: linear-gradient(to bottom, #2c2c2c 0%, #2b2b2b 100%); margin-top: 1vh;" title="settings" data-app="settings">
                         <i class="ApplicationIcon fas fa-cogs"></i>
@@ -77,7 +95,7 @@
 
                 <div class="phone-home-applications">
                     <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="5" style="background: linear-gradient(to bottom, #2664eb 0%, #2d12c7 100%);" title="services" data-app="services">
-                        <i class="ApplicationIcon fas fa-info"></i>
+                        <i class="ApplicationIcon fas fa-circle-info"></i>
                     </div>
                     <div class="phone-application" data-toggle="tooltip" id="businessicon" data-placement="bottom" data-appslot="6" style="background: linear-gradient(to bottom, #8c47fc 0%, #6612c7 100%);" title="business" data-app="business">
                         <i class="ApplicationIcon fas fa-briefcase"></i>
@@ -92,13 +110,19 @@
                         <i class="ApplicationIcon fab fa-twitter"></i>
                     </div>
                     <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="9" style="background: linear-gradient(to bottom, #44b871 0%, #20db74 100%);" title="bank" data-app="bank">
-                        <i class="ApplicationIcon fas fa-money-bill-alt"></i>
+                        <i class="ApplicationIcon fa-solid fa-money-check-dollar"></i>
                     </div>
                     <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="9" style="background: linear-gradient(to bottom, #e64d4d 0%, #db2020 100%);" title="bank" data-app="advertisement">
                         <i class="ApplicationIcon fas fa-ad"></i>
                     </div>
                     <div class="phone-application" data-toggle="tooltip" id="dmarketicon" data-placement="bottom" data-appslot="9" style="background: linear-gradient(to bottom, #f095e1 0%, #cf81c2 100%);" title="bank" data-app="dmarket">
                         <i class="ApplicationIcon fas fa-cubes"></i>
+                    </div>
+                    <div class="phone-application" data-toggle="tooltip" data-placement="bottom" data-appslot="9" style="background: linear-gradient(to bottom, rgba(25,25,25,0.95) 0%, rgba(25,25,25,0.95) 100%);" title="calculator" data-app="calculator">
+                        <i class="ApplicationIcon fas fa-calculator"></i>
+                    </div>
+                    <div class="phone-application" data-toggle="tooltip" id="bitcoinicon" data-placement="bottom" data-appslot="9" style="background: linear-gradient(to bottom, rgba(255, 204, 0, 0.95) 0%, rgba(255, 224, 49, 0.95) 100%);" title="crypto" data-app="crypto">
+                        <i class="ApplicationIcon fab fa-bitcoin"></i>
                     </div>
                 </div>
             </div>
@@ -131,120 +155,205 @@
                 </div>
             </div>
 
-            <div class="phone-app">
-                <div class="phone-recent-message-header">
-                    <div class="phone-recent-message-headline" id="phone-contact-headline"> </div>
+            <div class="phone-app" id="phone-app-contact">
+                <div class="phone-app-header">
+                    <h2 id="headerback"> <i class="fas fa-chevron-left"></i> </h2>
+                    <h2 id="phone-app-contact-headline">  </h2>
+                    <div class="phone-app-header-right" id="phone-app-contact-page-add">  </div>
                 </div>
-
-                <div class="phone-contacts">
-                    <div class="phone-contact-list">
-                        <div class="phone-contact" data-contactid="1">
-                            <i class="phone-contact-favourite far fa-star"></i>
-                            <div class="phone-contact-name">Pieter Post</div>
-                            <div class="phone-contact-actions"><i class="fas fa-chevron-right"></i></div>
-
-                            <div class="phone-contact-action-buttons">
-                                <i class="fas fa-phone-volume"></i>
-                                <i class="fas fa-comment"></i>
-                                <i class="fas fa-user-edit"></i>
-                            </div>
+                <form class="phone-app-header-searchbarform" id="phone-app-contact-page-searchbar">
+                    <input type="text" class="phone-app-header-searchbar"  id="phone2" placeholder="Search">
+                </form>
+                <div class="phone-app-content" id="phone-app-contact-content">
+                    <div class="phone-app-div" id="phone-app-contact-div" data-number="%s" data-name="%s" data-favourit="1">     
+                        <div id="phone-contact-name">
+                            <i class="far fa-star goldcolor"></i>
+                            Max Mustermann
                         </div>
-                        <div class="phone-contact" data-contactid="1">
-                            <div class="phone-contact-name">Pieter Post</div>
-                            <div class="phone-contact-actions"><i class="fas fa-chevron-right"></i></div>
+                        <div id="phone-contact-actions">
+                            <i class="fas fa-chevron-right goldcolor"></i>
                         </div>
                     </div>
-                    <div class="phone-contact-add">
-                        <i class="fas fa-plus" style="font-size: 1.6vh; margin-top: 1.2vh"></i>
+                    <div class="phone-app-div" id="phone-app-contact-div" data-number="%s" data-name="%s" data-favourit="0">
+                        <div id="phone-contact-name">
+                            Max Mustermann
+                        </div>
+                        <div id="phone-contact-actions">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="phone-app-div" id="phone-app-contact-div" data-number="%s" data-name="%s" data-favourit="0">
+                        <div id="phone-contact-name">
+                            Max Mustermann
+                        </div>
+                        <div id="phone-contact-actions">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="phone-app-div" id="phone-app-contact-div" data-number="%s" data-name="%s" data-favourit="0">
+                        <div id="phone-contact-name">
+                            Max Mustermann
+                        </div>
+                        <div id="phone-contact-actions">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="phone-app-div" id="phone-app-contact-div" data-number="%s" data-name="%s" data-favourit="0">
+                        <div id="phone-contact-name">
+                            Max Mustermann
+                        </div>
+                        <div id="phone-contact-actions">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="phone-app-div" id="phone-app-contact-div" data-number="%s" data-name="%s" data-favourit="0">
+                        <div id="phone-contact-name">
+                            Max Mustermann
+                        </div>
+                        <div id="phone-contact-actions">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="phone-app-div" id="phone-app-contact-div" data-number="%s" data-name="%s" data-favourit="0">
+                        <div id="phone-contact-name">
+                            Max Mustermann
+                        </div>
+                        <div id="phone-contact-actions">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="phone-app-div" id="phone-app-contact-div" data-number="%s" data-name="%s" data-favourit="0">
+                        <div id="phone-contact-name">
+                            Max Mustermann
+                        </div>
+                        <div id="phone-contact-actions">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="phone-app-div" id="phone-app-contact-div" data-number="%s" data-name="%s" data-favourit="0">
+                        <div id="phone-contact-name">
+                            Max Mustermann
+                        </div>
+                        <div id="phone-contact-actions">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div id="notAvailable" style="display: none;">
+                       
+                     </div>
+                </div>
+            </div>
+            
+            <div class="phone-app" id="phone-app-contact-page">
+                <div class="phone-app-header">
+                    <div class="phone-app-header-left ns" id="headerback2"> <i class="fas fa-chevron-left"></i> <font class="phone-app-contact-page-contact"> </font>  </div>
+                    <div class="phone-app-header-right ns" id="phone-app-contact-page-edit">  </div>
+                </div>
+                <div class="phone-app-content">
+                    <div class="phone-app-content-10vh white-spacenowrap selectabletext" id="phone-app-contact-page-name">
+                    
+                    </div>
+                    <div class="phone-app-3box-div mb1">
+                        <div class="phone-app-3box purplecolor" id="phone-app-contact-page-call">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="phone-app-3box purplecolor" id="phone-app-contact-page-message">
+                            <i class="fa fa-comment-alt"></i>
+                        </div>
+                        <div class="phone-app-3box purplecolor" id="phone-app-contact-page-favourit">
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="phone-app-fontbox ns selectabletext numbertext" id="number">
+                        
+                    </div>
+                    <div class="phone-app-box mb3 selectabletext" id="phone-app-contact-page-number">
+                        123-1234
+                    </div>
+
+                    <div class="phone-app-box purplecolor ns phone-app-contact-page-sendlocatoin" id="phone-app-contact-page-sendlocatoin">
+                        
+                    </div>
+                    <div class="phone-app-box purplecolor ns" id="phone-app-contact-page-sharecontact">
+                        
+                    </div>
+                    <div class="phone-app-box redcolor ns" id="phone-app-contact-page-delete">
+                      
                     </div>
                 </div>
+            </div>
 
-                <div class="phone-contacts-information">
-                    <div class="pcihead" id="pciheadoverview">
-
-                    </div>
-                    <div class="pciname">
-                        <div id="pcinameguy">
-                            <font id="pcinamee"> MOIN MEISTER </font>
-                            <div class="pciiconslist">
-                                <div id="pcicall" class="pciicon">
-                                    <i class="fas fa-phone" id="pciphone">
-
-                                    </i>
-                                </div>
-                                <div id="pcimessage" class="pciicon">
-                                    <i class="fas fa-comment-dots">
-
-                                    </i>
-                                </div>
-                                <div id="pcifavourit" class="pciicon">
-                                    <i class="fas fa-star">
-
-                                    </i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pcirest">
-                        <div id="pcinumber">
-                            <font id="pcinumbertext">
-
-                            </font>
-                            <font id="pcinumberr"> 187187 </font>
-                        </div>
-                        <div id="pcicall2" class="pcihover">
-
-                        </div>
-                        <div id="pcimessage2" class="pcihover">
-
-                        </div>
-                        <div id="pcifavourit2" class="pcihover">
-
-                        </div>
-                        <div id="pcigps" class="pcihover">
-
-                        </div>
-                        <div id="pcishare" class="pcihover">
-
-                        </div>
-                        <div id="pcidelete">
-
-                        </div>
-                    </div>
+            <div class="phone-app" id="phone-app-contact-edit">
+                <div class="phone-app-header">
+                    <div class="phone-app-header-left ns" id="headerback2"> <i class="fas fa-chevron-left"></i> <font class="phone-app-contact-page-contact"> </font>  </div>
+                    <div class="phone-app-header-right delete-color ns" id="phone-app-contact-edit-delete">  </div>
                 </div>
+                <div class="phone-app-content">
+                    <div class="phone-app-content-10vh grey-color">
+                        <font id="phone-app-edit-newcontact"> </font>
+                        <font id="phone-app-edit-newlastnamecontact"></font>
+                    </div>
+                    <div class="phone-app-fontbox ns firstname"  id="firstname">
+                        
+                    </div>
+                    <input class="phone-app-box mb2" placeholder="Max" id="phone-app-contact-edit-name">
+                       
+                    </input>
 
-                <div class="phone-contacts-add">
-                    <div class="pcihead" id="pciheadadd">
+                    <div class="phone-app-fontbox ns lastname" id="lastname">
+                        
+                    </div>
+                    <input class="phone-app-box mb2" placeholder="Mustermann" id="phone-app-contact-edit-lastname">
+                       
+                    </input>
 
+                    <div class="phone-app-fontbox ns phonenumber" id="phonenumber">
+                        
                     </div>
-                    <div class="pciinputdiv">
-                        <input id="pciinputname" class="pciinput">
-                    </div>
-                    <div class="pciinputdiv">
-                        <input id="pciinputnumber" class="pciinput">
-                    </div>
-                    <div class="pcisubmit">
-                        <button id="pciinputsubmit">
-                            
-                        </button>
-                    </div>
+                    <input class="phone-app-box mb3" placeholder="Mustermann"  id="phone-app-contact-edit-phonenumber">
+                       
+                    </input>
+
+                    <button class="phone-app-button-box add ns" id="phone-app-contact-new-editbutton">
+                        
+                    </button>
                 </div>
+            </div>
 
-                <div class="phone-contacts-edit">
-                    <div class="pcihead" id="pciheadedit">
+            <div class="phone-app" id="phone-app-contact-new">
+                <div class="phone-app-header">
+                    <div class="phone-app-header-left ns" id="headerback2"> <i class="fas fa-chevron-left"></i> <font class="phone-app-contact-page-contact">  </font>  </div>
+                    <div class="phone-app-header-right ns" id="phone-app-contact-page-edit">  </div>
+                </div>
+                <div class="phone-app-content">
+                    <div class="phone-app-content-10vh grey-color">
+                        <font id="phone-app-newcontact"> Add Contact </font>
+                        <font id="phone-app-newlastnamecontact"></font>
+                    </div>
+                    <div class="phone-app-fontbox ns firstname" id="firstname">
+                        
+                    </div>
+                    <input class="phone-app-box mb2" placeholder="Max" id="phone-app-contact-name">
+                       
+                    </input>
 
+                    <div class="phone-app-fontbox ns lastname" id="lastname">
+                        
                     </div>
-                    <div class="pciinputdiv">
-                        <input id="pciinputname2" class="pciinput">
+                    <input class="phone-app-box mb2" placeholder="Mustermann" id="phone-app-contact-lastname">
+                       
+                    </input>
+
+                    <div class="phone-app-fontbox ns phonenumber" id="phonenumber">
+                        
                     </div>
-                    <div class="pciinputdiv">
-                        <input id="pciinputnumber2" class="pciinput">
-                    </div>
-                    <div class="pcisubmit">
-                        <button id="pcieditsubmit">
-                            
-                        </button>
-                    </div>
+                    <input class="phone-app-box mb3" placeholder="Mustermann" id="phone-app-contact-phonenumber">
+                       
+                    </input>
+
+                    <button class="phone-app-button-box add ns" id="phone-app-contact-new-savebutton">
+                        
+                    </button>
                 </div>
             </div>
 
@@ -259,7 +368,7 @@
                 
 
                 <div class="phone-recent-messages-sector">
-                    <div class="phone-recent-messages-selection" data-number="1345">
+                    <div class="phone-recent-messages-selection ns" data-number="1345">
                         <div id="prm-contactname">
                             <i class="fas fa-cog messagesettings" data-number="1345"></i>
                             <font id="phone-chat-message-name"> %s </font>
@@ -333,14 +442,55 @@
                 </div>
             </div>
 
-            <div class="phone-call" id="phone-call">
-                <div class="phone-recent-message-header">
-                    <div class="phone-recent-message-headline" id="phoneheadlinephone"> </div>
+            <div class="phone-app" id="phone-app-call-history-contact">
+                <div class="phone-app-header">
+                    <div class="phone-app-header-left ns" id="headerback2"> <i class="fas fa-chevron-left"></i> <font class="phone-app-call-historyheadline"> </font>  </div>
+                    <div class="phone-app-header-right ns" id="phone-app-contact-page-edit">  </div>
                 </div>
-               
+                <div class="phone-app-content">
+                    <div class="phone-app-content-10vh selectabletext" id="phone-app-call-history-contact-name">
+                    
+                    </div>
+                    <div class="phone-app-3box-div mb1">
+                        <div class="phone-app-3box purplecolor" id="phone-app-contact-page-call">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="phone-app-3box purplecolor" id="phone-app-contact-page-message">
+                            <i class="fa fa-comment-alt"></i>
+                        </div>
+                        <div class="phone-app-3box purplecolor" id="phone-app-contact-page-addtocontacts">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                    </div>
+                    <div class="phone-app-fontbox ns selectabletext numbertext" id="number">
+                        
+                    </div>
+                    <div class="phone-app-box mb3 selectabletext" id="phone-app-call-history-contact-number">
+                        123-1234
+                    </div>
+                    <div class="phone-app-fontbox ns selectabletext timetext" id="number">
+                    
+                    </div>
+                    <div class="phone-app-box mb3 selectabletext" id="phone-app-call-history-contact-time">
+                        123-1234
+                    </div>
+
+                    <div class="phone-app-box purplecolor ns phone-app-contact-page-sendlocatoin" id="phone-app-contact-page-sendlocatoin">
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="phone-call" id="phone-call">
+                <div class="phone-app-header">
+                    <h2 id="headerback"> <i class="fas fa-chevron-left"></i> </h2>
+                    <h2 id="phoneheadlinephone">  </h2>
+                    <div class="phone-app-header-right" id="phone-app-contact-page-add">  </div>
+                </div>
+
                 <div class="phone-call-sector">
                     <div id="phone-number-enter"></div>
-                    <div class="phone-enter-sector">
+                    <div class="phone-enter-sector ns">
                         <div class="phone-enter" id="phone-enter" data-id="1">
                             1
                         </div>
@@ -386,13 +536,31 @@
                             <i class="ApplicationIcon fas fa-backspace phone-enterinvisibleicon"></i>
                         </div>
                     </div>
-
                 </div>
                 <div class="phone-all-call-sector">
-                    <div class="phone-all-call-sector-selection" data-number="%s">
-                        <div class="phone-all-call-sector-selection-text">
-                            <font style="color: gray;"> Ausgehender Anruf </font><br> %s</div>
-                        <div class="phone-all-call-sector-selection-recall"><i id="pacs-message" data-number="%s" style="margin-top: 2vh" class="fas fa-envelope pacs-icon"></i><i id="pacs-call" data-number="%s" class="fas fa-phone pacs-icon"></i></div>
+                    <div class="phone-app-div" id="phone-call-historydiv" data-number="%s" data-name="%s">     
+                        <div class="phone-call-history-div-icon">
+                            <i class="fas fa-chevron-left call-outgoing"></i>
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="phone-call-history-div-font">
+                            %s
+                        </div>
+                        <div class="phone-call-history-div-icon2">
+                            <i class="fas fa-info purplecolor"></i>
+                        </div>
+                    </div>
+                    <div class="phone-app-div">     
+                        <div class="phone-call-history-div-icon">
+                            <i class="fas fa-chevron-right call-incoming"></i>
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="phone-call-history-div-font">
+                            123-1234
+                        </div>
+                        <div class="phone-call-history-div-icon2">
+                            <i class="fas fa-info purplecolor"></i>
+                        </div>
                     </div>
                 </div>
 
@@ -406,7 +574,9 @@
                 </div>
             </div>
 
-            <div class="phone-settings">
+
+            <!-- Settings -->
+            <div class="phone-app" id="phone-app-settings">
                 <div class="phone-app-header">
                     <h2 id="headerback"> <i class="fas fa-chevron-left"></i> </h2>
                     <h2 id="phoneheadlinesettings"> </h2>
@@ -417,7 +587,7 @@
                         
                         <font id="phonesettingsnumbertext">
                         </font>
-                        <font id="phonesettingsnumber">
+                        <font id="phonesettingsnumber" class="selectabletext">
                             1987
                         </font>
                     </div>
@@ -452,17 +622,23 @@
                         <font id="phonesettingsselectionwallpaper"></font>
                         <i id="changewallpaper" class="fas fa-chevron-right phone-settings-switch-home"></i>
                     </div>
-                    <!-- <div class="phone-settings-selection">
-                        <font id="phonesettingsselectionscale"></font>
-                        <i id="changescale" class="fas fa-chevron-right phone-settings-switch"></i>
-                    </div>  
                     <div class="phone-settings-selection">
-                        <font id="phonesettingsselectionsound"></font>
-                        <i id="changesounds" class="fas fa-chevron-right phone-settings-switch"></i>
-                    </div> -->
+                        <font id="phone-settings-selection-changecase"></font>
+                        <i id="changecase" class="fas fa-chevron-right phone-settings-switch-home"></i>
+                    </div>
+                    <div class="phone-settings-selection">
+                        <font id="phonesettingsselectionringtone"></font>
+                        <i id="changeringtone" class="fas fa-chevron-right phone-settings-switch-home"></i>
+                    </div>
                 </div>
-                <div class="phone-settings-inner">
-                    <div class="phone-settings-selection" data-wallpaper="%s">
+            </div>
+            
+            <div class="phone-app" id="phone-app-settings-bgchange">
+                <div class="phone-app-header">
+                    <div class="phone-app-header-left ns" id="headerback2"> <i class="fas fa-chevron-left"></i> <font class="headerbacksettings" id="headerbacksettings"></font>  </div>
+                </div>
+                <div class="phone-settings-inner" id="phone-app-settings-bg-inner">
+                    <div class="phone-settings-selection" data-wallpaper="https://marmotamaps.com/de/fx/wallpaper/download/faszinationen/Marmotamaps_Wallpaper_Berchtesgaden_Desktop_1920x1080.jpg">
                         <font id="phonesettingsselectionsound"> %s </font>
                         <i id="viewbackground" class="fas fa-search phone-settings-switch2"></i>
                         <i id="setbackground" class="fas fa-times phone-settings-switch-home"></i>
@@ -473,7 +649,38 @@
                         <i id="custombackground" class="fab fa-chrome phone-settings-switch3"></i>
                     </div>
                 </div>
+            </div>
 
+            <div class="phone-app" id="phone-app-settings-casechange">
+                <div class="phone-app-header">
+                    <div class="phone-app-header-left ns" id="headerback2"> <i class="fas fa-chevron-left"></i> <font  class="headerbacksettings" id="headerbacksettings"> Test </font>  </div>
+                </div>
+                <div class="phone-settings-inner" id="phone-app-settings-case-inner">
+                    <div class="phone-settings-selection" data-case="%s" data-model="%s">
+                        <font id="phonesettingsselectionsound"> %s </font>
+                        <i id="viewcase" class="fas fa-search phone-settings-switch2"></i>
+                        <i id="setcase" class="fas fa-times phone-settings-switch-home"></i>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="phone-app" id="phone-app-settings-ringtonechange">
+                <div class="phone-app-header">
+                    <div class="phone-app-header-left ns" id="headerback2"> <i class="fas fa-chevron-left"></i> <font class="headerbacksettings" id="headerbacksettings2"></font>  </div>
+                </div>
+                <div class="phone-settings-inner" id="phone-app-settings-ringtones-inner">
+                    <div class="phone-settings-selection" data-ringtone="%s">
+                        <font id="phonesettingsselectionsound2"> %s </font>
+                        <i id="viewringtone" class="fas fa-bell phone-settings-switch2"></i>
+                        <i id="setringtone" class="fas fa-check phone-settings-switch-home2"></i>
+                    </div>
+                    <div class="phone-settings-selection">
+                        <input id="customringtone" placeholder="Custom (ogg)">  </input>
+                        <i id="viewcustomringtone" class="fas fa-search phone-settings-switch2"></i>
+                        <i id="customringtone" class="fab fa-chrome phone-settings-switch3"></i>
+                    </div>
+                </div>
             </div>
 
             <div class="phone-services">
@@ -499,7 +706,7 @@
 
                     </div>
                     <div class="phone-service-message-inputs">
-                        <input class="phone-service-message-input" type="text">
+                        <input class="phone-service-message-input" type="text" id="phone-service-message-input">
                     </div>
                     <div class="phone-service-selection">
                         <font id="pss">
@@ -694,7 +901,9 @@
                 <div class="phone-radio-sector">
                     <div class="phone-radio-list">
                         <div class="phone-radio-frequenz-inputs">
-                            <input class="phone-radio-frequenz-input" id="phone-radio-frequenz-input" type="number">
+                            <input class="phone-radio-frequenz-input" id="phone-radio-frequenz-input" type="number"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            <span><i id="toggler"class="fas fa-eye"></i></span> 
                         </div>
                         <div class="phone-frequenz-button">
                             <button id="phone-frequenz-join-button">
@@ -938,7 +1147,7 @@
 
                         </div>
                         <div class="phone-bankapp-cards-card">
-                            <div class="phone-card-number">
+                            <div class="phone-card-number selectabletext">
 
                             </div>
                             <div class="phone-card-bottom">
@@ -1156,6 +1365,173 @@
                 </div>
             </div>
 
+            <div class="phone-calculator">
+                <div class="phone-bankapp-header border-none">
+                    <font id="calculator-headline"> 
+                        
+                    </font>
+                </div>
+                <div class="calculator-grid">
+                    <div class="output" id="output">
+                      <div data-previous-operand class="previous-operand"></div>
+                      <div data-current-operand class="current-operand"></div>
+                    </div>
+                    <button data-all-clear id="grey">AC</button>
+                    <button data-delete id="long2">DEL</button>
+                    <button data-geteilt id="orangebuttons">
+                        <i class="fas fa-divide"></i>
+                    </button>
+                    <button data-number>1</button>
+                    <button data-number>2</button>
+                    <button data-number>3</button>
+                    <button data-mal id="orangebuttons">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <button data-number>4</button>
+                    <button data-number>5</button>
+                    <button data-number>6</button>
+                    <button data-minus  id="orangebuttons">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button data-number>7</button>
+                    <button data-number>8</button>
+                    <button data-number>9</button>
+                    <button data-plus id="orangebuttons">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button data-number id="long">0</button>
+                    <button data-number>.</button>
+                    <button data-equals id="orangebuttons">
+                        <i class="fas fa-equals"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="phone-app" id="phone-app-bitcoin">
+                <div class="phone-app-header">
+                    <h2 id="headerback"> <i class="fas fa-chevron-left"></i> </h2>
+                    <h2 id="phone-app-bitcoin-headline">  Market </h2>
+                </div>
+               <div class="phone-bitcoin-container" id="phone-app-bitcoin-home">
+                    <div class="phone-bitcoin-bigcachel">
+                        <canvas id="homeChart" width="50" height="35"></canvas>
+                    </div>
+                    <div class="phone-bitcoin-home-info">
+                        <h3 id="localebitcoinprice">
+                            Balance
+                        </h3>
+                        <h2 id="bitcoinprice">
+                            5000$
+                        </h2>
+                    </div>
+                    <div class="phone-bitcoin-home-info">
+                        <h3 id="localebalance">
+                            Balance
+                        </h3>
+                        <h2 id="totalbalance">
+                            340.000$
+                        </h2>
+                    </div>
+
+                    <div class="phone-bitcoin-home-info">
+                        <h3 id="localebitcoins">
+                            Bitcoins
+                        </h3>
+                        <h2  id="totalbitcoins">
+                            340.000$
+                        </h2>
+                    </div>
+               </div>
+               <div class="phone-bitcoin-container" id="phone-app-bitcoin-shop">
+                    <div class="phone-bitcoin-bigcachel ">
+                        <canvas id="marketChart" width="50" height="35"></canvas>
+                    </div>
+                    <div class="gap3"></div>
+                    <div class="phone-bitcoin-smallcachel-blank" id="phone-app-bitcoin-shop-amountlabel">
+                        Amount
+                    </div>
+                    <input class="phone-bitcoin-input-smallcachel" id="phone-app-bitcoin-shop-amount">
+
+                    </input>
+
+                    <button class="phone-bitcoin-button-small add" id="phone-app-bitcoin-shop-buybutton">
+                        BUY
+                    </button>
+                    <button class="phone-bitcoin-button-small delete " id="phone-app-bitcoin-shop-sellbutton">
+                        SELL
+                    </button>
+                </div>
+                <div class="phone-bitcoin-container" id="phone-app-bitcoin-transfer">
+                    
+                    <div class="phone-bitcoin-smallcachel-blank" id="phone-app-bitcoin-tranfer-idlabel">
+                        Your Wallet ID
+                    </div>
+                    <div class="phone-bitcoin-input-smallcachel selectabletext"  id="phone-app-bitcoin-tranfer-id">
+                        1234556789
+                    </div>
+                        <div class="gap2"> </div>
+                    <div class="phone-bitcoin-smallcachel-blank" id="phone-app-bitcoin-tranfer-receiveridlabel">
+                        Receiver Wallet ID
+                    </div>
+                    <input class="phone-bitcoin-input-smallcachel" id="phone-app-bitcoin-tranfer-receiverid">
+
+                    </input>
+                    <div class="phone-bitcoin-smallcachel-blank" id="phone-app-bitcoin-tranfer-amountlabel">
+                        Amount
+                    </div>
+                    <input class="phone-bitcoin-input-smallcachel" id="phone-app-bitcoin-tranfer-amount">
+
+                    </input>
+
+                    <button class="phone-bitcoin-button-small purple"  id="phone-app-bitcoin-tranfer-label">
+                        TRANSFER
+                    </button>
+                        <div class="gap2"></div>
+                    <div class="phone-bitcoin-smallcachel-blank bold"  id="phone-app-bitcoin-tranfer-historyheadline">
+                       History
+                    </div>
+                    <div id="phone-app-bitcoin-tranfer-history">
+                        <div class="phone-bitcoin-smallcachel-blank">
+                            %s
+                         </div>
+                        <div class="phone-bitcoin-historychachel">
+                            <i class="fas fa-sign-in-alt"></i> 
+                            <div> 0.0001 BTC </div>
+                            <div> 19:47</div>
+                        </div>
+                        <div class="phone-bitcoin-historychachel">
+                            <i class="fas fa-sign-in-alt"></i> 
+                            <div> 0.0001 BTC </div>
+                            <div> 19:47</div>
+                        </div>
+                        <div class="phone-bitcoin-historychachel">
+                            <i class="fas fa-sign-in-alt"></i> 
+                            <div> 0.0001 BTC </div>
+                            <div> 19:47</div>
+                        </div>
+                        <div class="phone-bitcoin-historychachel">
+                            <i class="fas fa-sign-in-alt"></i> 
+                            <div> 0.0001 BTC </div>
+                            <div> 19:47</div>
+                        </div>
+                    </div>
+                    
+                </div>
+               <div class="phone-bitcoin-footer">
+                    <div class="phone-bitcoin-footer-item" data-mainscreen="phone-app-bitcoin-home" data-direction="left" id="bitcoin-home">
+                        <i class="fas fa-home" id="phone-app-bitcoin-home-icon"></i>
+                    </div>
+                   
+                    <div class="phone-bitcoin-footer-item"data-mainscreen="phone-app-bitcoin-shop"  data-direction="mid"  id="bitcoin-market">
+                        <i class="fab fa-bitcoin" id="phone-app-bitcoin-shop-icon"></i>
+                    </div>
+                    
+                    <div class="phone-bitcoin-footer-item" data-mainscreen="phone-app-bitcoin-transfer" data-direction="right"  id="bitcoin-transaction">
+                        <i class="fas fa-exchange-alt" id="phone-app-bitcoin-transfer-icon"></i>
+                    </div>
+               </div>
+            </div>
+
             <div class="incallsymbol">
                 <i class="fas fa-phone-volume"></i>
             </div>
@@ -1186,149 +1562,21 @@
     </div>
 
     <script src="./js/bank.js "></script>
+    <script src="./js/bitcoin.js "></script>
     <script src="./js/call.js "></script>
+    <script src="./js/calculator.js "></script>
     <script src="./js/contact.js "></script>
+    <script src="./js/dontwalk.js "></script>
     <script src="./js/messages.js "></script>
+    <script src="./js/setlocale.js "></script>
     <script src="./js/locales.js "></script>
+    <script src="./js/locales/locale_de.js"></script>
     <script src="./js/twitter.js "></script>
     <script src="./js/advertisement.js "></script>
     <script src="./js/dmarket.js "></script>
     <script src="./js/settings.js "></script>
+   
 </body>
 
-<script>
-    $(document).ready(function() {
-        $(".phone-call-incoming-title ").html(locale.callincomingtitle);
-        $(".phone-call-outgoing-title ").html(locale.calloutgoingtitle);
-        $(".phone-call-ongoing-title ").html(locale.callongoingtitle);
-        $("#phone-contact-headline ").html(locale.phonecontactheadline);
-        $("#pciheadoverview ").html(locale.pciheadoverview);
-        $("#pcinumbertext ").html(locale.pcinumber);
-        $("#pcicall2 ").html(locale.pcicall);
-        $("#pcimessage2 ").html(locale.pcimessage);
-        $("#pcifavourit2 ").html(locale.pcifavorit);
-        $("#pcigps ").html(locale.pcigps);
-        $("#pcishare ").html(locale.pcishare);
-        $("#pcidelete ").html(locale.pcidelete);
-        $("#pciheadadd ").html(locale.pciheadadd);
-        $("#pciinputsubmit ").html(locale.pciinputsubmit);
-        $("#pciheadedit ").html(locale.pciheadedit);
-        $("#pcieditsubmit ").html(locale.pcieditsubmit);
-        $("#phoneheadlinemessage ").html(locale.phoneheadlinemessage);
-        $("#phoneheadlinechat ").html(locale.phoneheadlinechat);
-        $("#phoneheadlinephone ").html(locale.phoneheadlinephone);
-        $("#phoneheadlinesettings ").html(locale.phoneheadlinesettings);
-        $("#phonesettingsselectionflightmode ").html('<i class="fas fa-plane"></i> &nbsp' + locale.phonesettingsselectionflightmode);
-        $("#phonesettingsselectionmute ").html('<i class="fas fa-volume-mute"></i> &nbsp' + locale.phonesettingsselectionmute);
-        $("#phonesettingsselectiondarkmode ").html('<i class="fas fa-adjust"></i> &nbsp' + locale.phonesettingsselectiondarkmode);
-        $("#phonesettingsselectionwallpaper ").html('<i class="fas fa-image"></i> &nbsp' + locale.phonesettingsselectionwallpaper);
-        $("#pswh ").html(locale.pswh);
-        $("#pswsubmitbutton ").html(locale.pswsubmitbutton);
-        $("#phservice ").html(locale.phservice);
-        $("#psmn ").html(locale.psmn);
-        $("#pss ").html(locale.pss);
-        $("#pssposition ").html(locale.pssposition);
-        $("#phone-service-button ").html(locale.phoneservicebutton);
-        $("#phbusiness ").html(locale.phbusiness);
-        $("#motdchange ").html(locale.motdchange);
-        $("#pbbacceptfont ").html(locale.pbbacceptfont);
-        $("#pbbacceptfont2 ").html(locale.pbbacceptfont2);
-        $("#pbsjobnumber ").html(locale.jobnumber);
-        $("#pbsmfont ").html(locale.motdchange);
-        $("#pbsmfont2 ").html(locale.pbsmfont2);
-        $("#pbsmfont3 ").html(locale.pbsmfont3);
-        $("#phfunk ").html(locale.phfunk);
-        $("#phone-frequenz-join-button ").html(locale.pfjb);
-        $("#phone-frequenz-leave-button ").html(locale.pflb);
-        $("#phonesettingsnumbertext ").html("<i class='fas fa-phone-alt'></i> &nbsp" + locale.phonenumber);
-        $(".ptw-submit ").each(function() {
-            $(this).html(locale.ptwtweetsubmit);
-        });
-        $(".twitter-firsttime-button ").html(locale.ptwtweetsubmit);
-        $(".ptw-pbsubmit ").each(function() {
-            $(this).html(locale.ptwtweetsubmit);
-        });
-        $("#phoneheadlinetwitter ").html(locale.phoneheadlinetwitter);
-        $("#ptw-tweetheader-font ").html(locale.ptwtweetheaderfont);
-        $("#ptw-header-font ").html(locale.ptwheaderfont);
-        $("#ptw-header-font2 ").html(locale.ptwheaderfont2);
-        $("#ptw-header-font3 ").html(locale.ptwheaderfont3);
-        $("#ptw-header-font4 ").html(locale.ptwheaderfont4);
-        $("#ptw-header-font5 ").html(locale.ptwheaderfont5);
-        $("#ptw-header-font6 ").html(locale.ptwheaderfont3);
-        $("#ptw-header-font7 ").html(locale.ptwheaderfont7);
-        $("#phonetwitternotification ").html(locale.tweetnotificaton);
-
-        // 0.60
-        // Banking app
-        $("#bankapp-headline").html(locale.bankappheadline);
-        $(".phone-bankapp-cards-headline").html(locale.phonebankappcardsheadline);
-        $(".phone-card-cardholder").html(locale.cardcardholder);
-        $(".phone-card-expires").html(locale.cardexpires);
-        $(".phone-bankapp-cards-headline").html(locale.phonebankappcardsheadline);
-        $(".bankapp-transfer-headline").html(locale.bankapptransferheadline);
-        $(".bankapp-transfer-cardnumber").html(locale.bankapptransfercardnumber);
-        $(".bankapp-transfer-amount").html(locale.bankapptransferamount);
-        $(".bankapp-transfer-button").html(locale.bankapptransferbutton);
-
-        // 0.61
-        // Businessapp
-        $("#pbrs-headlineheadline").html(locale.magnagment);
-        $("#pbrs-nameheadline").html(locale.pbrsnameheadline);
-        $("#pbrs-gradeheadline").html(locale.pbrsgradeheadline);
-        $("#pbrs-rankheadline").html(locale.pbrsrankheadline);
-        $("#pbrs-uprank").html(locale.pbrsuprank);
-        $("#pbrs-derank").html(locale.pbrsderank);
-        $("#pbrs-updaterank").html(locale.pbrsupdaterank);
-        $("#pbrs-fire").html(locale.pbrsfire);
-        $("#pbrs-recruitheadline").html(locale.pbrsrecruitheadline);
-        $("#pbrs-recruit").html(locale.pbrsrecruit);
-        $("#pbms-headlineheadline").html(locale.pbmsheadlineheadline);
-        $("#pbms-nameheadline").html(locale.pbmsnameheadline);
-        $("#pmbs-deposit").html(locale.pmbsdeposit);
-        $("#pmbs-withdraw").html(locale.pmbswithdraw);
-
-        // 0.7
-        $("#prmsheadline").html(locale.prmsheadline);
-        $("#prmsdelete").html(locale.prmsdelete);
-
-        // Placeholder
-        $('#pbms-amount').attr("placeholder", locale.pbmsamount);
-        $('#inputcardnumber').attr("placeholder", locale.placeholdercardnumber);
-        $('#inputtransferamoutn').attr("placeholder", locale.placeholderamount);
-        $('#pciinputname').attr("placeholder", locale.name);
-        $('#pciinputname2').attr("placeholder", locale.name);
-        $('#pciinputnumber').attr("placeholder", locale.number);
-        $('#pciinputnumber2').attr("placeholder", locale.number);
-        $('#phone-chat-input-message').attr("placeholder", locale.message);
-        $('#psw').attr("placeholder", locale.png);
-        $('.phone-service-message-input').attr("placeholder", locale.description);
-        $('#phone-business-input-message').attr("placeholder", locale.message);
-        $('#motd').attr("placeholder", locale.message);
-        $('#ptw-tweetinput').attr("placeholder", locale.message);
-        $('#phone-radio-frequenz-input').attr("placeholder", locale.frequency);
-        $('#ptw-imageurl').attr("placeholder", locale.url);
-        $('#ptw-pbinput').attr("placeholder", locale.url);
-        $('#ptw-username').attr("placeholder", locale.name);
-        $('#ptw-ftavatarurl').attr("placeholder", locale.url);
-        $('#ptw-ftusername').attr("placeholder", locale.name);
-        $('#ptw-ftid').attr("placeholder", locale.name);
-
-        // Lifeinvader
-        $("#advertisement-headline").html(locale.advertisementheadline);
-        $("#abtext").html(locale.abtext);
-        $("#yourname").html(locale.yourname);
-        $("#abmessage").html(locale.abmessage);
-        $("#advertisement-sendnewmessage").html(locale.advertisementsendnewmessage);
-
-        // Market
-        $("#dmarketheadline").html(locale.dmarketheadline);
-        $("#price").html(locale.price);
-        $("#stock").html(locale.stock);
-
-        // 0.72
-        $("#phone-constant-radio").html(locale.enableconstant);
-    });
-</script>
 
 </html>

@@ -16,13 +16,27 @@ Config                            = {}
 -- General
 Config.Locale             = 'de'
 
+Config.ESX12 = false
+
 Config.Debug = false
+
+-- Other Products ( disable if you dont use this )
+-- https://store.deun.xyz/package/4912924
+Config.Dmarket = false
+
+-- New Product which will be released soon
+Config.Bitcoin = false
 
 -- WARNING DONT DISABLE THIS IF YOU DONT EXACTLY KNOW WHAT YOU'RE DOING
 Config.AutomaticPhoneStart = true
 Config.AutomaticStartingTime = 5000
 
-Config.NeedItem = false
+Config.LoadingScreen = true
+
+Config.NeedItem = true
+
+-- If this is enabled you can walk while having your phone open
+Config.Walking = true
 
 -- If enabled then the phone will be still displayed while you're on a call
 Config.EnableCallDisplay = true
@@ -47,14 +61,53 @@ Config.TokoVoip = false
 -- Requires OneSync enabled and at least the 15$ patreon subscribtion
 Config.PMAVoice = false
 Config.MumbleVoip = false
-Config.SaltyChat = false
+Config.SaltyChat = true
 
 -- Constant Radio ( just if you have SaltyChat )
 Config.ConstantRadio = false
 
 -- Wallpaper
-Config.backgroundurl = "https://cdn.discordapp.com/attachments/810895845603016724/860234371147235338/whitenewwp.png"
-Config.darkbackgroundurl = "https://cdn.discordapp.com/attachments/810895845603016724/860233972893483078/blacknew.png"
+Config.backgroundurl = "https://cdn.discordapp.com/attachments/875495427938611271/922880662447484948/whitemodebg.png"
+Config.darkbackgroundurl = "https://cdn.discordapp.com/attachments/875495427938611271/922880661801566268/darkmodebg.png"
+
+Config.Wallpapers = {
+    {
+        name = "Whitemode",
+        url = "https://cdn.discordapp.com/attachments/875495427938611271/922880662447484948/whitemodebg.png"
+    },
+    {
+        name = "Darkmode",
+        url = "https://cdn.discordapp.com/attachments/875495427938611271/922880661801566268/darkmodebg.png"
+    },
+}
+
+-- Case
+-- Standard Case
+Config.Case = "./img/model1.png"
+Config.Model = " iphone"
+
+Config.Cases = {
+    {
+        src = "./img/model1.png",
+        model = "iphone",
+        name = "IPhone",
+    },
+    {
+        src = "./img/model2.png",
+        model = "samsung",
+        name = "Samsung",
+    },
+}
+
+-- Standard Ringtone
+Config.Ringtone =  "./sound/ring.ogg"
+
+Config.Ringtones = {
+    {
+        name = "Standard iPhone",
+        url = "./sound/ring.ogg"
+    },
+}
 
 -- Notification colors
 Config.IncommingCallColor = "#2ca79b"
@@ -88,6 +141,10 @@ Config.HigherNumber = 9999
 
 -- Radio
 -- These Jobs have access to the blocked channels 
+    -- The animation source code is aswell in the animation.lua
+Config.Broadcastkey = 137 -- Caps Lock
+Config.RadioAnimation = true
+
 Config.Access = {
     {
         frequenz = 1,
@@ -127,16 +184,8 @@ Config.Whitelistnumbers = {
     "912"
 }
 
-Config.Wallpapers = {
-    {
-        name = "Whitemode",
-        url = "https://cdn.discordapp.com/attachments/810895845603016724/860234371147235338/whitenewwp.png"
-    },
-    {
-        name = "Darkmode",
-        url = "https://cdn.discordapp.com/attachments/810895845603016724/860233972893483078/blacknew.png"
-    },
-}
+-- Businesapp
+Config.EnablePlayerManagement = true
 
 -- Waiting Times
 -- If you're server is slow, make this higher
@@ -155,5 +204,6 @@ Config.esxprefix2 = "esx_"
 
 Config.Antispam = 6000
 
--- Other Products
-Config.Dmarket = true
+-- Database Table
+Config.JobsTable = "jobs"
+Config.UsersTable = "users"

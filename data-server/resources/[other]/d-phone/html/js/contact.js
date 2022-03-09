@@ -1,122 +1,224 @@
-var lastcontact = 'null'
-var lastmassage = 'null'
-let selectedname
-let selectednumber
-let selectedfavourite
-let contacts
+
+var currentpage = null
+var lastpage = null
+var prepage = null
+
+var selectednumber = null
+var selectedname = null
+var selectedfavourit = null
+
+var canback = true
+
+$(function() {
+    window.addEventListener("message", function(event) {
+        var v = event.data;
+
+        if (v.loadcontacts == true) {
+            loadcontacts(v.html)
+        } else if (v.hardshowcontacts == true) {
+            hardloadcontacts(v.html)
+        } else if (v.showContactPage == true) {
+            showContactPage()
+        } else if (v.editcontactsuccess == true ) {
+            canback = true
+            $(lastpage).css({
+                "display": "block",
+            })
+            $(currentpage).animate({
+                "margin-left": "-30vh",
+            }, 450)
+            $(lastpage).animate({
+                "margin-left": "0vh",
+            }, 400)
+            setTimeout(function() {
+                $(currentpage).css({
+                    "display": "none",
+                })
+                if (prepage != null) {
+                    currentpage = lastpage
+                    lastpage = prepage
+                  }
+              }, 500);
+
+              selectednumber = v.number
+              selectedname =  v.name
+              // $("#phone-app-contact").hide(0)
+              $("#phone-app-contact-page-name").html( v.name)
+              $("#phone-app-contact-page-number").html( v.number)
+        }
+    });
+});
 
 function loadcontacts(html) {
-    $(".phone-contact-list").children().detach();
-    $(".phone-contact-list").append(html);
-    contacts = html
-
+    $("#phone-app-contact-content").children().detach();
+    $("#phone-app-contact-content").append(html);
+    $("#phone-app-contact").show(500)
     if (darkmode == true) {
         Darkmode();
     }
-    lastcontact = 'null'
+
 }
 
-$(document).on('click', '#phone-return', function() {
-    $(".phone-contacts-add").hide();
-    $("#phone-edit").hide();
-    $(".phone-call").hide();
-    $(".phone-settings-wallpaper").hide();
-    $(".phone-contacts-information").hide();
-    $(".phone-contacts-edit").hide();
-    $(".phone-message").hide();
-
-    if (lastcontact == 'null') {
-        $(".phone-app").hide();
-        $(".phone-applications").fadeIn(250);
-        lastwindow = null
-    } else if (lastcontact == 'addcontact') {
-        $(".phone-contacts").fadeIn(250);
-        lastcontact = 'null'
-    } else if (lastcontact == 'contactinfo') {
-        $(".phone-contacts").fadeIn(250);
-        lastcontact = 'null'
-    } else if (lastcontact == 'editcontact') {
-        $(".phone-contacts-information").fadeIn(250);
-
-        document.getElementById("pcinamee").innerHTML = selectedname;
-        document.getElementById("pcinumberr").innerHTML = selectednumber;
-
-        lastcontact = 'contactinfo'
-        $("#phone-edit").show();
-    } else if (lastcontact == 'message') {
-        $(".phone-app").show();
-        $(".phone-contacts").fadeIn(250);
-
-        lastcontact = 'null'
-    } else if (lastcontact == 'recentmessage') {
-        $(".phone-recent-message").hide();
-        $(".phone-app").hide();
-        $(".phone-applications").fadeIn(250);
-
-
-        lastcontact = 'null'
-    } else if (lastcontact == 'recentmessagemessage') {
-        $(".phone-message").hide();
-        sendData("loadrecentmessage", {})
-        privatmessage = null
-        lastwindow = null
-        lastcontact = 'recentmessage'
+function showContactPage() {
+    $("#phone-app-contact").show(500)
+    if (darkmode == true) {
+        Darkmode();
     }
-});
+}
 
-$(document).on('click', '.phone-contact-add', function() {
-    $(".phone-contacts").hide();
-    $(".phone-contacts-add").fadeIn(250);
+function hardloadcontacts(html) {
+    $("#phone-app-contact-content").children().detach();
+    $("#phone-app-contact-content").append(html);
+    $("#phone-app-contact").show(500)
+    if (darkmode == true) {
+        Darkmode();
+    }
+    lastpage = "#phone-app-contact"
+    canback = true
 
-    lastcontact = 'addcontact'
-});
+    $(lastpage).css({
+        "display": "block",
+    })
+    $(currentpage).animate({
+        "margin-left": "-30vh",
+    }, 450)
+    $(lastpage).animate({
+        "margin-left": "0vh",
+    }, 400)
+    setTimeout(function() {
+        $(currentpage).hide(0)
+        if (prepage != null) {
+            currentpage = lastpage
+            lastpage = prepage
+          }
+      }, 500);
+}
 
-$(document).on('click', '#phone-edit', function() {
-    $(".phone-contacts-information").hide();
-    $(".phone-contacts-edit").fadeIn(250);
+$(document).on('click', '#phone-app-contact-div', function() {
+    var name = $(this).data('name');
+    var number = $(this).data('number');
+    var favourit = $(this).data('favourit');
 
-    $("#pciinputname2").val(selectedname);
-    $("#pciinputnumber2").val(selectednumber);
+    selectednumber = number
+    selectedname = name
+    selectedfavourit = favourit
+    // $("#phone-app-contact").hide(0)
+    
+    $("#phone-app-contact-page-name").html(name)
+    $("#phone-app-contact-page-number").html(number)
 
-    lastcontact = 'editcontact'
-    $("#phone-edit").hide();
-});
+    currentpage = "#phone-app-contact-page"
+    lastpage = "#phone-app-contact"
+    canback = true
 
+    AppSlideIn(currentpage, lastpage)
 
-$(document).on('click', '.phone-contact', function() {
-    $(".phone-contacts").hide();
-    $(".phone-contacts-information").fadeIn(250);
-
-    selectedname = $(this).data('name');
-    selectednumber = $(this).data('number');
-    selectedfavourite = $(this).data('favourite');
-    document.getElementById("pcinamee").innerHTML = selectedname;
-    document.getElementById("pcinumberr").innerHTML = selectednumber;
-
-    if (selectedfavourite == 1) {
-        $("#pcifavourit").addClass("pcifavouriteicon")
+    if (favourit == "1") {
+        $("#phone-app-contact-page-favourit").addClass('favouriticon');
+        $("#phone-app-contact-page-favourit").removeClass('purplecolor');
     } else {
-        $("#pcifavourit").removeClass("pcifavouriteicon")
+        // if ($("#phone-app-contact-page-favourit").hasCass('favouriticon')) {
+            $("#phone-app-contact-page-favourit").removeClass('favouriticon');
+            $("#phone-app-contact-page-favourit").addClass('purplecolor');
+        // }
     }
-    $("#phone-edit").show();
-    lastcontact = 'contactinfo'
+
+});
+
+$(document).on('click', '#headerback2', function() {
+    if (canback == true ) {
+        if (lastwindow == "case") {
+            Casepreview(oldcase, oldmodel)
+            lastwindow = "settings"
+        } 
+        
+        $(lastpage).css({
+            "display": "block",
+        })
+        $(currentpage).animate({
+            "margin-left": "-30vh",
+        }, 450)
+        $(lastpage).animate({
+            "margin-left": "0vh",
+        }, 400)
+        setTimeout(function() {
+            $(currentpage).hide(0)
+            if (prepage != null) {
+                currentpage = lastpage
+                lastpage = prepage
+              }
+          }, 500);
+    }
+
+
+
+});
+
+function AppSlideIn(currentpage, lastpage) {
+
+    $(currentpage).css({
+        "display": "block",
+        "margin-left": "-30vh",
+    })
+    $(lastpage).animate({
+        "margin-left": "30vh",
+    }, 450)
+    $(currentpage).animate({
+        "margin-left": "0vh",
+    }, 400)
+}
+
+$(document).on('click', '#phone-app-contact-page-favourit', function() {
+    if ($("#phone-app-contact-page-favourit").hasClass('favouriticon')) {
+        $("#phone-app-contact-page-favourit").removeClass('favouriticon');
+    } else {
+        $("#phone-app-contact-page-favourit").addClass('favouriticon');
+    }
 });
 
 
-$(document).on('click', '#pciinputsubmit', function() {
-    var name = $('#pciinputname').val();
-    var message1 = $('#pciinputname').val();
-    var number = $('#pciinputnumber').val();
-    var message2 = $('#pciinputnumber').val();
+// Add Contact
+$(document).on('click', '#phone-app-contact-page-add', function() {
+    currentpage = "#phone-app-contact-new"
+    lastpage = "#phone-app-contact"
+    
+    canback = true
 
-    $(".phone-contacts-add").hide();
-    $(".phone-contacts").fadeIn(250);
-    lastcontact = 'null'
+    AppSlideIn(currentpage, lastpage)
+});
 
-    if (message1.indexOf('script') > -1 ||  message1.includes("<audio") == true || message1.includes("</audio") == true || message1.includes("html") == true || message1.includes("iframe") == true || message1.includes("src") == true || message1.includes("div") == true || message1.includes("div") == true || message1.includes("mp4") == true || message1.includes("<") == true || message1.includes(">") == true ) {
+const inputHandler = function(e) {
+    result.innerHTML = e.target.value;
+  }
+ 
+const inputHandler2 = function(e) {
+    result2.innerHTML = e.target.value;
+    result.innerHTML = $("#phone-app-contact-name").val()
+}
+
+const source = document.getElementById('phone-app-contact-name');
+const result = document.getElementById('phone-app-newcontact');
+
+const source2 = document.getElementById('phone-app-contact-lastname');
+const result2 = document.getElementById('phone-app-newlastnamecontact');
+
+source.addEventListener('input', inputHandler);
+source.addEventListener('input', inputHandler);
+source.addEventListener('propertychange', inputHandler); 
+
+source2.addEventListener('input', inputHandler2);
+source2.addEventListener('propertychange', inputHandler2); 
+
+// Save Button
+$(document).on('click', '#phone-app-contact-new-savebutton', function() {
+    var firstname = $("#phone-app-contact-name").val()
+    var lastname = $("#phone-app-contact-lastname").val()
+    var number = $("#phone-app-contact-phonenumber").val()
+    var name = firstname + ' ' + lastname
+    if (name.indexOf('script') > -1 ||  name.includes("<audio") == true || name.includes("</audio") == true || name.includes("html") == true || name.includes("iframe") == true || name.includes("src") == true || name.includes("div") == true || name.includes("div") == true || name.includes("mp4") == true || name.includes("<") == true || name.includes(">") == true ) {
         sendData("notification", { text: 'Nice try d:^)', length: 5000 })
     } else {
-        if (message2.indexOf('script') > -1 || message2.indexOf('http') > -1 || message2.indexOf('www') > -1 || message2.includes("<audio") == true || message2.includes("</audio") == true) {
+        if (number.indexOf('script') > -1 || number.indexOf('http') > -1 || number.indexOf('www') > -1 || number.includes("<audio") == true || number.includes("</audio") == true) {
             sendData("notification", { text: 'Nice try d:^)', length: 5000 })
         } else {
             sendData("addcontact", {
@@ -125,47 +227,105 @@ $(document).on('click', '#pciinputsubmit', function() {
             });
         }
     }
-
-
-    document.getElementById('pciinputname').value = "";
-    document.getElementById('pciinputnumber').value = "";
 });
 
-$(document).on('click', '#pcieditsubmit', function() {
-    var name = $('#pciinputname2').val();
-    var message1 = $('#pciinputname2').val();
-    var number = $('#pciinputnumber2').val();
-    var message2 = $('#pciinputnumber2').val();
+// Edit Contact
+$(document).on('click', '#phone-app-contact-page-edit', function() {
+    prepage = "#phone-app-contact"
+    currentpage = "#phone-app-contact-edit"
+    lastpage = "#phone-app-contact-page"
 
-    lastcontact = 'null'
+    var name = selectedname
+    var number = selectednumber
+    print(name)
+    if (hasWhiteSpace(name) == true) {
+        var namesplit = name.split(" ")
+        $('#phone-app-contact-edit-name').val(namesplit[0]);
+        $('#phone-app-contact-edit-lastname').val(namesplit[1]);
+    } else {
+        $('#phone-app-contact-edit-name').val(name);
+    }
+  
 
-    if (message1.indexOf('script') > -1 ||  message1.includes("<audio") == true || message1.includes("</audio") == true || message1.includes("html") == true || message1.includes("iframe") == true || message1.includes("src") == true || message1.includes("div") == true || message1.includes("div") == true || message1.includes("mp4") == true || message1.includes("<") == true || message1.includes(">") == true ) {
+    $('#phone-app-edit-newcontact').html(name);    
+
+    $('#phone-app-contact-edit-phonenumber').val(number);
+    AppSlideIn(currentpage, lastpage)
+});
+
+function hasWhiteSpace(s) {
+    return (/\s/).test(s);
+  }
+
+const inputVorname = function(e) {
+    vornameinput.innerHTML = e.target.value;
+    nachnameinput.innerHTML = nachnameinput.innerHTML
+  }
+ 
+const inputNachname = function(e) {
+    nachnameinput.innerHTML = e.target.value;
+    vornameinput.innerHTML = $("#phone-app-contact-edit-name").val()
+}
+
+const vornameinputsource = document.getElementById('phone-app-contact-edit-name');
+const vornameinput = document.getElementById('phone-app-edit-newcontact');
+
+const nachnameinputsource = document.getElementById('phone-app-contact-edit-lastname');
+const nachnameinput = document.getElementById('phone-app-edit-newlastnamecontact');
+
+vornameinputsource.addEventListener('input', inputVorname);
+vornameinputsource.addEventListener('propertychange', inputVorname); 
+
+nachnameinputsource.addEventListener('input', inputNachname);
+nachnameinputsource.addEventListener('propertychange', inputNachname); 
+
+$(document).on('click', '#phone-app-contact-new-editbutton', function() {
+    var firstname = $("#phone-app-contact-edit-name").val()
+    var lastname = $("#phone-app-contact-edit-lastname").val()
+    var number = $("#phone-app-contact-edit-phonenumber").val()
+    var name = firstname + ' ' + lastname
+
+    if (name.indexOf('script') > -1 ||  name.includes("<audio") == true || name.includes("</audio") == true || name.includes("html") == true || name.includes("iframe") == true || name.includes("src") == true || name.includes("div") == true || name.includes("div") == true || name.includes("mp4") == true || name.includes("<") == true || name.includes(">") == true ) {
         sendData("notification", { text: 'Nice try d:^)', length: 5000 })
     } else {
-        if (message2.indexOf('script') > -1 || message2.indexOf('http') > -1 || message2.indexOf('www') > -1 || message2.includes("<audio") == true || message2.includes("</audio") == true) {
+        if (number.indexOf('script') > -1 || number.indexOf('http') > -1 || number.indexOf('www') > -1 || number.includes("<audio") == true || number.includes("</audio") == true) {
             sendData("notification", { text: 'Nice try d:^)', length: 5000 })
         } else {
             sendData("editcontact", {
                 name: name,
-                number: number,
                 name2: selectedname,
-                number2: selectednumber
+                number: number,
+                number2: selectednumber,
             });
+            print(name)
+            canback = false
         }
     }
-
-
-    document.getElementById('pciinputname2').value = "";
-    document.getElementById('pciinputnumber2').value = "";
-    $(".phone-contacts-edit").fadeOut(500);
-    $(".phone-contacts").fadeIn(0);
 });
 
-$(document).on('click', '#pcidelete', function() {
-    $(".phone-contacts-information").hide();
-    $(".phone-contacts").fadeIn(250);
-    lastcontact = 'null'
+// Favourit function
+$(document).on('click', '#phone-app-contact-page-favourit', function() {
 
+    sendData("addcontactfavourit", {
+        name: selectedname,
+        number: selectednumber
+    });
+
+    if (selectedfavourit == "1") {
+        $(this).removeClass('favouriticon');
+        $(this).addClass('purplecolor');
+        selectedfavourit = "0"
+    } else {
+        // if ($("#phone-app-contact-page-favourit").hasCass('favouriticon')) {
+            $(this).removeClass('purplecolor');
+            $(this).addClass('favouriticon');
+            selectedfavourit = "1"
+        // }
+    }
+});
+
+// Delete Contact
+$(document).on('click', '#phone-app-contact-page-delete', function() {
     if (selectedname != null) {
         sendData("deletecontact", {
             name: selectedname,
@@ -174,14 +334,27 @@ $(document).on('click', '#pcidelete', function() {
 
         selectedname = null
         selectednumber = null
+        canback = false
+        AppSlideIn(currentpage, lastpage)
     }
 });
 
-$(document).on('click', '#pcishare', function() {
-    $(".phone-contacts-information").hide();
-    $(".phone-contacts").fadeIn(250);
-    lastcontact = 'null'
+$(document).on('click', '#phone-app-contact-edit-delete', function() {
+    if (selectedname != null) {
+        sendData("deletecontact", {
+            name: selectedname,
+            number: selectednumber
+        });
 
+        selectedname = null
+        selectednumber = null
+        canback = false
+        AppSlideIn(currentpage, lastpage)
+    }
+});
+
+// Share contact
+$(document).on('click', '#phone-app-contact-page-sharecontact', function() {
     if (selectedname != null) {
         sendData("sharecontact", {
             name: selectedname,
@@ -190,34 +363,77 @@ $(document).on('click', '#pcishare', function() {
 
         selectedname = null
         selectednumber = null
+
+        AppSlideIn(currentpage, lastpage)
     }
 });
 
-$(document).on('click', '#pcigps', function() {
+// GPS
+$(document).on('click', '#phone-app-contact-page-sendlocatoin', function() {
     sendData("sendgps", {
         number: selectednumber
     });
+
+    // AppSlideIn(currentpage, lastpage)
 });
 
-var outgoingsound = document.getElementById("outgoing-sound");
+// Search bar
+const contactsearchBar = document.forms['phone-app-contact-page-searchbar'].querySelector('input');
+contactsearchBar.addEventListener('keyup', function(e) {
+  const term = e.target.value.toLocaleLowerCase();
+  const recentmessages = document.querySelectorAll('[id=phone-contact-name]');
+  var notAvailable = document.getElementById('notAvailable');
+//   $("#titleMain").toggle($('input').val().length == 0);
+  var hasResults = false;
+  Array.from(recentmessages).forEach(function(book) {
+    const title = book.textContent;
+    if (title.toLowerCase().indexOf(term) != -1) {
+        $(book).parent().show(0)
+      hasResults = true;
+    } else {
+        $(book).parent().hide(0)
+    //   book.style.display = 'none';
+    }
 
-$(document).on('click', '#pcicall', function() {
+    if (hasResults == false) {
+        $("#notAvailable").show(0)
+    } else {
+      $("#notAvailable").hide(0)
+    }
+  });
+
+});
+
+// Message
+$(document).on('click', '#phone-app-contact-page-message', function() {
+    sendData("loadmessage", {
+        number: selectednumber
+    });
+    lastcontact = 'message'
+});
+// Call
+$(document).on('click', '#phone-app-contact-page-call', function() {
     var element = document.getElementById("phone-call-outgoing-caller");
     element.innerHTML = selectedname
     $(".phone-call").hide();
-    $(".phone-app").hide();
+    $(".phone-all-call-sector").hide()
+    $("#phone-app-contact-page").hide();
     $(".phone-call-app").show();
     $(".phone-call-outgoing").fadeIn(250);
 
     if (mutes == true) {
-        sendData("notification", { text: locale.yourecallingsb, length: 5000 })
+        if (locale == "de") {
+            sendData("notification", { text: localede.yourecallingsb, length: 5000 })
+        } else {
+            sendData("notification", { text: locale.yourecallingsb, length: 5000 })
+        }
     } else {
         if (outgoingsound != null) {
             outgoingsound.pause();
         }
 
         outgoingsound = new Audio("./sound/Phonecall.ogg");
-        outgoingsound.volume = 0.2;
+        outgoingsound.volume = soundvolume;
         outgoingsound.currentTime = 0;
         outgoingsound.loop = true;
         outgoingsound.play();
@@ -225,65 +441,4 @@ $(document).on('click', '#pcicall', function() {
 
 
     sendData("startcall", { number: selectednumber, contact: selectedname });
-
-    lastcontact = 'null'
-});
-
-$(document).on('click', '#pcicall2', function() {
-    var element = document.getElementById("phone-call-outgoing-caller");
-    element.innerHTML = selectedname
-    $(".phone-call").hide();
-    $(".phone-app").hide();
-    $(".phone-call-app").show();
-    $(".phone-call-outgoing").fadeIn(250);
-
-    if (mutes == true) {
-        sendData("notification", { text: locale.yourecallingsb, length: 5000 })
-    } else {
-        if (outgoingsound != null) {
-            outgoingsound.pause();
-        }
-
-        outgoingsound = new Audio("./sound/Phonecall.ogg");
-        outgoingsound.volume = 0.2;
-        outgoingsound.currentTime = 0;
-        outgoingsound.loop = true;
-        outgoingsound.play();
-    }
-
-
-    sendData("startcall", { number: selectednumber, contact: selectedname });
-
-    lastcontact = 'null'
-});
-
-// Favourite
-$(document).on('click', '#pcifavourit', function() {
-    sendData("addcontactfavourit", {
-        name: selectedname,
-        number: selectednumber
-    });
-
-    if (selectedfavourite == 1) {
-        $(this).removeClass("pcifavouriteicon")
-        selectedfavourite = 0
-    } else {
-        selectedfavourite = 1
-        $(this).addClass("pcifavouriteicon")
-    }
-});
-
-$(document).on('click', '#pcifavourit2', function() {
-    sendData("addcontactfavourit", {
-        name: selectedname,
-        number: selectednumber
-    });
-
-    if (selectedfavourite == 1) {
-        $('#pcifavourit').removeClass("pcifavouriteicon")
-        selectedfavourite = 0
-    } else {
-        selectedfavourite = 1
-        $('#pcifavourit').addClass("pcifavouriteicon")
-    }
 });
