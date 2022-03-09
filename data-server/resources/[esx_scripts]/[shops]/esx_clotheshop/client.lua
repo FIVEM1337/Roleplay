@@ -16,6 +16,7 @@ local isPedLoaded = false
 local npc = nil
 local hasBought = false
 local wasInMenu = false
+local LastSkin  = nil
 
 local torsoData = {}
 
@@ -401,8 +402,7 @@ function selectjoboutfittype(sex, grade)
 end
 
 function generateClothesMenu(sex, grade, outfittype)
-	local LastSkin = nil
-
+	LastSkin = nil
 	if sex and grade then
 		ESX.TriggerServerCallback('esx_jobs:getjobskinwithgrade', function(jobskin)
 			if jobskin then
@@ -498,7 +498,7 @@ function LoadCorrectSkin(sex, grade, outfittype, CurrentSkin)
 									TriggerEvent('esx_skin:setCurrentSkin', skin)
 					
 									TriggerEvent('skinchanger:getSkin', function(skinnew)
-										TriggerServerEvent('esx_skin:save', skinnew)
+									TriggerServerEvent('esx_skin:save', skinnew)
 									--	CurrentSkin = skinnew
 									end)
 									
