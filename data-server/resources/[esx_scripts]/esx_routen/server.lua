@@ -38,6 +38,7 @@ end)
 RegisterServerEvent('esx_routen:startRoute')
 AddEventHandler('esx_routen:startRoute', function(label)
 	_source = source
+	TriggerClientEvent('dopeNotify:Alert', _source, "", "Du hast die Interaktion gestartet", 2000, 'info')
 	if not Playertasks[source] then
 		Playertasks[source] = {}
 	end 
@@ -368,7 +369,7 @@ function randomChange(percent)
 end
 
 function Stop(source)
-	TriggerClientEvent('dopeNotify:Alert', source, "", "Aktion wurde abgebrochen", 2000, 'error')
+	TriggerClientEvent('dopeNotify:Alert', source, "", "Interaktion wurde beendet", 2000, 'info')
 	TriggerClientEvent('esx_routen:changestatus', source, false)
 	Playertasks[source] = {}
 end

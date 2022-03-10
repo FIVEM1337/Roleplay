@@ -6,6 +6,7 @@ local HasAlreadyEnteredMarker = false
 local LastZone                = nil
 local work  = false
 local cantrigger = true
+local InMarker = false
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -117,6 +118,7 @@ Citizen.CreateThread(function ()
 					if (type(v) == "table") then
 						if(#(coords - v.coord) < (v.marker.range / 2)) then
 							isInMarker  = true
+							InMarker = true
 							currentZone = zone
 						end
 					end
@@ -156,7 +158,6 @@ end)
 
 AddEventHandler('esx_routen:hasEnteredMarker', function (zone)
 	local PlayerData = ESX.GetPlayerData()
-
 	CurrentAction     = zone
 	CurrentActionMsg  = "test"
 	CurrentActionData = {}
@@ -165,7 +166,11 @@ AddEventHandler('esx_routen:hasEnteredMarker', function (zone)
 end)
 
 AddEventHandler('esx_routen:hasExitedMarker', function (zone)
-	TriggerServerEvent('esx_routen:stopRoute', LastZone)
+	ESX.TriggerServerCallback('esx_routen:done', function(running)
+		if running then
+			TriggerServerEvent('esx_routen:stopRoute', LastZone)
+		end
+	end)
 	CurrentAction = nil
 end)
 
@@ -181,10 +186,10 @@ Citizen.CreateThread(function()
 			if tablesize > 1 then
 				_menuPool:ProcessMenus()
 			end
-
-			if IsControlJustReleased(0, Config.ControlKey) and cantrigger then
-				if tablesize > 0 then
-					if cantrigger then
+			
+			if IsControlJustReleased(0, Config.ControlKey) then
+				if cantrigger then
+					if tablesize > 0 then
 						TriggerEvent('esx_routen:waittotrigger')
 						ESX.TriggerServerCallback('esx_routen:done', function(running)
 							if running then
@@ -202,11 +207,30 @@ Citizen.CreateThread(function()
 							end
 						end)
 					end
+				else
+					TriggerEvent('dopeNotify:Alert', "", "Du kannst das gerade noch nicht tun", 2000, 'error')
 				end
 			end
 		end
 	end
 end)
+
+
+-- Key controls
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		print(isInMarker)
+		if InMarker then
+			if work then
+				showInfobar("Drücke ~g~E~s~, um Interaktion zu beenden")
+			else
+				showInfobar("Drücke ~g~E~s~, um Interaktion zu starten")
+			end
+		end
+	end
+end)
+
 
 Citizen.CreateThread(function()
 	while true do
