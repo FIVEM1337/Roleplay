@@ -216,11 +216,9 @@ Citizen.CreateThread(function()
 end)
 
 
--- Key controls
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		print(isInMarker)
 		if InMarker then
 			if work then
 				showInfobar("Drücke ~g~E~s~, um Interaktion zu beenden")
