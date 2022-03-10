@@ -84,16 +84,18 @@ function CraftFinish(source, label)
 
 	if not randomChange(dosomethingtable.chance) then
 		if dosomethingtable.removeonfail then
-			for k, need in ipairs(dosomethingtable.neededitems) do
-				if need.remove then
-					local itemtype = getItemType(need.item)
-					if itemtype == "money" then
-						xPlayer.removeAccountMoney(need.item, need.count)
-					elseif itemtype == "weapon" then
-						local loadoutNum, weapon = xPlayer.getWeapon(need.item)
-						xPlayer.removeWeapon(need.item, weapon.ammo)
-					elseif itemtype == "item" then
-						xPlayer.removeInventoryItem(need.item, need.count)
+			if tablelength(dosomethingtable.neededitems) > 0 then
+				for k, need in ipairs(dosomethingtable.neededitems) do
+					if need.remove then
+						local itemtype = getItemType(need.item)
+						if itemtype == "money" then
+							xPlayer.removeAccountMoney(need.item, need.count)
+						elseif itemtype == "weapon" then
+							local loadoutNum, weapon = xPlayer.getWeapon(need.item)
+							xPlayer.removeWeapon(need.item, weapon.ammo)
+						elseif itemtype == "item" then
+							xPlayer.removeInventoryItem(need.item, need.count)
+						end
 					end
 				end
 			end
@@ -105,54 +107,66 @@ function CraftFinish(source, label)
 
 
 	-- Weapon Remove seperate because check if weapon already exist
-	for k, recive in ipairs(dosomethingtable.reciveitems) do
-		local itemtype = getItemType(recive.item)
-		if itemtype == "weapon" then
-			if not xPlayer.hasWeapon(recive.item) then
-				xPlayer.addWeapon(recive.item, recive.count)
-			else
-				TriggerClientEvent('dopeNotify:Alert', source, "", "Du hast bereits diese Waffe", 2000, 'error')
-				Stop(source)
-				return
+	if tablelength(dosomethingtable.reciveitems) > 0 then
+		for k, recive in ipairs(dosomethingtable.reciveitems) do
+			local itemtype = getItemType(recive.item)
+			if itemtype == "weapon" then
+				if not xPlayer.hasWeapon(recive.item) then
+					xPlayer.addWeapon(recive.item, recive.count)
+				else
+					TriggerClientEvent('dopeNotify:Alert', source, "", "Du hast bereits diese Waffe", 2000, 'error')
+					Stop(source)
+					return
+				end
+			end
+			if tablelength(dosomethingtable.reciveitems) == k then
+				addedweapon = true
 			end
 		end
-		if tablelength(dosomethingtable.neededitems) == k then
-			addedweapon = true
-		end
-	end	
-
-	-- Give Player Reward
-	for k, recive in ipairs(dosomethingtable.reciveitems) do
-		local itemtype = getItemType(recive.item)
-		if itemtype == "money" then
-			xPlayer.addAccountMoney(recive.item, recive.count)
-		elseif itemtype == "item" then
-			xPlayer.addInventoryItem(recive.item, recive.count)
-		end
-		
-		if tablelength(dosomethingtable.neededitems) == k then
-			addeditem = true
-		end
-	end	
-
-	for k, need in ipairs(dosomethingtable.neededitems) do
-		if need.remove then
-			local itemtype = getItemType(need.item)
-			if itemtype == "money" then
-				xPlayer.removeAccountMoney(need.item, need.count)
-			elseif itemtype == "weapon" then
-				local loadoutNum, weapon = xPlayer.getWeapon(need.item)
-				xPlayer.removeWeapon(need.item, weapon.ammo)
-			elseif itemtype == "item" then
-				xPlayer.removeInventoryItem(need.item, need.count)
-			end
-		end
-
-		if tablelength(dosomethingtable.neededitems) == k then
-			removeditem = true
-		end
+	else
+		addedweapon = true
 	end
 
+	-- Give Player Reward
+	if tablelength(dosomethingtable.reciveitems) > 0 then
+		for k, recive in ipairs(dosomethingtable.reciveitems) do
+			local itemtype = getItemType(recive.item)
+			if itemtype == "money" then
+				xPlayer.addAccountMoney(recive.item, recive.count)
+			elseif itemtype == "item" then
+				xPlayer.addInventoryItem(recive.item, recive.count)
+			end
+			
+			if tablelength(dosomethingtable.reciveitems) == k then
+				addeditem = true
+			end
+		end
+	else
+		addeditem = true
+	end
+
+
+	if tablelength(dosomethingtable.neededitems) > 0 then
+		for k, need in ipairs(dosomethingtable.neededitems) do
+			if need.remove then
+				local itemtype = getItemType(need.item)
+				if itemtype == "money" then
+					xPlayer.removeAccountMoney(need.item, need.count)
+				elseif itemtype == "weapon" then
+					local loadoutNum, weapon = xPlayer.getWeapon(need.item)
+					xPlayer.removeWeapon(need.item, weapon.ammo)
+				elseif itemtype == "item" then
+					xPlayer.removeInventoryItem(need.item, need.count)
+				end
+			end
+	
+			if tablelength(dosomethingtable.neededitems) == k then
+				removeditem = true
+			end
+		end
+	else
+		removeditem = true
+	end
 
 	while true do
 		Citizen.Wait(1)
@@ -201,40 +215,44 @@ function hasInventoryItemFunc(source, label)
 	end
 
 	local haveitem = true
-	for k, need in ipairs(dosomethingtable.neededitems) do
-		itemtype = getItemType(need.item)
-		if itemtype == "money" then
-			if xPlayer.getAccount(need.item).money >= 0 then
-				if xPlayer.getAccount(need.item).money >= need.count then
+	if tablelength(dosomethingtable.neededitems) > 0 then
+		for k, need in ipairs(dosomethingtable.neededitems) do
+			itemtype = getItemType(need.item)
+			if itemtype == "money" then
+				if xPlayer.getAccount(need.item).money >= 0 then
+					if xPlayer.getAccount(need.item).money >= need.count then
+					else
+						haveitem = false
+					end
 				else
 					haveitem = false
 				end
-			else
-				haveitem = false
+	
+			elseif itemtype == "weapon" then
+				if xPlayer.hasWeapon(need.item) then
+				else
+					haveitem = false
+				end
+	
+			elseif itemtype == "item" then
+				if xPlayer.getInventoryItem(need.item).count >= need.count then
+				else
+					haveitem = false
+				end
 			end
 
-		elseif itemtype == "weapon" then
-			if xPlayer.hasWeapon(need.item) then
-			else
-				haveitem = false
-			end
-
-		elseif itemtype == "item" then
-			if xPlayer.getInventoryItem(need.item).count >= need.count then
-			else
-				haveitem = false
+			if tablelength(dosomethingtable.neededitems) == k then
+				if haveitem then
+					return true
+				else
+					TriggerClientEvent('dopeNotify:Alert', source, "", "Dir Fehlen Items", 2000, 'error')
+					Stop(source)
+					return false
+				end
 			end
 		end
-
-		if tablelength(dosomethingtable.neededitems) == k then
-			if haveitem then
-				return true
-			else
-				TriggerClientEvent('dopeNotify:Alert', source, "", "Dir Fehlen Items", 2000, 'error')
-				Stop(source)
-				return false
-			end
-		end
+	else
+		return true
 	end
 end
 
@@ -253,22 +271,26 @@ function hasInventorySpaceFunc(source, label)
 	needweight = 0
 	reciveweight = 0
 
-	for k, need in ipairs(dosomethingtable.neededitems) do
-		itemtype = getItemType(need.item)
-		if itemtype == "item" then
-			if ESX.Items[need.item] then
-				itemweight = ESX.Items[need.item].weight * need.count
-				needweight = needweight + itemweight
+	if tablelength(dosomethingtable.neededitems) > 0 then
+		for k, need in ipairs(dosomethingtable.neededitems) do
+			itemtype = getItemType(need.item)
+			if itemtype == "item" then
+				if ESX.Items[need.item] then
+					itemweight = ESX.Items[need.item].weight * need.count
+					needweight = needweight + itemweight
+				end
 			end
 		end
 	end
 
-	for k, recive in ipairs(dosomethingtable.reciveitems) do
-		itemtype = getItemType(recive.item)
-		if itemtype == "item" then
-			if ESX.Items[recive.item] then
-				itemweight = ESX.Items[recive.item].weight * recive.count
-				reciveweight = reciveweight + itemweight
+	if tablelength(dosomethingtable.reciveitems) > 0 then
+		for k, recive in ipairs(dosomethingtable.reciveitems) do
+			itemtype = getItemType(recive.item)
+			if itemtype == "item" then
+				if ESX.Items[recive.item] then
+					itemweight = ESX.Items[recive.item].weight * recive.count
+					reciveweight = reciveweight + itemweight
+				end
 			end
 		end
 	end
