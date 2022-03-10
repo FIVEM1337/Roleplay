@@ -3,138 +3,350 @@ local Playertasks               = {}
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-function Start(source)
-    zone = Playertasks[source].zone
-    local xPlayer = ESX.GetPlayerFromId(source)
+function Start(source, label)
+	routetable = getroutetable(label)
+	SetTimeout(routetable.time * 1000, function()
+		if not Playertasks[source] then
+			return
+		end
 
-    if not zone then return end
+		if not Playertasks[source].label then
+			return
+		end
 
-	SetTimeout(zone.time * 1000, function()
-	    local xPlayer = ESX.GetPlayerFromId(source)
-
-        if Playertasks[source].zone then
-
-            if not rawequal(next(zone.need), nil) then
-                hasInventoryItem = hasItem(source)
-                if not hasInventoryItem then return end
-            end
-
-           if not rawequal(next(zone.item), nil) then
-                hasInventorySpace = hasSpace(source)
-                if not hasInventorySpace then return end
-            end
-
-             if not rawequal(next(zone.need), nil) then
-                if xPlayer.getInventoryItem(zone.need.item).count >= zone.need.count then
-                    if zone.item.item == "money" or zone.item.item == "black_money"  then
-                        if zone.need.removeItem then
-                            xPlayer.removeInventoryItem(zone.need.item, zone.need.count)
-                        end
-                        xPlayer.addAccountMoney(zone.item.item, zone.item.count)
-                    else
-                        if xPlayer.canCarryItem(zone.item.item, zone.item.count) then
-                            xPlayer.removeInventoryItem(zone.need.item, zone.need.count)
-                            xPlayer.addInventoryItem(zone.item.item, zone.item.count)
-                        end
-                    end
-                    Start(source) 
-                end
-            else
-                if xPlayer.canCarryItem(zone.item.item, zone.item.count) then
-                    xPlayer.addInventoryItem(zone.item.item, zone.item.count)
-                    Start(source) 
-                end
-            end
-        end
+		CraftFinish(source, Playertasks[source].label)
+	
 	end)
 end
 
 ESX.RegisterServerCallback('esx_routen:done', function(source, cb)
-	local xPlayer = ESX.GetPlayerFromId(source)
-    if not Playertasks[source] then
-        Playertasks[source] = {}
-    end
+	if Playertasks[source] then
+		if Playertasks[source].label then
+			cb(true)
+		else
+			cb(false)
+		end
+	else
+		cb(false)
+	end
+end)
 
-    if Playertasks[source].zone then
-	    cb(true)
-    else
-        cb(false)
-    end
+ESX.RegisterServerCallback('esx_routen:getitemlabel', function(source, cb, item)
+	cb(ESX.GetItemLabel(item))
 end)
 
 RegisterServerEvent('esx_routen:startRoute')
-AddEventHandler('esx_routen:startRoute', function(zone)
-    if not Playertasks[source] then
-        Playertasks[source] = {}
-    end 
+AddEventHandler('esx_routen:startRoute', function(label)
+	_source = source
+	if not Playertasks[source] then
+		Playertasks[source] = {}
+	end 
 
-    if not Playertasks[source].zone then
-        Playertasks[source].zone = zone
+	if not Playertasks[source].label then
+		Playertasks[source].label = label
 
-        if not rawequal(next(zone.need), nil) then
-            hasInventoryItem = hasItem(source)
-            if not hasInventoryItem then return end
-        end
+		local hasInventoryItem = hasInventoryItemFunc(_source, label)
+		local hasInventorySpace = hasInventorySpaceFunc(_source, label)
 
-       if not rawequal(next(zone.item), nil) then
-            hasInventorySpace = hasSpace(source)
-            if not hasInventorySpace then return end
-        end
-
-        TriggerClientEvent('esx_routen:changestatus', source, true)
-
-        Start(source)
-    else
-        TriggerClientEvent('esx:showNotification', source, "Die Aktion wurde abgebrochen")
-        TriggerClientEvent('esx_routen:changestatus', source, false)
-        Playertasks[source] = {}
-    end
+		while true do
+			Citizen.Wait(1)
+			if hasInventoryItem ~= nil and hasInventorySpace ~= nil then
+				if hasInventoryItem and hasInventorySpace then
+					TriggerClientEvent('esx_routen:changestatus', _source, true)
+					Start(_source, label)
+					break
+				else
+					break
+				end
+			end
+		end
+	end
 end)
 
 RegisterServerEvent('esx_routen:stopRoute')
-AddEventHandler('esx_routen:stopRoute', function(zone)
-    TriggerClientEvent('esx:showNotification', source, "Die Aktion wurde abgebrochen")
-    TriggerClientEvent('esx_routen:changestatus', source, false)
-    Playertasks[source] = {}
+AddEventHandler('esx_routen:stopRoute', function()
+	Stop(source)
 end)
 
-function hasItem(source)
-    zone = Playertasks[source].zone
-    if not zone then return end
 
+function CraftFinish(source, label)
 	local xPlayer = ESX.GetPlayerFromId(source)
+	local dosomethingtable = getdosomethingtable(label)
 
-    if Playertasks[source].zone then
-        if xPlayer.getInventoryItem(zone.need.item).count >= zone.need.count then
-            return true
-        else
+	local hasInventoryItem
+	local hasInventorySpace
 
-            TriggerClientEvent('esx:showNotification', source, "Du benötist "..zone.need.count.."x "..ESX.GetItemLabel(zone.need.item))
-            TriggerClientEvent('esx_routen:changestatus', source, false)
-            Playertasks[source] = {}
-            return false
-        end
+	if not dosomethingtable then
+		TriggerClientEvent('dopeNotify:Alert', source, "", "Interner Fehler", 2000, 'error')
+		Stop(source)
+		return
+	end
+
+	if not randomChange(dosomethingtable.chance) then
+		if dosomethingtable.removeonfail then
+			for k, need in ipairs(dosomethingtable.neededitems) do
+				if need.remove then
+					local itemtype = getItemType(need.item)
+					if itemtype == "money" then
+						xPlayer.removeAccountMoney(need.item, need.count)
+					elseif itemtype == "weapon" then
+						local loadoutNum, weapon = xPlayer.getWeapon(need.item)
+						xPlayer.removeWeapon(need.item, weapon.ammo)
+					elseif itemtype == "item" then
+						xPlayer.removeInventoryItem(need.item, need.count)
+					end
+				end
+			end
+		end
+		TriggerClientEvent('dopeNotify:Alert', source, "", "Herstellen ist fehlgeschlagen", 2000, 'error')
+		Start(source, label)
+		return
+	end
+
+
+	-- Weapon Remove seperate because check if weapon already exist
+	for k, recive in ipairs(dosomethingtable.reciveitems) do
+		local itemtype = getItemType(recive.item)
+		if itemtype == "weapon" then
+			if not xPlayer.hasWeapon(recive.item) then
+				xPlayer.addWeapon(recive.item, recive.count)
+			else
+				TriggerClientEvent('dopeNotify:Alert', source, "", "Du hast bereits diese Waffe", 2000, 'error')
+				Stop(source)
+				return
+			end
+		end
+		if tablelength(dosomethingtable.neededitems) == k then
+			addedweapon = true
+		end
+	end	
+
+	-- Give Player Reward
+	for k, recive in ipairs(dosomethingtable.reciveitems) do
+		local itemtype = getItemType(recive.item)
+		if itemtype == "money" then
+			xPlayer.addAccountMoney(recive.item, recive.count)
+		elseif itemtype == "item" then
+			xPlayer.addInventoryItem(recive.item, recive.count)
+		end
+		
+		if tablelength(dosomethingtable.neededitems) == k then
+			addeditem = true
+		end
+	end	
+
+	for k, need in ipairs(dosomethingtable.neededitems) do
+		if need.remove then
+			local itemtype = getItemType(need.item)
+			if itemtype == "money" then
+				xPlayer.removeAccountMoney(need.item, need.count)
+			elseif itemtype == "weapon" then
+				local loadoutNum, weapon = xPlayer.getWeapon(need.item)
+				xPlayer.removeWeapon(need.item, weapon.ammo)
+			elseif itemtype == "item" then
+				xPlayer.removeInventoryItem(need.item, need.count)
+			end
+		end
+
+		if tablelength(dosomethingtable.neededitems) == k then
+			removeditem = true
+		end
+	end
+
+
+	while true do
+		Citizen.Wait(1)
+		if addedweapon ~= nil and addeditem ~= nil and removeditem ~= nil then
+			if addedweapon and addeditem and removeditem then
+				hasInventoryItem = hasInventoryItemFunc(source, label)
+				hasInventorySpace = hasInventorySpaceFunc(source, label)
+				break
+			end
+		end
+	end
+
+
+	while true do
+		Citizen.Wait(1)
+		if hasInventoryItem ~= nil and hasInventorySpace ~= nil then
+			if hasInventoryItem and hasInventorySpace then
+				Start(source, label)
+				break
+			else
+				break
+			end
+		end
 	end
 end
 
-function hasSpace(source)
-    zone = Playertasks[source].zone
-    if not zone then return end
-
+function hasInventoryItemFunc(source, label)
 	local xPlayer = ESX.GetPlayerFromId(source)
-
-    if Playertasks[source].zone then
-        if zone.item.item == "money" or zone.item.item == "bank" or zone.item.item == "black_money" or zone.item.item == "crypto"then
-            return true
-        else
-            if xPlayer.canCarryItem(zone.item.item, zone.item.count) then
-                return true
-            else
-                TriggerClientEvent('esx:showNotification', source, "inventory full")
-                TriggerClientEvent('esx_routen:changestatus', source, false)
-                Playertasks[source] = {}
-                return false
-            end
-        end
+	local dosomethingtable = getdosomethingtable(label)
+	if not Playertasks[source] then
+		TriggerClientEvent('dopeNotify:Alert', source, "", "Interner Fehler", 2000, 'error')
+		Stop(source)
+		return
 	end
+
+	if not Playertasks[source].label == label then
+		TriggerClientEvent('dopeNotify:Alert', source, "", "Interner Fehler", 2000, 'error')
+		Stop(source)
+		return
+	end
+
+	if not dosomethingtable then
+		TriggerClientEvent('dopeNotify:Alert', source, "", "Interner Fehler", 2000, 'error')
+		Stop(source)
+		return
+	end
+
+	local haveitem = true
+	for k, need in ipairs(dosomethingtable.neededitems) do
+		itemtype = getItemType(need.item)
+		if itemtype == "money" then
+			if xPlayer.getAccount(need.item).money >= 0 then
+				if xPlayer.getAccount(need.item).money >= need.count then
+				else
+					haveitem = false
+				end
+			else
+				haveitem = false
+			end
+
+		elseif itemtype == "weapon" then
+			if xPlayer.hasWeapon(need.item) then
+			else
+				haveitem = false
+			end
+
+		elseif itemtype == "item" then
+			if xPlayer.getInventoryItem(need.item).count >= need.count then
+			else
+				haveitem = false
+			end
+		end
+
+		if tablelength(dosomethingtable.neededitems) == k then
+			if haveitem then
+				return true
+			else
+				TriggerClientEvent('dopeNotify:Alert', source, "", "Dir Fehlen Items", 2000, 'error')
+				Stop(source)
+				return false
+			end
+		end
+	end
+end
+
+function hasInventorySpaceFunc(source, label)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	dosomethingtable = getdosomethingtable(label)
+	space = xPlayer.getMaxWeight() - xPlayer.getWeight()
+
+	if not dosomethingtable then
+		TriggerClientEvent('dopeNotify:Alert', source, "", "Interner Fehler", 2000, 'error')
+		Stop(source)
+		return
+	end
+
+	itemweight = 0
+	needweight = 0
+	reciveweight = 0
+
+	for k, need in ipairs(dosomethingtable.neededitems) do
+		itemtype = getItemType(need.item)
+		if itemtype == "item" then
+			if ESX.Items[need.item] then
+				itemweight = ESX.Items[need.item].weight * need.count
+				needweight = needweight + itemweight
+			end
+		end
+	end
+
+	for k, recive in ipairs(dosomethingtable.reciveitems) do
+		itemtype = getItemType(recive.item)
+		if itemtype == "item" then
+			if ESX.Items[recive.item] then
+				itemweight = ESX.Items[recive.item].weight * recive.count
+				reciveweight = reciveweight + itemweight
+			end
+		end
+	end
+
+	itemweight = needweight - reciveweight
+	space = space - itemweight
+
+	if space >= 0 then
+		return true
+	else
+		TriggerClientEvent('dopeNotify:Alert', source, "", "Items zu schwer", 2000, 'error')
+		Stop(source)
+		return false
+	end
+end
+
+function getdosomethingtable(label)
+	for k, v in pairs (routen) do
+		for k, v in pairs (v) do
+			for k, v in pairs (v) do
+				if (type(v) == "table") then
+					for k, v in pairs (v.dosomething) do
+						if v.label == label then
+							return v
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+
+function getroutetable(label)
+	for k, v in pairs (routen) do
+		for k, v in pairs (v) do
+			for k, v in pairs (v) do
+				route = v
+				if (type(v) == "table") then
+					route = v
+					for k, v in pairs (v.dosomething) do
+						if v.label == label then
+							return route
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+function tablelength(T)
+	local count = 0
+	for _ in pairs(T) do 
+		count = count + 1 
+	end
+	return count
+end
+
+
+function getItemType(item)
+	if item == "money" or item == "bank" or item == "black_money" or item == "crypto" then
+		return "money"
+	elseif ESX.GetWeaponLabel(item) then
+		return "weapon"
+	else
+		return "item"
+	end
+end
+
+
+function randomChange(percent)
+	assert(percent >= 0 and percent <= 100)
+	return percent >= math.random(1, 100)
+end
+
+function Stop(source)
+	TriggerClientEvent('dopeNotify:Alert', source, "", "Aktion wurde abgebrochen", 2000, 'error')
+	TriggerClientEvent('esx_routen:changestatus', source, false)
+	Playertasks[source] = {}
 end

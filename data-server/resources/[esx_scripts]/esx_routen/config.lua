@@ -6,265 +6,76 @@ routen = {
 	{ 
 		Tabakroute = {
 			illegal = false,
-			tobacco_harvest = {
-				name = "Tabak sammeln | Zigarettenroute",
-				item = {item = "tabacco", count = 1},
-				need = {},
-				time = 5,
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 501, color = 21, scale = 0.8},
-				marker = {type = 27, range = 15.0, red = 50, green = 50, blue = 204, show = true},
-				coord = vector3(480.00, 6486.80, 30.00),
-				npc = false
-			},
 			tobacco_process = {
 				name = "Zigaretten stopfen | Zigarettenroute",
+				title = "Zigaretten stopfen",
 				time = 3,
-				item = {item = "np_cigarette", count = 1},
-				need = {item = "tabacco", count = 2, removeItem = true},
+				dosomething = {
+					{
+						label = "Waffe1",   --Anzeige Name 
+						chance = 70,	--Chance das man Items bekommt in "reciveitems"
+						removeonfail = true,	--Entferne Needed Items wenn fehlschlägt"
+						reciveitems = {
+										{item = "Megageilewaffe", count = 2},
+										{item = "koksundnutten", count = 2},
+						},
+						neededitems = {
+										{item = "tabacco", count = 3, remove = true},
+										{item = "tabacco", count = 2, remove = true},
+						},
+					},
+
+					{
+						label = "deinemom",   --Anzeige Name 
+						chance = 10,		--Chance das man Items bekommt in "reciveitems"
+						removeonfail = true,	--Entferne Needed Items wenn fehlschlägt"
+						reciveitems = {
+										{item = "tabacco", count = 1},
+										{item = "tabacco", count = 1},
+						},
+						neededitems = {
+										{item = "tabacco", count = 1, remove = true},
+										{item = "tabacco", count = 1, remove = true},
+						},
+					},
+					{
+						label = "Huhuu Stimmung",   --Anzeige Name 
+						chance = 100,		--Chance das man Items bekommt in "reciveitems"
+						reciveitems = {
+										{item = "black_money", count = 1},
+										{item = "money", count = 1},
+										{item = "sMetal", count = 1, remove = true},
+										{item = "scratch_ticket", count = 1, remove = true},
+										{item = "smg_grip", count = 1, remove = true},
+										{item = "spoon", count = 1, remove = true},
+										{item = "tabacco", count = 1, remove = true},
+										{item = "miniH", count = 1, remove = true},
+										{item = "pistol_flashlight", count = 1, remove = true},
+										{item = "wCloth", count = 1, remove = true},
+										{item = "tablet", count = 1, remove = true},
+										{item = "emerald", count = 1, remove = true},
+										{item = "file", count = 1, remove = true},
+										{item = "wCloth", count = 1, remove = true},
+										{item = "fixkit", count = 1, remove = true},
+										{item = "goldnecklace", count = 1, remove = true},
+										{item = "np_whiskey", count = 1, remove = true},
+										{item = "joint", count = 1, remove = true},
+										{item = "np_tequila", count = 1, remove = true},
+										{item = "np_shot1", count = 1, remove = true},
+										{item = "np_cigarette", count = 1, remove = true},
+						},
+						neededitems = {
+										{item = "money", count = 1, remove = true},
+										{item = "tabacco", count = 1, remove = true},
+						},
+					},
+				},
 				animation = "WORLD_HUMAN_GARDENER_PLANT",
 				blip = {sprite = 501, color = 21, scale = 0.8},
 				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
 				coord = vector3(1465.50, 6548.00, 13.16),
 				npc = {model = "a_m_m_hillbilly_01", heading = 90.0}
 			},
-			tobacco_sell = {
-				name = "Zigaretten verkaufen | Zigarettenroute",
-				time = 3,
-				item = {item = "money", count = 200},
-				need = {item = "np_cigarette", count = 1, removeItem = true},
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 501, color = 21, scale = 0.8},
-				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(2195.00, 5595.00, 52.8),
-				npc = {model = "a_m_m_hillbilly_01", heading = 348.0}
-			}
-		}	
-	},
-	{ 
-		Weinroute = {
-			illegal = false,
-			grape_harvest = {
-				name = "Weintraube sammeln | Weinroute",
-				item = {item = "grape", count = 1},
-				need = {},
-				time = 5,
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 93, color = 1, scale = 0.8},
-				marker = {type = 27, range = 80.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(-1751.50, 1917.80, 143.00),
-				npc = false
-			},
-			grape_process = {
-				name = "Wein erstellen | Weinroute",
-				time = 3,
-				item = {item = "wine", count = 1},
-				need = {item = "tabacco", count = 2, removeItem = true},
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 93, color = 1, scale = 0.8},
-				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(-1905.90, 2281.30, 63.6),
-				npc = {model = "a_f_o_soucent_01", heading = 227.50}
-			},
-			grape_sell = {
-				name = "Wein verkaufen | Weinroute",
-				time = 3,
-				item = {item = "money", count = 200},
-				need = {item = "wine", count = 1, removeItem = true},
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 93, color = 1, scale = 0.8},
-				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(-2080.40, 2611.50, 2.10),
-				npc = {model = "a_f_o_soucent_01", heading = 115.65}
-			}
 		}
 	},
-	{ 
-		Westenroute = {
-			illegal = false,
-			kevlar_harvest = {
-				name = "Kevlarfasern sammeln | Westenroute",
-				item = {item = "kevlar_fibers", count = 1},
-				need = {},
-				time = 5,
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 366, color = 40, scale = 0.8},
-				marker = {type = 27, range = 15.0, red = 50, green = 50, blue = 204, show = true},
-				coord = vector3(84.80, 6505.10, 31.40),
-				npc = false
-			},
-			kevler_process = {
-				name = "Kevlar verarbeiten | Westenroute",
-				time = 3,
-				item = {item = "kevlar", count = 1},
-				need = {item = "kevlar_fibers", count = 2, removeItem = true},
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 366, color = 40, scale = 0.8},
-				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(-155.00, 6139.00, 31.35),
-				npc = {model = "a_m_m_soucent_04", heading = 0.68}
-			},
-			kevler_sell = {
-				name = "Schutzweste herstellen | Westenroute",
-				time = 3,
-				item = {item = "armor", count = 200},
-				need = {item = "kevlar", count = 5, removeItem = true},
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 366, color = 40, scale = 0.8},
-				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(-2212.60, 4236.75, 46.60),
-				npc = {model = "a_m_m_soucent_04", heading = 37.40}
-			}
-		}
-	},
-	--Illegale Routen
-	{ 
-		Weedroute = {
-			illegal = false,
-			weed_harvest = {
-				name = "Weed sammeln | Weedroute",
-				item = {item = "amnesia", count = 1},
-				need = {},
-				time = 5,
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 496, color = 2, scale = 0.8},
-				marker = {type = 27, range = 50.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(5373.04, -5245.00, 34.10),
-				npc = false
-			},
-			weed_process = {
-				name = "Joints drehen | Weedroute",
-				time = 3,
-				item = {item = "joint", count = 1},
-				need = {item = "amnesia", count = 2, removeItem = true},
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 496, color = 2, scale = 0.8},
-				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(5011.20, -5750.90, 27.85),
-				npc = {model = "a_m_y_soucent_02", heading = 152.85}
-			},
-			weed_sell = {
-				name = "Joints verkaufen | Weedroute",
-				time = 3,
-				item = {item = "black_money", count = 200},
-				need = {item = "joint", count = 5, removeItem = true},
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 496, color = 2, scale = 0.8},
-				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(4447.55, -4443.70, 6.24),
-				npc = {model = "a_m_y_soucent_02", heading = 108.50}
-			}
-		}
-	},		
-	--Illegale Routen
-	{ 
-		Koksroute = {
-			illegal = false,
-			weed_harvest = {
-				name = "Koks sammeln | Koksroute",
-				item = {item = "cocainepflanze", count = 1},
-				need = {},
-				time = 5,
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 514, color = 0, scale = 0.8},
-				marker = {type = 27, range = 50.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(2219.5, 5576.54, 53.66),
-				npc = false
-			},
-			weed_process = {
-				name = "Koks verarbeiten | Koksroute",
-				time = 3,
-				item = {item = "cocainepflanze", count = 1},
-				need = {item = "coke_small_brick", count = 2, removeItem = true},
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 514, color = 0, scale = 0.8},
-				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(-8.05, -759.85, 21.55),
-				npc = {model = "a_m_y_soucent_02", heading = 152.85}
-			},
-			weed_sell = {
-				name = "Koks verkaufen | Koksroute",
-				time = 3,
-				item = {item = "black_money", count = 200},
-				need = {item = "coke_small_brick", count = 5, removeItem = true},
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 514, color = 0, scale = 0.8},
-				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(1832.29, 3868.24, 34.3),
-				npc = {model = "a_m_y_soucent_02", heading = 108.50}
-			}
-		}
-	},
-	--Illegale Routen
-	{ 
-		Waffenroute = {
-			illegal = false,
-			waffen_harvest = {
-				name = "Metall sammeln | Waffenroute",
-				item = {item = "ironplate", count = 1},
-				need = {},
-				time = 5,
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 514, color = 0, scale = 0.8},
-				marker = {type = 27, range = 50.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(2219.5, 5576.54, 53.66),
-				npc = false
-			},
-			waffen_process = {
-				name = "Metall verarbeiten | Waffenroute",
-				time = 3,
-				item = {item = "rifle_extendedclip", count = 1},
-				need = {item = "ironplate", count = 1, removeItem = true},
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 514, color = 0, scale = 0.8},
-				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(-8.05, -759.85, 21.55),
-				npc = false
-			},
-			waffen_process = {
-				name = "Metall verarbeiten | Waffenroute",
-				time = 3,
-				item = {item = "smg_grip", count = 1},
-				need = {item = "ironplate", count = 1, removeItem = true},
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 514, color = 0, scale = 0.8},
-				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(1832.29, 3868.24, 34.3),
-				npc = false
-			},
-			waffen_progess = {
-				name = "Metall verarbeiten | Waffenroute",
-				time = 3,
-				item = {item = "pistol_flashlight", count = 1},
-				need = {item = "ironplate", count = 1, removeItem = true},
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 514, color = 0, scale = 0.8},
-				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(1832.29, 3868.24, 34.3),
-				npc = false
-			},
-			weed_process = {
-				name = "Metall verarbeiten | Waffenroute",
-				time = 3,
-				item = {item = "rifle_scope", count = 1},
-				need = {item = "ironplate", count = 1, removeItem = true},
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 514, color = 0, scale = 0.8},
-				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(1832.29, 3868.24, 34.3),
-				npc = false
-			},
-			Waffen_production = {
-				name = "Waffen herstellen | Waffenroute",
-				time = 3,
-				item = {item = "rifle_scope", count = 1},
-				need = {item = "pistol", count = 1, removeItem = true},
-				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 514, color = 0, scale = 0.8},
-				marker = {type = 1, range = 5.0, red = 50, green = 50, blue = 204, show = false},
-				coord = vector3(1832.29, 3868.24, 34.3),
-				npc = false
-			}
-		}
-	}
 }

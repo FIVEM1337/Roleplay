@@ -1,4 +1,5 @@
 ESX = nil
+local _menuPool = NativeUI.CreatePool()
 local blips_list = {}
 local npc_list = {}
 local HasAlreadyEnteredMarker = false
@@ -12,92 +13,92 @@ Citizen.CreateThread(function()
 		Citizen.Wait(100)
 	end
 
-    DeleteBlips()
+	DeleteBlips()
 	for k, v in pairs (routen) do
-        for k, v in pairs (v) do
-            if not v.illegal then
-                for k, v in pairs (v) do
-                    if (type(v) == "table") then
-		                CreateBlip(v)
-                    end
-                end
-            end
-        end
+		for k, v in pairs (v) do
+			if not v.illegal then
+				for k, v in pairs (v) do
+					if (type(v) == "table") then
+						CreateBlip(v)
+					end
+				end
+			end
+		end
 	end
 
-    TriggerEvent('esx_routen:spawnnpcs')
+	TriggerEvent('esx_routen:spawnnpcs')
 
 	while true do
-        Citizen.Wait(1)
-        if npc_list then
-            for i, ped in ipairs(npc_list) do
-		        TaskSetBlockingOfNonTemporaryEvents(ped, true)
-            end
-        end
+		Citizen.Wait(1)
+		if npc_list then
+			for i, ped in ipairs(npc_list) do
+				TaskSetBlockingOfNonTemporaryEvents(ped, true)
+			end
+		end
 	end
 end)
 
 RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(job)
-    DeleteBlips()
+	DeleteBlips()
 	for k, v in pairs (routen) do
-        for k, v in pairs (v) do
-            for k, v in pairs (v) do
-                if (type(v) == "table") then
-		            CreateBlip(v)
-                end
-            end
-        end
+		for k, v in pairs (v) do
+			for k, v in pairs (v) do
+				if (type(v) == "table") then
+					CreateBlip(v)
+				end
+			end
+		end
 	end
 end)
 
 
 AddEventHandler('esx_routen:spawnnpcs', function ()
-    for k, v in pairs (routen) do
-        for k, v in pairs (v) do
-            for k, v in pairs (v) do
-                if (type(v) == "table") then
-		            if v.npc then
-                        RequestModel(v.npc.model)
-                        LoadPropDict(v.npc.model)
-                        local ped = CreatePed(5, v.npc.model , v.coord, v.npc.heading, false, true)
-                        PlaceObjectOnGroundProperly(ped)
-                        SetEntityAsMissionEntity(ped)
-                        SetPedDropsWeaponsWhenDead(ped, false)
-                        FreezeEntityPosition(ped, true)
-                        SetPedAsEnemy(ped, false)
-                        SetEntityInvincible(ped, true)
-                        SetModelAsNoLongerNeeded(v.npc.model)
-                        SetPedCanBeTargetted(ped, false)
-                        table.insert(npc_list, ped)
-                    end
-                end
-            end
-        end
+	for k, v in pairs (routen) do
+		for k, v in pairs (v) do
+			for k, v in pairs (v) do
+				if (type(v) == "table") then
+					if v.npc then
+						RequestModel(v.npc.model)
+						LoadPropDict(v.npc.model)
+						local ped = CreatePed(5, v.npc.model , v.coord, v.npc.heading, false, true)
+						PlaceObjectOnGroundProperly(ped)
+						SetEntityAsMissionEntity(ped)
+						SetPedDropsWeaponsWhenDead(ped, false)
+						FreezeEntityPosition(ped, true)
+						SetPedAsEnemy(ped, false)
+						SetEntityInvincible(ped, true)
+						SetModelAsNoLongerNeeded(v.npc.model)
+						SetPedCanBeTargetted(ped, false)
+						table.insert(npc_list, ped)
+					end
+				end
+			end
+		end
 	end
 end)
 
 -- Display markers
 Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(1)
-        coords = GetEntityCoords(PlayerPedId())
-        for k, v in pairs (routen) do
-            for k, v in pairs (v) do
-                if not v.illegal then
-                    for k, v in pairs (v) do
-                        if (type(v) == "table") then
-                            if v.marker.show then
-                                if(GetDistanceBetweenCoords(coords, v.coord.x, v.coord.y, v.coord.z, true) < 30.0) then
-                                    DrawMarker(v.marker.type, v.coord, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.marker.range, v.marker.range, 1.0, v.marker.red, v.marker.green, v.marker.blue, 100, false, true, 2, true, false, false, false)
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end
+	while true do
+		Citizen.Wait(1)
+		coords = GetEntityCoords(PlayerPedId())
+		for k, v in pairs (routen) do
+			for k, v in pairs (v) do
+				if not v.illegal then
+					for k, v in pairs (v) do
+						if (type(v) == "table") then
+							if v.marker.show then
+								if(GetDistanceBetweenCoords(coords, v.coord.x, v.coord.y, v.coord.z, true) < 30.0) then
+									DrawMarker(v.marker.type, v.coord, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.marker.range, v.marker.range, 1.0, v.marker.red, v.marker.green, v.marker.blue, 100, false, true, 2, true, false, false, false)
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	end
 end)
 
 -- Enter / Exit marker events
@@ -109,18 +110,18 @@ Citizen.CreateThread(function ()
 		local isInMarker  = false
 		local currentZone = nil
 
-        for k, v in pairs (routen) do
-            for k, v in pairs (v) do
-                for k, v in pairs (v) do
-                    zone = v
-                    if (type(v) == "table") then
-			            if(#(coords - v.coord) < (v.marker.range / 2)) then
-			            	isInMarker  = true
-			            	currentZone = zone
-			            end
-                    end
-                end
-            end
+		for k, v in pairs (routen) do
+			for k, v in pairs (v) do
+				for k, v in pairs (v) do
+					zone = v
+					if (type(v) == "table") then
+						if(#(coords - v.coord) < (v.marker.range / 2)) then
+							isInMarker  = true
+							currentZone = zone
+						end
+					end
+				end
+			end
 		end
 
 		if isInMarker then
@@ -137,29 +138,34 @@ Citizen.CreateThread(function ()
 end)
 
 
+RegisterNetEvent('esx_routen:waittotrigger')
+AddEventHandler('esx_routen:waittotrigger', function()
+	cantrigger = false
+	Citizen.Wait(5000)
+	cantrigger = true
+end)
+
+
 RegisterNetEvent('esx_routen:changestatus')
 AddEventHandler('esx_routen:changestatus', function(status)
-    work = status
-    if status == false then
-        ClearPedTasks(PlayerPedId())
-    end
-
-    Citizen.Wait(5000)
-    cantrigger = true
+	work = status
+	if status == false then
+		ClearPedTasks(PlayerPedId())
+	end
 end)
 
 AddEventHandler('esx_routen:hasEnteredMarker', function (zone)
 	local PlayerData = ESX.GetPlayerData()
 
-    CurrentAction     = zone
+	CurrentAction     = zone
 	CurrentActionMsg  = "test"
 	CurrentActionData = {}
 	actionDisplayed = true
-    showInfobar('Drücke ~g~E~s~, um zu starten')
+   -- showInfobar('Drücke ~g~E~s~, um zu starten')
 end)
 
 AddEventHandler('esx_routen:hasExitedMarker', function (zone)
-    TriggerServerEvent('esx_routen:stopRoute', LastZone)
+	TriggerServerEvent('esx_routen:stopRoute', LastZone)
 	CurrentAction = nil
 end)
 
@@ -170,16 +176,33 @@ Citizen.CreateThread(function()
 
 		if CurrentAction == nil then
 			Citizen.Wait(0)
-		else		
+		else
+			tablesize = tablelength(LastZone.dosomething)
+			if tablesize > 1 then
+				_menuPool:ProcessMenus()
+			end
+
 			if IsControlJustReleased(0, Config.ControlKey) and cantrigger then
-                ESX.TriggerServerCallback('esx_routen:done', function(running)
-                    cantrigger = false
-                    if running then
-                        TriggerServerEvent('esx_routen:stopRoute', LastZone)
-                    else
-                        TriggerServerEvent('esx_routen:startRoute', LastZone)
-                    end
-                end)
+				if tablesize > 0 then
+					if cantrigger then
+						TriggerEvent('esx_routen:waittotrigger')
+						ESX.TriggerServerCallback('esx_routen:done', function(running)
+							if running then
+								TriggerServerEvent('esx_routen:stopRoute')
+							else
+								if tablesize > 1 then
+									OpenSelectMenu(LastZone)
+
+								else
+									for k, v in ipairs(LastZone.dosomething) do
+										TriggerServerEvent('esx_routen:startRoute', v.label)
+										break
+									end
+								end
+							end
+						end)
+					end
+				end
 			end
 		end
 	end
@@ -188,13 +211,52 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1)
-        if work and Config.PlayAnimations then
-            if not IsPedUsingScenario(PlayerPedId(), LastZone.animation) then
-                TaskStartScenarioInPlace(PlayerPedId(), LastZone.animation, 0, true)
-            end
-        end
+		if work and Config.PlayAnimations then
+			if not IsPedUsingScenario(PlayerPedId(), LastZone.animation) then
+				TaskStartScenarioInPlace(PlayerPedId(), LastZone.animation, 0, true)
+			end
+		end
 	end
 end)
+
+
+function OpenSelectMenu(zone)
+	if selectItemMenu ~= nil and selectItemMenu:Visible() then
+		selectItemMenu:Visible(false)
+	end
+
+	selectItemMenu = NativeUI.CreateMenu(zone.title, nil)
+
+	for k, v in ipairs(zone.dosomething) do
+		local item = NativeUI.CreateItem(v.label, "Du hast eine Chance von ~g~"..v.chance.."%~s~ um ~g~"..v.label.."~s~ herzustellen")
+		selectItemMenu:AddItem(item)
+		if tablelength(zone.dosomething) == k then
+			_menuPool:Add(selectItemMenu)
+		end
+	end
+
+	selectItemMenu.OnItemSelect = function(sender, item, index)
+		_menuPool:CloseAllMenus()
+		for k, v in ipairs(zone.dosomething) do
+			if v.label == item.Text:Text() then
+                ESX.TriggerServerCallback('esx_routen:done', function(running)
+                    cantrigger = false
+                    if running then
+                        TriggerServerEvent('esx_routen:stopRoute', v.label)
+                    else
+                        TriggerServerEvent('esx_routen:startRoute', v.label)
+                    end
+                end)
+				break
+			end
+		end
+	end
+
+	selectItemMenu:Visible(true)
+	_menuPool:MouseControlsEnabled (false)
+	_menuPool:MouseEdgeEnabled (false)
+	_menuPool:ControlDisablingEnabled(false)
+end
 
 function DeleteBlips()
 	for i, station in ipairs(blips_list) do
@@ -206,29 +268,29 @@ function DeleteBlips()
 end
 
 function CreateBlip(config)
-    local blip = AddBlipForCoord(config.coord)
-    SetBlipSprite(blip, config.blip.sprite)
-    SetBlipDisplay(blip, 4)
-    SetBlipScale(blip, config.blip.scale)
-    SetBlipColour(blip, config.blip.color)
-    SetBlipAsShortRange(blip, true)
-    BeginTextCommandSetBlipName('STRING')	
-    AddTextComponentSubstringPlayerName(config.name)
-    EndTextCommandSetBlipName(blip)
-    table.insert(blips_list, blip)
+	local blip = AddBlipForCoord(config.coord)
+	SetBlipSprite(blip, config.blip.sprite)
+	SetBlipDisplay(blip, 4)
+	SetBlipScale(blip, config.blip.scale)
+	SetBlipColour(blip, config.blip.color)
+	SetBlipAsShortRange(blip, true)
+	BeginTextCommandSetBlipName('STRING')	
+	AddTextComponentSubstringPlayerName(config.name)
+	EndTextCommandSetBlipName(blip)
+	table.insert(blips_list, blip)
 end
 
 
 AddEventHandler('onResourceStop', function(resource)
-    if resourceName == GetCurrentResourceName() then
+	if resourceName == GetCurrentResourceName() then
 
-        if npc_list then
-            for i, ped in ipairs(npc_list) do
-	            DeletePed(ped)
-            end
-            npc_list = {}
-        end
-    end
+		if npc_list then
+			for i, ped in ipairs(npc_list) do
+				DeletePed(ped)
+			end
+			npc_list = {}
+		end
+	end
 end)    
 
 function LoadPropDict(model)
@@ -243,3 +305,9 @@ function showInfobar(msg)
 	AddTextComponentString(msg)
 	DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 end
+
+function tablelength(T)
+	local count = 0
+	for _ in pairs(T) do count = count + 1 end
+	return count
+  end

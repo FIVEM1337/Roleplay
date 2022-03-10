@@ -5,6 +5,7 @@ description 'esx_routen'
 version '1.0'
 
 client_scripts {
+	"@NativeUILua_Reloaded/src/NativeUIReloaded.lua",
 	'client.lua',
 	'config.lua'
 }
