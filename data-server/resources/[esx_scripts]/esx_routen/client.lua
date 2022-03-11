@@ -135,6 +135,7 @@ Citizen.CreateThread(function ()
 		if not isInMarker and HasAlreadyEnteredMarker then
 			HasAlreadyEnteredMarker = false
 			TriggerEvent('esx_routen:hasExitedMarker', LastZone)
+			InMarker = false
 		end
 	end
 end)
