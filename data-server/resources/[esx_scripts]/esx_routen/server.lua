@@ -96,6 +96,9 @@ function CraftFinish(source, label)
 							xPlayer.removeWeapon(need.item, weapon.ammo)
 						elseif itemtype == "item" then
 							xPlayer.removeInventoryItem(need.item, need.count)
+						elseif itemtype == "unknown" then
+							TriggerClientEvent('dopeNotify:Alert', source, "", "Item existiert nicht: "..need.item , 2000, 'error')
+							return
 						end
 					end
 				end
@@ -136,6 +139,9 @@ function CraftFinish(source, label)
 				xPlayer.addAccountMoney(recive.item, recive.count)
 			elseif itemtype == "item" then
 				xPlayer.addInventoryItem(recive.item, recive.count)
+			elseif itemtype == "unknown" then
+				TriggerClientEvent('dopeNotify:Alert', source, "", "Item existiert nicht: "..recive.item , 2000, 'error')
+				return
 			end
 			
 			if tablelength(dosomethingtable.reciveitems) == k then
@@ -158,6 +164,9 @@ function CraftFinish(source, label)
 					xPlayer.removeWeapon(need.item, weapon.ammo)
 				elseif itemtype == "item" then
 					xPlayer.removeInventoryItem(need.item, need.count)
+				elseif itemtype == "unknown" then
+					TriggerClientEvent('dopeNotify:Alert', source, "", "Item existiert nicht: "..need.item , 2000, 'error')
+					return
 				end
 			end
 	
@@ -252,6 +261,9 @@ function hasInventoryItemFunc(source, label)
 						table.insert(itemsdonthave, need.count.."x "..getItemLabel(need.item).."<pre></pre>")
 					end
 				end
+			elseif itemtype == "unknown" then
+				TriggerClientEvent('dopeNotify:Alert', source, "", "Item existiert nicht: "..need.item , 2000, 'error')
+				return
 			end
 
 			if tablelength(dosomethingtable.neededitems) == k then
@@ -369,8 +381,10 @@ function getItemType(item)
 		return "money"
 	elseif ESX.GetWeaponLabel(item) then
 		return "weapon"
-	else
+	elseif ESX.GetItemLabel(item) then
 		return "item"
+	else
+		return "unknown"
 	end
 end
 

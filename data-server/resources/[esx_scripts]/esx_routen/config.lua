@@ -23,6 +23,9 @@ routen = {
 										{item = "tabacco", count = 1},
 						},
 						neededitems = {
+							{item = "teeee", count = 2},
+							{item = "black_money", count = 1},
+				
 
 						},
 					},
