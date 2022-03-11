@@ -38,7 +38,6 @@ end)
 RegisterServerEvent('esx_routen:startRoute')
 AddEventHandler('esx_routen:startRoute', function(label)
 	_source = source
-	TriggerClientEvent('dopeNotify:Alert', _source, "", "Du hast die Interaktion gestartet", 2000, 'info')
 	if not Playertasks[source] then
 		Playertasks[source] = {}
 	end 
@@ -54,6 +53,7 @@ AddEventHandler('esx_routen:startRoute', function(label)
 			if hasInventoryItem ~= nil and hasInventorySpace ~= nil then
 				if hasInventoryItem and hasInventorySpace then
 					TriggerClientEvent('esx_routen:changestatus', _source, true)
+					TriggerClientEvent('dopeNotify:Alert', _source, "", "Du hast die Interaktion gestartet", 2000, 'info')
 					Start(_source, label)
 					break
 				else
@@ -197,6 +197,7 @@ end
 function hasInventoryItemFunc(source, label)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local dosomethingtable = getdosomethingtable(label)
+	local itemsdonthave = {}
 	if not Playertasks[source] then
 		TriggerClientEvent('dopeNotify:Alert', source, "", "Interner Fehler", 2000, 'error')
 		Stop(source)
@@ -224,6 +225,11 @@ function hasInventoryItemFunc(source, label)
 					if xPlayer.getAccount(need.item).money >= need.count then
 					else
 						haveitem = false
+						if xPlayer.getAccount(need.item) then
+							table.insert(itemsdonthave, need.count - xPlayer.getAccount(need.item).money.."x "..getItemLabel(need.item).."<pre></pre>")
+						else
+							table.insert(itemsdonthave, need.count.."x "..getItemLabel(need.item).."<pre></pre>")
+						end
 					end
 				else
 					haveitem = false
@@ -233,12 +239,18 @@ function hasInventoryItemFunc(source, label)
 				if xPlayer.hasWeapon(need.item) then
 				else
 					haveitem = false
+					table.insert(itemsdonthave, need.count.."x "..getItemLabel(need.item).."<pre></pre>")
 				end
 	
 			elseif itemtype == "item" then
 				if xPlayer.getInventoryItem(need.item).count >= need.count then
 				else
 					haveitem = false
+					if xPlayer.getInventoryItem(need.item) then
+						table.insert(itemsdonthave, need.count - xPlayer.getInventoryItem(need.item).count.."x "..getItemLabel(need.item).."<pre></pre>")
+					else
+						table.insert(itemsdonthave, need.count.."x "..getItemLabel(need.item).."<pre></pre>")
+					end
 				end
 			end
 
@@ -246,7 +258,7 @@ function hasInventoryItemFunc(source, label)
 				if haveitem then
 					return true
 				else
-					TriggerClientEvent('dopeNotify:Alert', source, "", "Dir Fehlen Items", 2000, 'error')
+					TriggerClientEvent('dopeNotify:Alert', source, "", "Dir Fehlen: <pre></pre>"..table.concat(itemsdonthave, " "), 2000, 'error')
 					Stop(source)
 					return false
 				end
@@ -302,7 +314,7 @@ function hasInventorySpaceFunc(source, label)
 	if space >= 0 then
 		return true
 	else
-		TriggerClientEvent('dopeNotify:Alert', source, "", "Items zu schwer", 2000, 'error')
+		TriggerClientEvent('dopeNotify:Alert', source, "", "Dein Inventrar ist voll", 2000, 'error')
 		Stop(source)
 		return false
 	end
@@ -372,4 +384,23 @@ function Stop(source)
 	TriggerClientEvent('dopeNotify:Alert', source, "", "Interaktion wurde beendet", 2000, 'info')
 	TriggerClientEvent('esx_routen:changestatus', source, false)
 	Playertasks[source] = {}
+end
+
+
+function getItemLabel(item)
+	if item == "money" then
+		return "Bargeld"
+	elseif item == "bank" then
+		return "Bankgeld"
+	elseif item == "black_money" then
+		return "Schwarzgeld"
+	elseif item == "crypto" then
+		return "Bitcoins"
+	elseif ESX.GetWeaponLabel(item) then
+		return ESX.GetWeaponLabel(item)
+	elseif ESX.GetItemLabel(item) then
+		return ESX.GetItemLabel(item)
+	else
+		return item
+	end
 end
