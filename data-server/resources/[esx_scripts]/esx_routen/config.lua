@@ -5,6 +5,7 @@
 Config = {}
 Config.PlayAnimations = true
 Config.ControlKey = 38
+Config.TeleporterMarker = {type = 1, range = 4.0, red = 50, green = 50, blue = 204}
 routen = {
 --Legale Routen
 	{ 

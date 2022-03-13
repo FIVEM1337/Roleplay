@@ -7,6 +7,9 @@ local LastZone                = nil
 local work  = false
 local cantrigger = true
 local InMarker = false
+local HasAlreadyEnteredTeleporteMarker = false
+local InTeleporterMarker = false
+
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -94,6 +97,15 @@ Citizen.CreateThread(function()
 									DrawMarker(v.marker.type, v.coord, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.marker.range, v.marker.range, 1.0, v.marker.red, v.marker.green, v.marker.blue, 100, false, true, 2, true, false, false, false)
 								end
 							end
+							if v.teleporters then
+								for k, v in ipairs(v.teleporters) do
+									if v.showmarker then
+										if(GetDistanceBetweenCoords(coords, v.enter, true) < v.distance) then
+											DrawMarker(Config.TeleporterMarker.type, v.enter, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Config.TeleporterMarker.range,Config.TeleporterMarker.range, 1.0, Config.TeleporterMarker.red, Config.TeleporterMarker.green, Config.TeleporterMarker.blue, 100, false, true, 2, true, false, false, false)
+										end
+									end
+								end
+							end					
 						end
 					end
 				end
@@ -109,7 +121,9 @@ Citizen.CreateThread(function ()
 
 		local coords      = GetEntityCoords(PlayerPedId())
 		local isInMarker  = false
+		local isInTeleporterMarker  = false
 		local currentZone = nil
+		local Teleporterdata = nil
 
 		for k, v in pairs (routen) do
 			for k, v in pairs (v) do
@@ -120,20 +134,42 @@ Citizen.CreateThread(function ()
 							isInMarker  = true
 							InMarker = true
 							currentZone = zone
+						else
+							if v.teleporters then
+								for k, v in pairs (v.teleporters) do
+									if(#(coords - v.enter) < (Config.TeleporterMarker.range / 2)) then
+										if v.shownotification then
+											showInfobar("Drücke ~g~E~s~, den Teleporter zu benutzen")
+										end
+										InTeleporterMarker = true
+										isInTeleporterMarker  = true
+										Teleporterdata = v
+										currentZone = zone
+									end
+								end
+							end
 						end
 					end
 				end
 			end
 		end
-
-		if isInMarker then
+		if isInMarker and not HasAlreadyEnteredMarker then
 			HasAlreadyEnteredMarker = true
 			LastZone = currentZone
 			TriggerEvent('esx_routen:hasEnteredMarker', LastZone)
+		elseif not isInMarker and HasAlreadyEnteredMarker then
+			HasAlreadyEnteredMarker = false
+			TriggerEvent('esx_routen:hasExitedMarker', LastZone)
+			InMarker = false
 		end
 
-		if not isInMarker and HasAlreadyEnteredMarker then
-			HasAlreadyEnteredMarker = false
+
+		if isInTeleporterMarker and not HasAlreadyEnteredTeleporteMarker then
+			HasAlreadyEnteredTeleporteMarker = true
+			LastZone = currentZone
+			TriggerEvent('esx_routen:hasEnteredTeleporterMarker', LastZone, Teleporterdata)
+		elseif not isInTeleporterMarker and HasAlreadyEnteredTeleporteMarker then
+			HasAlreadyEnteredTeleporteMarker = false
 			TriggerEvent('esx_routen:hasExitedMarker', LastZone)
 			InMarker = false
 		end
@@ -157,13 +193,11 @@ AddEventHandler('esx_routen:changestatus', function(status)
 	end
 end)
 
-AddEventHandler('esx_routen:hasEnteredMarker', function (zone)
+AddEventHandler('esx_routen:hasEnteredMarker', function (zone, data)
 	local PlayerData = ESX.GetPlayerData()
 	CurrentAction     = zone
-	CurrentActionMsg  = "test"
+	CurrentActionMsg  = "route"
 	CurrentActionData = {}
-	actionDisplayed = true
-   -- showInfobar('Drücke ~g~E~s~, um zu starten')
 end)
 
 AddEventHandler('esx_routen:hasExitedMarker', function (zone)
@@ -172,6 +206,18 @@ AddEventHandler('esx_routen:hasExitedMarker', function (zone)
 			TriggerServerEvent('esx_routen:stopRoute', LastZone)
 		end
 	end)
+	CurrentAction = nil
+end)
+
+
+AddEventHandler('esx_routen:hasEnteredTeleporterMarker', function (zone, data)
+	CurrentAction     = zone
+	CurrentActionMsg  = "porter"
+	CurrentActionData = data
+end)
+
+AddEventHandler('esx_routen:hasExitedTeleporterMarker', function (zone)
+
 	CurrentAction = nil
 end)
 
@@ -189,27 +235,38 @@ Citizen.CreateThread(function()
 			end
 			
 			if IsControlJustReleased(0, Config.ControlKey) then
-				if cantrigger then
-					if tablesize > 0 then
-						TriggerEvent('esx_routen:waittotrigger')
-						ESX.TriggerServerCallback('esx_routen:done', function(running)
-							if running then
-								TriggerServerEvent('esx_routen:stopRoute')
-							else
-								if tablesize > 1 then
-									OpenSelectMenu(LastZone)
-
+				if CurrentActionMsg == "route" then
+					if cantrigger then
+						if tablesize > 0 then
+							TriggerEvent('esx_routen:waittotrigger')
+							ESX.TriggerServerCallback('esx_routen:done', function(running)
+								if running then
+									TriggerServerEvent('esx_routen:stopRoute')
 								else
-									for k, v in ipairs(LastZone.dosomething) do
-										TriggerServerEvent('esx_routen:startRoute', v.label)
-										break
+									if tablesize > 1 then
+										OpenSelectMenu(LastZone)
+	
+									else
+										for k, v in ipairs(LastZone.dosomething) do
+											TriggerServerEvent('esx_routen:startRoute', v.label)
+											break
+										end
 									end
 								end
-							end
-						end)
+							end)
+						end
+					else
+						TriggerEvent('dopeNotify:Alert', "", "Du kannst das gerade noch nicht tun", 2000, 'error')
 					end
-				else
-					TriggerEvent('dopeNotify:Alert', "", "Du kannst das gerade noch nicht tun", 2000, 'error')
+				elseif CurrentActionMsg == "porter" then
+					if cantrigger then
+						TriggerEvent('dopeNotify:Alert', "", "Porting", 2000, 'error')
+						TriggerEvent('esx_routen:waittotrigger')
+						SetEntityCoords(GetPlayerPed(-1), CurrentActionData.exit)
+
+					else
+						TriggerEvent('dopeNotify:Alert', "", "Du kannst das gerade noch nicht tun", 2000, 'error')
+					end
 				end
 			end
 		end
