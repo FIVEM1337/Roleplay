@@ -321,7 +321,6 @@ function NextWeatherStage()
         Citizen.Wait(2)
         element = random_elem(Config.Weathers)
         if randomChange(element.chance) then
-            print(element.name)
             CurrentWeather = element.name
             break
         end
