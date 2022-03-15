@@ -24,11 +24,12 @@ end)
 
 
 -- Disable Cinematic AFK Camera
-Citizen.CreateThread(function() 
+Citizen.CreateThread(function()
 	while true do
-		N_0xf4f2c0d4ee209e20() 
+		InvalidateIdleCam()
+		InvalidateVehicleIdleCam()
 		Wait(1000)
-	end 
+	end
 end)
 
 RegisterNetEvent('esx:playerLoaded')
