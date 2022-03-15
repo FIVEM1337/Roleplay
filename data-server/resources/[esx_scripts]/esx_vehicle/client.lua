@@ -526,12 +526,12 @@ RegisterCommand('usevehiclekey', function()
 				SetVehicleDoorsLocked(vehicle, 2)
 				TriggerEvent('dopeNotify:Alert', "", config.message_locked, 5000, 'locked')
 				TriggerServerEvent('InteractSound_SV:PlayOnCoord',GetEntityCoords(vehicle, false), 10.0, 'lock', 1.0)
-				BlinkVehicleLights(vehicle)
+				TriggerServerEvent('esx_vehicle:blink', vehicle)
 			elseif lockStatus == 2 then -- locked
 				SetVehicleDoorsLocked(vehicle, 1)
 				TriggerEvent('dopeNotify:Alert', "", config.message_unlocked, 5000, 'unlocked')
 				TriggerServerEvent('InteractSound_SV:PlayOnCoord',GetEntityCoords(vehicle, false), 10.0, 'unlock', 1.0)
-				BlinkVehicleLights(vehicle)
+				TriggerServerEvent('esx_vehicle:blink', vehicle)
 			end
 		end
 
@@ -539,7 +539,8 @@ RegisterCommand('usevehiclekey', function()
 end, true)
 RegisterKeyMapping('usevehiclekey', config.keymapping_desc, 'keyboard', config.DefaultOpenKey)
 
-function BlinkVehicleLights(vehicle)
+RegisterNetEvent('esx_vehicle:blinkvehicle')
+AddEventHandler('esx_vehicle:blinkvehicle', function(vehicle)
 	Citizen.Wait(100)
 	SetVehicleLights(vehicle, 2)
 	Citizen.Wait(200)
@@ -552,4 +553,60 @@ function BlinkVehicleLights(vehicle)
 	SetVehicleLights(vehicle, 2)
 	Citizen.Wait(200)
 	SetVehicleLights(vehicle, 0)
-end
+end)
+
+local allowshuffle = false
+Citizen.CreateThread(function()
+	ped = PlayerPedId()
+	while true do
+		Citizen.Wait(1)
+		if IsPedInAnyVehicle(ped, false) and allowshuffle == false then
+			SetPedConfigFlag(ped, 184, true)
+			if GetIsTaskActive(ped, 165) then
+				seat=0
+				if GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId(), false), -1) == ped then
+					seat=-1
+				end
+
+				SetPedIntoVehicle(ped, GetVehiclePedIsIn(PlayerPedId(), false), seat)
+			end
+		elseif IsPedInAnyVehicle(PlayerPedId(), false) and allowshuffle == true then
+			SetPedConfigFlag(ped, 184, false)
+		end
+	end
+end)
+
+RegisterNetEvent("SeatShuffle")
+AddEventHandler("SeatShuffle", function()
+	ped = PlayerPedId()
+	if IsPedInAnyVehicle(ped, false) then
+		vehicle = GetVehiclePedIsIn(ped, false)
+		if GetPedConfigFlag(ped, 32) then
+			seat=0
+			if GetPedInVehicleSeat(vehicle, -1) == ped then
+				seat=-1
+			end
+			if GetPedInVehicleSeat(vehicle,-1) == ped then
+				TaskShuffleToNextVehicleSeat(ped, vehicle)
+			end
+	
+			allowshuffle=true
+			while GetPedInVehicleSeat(vehicle, seat) == ped do
+				Citizen.Wait(0)
+			end
+			allowshuffle=false
+		else
+			allowshuffle=false
+			TriggerEvent('dopeNotify:Alert', "", "Du kannst das nicht tun, wenn du angeschnallt bist ", 5000, 'info')
+			CancelEvent('SeatShuffle')
+		end
+	else
+		allowshuffle=false
+		TriggerEvent('dopeNotify:Alert', "", "Du kannst das nur tun, während du dich in einem Auto befindest ", 5000, 'info')
+		CancelEvent('SeatShuffle')
+	end
+end)
+
+RegisterCommand("shuffle", function(source, args, raw)
+    TriggerEvent("SeatShuffle")
+end, false)

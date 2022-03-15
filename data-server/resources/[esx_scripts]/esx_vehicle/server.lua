@@ -23,3 +23,11 @@ ESX.RegisterServerCallback('esx_vehiclelock:requestPlayerCars', function(source,
 		end
 	end)
 end)
+
+
+RegisterServerEvent('esx_vehicle:blink')
+AddEventHandler('esx_vehicle:blink', function(vehicle)
+	for k, v in ipairs(GetPlayers()) do
+		TriggerClientEvent('esx_vehicle:blinkvehicle', vehicle)
+	end
+end)
