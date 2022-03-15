@@ -14,6 +14,7 @@ Config.EarlyRespawnFineAmount     = 5000
 Config.RemoveWeaponsAfterRPDeath  = true
 Config.RemoveCashAfterRPDeath     = true
 Config.RemoveItemsAfterRPDeath    = true
+Config.ReviveReward				  = 200
 
 --[[ 
 functions for jobmenu:
@@ -40,7 +41,7 @@ vehicle_interaction:
 
 
 gangs = {
-	police = {
+	ambulance = {
 			job = "police",
 			society = true,
 			Blip = {name = "Polizeistation", color = 2, sprite = 543, scale = 0.8, alwayshow = true},
@@ -52,7 +53,7 @@ gangs = {
 			body_search = true,
 			handcuff = true,
 			drag = true,
-			put_in_vehicle = false,
+			put_in_vehicle = true,
 			out_the_vehicle = true,
 			fine = true,
 			unpaid_bills = true,
