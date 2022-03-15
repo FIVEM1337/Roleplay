@@ -260,10 +260,8 @@ Citizen.CreateThread(function()
 					end
 				elseif CurrentActionMsg == "porter" then
 					if cantrigger then
-						TriggerEvent('dopeNotify:Alert', "", "Porting", 2000, 'error')
 						TriggerEvent('esx_routen:waittotrigger')
 						SetEntityCoords(GetPlayerPed(-1), CurrentActionData.exit)
-
 					else
 						TriggerEvent('dopeNotify:Alert', "", "Du kannst das gerade noch nicht tun", 2000, 'error')
 					end
