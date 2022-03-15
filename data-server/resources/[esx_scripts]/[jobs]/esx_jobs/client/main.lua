@@ -391,14 +391,14 @@ function OpenGangActionsMenu(JobConfig)
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'job_actions', {
 		title    = 'Job Menü',
-		align    = 'top-left',
+		align    = 'top-right',
 		elements = main_elements
 	}, function(data, menu)
 		if data.current.value == 'citizen_interaction' then
 	
 			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'citizen_interaction', {
 				title    = _U('citizen_interaction'),
-				align    = 'top-left',
+				align    = 'top-right',
 				elements = citizen_interaction_elements
 			}, function(data2, menu2)
 				local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
@@ -443,7 +443,7 @@ function OpenGangActionsMenu(JobConfig)
 
 			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vehicle_interaction', {
 				title    = _U('vehicle_interaction'),
-				align    = 'top-left',
+				align    = 'top-right',
 				elements = elements
 			}, function(data2, menu2)
 				local coords  = GetEntityCoords(playerPed)
@@ -524,7 +524,7 @@ function OpenCloakroomMenu(job)
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'cloakroom', {
 		title    = _U('cloakroom'),
-		align    = 'top-left',
+		align    = 'top-right',
 		elements = elements
 	}, function(data, menu)
 		local action = data.current.value
@@ -584,7 +584,7 @@ function OpenGangArmoryMenu(station)
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory', {
 		title    = _U('armory'),
-		align    = 'top-left',
+		align    = 'top-right',
 		elements = elements
 	}, function(data, menu)
 
@@ -623,7 +623,7 @@ function OpenGetWeaponMenu(station)
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_get_weapon', {
 			title    = _U('get_weapon_menu'),
-			align    = 'top-left',
+			align    = 'top-right',
 			elements = elements
 		}, function(data, menu)
 			menu.close()
@@ -655,7 +655,7 @@ function OpenPutWeaponMenu(station)
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_put_weapon', {
 		title    = _U('put_weapon_menu'),
-		align    = 'top-left',
+		align    = 'top-right',
 		elements = elements
 	}, function(data, menu)
 		menu.close()
@@ -686,7 +686,7 @@ function OpenPutStocksMenu(station)
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu', {
 			title    = _U('put_item_menu'),
-			align    = 'top-left',
+			align    = 'top-right',
 			elements = elements
 		}, function(data, menu)
 			local itemName = data.current.value
@@ -730,7 +730,7 @@ function OpenGetStocksMenu(station)
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu', {
 			title    = _U('get_item_menu'),
-			align    = 'top-left',
+			align    = 'top-right',
 			elements = elements
 		}, function(data, menu)
 			local itemName = data.current.value
@@ -803,7 +803,7 @@ end
 function OpenFineMenu(player)
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'fine', {
 		title    = _U('fine'),
-		align    = 'top-left',
+		align    = 'top-right',
 		elements = {
 			{label = _U('traffic_offense'), value = 0},
 			{label = _U('minor_offense'),   value = 1},
@@ -831,7 +831,7 @@ function OpenFineCategoryMenu(player, category)
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'fine_category', {
 			title    = _U('fine'),
-			align    = 'top-left',
+			align    = 'top-right',
 			elements = elements
 		}, function(data, menu)
 			menu.close()
@@ -872,7 +872,7 @@ function LookupVehicle()
 
 				ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vehicle_infos', {
 					title    = _U('vehicle_info'),
-					align    = 'top-left',
+					align    = 'top-right',
 					elements = elements
 				}, nil, function(data2, menu2)
 					menu2.close()
@@ -902,7 +902,7 @@ function ShowPlayerLicense(player)
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'manage_license', {
 			title    = _U('license_revoke'),
-			align    = 'top-left',
+			align    = 'top-right',
 			elements = elements,
 		}, function(data, menu)
 			ESX.ShowNotification(_U('licence_you_revoked', data.current.label, playerData.name))
@@ -933,7 +933,7 @@ function OpenUnpaidBillsMenu(player)
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'billing', {
 			title    = _U('unpaid_bills'),
-			align    = 'top-left',
+			align    = 'top-right',
 			elements = elements
 		}, nil, function(data, menu)
 			menu.close()
@@ -953,7 +953,7 @@ function OpenVehicleInfosMenu(vehicleData)
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vehicle_infos', {
 			title    = _U('vehicle_info'),
-			align    = 'top-left',
+			align    = 'top-right',
 			elements = elements
 		}, nil, function(data, menu)
 			menu.close()
@@ -1006,7 +1006,7 @@ function OpenIdentityCardMenu(player)
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'citizen_interaction', {
 			title    = _U('citizen_interaction'),
-			align    = 'top-left',
+			align    = 'top-right',
 			elements = elements
 		}, nil, function(data, menu)
 			menu.close()
@@ -1056,7 +1056,7 @@ function OpenBodySearchMenu(player)
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'body_search', {
 			title    = _U('search'),
-			align    = 'top-left',
+			align    = 'top-right',
 			elements = elements
 		}, function(data, menu)
 			if data.current.value then
