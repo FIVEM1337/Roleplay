@@ -316,33 +316,19 @@ Citizen.CreateThread(function()
 end)
 
 function NextWeatherStage()
-    if CurrentWeather == "CLEAR" or CurrentWeather == "CLOUDS" or CurrentWeather == "EXTRASUNNY"  then
-        local new = math.random(1,2)
-        if new == 1 then
-            CurrentWeather = "CLEARING"
-        else
-            CurrentWeather = "OVERCAST"
+    change = false
+    while true do
+        Citizen.Wait(2)
+        element = random_elem(Config.Weathers)
+        if randomChange(element.chance) then
+            print(element.name)
+            CurrentWeather = element.name
+            break
         end
-    elseif CurrentWeather == "CLEARING" or CurrentWeather == "OVERCAST" then
-        local new = math.random(1,6)
-        if new == 1 then
-            if CurrentWeather == "CLEARING" then CurrentWeather = "FOGGY" else CurrentWeather = "RAIN" end
-        elseif new == 2 then
-            CurrentWeather = "CLOUDS"
-        elseif new == 3 then
-            CurrentWeather = "CLEAR"
-        elseif new == 4 then
-            CurrentWeather = "EXTRASUNNY"
-        elseif new == 5 then
-            CurrentWeather = "SMOG"
-        else
-            CurrentWeather = "FOGGY"
-        end
-    elseif CurrentWeather == "THUNDER" or CurrentWeather == "RAIN" then
-        CurrentWeather = "CLEARING"
-    elseif CurrentWeather == "SMOG" or CurrentWeather == "FOGGY" then
-        CurrentWeather = "CLEAR"
     end
+
+
+
     TriggerEvent("vSync:requestSync")
     if debugprint then
         print("[vSync] New random weather type has been generated: " .. CurrentWeather .. ".\n")
@@ -350,3 +336,15 @@ function NextWeatherStage()
     end
 end
 
+
+function randomChange(percent)
+	assert(percent >= 0 and percent <= 100)
+	return percent >= math.random(1, 100)
+end
+
+
+function random_elem(tb)
+    local keys = {}
+    for k in pairs(tb) do table.insert(keys, k) end
+    return tb[keys[math.random(#keys)]]
+end
