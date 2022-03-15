@@ -16,7 +16,7 @@ Config = {}
 Config.Locale = 'de'
 
 -- GENERAL --
-Config.MenuTitle = 'YT: dieserDevin' -- change it to you're server name
+Config.MenuTitle = 'Spielermenü' -- change it to you're server name
 Config.DoubleJob = false -- enable if you're using esx double job
 Config.NoclipSpeed = 1.0 -- change it to change the speed in noclip
 Config.JSFourIDCard = true -- enable if you're using jsfour-idcard

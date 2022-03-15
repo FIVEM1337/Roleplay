@@ -41,7 +41,7 @@ Locales['de'] = {
 	['admin_nomarker'] = 'No marker on the map!',
 
 	-- Main Menu
-	['mainmenu_subtitle'] = 'Hardcore RP',
+	['mainmenu_subtitle'] = '  ',
 	['mainmenu_gps_button'] = 'GPS',
 	['mainmenu_voice_button'] = 'Stimme',
 	['gps'] = 'GPS: ~b~%s',
