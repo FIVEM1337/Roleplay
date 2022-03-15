@@ -34,8 +34,8 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(3)
 		if PlayerData.job then
-			if gangs[PlayerData.job.name] then
-				v = gangs[PlayerData.job.name]
+			if jobs[PlayerData.job.name] then
+				v = jobs[PlayerData.job.name]
 				local playerPed = PlayerPedId()
 				local coords    = GetEntityCoords(playerPed)
 
@@ -117,10 +117,10 @@ Citizen.CreateThread(function()
 			ESX.ShowHelpNotification(CurrentActionMsg)
 			if IsControlJustReleased(0, 38) then
 				if PlayerData.job then
-					if gangs[PlayerData.job.name] then
-						v = gangs[PlayerData.job.name]
+					if jobs[PlayerData.job.name] then
+						v = jobs[PlayerData.job.name]
 						if CurrentAction == 'menu_armory' then
-							OpenGangArmoryMenu(PlayerData.job.name)
+							OpenJobArmoryMenu(PlayerData.job.name)
 						elseif CurrentAction == 'menu_boss_actions' then
 							ESX.UI.Menu.CloseAll()
 							TriggerEvent('esx_society:openBossMenu', PlayerData.job.name, function(data, menu)
@@ -140,9 +140,9 @@ Citizen.CreateThread(function()
 
 		if IsControlJustReleased(0, 167) and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'job_actions') then
 			if PlayerData.job then
-				if gangs[PlayerData.job.name] then
-					v = gangs[PlayerData.job.name]
-					OpenGangActionsMenu(v)
+				if jobs[PlayerData.job.name] then
+					v = jobs[PlayerData.job.name]
+					OpenJobActionsMenu(v)
 				end
 			end
 		end
@@ -328,7 +328,7 @@ AddEventHandler('esx_jobs:OutVehicle', function()
 	TaskLeaveVehicle(playerPed, vehicle, 16)
 end)
 
-function OpenGangActionsMenu(JobConfig)
+function OpenJobActionsMenu(JobConfig)
 	ESX.UI.Menu.CloseAll()
 
 
@@ -572,7 +572,7 @@ function cleanPlayer(playerPed)
 end
 
 
-function OpenGangArmoryMenu(station)
+function OpenJobArmoryMenu(station)
 	local elements = {
 		{label = _U('get_weapon'), value = 'get_weapon'},
 		{label = _U('put_weapon'), value = 'put_weapon'},
@@ -771,7 +771,7 @@ end
 
 function SetBlips()
 	DeleteBlips()
-	for k, v in pairs (gangs) do
+	for k, v in pairs (jobs) do
 		if v.Blip.alwayshow then
 			blip = CreateBlip(v.pos, v.Blip.sprite, v.Blip.scale, v.Blip.color, v.Blip.name)
 			table.insert(blips_list, blip)

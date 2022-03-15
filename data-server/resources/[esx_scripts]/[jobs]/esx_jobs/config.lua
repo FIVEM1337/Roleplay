@@ -40,7 +40,7 @@ vehicle_interaction:
 
 
 
-gangs = {
+jobs = {
 	ambulance = {
 			job = "police",
 			society = true,

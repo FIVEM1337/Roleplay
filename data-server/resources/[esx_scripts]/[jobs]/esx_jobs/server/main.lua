@@ -17,7 +17,7 @@ Citizen.CreateThread(function()
 
 		if ESX and not societyloaded then
 			societyloaded = true
-			for k, v in pairs (gangs) do
+			for k, v in pairs (jobs) do
 				if v.society then
 					TriggerEvent('esx_society:registerSociety', v.job, v.job, 'society_'..v.job, 'society_'..v.job, 'society_'..v.job, {type = 'public'})
 				end
@@ -30,7 +30,7 @@ RegisterServerEvent('esx_jobs:handcuff')
 AddEventHandler('esx_jobs:handcuff', function(target)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-	for k, v in pairs (gangs) do
+	for k, v in pairs (jobs) do
 		if v.job ~= nil and v.job == xPlayer.job.name then
 			TriggerClientEvent('esx_jobs:handcuff', target)
 		end
@@ -41,7 +41,7 @@ RegisterServerEvent('esx_jobs:drag')
 AddEventHandler('esx_jobs:drag', function(target)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-	for k, v in pairs (gangs) do
+	for k, v in pairs (jobs) do
 		if v.job ~= nil and v.job == xPlayer.job.name then
 			TriggerClientEvent('esx_jobs:drag', target, source)
 		end
@@ -52,7 +52,7 @@ RegisterServerEvent('esx_jobs:putInVehicle')
 AddEventHandler('esx_jobs:putInVehicle', function(target)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-	for k, v in pairs (gangs) do
+	for k, v in pairs (jobs) do
 		if v.job ~= nil and v.job == xPlayer.job.name then
 			TriggerClientEvent('esx_jobs:putInVehicle', target)
 		end
@@ -63,7 +63,7 @@ RegisterServerEvent('esx_jobs:OutVehicle')
 AddEventHandler('esx_jobs:OutVehicle', function(target)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-	for k, v in pairs (gangs) do
+	for k, v in pairs (jobs) do
 		if v.job ~= nil and v.job == xPlayer.job.name then
 			TriggerClientEvent('esx_jobs:OutVehicle', target)
 		end
@@ -281,8 +281,8 @@ AddEventHandler('esx_jobs:confiscatePlayerItem', function(target, itemType, item
 	local targetXPlayer = ESX.GetPlayerFromId(target)
 
 	if sourceXPlayer.job then
-		if gangs[sourceXPlayer.job.name] then
-			v = gangs[sourceXPlayer.job.name]
+		if jobs[sourceXPlayer.job.name] then
+			v = jobs[sourceXPlayer.job.name]
 			if v.body_search == false or v.body_search == nil then
 				print(('esx_jobs: %s attempted to confiscate!'):format(sourceXPlayer.identifier))
 				return
