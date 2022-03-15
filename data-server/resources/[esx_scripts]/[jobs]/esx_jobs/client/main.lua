@@ -7,7 +7,7 @@ local CurrentActionMsg
 local CurrentActionData = {}
 local isHandcuffed = false
 local dragStatus = {}
-local currentTask = {}
+currentTask = {}
 dragStatus.isDragged = false
 
 Citizen.CreateThread(function()
@@ -424,7 +424,7 @@ function OpenJobActionsMenu(JobConfig)
 					elseif action == 'unpaid_bills' then
 						OpenUnpaidBillsMenu(closestPlayer)
 					elseif action == 'ems_menu_revive' then
-						revivePlayer(closestPlayer)
+						RevivePlayer(closestPlayer)
 					elseif action == 'ems_menu_small' then
 						HealPlayer(closestPlayer, "small")
 					elseif action == 'ems_menu_big' then

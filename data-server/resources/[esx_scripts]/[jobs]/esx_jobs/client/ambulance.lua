@@ -158,12 +158,17 @@ function RespawnPed(ped, coords, heading)
 end
 
 
-function revivePlayer(closestPlayer)
+function RevivePlayer(closestPlayer)
+	if currentTask.busy then
+		return
+	end
 	ESX.TriggerServerCallback('esx_jobs:getItemAmount', function(quantity)
 		if quantity > 0 then
 			local closestPlayerPed = GetPlayerPed(closestPlayer)
 
 			if IsPedDeadOrDying(closestPlayerPed, 1) then
+				currentTask.busy = true
+
 				local playerPed = PlayerPedId()
 				local lib, anim = 'mini@cpr@char_a@cpr_str', 'cpr_pumpchest'
 				ESX.ShowNotification(_U('revive_inprogress'))
@@ -178,6 +183,7 @@ function revivePlayer(closestPlayer)
 
 				TriggerServerEvent('esx_jobs:removeItem', 'medikit')
 				TriggerServerEvent('esx_jobs:revive', GetPlayerServerId(closestPlayer))
+				currentTask.busy = false
 			else
 				ESX.ShowNotification(_U('player_not_unconscious'))
 			end
@@ -188,6 +194,10 @@ function revivePlayer(closestPlayer)
 end
 
 function HealPlayer(closestPlayer, healtype)
+	if currentTask.busy then
+		return
+	end
+
 	local item = nil
 	if healtype == "small" then
 		item = "bandage"
@@ -202,7 +212,7 @@ function HealPlayer(closestPlayer, healtype)
 			if health > 0 then
 				local playerPed = PlayerPedId()
 
-				isBusy = true
+				currentTask.busy = true
 				ESX.ShowNotification(_U('heal_inprogress'))
 				TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_TEND_TO_DEAD', 0, true)
 				Citizen.Wait(10000)
@@ -211,7 +221,7 @@ function HealPlayer(closestPlayer, healtype)
 				TriggerServerEvent('esx_jobs:removeItem', 'bandage')
 				TriggerServerEvent('esx_jobs:heal', GetPlayerServerId(closestPlayer), healtype)
 				ESX.ShowNotification(_U('heal_complete'))
-				isBusy = false
+				currentTask.busy = false
 			else
 				ESX.ShowNotification(_U('player_not_conscious'))
 			end
