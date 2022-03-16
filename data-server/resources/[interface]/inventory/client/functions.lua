@@ -115,23 +115,34 @@ function UseItemFromHotbar(slot)
                 if not weaponLock then
                     weaponLock = true
                     if not weaponEquiped or weaponEquiped.name ~= item.name then
-                        weaponEquiped = item
-                        ESX.Streaming.RequestAnimDict('reaction@intimidation@1h', function()
-                            TaskPlayAnim(ped, "reaction@intimidation@1h", "intro", 8.0, 2.0, -1, 48, 2, 0, 0, 0)
-                            Wait(1500)
-                            ClearPedTasks(ped)
+                        if item.name == "WEAPON_PETROLCAN" then
+                            weaponEquiped = item
                             SetCurrentPedWeapon(ped, item.name, true)
                             weaponLock = false
-                        end) 
-                    else 
-                        weaponEquiped = nil
-                        ESX.Streaming.RequestAnimDict('reaction@intimidation@1h', function()
-                            TaskPlayAnim(ped, "reaction@intimidation@1h", "outro", 8.0, 2.0, -1, 48, 2, 0, 0, 0)
-                            Wait(1500)
-                            ClearPedTasks(ped)
+                        else
+                            ESX.Streaming.RequestAnimDict('reaction@intimidation@1h', function()
+                                TaskPlayAnim(ped, "reaction@intimidation@1h", "intro", 8.0, 2.0, -1, 48, 2, 0, 0, 0)
+                                Wait(1500)
+                                ClearPedTasks(ped)
+                                SetCurrentPedWeapon(ped, item.name, true)
+                                weaponLock = false
+                            end)
+                        end
+                    else
+                        if item.name == "WEAPON_PETROLCAN" then
+                            weaponEquiped = nil
                             SetCurrentPedWeapon(ped, 'WEAPON_UNARMED', true)
                             weaponLock = false
-                        end) 
+                        else
+                            weaponEquiped = nil
+                            ESX.Streaming.RequestAnimDict('reaction@intimidation@1h', function()
+                                TaskPlayAnim(ped, "reaction@intimidation@1h", "outro", 8.0, 2.0, -1, 48, 2, 0, 0, 0)
+                                Wait(1500)
+                                ClearPedTasks(ped)
+                                SetCurrentPedWeapon(ped, 'WEAPON_UNARMED', true)
+                                weaponLock = false
+                            end)
+                        end
                     end 
                 end
             end

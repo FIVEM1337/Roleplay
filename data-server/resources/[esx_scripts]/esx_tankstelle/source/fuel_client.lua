@@ -182,15 +182,15 @@ AddEventHandler('fuel:startFuelUpTick', function(pumpObject, ped, vehicle)
 		if pumpObject then
 			fuelToAdd = 0.1
 		else
-			fuelToAdd = 5.0
+			fuelToAdd = 0.1
 		end
 		local extraCost = fuelToAdd * Config.CostMultiplier
 
 		if not pumpObject then
-			if GetAmmoInPedWeapon(ped, 883325847) - fuelToAdd * 100 >= 0 then
-				currentFuel = oldFuel + fuelToAdd
+			if GetAmmoInPedWeapon(ped, 883325847) - fuelToAdd >= 0 then
+				currentFuel = oldFuel + fuelToAdd * 10
 
-				SetPedAmmo(ped, 883325847, math.floor(GetAmmoInPedWeapon(ped, 883325847) - fuelToAdd * 100))
+				SetPedAmmo(ped, 883325847, math.floor(GetAmmoInPedWeapon(ped, 883325847) - fuelToAdd))
 			else
 				isFueling = false
 			end
@@ -246,12 +246,7 @@ AddEventHandler('fuel:refuelFromPump', function(pumpObject, ped, vehicle)
 
 		local vehicleCoords = GetEntityCoords(vehicle)
 
-		if GetAmmoInPedWeapon(ped, 883325847) <= 0 then
-			TriggerServerEvent('esx_tankstelle:removejerry')
-
-			RemoveWeaponFromPed(ped, 883325847)
-		end
-		DrawText3Ds(vehicleCoords.x, vehicleCoords.y, vehicleCoords.z + 0.5, Config.Strings.CancelFuelingJerryCan .. "\nGas can: ~g~" .. Round(GetAmmoInPedWeapon(ped, 883325847) / 4500 * 100, 1) .. "% | Vehicle: " .. Round(currentFuel, 1) .. "%")
+		DrawText3Ds(vehicleCoords.x, vehicleCoords.y, vehicleCoords.z + 0.5, Config.Strings.CancelFuelingJerryCan .. "\nBenzinkanister: ~g~" .. Round(GetAmmoInPedWeapon(ped, 883325847) / 20 * 100, 1) .. "% | Fahrzeug: " .. Round(currentFuel, 1) .. "%")
 		if IsControlJustReleased(0, 38) or DoesEntityExist(GetPedInVehicleSeat(vehicle, -1)) or (isNearPump and GetEntityHealth(pumpObject) <= 0) then
 			isFueling = false
 		end
@@ -280,6 +275,15 @@ RegisterNUICallback('refuel', function(data, cb)
 	isFueling = true
 	TriggerEvent('fuel:refuelFromPump', isNearPump, PlayerPedId(), GetPlayersLastVehicle())
 	compFuel = GetVehicleFuelLevel(GetPlayersLastVehicle())
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1)
+		if GetSelectedPedWeapon(PlayerPedId()) == 883325847 then
+			DisablePlayerFiring(PlayerPedId(), true)
+		end
+	end
 end)
 
 Citizen.CreateThread(function()
@@ -347,7 +351,7 @@ Citizen.CreateThread(function()
 								currentCash = ESX.GetPlayerData().money
 							end
 						else
-							local refillCost = Round(Config.RefillCost * (1 - GetAmmoInPedWeapon(ped, 883325847) / 4500))
+							local refillCost = Round(Config.RefillCost * (1 - GetAmmoInPedWeapon(ped, 883325847) / 20))
 							if refillCost > 0 then
 								if currentCash >= refillCost then
 									DrawText3Ds(stringCoords.x, stringCoords.y, stringCoords.z + 1.2, Config.Strings.RefillJerryCan .. refillCost.."$")
