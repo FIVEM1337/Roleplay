@@ -1,12 +1,4 @@
-if Config.UseESX then
-	Citizen.CreateThread(function()
-		while not ESX do
-			TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-
-			Citizen.Wait(500)
-		end
-	end)
-end
+ESX = nil
 
 local isNearPump = false
 local isFueling = false
@@ -17,8 +9,15 @@ local fuelSynced = false
 local inBlacklisted = false
 local compFuel = 0.0
 local compFuel2 = 0.0
-
 local enableField = false
+
+Citizen.CreateThread(function()
+	while ESX == nil do
+		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+		Citizen.Wait(100)
+	end
+end)
+
 
 AddEventHandler('onResourceStart', function(name)
     if GetCurrentResourceName() ~= name then
@@ -175,12 +174,16 @@ end)
 
 AddEventHandler('fuel:startFuelUpTick', function(pumpObject, ped, vehicle)
 	currentFuel = GetVehicleFuelLevel(vehicle)
-
 	while isFueling do
 		Citizen.Wait(500)
 
 		local oldFuel = DecorGetFloat(vehicle, Config.FuelDecor)
-		local fuelToAdd = 0.1
+		local fuelToAdd
+		if pumpObject then
+			fuelToAdd = 0.1
+		else
+			fuelToAdd = 5.0
+		end
 		local extraCost = fuelToAdd * Config.CostMultiplier
 
 		if not pumpObject then
@@ -192,6 +195,7 @@ AddEventHandler('fuel:startFuelUpTick', function(pumpObject, ped, vehicle)
 				isFueling = false
 			end
 		else
+			currentFuel = oldFuel + fuelToAdd
 			compFuel = compFuel + fuelToAdd
 			compFuel2 = compFuel2 + fuelToAdd
 		end
@@ -204,7 +208,11 @@ AddEventHandler('fuel:startFuelUpTick', function(pumpObject, ped, vehicle)
 		currentCost = currentCost + extraCost
 
 		if currentCash >= currentCost and compFuel <= Config.FuelClassesMax[GetVehicleClass(vehicle)] then
-			SetFuel(vehicle, compFuel)
+			if pumpObject then
+				SetFuel(vehicle, compFuel)
+			else
+				SetFuel(vehicle, currentFuel)
+			end
 		else
 			isFueling = false
 		end
@@ -224,12 +232,13 @@ end)
 AddEventHandler('fuel:refuelFromPump', function(pumpObject, ped, vehicle)
 	TaskTurnPedToFaceEntity(ped, vehicle, 1000)
 	Citizen.Wait(1000)
-	SetCurrentPedWeapon(ped, -1569615261, true)
+	if pumpObject then
+		SetCurrentPedWeapon(ped, -1569615261, true)
+	end
 	LoadAnimDict("timetable@gardener@filling_can")
 	TaskPlayAnim(ped, "timetable@gardener@filling_can", "gar_ig_5_filling_can", 2.0, 8.0, -1, 50, 0, 0, 0, 0)
 
 	TriggerEvent('fuel:startFuelUpTick', pumpObject, ped, vehicle)
-
 	while isFueling do
 		for _, controlIndex in pairs(Config.DisableKeys) do
 			DisableControlAction(0, controlIndex)
@@ -237,19 +246,19 @@ AddEventHandler('fuel:refuelFromPump', function(pumpObject, ped, vehicle)
 
 		local vehicleCoords = GetEntityCoords(vehicle)
 
+		if GetAmmoInPedWeapon(ped, 883325847) <= 0 then
+			TriggerServerEvent('esx_tankstelle:removejerry')
 
+			RemoveWeaponFromPed(ped, 883325847)
+		end
 		DrawText3Ds(vehicleCoords.x, vehicleCoords.y, vehicleCoords.z + 0.5, Config.Strings.CancelFuelingJerryCan .. "\nGas can: ~g~" .. Round(GetAmmoInPedWeapon(ped, 883325847) / 4500 * 100, 1) .. "% | Vehicle: " .. Round(currentFuel, 1) .. "%")
-
-
-
-
 		if IsControlJustReleased(0, 38) or DoesEntityExist(GetPedInVehicleSeat(vehicle, -1)) or (isNearPump and GetEntityHealth(pumpObject) <= 0) then
 			isFueling = false
 		end
 
 		Citizen.Wait(0)
 	end
-
+	TriggerServerEvent('esx_tankstelle:setjerryfuel', GetAmmoInPedWeapon(ped, 883325847))
 	ClearPedTasks(ped)
 	RemoveAnimDict("timetable@gardener@filling_can")
 	compFuel2 = 0.0
@@ -294,7 +303,7 @@ Citizen.CreateThread(function()
 						if GetSelectedPedWeapon(ped) == 883325847 then
 							stringCoords = vehicleCoords
 
-							if GetAmmoInPedWeapon(ped, 883325847) < 100 then
+							if GetAmmoInPedWeapon(ped, 883325847) <= 0  then
 								canFuel = false
 							end
 						end
@@ -308,7 +317,6 @@ Citizen.CreateThread(function()
 									if isNearPump then
 										open()
 									else
-										return
 										TriggerEvent('fuel:refuelFromPump', isNearPump, ped, vehicle)
 									end
 									LoadAnimDict("timetable@gardener@filling_can")
@@ -333,37 +341,26 @@ Citizen.CreateThread(function()
 							DrawText3Ds(stringCoords.x, stringCoords.y, stringCoords.z + 1.2, Config.Strings.PurchaseJerryCan)
 
 							if IsControlJustReleased(0, 38) then
-								GiveWeaponToPed(ped, 883325847, 4500, false, true)
-
+								TriggerServerEvent('esx_tankstelle:givejerry')
 								TriggerServerEvent('fuel:pay', Config.JerryCanCost)
 
 								currentCash = ESX.GetPlayerData().money
 							end
 						else
-							if Config.UseESX then
-								local refillCost = Round(Config.RefillCost * (1 - GetAmmoInPedWeapon(ped, 883325847) / 4500))
+							local refillCost = Round(Config.RefillCost * (1 - GetAmmoInPedWeapon(ped, 883325847) / 4500))
+							if refillCost > 0 then
+								if currentCash >= refillCost then
+									DrawText3Ds(stringCoords.x, stringCoords.y, stringCoords.z + 1.2, Config.Strings.RefillJerryCan .. refillCost.."$")
 
-								if refillCost > 0 then
-									if currentCash >= refillCost then
-										DrawText3Ds(stringCoords.x, stringCoords.y, stringCoords.z + 1.2, Config.Strings.RefillJerryCan .. refillCost)
-
-										if IsControlJustReleased(0, 38) then
-											TriggerServerEvent('fuel:pay', refillCost)
-
-											SetPedAmmo(ped, 883325847, 4500)
-										end
-									else
-										DrawText3Ds(stringCoords.x, stringCoords.y, stringCoords.z + 1.2, Config.Strings.NotEnoughCashJerryCan)
+									if IsControlJustReleased(0, 38) then
+										TriggerServerEvent('fuel:pay', refillCost)
+										TriggerServerEvent('esx_tankstelle:givejerry')
 									end
 								else
-									DrawText3Ds(stringCoords.x, stringCoords.y, stringCoords.z + 1.2, Config.Strings.JerryCanFull)
+									DrawText3Ds(stringCoords.x, stringCoords.y, stringCoords.z + 1.2, Config.Strings.NotEnoughCashJerryCan)
 								end
 							else
-								DrawText3Ds(stringCoords.x, stringCoords.y, stringCoords.z + 1.2, Config.Strings.RefillJerryCan)
-
-								if IsControlJustReleased(0, 38) then
-									SetPedAmmo(ped, 883325847, 4500)
-								end
+								DrawText3Ds(stringCoords.x, stringCoords.y, stringCoords.z + 1.2, Config.Strings.JerryCanFull)
 							end
 						end
 					else
