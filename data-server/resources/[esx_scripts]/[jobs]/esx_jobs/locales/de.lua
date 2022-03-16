@@ -76,6 +76,8 @@ Locales['de'] = {
     ['heal_inprogress'] = 'Du verarztest gerade eine Person',
     ['heal_complete'] = 'Du hast eine Person verarztet',
     ['healed'] = 'Du wurdest behandelt.',
+    ['billing'] = 'Rechnung stellen',
+    ['invoice_amount'] = 'Rechnungsbetrag',
 
 
 -- Vehicle Menu
@@ -88,13 +90,18 @@ Locales['de'] = {
     ['plate'] = 'Kennzeichen: %s',
     ['owner_unknown'] = 'Besitzer: Unbekannt',
     ['owner'] = 'Besitzer: %s',
-    ['pick_lock'] = 'Fahrzeug öffnen',
+    ['hijack_vehicle'] = 'Fahrzeug öffnen',
+    ['fix_vehicle'] = 'Fahrzeug reparieren',
+    ['vehicle_repaired'] = 'das Fahrzeug wurde ~g~repariert',
+    ['clean_vehicle'] = 'Fahrzeug reinigen',
+    ['vehicle_cleaned'] = 'das Fahrzeug wurde ~g~gereinigt',
     ['impound'] = 'Fahrzeug beschlagnahmen',
     ['impound_prompt'] = 'Drücke ~INPUT_CONTEXT~ zum abzubrechen',
     ['impound_canceled'] = 'Beschlagnahmen wurde abgebrochen',
     ['impound_canceled_moved'] = 'Beschlagnahmen wurde abgebrochen (Fahrzeug wurde bewegt)',
     ['impound_successful'] = 'Du hast das Fahrzeug beschlagnahmt',
     ['impound_decined'] = 'Du kannst das Fahrzeug nicht beschlagnahmen',
+    ['inside_vehicle'] = 'Du kannst das nicht aus dem Fahrzeug heraus machen!',
 
 
  -- Boss Menu

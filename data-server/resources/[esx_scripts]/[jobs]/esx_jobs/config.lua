@@ -41,7 +41,7 @@ vehicle_interaction:
 
 
 jobs = {
-	ambulance = {
+	police = {
 			job = "police",
 			society = true,
 			Blip = {name = "Polizeistation", color = 2, sprite = 543, scale = 0.8, alwayshow = true},
@@ -64,7 +64,10 @@ jobs = {
 			vehicle_interaction = true,
 			ems_menu_revive = true,
 			ems_menu_small = true,
-			ems_menu_big = true
+			ems_menu_big = true,
+			fix_vehicle = true,
+			clean_vehicle = true,
+			billing = true,
 		},
 
 

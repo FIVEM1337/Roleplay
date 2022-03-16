@@ -8,6 +8,7 @@ local CurrentActionData = {}
 local isHandcuffed = false
 local dragStatus = {}
 currentTask = {}
+isDead = false
 dragStatus.isDragged = false
 
 Citizen.CreateThread(function()
@@ -33,7 +34,7 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(3)
-		if PlayerData.job then
+		if PlayerData.job and not isDead then
 			if jobs[PlayerData.job.name] then
 				v = jobs[PlayerData.job.name]
 				local playerPed = PlayerPedId()
@@ -113,7 +114,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1)
 
-		if CurrentAction then
+		if CurrentAction and not isDead then
 			ESX.ShowHelpNotification(CurrentActionMsg)
 			if IsControlJustReleased(0, 38) then
 				if PlayerData.job then
@@ -367,6 +368,10 @@ function OpenJobActionsMenu(JobConfig)
 		table.insert(citizen_interaction_elements, {label = _U('ems_menu_big'), value = 'ems_menu_big'})
 	end
 
+	if JobConfig.billing then
+		table.insert(citizen_interaction_elements, {label = _U('billing'), value = 'billing'})
+	end
+
 
 	vehicle_interaction_elements = {}
 	if JobConfig.vehicle_infos then
@@ -374,8 +379,17 @@ function OpenJobActionsMenu(JobConfig)
 		table.insert(vehicle_interaction_elements, {label = _U('search_database'), value = 'search_database'})
 	end
 	if JobConfig.hijack_vehicle then
-		table.insert(vehicle_interaction_elements, {label = _U('pick_lock'), value = 'hijack_vehicle'})
+		table.insert(vehicle_interaction_elements, {label = _U('hijack_vehicle'), value = 'hijack_vehicle'})
 	end
+
+	if JobConfig.fix_vehicle then
+		table.insert(vehicle_interaction_elements, {label = _U('fix_vehicle'), value = 'fix_vehicle'})
+	end
+
+	if JobConfig.clean_vehicle then
+		table.insert(vehicle_interaction_elements, {label = _U('clean_vehicle'), value = 'clean_vehicle'})
+	end
+
 	if JobConfig.impound then
 		table.insert(vehicle_interaction_elements, {label = _U('impound'), value = 'impound'})
 	end
@@ -429,6 +443,22 @@ function OpenJobActionsMenu(JobConfig)
 						HealPlayer(closestPlayer, "small")
 					elseif action == 'ems_menu_big' then
 						HealPlayer(closestPlayer, "big")
+					elseif action == 'billing' then
+						ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'billing', {
+							title = _U('invoice_amount')
+						}, function(data, menu)
+							local amount = tonumber(data.value)
+			
+							if amount == nil or amount < 0 then
+								ESX.ShowNotification(_U('quantity_invalid'))
+								return
+							end
+
+							menu.close()
+							TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(closestPlayer), 'society_'..PlayerData.job.name , PlayerData.job.label, amount)
+						end, function(data, menu)
+							menu.close()
+						end)
 					end
 				else
 					ESX.ShowNotification(_U('no_players_nearby'))
@@ -450,6 +480,10 @@ function OpenJobActionsMenu(JobConfig)
 				vehicle = ESX.Game.GetVehicleInDirection()
 				action  = data2.current.value
 
+				if currentTask.busy then
+					return
+				end
+
 				if action == 'search_database' then
 					LookupVehicle()
 				elseif DoesEntityExist(vehicle) then
@@ -457,20 +491,61 @@ function OpenJobActionsMenu(JobConfig)
 						local vehicleData = ESX.Game.GetVehicleProperties(vehicle)
 						OpenVehicleInfosMenu(vehicleData)
 					elseif action == 'hijack_vehicle' then
+						if IsPedSittingInAnyVehicle(playerPed) then
+							ESX.ShowNotification(_U('inside_vehicle'))
+							return
+						end
+
+						currentTask.busy = true
 						if IsAnyVehicleNearPoint(coords.x, coords.y, coords.z, 3.0) then
 							TaskStartScenarioInPlace(playerPed, 'WORLD_HUMAN_WELDING', 0, true)
 							Citizen.Wait(20000)
 							ClearPedTasksImmediately(playerPed)
-
 							SetVehicleDoorsLocked(vehicle, 1)
 							SetVehicleDoorsLockedForAllPlayers(vehicle, false)
 							ESX.ShowNotification(_U('vehicle_unlocked'))
+							currentTask.busy = false
 						end
-					elseif action == 'impound' then
-						if currentTask.busy then
+					elseif action == 'fix_vehicle' then
+						if IsPedSittingInAnyVehicle(playerPed) then
+							ESX.ShowNotification(_U('inside_vehicle'))
+							return
+						end
+						currentTask.busy = true
+
+						TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
+						Citizen.CreateThread(function()
+							Citizen.Wait(20000)
+							SetVehicleFixed(vehicle)
+							SetVehicleDeformationFixed(vehicle)
+							SetVehicleUndriveable(vehicle, false)
+							SetVehicleEngineOn(vehicle, true, true)
+							ClearPedTasksImmediately(playerPed)
+							ESX.ShowNotification(_U('vehicle_repaired'))
+							currentTask.busy = false
+						end)
+
+
+
+					elseif action == 'clean_vehicle' then
+						if IsPedSittingInAnyVehicle(playerPed) then
+							ESX.ShowNotification(_U('inside_vehicle'))
 							return
 						end
 
+						currentTask.busy = true
+						TaskStartScenarioInPlace(playerPed, 'WORLD_HUMAN_MAID_CLEAN', 0, true)
+						Citizen.CreateThread(function()
+							Citizen.Wait(10000)
+		
+							SetVehicleDirtLevel(vehicle, 0)
+							ClearPedTasksImmediately(playerPed)
+		
+							ESX.ShowNotification(_U('vehicle_cleaned'))
+							currentTask.busy = false
+						end)
+
+					elseif action == 'impound' then
 						ESX.ShowHelpNotification(_U('impound_prompt'))
 						TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_TEND_TO_DEAD', 0, true)
 
@@ -1082,3 +1157,6 @@ function OpenBodySearchMenu(player)
 		end)
 	end, GetPlayerServerId(player))
 end
+
+AddEventHandler('esx:onPlayerDeath', function(data) isDead = true end)
+AddEventHandler('esx:onPlayerSpawn', function(spawn) isDead = false end)
