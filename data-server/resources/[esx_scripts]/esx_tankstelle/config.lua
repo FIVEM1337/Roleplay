@@ -1,24 +1,48 @@
 Config = {}
 
+-- Are you using ESX? Turn this to true if you would like fuel & jerry cans to cost something.
 Config.UseESX = true
 
+-- What should the price of jerry cans be?
+Config.JerryCanCost = 100
+Config.RefillCost = 50 -- If it is missing half of it capacity, this amount will be divided in half, and so on.
+
+-- Fuel decor - No need to change this, just leave it.
 Config.FuelDecor = "_FUEL_LEVEL"
 
+-- What keys are disabled while you're fueling.
 Config.DisableKeys = {0, 22, 23, 24, 29, 30, 31, 37, 44, 56, 82, 140, 166, 167, 168, 170, 288, 289, 311, 323}
 
+-- Want to use the HUD? Turn this to true.
+Config.EnableHUD = fa
+
+-- Configure blips here. Turn both to false to disable blips all together.
 Config.ShowNearestGasStationOnly = true
 Config.ShowAllGasStations = false
 
-Config.CostMultiplier = 3.60
+-- Modify the fuel-cost here, using a multiplier value. Setting the value to 2.0 would cause a doubled increase.
+Config.CostMultiplier = 1.0
 
+-- Configure the strings as you wish here.
 Config.Strings = {
 	ExitVehicle = "Verlasse das Fahrzeug, um zu tanken.",
-	EToRefuel = "Drücke E um zu tanken.",
-	FullTank = "Der Tank ist voll.",
-	CancelFuelingPump = "Tanken....",
+	EToRefuel = "Drücke ~g~E~w~ um zu tanken.",
+	JerryCanEmpty = "Benzinkanister ist leer",
+	FullTank = "Der Tank ist voll",
+	PurchaseJerryCan = "Press ~g~E ~w~to purchase a jerry can for ~g~$" .. Config.JerryCanCost,
+	CancelFuelingPump = "Drücke ~g~E~w~ um die Betankung abzubrechen",
+	CancelFuelingJerryCan = "Drücke ~g~E ~w~um die Betankung abzubrechen",
 	NotEnoughCash = "Du besitzt nicht genügend Geld.",
+	RefillJerryCan = "Drücke ~g~E ~w~ zum Nachfüllen des Benzinkanister für ",
+	NotEnoughCashJerryCan = "Nicht genug Geld, um den Benzinkanister nachzufüllen",
+	JerryCanFull = "Benzinkanister ist voll",
 	TotalCost = "Kosten",
 }
+
+if not Config.UseESX then
+	Config.Strings.PurchaseJerryCan = "Drücke ~g~E~w~ einen Benzinkanister zu kaufen"
+	Config.Strings.RefillJerryCan = "Drücke ~g~E~w~ um Benzinkanister zu befüllen"
+end
 
 Config.PumpModels = {
 	[-2007231801] = true,
@@ -30,13 +54,16 @@ Config.PumpModels = {
 	[-164877493] = true
 }
 
+-- Blacklist certain vehicles. Use names or hashes. https://wiki.gtanet.work/index.php?title=Vehicle_Models
 Config.Blacklist = {
 	--"Adder",
 	--276773164
 }
 
+-- Do you want the HUD removed from showing in blacklisted vehicles?
 Config.RemoveHUDForBlacklistedVehicle = true
 
+-- Class multipliers. If you want SUVs to use less fuel, you can change it to anything under 1.0, and vise versa.
 
 Config.FuelClassesMax = {
 	[0] = 60.0, -- Compacts
@@ -88,6 +115,7 @@ Config.Classes = {
 	[21] = 1.0, -- Trains
 }
 
+-- The left part is at percentage RPM, and the right is how much fuel (divided by 10) you want to remove from the tank every second
 Config.FuelUsage = {
 	[1.0] = 1.4,
 	[0.9] = 1.2,
