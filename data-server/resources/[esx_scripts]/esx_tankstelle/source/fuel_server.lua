@@ -27,9 +27,9 @@ RegisterServerEvent('esx_tankstelle:givejerry')
 AddEventHandler('esx_tankstelle:givejerry', function()
 	local xPlayer = ESX.GetPlayerFromId(source)
 	if xPlayer.hasWeapon("WEAPON_PETROLCAN") then
-		xPlayer.setWeaponAmmo("WEAPON_PETROLCAN", 4500)
+		xPlayer.setWeaponAmmo("WEAPON_PETROLCAN", 20)
 	else
-		xPlayer.addWeapon("WEAPON_PETROLCAN", 4500)
+		xPlayer.addWeapon("WEAPON_PETROLCAN", 20)
 	end
 end)
 
