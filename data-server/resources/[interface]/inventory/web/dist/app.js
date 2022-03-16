@@ -17108,7 +17108,7 @@
 					i && 1 === e.button && "main" === t && (n.use ? o().post(`https://${m}/UseItem`, JSON.stringify(
 					{
 						item: n
-					})) : U("Item is not usable",
+					})) : U("Item ist nicht verwendbar",
 					{
 						type: "error"
 					}))

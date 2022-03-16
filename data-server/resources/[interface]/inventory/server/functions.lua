@@ -226,7 +226,7 @@ function AddItemToInventory(xPlayer, item, count, inv, cb)
         end
 
         if newWeight > inv.weight then 
-            xPlayer.triggerEvent('inventory:notify', 'error', 'Inventory would be overweight!')
+            xPlayer.triggerEvent('dopeNotify:Alert', src, "", "Kann das nicht Tragen", 5000, 'error')
             return
         end 
     end

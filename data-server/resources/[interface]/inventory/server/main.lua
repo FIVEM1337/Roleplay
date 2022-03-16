@@ -98,11 +98,11 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
             if not xPlayer.hasWeapon(item.name) and currency >= item.count then
                 xPlayer.removeAccountMoney(item.moneytype, item.count)
                 xPlayer.addWeapon(item.name, item.count)
-                TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> purchased!'):format(count, item.label))
+                TriggerClientEvent('dopeNotify:Alert', src, "", ('%s <b>%s</b> gekauft!'):format(count, item.label), 5000, 'success')
                 TriggerEvent('CryptoHooker:SendBuyLog', src, item.label, count, count * item.count)
                 GiveSocietyMoney(item.moneytype, item.count)
             else 
-                TriggerClientEvent('inventory:notify', src, 'error', 'You already have this weapon!')
+                TriggerClientEvent('dopeNotify:Alert', src, "", "Du hast diese Waffe bereits!", 5000, 'error')
             end
         elseif item.type == 'item_standard' then
             if Config.PlayerWeight then
@@ -110,14 +110,14 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                     if currency >= (count * item.count) then
                         xPlayer.removeAccountMoney(item.moneytype, count * item.count)
                         xPlayer.addInventoryItem(item.name, count)
-                        TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> purchased!'):format(count, item.label))
+                        TriggerClientEvent('dopeNotify:Alert', src, "", ('%s <b>%s</b> gekauft!'):format(count, item.label), 5000, 'success')
                         TriggerEvent('CryptoHooker:SendBuyLog', src, item.label, count, count * item.count)
                         GiveSocietyMoney(item.moneytype, count * item.count)
-                    else 
-                        TriggerClientEvent('inventory:notify', src, 'error', 'Cannot afford this item!')
+                    else
+                        TriggerClientEvent('dopeNotify:Alert', src, "", "Du kannst dir das nicht leisten!", 5000, 'error')
                     end
                 else 
-                    TriggerClientEvent('inventory:notify', src, 'error', 'Inventory Full!')
+                    TriggerClientEvent('dopeNotify:Alert', src, "", "Inventar voll!", 5000, 'error')
                 end
             else 
                 local newCount = xPlayer.getInventoryItem(item.name).count + count
@@ -125,14 +125,14 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                     if currency >= (count * item.count) then
                         xPlayer.removeAccountMoney(item.moneytype, count * item.count)
                         xPlayer.addInventoryItem(item.name, count)
-                        TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> purchased!'):format(count, item.label))
+                        TriggerClientEvent('dopeNotify:Alert', src, "", ('%s <b>%s</b> gekauft!'):format(count, item.label), 5000, 'success')
                         TriggerEvent('CryptoHooker:SendBuyLog', src, item.label, count, count * item.count)
                         GiveSocietyMoney(item.moneytype, count * item.count)
                     else 
-                        TriggerClientEvent('inventory:notify', src, 'error', 'Cannot afford this item!')
+                        TriggerClientEvent('dopeNotify:Alert', src, "", "Du kannst dir das nicht leisten!", 5000, 'error')
                     end
                 else 
-                    TriggerClientEvent('inventory:notify', src, 'error', 'Limit Reached')
+                    TriggerClientEvent('dopeNotify:Alert', src, "", "Item Limit erreicht", 5000, 'error')
                 end
             end
         end
@@ -151,14 +151,14 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                 if target.getMoney() >= count then
                     target.removeMoney(count)
                     xPlayer.addMoney(count)
-                    TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, 'Your Inventory'))
+                    TriggerClientEvent('dopeNotify:Alert', src, "",('%sx <b>%s</b> erhalten!'):format(count, item.label), 5000, 'success')
                     TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, target.getName(), xPlayer.getName())
                 end
             else 
                 if target.getAccount(item.name).money >= count then
                     target.removeAccountMoney(item.name, count)
                     xPlayer.addAccountMoney(item.name, count)
-                    TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, 'Your Inventory'))
+                    TriggerClientEvent('dopeNotify:Alert', src, "",('%sx <b>%s</b> erhalten!'):format(count, item.label), 5000, 'success')
                     TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, target.getName(), xPlayer.getName())
                 end
             end
@@ -167,10 +167,10 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                 if not xPlayer.hasWeapon(item.name) then
                     target.removeWeapon(item.name)
                     xPlayer.addWeapon(item.name, item.count)
-                    TriggerClientEvent('inventory:notify', src, 'success', ('<b>%s</b> moved to <b>%s</b>!'):format(item.label, 'Your Inventory'))
+                    TriggerClientEvent('dopeNotify:Alert', src, "",('<b>%s</b> moved to <b>%s</b>!'):format(item.label, 'Your Inventory'), 5000, 'success')
                     TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, target.getName(), xPlayer.getName())
                 else 
-                    TriggerClientEvent('inventory:notify', src, 'error', 'You already have this weapon!')
+                    TriggerClientEvent('dopeNotify:Alert', src, "", "Du hast die Waffe bereits", 5000, 'error')
                 end
             end
         elseif item.type == 'item_standard' then
@@ -179,20 +179,20 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
                     if xPlayer.canCarryItem(item.name, count) then
                         target.removeInventoryItem(item.name, count)
                         xPlayer.addInventoryItem(item.name, count)
-                        TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, 'Your Inventory'))
+                        TriggerClientEvent('dopeNotify:Alert', src, "",('%sx <b>%s</b> erhalten!'):format(count, item.label), 5000, 'success')
                         TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, target.getName(), xPlayer.getName())
                     else 
-                        TriggerClientEvent('inventory:notify', src, 'error', 'Inventory Full!')
+                        TriggerClientEvent('dopeNotify:Alert', src, "", "Inventar voll", 5000, 'error')
                     end
                 else 
                     local newCount = xPlayer.getInventoryItem(item.name).count + count
                     if newCount <= xPlayer.getInventoryItem(item.name).limit then
                         target.removeInventoryItem(item.name, count)
                         xPlayer.addInventoryItem(item.name, count)
-                        TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, 'Your Inventory'))
+                        TriggerClientEvent('dopeNotify:Alert', src, "",('%sx <b>%s</b> erhalten!'):format(count, item.label), 5000, 'success')
                         TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, target.getName(), xPlayer.getName())
                     else 
-                        TriggerClientEvent('inventory:notify', src, 'error', 'Limit Reached')
+                        TriggerClientEvent('dopeNotify:Alert', src, "", "Item Limit erreicht", 5000, 'error')
                     end
                 end
             end
@@ -202,13 +202,13 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
             if item.name == 'cash' then
                 RemoveItemFromInventory(xPlayer, item, count, otherInv, function()
                     xPlayer.addMoney(count)
-                    TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, 'Your Inventory'))
+                    TriggerClientEvent('dopeNotify:Alert', src, "",('%sx <b>%s</b> erhalten!'):format(count, item.label), 5000, 'success')
                     TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, otherInv.title, xPlayer.getName())
                 end)
             else 
                 RemoveItemFromInventory(xPlayer, item, count, otherInv, function()
                     xPlayer.addAccountMoney(item.name, count)
-                    TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, 'Your Inventory'))
+                    TriggerClientEvent('dopeNotify:Alert', src, "",('%sx <b>%s</b> erhalten!'):format(count, item.label), 5000, 'success')
                     TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, otherInv.title, xPlayer.getName())
                 end)
             end
@@ -216,33 +216,33 @@ RegisterNetEvent('inventory:moveItemToPlayer', function(item, count, otherInv)
             if not xPlayer.hasWeapon(item.name) then
                 RemoveItemFromInventory(xPlayer, item, item.count, otherInv, function()
                     xPlayer.addWeapon(item.name, item.count)
-                    TriggerClientEvent('inventory:notify', src, 'success', ('<b>%s</b> moved to <b>%s</b>!'):format(item.label, 'Your Inventory'))
+                    TriggerClientEvent('dopeNotify:Alert', src, "",('<b>%s</b> moved to <b>%s</b>!'):format(item.label, 'Your Inventory'), 5000, 'success')
                     TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, otherInv.title, xPlayer.getName())
                 end)
             else 
-                TriggerClientEvent('inventory:notify', src, 'error', 'You already have this weapon!')
+                TriggerClientEvent('dopeNotify:Alert', src, "", "Du hast die Waffe bereits", 5000, 'error')
             end
         elseif item.type == 'item_standard' then
             if Config.PlayerWeight then
                 if xPlayer.canCarryItem(item.name, count) then
                     RemoveItemFromInventory(xPlayer, item, count, otherInv, function()
                         xPlayer.addInventoryItem(item.name, count)
-                        TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, 'Your Inventory'))
+                        TriggerClientEvent('dopeNotify:Alert', src, "",('%sx <b>%s</b> erhalten!'):format(count, item.label), 5000, 'success')
                         TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, otherInv.title, xPlayer.getName())
                     end)
                 else 
-                    TriggerClientEvent('inventory:notify', src, 'error', 'Inventory Full!')
+                    TriggerClientEvent('dopeNotify:Alert', src, "", "Inventar voll", 5000, 'error')
                 end
             else 
                 local newCount = xPlayer.getInventoryItem(item.name).count + count
                 if newCount <= xPlayer.getInventoryItem(item.name).limit then
                     RemoveItemFromInventory(xPlayer, item, count, otherInv, function()
                         xPlayer.addInventoryItem(item.name, count)
-                        TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, 'Your Inventory'))
+                        TriggerClientEvent('dopeNotify:Alert', src, "",('%sx <b>%s</b> erhalten!'):format(count, item.label), 5000, 'success')
                         TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, otherInv.title, xPlayer.getName())
                     end)
                 else 
-                    TriggerClientEvent('inventory:notify', src, 'error', 'Limit Reached!')
+                    TriggerClientEvent('dopeNotify:Alert', src, "", "Item Limit erreicht", 5000, 'error')
                 end
             end
         end
@@ -267,14 +267,14 @@ RegisterNetEvent('inventory:moveItemToOther', function(item, count, otherInv)
                 if xPlayer.getMoney() >= count then
                     xPlayer.removeMoney(count)
                     target.addMoney(count)
-                    TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, otherInv.title))
+                    TriggerClientEvent('dopeNotify:Alert', src, "", ('%sx <b>%s</b> verschoben zu <b>%s</b>!'):format(count, item.label, otherInv.title), 5000, 'success')
                     TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), target.getName())
                 end
             else 
                 if xPlayer.getAccount(item.name).money >= count then
                     xPlayer.removeAccountMoney(item.name, count)
                     target.addAccountMoney(item.name, count)
-                    TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, otherInv.title))
+                    TriggerClientEvent('dopeNotify:Alert', src, "", ('%sx <b>%s</b> verschoben zu <b>%s</b>!'):format(count, item.label, otherInv.title), 5000, 'success')
                     TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), target.getName())
                 end
             end
@@ -283,10 +283,10 @@ RegisterNetEvent('inventory:moveItemToOther', function(item, count, otherInv)
                 if not target.hasWeapon(item.name) then
                     xPlayer.removeWeapon(item.name)
                     target.addWeapon(item.name, item.count)
-                    TriggerClientEvent('inventory:notify', src, 'success', ('<b>%s</b> moved to <b>%s</b>!'):format(item.label, otherInv.title)) 
+                    TriggerClientEvent('dopeNotify:Alert', src, "", ('<b>%s</b> verschoben zu <b>%s</b>!'):format(item.label, otherInv.title), 5000, 'success')
                     TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), target.getName())
                 else 
-                    TriggerClientEvent('inventory:notify', src, 'error', 'The player already has this weapon')
+                    TriggerClientEvent('dopeNotify:Alert', src, "", "Die Person hat diese Waffe bereits", 5000, 'error')
                 end
             end
         elseif item.type == 'item_standard' then
@@ -295,20 +295,20 @@ RegisterNetEvent('inventory:moveItemToOther', function(item, count, otherInv)
                     if target.canCarryItem(item.name, count) then
                         xPlayer.removeInventoryItem(item.name, count)
                         target.addInventoryItem(item.name, count)
-                        TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, otherInv.title)) 
+                        TriggerClientEvent('dopeNotify:Alert', src, "", ('%sx <b>%s</b> verschoben zu <b>%s</b>!'):format(count, item.label, otherInv.title), 5000, 'success') 
                         TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), target.getName())
                     else 
-                        TriggerClientEvent('inventory:notify', src, 'error', 'The players Inventory is Full!')
+                        TriggerClientEvent('dopeNotify:Alert', src, "", "Die Person kann das nicht Tragen", 5000, 'error')
                     end
                 else 
                     local newCount = target.getInventoryItem(item.name).count + count
                     if newCount <= target.getInventoryItem(item.name).limit then
                         xPlayer.removeInventoryItem(item.name, count)
                         target.addInventoryItem(item.name, count)
-                        TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, otherInv.title)) 
+                        TriggerClientEvent('dopeNotify:Alert', src, "", ('%sx <b>%s</b> verschoben zu <b>%s</b>!'):format(count, item.label, otherInv.title), 5000, 'success') 
                         TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), target.getName())
                     else 
-                        TriggerClientEvent('inventory:notify', src, 'error', 'The players limit is reached!')
+                        TriggerClientEvent('dopeNotify:Alert', src, "", "Die Person hat das Limit erreicht", 5000, 'error')
                     end
                 end
             end
@@ -319,7 +319,7 @@ RegisterNetEvent('inventory:moveItemToOther', function(item, count, otherInv)
                 if xPlayer.getMoney() >= count then
                     AddItemToInventory(xPlayer, item, count, otherInv, function()
                         xPlayer.removeMoney(count)
-                        TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, otherInv.title))
+                        TriggerClientEvent('dopeNotify:Alert', src, "", ('%sx <b>%s</b> verschoben zu <b>%s</b>!'):format(count, item.label, otherInv.title), 5000, 'success')
                         TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), otherInv.title)
                     end)
                 end
@@ -327,7 +327,7 @@ RegisterNetEvent('inventory:moveItemToOther', function(item, count, otherInv)
                 if xPlayer.getAccount(item.name).money >= count then
                     AddItemToInventory(xPlayer, item, count, otherInv, function()
                         xPlayer.removeAccountMoney(item.name, count)
-                        TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, otherInv.title))
+                        TriggerClientEvent('dopeNotify:Alert', src, "", ('%sx <b>%s</b> verschoben zu <b>%s</b>!'):format(count, item.label, otherInv.title), 5000, 'success')
                         TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), otherInv.title)
                     end)
                 end
@@ -336,7 +336,7 @@ RegisterNetEvent('inventory:moveItemToOther', function(item, count, otherInv)
             if xPlayer.hasWeapon(item.name) then
                 AddItemToInventory(xPlayer, item, item.count, otherInv, function()
                     xPlayer.removeWeapon(item.name)
-                    TriggerClientEvent('inventory:notify', src, 'success', ('<b>%s</b> moved to <b>%s</b>!'):format(item.label, otherInv.title))
+                    TriggerClientEvent('dopeNotify:Alert', src, "", ('<b>%s</b> verschoben zu <b>%s</b>!'):format(item.label, otherInv.title), 5000, 'success')
                     TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), otherInv.title)
                 end)
             end
@@ -344,7 +344,7 @@ RegisterNetEvent('inventory:moveItemToOther', function(item, count, otherInv)
             if xPlayer.getInventoryItem(item.name).count >= count then
                 AddItemToInventory(xPlayer, item, count, otherInv, function()
                     xPlayer.removeInventoryItem(item.name, count)
-                    TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> moved to <b>%s</b>!'):format(count, item.label, otherInv.title))
+                    TriggerClientEvent('dopeNotify:Alert', src, "", ('%sx <b>%s</b> verschoben zu <b>%s</b>!'):format(count, item.label, otherInv.title), 5000, 'success')
                     TriggerEvent('CryptoHooker:SendMoveLog', src, item, count, xPlayer.getName(), otherInv.title)
                 end)
             end
@@ -414,14 +414,14 @@ RegisterNetEvent('inventory:removeItem', function(item, count, coords)
             if xPlayer.getMoney() >= count then
                 xPlayer.removeMoney(count)
                 CreateDrop(item, count, coords)
-                TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> <b>%s</b>!'):format(count, item.label, 'Dropped'))
+                TriggerClientEvent('dopeNotify:Alert', src, "",  ('%sx <b>%s</b> <b>%s</b>!'):format(count, item.label, 'fallen gelassen'), 5000, 'success')
                 TriggerEvent('CryptoHooker:SendDropLog', src, item, count, coords)
             end
         else 
             if xPlayer.getAccount(item.name).money >= count then
                 xPlayer.removeAccountMoney(item.name, count)
                 CreateDrop(item, count, coords)
-                TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> <b>%s</b>!'):format(count, item.label, 'Dropped'))
+                TriggerClientEvent('dopeNotify:Alert', src, "",  ('%sx <b>%s</b> <b>%s</b>!'):format(count, item.label, 'fallen gelassen'), 5000, 'success')
                 TriggerEvent('CryptoHooker:SendDropLog', src, item, count, coords)
             end
         end
@@ -429,14 +429,14 @@ RegisterNetEvent('inventory:removeItem', function(item, count, coords)
         if xPlayer.hasWeapon(item.name) then
             xPlayer.removeWeapon(item.name)
             CreateDrop(item, item.count, coords)
-            TriggerClientEvent('inventory:notify', src, 'success', ('<b>%s</b> <b>%s</b>!'):format(item.label, 'Dropped'))
+            TriggerClientEvent('dopeNotify:Alert', src, "", ('<b>%s</b> <b>%s</b>!'):format(item.label, 'Dropped'), 5000, 'success')
             TriggerEvent('CryptoHooker:SendDropLog', src, item, count, coords)
         end
     elseif item.type == 'item_standard' then
         if xPlayer.getInventoryItem(item.name).count >= count then
             xPlayer.removeInventoryItem(item.name, count)
             CreateDrop(item, count, coords)
-            TriggerClientEvent('inventory:notify', src, 'success', ('%s <b>%s</b> <b>%s</b>!'):format(count, item.label, 'Dropped'))
+            TriggerClientEvent('dopeNotify:Alert', src, "",  ('%sx <b>%s</b> <b>%s</b>!'):format(count, item.label, 'fallen gelassen'), 5000, 'success')
             TriggerEvent('CryptoHooker:SendDropLog', src, item, count, coords)
         end
     end

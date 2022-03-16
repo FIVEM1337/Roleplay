@@ -51,7 +51,7 @@ if Config.Rob then
                 end
             end
         else 
-           TriggerEvent('inventory:notify', 'error', 'No Player Nearby') 
+            TriggerEvent('dopeNotify:Alert', "", "Kein Spieler in der Nähe", 5000, 'error')
         end
     end, false)
 end

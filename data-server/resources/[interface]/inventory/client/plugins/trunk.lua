@@ -30,7 +30,7 @@ if Config.Trunk then
                 if locked == 1 then
                     for k,v in pairs(Config.BlacklistedVehicleTypes) do
                         if type == v then
-                            TriggerEvent('inventory:notify', 'error', 'Vehicle does not have a trunk')
+                            TriggerEvent('dopeNotify:Alert', "", "Fahrzeug hat keinen Kofferraum", 5000, 'error')
                             return
                         end
                     end
@@ -59,7 +59,7 @@ if Config.Trunk then
                         }) 
                     end
                 else 
-                    TriggerEvent('inventory:notify', 'error', 'Vehicle is Locked!')
+                    TriggerEvent('dopeNotify:Alert', "", "Fahrzeug ist abgeschlossen!", 5000, 'error')
                 end
             end
         end

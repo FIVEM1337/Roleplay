@@ -70,14 +70,6 @@ RegisterNetEvent('inventory:refreshDrops', function(nDrops)
     Drops = nDrops
 end)
 
-RegisterNetEvent('inventory:notify', function(type, msg)
-    SendNUIMessage({
-        action = 'notify',
-        type = type,
-        msg = msg
-    })
-end)
-
 -- NUI callbacks
 RegisterNUICallback('MoveItemToPlayer', function(data, cb)
     TriggerServerEvent('inventory:moveItemToPlayer', data.item, tonumber(data.count), OtherInventory)
