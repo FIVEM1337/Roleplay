@@ -225,12 +225,10 @@ AddEventHandler('fuel:refuelFromPump', function(pumpObject, ped, vehicle)
 	TaskTurnPedToFaceEntity(ped, vehicle, 1000)
 	Citizen.Wait(1000)
 	SetCurrentPedWeapon(ped, -1569615261, true)
+	LoadAnimDict("timetable@gardener@filling_can")
+	TaskPlayAnim(ped, "timetable@gardener@filling_can", "gar_ig_5_filling_can", 2.0, 8.0, -1, 50, 0, 0, 0, 0)
 
 	TriggerEvent('fuel:startFuelUpTick', pumpObject, ped, vehicle)
-
-	if pumpObject then
-		open()
-	end
 
 	while isFueling do
 		for _, controlIndex in pairs(Config.DisableKeys) do
@@ -239,33 +237,11 @@ AddEventHandler('fuel:refuelFromPump', function(pumpObject, ped, vehicle)
 
 		local vehicleCoords = GetEntityCoords(vehicle)
 
-		if pumpObject then
-			local stringCoords = GetEntityCoords(pumpObject)
-			local extraString = ""
 
-			--[[if Config.UseESX then
-				extraString = "\n" .. Config.Strings.TotalCost .. ": ~g~$" .. Round(currentCost, 1)
-			end--]]
+		DrawText3Ds(vehicleCoords.x, vehicleCoords.y, vehicleCoords.z + 0.5, Config.Strings.CancelFuelingJerryCan .. "\nGas can: ~g~" .. Round(GetAmmoInPedWeapon(ped, 883325847) / 4500 * 100, 1) .. "% | Vehicle: " .. Round(currentFuel, 1) .. "%")
 
-			SendNUIMessage({
-				action = "price",
-				price = "$ " .. Round(currentCost, 1)
-			})
-			--DrawText3Ds(stringCoords.x, stringCoords.y, stringCoords.z + 1.2, Config.Strings.CancelFuelingPump .. extraString)
-			--DrawText3Ds(vehicleCoords.x, vehicleCoords.y, vehicleCoords.z + 0.5, Round(compFuel, 1) .. "%")
 
-			SendNUIMessage({
-				action = "currentfuel",
-				currentfuel = Round(compFuel, 1)
-			})
 
-			SendNUIMessage({
-				action = "compfuel",
-				compfuel = Round(compFuel2, 1)
-			})
-		else
-			DrawText3Ds(vehicleCoords.x, vehicleCoords.y, vehicleCoords.z + 0.5, Config.Strings.CancelFuelingJerryCan .. "\nGas can: ~g~" .. Round(GetAmmoInPedWeapon(ped, 883325847) / 4500 * 100, 1) .. "% | Vehicle: " .. Round(currentFuel, 1) .. "%")
-		end
 
 		if IsControlJustReleased(0, 38) or DoesEntityExist(GetPedInVehicleSeat(vehicle, -1)) or (isNearPump and GetEntityHealth(pumpObject) <= 0) then
 			isFueling = false
@@ -274,6 +250,8 @@ AddEventHandler('fuel:refuelFromPump', function(pumpObject, ped, vehicle)
 		Citizen.Wait(0)
 	end
 
+	ClearPedTasks(ped)
+	RemoveAnimDict("timetable@gardener@filling_can")
 	compFuel2 = 0.0
 end)
 
@@ -329,6 +307,9 @@ Citizen.CreateThread(function()
 									isFueling = true
 									if isNearPump then
 										open()
+									else
+										return
+										TriggerEvent('fuel:refuelFromPump', isNearPump, ped, vehicle)
 									end
 									LoadAnimDict("timetable@gardener@filling_can")
 									if not IsEntityPlayingAnim(ped, "timetable@gardener@filling_can", "gar_ig_5_filling_can", 3) then
