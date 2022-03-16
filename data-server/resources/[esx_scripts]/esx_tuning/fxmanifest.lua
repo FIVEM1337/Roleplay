@@ -1,8 +1,7 @@
 fx_version 'bodacious'
 game 'gta5'
 
-author 'DiVouz'
-description 'mechanic'
+description 'esx_tuning'
 version '1.0.0'
 
 lua54 'on'
@@ -20,11 +19,8 @@ files {
 
 client_scripts {
 	'@es_extended/locale.lua',
-	'locales/en.lua',
-	'locales/de.lua',
 	'client/core.lua',
 	'client/helper.lua',
-	'client/job.lua',
 	'config/config.lua',
 	'config/menus.lua',
 	'config/labels.lua',
@@ -33,8 +29,6 @@ client_scripts {
 
 server_scripts {
 	'@es_extended/locale.lua',
-	'locales/en.lua',
-	'locales/de.lua',
 	'server/core.lua',
 	'config/config.lua',
 	'config/menus.lua',

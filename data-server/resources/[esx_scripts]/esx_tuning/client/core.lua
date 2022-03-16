@@ -1,3 +1,4 @@
+ESX = nil
 local uiOpen = false
 
 customCamMain = nil
@@ -13,35 +14,39 @@ currentbank = nil
 currentblack = nil
 
 local renderingScriptCam = false
+local PlayerData = {}
 
 isOpenByAdmin = false
 
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer) 
-	TriggerEvent("esx_mechanicjob:LoadPlayerData", xPlayer)
-end)
+Citizen.CreateThread(function()
+	while ESX == nil do
+		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+		Citizen.Wait(100)
+	end
 
-RegisterNetEvent("reload_esx_mechanicjob") 
-AddEventHandler("reload_esx_mechanicjob", function(xPlayer)
-	TriggerEvent("esx_mechanicjob:LoadPlayerData", xPlayer)
-end)
+	while PlayerData.job == nil do
+		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+		PlayerData = ESX.GetPlayerData()
 
-RegisterNetEvent("esx_mechanicjob:LoadPlayerData") 
-AddEventHandler("esx_mechanicjob:LoadPlayerData", function(xPlayer)
-	local data = xPlayer
-	local accounts = data.accounts
-	for k,v in pairs(accounts) do
-		local account = v
-		if account.name == "money" then
-			currentcash = account.money
-		elseif account.name == "bank" then
-			currentbank = account.money
-		elseif account.name == "black_money" then
-			currentblack = account.money
-		end
+        for k,v in pairs(PlayerData.accounts) do
+            local account = v
+            if account.name == "money" then
+                currentcash = account.money
+            elseif account.name == "bank" then
+                currentbank = account.money
+            elseif account.name == "black_money" then
+                currentblack = account.money
+            end
+        end
+
+		Citizen.Wait(111)
 	end
 end)
 
+RegisterNetEvent('esx:setJob')
+AddEventHandler('esx:setJob', function(job)
+	PlayerData = ESX.GetPlayerData()
+end)
 
 RegisterNetEvent('esx:setAccountMoney')
 AddEventHandler('esx:setAccountMoney', function(account)
@@ -53,7 +58,6 @@ AddEventHandler('esx:setAccountMoney', function(account)
         currentblack = account.money
 	end
 end)
-
 
 CreateThread(function()
     for i = 1, #Config.Positions, 1 do
@@ -80,27 +84,25 @@ CreateThread(function()
                 waitTime = 100
                 
                 playerPos = GetEntityCoords(playerVeh)
-
                 for i = 1, #Config.Positions, 1 do
                     local tempPos = Config.Positions[i]
-                
-                    if (not tempPos.whitelistJobName or jobName == tempPos.whitelistJobName) then
-                        for k, v in pairs (tempPos.lifter) do
-                            local tempDist = #(playerPos - vector3(v))
-                            if (tempDist <= Config.ActionDistance) then
-                                waitTime = 0
-
-                                if (not IsHudHidden()) then
-                                    DrawHelpText('Drücke ~' .. Config.Keys.action.name .. '~ um das Fahrzeug zu bearbeiten', true)
+                    if PlayerData.job then
+                        if (not tempPos.whitelistJobName or PlayerData.job.name == tempPos.whitelistJobName) then
+                            for k, v in pairs (tempPos.lifter) do
+                                local tempDist = #(playerPos - vector3(v))
+                                if (tempDist <= Config.ActionDistance) then
+                                    waitTime = 0
+    
+                                    if (not IsHudHidden()) then
+                                        DrawHelpText('Drücke ~' .. Config.Keys.action.name .. '~ um das Fahrzeug zu bearbeiten', true)
+                                    end
+    
+                                    if (IsControlJustReleased(0, Config.Keys.action.key)) then
+                                        customConfigPosIndex = i
+                                        openUI()
+                                    end
+                                    break
                                 end
-
-                                if (IsControlJustReleased(0, Config.Keys.action.key)) then
-                                    customConfigPosIndex = i
-                                    openUI()
-                                end
-
-
-                                break
                             end
                         end
                     end

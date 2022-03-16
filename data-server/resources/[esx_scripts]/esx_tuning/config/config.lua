@@ -1,6 +1,4 @@
 Config = Config or {}
-Config.Locale = 'de'
-Config.EnablePlayerManagement     = true -- Enable society managing.
 
 Config.ActionDistance = 3.0
 Config.Keys = {
