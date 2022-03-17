@@ -4,18 +4,18 @@ game 'gta5'
 
 description 'ES Extended'
 
-version '1.2.0'
+version '1.6.0'
 
-server_scripts {
-	'@async/async.lua',
-	'@mysql-async/lib/MySQL.lua',
-
+shared_scripts {
 	'locale.lua',
-	'locales/de.lua',
-	'locales/en.lua',
+	'locales/*.lua',
 
 	'config.lua',
 	'config.weapons.lua',
+}
+
+server_scripts {
+	'@oxmysql/lib/MySQL.lua',
 
 	'server/common.lua',
 	'server/classes/player.lua',
@@ -30,23 +30,7 @@ server_scripts {
 }
 
 client_scripts {
-	'locale.lua',
-	'locales/de.lua',
-	'locales/br.lua',
-	'locales/fr.lua',
-	'locales/en.lua',
-	'locales/fi.lua',
-	'locales/sv.lua',
-	'locales/pl.lua',
-	'locales/cs.lua',
-	'locales/sc.lua',
-	'locales/tc.lua',
-
-	'config.lua',
-	'config.weapons.lua',
-
 	'client/common.lua',
-	'client/entityiter.lua',
 	'client/functions.lua',
 	'client/wrapper.lua',
 	'client/main.lua',
@@ -65,6 +49,7 @@ ui_page {
 }
 
 files {
+	'imports.lua',
 	'locale.js',
 	'html/ui.html',
 
@@ -82,15 +67,7 @@ files {
 	'html/img/accounts/money.png'
 }
 
-exports {
-	'getSharedObject'
-}
-
-server_exports {
-	'getSharedObject'
-}
-
 dependencies {
-	'mysql-async',
-	'async'
+	'oxmysql',
+	'spawnmanager',
 }

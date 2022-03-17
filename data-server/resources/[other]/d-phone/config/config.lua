@@ -16,7 +16,7 @@ Config                            = {}
 -- General
 Config.Locale             = 'de'
 
-Config.ESX12 = false
+Config.ESX12 = true
 
 Config.Debug = false
 

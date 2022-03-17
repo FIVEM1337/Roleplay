@@ -1,8 +1,14 @@
 CREATE DATABASE IF NOT EXISTS `es_extended`;
 USE `es_extended`;
 
+ALTER DATABASE `es_extended`
+	DEFAULT CHARACTER SET UTF8MB4;
+	
+ALTER DATABASE `es_extended`
+	DEFAULT COLLATE UTF8MB4_UNICODE_CI;
+
 CREATE TABLE `users` (
-	`identifier` VARCHAR(40) NOT NULL,
+	`identifier` VARCHAR(60) NOT NULL,
 	`accounts` LONGTEXT NULL DEFAULT NULL,
 	`group` VARCHAR(50) NULL DEFAULT 'user',
 	`inventory` LONGTEXT NULL DEFAULT NULL,
@@ -12,7 +18,8 @@ CREATE TABLE `users` (
 	`position` VARCHAR(255) NULL DEFAULT '{"x":-269.4,"y":-955.3,"z":31.2,"heading":205.8}',
 
 	PRIMARY KEY (`identifier`)
-);
+) ENGINE=InnoDB;
+
 
 CREATE TABLE `items` (
 	`name` VARCHAR(50) NOT NULL,
@@ -22,7 +29,8 @@ CREATE TABLE `items` (
 	`can_remove` TINYINT NOT NULL DEFAULT 1,
 
 	PRIMARY KEY (`name`)
-);
+) ENGINE=InnoDB;
+
 
 CREATE TABLE `job_grades` (
 	`id` INT NOT NULL AUTO_INCREMENT,
@@ -35,7 +43,8 @@ CREATE TABLE `job_grades` (
 	`skin_female` LONGTEXT NOT NULL,
 
 	PRIMARY KEY (`id`)
-);
+) ENGINE=InnoDB;
+
 
 INSERT INTO `job_grades` VALUES (1,'unemployed',0,'unemployed','Unemployed',200,'{}','{}');
 
@@ -44,6 +53,7 @@ CREATE TABLE `jobs` (
 	`label` VARCHAR(50) DEFAULT NULL,
 
 	PRIMARY KEY (`name`)
-);
+) ENGINE=InnoDB;
+
 
 INSERT INTO `jobs` VALUES ('unemployed','Unemployed');
