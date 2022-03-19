@@ -140,241 +140,241 @@ Config.Crafts = { --All things that can be crafted with Old Man
     [1] = {
         Name = "Schaft", --Name in menu of item
         Time = 20, --How long it takes to craft
-        MakeItem = 'Shank', --The item name in DB of what is given
+        MakeItem = 'jail_shank', --The item name in DB of what is given
         Descripe = "Du kannst das zur Selbstverteidigung verwenden!", --The description of this item
         Needed = { --These are all the needed items to make the item above
             [1] = {
                 Name = "Gebrochener Löffel", --Name of needed item
                 Amount = 1, --How many needed
-                Item = 'jspoon' --Name in db of item thats needed
+                Item = 'jail_jspoon' --Name in db of item thats needed
             },
             [2] = {
                 Name = "Ändern",
                 Amount = 2,
-                Item = 'sChange'
+                Item = 'jail_schange'
             }
         }
     },
     [2] = {
         Name = "Gebrochener Löffel",
         Time = 8,
-        MakeItem = 'jspoon',
+        MakeItem = 'jail_jspoon',
         Descripe = "Du kannst das zum Ausbrechen verwenden!",
         Needed = {
             [1] = {
                 Name = "Löffel",
                 Amount = 1,
-                Item = 'spoon'
+                Item = 'jail_spoon'
             }
         }
     },
     [3] = {
         Name = "Zerbrochener Löffel mit nassem Tuch",
         Time = 5,
-        MakeItem = 'bCloth',
+        MakeItem = 'jail_bcloth',
         Descripe = "Du kannst das zum Ausbrechen verwenden!",
         Needed = {
             [1] = {
                 Name = "Gebrochener Löffel",
                 Amount = 1,
-                Item = 'jspoon'
+                Item = 'jail_jspoon'
             },
             [2] = {
                 Name = "Nasser Stoff",
                 Amount = 1,
-                Item = 'wCloth'
+                Item = 'jail_wcloth'
             }
         }
     },
     [4] = {
         Name = "Nasser Stoff",
         Time = 10,
-        MakeItem = 'wCloth',
+        MakeItem = 'jail_wcloth',
         Descripe = "Du kannst das zum Herstellen verwenden!",
         Needed = {
             [1] = {
                 Name = "Reiniger",
                 Amount = 1,
-                Item = 'cleaner'
+                Item = 'jail_cleaner'
             },
             [2] = {
                 Name = "Stoff",
                 Amount = 1,
-                Item = 'cloth'
+                Item = 'jail_cloth'
             }
         }
     },
     [5] = {
         Name = "Feile",
         Time = 20,
-        MakeItem = 'file',
+        MakeItem = 'jail_file',
         Descripe = "Du kannst das zum Ausbrechen oder zum Herstellen verwenden!",
         Needed = {
             [1] = {
                 Name = "Stein",
                 Amount = 2,
-                Item = 'rock'
+                Item = 'jail_rock'
             },
             [2] = {
                 Name = "Zerbrochene Schöpfkelle",
                 Amount = 1,
-                Item = 'bLadle'
+                Item = 'jail_bladle'
             }
         }
     },
     [6] = {
         Name = "Zerbrochene Schöpfkelle",
         Time = 5,
-        MakeItem = 'bLadle',
+        MakeItem = 'jail_bladle',
         Descripe = "Du kannst das zum Herstellen verwenden!",
         Needed = {
             [1] = {
                 Name = "Kelle",
                 Amount = 1,
-                Item = 'ladle'
+                Item = 'jail_ladle'
             }
         }
     },
     [7] = {
         Name = "Scharfes Metall",
         Time = 20,
-        MakeItem = 'sMetal',
+        MakeItem = 'jail_smetal',
         Descripe = "Du kannst das zum Ausbrechen verwenden!",
         Needed = {
             [1] = {
                 Name = "Metall",
                 Amount = 1,
-                Item = 'metal'
+                Item = 'jail_metal'
             },
             [2] = {
                 Name = "Stein",
                 Amount = 2,
-                Item = 'rock'
+                Item = 'jail_rock'
             },
             [3] = {
                 Name = "Feile",
                 Amount = 1,
-                Item = 'file'
+                Item = 'jail_file'
             }
         }
     },
     [8] = {
         Name = "Säure",
         Time = 30,
-        MakeItem = 'acid',
+        MakeItem = 'jail_acid',
         Descripe = "Du kannst das zum Ausbrechen verwenden!",
         Needed = {
             [1] = {
                 Name = "Flasche",
                 Amount = 1,
-                Item = 'bottle'
+                Item = 'jail_bottle'
             },
             [2] = {
                 Name = "Fett",
                 Amount = 3,
-                Item = 'grease'
+                Item = 'jail_grease'
             },
             [3] = {
                 Name = "Schmutzige Flüssigkeit",
                 Amount = 1,
-                Item = 'dLiquid'
+                Item = 'jail_dliquid'
             },
             [4] = {
                 Name = "Reiniger",
                 Amount = 1,
-                Item = 'cleaner'
+                Item = 'jail_cleaner'
             },
             [5] = {
                 Name = "Löffel",
                 Amount = 1,
-                Item = 'spoon'
+                Item = 'jail_spoon'
             }
         }
     },
     [9] = {
         Name = "Mini Hammer",
         Time = 25,
-        MakeItem = 'miniH',
+        MakeItem = 'jail_minihammer',
         Descripe = "Du kannst das zum Ausbrechen verwenden!",
         Needed = {
             [1] = {
                 Name = "Metall",
                 Amount = 1,
-                Item = 'metal'
+                Item = 'jail_metal'
             },
             [2] = {
                 Name = "Stein",
                 Amount = 1,
-                Item = 'rock'
+                Item = 'jail_rock'
             },
             [3] = {
                 Name = "Kelle",
                 Amount = 1,
-                Item = 'ladle'
+                Item = 'jail_ladle'
             },
             [4] = {
                 Name = "Stoff",
                 Amount = 1,
-                Item = 'cloth'
+                Item = 'jail_cloth'
             }
         }
     },
     [10] = {
         Name = "Gefängnispunsch",
         Time = 10,
-        MakeItem = 'pPunch',
+        MakeItem = 'jail_ppunch',
         Descripe = "Damit kannst du deinen Durst stillen!",
         Needed = {
             [1] = {
                 Name = "Schmutzige Flüssigkeit",
                 Amount = 1,
-                Item = 'dLiquid'
+                Item = 'jail_dliquid'
             },
             [2] = {
                 Name = "Geschmackpaket",
                 Amount = 3,
-                Item = 'fPacket'
+                Item = 'jail_fpacket'
             },
             [3] = {
                 Name = "Flasche",
                 Amount = 1,
-                Item = 'bottle'
+                Item = 'jail_bottle'
             }
         }
     },
     [11] = {
         Name = "Tauchheizkörper",
         Time = 25,
-        MakeItem = 'iHeat',
+        MakeItem = 'jail_iheat',
         Descripe = "Du kannst damit Alkohol destillieren!",
         Needed = {
             [1] = {
                 Name = "Plug",
                 Amount = 1,
-                Item = 'plug'
+                Item = 'jail_plug'
             },
             [2] = {
                 Name = "Kleingeld",
                 Amount = 2,
-                Item = 'sChange'
+                Item = 'jail_schange'
             }
         }
     },
     [12] = {
         Name = "Schnaps",
         Time = 15,
-        MakeItem = 'booze',
+        MakeItem = 'jail_booze',
         Descripe = "Damit kannst du dich betrinken!",
         Needed = {
             [1] = {
                 Name = "Tauchheizkörper",
                 Amount = 1,
-                Item = 'iHeat'
+                Item = 'jail_iheat'
             },
             [2] = {
                 Name = "Gefängnispunsch",
                 Amount = 1,
-                Item = 'pPunch'
+                Item = 'jail_ppunch'
             }
         }
     }
@@ -412,12 +412,12 @@ Config.JobOptions = {
         TimeRemove = 25,
         StealChance = 4,
         StealItems = {
-            [1] = {Name = "Flasche", Item = 'bottle', Chance = 2},
-            [2] = {Name = "Fett", Item = 'grease', Chance = 5},
-            [3] = {Name = "Schmutzige Flüssigkeit", Item = 'dLiquid', Chance = 5},
-            [4] = {Name = "Löffel", Item = 'spoon', Chance = 8},
-            [5] = {Name = "Kelle", Item = 'ladle', Chance = 7},
-            [6] = {Name = "Geschmackpaket", Item = 'fPacket', Chance = 10}
+            [1] = {Name = "Flasche", Item = 'jail_bottle', Chance = 2},
+            [2] = {Name = "Fett", Item = 'jail_grease', Chance = 5},
+            [3] = {Name = "Schmutzige Flüssigkeit", Item = 'jail_dliquid', Chance = 5},
+            [4] = {Name = "Löffel", Item = 'jail_spoon', Chance = 8},
+            [5] = {Name = "Kelle", Item = 'jail_ladle', Chance = 7},
+            [6] = {Name = "Geschmackpaket", Item = 'jail_fpacket', Chance = 10}
         },
         Tasks = {
             [1] = {
@@ -523,14 +523,14 @@ Config.JobOptions = {
         TimeRemove = 25,
         StealChance = 3,
         StealItems = {
-            [1] = {Name = "Flasche", Item = 'bottle', Chance = 2},
-            [2] = {Name = "Stein", Item = 'rock', Chance = 5},
-            [3] = {Name = "Zerbrochene Schöpfkelle", Item = 'bLadle', Chance = 3},
-            [4] = {Name = "Metall", Item = 'metal', Chance = 4},
-            [5] = {Name = "Gebrochener Löffel", Item = 'jspoon', Chance = 6},
-            [6] = {Name = "Kleingeld", Item = 'sChange', Chance = 6},
-            [7] = {Name = "Stoff", Item = 'cloth', Chance = 6},
-            [8] = {Name = "Plug", Item = 'plug', Chance = 4}
+            [1] = {Name = "Flasche", Item = 'jail_bottle', Chance = 2},
+            [2] = {Name = "Stein", Item = 'jail_rock', Chance = 5},
+            [3] = {Name = "Zerbrochene Schöpfkelle", Item = 'jail_bladle', Chance = 3},
+            [4] = {Name = "Metall", Item = 'jail_metal', Chance = 4},
+            [5] = {Name = "Gebrochener Löffel", Item = 'jail_jspoon', Chance = 6},
+            [6] = {Name = "Kleingeld", Item = 'jail_schange', Chance = 6},
+            [7] = {Name = "Stoff", Item = 'jail_cloth', Chance = 6},
+            [8] = {Name = "Plug", Item = 'jail_plug', Chance = 4}
         },
         Tasks = {
             [1] = {
@@ -696,11 +696,11 @@ Config.JobOptions = {
         TimeRemove = 25,
         StealChance = 4,
         StealItems = {
-            [1] = {Name = "Flasche", Item = 'bottle', Chance = 2},
-            [2] = {Name = "Fett", Item = 'grease', Chance = 5},
-            [3] = {Name = "Schmutzige Flüssigkeit", Item = 'dLiquid', Chance = 5},
-            [4] = {Name = "Löffel", Item = 'spoon', Chance = 8},
-            [5] = {Name = "Geschmackpaket", Item = 'fPacket', Chance = 10}
+            [1] = {Name = "Flasche", Item = 'jail_bottle', Chance = 2},
+            [2] = {Name = "Fett", Item = 'jail_grease', Chance = 5},
+            [3] = {Name = "Schmutzige Flüssigkeit", Item = 'jail_dliquid', Chance = 5},
+            [4] = {Name = "Löffel", Item = 'jail_spoon', Chance = 8},
+            [5] = {Name = "Geschmackpaket", Item = 'jail_fpacket', Chance = 10}
         },
         Tasks = {
             [1] = {
@@ -806,9 +806,9 @@ Config.JobOptions = {
         TimeRemove = 25,
         StealChance = 4,
         StealItems = {
-            [1] = {Name = "Flasche", Item = 'bottle', Chance = 2},
-            [2] = {Name = "Schmutzige Flüssigkeit", Item = 'dLiquid', Chance = 5},
-            [3] = {Name = "Reiniger", Item = 'cleaner', Chance = 5}
+            [1] = {Name = "Flasche", Item = 'jail_bottle', Chance = 2},
+            [2] = {Name = "Schmutzige Flüssigkeit", Item = 'jail_dliquid', Chance = 5},
+            [3] = {Name = "Reiniger", Item = 'jail_cleaner', Chance = 5}
         },
         Tasks = {
             [1] = {
@@ -1228,31 +1228,31 @@ Config.BreakLocs = { --All cutting / digging locations when breaking out (StartL
 Config.RoomTools = { --All the tools for cell and exit locations
     [1] = {
         Name = "Gebrochener Löffel", --Name of the tool
-        Item = 'jspoon', --DB item name of the tool
+        Item = 'jail_jspoon', --DB item name of the tool
         Time = 10, --How long it takes to use
         Percent = 2 --Percentage chance of it working (ex. 2 = 20%)
     },
     [2] = {
         Name = "Zerbrochener Löffel mit nassem Tuch",
-        Item = 'bCloth',
+        Item = 'jail_bcloth',
         Time = 7,
         Percent = 5
     },
     [3] = {
         Name = "Scharfes Metall",
-        Item = 'sMetal',
+        Item = 'jail_smetal',
         Time = 5,
         Percent = 8
     },
     [4] = {
         Name = "Säure",
-        Item = 'acid',
+        Item = 'jail_acid',
         Time = 20,
         Percent = 8
     },
     [5] = {
         Name = "Mini Hammer",
-        Item = 'miniH',
+        Item = 'jail_minihammer',
         Time = 25,
         Percent = 9
     }
@@ -1261,31 +1261,31 @@ Config.RoomTools = { --All the tools for cell and exit locations
 Config.FenceTool = { --Tools for fences that are not exit locations
     [1] = {
         Name = "Feile", --Name of the tool
-        Item = 'file', --DB name of the tool
+        Item = 'jail_file', --DB name of the tool
         Time = 10, --How long it takes
         Percent = 4 --Percentage of it working (ex. 4 = 40%)
     },
     [2] = {
         Name = "Scharfes Metall",
-        Item = 'sMetal',
+        Item = 'jail_smetal',
         Time = 4,
         Percent = 7
     },
     [3] = {
         Name = "Säure",
-        Item = 'acid',
+        Item = 'jail_acid',
         Time = 20,
         Percent = 9
     },
     [4] = {
         Name = "Mini Hammer",
-        Item = 'miniH',
+        Item = 'jail_minihammer',
         Time = 15,
         Percent = 7
     },
     [5] = {
         Name = "Tauchheizkörper",
-        Item = 'iHeat',
+        Item = 'jail_iheat',
         Time = 20,
         Percent = 9
     }

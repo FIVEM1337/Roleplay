@@ -303,25 +303,25 @@ function collectedtrash(geeky,vehicle,location,pickup)
                     if dropChance > 1 then
                         local randomChance = math.random(1,100)
                         trashCollected  = true
-                        local item = 'water'
+                        local item = 'drink_water'
                         if randomChance < 20 then
-                            item = 'sandwich'
+                            item = 'food_sandwich'
                         elseif randomChance > 20 and randomChance < 40 then
-                            item = 'water'
-                        elseif randomChance > 40 and randomChance < 50 then
-                            item = 'glass'
-                        elseif randomChance > 50 and randomChance < 52 then
-                            item = 'thermite'
-                        elseif randomChance > 52 and randomChance < 80 then
-                            item = 'glass'
-                        elseif randomChance == 81 then  
-                            item = 'WEAPON_PISTOL'
-                        elseif randomChance > 81 and randomChance < 90 then
-                            item = 'steel'
-                        elseif randomChance > 90 and randomChance < 95 then
-                            item = 'oxycutter'
-                        elseif randomChance > 95 and randomChance < 97 then
-                            item = 'safecracker'
+                            item = 'drink_water'
+                --      elseif randomChance > 40 and randomChance < 50 then
+                --          item = 'glass'
+                --      elseif randomChance > 50 and randomChance < 52 then
+                --          item = 'thermite'
+                --      elseif randomChance > 52 and randomChance < 80 then
+                --          item = 'glass'
+                --      elseif randomChance == 81 then  
+                --          item = 'WEAPON_PISTOL'
+                --      elseif randomChance > 81 and randomChance < 90 then
+                --          item = 'steel'
+                --      elseif randomChance > 90 and randomChance < 95 then
+                --          item = 'oxycutter'
+                --      elseif randomChance > 95 and randomChance < 97 then
+                --          item = 'safecracker'
                         else
                             item = 'beer'
                         end

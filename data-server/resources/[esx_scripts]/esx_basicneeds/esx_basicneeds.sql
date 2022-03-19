@@ -1,6 +1,6 @@
 USE `es_extended`;
 
 INSERT INTO `items` (`name`, `label`, `weight`) VALUES
-	('bread', 'Bread', 1),
-	('water', 'Water', 1)
+	('food_bread', 'food_bread', 1),
+	('drink_water', 'drink_water', 1)
 ;

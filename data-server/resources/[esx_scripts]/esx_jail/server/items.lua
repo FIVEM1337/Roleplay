@@ -2,7 +2,7 @@ ESX = nil
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-ESX.RegisterUsableItem('Shank', function(source)
+ESX.RegisterUsableItem('jail_shank', function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
 
     if Config.ShankAllowed then
@@ -10,12 +10,12 @@ ESX.RegisterUsableItem('Shank', function(source)
             TriggerClientEvent('esx_jail:ShankPull', source)
         else
             TriggerClientEvent('esx_jail:GiveShankie', source)
-            xPlayer.removeInventoryItem('Shank', 1)
+            xPlayer.removeInventoryItem('jail_shank', 1)
         end
     end
 end)
 
-ESX.RegisterUsableItem('booze', function(source)
+ESX.RegisterUsableItem('jail_booze', function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
 
     if Config.BoozeAllowed then
@@ -25,20 +25,20 @@ ESX.RegisterUsableItem('booze', function(source)
         TriggerClientEvent('esx_status:add', source, 'thirst', Config.BoozeGive)
         TriggerClientEvent('esx_basicneeds:onEat', source, Config.BoozeProp)
         TriggerClientEvent('esx_jail:SendNotif', source, Config.Sayings[163])
-        xPlayer.removeInventoryItem('booze', 1)
+        xPlayer.removeInventoryItem('jail_booze', 1)
     else
         TriggerClientEvent('esx_jail:SendNotif', source, Config.Sayings[162])
     end
 end)
 
-ESX.RegisterUsableItem('pPunch', function(source)
+ESX.RegisterUsableItem('jail_ppunch', function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
 
     if Config.PunchAllowed then
         TriggerClientEvent('esx_status:add', source, 'thirst', Config.PunchGive)
         TriggerClientEvent('esx_basicneeds:onEat', source, Config.PunchProp)
         TriggerClientEvent('esx_jail:SendNotif', source, Config.Sayings[164])
-        xPlayer.removeInventoryItem('booze', 1)
+        xPlayer.removeInventoryItem('jail_booze', 1)
     else
         TriggerClientEvent('esx_jail:SendNotif', source, Config.Sayings[162])
     end

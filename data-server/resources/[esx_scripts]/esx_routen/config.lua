@@ -24,7 +24,7 @@ routen = {
 						chance = 100,				--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,		--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "tabacco", count = 1},
+										{item = "craft_tabacco", count = 1},
 						},
 						neededitems = {
 						},
@@ -48,10 +48,10 @@ routen = {
 						chance = 100,					--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,			--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "np_cigarette", count = 1},
+										{item = "craft_cigarette", count = 1},
 						},
 						neededitems = {
-										{item = "tabacco", count = 15, remove = true},
+										{item = "craft_tabacco", count = 15, remove = true},
 						},
 					},
 				},
@@ -76,7 +76,7 @@ routen = {
 										{item = "money", count = 1500},
 						},
 						neededitems = {
-										{item = "np_cigarette", count = 15, remove = true},
+										{item = "craft_cigarette", count = 15, remove = true},
 						},
 					},
 				},
@@ -103,7 +103,7 @@ routen = {
 						chance = 100,				--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,		--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "grape", count = 1},
+										{item = "craft_grape", count = 1},
 						},
 						neededitems = {
 						},
@@ -127,10 +127,10 @@ routen = {
 						chance = 100,					--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,			--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "wine", count = 1},
+										{item = "craft_wine", count = 1},
 						},
 						neededitems = {
-										{item = "grape", count = 15, remove = true},
+										{item = "craft_grape", count = 15, remove = true},
 						},
 					},
 				},
@@ -155,7 +155,7 @@ routen = {
 										{item = "money", count = 1500},
 						},
 						neededitems = {
-										{item = "wine", count = 15, remove = true},
+										{item = "craft_wine", count = 15, remove = true},
 						},
 					},
 				},
@@ -182,7 +182,7 @@ routen = {
 						chance = 100,				--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,		--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "kevlar_fibers", count = 1},
+										{item = "craft_kevlar_fibers", count = 1},
 						},
 						neededitems = {
 						},
@@ -206,10 +206,10 @@ routen = {
 						chance = 100,					--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,			--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "kevlar", count = 1},
+										{item = "craft_kevlar", count = 1},
 						},
 						neededitems = {
-										{item = "kevlar_fibers", count = 15, remove = true},
+										{item = "craft_kevlar_fibers", count = 15, remove = true},
 						},
 					},
 				},
@@ -231,10 +231,10 @@ routen = {
 						chance = 100,						--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,				--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "armor", count = 1},
+										{item = "use_kevlar_west", count = 1},
 						},
 						neededitems = {
-										{item = "kevlar", count = 15, remove = true},
+										{item = "craft_kevlar", count = 15, remove = true},
 						},
 					},
 				},
@@ -261,7 +261,7 @@ routen = {
 						chance = 100,				--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,		--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "amnesia", count = 1},
+										{item = "craft_weed", count = 1},
 						},
 						neededitems = {
 						},
@@ -285,10 +285,10 @@ routen = {
 						chance = 100,					--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,			--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "joint", count = 1},
+										{item = "craft_joint", count = 1},
 						},
 						neededitems = {
-										{item = "amnesia", count = 15, remove = true},
+										{item = "craft_weed", count = 15, remove = true},
 						},
 					},
 				},
@@ -313,7 +313,7 @@ routen = {
 										{item = "black_money", count = 1500},
 						},
 						neededitems = {
-										{item = "joint", count = 15, remove = true},
+										{item = "craft_joint", count = 15, remove = true},
 						},
 					},
 				},
@@ -340,7 +340,7 @@ routen = {
 						chance = 100,				--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,		--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "cocainepflanze", count = 1},
+										{item = "craft_cocainplant", count = 1},
 						},
 						neededitems = {
 						},
@@ -364,10 +364,10 @@ routen = {
 						chance = 100,					--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,			--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "coke_small_brick", count = 1},
+										{item = "craft_coke", count = 1},
 						},
 						neededitems = {
-										{item = "cocainepflanze", count = 15, remove = true},
+										{item = "craft_cocainplant", count = 15, remove = true},
 						},
 					},
 				},
@@ -396,7 +396,7 @@ routen = {
 										{item = "black_money", count = 1500},
 						},
 						neededitems = {
-										{item = "coke_small_brick", count = 15, remove = true},
+										{item = "craft_coke", count = 15, remove = true},
 						},
 					},
 				},
@@ -423,7 +423,7 @@ routen = {
 						chance = 100,				--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,		--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "ironplate", count = 1},
+										{item = "craft_ironplate", count = 1},
 						},
 						neededitems = {
 						},
@@ -449,7 +449,7 @@ routen = {
 						chance = 100,				--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,		--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "aluminum", count = 1},
+										{item = "craft_aluminum", count = 1},
 						},
 						neededitems = {
 						},
@@ -465,68 +465,68 @@ routen = {
 		{
 			illegal = false,
 			{
-				name = "Waffenroute | Waffenteile herstellen",
+				name = "Waffenroute | craft_weaponparte herstellen",
 				title = "Waffen",
 				time = 3,
 				dosomething = {
 					{
-						label = "Waffenteil 1 herstellen",		--Anzeige Name 
+						label = "craft_weaponpart 1 herstellen",		--Anzeige Name 
 						chance = 100,				--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,		--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "waffenteil1", count = 1},
+										{item = "craft_weaponpart1", count = 1},
 						},
 						neededitems = {
-							{item = "aluminum", count = 1, remove = true},
-							{item = "ironplate", count = 1, remove = true},
+							{item = "craft_aluminum", count = 1, remove = true},
+							{item = "craft_ironplate", count = 1, remove = true},
 						},
 					},
 					{
-						label = "Waffenteil 2 herstellen",		--Anzeige Name 
+						label = "craft_weaponpart 2 herstellen",		--Anzeige Name 
 						chance = 100,				--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,		--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "waffenteil2", count = 1},
+										{item = "craft_weaponpart2", count = 1},
 						},
 						neededitems = {
-							{item = "aluminum", count = 1, remove = true},
-							{item = "ironplate", count = 1, remove = true},
+							{item = "craft_aluminum", count = 1, remove = true},
+							{item = "craft_ironplate", count = 1, remove = true},
 						},
 					},
 					{
-						label = "Waffenteil 3 herstellen",		--Anzeige Name 
+						label = "craft_weaponpart 3 herstellen",		--Anzeige Name 
 						chance = 100,				--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,		--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "waffenteil3", count = 1},
+										{item = "craft_weaponpart3", count = 1},
 						},
 						neededitems = {
-							{item = "aluminum", count = 1, remove = true},
-							{item = "ironplate", count = 1, remove = true},
+							{item = "craft_aluminum", count = 1, remove = true},
+							{item = "craft_ironplate", count = 1, remove = true},
 						},
 					},
 					{
-						label = "Waffenteil 4 herstellen",		--Anzeige Name 
+						label = "craft_weaponpart 4 herstellen",		--Anzeige Name 
 						chance = 100,				--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,		--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "waffenteil4", count = 1},
+										{item = "craft_weaponpart4", count = 1},
 						},
 						neededitems = {
-							{item = "aluminum", count = 1, remove = true},
-							{item = "ironplate", count = 1, remove = true},
+							{item = "craft_aluminum", count = 1, remove = true},
+							{item = "craft_ironplate", count = 1, remove = true},
 						},
 					},
 					{
-						label = "Waffenteil 5 herstellen",		--Anzeige Name 
+						label = "craft_weaponpart 5 herstellen",		--Anzeige Name 
 						chance = 80,				--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,		--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "waffenteil5", count = 1},
+										{item = "craft_weaponpart5", count = 1},
 						},
 						neededitems = {
-							{item = "aluminum", count = 1, remove = true},
-							{item = "ironplate", count = 1, remove = true},
+							{item = "craft_aluminum", count = 1, remove = true},
+							{item = "craft_ironplate", count = 1, remove = true},
 						},
 					},
 				},
@@ -552,8 +552,8 @@ routen = {
 										{item = "WEAPON_PISTOL", count = 1},
 						},
 						neededitems = {
-							{item = "waffenteil1", count = 1, remove = true},
-							{item = "waffenteil2", count = 1, remove = true},
+							{item = "craft_weaponpart1", count = 1, remove = true},
+							{item = "craft_weaponpart2", count = 1, remove = true},
 						},
 					},
 										{
@@ -564,9 +564,9 @@ routen = {
 										{item = "WEAPON_PISTOL50", count = 1},
 						},
 						neededitems = {
-							{item = "waffenteil1", count = 1, remove = true},
-							{item = "waffenteil2", count = 1, remove = true},
-							{item = "waffenteil3", count = 1, remove = true},
+							{item = "craft_weaponpart1", count = 1, remove = true},
+							{item = "craft_weaponpart2", count = 1, remove = true},
+							{item = "craft_weaponpart3", count = 1, remove = true},
 						},
 					},
 				},
@@ -592,10 +592,10 @@ routen = {
 										{item = "WEAPON_MINISMG", count = 1},
 						},
 						neededitems = {
-							{item = "waffenteil1", count = 1, remove = true},
-							{item = "waffenteil2", count = 1, remove = true},
-							{item = "waffenteil3", count = 1, remove = true},
-							{item = "waffenteil4", count = 1, remove = true},
+							{item = "craft_weaponpart1", count = 1, remove = true},
+							{item = "craft_weaponpart2", count = 1, remove = true},
+							{item = "craft_weaponpart3", count = 1, remove = true},
+							{item = "craft_weaponpart4", count = 1, remove = true},
 						},
 					},
 					{
@@ -606,10 +606,10 @@ routen = {
 										{item = "WEAPON_MICROSMG", count = 1},
 						},
 						neededitems = {
-							{item = "waffenteil1", count = 1, remove = true},
-							{item = "waffenteil2", count = 1, remove = true},
-							{item = "waffenteil3", count = 1, remove = true},
-							{item = "waffenteil4", count = 1, remove = true},
+							{item = "craft_weaponpart1", count = 1, remove = true},
+							{item = "craft_weaponpart2", count = 1, remove = true},
+							{item = "craft_weaponpart3", count = 1, remove = true},
+							{item = "craft_weaponpart4", count = 1, remove = true},
 						},
 					},
 				},
@@ -635,11 +635,11 @@ routen = {
 										{item = "WEAPON_CARBINERIFLE", count = 1},
 						},
 						neededitems = {
-							{item = "waffenteil1", count = 1, remove = true},
-							{item = "waffenteil2", count = 1, remove = true},
-							{item = "waffenteil3", count = 1, remove = true},
-							{item = "waffenteil4", count = 1, remove = true},
-							{item = "waffenteil5", count = 1, remove = true},
+							{item = "craft_weaponpart1", count = 1, remove = true},
+							{item = "craft_weaponpart2", count = 1, remove = true},
+							{item = "craft_weaponpart3", count = 1, remove = true},
+							{item = "craft_weaponpart4", count = 1, remove = true},
+							{item = "craft_weaponpart5", count = 1, remove = true},
 						},
 					},
 					{
@@ -650,11 +650,11 @@ routen = {
 										{item = "WEAPON_BULLPUPSHOTGUN", count = 1},
 						},
 						neededitems = {
-							{item = "waffenteil1", count = 1, remove = true},
-							{item = "waffenteil2", count = 1, remove = true},
-							{item = "waffenteil3", count = 1, remove = true},
-							{item = "waffenteil4", count = 1, remove = true},
-							{item = "waffenteil5", count = 1, remove = true},
+							{item = "craft_weaponpart1", count = 1, remove = true},
+							{item = "craft_weaponpart2", count = 1, remove = true},
+							{item = "craft_weaponpart3", count = 1, remove = true},
+							{item = "craft_weaponpart4", count = 1, remove = true},
+							{item = "craft_weaponpart5", count = 1, remove = true},
 						},
 					},
 				},

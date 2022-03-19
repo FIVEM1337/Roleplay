@@ -42,13 +42,13 @@ Config.ChanceHackerDeviceBack = 75	-- set chance in % of getting hackerDevice ba
 
 -- Items:
 
-Config.HackItem = "hackerDevice"
+Config.HackItem = "mini_hackerDevice"
 
-Config.LockPick = "lockpick"
+Config.LockPick = "mini_lockpick"
 
-Config.HammerWireCutter = "hammerwirecutter"
+Config.HammerWireCutter = "mini_hammerwirecutter"
 
-Config.AccessCard = "accesscard"
+Config.AccessCard = "mini_accesscard"
 
 
 
@@ -375,7 +375,7 @@ Config.Banks = {
 
 
 
-Config.DrillItem = "drill"		-- item name from database
+Config.DrillItem = "mini_drill"		-- item name from database
 
 Config.DrillStopKey = 178		-- button to stop drill
 
