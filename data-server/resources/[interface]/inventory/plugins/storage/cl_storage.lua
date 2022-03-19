@@ -75,6 +75,8 @@ if Config.Storages then
       for k,v in pairs(Config.StorageLocations) do
         if v.blip then 
           local canSee = true
+          
+          if v.blip.hiddenforeveryone then return end
 
           if v.blip.hiddenForOthers then
             canSee = false

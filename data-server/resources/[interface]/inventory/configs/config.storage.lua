@@ -7,7 +7,7 @@ Config.StorageLocations = {
     weight = 100,
     delay = 250,
     openBtn = "Evidence Locker",
-    blip = {id = 525, color = 7, scale = 0.8, hiddenForOthers = true},
+    blip = {id = 525, color = 7, scale = 0.8, hiddenForOthers = true, hiddenforeveryone = true},
     locations = {
       vector3(459.35, -990.03, 23.8),
     }

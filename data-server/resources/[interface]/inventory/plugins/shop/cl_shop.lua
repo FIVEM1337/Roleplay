@@ -89,6 +89,8 @@ if Config.Shops then
           if v.blip then 
             local canSee = true
 
+            if v.blip.hiddenforeveryone then return end
+
             if v.blip.hiddenForOthers then
               canSee = false
               if v.jobs then 
