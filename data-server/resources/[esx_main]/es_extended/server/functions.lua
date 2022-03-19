@@ -4,6 +4,10 @@ function ESX.Trace(msg)
 	end
 end
 
+ESX.GetJobs = function()
+    return ESX.Jobs
+end
+
 function ESX.SetTimeout(msec, cb)
 	local id = Core.TimeoutCount + 1
 
