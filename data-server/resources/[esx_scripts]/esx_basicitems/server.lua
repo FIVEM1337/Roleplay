@@ -4,6 +4,7 @@ ESX.RegisterUsableItem('use_kevlar_west', function (source)
 
     xPlayer.removeInventoryItem('use_kevlar_west', 1)
     TriggerClientEvent('basicitems:kevlar', source)
+	TriggerEvent('esx_status:set', 'armor', 1000000)
 end)
 
 

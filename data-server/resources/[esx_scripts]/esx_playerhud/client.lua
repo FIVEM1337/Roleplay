@@ -76,7 +76,6 @@ AddEventHandler("esx_playerhud:LoadPlayerDataHUD", function(xPlayer)
 	    
     TriggerEvent('esx_status:getStatusPercent', 'stress', function(stress)
 		currentstress = stress
-		print("heee")
     end)
 
 	SendNUIMessage({action = "updateStatus", hunger = currenthunger, thirst = currentthirst, stress = currentstress})

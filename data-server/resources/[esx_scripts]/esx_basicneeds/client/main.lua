@@ -1,6 +1,7 @@
 ESX          = nil
 local IsDead = false
 local IsAnimated = false
+local FirstSpawn = true
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -61,6 +62,20 @@ AddEventHandler('esx_status:loaded', function(status)
 		status.remove(75)
 	end)
 
+	if Config.SaveArmor then
+		TriggerEvent('esx_status:registerStatus', 'armor', 1000000, '#0C98F1', function(status)
+			return Config.Visible
+		end, function(status)
+		end)
+	end
+
+	if Config.SaveHealth then
+		TriggerEvent('esx_status:registerStatus', 'health', 1000000, '#0C98F1', function(status)
+			return Config.Visible
+		end, function(status)
+		end)
+	end
+
 	Citizen.CreateThread(function()
 		while true do
 			Citizen.Wait(1000)
@@ -88,6 +103,40 @@ AddEventHandler('esx_status:loaded', function(status)
 					end
 				end
 			end)
+
+			if FirstSpawn then
+				if Config.SaveArmor then
+					TriggerEvent('esx_status:getStatus', 'armor', function(status)
+						local armor = status.val / 10000
+						AddArmourToPed(playerPed, math.floor(armor))
+						SetPedArmour(playerPed, math.floor(armor))
+					end)
+				end
+				if Config.SaveHealth then
+					TriggerEvent('esx_status:getStatus', 'health', function(status)
+						local maxHealth = GetEntityMaxHealth(playerPed)
+						local percent = (100 / 1000000) * status.val
+						local health = (maxHealth / 100) * percent
+						SetEntityHealth(playerPed, math.floor(health))
+					end)
+				end
+
+				FirstSpawn = false
+			else
+				if Config.SaveArmor then
+					local armor = GetPedArmour(playerPed)
+					armor = armor * 10000
+					TriggerEvent('esx_status:set', 'armor', armor)
+				end
+
+				if Config.SaveHealth then
+					local maxHealth = GetEntityMaxHealth(playerPed)
+					local currenthealth = GetEntityHealth(playerPed)
+					local health = (100 / maxHealth) * currenthealth 
+					health = 1000000 / 100 * health
+					TriggerEvent('esx_status:set', 'health', health)
+				end
+			end
 
 			if health ~= prevHealth then
 				SetEntityHealth(playerPed, health)

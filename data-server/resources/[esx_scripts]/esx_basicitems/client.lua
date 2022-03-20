@@ -5,7 +5,7 @@ RegisterNetEvent('basicitems:kevlar')
 AddEventHandler('basicitems:kevlar', function()
     local playerPed = PlayerPedId()
 
-    AddArmourToPed(playerPed,100)
+    AddArmourToPed(playerPed, 100)
     SetPedArmour(playerPed, 100)
 end)
 

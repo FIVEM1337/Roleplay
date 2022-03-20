@@ -33,6 +33,12 @@ function GetStatusData(minimal)
 	return status
 end
 
+
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer)
+	TriggerEvent('esx_status:loaded')
+end)
+
 AddEventHandler('esx_status:registerStatus', function(name, default, color, visible, tickCallback)
 	local status = CreateStatus(name, default, color, visible, tickCallback)
 	table.insert(Status, status)
@@ -168,10 +174,6 @@ Citizen.CreateThread(function()
 	end
 end)
 
--- Loaded event
-Citizen.CreateThread(function()
-	TriggerEvent('esx_status:loaded')
-end)
 
 -- Update server
 Citizen.CreateThread(function()
