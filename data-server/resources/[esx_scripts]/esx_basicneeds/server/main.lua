@@ -40,15 +40,6 @@ ESX.RegisterUsableItem('food_taco', function(source)
 	--xPlayer.showNotification(_U('used_bread'))
 end)
 
-ESX.RegisterUsableItem('drink_strawberry', function(source)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	xPlayer.removeInventoryItem('drink_strawberry', 1)
-
-	TriggerClientEvent('esx_status:add', source, 'hunger', 250000)
-	TriggerClientEvent('esx_basicneeds:onEat', source)
-	--xPlayer.showNotification(_U('used_bread'))
-end)
-
 ESX.RegisterUsableItem('food_watermelon', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	xPlayer.removeInventoryItem('food_watermelon', 1)
