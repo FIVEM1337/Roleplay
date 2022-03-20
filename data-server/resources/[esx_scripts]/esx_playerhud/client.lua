@@ -5,6 +5,7 @@ local currentRange = 3.5
 
 local markerOn = false
 local markerTimer = 0
+local FirstSpawn = true
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -14,10 +15,15 @@ Citizen.CreateThread(function()
 
 	while true do
 		Citizen.Wait(0)
-		if IsPauseMenuActive() then
+		if FirstSpawn then
 			SendNUIMessage({action = "toggle", show = false})
+
 		else
-			SendNUIMessage({action = "toggle", show = true})
+			if IsPauseMenuActive() then
+				SendNUIMessage({action = "toggle", show = false})
+			else
+				SendNUIMessage({action = "toggle", show = true})
+			end
 		end
 	end
 end)
@@ -35,6 +41,8 @@ end)
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer) 
 	TriggerEvent("esx_playerhud:LoadPlayerDataHUD", xPlayer)
+	SendNUIMessage({action = "toggle", show = true})
+	FirstSpawn = false
 end)
 
 RegisterNetEvent("reload_esx_playerhud") 
@@ -79,15 +87,8 @@ AddEventHandler("esx_playerhud:LoadPlayerDataHUD", function(xPlayer)
     end)
 
 	SendNUIMessage({action = "updateStatus", hunger = currenthunger, thirst = currentthirst, stress = currentstress})
-
-
 end)
 
-
-RegisterNetEvent('ui:toggle')
-AddEventHandler('ui:toggle', function(show)
-	SendNUIMessage({action = "toggle", show = show})
-end)
 
 RegisterNetEvent('esx:setAccountMoney')
 AddEventHandler('esx:setAccountMoney', function(account)
