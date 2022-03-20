@@ -24,19 +24,23 @@ Citizen.CreateThread(function()
 		Citizen.Wait(100)
 	end
 
-	while PlayerData.job == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		PlayerData = ESX.GetPlayerData()
+    if PlayerData.job == nil then
+        PlayerData = ESX.GetPlayerData()
+    end
 
-        for k,v in pairs(PlayerData.accounts) do
-            local account = v
-            if account.name == "money" then
-                currentcash = account.money
-            elseif account.name == "bank" then
-                currentbank = account.money
-            elseif account.name == "black_money" then
-                currentblack = account.money
+	while true do
+        if PlayerData.job then
+            for k,v in pairs(PlayerData.accounts) do
+                local account = v
+                if account.name == "money" then
+                    currentcash = account.money
+                elseif account.name == "bank" then
+                    currentbank = account.money
+                elseif account.name == "black_money" then
+                    currentblack = account.money
+                end
             end
+            break
         end
 
 		Citizen.Wait(111)
