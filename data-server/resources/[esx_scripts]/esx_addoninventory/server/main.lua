@@ -1,32 +1,41 @@
-ESX                     = nil
-Items                   = {}
-local InventoriesIndex  = {}
-local Inventories       = {}
-local SharedInventories = {}
 
+if ESX.GetConfig().OxInventory then
+	AddEventHandler('onServerResourceStart', function(resourceName)
+		if resourceName == 'ox_inventory' or resourceName == GetCurrentResourceName() then
+			local stashes = MySQL.query.await('SELECT * FROM addon_inventory')
 
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+			for i=1, #stashes do
+				local stash = stashes[i]
+				local jobStash = stash.name:find('society') and string.sub(stash.name, 9)
+				exports.ox_inventory:RegisterStash(stash.name, stash.label, 100, 200000, stash.shared == 0 and true or false, jobStash)
+			end
+		end
+	end)
+
+	return
+end
+
+Items = {}
+local InventoriesIndex, Inventories, SharedInventories = {}, {}, {}
+local properties = {}
 
 MySQL.ready(function()
-	local items = MySQL.Sync.fetchAll('SELECT * FROM items')
+	local items = MySQL.query.await('SELECT * FROM items')
 
 	for i=1, #items, 1 do
 		Items[items[i].name] = items[i].label
 	end
 
-	local result = MySQL.Sync.fetchAll('SELECT * FROM addon_inventory')
+	local result = MySQL.query.await('SELECT * FROM addon_inventory')
 
 	for i=1, #result, 1 do
 		local name   = result[i].name
 		local label  = result[i].label
 		local shared = result[i].shared
 
-		local result2 = MySQL.Sync.fetchAll(
-			'SELECT * FROM addon_inventory_items WHERE inventory_name = @inventory_name',
-			{
-				['@inventory_name'] = name
-			}
-		)
+		local result2 = MySQL.query.await('SELECT * FROM addon_inventory_items WHERE inventory_name = @inventory_name', {
+			['@inventory_name'] = name
+		})
 
 		if shared == 0 then
 
@@ -74,10 +83,8 @@ MySQL.ready(function()
 end)
 
 function GetInventory(name, owner)
-for i=1, #Inventories[name], 1 do
+	for i=1, #Inventories[name], 1 do
 		if Inventories[name][i].owner == owner then
-			return Inventories[name][i]
-		elseif (tonumber(Inventories[name][i].owner) and tonumber(owner) and tonumber(Inventories[name][i].owner) == tonumber(owner)) then
 			return Inventories[name][i]
 		end
 	end
@@ -94,8 +101,6 @@ end)
 AddEventHandler('esx_addoninventory:getSharedInventory', function(name, cb)
 	cb(GetSharedInventory(name))
 end)
-
-local properties = {}
 
 RegisterServerEvent('esx_addoninventory:receiveProperties')
 AddEventHandler('esx_addoninventory:receiveProperties', function(prop_res)
@@ -114,11 +119,8 @@ AddEventHandler('esx_addoninventory:registerNewProperty', function(propertyID)
 	table.insert(addonInventories, inventory)
 end)
 
-AddEventHandler('esx:playerLoaded', function(source)
-	local _source = source
-    local xPlayer = ESX.GetPlayerFromId(_source)
+AddEventHandler('esx:playerLoaded', function(playerId, xPlayer)
 	local addonInventories = {}
-	
 	TriggerEvent('esx_properties:getPlayerProperties', 'addon', xPlayer.identifier)
 	
 	for k, prop in pairs(properties) do
@@ -131,7 +133,6 @@ AddEventHandler('esx:playerLoaded', function(source)
 
 		table.insert(addonInventories, inventory)
 	end
-	
 	for i=1, #InventoriesIndex, 1 do
 		local name      = InventoriesIndex[i]
 		local inventory = GetInventory(name, xPlayer.identifier)

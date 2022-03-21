@@ -14,10 +14,12 @@ AddEventHandler('onResourceStart', function(resourceName)
 				end
 				Accounts[account.name][#Accounts[account.name] + 1] = CreateAddonAccount(account.name, account.owner, account.money)
 			else
-				if account.money then
-					SharedAccounts[account.name] = CreateAddonAccount(account.name, nil, account.money)
-				else
-					newAccounts[#newAccounts + 1] = {account.name, 0}
+				if account.name then
+					if account.money then
+						SharedAccounts[account.name] = CreateAddonAccount(account.name, nil, account.money)
+					else
+						newAccounts[#newAccounts + 1] = {account.name, 0}
+					end
 				end
 			end
 		end
