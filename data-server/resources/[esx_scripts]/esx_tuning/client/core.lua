@@ -1,4 +1,3 @@
-ESX = nil
 local uiOpen = false
 
 customCamMain = nil
@@ -18,32 +17,31 @@ local PlayerData = {}
 
 isOpenByAdmin = false
 
-Citizen.CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(100)
-	end
 
-    if PlayerData.job == nil then
-        PlayerData = ESX.GetPlayerData()
-    end
+RegisterNetEvent("esx_tuning:ReloadData") 
+AddEventHandler("esx_tuning:ReloadData", function(xPlayer)
+	TriggerEvent("esx_tuning:LoadPlayerData", xPlayer)
+end)
 
-	while true do
-        if PlayerData.job then
-            for k,v in pairs(PlayerData.accounts) do
-                local account = v
-                if account.name == "money" then
-                    currentcash = account.money
-                elseif account.name == "bank" then
-                    currentbank = account.money
-                elseif account.name == "black_money" then
-                    currentblack = account.money
-                end
-            end
-            break
-        end
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer) 
+	TriggerEvent("esx_tuning:LoadPlayerData", xPlayer)
+end)
 
-		Citizen.Wait(111)
+RegisterNetEvent("esx_tuning:LoadPlayerData") 
+AddEventHandler("esx_tuning:LoadPlayerData", function(xPlayer)
+    PlayerData = ESX.GetPlayerData()
+	local data = xPlayer
+	local accounts = data.accounts
+	for k,v in pairs(accounts) do
+		local account = v
+		if account.name == "money" then
+			currentcash = account.money
+		elseif account.name == "bank" then
+			currentbank = account.money
+		elseif account.name == "black_money" then
+			currentblack = account.money
+		end
 	end
 end)
 
@@ -62,6 +60,7 @@ AddEventHandler('esx:setAccountMoney', function(account)
         currentblack = account.money
 	end
 end)
+
 
 CreateThread(function()
     for i = 1, #Config.Positions, 1 do

@@ -17,21 +17,24 @@ files {
 	'client/ui/sounds/**/*.ogg'
 }
 
-client_scripts {
+shared_scripts {
+	'@es_extended/imports.lua',
 	'@es_extended/locale.lua',
-	'client/core.lua',
-	'client/helper.lua',
 	'config/config.lua',
 	'config/menus.lua',
 	'config/labels.lua',
-	'config/vehicles.lua',
+	'config/vehicles.lua'
+}
+
+client_scripts {
+	'client/core.lua',
+	'client/helper.lua'
 }
 
 server_scripts {
-	'@es_extended/locale.lua',
-	'server/core.lua',
-	'config/config.lua',
-	'config/menus.lua',
-	'config/labels.lua',
-	'config/vehicles.lua',
+	'server/core.lua'
+}
+
+dependencies {
+	'es_extended'
 }

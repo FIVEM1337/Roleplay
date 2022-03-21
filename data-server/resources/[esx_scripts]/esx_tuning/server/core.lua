@@ -1,9 +1,3 @@
-local ESX = nil
-
-TriggerEvent("esx:getSharedObject", function(library)
-    ESX = library
-end)
-
 RegisterServerEvent('mechanic:sv:removeCash')
 AddEventHandler('mechanic:sv:removeCash', function(amount)
 	local src = source
@@ -15,4 +9,17 @@ AddEventHandler('mechanic:sv:removeCash', function(amount)
     if (esxPlayer) then
         esxPlayer.removeMoney(amount)
     end
+end)
+
+AddEventHandler('onResourceStart', function(resource)
+	if resource == GetCurrentResourceName() then
+		Citizen.Wait(50)
+		local xPlayers = ESX.GetPlayers()
+
+		for i=1, #xPlayers, 1 do
+			local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
+            print("jo")
+			TriggerClientEvent("esx_tuning:ReloadData", xPlayer.source, xPlayer)
+		end
+	end
 end)

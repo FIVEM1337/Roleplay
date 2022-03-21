@@ -43,7 +43,7 @@ $(window).ready(function() {
     resetUI();
     listener();
 
-    $.post('http://esx_mechanicjob/uiReady', {});
+    $.post('http://esx_tuning/uiReady', {});
 });
 
 function listener() {
@@ -163,7 +163,7 @@ document.onkeydown = function(event) {
     } else if (event.which == 8) { // backspace
         event.preventDefault();
 
-        $.post('http://esx_mechanicjob/handle', JSON.stringify({
+        $.post('http://esx_tuning/handle', JSON.stringify({
             type: 'update',
             what: 'menu',
             user: 'backspace',
@@ -188,7 +188,7 @@ document.onkeydown = function(event) {
             }
         }
 
-        $.post('http://esx_mechanicjob/handle', JSON.stringify({
+        $.post('http://esx_tuning/handle', JSON.stringify({
             type: 'update',
             what: 'menu',
             user: 'enter',
@@ -209,7 +209,7 @@ document.onkeydown = function(event) {
         }, 500, function() {
             resetUI();
     
-            $.post('http://esx_mechanicjob/handle', JSON.stringify({
+            $.post('http://esx_tuning/handle', JSON.stringify({
                 type: "close"
             }));
         });
@@ -337,7 +337,7 @@ function menuGoto(valueHor) {
         }, 200);
     }
 
-    $.post('http://esx_mechanicjob/handle', JSON.stringify({
+    $.post('http://esx_tuning/handle', JSON.stringify({
         type: 'update',
         what: 'menu',
         user: 'hover',
@@ -384,7 +384,7 @@ function menuColorPickerGoto(hor, vert) {
         }
     }
 
-    $.post('http://esx_mechanicjob/handle', JSON.stringify({
+    $.post('http://esx_tuning/handle', JSON.stringify({
         type: 'update',
         what: 'menu',
         user: 'hover',
