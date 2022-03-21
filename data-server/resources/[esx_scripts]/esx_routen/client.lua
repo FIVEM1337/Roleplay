@@ -1,4 +1,4 @@
-ESX = nil
+
 local _menuPool = NativeUI.CreatePool()
 local blips_list = {}
 local npc_list = {}
@@ -12,11 +12,6 @@ local InTeleporterMarker = false
 
 
 Citizen.CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(100)
-	end
-
 	DeleteBlips()
 	for k, v in pairs (routen) do
 		for k, v in pairs (v) do
@@ -29,7 +24,6 @@ Citizen.CreateThread(function()
 			end
 		end
 	end
-
 	TriggerEvent('esx_routen:spawnnpcs')
 
 	while true do

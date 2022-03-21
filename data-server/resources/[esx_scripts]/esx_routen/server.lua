@@ -1,7 +1,4 @@
-ESX                             = nil
 local Playertasks               = {}
-
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 function Start(source, label)
 	routetable = getroutetable(label)
