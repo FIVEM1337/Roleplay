@@ -1,29 +1,12 @@
-ESX          = nil
 local IsDead = false
 local IsAnimated = false
 local FirstSpawn = true
-
-Citizen.CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
-	end
-end)
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(1)
-        if GetEntityMaxHealth(GetPlayerPed(-1)) ~= 200 then
-            SetEntityMaxHealth(GetPlayerPed(-1), 200)
-            SetEntityHealth(GetPlayerPed(-1), 200)
-        end
-    end
-end)
 
 AddEventHandler('esx_basicneeds:resetStatus', function()
 	TriggerEvent('esx_status:set', 'hunger', 500000)
 	TriggerEvent('esx_status:set', 'thirst', 500000)
 end)
+
 
 RegisterNetEvent('esx_basicneeds:healPlayer')
 AddEventHandler('esx_basicneeds:healPlayer', function()
@@ -76,73 +59,67 @@ AddEventHandler('esx_status:loaded', function(status)
 		end)
 	end
 
-	Citizen.CreateThread(function()
-		while true do
-			Citizen.Wait(1000)
+end)
 
-			local playerPed  = PlayerPedId()
-			local prevHealth = GetEntityHealth(playerPed)
-			local health     = prevHealth
-
-			TriggerEvent('esx_status:getStatus', 'hunger', function(status)
-				if status.val == 0 then
-					if prevHealth <= 150 then
-						health = health - 5
-					else
-						health = health - 1
-					end
-				end
-			end)
-
-			TriggerEvent('esx_status:getStatus', 'thirst', function(status)
-				if status.val == 0 then
-					if prevHealth <= 150 then
-						health = health - 5
-					else
-						health = health - 1
-					end
-				end
-			end)
-
-			if FirstSpawn then
-				if Config.SaveArmor then
-					TriggerEvent('esx_status:getStatus', 'armor', function(status)
-						local armor = status.val / 10000
-						AddArmourToPed(playerPed, math.floor(armor))
-						SetPedArmour(playerPed, math.floor(armor))
-					end)
-				end
-				if Config.SaveHealth then
-					TriggerEvent('esx_status:getStatus', 'health', function(status)
-						local maxHealth = GetEntityMaxHealth(playerPed)
-						local percent = (100 / 1000000) * status.val
-						local health = (maxHealth / 100) * percent
-						SetEntityHealth(playerPed, math.floor(health))
-					end)
-				end
-
-				FirstSpawn = false
+AddEventHandler('esx_status:onTick', function(data)
+	local playerPed  = PlayerPedId()
+	local prevHealth = GetEntityHealth(playerPed)
+	local health     = prevHealth
+	
+	for k, v in pairs(data) do
+		if v.name == 'hunger' and v.percent == 0 then
+			if prevHealth <= 150 then
+				health = health - 5
 			else
-				if Config.SaveArmor then
-					local armor = GetPedArmour(playerPed)
-					armor = armor * 10000
-					TriggerEvent('esx_status:set', 'armor', armor)
-				end
-
-				if Config.SaveHealth then
-					local maxHealth = GetEntityMaxHealth(playerPed)
-					local currenthealth = GetEntityHealth(playerPed)
-					local health = (100 / maxHealth) * currenthealth 
-					health = 1000000 / 100 * health
-					TriggerEvent('esx_status:set', 'health', health)
-				end
+				health = health - 1
 			end
-
-			if health ~= prevHealth then
-				SetEntityHealth(playerPed, health)
+		elseif v.name == 'thirst' and v.percent == 0 then
+			if prevHealth <= 150 then
+				health = health - 5
+			else
+				health = health - 1
 			end
 		end
-	end)
+	end
+
+	if FirstSpawn then
+		if Config.SaveArmor then
+			TriggerEvent('esx_status:getStatus', 'armor', function(status)
+				local armor = status.val / 10000
+				AddArmourToPed(playerPed, math.floor(armor))
+				SetPedArmour(playerPed, math.floor(armor))
+			end)
+		end
+		if Config.SaveHealth then
+			TriggerEvent('esx_status:getStatus', 'health', function(status)
+				local maxHealth = GetEntityMaxHealth(playerPed)
+				local percent = (100 / 1000000) * status.val
+				local health = (maxHealth / 100) * percent
+				SetEntityHealth(playerPed, math.floor(health))
+			end)
+		end
+
+		FirstSpawn = false
+	else
+		if Config.SaveArmor then
+			local armor = GetPedArmour(playerPed)
+			armor = armor * 10000
+			TriggerEvent('esx_status:set', 'armor', armor)
+		end
+
+		if Config.SaveHealth then
+			local maxHealth = GetEntityMaxHealth(playerPed)
+			local currenthealth = GetEntityHealth(playerPed)
+			local health = (100 / maxHealth) * currenthealth 
+			health = 1000000 / 100 * health
+			TriggerEvent('esx_status:set', 'health', health)
+		end
+	end
+
+	
+	if health ~= prevHealth then
+		SetEntityHealth(playerPed, health)
+	end
 end)
 
 AddEventHandler('esx_basicneeds:isEating', function(cb)
@@ -155,7 +132,7 @@ AddEventHandler('esx_basicneeds:onEat', function(prop_name)
 		prop_name = prop_name or 'prop_cs_burger_01'
 		IsAnimated = true
 
-		Citizen.CreateThread(function()
+		CreateThread(function()
 			local playerPed = PlayerPedId()
 			local x,y,z = table.unpack(GetEntityCoords(playerPed))
 			local prop = CreateObject(GetHashKey(prop_name), x, y, z + 0.2, true, true, true)
@@ -165,7 +142,7 @@ AddEventHandler('esx_basicneeds:onEat', function(prop_name)
 			ESX.Streaming.RequestAnimDict('mp_player_inteat@burger', function()
 				TaskPlayAnim(playerPed, 'mp_player_inteat@burger', 'mp_player_int_eat_burger_fp', 8.0, -8, -1, 49, 0, 0, 0, 0)
 
-				Citizen.Wait(3000)
+				Wait(3000)
 				IsAnimated = false
 				ClearPedSecondaryTask(playerPed)
 				DeleteObject(prop)
@@ -181,7 +158,7 @@ AddEventHandler('esx_basicneeds:onDrink', function(prop_name)
 		prop_name = prop_name or 'prop_ld_flow_bottle'
 		IsAnimated = true
 
-		Citizen.CreateThread(function()
+		CreateThread(function()
 			local playerPed = PlayerPedId()
 			local x,y,z = table.unpack(GetEntityCoords(playerPed))
 			local prop = CreateObject(GetHashKey(prop_name), x, y, z + 0.2, true, true, true)
@@ -191,7 +168,7 @@ AddEventHandler('esx_basicneeds:onDrink', function(prop_name)
 			ESX.Streaming.RequestAnimDict('mp_player_intdrink', function()
 				TaskPlayAnim(playerPed, 'mp_player_intdrink', 'loop_bottle', 1.0, -1.0, 2000, 0, 1, true, true, true)
 
-				Citizen.Wait(3000)
+				Wait(3000)
 				IsAnimated = false
 				ClearPedSecondaryTask(playerPed)
 				DeleteObject(prop)
