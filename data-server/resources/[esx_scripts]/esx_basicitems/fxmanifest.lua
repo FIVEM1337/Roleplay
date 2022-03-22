@@ -6,6 +6,16 @@ description 'ESX Basic Items'
 
 version '0.0.0'
 
+
+ui_page 'html/index.html'
+
+files {
+	'html/index.html',
+	'html/index.js',
+	'html/style.css',
+	'html/static/img/bildschirm.png'
+}
+
 shared_script '@es_extended/imports.lua'
 
 server_scripts {

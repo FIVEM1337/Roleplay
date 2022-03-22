@@ -98,19 +98,6 @@ AddEventHandler('esx_jobs:revive', function(playerId)
 	end
 end)
 
-ESX.RegisterUsableItem('medikit', function(source)
-	if not playersHealing[source] then
-		local xPlayer = ESX.GetPlayerFromId(source)
-		xPlayer.removeInventoryItem('medikit', 1)
-
-		playersHealing[source] = true
-		TriggerClientEvent('esx_jobs:useItem', source, 'medikit')
-
-		Citizen.Wait(10000)
-		playersHealing[source] = nil
-	end
-end)
-
 ESX.RegisterServerCallback('esx_jobs:removeItemsAfterRPDeath', function(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 

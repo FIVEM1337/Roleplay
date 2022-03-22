@@ -1,15 +1,5 @@
 local Playertasks = {}
-ESX.RegisterUsableItem('use_kevlar_west', function (source)
-    local xPlayer = ESX.GetPlayerFromId(source)
-
-    xPlayer.removeInventoryItem('use_kevlar_west', 1)
-    TriggerClientEvent('basicitems:kevlar', source)
-	TriggerEvent('esx_status:set', 'armor', 1000000)
-end)
-
-
 Citizen.CreateThread(function()
-	Citizen.Wait(1000)
 	while true do
 		if Config then
 			for k, v in pairs(Config.Drinks) do
@@ -29,17 +19,13 @@ Citizen.CreateThread(function()
 end)
 
 function eat_drink(source, itemname, itemtype)
-	if not Playertasks[source] then
-		Playertasks[source] = {}
-	end
-
-	if Playertasks[source].running then 
-		TriggerClientEvent('dopeNotify:Alert', source, "", "Das kannst du noch nicht machen", 5000, 'error')
-		return
-	end
-
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local dict
+
+	running = CheckTaskStatus(source)
+	if running then
+		return
+	end
 
 	if itemtype == 'drink' then
 		if Config.DrinkAnimations[itemname] then
@@ -54,9 +40,6 @@ function eat_drink(source, itemname, itemtype)
 			dict = Config.FoodAnimations["default"]
 		end
 	end
-
-	Playertasks[source].running = true
-	SetTimeout(dict.duration * 1000, function() Playertasks[source] = {} end)
 
 	xPlayer.removeInventoryItem(itemname, 1)
 
@@ -73,4 +56,104 @@ function eat_drink(source, itemname, itemtype)
 	elseif itemtype == 'food' then
 		TriggerClientEvent('esx_basicitems:onEat', source, itemname)
 	end
+	SetTimeout(dict.duration * 1000, function() Playertasks[source].running = false end)
 end
+
+
+ESX.RegisterUsableItem('use_repairkit', function(source)
+	local source = source
+	local xPlayer  = ESX.GetPlayerFromId(source)
+
+	running = CheckTaskStatus(source)
+	if running then
+		return
+	end
+
+	TriggerClientEvent('esx_basicitems:onRepairkit', source)
+	SetTimeout(Config.RepairkitUseTime * 1000, function() Playertasks[source].running = false end)
+end)
+
+ESX.RegisterUsableItem('use_medikit', function(source)
+	local source = source
+	local xPlayer  = ESX.GetPlayerFromId(source)
+
+	running = CheckTaskStatus(source)
+	if running then
+		return
+	end
+	
+	TriggerClientEvent('esx_basicitems:onUseHeal', source, 'use_medikit')
+	SetTimeout(Config.HealUseTime * 1000, function() Playertasks[source].running = false end)
+end)
+
+ESX.RegisterUsableItem('use_bandage', function(source)
+	local source = source
+	local xPlayer  = ESX.GetPlayerFromId(source)
+
+	running = CheckTaskStatus(source)
+	if running then
+		return
+	end
+
+	TriggerClientEvent('esx_basicitems:onUseHeal', source, 'use_bandage')
+	SetTimeout(Config.HealUseTime * 1000, function() Playertasks[source].running = false end)
+end)
+
+ESX.RegisterUsableItem('use_kevlar_west', function (source)
+    local xPlayer = ESX.GetPlayerFromId(source)
+
+	running = CheckTaskStatus(source)
+	if running then
+		return
+	end
+
+    TriggerClientEvent('esx_basicitems:onUseKevlar', source)
+	SetTimeout(Config.KevlarUseTime * 1000, function() Playertasks[source].running = false end)
+end)
+
+
+ESX.RegisterUsableItem('use_tablet', function(source)
+	local source = source
+	local xPlayer  = ESX.GetPlayerFromId(source)
+
+	TriggerClientEvent('esx_basicitems:onUseTablet', source)
+end)
+
+RegisterNetEvent('esx_basicitems:removeItem')
+AddEventHandler('esx_basicitems:removeItem', function(item, count)
+	local source = source
+	local xPlayer  = ESX.GetPlayerFromId(source)
+	xPlayer.removeInventoryItem(item, count)
+end)
+
+ESX.RegisterServerCallback('esx_basicitems:getItemAmount', function(source, cb, item)
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+	cb(xPlayer.getInventoryItem(item).count)
+end)
+
+function CheckTaskStatus(source)
+	if not Playertasks[source] then
+		Playertasks[source] = {}
+	end
+	if Playertasks[source].running then 
+		TriggerClientEvent('dopeNotify:Alert', source, "", "Das kannst du noch nicht machen", 5000, 'error')
+		return true
+	end
+	Playertasks[source].running = true
+	return false
+end
+
+
+RegisterNetEvent('esx_basicitems:stopTask')
+AddEventHandler('esx_basicitems:stopTask', function()
+	local source = source
+
+	if not Playertasks[source] then
+		Playertasks[source] = {}
+	end
+
+	if Playertasks[source].running then 
+		Playertasks[source].running = false
+	end
+end)
