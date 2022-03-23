@@ -284,7 +284,7 @@ Locales['en'] = {
   ['component_scope_advanced'] = 'advanced Scope',
   ['component_ironsights'] = 'ironsights',
 
-  ['component_suppressor'] = 'suppressor',
+  ['component_suppressor'] = 'att_suppressor',
   ['component_compensator'] = 'compensator',
 
   ['component_muzzle_flat'] = 'flat Muzzle Brake',
@@ -296,8 +296,8 @@ Locales['en'] = {
   ['component_muzzle_split'] = 'split-End Muzzle Brake',
   ['component_muzzle_squared'] = 'squared Muzzle Brake',
 
-  ['component_flashlight'] = 'flashlight',
-  ['component_grip'] = 'grip',
+  ['component_flashlight'] = 'att_flashlight',
+  ['component_grip'] = 'att_grip',
 
   ['component_barrel_default'] = 'default Barrel',
   ['component_barrel_heavy'] = 'heavy Barrel',
@@ -336,12 +336,12 @@ Locales['en'] = {
   ['ammo_flaregun'] = 'flare(s)',
 
   -- Weapon Tints
-  ['tint_default'] = 'default skin',
-  ['tint_green'] = 'green skin',
-  ['tint_gold'] = 'gold skin',
-  ['tint_pink'] = 'pink skin',
-  ['tint_army'] = 'army skin',
-  ['tint_lspd'] = 'blue skin',
-  ['tint_orange'] = 'orange skin',
-  ['tint_platinum'] = 'platinum skin',
+  ['att_tint_default'] = 'default skin',
+  ['att_tint_green'] = 'green skin',
+  ['att_tint_gold'] = 'gold skin',
+  ['att_tint_pink'] = 'pink skin',
+  ['att_tint_camouflag'] = 'army skin',
+  ['att_tint_blue'] = 'blue skin',
+  ['att_tint_orange'] = 'orange skin',
+  ['att_tint_platinum'] = 'platinum skin',
 }

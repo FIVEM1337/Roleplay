@@ -17,27 +17,27 @@ AddEventHandler('esx_weapon_attachment:checkitem', function(type)
 			if Config.CheckMaxAmmo then
 				local currentAmmo = GetAmmoInPedWeapon(playerPed, hash)
 				
-				if type == 'weaclip' then
+				if type == 'ammo_small' then
             		if currentAmmo + Config.WeaponAmmoClips.WeaponClip <= Config.MaxAmmo then
 			    		TriggerServerEvent('esx_weapon_attachment:addweaclip', hash)
-			    		TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'weaclip')
+			    		TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_small')
 						ESX.ShowNotification(_U('used_weaclip'))
             		else
                 		ESX.ShowNotification(_U('check_maxammo'))
             		end
-				elseif type == 'weabox' then
+				elseif type == 'ammo_box' then
 					if currentAmmo + Config.WeaponAmmoClips.WeaponBox <= Config.MaxAmmo then
 						TriggerServerEvent('esx_weapon_attachment:addweabox', hash)
-						TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'weabox')
+						TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_box')
 						ESX.ShowNotification(_U('used_weabox'))
 					else
 						ESX.ShowNotification(_U('check_maxammo'))
 					end
-				elseif type == 'pistolclip' then
+				elseif type == 'ammo_pistol' then
 					if currentAmmo + Config.WeaponAmmoClips.Pistols <= Config.MaxAmmo then
 						if isPistol(hash) then
 							TriggerServerEvent('esx_weapon_attachment:addpistolammo', hash)
-							TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'pistolclip')
+							TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_pistol')
 							ESX.ShowNotification(_U('used_pistol_clip'))
 						else
 							ESX.ShowNotification(_U('not_correct_weapon'))
@@ -45,11 +45,11 @@ AddEventHandler('esx_weapon_attachment:checkitem', function(type)
 					else
 						ESX.ShowNotification(_U('check_maxammo'))
 					end
-				elseif type == 'smgclip' then
+				elseif type == 'ammo_smg' then
 					if currentAmmo + Config.WeaponAmmoClips.SMGs <= Config.MaxAmmo then
 						if isSMG(hash) then
 							TriggerServerEvent('esx_weapon_attachment:addsmgammo', hash)
-							TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'smgclip')
+							TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_smg')
 							ESX.ShowNotification(_U('used_smg_clip'))
 						else
 							ESX.ShowNotification(_U('not_correct_weapon'))
@@ -57,11 +57,11 @@ AddEventHandler('esx_weapon_attachment:checkitem', function(type)
 					else
 						ESX.ShowNotification(_U('check_maxammo'))
 					end
-				elseif type == 'shotgunclip' then
+				elseif type == 'ammo_shotgun' then
 					if currentAmmo + Config.WeaponAmmoClips.Shotguns <= Config.MaxAmmo then
 						if isShotgun(hash) then
 							TriggerServerEvent('esx_weapon_attachment:addshotgunammo', hash)
-							TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'shotgunclip')
+							TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_shotgun')
 							ESX.ShowNotification(_U('used_shotgun_clip'))
 						else
 							ESX.ShowNotification(_U('not_correct_weapon'))
@@ -69,11 +69,11 @@ AddEventHandler('esx_weapon_attachment:checkitem', function(type)
 					else
 						ESX.ShowNotification(_U('check_maxammo'))
 					end
-				elseif type == 'rifleclip' then
+				elseif type == 'ammo_rifle' then
 					if currentAmmo + Config.WeaponAmmoClips.Rifles <= Config.MaxAmmo then
 						if isRifle(hash) then
 							TriggerServerEvent('esx_weapon_attachment:addrifleammo', hash)
-							TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'rifleclip')
+							TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_rifle')
 							ESX.ShowNotification(_U('used_rifle_clip'))
 						else
 							ESX.ShowNotification(_U('not_correct_weapon'))
@@ -81,11 +81,11 @@ AddEventHandler('esx_weapon_attachment:checkitem', function(type)
 					else
 						ESX.ShowNotification(_U('check_maxammo'))
 					end
-				elseif type == 'mgclip' then
+				elseif type == 'ammo_mg' then
 					if currentAmmo + Config.WeaponAmmoClips.MGs <= Config.MaxAmmo then
 						if isMG(hash) then
 							TriggerServerEvent('esx_weapon_attachment:addmgammo', hash)
-							TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'mgclip')
+							TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_mg')
 							ESX.ShowNotification(_U('used_mg_clip'))
 						else
 							ESX.ShowNotification(_U('not_correct_weapon'))
@@ -93,11 +93,11 @@ AddEventHandler('esx_weapon_attachment:checkitem', function(type)
 					else
 						ESX.ShowNotification(_U('check_maxammo'))
 					end
-				elseif type == 'sniperclip' then
+				elseif type == 'ammo_sniper' then
 					if currentAmmo + Config.WeaponAmmoClips.Snipers <= Config.MaxAmmo then
 						if isSniper(hash) then
 							TriggerServerEvent('esx_weapon_attachment:addsniperammo', hash)
-							TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'sniperclip')
+							TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_sniper')
 							ESX.ShowNotification(_U('used_sniper_clip'))
 						else
 							ESX.ShowNotification(_U('not_correct_weapon'))
@@ -105,11 +105,11 @@ AddEventHandler('esx_weapon_attachment:checkitem', function(type)
 					else
 						ESX.ShowNotification(_U('check_maxammo'))
 					end
-				elseif type == 'throwableclip' then
+				elseif type == 'ammo_throwable' then
 					if currentAmmo + Config.WeaponAmmoClips.Throwables <= Config.MaxAmmo then
 						if isThrowable(hash) then
 							TriggerServerEvent('esx_weapon_attachment:addthrowableammo', hash)
-							TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'throwableclip')
+							TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_throwable')
 							ESX.ShowNotification(_U('used_throwables_clip'))
 						else
 							ESX.ShowNotification(_U('not_correct_weapon'))
@@ -119,66 +119,66 @@ AddEventHandler('esx_weapon_attachment:checkitem', function(type)
 					end
 				end
 			else
-				if type == 'weaclip' then
+				if type == 'ammo_small' then
 			    	TriggerServerEvent('esx_weapon_attachment:addweaclip', hash)
-			    	TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'weaclip')
+			    	TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_small')
 					ESX.ShowNotification(_U('used_weaclip'))
-				elseif type == 'weabox' then
+				elseif type == 'ammo_box' then
 					TriggerServerEvent('esx_weapon_attachment:addweabox', hash)
-					TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'weabox')
+					TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_box')
 					ESX.ShowNotification(_U('used_weabox'))
-				elseif type == 'pistolclip' then
+				elseif type == 'ammo_pistol' then
 					if isPistol(hash) then
 						TriggerServerEvent('esx_weapon_attachment:addpistolammo', hash)
-						TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'pistolclip')
+						TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_pistol')
 						ESX.ShowNotification(_U('used_pistol_clip'))
 					else
 						ESX.ShowNotification(_U('not_correct_weapon'))
 					end
-				elseif type == 'smgclip' then
+				elseif type == 'ammo_smg' then
 					if isSMG(hash) then
 						TriggerServerEvent('esx_weapon_attachment:addsmgammo', hash)
-						TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'smgclip')
+						TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_smg')
 						ESX.ShowNotification(_U('used_smg_clip'))
 					else
 						ESX.ShowNotification(_U('not_correct_weapon'))
 					end
-				elseif type == 'shotgunclip' then
+				elseif type == 'ammo_shotgun' then
 					if isShotgun(hash) then
 						TriggerServerEvent('esx_weapon_attachment:addshotgunammo', hash)
-						TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'shotgunclip')
+						TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_shotgun')
 						ESX.ShowNotification(_U('used_shotgun_clip'))
 					else
 						ESX.ShowNotification(_U('not_correct_weapon'))
 					end
-				elseif type == 'rifleclip' then
+				elseif type == 'ammo_rifle' then
 					if isRifle(hash) then
 						TriggerServerEvent('esx_weapon_attachment:addrifleammo', hash)
-						TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'rifleclip')
+						TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_rifle')
 						ESX.ShowNotification(_U('used_rifle_clip'))
 					else
 						ESX.ShowNotification(_U('not_correct_weapon'))
 					end
-				elseif type == 'mgclip' then
+				elseif type == 'ammo_mg' then
 					if isMG(hash) then
 						TriggerServerEvent('esx_weapon_attachment:addmgammo', hash)
-						TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'mgclip')
+						TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_mg')
 						ESX.ShowNotification(_U('used_mg_clip'))
 					else
 						ESX.ShowNotification(_U('not_correct_weapon'))
 					end
-				elseif type == 'sniperclip' then
+				elseif type == 'ammo_sniper' then
 					if isSniper(hash) then
 						TriggerServerEvent('esx_weapon_attachment:addsniperammo', hash)
-						TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'sniperclip')
+						TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_sniper')
 						ESX.ShowNotification(_U('used_sniper_clip'))
 					else
 						ESX.ShowNotification(_U('not_correct_weapon'))
 					end
-				elseif type == 'throwableclip' then
+				elseif type == 'ammo_throwable' then
 					if isThrowable(hash) then
 						TriggerServerEvent('esx_weapon_attachment:addthrowableammo', hash)
-						TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'throwableclip')
+						TriggerServerEvent('esx_weapon_attachment:removeweaponclip', 'ammo_throwable')
 						ESX.ShowNotification(_U('used_throwables_clip'))
 					else
 						ESX.ShowNotification(_U('not_correct_weapon'))
@@ -237,19 +237,19 @@ AddEventHandler('esx_weapon_attachment:addtint', function(tint)
 	if IsPedArmed(playerPed, 4) then
 		if hash ~= nil then
 			local newtintindex
-			if tint == 'tint_green' then
+			if tint == 'att_tint_green' then
 				newtintindex = 1
-			elseif tint == 'tint_gold' then
+			elseif tint == 'att_tint_gold' then
 				newtintindex = 2
-			elseif tint == 'tint_pink' then
+			elseif tint == 'att_tint_pink' then
 				newtintindex = 3
-			elseif tint == 'tint_army' then
+			elseif tint == 'att_tint_camouflag' then
 				newtintindex = 4
-			elseif tint == 'tint_lspd' then
+			elseif tint == 'att_tint_blue' then
 				newtintindex = 5
-			elseif tint == 'tint_orange' then
+			elseif tint == 'att_tint_orange' then
 				newtintindex = 6
-			elseif tint == 'tint_platinum' then
+			elseif tint == 'att_tint_platinum' then
 				newtintindex = 7
 			end
 

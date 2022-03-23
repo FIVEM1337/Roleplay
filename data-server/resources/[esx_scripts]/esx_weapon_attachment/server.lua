@@ -1,140 +1,140 @@
 -- Usable Items
-ESX.RegisterUsableItem('weaclip', function(source)
+ESX.RegisterUsableItem('ammo_small', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'weaclip')
+	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'ammo_small')
 end)
 
-ESX.RegisterUsableItem('weabox', function(source)
+ESX.RegisterUsableItem('ammo_box', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'weabox')
+	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'ammo_box')
 end)
 
-ESX.RegisterUsableItem('pistolclip', function(source)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	
-	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'pistolclip')
-end)
-
-ESX.RegisterUsableItem('smgclip', function(source)
+ESX.RegisterUsableItem('ammo_pistol', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'smgclip')
+	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'ammo_pistol')
 end)
 
-ESX.RegisterUsableItem('shotgunclip', function(source)
+ESX.RegisterUsableItem('ammo_smg', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'shotgunclip')
+	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'ammo_smg')
 end)
 
-ESX.RegisterUsableItem('rifleclip', function(source)
+ESX.RegisterUsableItem('ammo_shotgun', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'rifleclip')
+	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'ammo_shotgun')
 end)
 
-ESX.RegisterUsableItem('mgclip', function(source)
+ESX.RegisterUsableItem('ammo_rifle', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'mgclip')
+	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'ammo_rifle')
 end)
 
-ESX.RegisterUsableItem('sniperclip', function(source)
+ESX.RegisterUsableItem('ammo_mg', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'sniperclip')
+	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'ammo_mg')
 end)
 
-ESX.RegisterUsableItem('throwableclip', function(source)
+ESX.RegisterUsableItem('ammo_sniper', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'throwableclip')
+	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'ammo_sniper')
+end)
+
+ESX.RegisterUsableItem('ammo_throwable', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	
+	TriggerClientEvent('esx_weapon_attachment:checkitem', source, 'ammo_throwable')
 end)
 
 -- Attachments
-ESX.RegisterUsableItem('scope', function(source)
+ESX.RegisterUsableItem('att_scope', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:addattachment', source, 'scope')
+	TriggerClientEvent('esx_weapon_attachment:addattachment', source, 'att_scope')
 end)
 
-ESX.RegisterUsableItem('grip', function(source)
+ESX.RegisterUsableItem('att_grip', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:addattachment', source, 'grip')
+	TriggerClientEvent('esx_weapon_attachment:addattachment', source, 'att_grip')
 end)
 
-ESX.RegisterUsableItem('flashlight', function(source)
+ESX.RegisterUsableItem('att_flashlight', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:addattachment', source, 'flashlight')
+	TriggerClientEvent('esx_weapon_attachment:addattachment', source, 'att_flashlight')
 end)
 
-ESX.RegisterUsableItem('clip_extended', function(source)
+ESX.RegisterUsableItem('att_clip_extended', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:addattachment', source, 'clip_extended')
+	TriggerClientEvent('esx_weapon_attachment:addattachment', source, 'att_clip_extended')
 end)
 
-ESX.RegisterUsableItem('suppressor', function(source)
+ESX.RegisterUsableItem('att_suppressor', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:addattachment', source, 'suppressor')
+	TriggerClientEvent('esx_weapon_attachment:addattachment', source, 'att_suppressor')
 end)
 
-ESX.RegisterUsableItem('luxary_finish', function(source)
+ESX.RegisterUsableItem('att_luxary_finish', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:addattachment', source, 'luxary_finish')
+	TriggerClientEvent('esx_weapon_attachment:addattachment', source, 'att_luxary_finish')
 end)
 
 -- Tints
-ESX.RegisterUsableItem('tint_green', function(source)
+ESX.RegisterUsableItem('att_tint_green', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:addtint', source, 'tint_green')
+	TriggerClientEvent('esx_weapon_attachment:addtint', source, 'att_tint_green')
 end)
 
-ESX.RegisterUsableItem('tint_gold', function(source)
+ESX.RegisterUsableItem('att_tint_gold', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:addtint', source, 'tint_gold')
+	TriggerClientEvent('esx_weapon_attachment:addtint', source, 'att_tint_gold')
 end)
 
-ESX.RegisterUsableItem('tint_pink', function(source)
+ESX.RegisterUsableItem('att_tint_pink', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:addtint', source, 'tint_pink')
+	TriggerClientEvent('esx_weapon_attachment:addtint', source, 'att_tint_pink')
 end)
 
-ESX.RegisterUsableItem('tint_army', function(source)
+ESX.RegisterUsableItem('att_tint_camouflag', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:addtint', source, 'tint_army')
+	TriggerClientEvent('esx_weapon_attachment:addtint', source, 'att_tint_camouflag')
 end)
 
-ESX.RegisterUsableItem('tint_lspd', function(source)
+ESX.RegisterUsableItem('att_tint_blue', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:addtint', source, 'tint_lspd')
+	TriggerClientEvent('esx_weapon_attachment:addtint', source, 'att_tint_blue')
 end)
 
-ESX.RegisterUsableItem('tint_orange', function(source)
+ESX.RegisterUsableItem('att_tint_orange', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:addtint', source, 'tint_orange')
+	TriggerClientEvent('esx_weapon_attachment:addtint', source, 'att_tint_orange')
 end)
 
-ESX.RegisterUsableItem('tint_platinum', function(source)
+ESX.RegisterUsableItem('att_tint_platinum', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
-	TriggerClientEvent('esx_weapon_attachment:addtint', source, 'tint_platinum')
+	TriggerClientEvent('esx_weapon_attachment:addtint', source, 'att_tint_platinum')
 end)
 
 -- Remover
-ESX.RegisterUsableItem('attachment_remover', function(source)
+ESX.RegisterUsableItem('att_attachment_remover', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	TriggerClientEvent('esx_weapon_attachment:OpenAttachmentMenu', source)
@@ -273,41 +273,41 @@ AddEventHandler('esx_weapon_attachment:removeweaponclip', function(type)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
 
-	if type == 'weaclip' then
+	if type == 'ammo_small' then
 		if Config.Removeables.WeaponClip then
-			xPlayer.removeInventoryItem('weaclip', 1)
+			xPlayer.removeInventoryItem('ammo_small', 1)
 		end
-	elseif type == 'weabox' then
+	elseif type == 'ammo_box' then
 		if Config.Removeables.WeaponBox then
-			xPlayer.removeInventoryItem('weabox', 1)
+			xPlayer.removeInventoryItem('ammo_box', 1)
 		end
-	elseif type == 'pistolclip' then
+	elseif type == 'ammo_pistol' then
 		if Config.Removeables.Pistol then
-			xPlayer.removeInventoryItem('pistolclip', 1)
+			xPlayer.removeInventoryItem('ammo_pistol', 1)
 		end
-	elseif type == 'smgclip' then
+	elseif type == 'ammo_smg' then
 		if Config.Removeables.SMG then
-			xPlayer.removeInventoryItem('smgclip', 1)
+			xPlayer.removeInventoryItem('ammo_smg', 1)
 		end
-	elseif type == 'shotgunclip' then
+	elseif type == 'ammo_shotgun' then
 		if Config.Removeables.Shotgun then
-			xPlayer.removeInventoryItem('shotgunclip', 1)
+			xPlayer.removeInventoryItem('ammo_shotgun', 1)
 		end
-	elseif type == 'rifleclip' then
+	elseif type == 'ammo_rifle' then
 		if Config.Removeables.Rifle then
-			xPlayer.removeInventoryItem('rifleclip', 1)
+			xPlayer.removeInventoryItem('ammo_rifle', 1)
 		end
-	elseif type == 'mgclip' then
+	elseif type == 'ammo_mg' then
 		if Config.Removeables.MG then
-			xPlayer.removeInventoryItem('mgclip', 1)
+			xPlayer.removeInventoryItem('ammo_mg', 1)
 		end
-	elseif type == 'sniperclip' then
+	elseif type == 'ammo_sniper' then
 		if Config.Removeables.Sniper then
-			xPlayer.removeInventoryItem('sniperclip', 1)
+			xPlayer.removeInventoryItem('ammo_sniper', 1)
 		end
-	elseif type == 'throwableclip' then
+	elseif type == 'ammo_throwable' then
 		if Config.Removeables.Throwables then
-			xPlayer.removeInventoryItem('throwableclip', 1)
+			xPlayer.removeInventoryItem('ammo_throwable', 1)
 		end
 	end
 end)
@@ -345,7 +345,7 @@ AddEventHandler('esx_weapon_attachment:removeweaponcomponent', function(hash, at
 				xPlayer.addInventoryItem(attachment, 1)
 				
 				if Config.Removeables.Attachment_Remover then
-					xPlayer.removeInventoryItem('attachment_remover', 1)
+					xPlayer.removeInventoryItem('att_attachment_remover', 1)
 				end
 			else 
 				xPlayer.showNotification(_U('no_component'))
@@ -363,19 +363,19 @@ AddEventHandler('esx_weapon_attachment:addweapontint', function(hash, tint)
 
 	for k,v in pairs(Config.Weapons.AllWeapons) do
 		if (v.weaponHash == hash) then
-			if tint == 'tint_green' then
+			if tint == 'att_tint_green' then
 				xPlayer.setWeaponTint(v.weaponName, 1)
-			elseif tint == 'tint_gold' then
+			elseif tint == 'att_tint_gold' then
 				xPlayer.setWeaponTint(v.weaponName, 2)
-			elseif tint == 'tint_pink' then
+			elseif tint == 'att_tint_pink' then
 				xPlayer.setWeaponTint(v.weaponName, 3)
-			elseif tint == 'tint_army' then
+			elseif tint == 'att_tint_camouflag' then
 				xPlayer.setWeaponTint(v.weaponName, 4)
-			elseif tint == 'tint_lspd' then
+			elseif tint == 'att_tint_blue' then
 				xPlayer.setWeaponTint(v.weaponName, 5)
-			elseif tint == 'tint_orange' then
+			elseif tint == 'att_tint_orange' then
 				xPlayer.setWeaponTint(v.weaponName, 6)
-			elseif tint == 'tint_platinum' then
+			elseif tint == 'att_tint_platinum' then
 				xPlayer.setWeaponTint(v.weaponName, 7)
 			end
 		end
@@ -402,7 +402,7 @@ AddEventHandler('esx_weapon_attachment:removeweapontint', function(hash, tint)
 			xPlayer.showNotification(_U('used_attachment_remover'))
 
 			if Config.Removeables.Attachment_Remover then
-				xPlayer.removeInventoryItem('attachment_remover', 1)
+				xPlayer.removeInventoryItem('att_attachment_remover', 1)
 			end
 		end
 	end

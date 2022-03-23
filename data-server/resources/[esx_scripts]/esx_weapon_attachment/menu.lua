@@ -30,12 +30,12 @@ function OpenAttachmentMenuESX()
 	}, function(data, menu)
 		if data.current.value == 'components' then
 			local elements = {
-				{label = _U('scope'), value = 'scope'},
-				{label = _U('grip'), value = 'grip'},
-				{label = _U('flashlight'), value = 'flashlight'},
-				{label = _U('clip_extended'), value = 'clip_extended'},
-				{label = _U('suppressor'), value = 'suppressor'},
-				{label = _U('luxary_finish'), value = 'luxary_finish'},
+				{label = _U('att_scope'), value = 'att_scope'},
+				{label = _U('att_grip'), value = 'att_grip'},
+				{label = _U('att_flashlight'), value = 'att_flashlight'},
+				{label = _U('att_clip_extended'), value = 'att_clip_extended'},
+				{label = _U('att_suppressor'), value = 'att_suppressor'},
+				{label = _U('att_luxary_finish'), value = 'att_luxary_finish'},
 				{label = _U('tint'), value = 'tint'},
 			}
 			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'weapon_attachments', {
@@ -45,18 +45,18 @@ function OpenAttachmentMenuESX()
 			}, function(data2, menu2)
 				local action = data2.current.value
 
-				if action == 'scope' then
-					TriggerServerEvent('esx_weapon_attachment:removeweaponcomponent', hash, 'scope')
-				elseif action == 'grip' then
-					TriggerServerEvent('esx_weapon_attachment:removeweaponcomponent', hash, 'grip')
-				elseif action == 'flashlight' then
-					TriggerServerEvent('esx_weapon_attachment:removeweaponcomponent', hash, 'flashlight')
-				elseif action == 'clip_extended' then
-					TriggerServerEvent('esx_weapon_attachment:removeweaponcomponent', hash, 'clip_extended')
-				elseif action == 'suppressor' then
-					TriggerServerEvent('esx_weapon_attachment:removeweaponcomponent', hash, 'suppressor')
-				elseif action == 'luxary_finish' then
-					TriggerServerEvent('esx_weapon_attachment:removeweaponcomponent', hash, 'luxary_finish')
+				if action == 'att_scope' then
+					TriggerServerEvent('esx_weapon_attachment:removeweaponcomponent', hash, 'att_scope')
+				elseif action == 'att_grip' then
+					TriggerServerEvent('esx_weapon_attachment:removeweaponcomponent', hash, 'att_grip')
+				elseif action == 'att_flashlight' then
+					TriggerServerEvent('esx_weapon_attachment:removeweaponcomponent', hash, 'att_flashlight')
+				elseif action == 'att_clip_extended' then
+					TriggerServerEvent('esx_weapon_attachment:removeweaponcomponent', hash, 'att_clip_extended')
+				elseif action == 'att_suppressor' then
+					TriggerServerEvent('esx_weapon_attachment:removeweaponcomponent', hash, 'att_suppressor')
+				elseif action == 'att_luxary_finish' then
+					TriggerServerEvent('esx_weapon_attachment:removeweaponcomponent', hash, 'att_luxary_finish')
 				elseif action == 'tint' then
 					TriggerServerEvent('esx_weapon_attachment:removeweapontint', hash)
 				end
@@ -85,12 +85,12 @@ Citizen.CreateThread(function()
 end)
 
 local Items = {
-	{name = _U('scope'), desc = _U('remove_scope'), comtype = 'scope', type = 'component'},
-	{name = _U('grip'), desc = _U('remove_grip'), comtype = 'grip', type = 'component'},
-	{name = _U('flashlight'), desc = _U('remove_flashlight'), comtype = 'flashlight', type = 'component'},
-	{name = _U('clip_extended'), desc = _U('remove_clip_extended'), comtype = 'clip_extended', type = 'component'},
-	{name = _U('suppressor'), desc = _U('remove_suppressor'), comtype = 'suppressor', type = 'component'},
-	{name = _U('luxary_finish'), desc = _U('remove_luxary_finish'), comtype = 'luxary_finish', type = 'component'},
+	{name = _U('att_scope'), desc = _U('remove_scope'), comtype = 'att_scope', type = 'component'},
+	{name = _U('att_grip'), desc = _U('remove_grip'), comtype = 'att_grip', type = 'component'},
+	{name = _U('att_flashlight'), desc = _U('remove_flashlight'), comtype = 'att_flashlight', type = 'component'},
+	{name = _U('att_clip_extended'), desc = _U('remove_clip_extended'), comtype = 'att_clip_extended', type = 'component'},
+	{name = _U('att_suppressor'), desc = _U('remove_suppressor'), comtype = 'att_suppressor', type = 'component'},
+	{name = _U('att_luxary_finish'), desc = _U('remove_luxary_finish'), comtype = 'att_luxary_finish', type = 'component'},
 	{name = _U('tint'), desc = _U('remove_tint'), type = 'tint'},
 }
 
@@ -134,19 +134,19 @@ function OpenAttachmentMenuNativeUI()
 
 							local tint = nil
 							if CurrentTint == 1 then
-								tint = 'tint_green'
+								tint = 'att_tint_green'
 							elseif CurrentTint == 2 then
-								tint = 'tint_gold'
+								tint = 'att_tint_gold'
 							elseif CurrentTint == 3 then
-								tint = 'tint_pink'
+								tint = 'att_tint_pink'
 							elseif CurrentTint == 4 then
-								tint = 'tint_army'
+								tint = 'att_tint_camouflag'
 							elseif CurrentTint == 5 then
-								tint = 'tint_lspd'
+								tint = 'att_tint_blue'
 							elseif CurrentTint == 6 then
-								tint = 'tint_orange'
+								tint = 'att_tint_orange'
 							elseif CurrentTint == 7 then
-								tint = 'tint_platinum'
+								tint = 'att_tint_platinum'
 							end
 
 							TriggerServerEvent('esx_weapon_attachment:removeweapontint', hash, tint)
