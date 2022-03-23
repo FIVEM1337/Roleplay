@@ -110,20 +110,18 @@ end)
 
 RegisterNetEvent('esx_playerhud:updateStatus')
 AddEventHandler('esx_playerhud:updateStatus', function(status)
-    TriggerEvent('esx_status:getStatusPercent', 'hunger', function(hunger) 
-		currenthunger = hunger
-    end)
 
-    TriggerEvent('esx_status:getStatusPercent', 'thirst', function(thirst)
-		currentthirst = thirst
-    end)
-	    
-    TriggerEvent('esx_status:getStatusPercent', 'stress', function(stress)
-		currentstress = stress
-    end)
+	for k, v in ipairs(status) do
+		if v.name == 'hunger' then
+			currenthunger = v.percent
+		elseif v.name == 'thirst' then
+			currentthirst = v.percent
+		elseif v.name == 'stress' then
+			currentstress = v.percent
+		end
+	end
 
 	SendNUIMessage({action = "updateStatus", hunger = currenthunger, thirst = currentthirst, stress = currentstress})
-
 end)
 
 

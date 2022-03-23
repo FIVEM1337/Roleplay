@@ -89,6 +89,7 @@ AddEventHandler('esx_status:load', function(status)
 			end
 
 			TriggerEvent('esx_status:onTick', data)
+			TriggerEvent('esx_playerhud:updateStatus', GetStatusData(true))
 			table.wipe(data)
 			Wait(Config.TickTime)
 		end
@@ -187,6 +188,6 @@ end)
 CreateThread(function()
 	while true do
 		Wait(Config.UpdateInterval)
-		if ESX.PlayerLoaded then TriggerServerEvent('esx_status:update', GetStatusData(true)) end
+		if ESX.PlayerLoaded then TriggerServerEvent('esx_status:update', GetStatusData(true)) TriggerEvent('esx_playerhud:updateStatus', GetStatusData(true)) end
 	end
 end)
