@@ -11,7 +11,6 @@ Locales ['de'] = {
 	['used_throwables_clip'] = 'Du hast ~y~1x~s~ ~b~Throwable Magazin~s~ verwendet',
 
 	['used_attachment'] = 'Du hast ~y~1x~s~ ~b~Komponente verwendet~s~ verwendet',
-	['used_attachment_remover'] = 'Du hast ~y~1x~s~ ~b~Komponenten Entferner~s~ verwendet',
 	
 	['check_maxammo'] = 'Die Waffe hat bereits genug Munition.',
 	['no_weapon'] = 'Du hast keine Waffe in der Hand.',

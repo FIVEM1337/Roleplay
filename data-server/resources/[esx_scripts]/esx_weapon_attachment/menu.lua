@@ -15,6 +15,11 @@ AddEventHandler('esx_weapon_attachment:OpenAttachmentMenu', function()
 	end
 end)
 
+RegisterCommand('OpenAttachmentMenu', function()
+	TriggerEvent('esx_weapon_attachment:OpenAttachmentMenu')
+end)
+RegisterKeyMapping('OpenAttachmentMenu', Config.Keymapping_desc, 'keyboard', Config.DefaultOpenKey)
+
 function OpenAttachmentMenuESX()
 	local playerPed = PlayerPedId()
 	local hash = GetSelectedPedWeapon(playerPed)

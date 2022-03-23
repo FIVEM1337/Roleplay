@@ -133,13 +133,6 @@ ESX.RegisterUsableItem('att_tint_platinum', function(source)
 	TriggerClientEvent('esx_weapon_attachment:addtint', source, 'att_tint_platinum')
 end)
 
--- Remover
-ESX.RegisterUsableItem('att_attachment_remover', function(source)
-	local xPlayer = ESX.GetPlayerFromId(source)
-
-	TriggerClientEvent('esx_weapon_attachment:OpenAttachmentMenu', source)
-end)
-
 -- Add Ammunition into Weapon
 RegisterNetEvent('esx_weapon_attachment:addweaclip')
 AddEventHandler('esx_weapon_attachment:addweaclip', function(hash)
@@ -341,12 +334,8 @@ AddEventHandler('esx_weapon_attachment:removeweaponcomponent', function(hash, at
 
 			if hasComponent then
 				xPlayer.removeWeaponComponent(v.weaponName, attachment)
-				xPlayer.showNotification(_U('used_attachment_remover'))
 				xPlayer.addInventoryItem(attachment, 1)
 				
-				if Config.Removeables.Attachment_Remover then
-					xPlayer.removeInventoryItem('att_attachment_remover', 1)
-				end
 			else 
 				xPlayer.showNotification(_U('no_component'))
 			end
@@ -399,11 +388,7 @@ AddEventHandler('esx_weapon_attachment:removeweapontint', function(hash, tint)
 			end
 
 			xPlayer.setWeaponTint(v.weaponName, 0)
-			xPlayer.showNotification(_U('used_attachment_remover'))
 
-			if Config.Removeables.Attachment_Remover then
-				xPlayer.removeInventoryItem('att_attachment_remover', 1)
-			end
 		end
 	end
 

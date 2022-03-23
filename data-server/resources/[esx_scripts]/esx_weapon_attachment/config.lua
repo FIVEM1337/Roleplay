@@ -5,6 +5,8 @@ Config.VersionChecker = true
 Config.Debug = false
 ----------------------------------------------------------------
 Config.Menu = 'NativeUI' -- Set to 'ESX' if you want ESX Menu || Set to 'NativeUI' if you want NativeUI
+Config.Keymapping_desc = 'Waffen Attachment Menu'
+Config.DefaultOpenKey = "F9" -- default key (users can change in their settings) | FiveM Keys
 ----------------------------------------------------------------
 Config.CheckMaxAmmo = true -- If 'false' the Player can get more than Config.MaxAmmo bullets
 Config.MaxAmmo = 250 -- Set the max. Ammo in Weapon
@@ -38,7 +40,6 @@ Config.Removeables = {
 	Throwables = true,
 	-- Weapon Attachments
 	Attachments = true,
-	Attachment_Remover = false,
 	-- Weapon Tints
 	Color = true
 }

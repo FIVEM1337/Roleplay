@@ -13,7 +13,6 @@ INSERT INTO `items` (`name`, `label`, `weight`, `rare`, `can_remove`) VALUES
 	('att_flashlight', 'att_flashlight', 1, 0, 1),
 	('att_clip_extended', 'Extended Clip', 1, 0, 1),
 	('att_suppressor', 'att_suppressor', 1, 0, 1),
-	('att_attachment_remover', 'Attechment Remover', 1, 0, 1),
 	('att_luxary_finish', 'Luxury Finish', 1, 0, 1),
 	('att_tint_green', 'Green', 1, 0, 1),
 	('att_tint_gold', 'Gold', 1, 0, 1),
