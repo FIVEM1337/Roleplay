@@ -5,8 +5,8 @@ local currentRange = 3.5
 
 local markerOn = false
 local markerTimer = 0
-local FirstSpawn = true
-local show = true
+local show = false
+local Spawned = false
 
 CreateThread(function()
 	while ESX == nil do
@@ -16,19 +16,14 @@ CreateThread(function()
 
 	while true do
 		Wait(100)
-		if FirstSpawn then
-			if show then
-				SendNUIMessage({action = "toggle", show = false})
-				show = false
-			end
-		else
+		if Spawned then
 			if IsPauseMenuActive() then
-				if not show then
+				if show then
 					SendNUIMessage({action = "toggle", show = false})
 					show = false
 				end
 			else
-				if show then
+				if not show then
 					SendNUIMessage({action = "toggle", show = true})
 					show = true
 				end
@@ -51,7 +46,8 @@ RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer) 
 	TriggerEvent("esx_playerhud:LoadPlayerDataHUD", xPlayer)
 	SendNUIMessage({action = "toggle", show = true})
-	FirstSpawn = false
+	show = true
+	Spawned = true
 end)
 
 RegisterNetEvent("reload_esx_playerhud") 
@@ -193,4 +189,8 @@ AddEventHandler("SaltyChat_MicStateChanged", function(muted)
 		SendNUIMessage({action = "setVoiceRange", range = exports.saltychat:GetVoiceRange(), muted = false})
 	end
 
+end)
+
+AddEventHandler('onResourceStart', function(resource)
+	SendNUIMessage({action = "toggle", show = true})
 end)

@@ -17,9 +17,9 @@ $(function(){
 			setVoiceRange(event.data.range, event.data.muted)
 		}else if (event.data.action == "toggle"){
 			if (event.data.show){
-				$('#ui').show();
+				document.getElementById("ui").classList.toggle("show",true)
 			} else{
-				$('#ui').hide();
+				document.getElementById("ui").classList.toggle("show",false)
 			}
 		}
 	});
