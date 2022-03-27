@@ -46,7 +46,7 @@ AddEventHandler('esx_routen:startRoute', function(label)
 		local hasInventorySpace = hasInventorySpaceFunc(_source, label)
 
 		while true do
-			Citizen.Wait(1)
+			Wait(1)
 			if hasInventoryItem ~= nil and hasInventorySpace ~= nil then
 				if hasInventoryItem and hasInventorySpace then
 					TriggerClientEvent('esx_routen:changestatus', _source, true)
@@ -176,7 +176,7 @@ function CraftFinish(source, label)
 	end
 
 	while true do
-		Citizen.Wait(1)
+		Wait(1)
 		if addedweapon ~= nil and addeditem ~= nil and removeditem ~= nil then
 			if addedweapon and addeditem and removeditem then
 				hasInventoryItem = hasInventoryItemFunc(source, label)
@@ -188,7 +188,7 @@ function CraftFinish(source, label)
 
 
 	while true do
-		Citizen.Wait(1)
+		Wait(1)
 		if hasInventoryItem ~= nil and hasInventorySpace ~= nil then
 			if hasInventoryItem and hasInventorySpace then
 				Start(source, label)

@@ -11,7 +11,7 @@ local HasAlreadyEnteredTeleporteMarker = false
 local InTeleporterMarker = false
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	DeleteBlips()
 	for k, v in pairs (routen) do
 		for k, v in pairs (v) do
@@ -27,7 +27,7 @@ Citizen.CreateThread(function()
 	TriggerEvent('esx_routen:spawnnpcs')
 
 	while true do
-		Citizen.Wait(1)
+		Wait(100)
 		if npc_list then
 			for i, ped in ipairs(npc_list) do
 				TaskSetBlockingOfNonTemporaryEvents(ped, true)
@@ -77,9 +77,9 @@ AddEventHandler('esx_routen:spawnnpcs', function ()
 end)
 
 -- Display markers
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(1)
+		Wait(3)
 		coords = GetEntityCoords(PlayerPedId())
 		for k, v in pairs (routen) do
 			for k, v in pairs (v) do
@@ -109,9 +109,9 @@ Citizen.CreateThread(function()
 end)
 
 -- Enter / Exit marker events
-Citizen.CreateThread(function ()
+CreateThread(function ()
 	while true do
-		Citizen.Wait(0)
+		Wait(60)
 
 		local coords      = GetEntityCoords(PlayerPedId())
 		local isInMarker  = false
@@ -174,7 +174,7 @@ end)
 RegisterNetEvent('esx_routen:waittotrigger')
 AddEventHandler('esx_routen:waittotrigger', function()
 	cantrigger = false
-	Citizen.Wait(5000)
+	Wait(5000)
 	cantrigger = true
 end)
 
@@ -216,12 +216,12 @@ AddEventHandler('esx_routen:hasExitedTeleporterMarker', function (zone)
 end)
 
 -- Key controls
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(1)
 
 		if CurrentAction == nil then
-			Citizen.Wait(0)
+			Wait(500)
 		else
 			tablesize = tablelength(LastZone.dosomething)
 			if tablesize > 1 then
@@ -266,9 +266,9 @@ Citizen.CreateThread(function()
 end)
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(50)
 		if InMarker then
 			if work then
 				showInfobar("Drücke ~g~E~s~, um Interaktion zu beenden")
@@ -280,9 +280,9 @@ Citizen.CreateThread(function()
 end)
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(1)
+		Wait(100)
 		if work and Config.PlayAnimations then
 			if not IsPedUsingScenario(PlayerPedId(), LastZone.animation) then
 				TaskStartScenarioInPlace(PlayerPedId(), LastZone.animation, 0, true)
