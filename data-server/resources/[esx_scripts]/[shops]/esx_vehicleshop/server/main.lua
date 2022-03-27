@@ -110,12 +110,6 @@ ESX.RegisterServerCallback('esx_vehicleshop:buyVehicle', function (source, cb, v
 end
 end)
 
-RegisterCommand('banco', function(source) 
-	local xPlayer     = ESX.GetPlayerFromId(source)
-	local bankMoney = xPlayer.getAccount('bank').money
-
-	TriggerClientEvent('chatMessage', source, "Saldo: "..bankMoney)
-end, false)
 
 ESX.RegisterServerCallback('esx_vehicleshop:resellVehicle', function (source, cb, plate, model, sellable)
 	local resellPrice = 0
