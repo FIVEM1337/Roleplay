@@ -2,14 +2,14 @@
 local IsCancelled = false
 local LastHp = nil
 
-Citizen.CreateThread(function()
+CreateThread(function()
     AddTextEntry('RC_CANCEL', "~" .. Config.Keys.CANCEL.label .. "~ " .. Config.Text.CANCEL)
 end)
 
 function LoadAnimDict( dict )
     while ( not HasAnimDictLoaded( dict ) ) do
         RequestAnimDict( dict )
-        Citizen.Wait( 100 )
+        Wait( 100 )
     end
 end
 
@@ -83,7 +83,7 @@ function StartCancellableProgressBar(time)
     local border = 0.007
     time = time / 1000
 
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while IsProgressbarDisplayed and curProgressWidth < 1.0 do
             Wait(0)
 

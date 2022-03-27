@@ -1,7 +1,7 @@
 Rotation = 0.0
 RotationStep = 12.0
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
         Wait(0)
 

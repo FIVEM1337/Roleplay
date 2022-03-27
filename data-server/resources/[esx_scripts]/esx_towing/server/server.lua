@@ -32,9 +32,9 @@ AddEventHandler("esx_towing:tow", function(veh1, veh2)
 end)
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(Config.ropeSyncDuration * 1000)
+        Wait(Config.ropeSyncDuration * 1000)
         refreshRopes()
     end
 end)

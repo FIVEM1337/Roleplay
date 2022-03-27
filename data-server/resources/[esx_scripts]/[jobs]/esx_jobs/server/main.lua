@@ -11,9 +11,9 @@ ESX.RegisterServerCallback('esx_jobs:getPlayerInventory', function(source, cb)
 end)
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(1)
+		Wait(1)
 
 		if ESX and not societyloaded then
 			societyloaded = true

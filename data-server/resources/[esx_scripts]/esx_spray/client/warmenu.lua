@@ -23,7 +23,7 @@ local buttonTextYOffset = 0.005
 
 local function debugPrint(text)
 	if WarMenu.debug then
-		Citizen.Trace('[WarMenu] '..tostring(text))
+		Trace('[WarMenu] '..tostring(text))
 	end
 end
 

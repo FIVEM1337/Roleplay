@@ -8,10 +8,10 @@ local zoomOffset     = 0.0
 local camOffset      = 0.0
 local heading        = 90.0
 
-Citizen.CreateThread(function()
+CreateThread(function()
   while ESX == nil do
     TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-    Citizen.Wait(0)
+    Wait(0)
   end
 end)
 
@@ -185,9 +185,9 @@ function DeleteSkinCam()
   cam = nil
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
   while true do
-    Citizen.Wait(0)
+    Wait(0)
     if isCameraActive then
       DisableControlAction(2, 30, true)
       DisableControlAction(2, 31, true)
@@ -238,10 +238,10 @@ Citizen.CreateThread(function()
   end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
   local angle = 90
   while true do
-    Citizen.Wait(0)
+    Wait(0)
     if isCameraActive then
       if IsControlPressed(0, 108) then
         angle = angle - 1
@@ -286,10 +286,10 @@ end
 
 AddEventHandler('playerSpawned', function()
 
-  Citizen.CreateThread(function()
+  CreateThread(function()
 
     while not PlayerLoaded do
-      Citizen.Wait(0)
+      Wait(0)
     end
 
     if FirstSpawn then

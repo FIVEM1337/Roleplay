@@ -20,10 +20,10 @@ local mainMenu
 local bannerstyle = 'shopui_title_barber'
 
 if Config.useESX then
-	Citizen.CreateThread(function()
+	CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
+		Wait(0)
 	end
 	
 	PlayerData = ESX.GetPlayerData()
@@ -33,9 +33,9 @@ end
 _menuPool = NativeUI.CreatePool()
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(300)
+		Wait(300)
 
 		local playerPed = PlayerPedId()
         local playerloc = GetEntityCoords(playerPed, 0)
@@ -92,11 +92,11 @@ Citizen.CreateThread(function()
 
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 
 
 	while true do
-		Citizen.Wait(1)
+		Wait(1)
 
 		if isInShop then
 			_menuPool:ProcessMenus()
@@ -120,7 +120,7 @@ Citizen.CreateThread(function()
 
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	
 	for i=1, #Config.Shops, 1 do
 		
@@ -673,9 +673,9 @@ function DeleteSkinCam()
 	cam = nil
 end
 	
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		if isCameraActive then
 		DisableControlAction(2, 30, true)
 		DisableControlAction(2, 31, true)
@@ -726,10 +726,10 @@ Citizen.CreateThread(function()
 	end
 end)
 	
-Citizen.CreateThread(function()
+CreateThread(function()
 	local angle = 90
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		if isCameraActive then
 		if IsControlPressed(0, 108) then
 			angle = angle - 1

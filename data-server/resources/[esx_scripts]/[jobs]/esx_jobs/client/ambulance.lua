@@ -2,17 +2,17 @@ ESX = nil
 local isDead = false
 local firstSpawn = true
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(100)
+		Wait(100)
 	end
 end)
 
 -- Disable most inputs when dead
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 
 		if isDead then
 			DisableAllControlActions(0)
@@ -20,15 +20,15 @@ Citizen.CreateThread(function()
 			EnableControlAction(0, 245, true)
 			EnableControlAction(0, 38, true)
 		else
-			Citizen.Wait(500)
+			Wait(500)
 		end
 	end
 end)
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-	  Citizen.Wait(100)
+	  Wait(100)
 	  SetPlayerHealthRechargeMultiplier(PlayerId(), 0)
 	end
 end)
@@ -37,7 +37,7 @@ AddEventHandler('onResourceStart', function (resourceName)
 	if(GetCurrentResourceName() ~= resourceName) then
 		return
 	end
-    Citizen.Wait(100)
+    Wait(100)
 	CheckifDead()
 end)
 
@@ -81,7 +81,7 @@ AddEventHandler('esx_jobs:revive', function()
 	DoScreenFadeOut(800)
 
 	while not IsScreenFadedOut() do
-		Citizen.Wait(50)
+		Wait(50)
 	end
 
 	local formattedCoords = {
@@ -107,9 +107,9 @@ AddEventHandler('esx_jobs:useItem', function(itemName)
 		ESX.Streaming.RequestAnimDict(lib, function()
 			TaskPlayAnim(playerPed, lib, anim, 8.0, -8.0, -1, 0, 0, false, false, false)
 
-			Citizen.Wait(500)
+			Wait(500)
 			while IsEntityPlayingAnim(playerPed, lib, anim, 3) do
-				Citizen.Wait(0)
+				Wait(0)
 				DisableAllControlActions(0)
 			end
 
@@ -124,9 +124,9 @@ AddEventHandler('esx_jobs:useItem', function(itemName)
 		ESX.Streaming.RequestAnimDict(lib, function()
 			TaskPlayAnim(playerPed, lib, anim, 8.0, -8.0, -1, 0, 0, false, false, false)
 
-			Citizen.Wait(500)
+			Wait(500)
 			while IsEntityPlayingAnim(playerPed, lib, anim, 3) do
-				Citizen.Wait(0)
+				Wait(0)
 				DisableAllControlActions(0)
 			end
 
@@ -182,7 +182,7 @@ function RevivePlayer(closestPlayer)
 				ESX.ShowNotification(_U('revive_inprogress'))
 
 				for i=1, 15 do
-					Citizen.Wait(900)
+					Wait(900)
 
 					ESX.Streaming.RequestAnimDict(lib, function()
 						TaskPlayAnim(playerPed, lib, anim, 8.0, -8.0, -1, 0, 0.0, false, false, false)
@@ -223,7 +223,7 @@ function HealPlayer(closestPlayer, healtype)
 				currentTask.busy = true
 				ESX.ShowNotification(_U('heal_inprogress'))
 				TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_TEND_TO_DEAD', 0, true)
-				Citizen.Wait(10000)
+				Wait(10000)
 				ClearPedTasks(playerPed)
 
 				TriggerServerEvent('esx_jobs:removeItem', 'bandage')
@@ -253,10 +253,10 @@ function StartDeathTimer()
 	local earlySpawnTimer = ESX.Math.Round(Config.EarlyRespawnTimer / 1000)
 	local bleedoutTimer = ESX.Math.Round(Config.BleedoutTimer / 1000)
 
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		-- early respawn timer
 		while earlySpawnTimer > 0 and isDead do
-			Citizen.Wait(1000)
+			Wait(1000)
 
 			if earlySpawnTimer > 0 then
 				earlySpawnTimer = earlySpawnTimer - 1
@@ -265,7 +265,7 @@ function StartDeathTimer()
 
 		-- bleedout timer
 		while bleedoutTimer > 0 and isDead do
-			Citizen.Wait(1000)
+			Wait(1000)
 
 			if bleedoutTimer > 0 then
 				bleedoutTimer = bleedoutTimer - 1
@@ -273,12 +273,12 @@ function StartDeathTimer()
 		end
 	end)
 
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		local text, timeHeld
 
 		-- early respawn timer
 		while earlySpawnTimer > 0 and isDead do
-			Citizen.Wait(0)
+			Wait(0)
 			text = _U('respawn_available_in', secondsToClock(earlySpawnTimer))
 
 			DrawGenericTextThisFrame()
@@ -290,7 +290,7 @@ function StartDeathTimer()
 
 		-- bleedout timer
 		while bleedoutTimer > 0 and isDead do
-			Citizen.Wait(0)
+			Wait(0)
 			text = _U('respawn_bleedout_in', secondsToClock(bleedoutTimer))
 
 			if canPayFine then
@@ -324,11 +324,11 @@ end
 function RemoveItemsAfterRPDeath()
 	TriggerServerEvent('esx_jobs:setDeathStatus', false)
 
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		DoScreenFadeOut(800)
 
 		while not IsScreenFadedOut() do
-			Citizen.Wait(10)
+			Wait(10)
 		end
 
 		ESX.TriggerServerCallback('esx_jobs:removeItemsAfterRPDeath', function()

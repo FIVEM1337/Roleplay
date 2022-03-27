@@ -53,13 +53,13 @@ local Dumpsters = {
     "prop_skip_10a"
 }
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
+		Wait(0)
 	end
 	while ESX.GetPlayerData().job == nil do
-		Citizen.Wait(10)
+		Wait(10)
 	end
 	PlayerData = ESX.GetPlayerData()
 end)
@@ -75,9 +75,9 @@ AddEventHandler('esx:setJob', function(job)
 end)
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(1000) 
+        Wait(1000) 
         havingGarbageJob = true
         if garbageHQBlip == nil or garbageHQBlip == 0 then
             garbageHQBlip = AddBlipForCoord(clockRoom)
@@ -94,9 +94,9 @@ Citizen.CreateThread(function()
 end)
 
 
-Citizen.CreateThread(function() 
+CreateThread(function() 
     while true do 
-        Citizen.Wait(1)
+        Wait(1)
         if havingGarbageJob then
             local playerPed = PlayerPedId()
             local plyCoords = GetEntityCoords(playerPed)
@@ -117,15 +117,15 @@ Citizen.CreateThread(function()
                                 ESX.Game.SpawnVehicle("trash", vehicleCoords, heading , function(vehicle)
                                     truckplate = GetVehicleNumberPlateText(vehicle)
                                     truckcoords = GetEntityCoords(vehicle)
-                                    Citizen.CreateThread(function() 
+                                    CreateThread(function() 
                                         while not inTruck do 
-                                            Citizen.Wait(5)
+                                            Wait(5)
                                             DrawMarker(2, truckcoords + vector3(0.0,0.0,3.5), 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 150, false, true, 2, false, false, false, false)
                                             if IsPedInAnyVehicle(PlayerPedId()) then
                                                 local truck = GetVehiclePedIsIn(PlayerPedId(),false)
                                                 if truck == vehicle then
                                                     inTruck = true
-                                                    Citizen.Wait(1000)
+                                                    Wait(1000)
                                                     missionStart(coordVec,vehicle)
                                                     TriggerEvent('ndrp_carkeys:carkeys', vehicle)
                                                 end
@@ -147,10 +147,10 @@ Citizen.CreateThread(function()
 end)
 
 function submit()
-    Citizen.CreateThread(function()
+    CreateThread(function()
         local pressed = false
         while true do
-            Citizen.Wait(1)
+            Wait(1)
             local playerPed = PlayerPedId()
             local plyCoords = GetEntityCoords(playerPed)
             local distance = GetDistanceBetweenCoords(plyCoords,submitCoords, true) 
@@ -181,15 +181,15 @@ function submit()
                                     end
                                 end
                                 truckplate = false
-                                Citizen.Wait(1000)
+                                Wait(1000)
                                 pressed = false    
                                 return
                             else
                                 TriggerEvent('dopeNotify:Alert', "", "Das ist nicht dein Müllwagen!", 5000, 'error')
-                                Citizen.Wait(1000)
+                                Wait(1000)
                                 pressed = false
                             end
-                            Citizen.Wait(1000)
+                            Wait(1000)
                             pressed = false
                         end
                     end
@@ -206,16 +206,16 @@ function missionStart(coordVec,xtruck)
     SetBlipRoute(missionBlip, true)
     SetBlipRouteColour(missionBlip, 25)
     SetBlipColour(missionBlip, 25)
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while not arrived do
-            Citizen.Wait(1)
+            Wait(1)
             local tempdist = GetDistanceBetweenCoords(coordVec, GetEntityCoords(PlayerPedId()),true)
             if  tempdist < 50 then
                 DrawMarker(20, coordVec + vector3(0.0,0.0,3.5), 0.0, 0.0, 0.0, 0, 0.0, 0.0, 2.0, 2.0, 1.0, 0, 120, 0, 200, false, true, 2, false, false, false, false)
                 if tempdist < 2 then
                     arrived = true
                     maxruns  = math.random(6,10)
-                    Citizen.Wait(1000)
+                    Wait(1000)
                     SetBlipRoute(missionBlip, false)
                     RemoveBlip(missionBlip)
                     findtrashbins(coordVec,vehicle,0)
@@ -237,7 +237,7 @@ function findtrashbins(coordVec,xtruck,pickup)
         RequestAnimDict("anim@heists@narcotics@trash")
     end
     while not HasAnimDictLoaded("anim@heists@narcotics@trash") do
-        Citizen.Wait(0)
+        Wait(0)
     end
 
     if runs < maxruns then
@@ -330,9 +330,9 @@ function collectedtrash(geeky,vehicle,location,pickup)
                     end
                     ClearPedTasksImmediately(PlayerPedId())
 					TaskPlayAnim(PlayerPedId(), 'anim@heists@narcotics@trash', 'throw_b', 1.0, -1.0,-1,2,0,0, 0,0)
-                    Citizen.Wait(100)
+                    Wait(100)
                     DeleteObject(trashbag)
-                    Citizen.Wait(3000)
+                    Wait(3000)
                     ClearPedTasksImmediately(PlayerPedId())
                     findtrashbins(location,vehicle,runs+1)
                     pressed = false

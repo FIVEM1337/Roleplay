@@ -4,16 +4,16 @@ local LastZone                	= nil
 local CurrentAction				= nil
 local infoped					= nil
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
+		Wait(0)
 	end
 
 	TriggerEvent('esx_register:spawnnpc')
 
 	while infoped ~= nil do
-		Citizen.Wait(1)
+		Wait(1)
 		TaskSetBlockingOfNonTemporaryEvents(infoped, true)
 	end
 end)
@@ -21,9 +21,9 @@ end)
 
 
 -- Enter / Exit marker events
-Citizen.CreateThread(function ()
+CreateThread(function ()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 
 		local coords      = GetEntityCoords(PlayerPedId())
 		local isInMarker  = false
@@ -74,12 +74,12 @@ AddEventHandler('esx_register:hasExitedMarker', function (zone)
 end)
 
 -- Key controls
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 
 		if CurrentAction == nil then
-			Citizen.Wait(0)
+			Wait(0)
 		else		
 			if IsControlJustReleased(0, 38) then
 				ESX.TriggerServerCallback('esx_register:getname', function(name)

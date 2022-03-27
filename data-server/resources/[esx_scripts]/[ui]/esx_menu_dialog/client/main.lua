@@ -1,4 +1,4 @@
-Citizen.CreateThread(function()
+CreateThread(function()
 	-- internal variables
 	ESX               = nil
 	local Timeouts    = {}
@@ -9,7 +9,7 @@ Citizen.CreateThread(function()
 
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
+		Wait(0)
 	end
 
 	local openMenu = function(namespace, name, data)
@@ -107,9 +107,9 @@ Citizen.CreateThread(function()
 		cb('OK')
 	end)
 
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		while true do
-			Citizen.Wait(10)
+			Wait(10)
 			local OpenedMenuCount = 0
 
 			for k,v in pairs(OpenedMenus) do

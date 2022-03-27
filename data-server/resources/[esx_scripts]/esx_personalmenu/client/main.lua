@@ -43,19 +43,19 @@ Player = {
 
 local societymoney, societymoney2 = nil, nil
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(500)
+		Wait(500)
 	end
 
 	while ESX.GetPlayerData().job == nil do
-		Citizen.Wait(10)
+		Wait(10)
 	end
 
 	if Config.DoubleJob then
 		while ESX.GetPlayerData().job2 == nil do
-			Citizen.Wait(10)
+			Wait(10)
 		end
 	end
 
@@ -66,7 +66,7 @@ Citizen.CreateThread(function()
 			actualSkin = skin
 		end)
 
-		Citizen.Wait(10)
+		Wait(10)
 	end
 
 	RefreshMoney()
@@ -267,16 +267,16 @@ function KeyboardInput(entryTitle, textEntry, inputText, maxLength)
 	blockinput = true
 
 	while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do
-		Citizen.Wait(0)
+		Wait(0)
 	end
 
 	if UpdateOnscreenKeyboard() ~= 2 then
 		local result = GetOnscreenKeyboardResult()
-		Citizen.Wait(500)
+		Wait(500)
 		blockinput = false
 		return result
 	else
-		Citizen.Wait(500)
+		Wait(500)
 		blockinput = false
 		return nil
 	end
@@ -322,7 +322,7 @@ function setUniform(value, plyPed)
 		TriggerEvent('skinchanger:getSkin', function(skina)
 			if value == 'torso' then
 				startAnimAction('clothingtie', 'try_tie_neutral_a')
-				Citizen.Wait(1000)
+				Wait(1000)
 				Player.handsup, Player.pointing = false, false
 				ClearPedTasks(plyPed)
 
@@ -359,7 +359,7 @@ function setUniform(value, plyPed)
 				end
 			elseif value == 'bproof' then
 				startAnimAction('clothingtie', 'try_tie_neutral_a')
-				Citizen.Wait(1000)
+				Wait(1000)
 				Player.handsup, Player.pointing = false, false
 				ClearPedTasks(plyPed)
 
@@ -384,24 +384,24 @@ function setAccessory(accessory)
 
 				if _accessory == 'ears' then
 					startAnimAction('mini@ears_defenders', 'takeoff_earsdefenders_idle')
-					Citizen.Wait(250)
+					Wait(250)
 					Player.handsup, Player.pointing = false, false
 					ClearPedTasks(plyPed)
 				elseif _accessory == 'glasses' then
 					mAccessory = 0
 					startAnimAction('clothingspecs', 'try_glasses_positive_a')
-					Citizen.Wait(1000)
+					Wait(1000)
 					Player.handsup, Player.pointing = false, false
 					ClearPedTasks(plyPed)
 				elseif _accessory == 'helmet' then
 					startAnimAction('missfbi4', 'takeoff_mask')
-					Citizen.Wait(1000)
+					Wait(1000)
 					Player.handsup, Player.pointing = false, false
 					ClearPedTasks(plyPed)
 				elseif _accessory == 'mask' then
 					mAccessory = 0
 					startAnimAction('missfbi4', 'takeoff_mask')
-					Citizen.Wait(850)
+					Wait(850)
 					Player.handsup, Player.pointing = false, false
 					ClearPedTasks(plyPed)
 				end
@@ -1157,9 +1157,9 @@ function RenderAdminMenu()
 	end)
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 
 		if IsControlJustReleased(0, Config.Controls.OpenMenu.keyboard) then
 			if not RageUI.Visible() then
@@ -1240,7 +1240,7 @@ Citizen.CreateThread(function()
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 		plyPed = PlayerPedId()
 
@@ -1255,14 +1255,14 @@ Citizen.CreateThread(function()
 					local waypointHandle = GetFirstBlipInfoId(8)
 
 					if DoesBlipExist(waypointHandle) then
-						Citizen.CreateThread(function()
+						CreateThread(function()
 							local waypointCoords = GetBlipInfoIdCoord(waypointHandle)
 							local foundGround, zCoords, zPos = false, -500.0, 0.0
 
 							while not foundGround do
 								zCoords = zCoords + 10.0
 								RequestCollisionAtCoord(waypointCoords.x, waypointCoords.y, zCoords)
-								Citizen.Wait(0)
+								Wait(0)
 								foundGround, zPos = GetGroundZFor_3dCoord(waypointCoords.x, waypointCoords.y, zCoords)
 
 								if not foundGround and zCoords >= 2000.0 then
@@ -1301,11 +1301,11 @@ Citizen.CreateThread(function()
 			SetEntityCoordsNoOffset(plyPed, plyCoords, true, true, true)
 		end
 
-		Citizen.Wait(0)
+		Wait(0)
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 		if Player.showName then
 			for k, v in ipairs(ESX.Game.GetPlayers()) do
@@ -1322,6 +1322,6 @@ Citizen.CreateThread(function()
 			end
 		end
 
-		Citizen.Wait(100)
+		Wait(100)
 	end
 end)

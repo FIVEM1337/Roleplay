@@ -21,7 +21,7 @@ local meterAttrs = {
 --[[
   Recalcuation of amount and distribution to vehicles passengers
 ]]
-Citizen.CreateThread(function()
+CreateThread(function()
   while true do
     calculateFareAmount()
 
@@ -29,12 +29,12 @@ Citizen.CreateThread(function()
       updatePassengerMeters()
     end
 
-    Citizen.Wait(2000)
+    Wait(2000)
   end
 end)
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
   while true do
     if not IsPedInAnyVehicle(PlayerPedId(), true) then
       meterAttrs['meterVisible'] = false
@@ -42,17 +42,17 @@ Citizen.CreateThread(function()
     end
 
     updateMeter()
-    Citizen.Wait(0)
+    Wait(0)
   end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
   loadEsx()
   initializeJob()
   registerJobChangeListener()
   
   while true do
-    Citizen.Wait(0)
+    Wait(0)
     local ped = PlayerPedId()
 
 if playerJobName == 'taxi' then
@@ -91,7 +91,7 @@ end)
 function loadEsx()
     while ESX == nil do
         TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-        Citizen.Wait(0)
+        Wait(0)
     end
 end
 
@@ -102,7 +102,7 @@ function initializeJob()
             handleJobChange(playerData.job)
             break
         end
-        Citizen.Wait(10)
+        Wait(10)
     end
 end
 
@@ -258,7 +258,7 @@ end
   Method for displaying the enter rate dialog
 ]]
 function MeterSetRate()
-  Citizen.CreateThread(function()
+  CreateThread(function()
     DisplayOnscreenKeyboard(false, "", "", "", "", "", "", 8)
 
     while true do
@@ -283,7 +283,7 @@ function MeterSetRate()
         break
       end
 
-      Citizen.Wait(0)
+      Wait(0)
     end
   end)
 end

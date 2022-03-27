@@ -3,7 +3,7 @@ local Vehicles   = {}
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	local char = Config.PlateLetters
 	char = char + Config.PlateNumbers
 	if Config.PlateUseSpace then char = char + 1 end

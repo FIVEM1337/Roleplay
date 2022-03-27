@@ -222,9 +222,9 @@ AddEventHandler('esx_basicitems:onUseTablet', function(itemName)
 	end
 
 	RequestAnimDict("amb@world_human_tourist_map@male@base")
-	Citizen.CreateThread(function ()
+	CreateThread(function ()
 		while not HasAnimDictLoaded("amb@world_human_tourist_map@male@base") do
-			Citizen.Wait(1)
+			Wait(1)
 		end
 		TaskPlayAnim(playerPed, "amb@world_human_tourist_map@male@base", "base", 2.0, 2.0, -1, 1, 0, false, false, false)
 	end)

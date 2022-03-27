@@ -1,7 +1,7 @@
 ESX = nil
 GLOBAL_PED, GLOBAL_COORDS = nil, nil
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while not ESX do
 		--Fetching esx library, due to new to esx using this.
 
@@ -9,7 +9,7 @@ Citizen.CreateThread(function()
 			ESX = library 
 		end)
 
-		Citizen.Wait(0)
+		Wait(0)
 	end
 end)
 
@@ -18,12 +18,12 @@ AddEventHandler("esx_fishing:StartFish", function()
 	InitFishing(false)
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 		GLOBAL_PED = PlayerPedId()
 		GLOBAL_COORDS = GetEntityCoords(GLOBAL_PED, true)
-		Citizen.Wait(1500)
+		Wait(1500)
 	end
 end)
 
-Citizen.CreateThread(function() while true do Citizen.Wait(30000) collectgarbage() end end)-- Prevents RAM LEAKS :)
+CreateThread(function() while true do Wait(30000) collectgarbage() end end)-- Prevents RAM LEAKS :)

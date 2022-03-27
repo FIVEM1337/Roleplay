@@ -7,7 +7,7 @@ SPRAYS = {
 
 FastBlacklist = {}
 
-Citizen.CreateThread(function()
+CreateThread(function()
     if Config.Blacklist then
         for _, word in pairs(Config.Blacklist) do
             FastBlacklist[word] = word
@@ -73,7 +73,7 @@ function PersistSpray(spray, identifier)
     })
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
     MySQL.Sync.execute([[
         DELETE FROM sprays 
         WHERE DATEDIFF(NOW(), created_at) >= @days

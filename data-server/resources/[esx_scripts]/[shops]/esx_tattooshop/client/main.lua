@@ -2,10 +2,10 @@ local currentTattoos, cam, CurrentActionData = {}, -1, {}
 local HasAlreadyEnteredMarker, CurrentAction, CurrentActionMsg
 ESX = nil
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(500)
+		Wait(500)
 	end
 end)
 
@@ -97,7 +97,7 @@ function OpenShopMenu()
 	end)
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	for k,v in pairs(Config.Zones) do
 		local blip = AddBlipForCoord(v)
 		SetBlipSprite(blip, 75)
@@ -111,9 +111,9 @@ Citizen.CreateThread(function()
 end)
 
 -- Display markers
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		local coords, letSleep = GetEntityCoords(PlayerPedId()), true
 
 		for k,v in pairs(Config.Zones) do
@@ -124,15 +124,15 @@ Citizen.CreateThread(function()
 		end
 
 		if letSleep then
-			Citizen.Wait(500)
+			Wait(500)
 		end
 	end
 end)
 
 -- Enter / Exit marker events
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(100)
+		Wait(100)
 
 		local coords = GetEntityCoords(PlayerPedId())
 		local isInMarker = false
@@ -172,9 +172,9 @@ AddEventHandler('esx_tattooshop:hasExitedMarker', function(zone)
 end)
 
 -- Key Controls
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(0)
+        Wait(0)
 
         if CurrentAction then
             ESX.ShowHelpNotification(CurrentActionMsg)
@@ -188,7 +188,7 @@ Citizen.CreateThread(function()
                 CurrentAction = nil
             end
         else
-            Citizen.Wait(500)
+            Wait(500)
         end
     end
 end)
@@ -200,7 +200,7 @@ local playerPed = PlayerPedId()
                 TriggerEvent('skinchanger:loadSkin', skin)
     end)
 
-    Citizen.Wait(1000)
+    Wait(1000)
     FreezeEntityPosition(playerPed, false)
 
     for k,v in pairs(currentTattoos) do

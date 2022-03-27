@@ -3,16 +3,16 @@ local blips_list = {}
 local PlayerData = {}
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(100)
+		Wait(100)
 	end
 
 	while PlayerData.job == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 		PlayerData = ESX.GetPlayerData()
-		Citizen.Wait(111)
+		Wait(111)
 	end
 
 	Wait(5000)

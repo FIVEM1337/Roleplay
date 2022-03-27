@@ -2,7 +2,7 @@ local oneSync = false
 ESX = nil
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	if GetConvar("onesync") ~= 'off' then
 		oneSync = true
 	end

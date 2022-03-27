@@ -51,7 +51,7 @@ AddEventHandler('esx_spray:spray', function(text)
     end
 end, false)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     WarMenu.CreateMenu('spray', Config.Text.MENU.TITLE)
     WarMenu.SetSubTitle('spray', Config.Text.MENU.SUBTITLE)
     WarMenu.SetMenuX('spray', 0.75)
@@ -115,7 +115,7 @@ function PersistSpray()
 
         local isCancelled = false
 
-        Citizen.CreateThread(function()
+        CreateThread(function()
             Wait(2000)
             while not isCancelled do
                 SprayEffects()
@@ -174,7 +174,7 @@ function SprayEffects()
 	RequestNamedPtfxAsset(dict)
     -- Wait for the particle dictionary to load.
     while not HasNamedPtfxAssetLoaded(dict) do
-        Citizen.Wait(0)
+        Wait(0)
 	end
 
 	local pointers = {}
@@ -199,7 +199,7 @@ end
 function loadAnimDict( dict )
     while ( not HasAnimDictLoaded( dict ) ) do
         RequestAnimDict( dict )
-        Citizen.Wait( 100 )
+        Wait( 100 )
     end
 end
 

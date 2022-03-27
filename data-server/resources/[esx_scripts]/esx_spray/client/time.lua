@@ -26,7 +26,7 @@ function SetSprayTimeCorrectColor()
     end
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
         Hour = GetClockHours()
         SetSprayTimeCorrectColor()

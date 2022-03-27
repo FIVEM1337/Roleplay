@@ -1,5 +1,5 @@
 local Playertasks = {}
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 		if Config then
 			for k, v in pairs(Config.Drinks) do
@@ -14,7 +14,7 @@ Citizen.CreateThread(function()
 			end
 			break
 		end
-		Citizen.Wait(1)
+		Wait(1)
 	end
 end)
 

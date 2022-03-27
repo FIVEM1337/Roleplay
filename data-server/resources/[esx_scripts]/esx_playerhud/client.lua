@@ -7,14 +7,14 @@ local markerOn = false
 local markerTimer = 0
 local FirstSpawn = true
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
+		Wait(0)
 	end
 
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		if FirstSpawn then
 			SendNUIMessage({action = "toggle", show = false})
 
@@ -30,7 +30,7 @@ end)
 
 
 -- Disable Cinematic AFK Camera
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 		InvalidateIdleCam()
 		InvalidateVehicleIdleCam()
@@ -143,9 +143,9 @@ AddEventHandler("SaltyChat_TalkStateChanged", function(talking)
 
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(1)
+		Wait(1)
 		if markerOn == true then
 			coords = GetEntityCoords(PlayerPedId())
 			Marker(1, coords.x, coords.y, coords.z, currentRange)
@@ -155,11 +155,11 @@ end)
 
 function MarkerTimer()
 	markerOn = true
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		markerTimer = 10
 
 		while markerTimer > 0 do
-			Citizen.Wait(1000)
+			Wait(1000)
 			markerTimer = markerTimer - 1
 		end
 

@@ -1,9 +1,9 @@
 ESX = nil
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while ESX == nil do
       TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-      Citizen.Wait(0)
+      Wait(0)
     end
     
 end)
@@ -19,7 +19,7 @@ local zoomOffset     = 0.0
 local camOffset      = 0.0
 local heading        = 90.0
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
 
         -- if IsControlJustReleased(0, 38) then
@@ -35,7 +35,7 @@ Citizen.CreateThread(function()
 			DeleteSkinCam()
 		end
 
-        Citizen.Wait(1)
+        Wait(1)
     end
 end)
 
@@ -688,9 +688,9 @@ function DeleteSkinCam()
 	cam = nil
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		if isCameraActive then
             DisableControlAction(2, 30, true)
             DisableControlAction(2, 31, true)
@@ -747,7 +747,7 @@ function loadPed(pedHash)
 
     while not HasModelLoaded(pedHash) do
         RequestModel(pedHash)
-        Citizen.Wait(1)
+        Wait(1)
     end
 
     SetPlayerModel(PlayerId(), pedHash)
@@ -761,10 +761,10 @@ function loadPed(pedHash)
     SetModelAsNoLongerNeeded(pedHash)
 end
 	
-Citizen.CreateThread(function()
+CreateThread(function()
 	local angle = 180
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 
 		if isCameraActive then
 

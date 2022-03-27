@@ -1,12 +1,12 @@
 local ESX = nil
 
-Citizen.CreateThread(function()
+CreateThread(function()
     if Config.useEsx then
         while ESX == nil do
             TriggerEvent('esx:getSharedObject', function(obj)
                 ESX = obj
             end)
-            Citizen.Wait(0)
+            Wait(0)
         end
     end
 end)
@@ -217,7 +217,7 @@ function AttachTempRope(entity, front)
     end
     RopeLoadTextures()
     while not RopeAreTexturesLoaded() do
-        Citizen.Wait(50)
+        Wait(50)
     end
 
     local bonePos = GetWorldPositionOfEntityBone(entity, GetEntityBoneIndexByName(entity, bone))
@@ -227,9 +227,9 @@ function AttachTempRope(entity, front)
     end
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(250)
+        Wait(250)
         playerPed = PlayerPedId()
         if tempRope ~= nil then
             local speed = 0
@@ -253,9 +253,9 @@ Citizen.CreateThread(function()
             if (speed >= 5.0 and pullingDistance > (Config.ropeLength - 2.1)) or (speed > 20.0) or (pullingDistance > Config.ropeLength * 1.75) then
                 local ragdoll = true
                 DetachRope()
-                Citizen.CreateThread(function()
+                CreateThread(function()
                     while ragdoll do
-                        Citizen.Wait(100)
+                        Wait(100)
                         velocity = GetEntityVelocity(playerPed)
                         if entity1 ~= nil then
                             velocity = GetEntityVelocity(entity1)
@@ -266,7 +266,7 @@ Citizen.CreateThread(function()
                         SetPedToRagdoll(playerPed, 1000, 1000, 0, true, true, true)
                     end
                 end)
-                Citizen.Wait(1000)
+                Wait(1000)
                 entity1 = nil
                 entity2 = nil
                 ragdoll = false
@@ -378,7 +378,7 @@ AddEventHandler('esx_towing:makeRope', function(veh1_, veh2_, id, owner)
                 local bone2 = GetBoneFront(veh2)
                 RopeLoadTextures()
                 while not RopeAreTexturesLoaded() do
-                    Citizen.Wait(50)
+                    Wait(50)
                 end
                 local rope = AddRope(pos.x, pos.y, pos.z, 0.0, 0.0, 0.0, Config.ropeLength * 0.3, 1, Config.ropeLength, 0.1, 10.0, true, false, true, 1.0, false)
                 AttachEntitiesToRope(rope, veh1, veh2, 0.0, 0.0, 0.1, 0.0, 0.0, 0.1, Config.ropeLength, false, false, bone1, bone2)
@@ -401,10 +401,10 @@ AddEventHandler('esx_towing:makeRope', function(veh1_, veh2_, id, owner)
     end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     blink = false
     while true do
-        Citizen.Wait(0)
+        Wait(0)
         if isPlayerInVehicle or driverPed ~= nil then
             for k, rope in pairs(ropes) do
                 if driverPed ~= nil then
@@ -472,7 +472,7 @@ function CreateDriverPed(veh1, veh2)
     modelHash = GetHashKey(npcHash)
     RequestModel(modelHash)
     while not HasModelLoaded(modelHash) do
-        Citizen.Wait(1)
+        Wait(1)
     end
     if GetPedInVehicleSeat(veh2, -1) == 0 then
         driverPed = CreatePedInsideVehicle(veh2, 4, npcHash, -1, false, false)

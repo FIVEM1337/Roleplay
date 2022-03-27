@@ -1,10 +1,10 @@
 ESX = nil
 
-Citizen.CreateThread(function()
+CreateThread(function()
 
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
+		Wait(0)
 	end
 
 	local Keys = {
@@ -87,7 +87,7 @@ Citizen.CreateThread(function()
 
 	end)
 
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		while true do
 
 	  	Wait(0)

@@ -20,7 +20,7 @@ local keys = {
 
 function playAnim(animDict, animName, duration)
 	RequestAnimDict(animDict)
-	while not HasAnimDictLoaded(animDict) do Citizen.Wait(0) end
+	while not HasAnimDictLoaded(animDict) do Wait(0) end
 	TaskPlayAnim(PlayerPedId(), animDict, animName, 1.0, -1.0, duration, 49, 1, false, false, false)
 	RemoveAnimDict(animDict)
 end
@@ -32,10 +32,10 @@ end
 --===============================================
 --==           Base ESX Threading              ==
 --===============================================
-Citizen.CreateThread(function()
+CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
+		Wait(0)
 	end
 end)
 
@@ -47,9 +47,9 @@ end)
 --==             Core Threading                ==
 --===============================================
 if bankMenu then
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		while true do
-			Citizen.Wait(0)
+			Wait(0)
 			if nearBank() or nearATM() then
 					DisplayHelpText(_U('atm_open'))
 
@@ -75,7 +75,7 @@ end
 --===============================================
 
 --BANK
-Citizen.CreateThread(function()
+CreateThread(function()
 	if Config.ShowBlips then
 	  for k,v in ipairs(Config.Bank)do
 		local blip = AddBlipForCoord(v.x, v.y, v.z)
@@ -92,7 +92,7 @@ Citizen.CreateThread(function()
 end)
 
 --ATM
-Citizen.CreateThread(function()
+CreateThread(function()
 	if Config.ShowBlips and Config.OnlyBank == false then
 	  for k,v in ipairs(Config.ATM)do
 		local blip = AddBlipForCoord(v.x, v.y, v.z)
@@ -237,7 +237,7 @@ function closeUI()
 	SetNuiFocus(false, false)
 	if Config.Animation.Active then 
 		playAnim('mp_common', 'givetake1_a', Config.Animation.Time)
-		Citizen.Wait(Config.Animation.Time)
+		Wait(Config.Animation.Time)
 	end
 	SendNUIMessage({type = 'closeAll'})
 end
@@ -245,7 +245,7 @@ end
 function openUI()
 	if Config.Animation.Active then 
 		playAnim('mp_common', 'givetake1_a', Config.Animation.Time)
-		Citizen.Wait(Config.Animation.Time)
+		Wait(Config.Animation.Time)
 	end
 	inMenu = true
 	SetNuiFocus(true, true)

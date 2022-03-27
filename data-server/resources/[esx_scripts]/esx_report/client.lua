@@ -10,10 +10,10 @@ local timeLeft = Config.FeedbackCooldown
 
 -------------------------- COMMANDS
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
+		Wait(0)
 	end
 end)
 
@@ -108,7 +108,7 @@ RegisterNUICallback("action", function(data)
 		canFeedback = false
 
 		while (time > pastTime) do
-			Citizen.Wait(1000)
+			Wait(1000)
 			pastTime = pastTime + 1
 			timeLeft = time - pastTime
 		end

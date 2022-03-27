@@ -11,17 +11,17 @@ currentTask = {}
 isDead = false
 dragStatus.isDragged = false
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(100)
+		Wait(100)
 	end
 
 	while PlayerData.job == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 		PlayerData = ESX.GetPlayerData()
 		SetBlips()
-		Citizen.Wait(111)
+		Wait(111)
 	end
 end)
 
@@ -31,9 +31,9 @@ AddEventHandler('esx:setJob', function(job)
 	SetBlips()
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(3)
+		Wait(3)
 		if PlayerData.job and not isDead then
 			if jobs[PlayerData.job.name] then
 				v = jobs[PlayerData.job.name]
@@ -110,9 +110,9 @@ AddEventHandler('esx_jobs:hasExitedMarker', function(LastPart, station)
 end)
 
 -- Key Controls
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(1)
+		Wait(1)
 
 		if CurrentAction and not isDead then
 			ESX.ShowHelpNotification(CurrentActionMsg)
@@ -155,12 +155,12 @@ AddEventHandler('esx_jobs:handcuff', function()
 	isHandcuffed = not isHandcuffed
 	local playerPed = PlayerPedId()
 
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		if isHandcuffed then
 
 			RequestAnimDict('mp_arresting')
 			while not HasAnimDictLoaded('mp_arresting') do
-				Citizen.Wait(100)
+				Wait(100)
 			end
 
 			TaskPlayAnim(playerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0, 0, 0, 0)
@@ -192,12 +192,12 @@ AddEventHandler('esx_jobs:drag', function(copId)
 	dragStatus.CopId = copId
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	local playerPed
 	local targetPed
 
 	while true do
-		Citizen.Wait(1)
+		Wait(1)
 
 		if isHandcuffed then
 			playerPed = PlayerPedId()
@@ -221,7 +221,7 @@ Citizen.CreateThread(function()
 				DetachEntity(playerPed, true, false)
 			end
 		else
-			Citizen.Wait(500)
+			Wait(500)
 		end
 	end
 end)
@@ -257,9 +257,9 @@ AddEventHandler('esx_jobs:putInVehicle', function()
 end)
 
 -- Handcuff
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		local playerPed = PlayerPedId()
 
 		if isHandcuffed then
@@ -312,7 +312,7 @@ Citizen.CreateThread(function()
 				end)
 			end
 		else
-			Citizen.Wait(500)
+			Wait(500)
 		end
 	end
 end)
@@ -499,7 +499,7 @@ function OpenJobActionsMenu(JobConfig)
 						currentTask.busy = true
 						if IsAnyVehicleNearPoint(coords.x, coords.y, coords.z, 3.0) then
 							TaskStartScenarioInPlace(playerPed, 'WORLD_HUMAN_WELDING', 0, true)
-							Citizen.Wait(20000)
+							Wait(20000)
 							ClearPedTasksImmediately(playerPed)
 							SetVehicleDoorsLocked(vehicle, 1)
 							SetVehicleDoorsLockedForAllPlayers(vehicle, false)
@@ -514,8 +514,8 @@ function OpenJobActionsMenu(JobConfig)
 						currentTask.busy = true
 
 						TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
-						Citizen.CreateThread(function()
-							Citizen.Wait(20000)
+						CreateThread(function()
+							Wait(20000)
 							SetVehicleFixed(vehicle)
 							SetVehicleDeformationFixed(vehicle)
 							SetVehicleUndriveable(vehicle, false)
@@ -535,8 +535,8 @@ function OpenJobActionsMenu(JobConfig)
 
 						currentTask.busy = true
 						TaskStartScenarioInPlace(playerPed, 'WORLD_HUMAN_MAID_CLEAN', 0, true)
-						Citizen.CreateThread(function()
-							Citizen.Wait(10000)
+						CreateThread(function()
+							Wait(10000)
 		
 							SetVehicleDirtLevel(vehicle, 0)
 							ClearPedTasksImmediately(playerPed)
@@ -553,13 +553,13 @@ function OpenJobActionsMenu(JobConfig)
 						currentTask.task = ESX.SetTimeout(10000, function()
 							ClearPedTasks(playerPed)
 							ImpoundVehicle(vehicle)
-							Citizen.Wait(100)
+							Wait(100)
 						end)
 
 						-- keep track of that vehicle!
-						Citizen.CreateThread(function()
+						CreateThread(function()
 							while currentTask.busy do
-								Citizen.Wait(1000)
+								Wait(1000)
 
 								vehicle = GetClosestVehicle(coords.x, coords.y, coords.z, 3.0, 0, 71)
 								if not DoesEntityExist(vehicle) and currentTask.busy then
@@ -778,7 +778,7 @@ function OpenPutStocksMenu(station)
 					menu.close()
 					TriggerServerEvent('esx_jobs:putStockItems', itemName, count)
 
-					Citizen.Wait(300)
+					Wait(300)
 					OpenPutStocksMenu(station)
 				end
 			end, function(data2, menu2)
@@ -822,7 +822,7 @@ function OpenGetStocksMenu(station)
 					menu.close()
 					TriggerServerEvent('esx_jobs:getStockItem', itemName, count)
 
-					Citizen.Wait(300)
+					Wait(300)
 					OpenGetStocksMenu(station)
 				end
 			end, function(data2, menu2)

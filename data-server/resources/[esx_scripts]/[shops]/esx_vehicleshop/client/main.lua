@@ -24,16 +24,16 @@ local CurrentVehicleData      = nil
 
 ESX                           = nil
 
-Citizen.CreateThread(function ()
+CreateThread(function ()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
+		Wait(0)
 	end
 
 	ESX.TriggerServerCallback('esx_vehicleshop:getVehicles', function (vehicles)
 		Vehicles = vehicles
 	end)
-	Citizen.Wait(1000)	
+	Wait(1000)	
 end)
 
 RegisterNetEvent('esx:playerLoaded')
@@ -57,9 +57,9 @@ end
 
 function StartShopRestriction()
 
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		while IsInShopMenu do
-			Citizen.Wait(1)
+			Wait(1)
 	
 			DisableControlAction(0, 75,  true) -- Disable exit vehicle
 			DisableControlAction(27, 75, true) -- Disable exit vehicle
@@ -264,7 +264,7 @@ AddEventHandler('onResourceStop', function(resource)
 end)
 
 -- Create Blips
-Citizen.CreateThread(function ()
+CreateThread(function ()
 
 	for k, v in pairs (Config.Zones) do
 		if v.VehicleShop ~= nil then
@@ -312,10 +312,10 @@ function Draw3DText(x,y,z,text,scale)
 end
 
 -- Display markers
-Citizen.CreateThread(function ()
+CreateThread(function ()
 	
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 
 		local coords = GetEntityCoords(PlayerPedId())
 
@@ -325,10 +325,10 @@ Citizen.CreateThread(function ()
 	end
 end)
 
-Citizen.CreateThread(function() 
+CreateThread(function() 
 	
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		local coords      = GetEntityCoords(PlayerPedId())
 		for k,v in pairs(Config.Zones) do
 			if v.Type == 36 then
@@ -344,9 +344,9 @@ end)
 
 
 -- Enter / Exit marker events
-Citizen.CreateThread(function ()
+CreateThread(function ()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 
 		local coords      = GetEntityCoords(PlayerPedId())
 		local isInMarker  = false
@@ -373,12 +373,12 @@ Citizen.CreateThread(function ()
 end)
 
 -- Key controls
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 
 		if CurrentAction == nil then
-			Citizen.Wait(0)
+			Wait(0)
 		else		
 			if IsControlJustReleased(0, Keys['E']) then
 				if CurrentAction == 'shop_menu' then
@@ -403,7 +403,7 @@ Citizen.CreateThread(function()
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	RequestIpl('shr_int') -- Load walls and floor
 
 	local interiorID = 7170

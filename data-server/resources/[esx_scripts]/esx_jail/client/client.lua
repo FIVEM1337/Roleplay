@@ -4,14 +4,14 @@ local infoped = nil
 local jobmanped = nil
 local docped = nil
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
+		Wait(0)
 	end
 
 	while ESX.GetPlayerData().job == nil do
-		Citizen.Wait(10)
+		Wait(10)
 	end
 
 	ESX.PlayerData = ESX.GetPlayerData()
@@ -92,8 +92,8 @@ AddEventHandler('esx:setJob', function(job)
 	ESX.PlayerData.job = job
 end)
 
-Citizen.CreateThread(function()
-	Citizen.Wait(500)
+CreateThread(function()
+	Wait(500)
 	if Config.JailBlip.Spawn then
 		local blip2 = AddBlipForCoord(Config.JailLoc.x, Config.JailLoc.y, Config.JailLoc.z)
 		SetBlipSprite(blip2, Config.JailBlip.Sprite)
@@ -123,12 +123,12 @@ AddEventHandler('esx:playerLoaded', function()
 end)
 
 function Spawned()
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		while true do
-			Citizen.Wait(1000)
+			Wait(1000)
 			if ESX ~= nil then
 				if ESX.PlayerData.job ~= nil then
-					Citizen.Wait(3000)
+					Wait(3000)
 					TriggerServerEvent('esx_jail:LoadedIn')
 					break
 				end
@@ -179,9 +179,9 @@ end)
 RegisterNetEvent('esx_jail:JailStart')
 AddEventHandler('esx_jail:JailStart', function(timez)
 	local ped = PlayerPedId()
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		DoScreenFadeOut(1000)
-		Citizen.Wait(1000)
+		Wait(1000)
 		LoadJailCell(timez, true)
 	end)
 end)
@@ -301,7 +301,7 @@ end)
 function LoadJailCell(timu, firstTime)
 	local ped = PlayerPedId()
 	DoScreenFadeOut(1000)
-	Citizen.Wait(1500)
+	Wait(1500)
 	local keepWeapon = {}
 
 	if Config.DontTakeGunUponEntry[1] ~= nil then
@@ -422,7 +422,7 @@ function LoadJailCell(timu, firstTime)
 
 
 
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		ESX.TriggerServerCallback('esx_jail:GetCell', function(cell)
 			if cell ~= 0 then
 				TriggerServerEvent('esx_jail:UpdateCell', cell)
@@ -441,14 +441,14 @@ function LoadJailCell(timu, firstTime)
 				EndTextCommandSetBlipName(blip5)
 			--	table.insert(blips, {id = 'chest', data = blip5})
 
-				Citizen.Wait(1500)
+				Wait(1500)
 				beingSent = false
 				beingMsg = {msg = nil, size = 0.0}
 				CloseSecurityCamera()
 				SetEntityCoords(ped, Config.Cells[cell].SpawnLoc.Loc.x, Config.Cells[cell].SpawnLoc.Loc.y, Config.Cells[cell].SpawnLoc.Loc.z - 1, false, false, false, false)
 				SetEntityHeading(ped, Config.Cells[cell].SpawnLoc.Heading)
 
-				Citizen.Wait(200)
+				Wait(200)
 
 				SetEntityCoords(ped, Config.Cells[cell].SpawnLoc.Loc.x, Config.Cells[cell].SpawnLoc.Loc.y, Config.Cells[cell].SpawnLoc.Loc.z - 1, false, false, false, false)
 				SetEntityHeading(ped, Config.Cells[cell].SpawnLoc.Heading)
@@ -472,9 +472,9 @@ function LoadJailCell(timu, firstTime)
 					end
 				end
 				time = timu
-				Citizen.Wait(500)
+				Wait(500)
 				injail = true
-				Citizen.Wait(1000)
+				Wait(1000)
 				TriggerServerEvent('esx_jail:CheckSol', GetPlayerServerId(PlayerId()))
 			end
 		end)
@@ -486,9 +486,9 @@ AddEventHandler('esx_jail:NotSol', function()
 	DoScreenFadeIn(500)
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(5)
+		Wait(5)
 		if infoped ~= nil then
 			TaskSetBlockingOfNonTemporaryEvents(infoped, true)
 		end
@@ -501,9 +501,9 @@ Citizen.CreateThread(function()
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(1000)
+		Wait(1000)
 		local ped = PlayerPedId()
 		local coords = GetEntityCoords(ped)
 		if breakout2 then
@@ -572,24 +572,24 @@ end)
 
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 		if beingSent then
 			local ped = PlayerPedId()
 			pedsie = ESX.Game.GetPeds({ped})
-			Citizen.Wait(250)
+			Wait(250)
 		else
-			Citizen.Wait(500)
+			Wait(500)
 		end
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 		local ped = PlayerPedId()
 		local coords = GetEntityCoords(ped)
 		if beingSent then
-			Citizen.Wait(5)
+			Wait(5)
 			drawTxt(beingMsg.msg,0,1,0.5,0.8,beingMsg.size,255,255,255,255)
 			DisableAllControlActions(0)
 			if pedsie ~= nil then
@@ -605,7 +605,7 @@ Citizen.CreateThread(function()
 			local dist = Vdist(Config.ItemLoc.Loc.x, Config.ItemLoc.Loc.y, Config.ItemLoc.Loc.z, coords)
 			if not using then
 				if dist <= Config.ShowItemDist then
-					Citizen.Wait(5)
+					Wait(5)
 					DrawMarker(Config.LMarkNum, Config.ItemLoc.Loc.x, Config.ItemLoc.Loc.y, Config.ItemLoc.Loc.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Config.LMarkSize.x, Config.LMarkSize.y, Config.LMarkSize.z, Config.LMarkColor.r, Config.LMarkColor.g, Config.LMarkColor.b, 100, false, false, 2, true, nil, nil, false)
 					if dist <= Config.ItemTextDist then
 						DrawText3D(Config.ItemLoc.Loc.x, Config.ItemLoc.Loc.y, Config.ItemLoc.Loc.z, Config.Sayings[12])
@@ -625,7 +625,7 @@ Citizen.CreateThread(function()
 							inAnim.Freeze = true
 							FreezeEntityPosition(ped, true)
 							exports['progressBars']:startUI(Config.RetreiveTime *1000, Config.Sayings[13])
-							Citizen.Wait(Config.RetreiveTime *1000)
+							Wait(Config.RetreiveTime *1000)
 							TriggerServerEvent('esx_jail:RetrieveItems', itemzie)
 							local removes = {}
 							for i = 1, #blips, 1 do
@@ -650,17 +650,17 @@ Citizen.CreateThread(function()
 						end
 					end
 				else
-					Citizen.Wait(1000)
+					Wait(1000)
 				end
 			else 
-				Citizen.Wait(1000)
+				Wait(1000)
 			end
 		elseif breakout2 then
 			local dist = Vdist(Config.WatchTowers[closestTower].x, Config.WatchTowers[closestTower].y, Config.WatchTowers[closestTower].z - 1, coords)
 
 			if not using and not isDead then
 				if dist <= Config.SeeWatchDist then
-					Citizen.Wait(5)
+					Wait(5)
 					DrawMarker(1, Config.WatchTowers[closestTower].x, Config.WatchTowers[closestTower].y, Config.WatchTowers[closestTower].z -1, 0, 0, 0, 0, 0, 0, Config.WatchDist * 2, Config.WatchDist * 2, 2.0, Config.WatchMarkColor.r, Config.WatchMarkColor.g, Config.WatchMarkColor.b, 155, 0, 0, 2, 0, 0, 0, 0)
 					if dist <= Config.WatchDist then
 						breakout2 = false
@@ -673,17 +673,17 @@ Citizen.CreateThread(function()
 						breakout2 = false
 						breakout4 = true
 					end
-					Citizen.Wait(500)
+					Wait(500)
 				end
 			else
-				Citizen.Wait(1000)
+				Wait(1000)
 			end
 		elseif time > 0 then
 			local dist = Vdist(jailLocs[closestLoc].Loc.x, jailLocs[closestLoc].Loc.y, jailLocs[closestLoc].Loc.z, coords)
 			
 			if not using and not isDead then
 				if dist <= Config.SeeDist then
-					Citizen.Wait(1)
+					Wait(1)
 					if jailLocs[closestLoc] ~= nil then
 						if jailLocs[closestLoc].Sub then
 							DrawMarker(jailLocs[closestLoc].Mark.Num, jailLocs[closestLoc].Loc.x, jailLocs[closestLoc].Loc.y, jailLocs[closestLoc].Loc.z - 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, jailLocs[closestLoc].Mark.Size.x, jailLocs[closestLoc].Mark.Size.y, jailLocs[closestLoc].Mark.Size.z, jailLocs[closestLoc].Mark.Color.r, jailLocs[closestLoc].Mark.Color.g, jailLocs[closestLoc].Mark.Color.b, 100, false, false, 2, true, nil, nil, false)
@@ -729,25 +729,25 @@ Citizen.CreateThread(function()
 						end
 					end
 				else 
-					Citizen.Wait(1000)
+					Wait(1000)
 				end
 			else
-				Citizen.Wait(1000)
+				Wait(1000)
 			end
 		else
-			Citizen.Wait(1000)
+			Wait(1000)
 		end
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 		if breakout > 0 and not using then
 			local ped = PlayerPedId()
 			local coords = GetEntityCoords(ped)
 			local dist = Vdist(Config.BreakLocs[closestBreak].StartLoc.Loc.x, Config.BreakLocs[closestBreak].StartLoc.Loc.y, Config.BreakLocs[closestBreak].StartLoc.Loc.z, coords)
 			if dist <= Config.SeeBreakDist and not isDead then
-				Citizen.Wait(5)
+				Wait(5)
 				DrawMarker(Config.BreakMarkNum, Config.BreakLocs[closestBreak].StartLoc.Loc.x, Config.BreakLocs[closestBreak].StartLoc.Loc.y, Config.BreakLocs[closestBreak].StartLoc.Loc.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Config.BreakMarkSize.x, Config.BreakMarkSize.y, Config.BreakMarkSize.z, Config.BreakMarkColor.r, Config.BreakMarkColor.g, Config.BreakMarkColor.b, 100, false, false, 2, true, nil, nil, false)
 
 				if dist <= Config.BreakTextDist then
@@ -760,7 +760,7 @@ Citizen.CreateThread(function()
 					end
 				end
 			else
-				Citizen.Wait(1000)
+				Wait(1000)
 			end
 		elseif not isDead and workoutNow then
 			local ped = PlayerPedId()
@@ -768,7 +768,7 @@ Citizen.CreateThread(function()
 			local dist = Vdist(Config.WorkoutLocs[workoutLoc].Locs[closestOut].Loc.x, Config.WorkoutLocs[workoutLoc].Locs[closestOut].Loc.y, Config.WorkoutLocs[workoutLoc].Locs[closestOut].Loc.z, coords)
 
 			if dist <= Config.SeeWorkDist and not using then
-				Citizen.Wait(5)
+				Wait(5)
 				DrawMarker(Config.WoutMarkNum, Config.WorkoutLocs[workoutLoc].Locs[closestOut].Loc.x, Config.WorkoutLocs[workoutLoc].Locs[closestOut].Loc.y, Config.WorkoutLocs[workoutLoc].Locs[closestOut].Loc.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Config.WoutMarkSize.x, Config.WoutMarkSize.y, Config.WoutMarkSize.z, Config.WoutMarkColor.r, Config.WoutMarkColor.g, Config.WoutMarkColor.b, 100, false, false, 2, true, nil, nil, false)
 
 				if dist <= Config.WorkText then
@@ -783,7 +783,7 @@ Citizen.CreateThread(function()
 							RequestAnimDict(Config.WorkoutLocs[workoutLoc].Locs[closestOut].Anim.Dict)
 		
 							if not HasAnimDictLoaded(Config.WorkoutLocs[workoutLoc].Locs[closestOut].Anim.Dict) then
-								Citizen.Wait(0)
+								Wait(0)
 							end
 						
 							TaskPlayAnim(ped, Config.WorkoutLocs[workoutLoc].Locs[closestOut].Anim.Dict, Config.WorkoutLocs[workoutLoc].Locs[closestOut].Anim.Aim, 8.0, 8.0, -1, 1, 1, 0, 0, 0)
@@ -797,7 +797,7 @@ Citizen.CreateThread(function()
 						FreezeEntityPosition(ped, true)
 
 						exports['progressBars']:startUI(Config.WorkoutLocs[workoutLoc].Locs[closestOut].Time *1000, Config.Sayings[123])
-						Citizen.Wait(Config.WorkoutLocs[workoutLoc].Locs[closestOut].Time *1000)
+						Wait(Config.WorkoutLocs[workoutLoc].Locs[closestOut].Time *1000)
 						if Config.WorkoutLocs[workoutLoc].Locs[closestOut].Anim.Aim ~= nil then
 							TaskPlayAnim(ped, Config.WorkoutLocs[workoutLoc].Locs[closestOut].Anim.Dict, Config.WorkoutLocs[workoutLoc].Locs[closestOut].Anim.Aim, 8.0, 8.0, -1, 1, 1, 0, 0, 0)
 							inAnim.Dict = nil
@@ -830,7 +830,7 @@ Citizen.CreateThread(function()
 						end
 					end)
 				end
-				Citizen.Wait(500)
+				Wait(500)
 			end
 		elseif not isDead and showerNow then
 			local ped = PlayerPedId()
@@ -838,7 +838,7 @@ Citizen.CreateThread(function()
 			local dist = Vdist(Config.ShowerLocs[closestShower].x, Config.ShowerLocs[closestShower].y, Config.ShowerLocs[closestShower].z, coords)
 
 			if dist <= Config.ShowerFullDist then
-				Citizen.Wait(5)
+				Wait(5)
 				for i = 1, #Config.ShowerLocs, 1 do
 					local dist2 = Vdist(Config.ShowerLocs[i].x, Config.ShowerLocs[i].y, Config.ShowerLocs[i].z, coords)
 					if dist2 <= Config.ShowerMarkerDist then
@@ -861,8 +861,8 @@ Citizen.CreateThread(function()
 						end
 						TaskStartScenarioInPlace((PlayerPedId()), "PROP_HUMAN_STAND_IMPATIENT", 0, true)
 						exports['progressBars']:startUI(18 *1000, Config.Sayings[118])
-						UseParticleFxAssetNextCall("core") particles  = StartParticleFxLoopedAtCoord("ent_sht_water", Config.ShowerLocs[closestShower].x, Config.ShowerLocs[closestShower].y, Config.ShowerLocs[closestShower].z +1.8, 0.0, 0.0, 0.0, 1.0, false, false, false, false) UseParticleFxAssetNextCall("core") Citizen.Wait(3000) particles2  = StartParticleFxLoopedAtCoord("ent_sht_water", Config.ShowerLocs[closestShower].x, Config.ShowerLocs[closestShower].y, Config.ShowerLocs[closestShower].z +1.8, 0.0, 0.0, 0.0, 1.0, false, false, false, false) UseParticleFxAssetNextCall("core") Citizen.Wait(3000) particles3  = StartParticleFxLoopedAtCoord("ent_sht_water", Config.ShowerLocs[closestShower].x, Config.ShowerLocs[closestShower].y, Config.ShowerLocs[closestShower].z +1.8, 0.0, 0.0, 0.0, 1.0, false, false, false, false) UseParticleFxAssetNextCall("core") Citizen.Wait(3000) particles4  = StartParticleFxLoopedAtCoord("ent_sht_water", Config.ShowerLocs[closestShower].x, Config.ShowerLocs[closestShower].y, Config.ShowerLocs[closestShower].z +1.8, 0.0, 0.0, 0.0, 1.0, false, false, false, false) UseParticleFxAssetNextCall("core") Citizen.Wait(3000) particles5  = StartParticleFxLoopedAtCoord("ent_sht_water", Config.ShowerLocs[closestShower].x, Config.ShowerLocs[closestShower].y, Config.ShowerLocs[closestShower].z +1.8, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
-						Citizen.Wait(6000)
+						UseParticleFxAssetNextCall("core") particles  = StartParticleFxLoopedAtCoord("ent_sht_water", Config.ShowerLocs[closestShower].x, Config.ShowerLocs[closestShower].y, Config.ShowerLocs[closestShower].z +1.8, 0.0, 0.0, 0.0, 1.0, false, false, false, false) UseParticleFxAssetNextCall("core") Wait(3000) particles2  = StartParticleFxLoopedAtCoord("ent_sht_water", Config.ShowerLocs[closestShower].x, Config.ShowerLocs[closestShower].y, Config.ShowerLocs[closestShower].z +1.8, 0.0, 0.0, 0.0, 1.0, false, false, false, false) UseParticleFxAssetNextCall("core") Wait(3000) particles3  = StartParticleFxLoopedAtCoord("ent_sht_water", Config.ShowerLocs[closestShower].x, Config.ShowerLocs[closestShower].y, Config.ShowerLocs[closestShower].z +1.8, 0.0, 0.0, 0.0, 1.0, false, false, false, false) UseParticleFxAssetNextCall("core") Wait(3000) particles4  = StartParticleFxLoopedAtCoord("ent_sht_water", Config.ShowerLocs[closestShower].x, Config.ShowerLocs[closestShower].y, Config.ShowerLocs[closestShower].z +1.8, 0.0, 0.0, 0.0, 1.0, false, false, false, false) UseParticleFxAssetNextCall("core") Wait(3000) particles5  = StartParticleFxLoopedAtCoord("ent_sht_water", Config.ShowerLocs[closestShower].x, Config.ShowerLocs[closestShower].y, Config.ShowerLocs[closestShower].z +1.8, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
+						Wait(6000)
 						ClearPedTasksImmediately(ped)
 						using = false
 						TriggerEvent('skinchanger:getSkin', function(skin)
@@ -891,16 +891,16 @@ Citizen.CreateThread(function()
 						end
 					end)
 				end
-				Citizen.Wait(500)
+				Wait(500)
 			end
 		else
-			Citizen.Wait(1000)
+			Wait(1000)
 		end
 	end
 end)
 
 function StartWorkout(Loc)
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		local ped = PlayerPedId()
 
 		using = true
@@ -911,7 +911,7 @@ function StartWorkout(Loc)
 		RequestAnimDict('clothingtie')
 		
 		if not HasAnimDictLoaded('clothingtie') then
-			Citizen.Wait(0)
+			Wait(0)
 		end
 	
 		TaskPlayAnim(ped, "clothingtie", "try_tie_positive_a", 8.0, 8.0, -1, 1, 1, 0, 0, 0)
@@ -921,7 +921,7 @@ function StartWorkout(Loc)
 		inAnim.Freeze = true
 		FreezeEntityPosition(ped, true)
 		exports['progressBars']:startUI(Config.WorkReadyTime *1000, Config.Sayings[114])
-		Citizen.Wait(Config.WorkReadyTime *1000)
+		Wait(Config.WorkReadyTime *1000)
 		RemoveAnimDict("clothingtie")
 		FreezeEntityPosition(ped, false)
 		inAnim.Dict = nil
@@ -948,7 +948,7 @@ function StartWorkout(Loc)
 end
 
 function EndWorkout()
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		local ped = PlayerPedId()
 
 		using = true
@@ -959,7 +959,7 @@ function EndWorkout()
 		RequestAnimDict('clothingtie')
 		
 		if not HasAnimDictLoaded('clothingtie') then
-			Citizen.Wait(0)
+			Wait(0)
 		end
 	
 		TaskPlayAnim(ped, "clothingtie", "try_tie_positive_a", 8.0, 8.0, -1, 1, 1, 0, 0, 0)
@@ -969,7 +969,7 @@ function EndWorkout()
 		inAnim.Freeze = true
 		FreezeEntityPosition(ped, true)
 		exports['progressBars']:startUI(Config.WorkReadyTime *1000, Config.Sayings[114])
-		Citizen.Wait(Config.WorkReadyTime *1000)
+		Wait(Config.WorkReadyTime *1000)
 		RemoveAnimDict("clothingtie")
 		FreezeEntityPosition(ped, false)
 		inAnim.Dict = nil
@@ -997,7 +997,7 @@ function EndWorkout()
 end
 
 function StartShower()
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		local ped = PlayerPedId()
 
 		using = true
@@ -1007,7 +1007,7 @@ function StartShower()
 		RequestAnimDict('clothingtie')
 		
 		if not HasAnimDictLoaded('clothingtie') then
-			Citizen.Wait(0)
+			Wait(0)
 		end
 	
 		TaskPlayAnim(ped, "clothingtie", "try_tie_positive_a", 8.0, 8.0, -1, 1, 1, 0, 0, 0)
@@ -1017,7 +1017,7 @@ function StartShower()
 		inAnim.Freeze = true
 		FreezeEntityPosition(ped, true)
 		exports['progressBars']:startUI(Config.GetReadyTime *1000, Config.Sayings[114])
-		Citizen.Wait(Config.GetReadyTime *1000)
+		Wait(Config.GetReadyTime *1000)
 		RemoveAnimDict("clothingtie")
 		FreezeEntityPosition(ped, false)
 		inAnim.Dict = nil
@@ -1056,7 +1056,7 @@ function OpenBreakingMenu()
 
 	ESX.UI.Menu.CloseAll()
 
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'fence_menu', {
 			title    = Config.Sayings[94],
 			align    = Config.MenuLoc,
@@ -1086,7 +1086,7 @@ function OpenBreakingMenu()
 							inAnim.Freeze = true
 							FreezeEntityPosition(ped, true)
 							exports['progressBars']:startUI(Config.RoomTools[data.current.value].Time *1000, Config.Sayings[96])
-							Citizen.Wait(Config.RoomTools[data.current.value].Time *1000)
+							Wait(Config.RoomTools[data.current.value].Time *1000)
 							RemoveAnimDict("mini@repair")
 							FreezeEntityPosition(ped, false)
 							inAnim.Dict = nil
@@ -1095,7 +1095,7 @@ function OpenBreakingMenu()
 							inAnim.Freeze = false
 							ClearPedTasksImmediately(ped)
 							DoScreenFadeOut(1000)
-							Citizen.Wait(1500)
+							Wait(1500)
 							SetEntityCoords(ped, Config.BreakLocs[closestBreak].ExitLoc.Loc.x, Config.BreakLocs[closestBreak].ExitLoc.Loc.y, Config.BreakLocs[closestBreak].ExitLoc.Loc.z - 1, false, false, false, false)
 							SetEntityHeading(ped, Config.BreakLocs[closestBreak].ExitLoc.Heading)
 							TriggerServerEvent('esx_jail:UpdateBreaking')
@@ -1115,7 +1115,7 @@ function OpenBreakingMenu()
 								table.remove(blips[removes[i]])
 							end
 							DoScreenFadeIn(1000)
-							Citizen.Wait(1000)
+							Wait(1000)
 							using = false
 							Notification(Config.Sayings[90])
 						else
@@ -1136,7 +1136,7 @@ function OpenBreakingMenu()
 							inAnim.Freeze = false
 							FreezeEntityPosition(ped, true)
 							exports['progressBars']:startUI(Config.RoomTools[data.current.value].Time *1000, Config.Sayings[96])
-							Citizen.Wait(Config.RoomTools[data.current.value].Time *1000)
+							Wait(Config.RoomTools[data.current.value].Time *1000)
 							RemoveAnimDict("mini@repair")
 							FreezeEntityPosition(ped, false)
 							inAnim.Dict = nil
@@ -1175,7 +1175,7 @@ function OpenBreakingMenu()
 							inAnim.Freeze = true
 							FreezeEntityPosition(ped, true)
 							exports['progressBars']:startUI(Config.FenceTool[data.current.value].Time *1000, Config.Sayings[97])
-							Citizen.Wait(Config.FenceTool[data.current.value].Time *1000)
+							Wait(Config.FenceTool[data.current.value].Time *1000)
 							RemoveAnimDict("mp_arresting")
 							FreezeEntityPosition(ped, false)
 							inAnim.Dict = nil
@@ -1185,11 +1185,11 @@ function OpenBreakingMenu()
 							ClearPedTasksImmediately(ped)
 							using = false
 							DoScreenFadeOut(1000)
-							Citizen.Wait(1500)
+							Wait(1500)
 							SetEntityCoords(ped, Config.BreakLocs[closestBreak].ExitLoc.Loc.x, Config.BreakLocs[closestBreak].ExitLoc.Loc.y, Config.BreakLocs[closestBreak].ExitLoc.Loc.z - 1, false, false, false, false)
 							SetEntityHeading(ped, Config.BreakLocs[closestBreak].ExitLoc.Heading)
 							DoScreenFadeIn(1000)
-							Citizen.Wait(1000)
+							Wait(1000)
 							Notification(Config.Sayings[90])
 						else
 							TriggerServerEvent('esx_jail:TakeItems2', Config.RoomTools[data.current.value].Item)
@@ -1209,7 +1209,7 @@ function OpenBreakingMenu()
 							inAnim.Freeze = false
 							FreezeEntityPosition(ped, true)
 							exports['progressBars']:startUI(Config.FenceTool[data.current.value].Time *1000, Config.Sayings[97])
-							Citizen.Wait(Config.FenceTool[data.current.value].Time *1000)
+							Wait(Config.FenceTool[data.current.value].Time *1000)
 							RemoveAnimDict("mp_arresting")
 							FreezeEntityPosition(ped, false)
 							inAnim.Dict = nil
@@ -1302,7 +1302,7 @@ function OpenWallMenu()
 
 	ESX.UI.Menu.CloseAll()
 
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'wall_menu', {
 			title    = Config.Sayings[87],
 			align    = Config.MenuLoc,
@@ -1332,7 +1332,7 @@ function OpenWallMenu()
 						inAnim.Freeze = true
 						FreezeEntityPosition(ped, true)
 						exports['progressBars']:startUI(Config.RoomTools[data.current.value].Time *1000, Config.Sayings[96])
-						Citizen.Wait(Config.RoomTools[data.current.value].Time *1000)
+						Wait(Config.RoomTools[data.current.value].Time *1000)
 						RemoveAnimDict("mini@repair")
 						FreezeEntityPosition(ped, false)
 						inAnim.Dict = nil
@@ -1360,7 +1360,7 @@ function OpenWallMenu()
 						inAnim.Freeze = false
 						FreezeEntityPosition(ped, true)
 						exports['progressBars']:startUI(Config.RoomTools[data.current.value].Time *1000, Config.Sayings[96])
-						Citizen.Wait(Config.RoomTools[data.current.value].Time *1000)
+						Wait(Config.RoomTools[data.current.value].Time *1000)
 						RemoveAnimDict("mini@repair")
 						FreezeEntityPosition(ped, false)
 						inAnim.Dict = nil
@@ -1384,7 +1384,7 @@ function OpenWallMenu()
 end
 
 function BreakOutStart()
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		local ped = PlayerPedId()
 		using = true
 		RequestAnimDict('mini@repair')
@@ -1402,7 +1402,7 @@ function BreakOutStart()
 		inAnim.Freeze = false
 		FreezeEntityPosition(ped, true)
 		exports['progressBars']:startUI(Config.CrawlTime *1000, Config.Sayings[161])
-		Citizen.Wait(Config.CrawlTime *1000)
+		Wait(Config.CrawlTime *1000)
 		RemoveAnimDict("mini@repair")
 		FreezeEntityPosition(ped, false)
 		inAnim.Dict = nil
@@ -1411,7 +1411,7 @@ function BreakOutStart()
 		inAnim.Freeze = false
 		ClearPedTasksImmediately(ped)
 		DoScreenFadeOut(1000)
-		Citizen.Wait(1000)
+		Wait(1000)
 	
 		for i = 1, #Config.BreakLocs, 1 do
 			local blip5 = AddBlipForCoord(Config.BreakLocs[i].StartLoc.Loc.x, Config.BreakLocs[i].StartLoc.Loc.y, Config.BreakLocs[i].StartLoc.Loc.z)
@@ -1437,13 +1437,13 @@ function BreakOutStart()
 		SetEntityCoords(ped, Config.Cells[jailCell].ExitLoc.Loc.x, Config.Cells[jailCell].ExitLoc.Loc.y, Config.Cells[jailCell].ExitLoc.Loc.z - 1, false, false, false, false)
 		SetEntityHeading(ped, Config.Cells[jailCell].ExitLoc.Heading)
 		FreezeEntityPosition(ped, true)
-		Citizen.Wait(1000)
+		Wait(1000)
 		FreezeEntityPosition(ped, false)
 		TriggerServerEvent('esx_jail:UpdateBreak')
 		breakout = Config.BreakoutTime 
 		breakout2 = true
 		DoScreenFadeIn(1000)
-		Citizen.Wait(1500)
+		Wait(1500)
 	
 		using = false
 		for i = 1, #jailLocs, 1 do
@@ -1480,14 +1480,14 @@ end)
 
 RegisterNetEvent('esx_jail:UnBreak2')
 AddEventHandler('esx_jail:UnBreak2', function()
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		local ped = PlayerPedId()
 		breakout3 = false
 		breakout = 0
 		breakout2 = false
 		DoScreenFadeOut(1000)
 		FreezeEntityPosition(ped, true)
-		Citizen.Wait(1500)
+		Wait(1500)
 		FreezeEntityPosition(ped, false)
 		local removes = {}
 		for i = 1, #blips, 1 do
@@ -1512,7 +1512,7 @@ AddEventHandler('esx_jail:UnBreak2', function()
 	end)
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 		if not using and time > 0 then
 			if job ~= 0 then
@@ -1522,7 +1522,7 @@ Citizen.CreateThread(function()
 					local dist = Vdist(Config.JobOptions[job].Tasks[doneTasks].TaskLoc.Loc.x, Config.JobOptions[job].Tasks[doneTasks].TaskLoc.Loc.y, Config.JobOptions[job].Tasks[doneTasks].TaskLoc.Loc.z, coords)
 	
 					if dist <= Config.SeeTaskMark then
-						Citizen.Wait(5)
+						Wait(5)
 						DrawMarker(Config.JobOptions[job].Tasks[doneTasks].MarkNum, Config.JobOptions[job].Tasks[doneTasks].TaskLoc.Loc.x, Config.JobOptions[job].Tasks[doneTasks].TaskLoc.Loc.y, Config.JobOptions[job].Tasks[doneTasks].TaskLoc.Loc.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Config.JobOptions[job].Tasks[doneTasks].MarkSize.x, Config.JobOptions[job].Tasks[doneTasks].MarkSize.y, Config.JobOptions[job].Tasks[doneTasks].MarkSize.z, Config.JobOptions[job].Tasks[doneTasks].MarkColor.r, Config.JobOptions[job].Tasks[doneTasks].MarkColor.g, Config.JobOptions[job].Tasks[doneTasks].MarkColor.b, 100, false, false, 2, true, nil, nil, false)
 						if dist <= Config.SeeTaskText then
 							DrawText3D(Config.JobOptions[job].Tasks[doneTasks].TaskLoc.Loc.x, Config.JobOptions[job].Tasks[doneTasks].TaskLoc.Loc.y, Config.JobOptions[job].Tasks[doneTasks].TaskLoc.Loc.z + Config.TextLift, Config.Sayings[22]..Config.JobOptions[job].Tasks[doneTasks].TaskName)
@@ -1531,23 +1531,23 @@ Citizen.CreateThread(function()
 							end
 						end
 					else
-						Citizen.Wait(1000)
+						Wait(1000)
 					end
 				else
-					Citizen.Wait(1000)
+					Wait(1000)
 				end
 			else
-				Citizen.Wait(1000)
+				Wait(1000)
 			end
 		elseif needsEat then
-			Citizen.Wait(5)
+			Wait(5)
 			local ped = PlayerPedId()
 			local coords = GetEntityCoords(ped)
 
 			DrawText3D(coords.x, coords.y, coords.z, Config.Sayings[44])
 			if IsControlJustReleased(0, 38) then
 				exports['progressBars']:startUI(Config.EatTime *1000, Config.Sayings[139])
-				Citizen.Wait(Config.EatTime *1000)
+				Wait(Config.EatTime *1000)
 				using = false
 				needsEat = false
 				inAnim.Dict = nil
@@ -1599,7 +1599,7 @@ Citizen.CreateThread(function()
 					local dist = Vdist(Config.Cells[closestPoliceInv].InvLoc.Loc.x, Config.Cells[closestPoliceInv].InvLoc.Loc.y, Config.Cells[closestPoliceInv].InvLoc.Loc.z, coords)
 
 					if dist <= Config.SeePoliceDist then
-						Citizen.Wait(5)
+						Wait(5)
 						DrawMarker(Config.PMarkNum, Config.Cells[closestPoliceInv].InvLoc.Loc.x, Config.Cells[closestPoliceInv].InvLoc.Loc.y, Config.Cells[closestPoliceInv].InvLoc.Loc.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Config.PMarkSize.x, Config.PMarkSize.y, Config.PMarkSize.z, Config.PMarkColor.r, Config.PMarkColor.g, Config.PMarkColor.b, 100, false, false, 2, true, nil, nil, false)
 						if dist <= Config.UsePoliceDist then
 							DrawText3D(Config.Cells[closestPoliceInv].InvLoc.Loc.x, Config.Cells[closestPoliceInv].InvLoc.Loc.y, Config.Cells[closestPoliceInv].InvLoc.Loc.z + Config.TextLift, Config.Sayings[158])
@@ -1610,16 +1610,16 @@ Citizen.CreateThread(function()
 							end
 						end
 					else
-						Citizen.Wait(1000)
+						Wait(1000)
 					end
 				else
-					Citizen.Wait(3000)
+					Wait(3000)
 				end
 			else
-				Citizen.Wait(1000)
+				Wait(1000)
 			end
 		else
-			Citizen.Wait(1000)
+			Wait(1000)
 		end
 	end
 end)
@@ -1658,7 +1658,7 @@ function OpenPoliceShitMenu()
 end
 
 function OpenPoliceMenu2(name, theirID)
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		local ped = PlayerPedId()
 
 		RequestAnimDict('mini@repair')
@@ -1675,7 +1675,7 @@ function OpenPoliceMenu2(name, theirID)
 		inAnim.Freeze = true
 		FreezeEntityPosition(ped, true)
 		exports['progressBars']:startUI(Config.OpenCloseTime *1000, Config.Sayings[35])
-		Citizen.Wait(Config.OpenCloseTime *1000)
+		Wait(Config.OpenCloseTime *1000)
 	
 		ESX.TriggerServerCallback('esx_jail:GetChest2', function(cvalue)
 			local valuesc = {}
@@ -1716,7 +1716,7 @@ function OpenPoliceMenu2(name, theirID)
 					end, function(data, menu)
 						menu.close()
 						exports['progressBars']:startUI(Config.OpenCloseTime *1000, Config.Sayings[36])
-						Citizen.Wait(Config.OpenCloseTime *1000)
+						Wait(Config.OpenCloseTime *1000)
 						FreezeEntityPosition(ped, false)
 						inAnim.Dict = nil
 						inAnim.Anim = nil
@@ -1785,7 +1785,7 @@ function OpenMakeMenu()
 end
 
 function OpenCraftMenu(itnum)
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		local ped = PlayerPedId()
 		local element = {
 			[1] = {label = Config.Sayings[50], value = 'need'},
@@ -1809,7 +1809,7 @@ function OpenCraftMenu(itnum)
 					elseif can == 2 then
 						Notification(Config.Sayings[84])
 					else
-						Citizen.CreateThread(function()
+						CreateThread(function()
 							using = true
 							TriggerServerEvent('esx_jail:TakeItems', itnum)
 							local pedi = nil
@@ -1836,7 +1836,7 @@ function OpenCraftMenu(itnum)
 							FreezeEntityPosition(ped, true)
 							FreezeEntityPosition(pedi, true)
 							exports['progressBars']:startUI(Config.Crafts[itnum].Time *1000, Config.Sayings[85])
-							Citizen.Wait(Config.Crafts[itnum].Time *1000)
+							Wait(Config.Crafts[itnum].Time *1000)
 							ClearPedTasksImmediately(pedi)
 							ClearPedTasksImmediately(ped)
 							FreezeEntityPosition(pedi, false)
@@ -1882,7 +1882,7 @@ function OpenNeedsMenu(numzioe)
 end
 
 function TaskComplete()
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		local ped = PlayerPedId()
 		RequestAnimDict(Config.JobOptions[job].Tasks[doneTasks].Anim.Dict)
 								
@@ -1914,7 +1914,7 @@ function TaskComplete()
 		inAnim.Freeze = true
 		FreezeEntityPosition(ped, true)
 		exports['progressBars']:startUI(Config.JobOptions[job].Tasks[doneTasks].Time *1000, Config.Sayings[23])
-		Citizen.Wait(Config.JobOptions[job].Tasks[doneTasks].Time *1000)
+		Wait(Config.JobOptions[job].Tasks[doneTasks].Time *1000)
 		FreezeEntityPosition(ped, false)
 		inAnim.Dict = nil
 		inAnim.Anim = nil
@@ -1975,10 +1975,10 @@ function TaskComplete()
 	end)
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 		if time > 0 and not isDead and breakout4 then
-			Citizen.Wait(1000)
+			Wait(1000)
 			if breakout > 0 then
 				breakout = breakout - 1
 
@@ -2036,11 +2036,11 @@ Citizen.CreateThread(function()
 					local dist = Vdist(Config.SolCells[solcell].Loc.x, Config.SolCells[solcell].Loc.y, Config.SolCells[solcell].Loc.z, coords)
 					if dist > Config.MaxSolTpDist then
 						DoScreenFadeOut(1000)
-						Citizen.Wait(1500)
+						Wait(1500)
 						SetEntityCoords(ped, Config.SolCells[solcell].Loc.x, Config.SolCells[solcell].Loc.y, Config.SolCells[solcell].Loc.z - 1, false, false, false, false)
 						SetEntityHeading(ped, Config.SolCells[solcell].Heading)
 						FreezeEntityPosition(ped, true)
-						Citizen.Wait(1000)
+						Wait(1000)
 						DoScreenFadeIn(1000)
 					end
 				end
@@ -2077,13 +2077,13 @@ Citizen.CreateThread(function()
 					if dist > Config.MaxTpDist then
 						if Config.Sol4Run and Config.Solitary then
 							TriggerServerEvent('esx_jail:SendToSol', GetPlayerServerId(PlayerId()), Config.SolRunTime, Config.Sayings[109])
-							Citizen.Wait(1000)
+							Wait(1000)
 						else
 							DoScreenFadeOut(1000)
-							Citizen.Wait(1500)
+							Wait(1500)
 							SetEntityCoords(ped, Config.Cells[jailCell].SpawnLoc.Loc.x, Config.Cells[jailCell].SpawnLoc.Loc.y, Config.Cells[jailCell].SpawnLoc.Loc.z - 1, false, false, false, false)
 							SetEntityHeading(ped, Config.Cells[jailCell].SpawnLoc.Heading)
-							Citizen.Wait(1000)
+							Wait(1000)
 							DoScreenFadeIn(1000)
 						end
 					end
@@ -2161,15 +2161,15 @@ Citizen.CreateThread(function()
 					RemoveAnimDict(inAnim.Dict)
 				end
 			end
-			Citizen.Wait(500)
+			Wait(500)
 		end
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 		if injail and time > 0 and breakout4 then
-			Citizen.Wait(1)
+			Wait(1)
 			if breakout > 0 then
 				if not Config.SimpleTime then
 					drawTxt(Config.Sayings[92]..diffBreak.Hours..'~w~H~o~ '..diffBreak.Mins..'~w~M~o~ '..diffBreak.Seconds..'~w~S',0,1,0.5,0.9,0.35,255,255,255,255)
@@ -2205,7 +2205,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		else
-			Citizen.Wait(1000)
+			Wait(1000)
 		end
 	end
 end)
@@ -2235,7 +2235,7 @@ function OpenJobManMenu()
 end
 
 function OpenChest(reOpen)
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		local ped = PlayerPedId()
 		if reOpen then
 			using = true
@@ -2253,7 +2253,7 @@ function OpenChest(reOpen)
 			inAnim.Freeze = true
 			FreezeEntityPosition(ped, true)
 			exports['progressBars']:startUI(Config.OpenCloseTime *1000, Config.Sayings[35])
-			Citizen.Wait(Config.OpenCloseTime *1000)
+			Wait(Config.OpenCloseTime *1000)
 		end
 	
 		local element = {
@@ -2277,7 +2277,7 @@ function OpenChest(reOpen)
 		end, function(data, menu)
 			menu.close()
 			exports['progressBars']:startUI(Config.OpenCloseTime *1000, Config.Sayings[36])
-			Citizen.Wait(Config.OpenCloseTime *1000)
+			Wait(Config.OpenCloseTime *1000)
 			FreezeEntityPosition(ped, false)
 			inAnim.Dict = nil
 			inAnim.Anim = nil
@@ -2557,7 +2557,7 @@ function OpenManMenu(numVal)
 end
 
 function OpenFood()
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		local ped = PlayerPedId()
 		using = true
 
@@ -2576,7 +2576,7 @@ function OpenFood()
 		inAnim.Freeze = true
 		FreezeEntityPosition(ped, true)
 		exports['progressBars']:startUI(Config.GrabFoodTime *1000, Config.Sayings[43])
-		Citizen.Wait(Config.GrabFoodTime *1000)
+		Wait(Config.GrabFoodTime *1000)
 		FreezeEntityPosition(ped, false)
 		inAnim.Dict = nil
 		inAnim.Anim = nil
@@ -2658,11 +2658,11 @@ end
 
 RegisterNetEvent('esx_jail:UnnJail')
 AddEventHandler('esx_jail:UnnJail', function(itemie, clothesi)
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		if not using then
 			local ped = PlayerPedId()
 			DoScreenFadeOut(1000)
-			Citizen.Wait(1500)
+			Wait(1500)
 			local removes = {}
 			for i = 1, #blips, 1 do
 				table.insert(removes, i)
@@ -2736,7 +2736,7 @@ AddEventHandler('esx_jail:UnnJail', function(itemie, clothesi)
 			SetEntityCoords(ped, Config.LeaveLoc.Loc.x, Config.LeaveLoc.Loc.y, Config.LeaveLoc.Loc.z - 1, false, false, false, false)
 			SetEntityHeading(ped, Config.LeaveLoc.Heading)
 			FreezeEntityPosition(ped, false)
-			Citizen.Wait(500)
+			Wait(500)
 			jailLocs = {}
 			DoScreenFadeIn(500)
 		else
@@ -2746,11 +2746,11 @@ AddEventHandler('esx_jail:UnnJail', function(itemie, clothesi)
 end)
 
 function ResetLeave(oneone, twotwo)
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		if not using then
 			TriggerEvent('esx_jail:UnnJail', oneone, twotwo)
 		else
-			Citizen.Wait(3000)
+			Wait(3000)
 			ResetLeave(oneone, twotwo)
 		end
 	end)
@@ -2758,33 +2758,33 @@ end
 
 RegisterNetEvent('esx_jail:SendSol')
 AddEventHandler('esx_jail:SendSol', function(soltimez, cell)
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		local ped = PlayerPedId()
 		DoScreenFadeOut(1000)
-		Citizen.Wait(1500)
+		Wait(1500)
 		soltime = soltimez
 		solcell = cell
 		SetEntityCoords(ped, Config.SolCells[cell].Loc.x, Config.SolCells[cell].Loc.y, Config.SolCells[cell].Loc.z - 1, false, false, false, false)
 		SetEntityHeading(ped, Config.SolCells[cell].Heading)
 		FreezeEntityPosition(ped, true)
-		Citizen.Wait(500)
+		Wait(500)
 		DoScreenFadeIn(1000)
 	end)
 end)
 
 RegisterNetEvent('esx_jail:UnnSol')
 AddEventHandler('esx_jail:UnnSol', function()
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		local ped = PlayerPedId()
 		using = true
 		DoScreenFadeOut(1000)
-		Citizen.Wait(1500)
+		Wait(1500)
 		soltime = 0
 		solcell = 0
 		SetEntityCoords(ped, Config.Cells[jailCell].SpawnLoc.Loc.x, Config.Cells[jailCell].SpawnLoc.Loc.y, Config.Cells[jailCell].SpawnLoc.Loc.z - 1, false, false, false, false)
 		SetEntityHeading(ped, Config.Cells[jailCell].SpawnLoc.Heading)
 		FreezeEntityPosition(ped, false)
-		Citizen.Wait(500)
+		Wait(500)
 		using = false
 		DoScreenFadeIn(1000)
 	end)
@@ -3479,24 +3479,24 @@ function OpenReason(id, time, reason, menuz)
 end
 
 local checkDeath = false
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 		local ped = PlayerPedId()
 
 		if time > 0 then
 			if IsPedDeadOrDying(ped, 1) and not checkDeath then
-				Citizen.Wait(5)
+				Wait(5)
 				checkDeath = true
 				TriggerEvent('esx_jail:onPlayerDeath')
 			elseif checkDeath and not IsPedDeadOrDying(ped, 1) then
-				Citizen.Wait(5)
+				Wait(5)
 				checkDeath = false
 				TriggerEvent('esx_jail:onPlayerSpawn')
 			else
-				Citizen.Wait(500)
+				Wait(500)
 			end
 		else
-			Citizen.Wait(1000)
+			Wait(1000)
 		end
 	end
 end)
@@ -3523,12 +3523,12 @@ end)
 
 RegisterNetEvent('esx_jail:onPlayerSpawn')
 AddEventHandler('esx_jail:onPlayerSpawn', function()
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		local ped = PlayerPedId()
 		if isDead and time > 0 then
 			using = true
 			DoScreenFadeOut(1000)
-			Citizen.Wait(3000)
+			Wait(3000)
 			if Config.Hospital then
 				RequestAnimDict('anim@gangops@morgue@table@')
 				RequestAnimDict('missfam4')
@@ -3558,7 +3558,7 @@ AddEventHandler('esx_jail:onPlayerSpawn', function()
 		
 				SetEntityCoords(ped, Config.BedLocs[numo].SpawnLoc.Loc.x, Config.BedLocs[numo].SpawnLoc.Loc.y, Config.BedLocs[numo].SpawnLoc.Loc.z - 1, false, false, false, false)
 				SetEntityHeading(ped, Config.BedLocs[numo].SpawnLoc.Heading)
-				Citizen.Wait(500)
+				Wait(500)
 				SetEntityCoords(ped, Config.BedLocs[numo].SpawnLoc.Loc.x, Config.BedLocs[numo].SpawnLoc.Loc.y, Config.BedLocs[numo].SpawnLoc.Loc.z - 1, false, false, false, false)
 				SetEntityHeading(ped, Config.BedLocs[numo].SpawnLoc.Heading)
 				TaskPlayAnim(ped, 'anim@gangops@morgue@table@', 'body_search', 8.0, 8.0, -1, 1, 1, 0, 0, 0)
@@ -3583,17 +3583,17 @@ AddEventHandler('esx_jail:onPlayerSpawn', function()
 				docped = byped
 		
 				DoScreenFadeIn(1000)
-				Citizen.Wait(1500)
+				Wait(1500)
 				TaskGoStraightToCoord(byped, Config.BedLocs[numo].DocCheck.Loc.x, Config.BedLocs[numo].DocCheck.Loc.y, Config.BedLocs[numo].DocCheck.Loc.z, 1.0, Config.BedLocs[numo].DocWalkTime *1000, Config.BedLocs[numo].DocCheck.Heading, 0)
-				Citizen.Wait(Config.BedLocs[numo].DocWalkTime *1000)
+				Wait(Config.BedLocs[numo].DocWalkTime *1000)
 				TaskAchieveHeading(byped, Config.BedLocs[numo].DocCheck.Heading, 1000)
-				Citizen.Wait(1000)
+				Wait(1000)
 				exports['progressBars']:startUI(Config.CheckUpTime *1000, Config.Sayings[70])
-				Citizen.Wait(Config.CheckUpTime *1000)
+				Wait(Config.CheckUpTime *1000)
 				TaskGoStraightToCoord(byped, Config.BedLocs[numo].DoctorSpawn.Loc.x, Config.BedLocs[numo].DoctorSpawn.Loc.y, Config.BedLocs[numo].DoctorSpawn.Loc.z, 1.0, Config.BedLocs[numo].DocWalkTime *1000, Config.BedLocs[numo].DoctorSpawn.Heading, 0)
-				Citizen.Wait(Config.BedLocs[numo].DocWalkTime *1000)
+				Wait(Config.BedLocs[numo].DocWalkTime *1000)
 				DoScreenFadeOut(1000)
-				Citizen.Wait(1500)
+				Wait(1500)
 				SetEntityCoords(ped, Config.Cells[jailCell].SpawnLoc.Loc.x, Config.Cells[jailCell].SpawnLoc.Loc.y, Config.Cells[jailCell].SpawnLoc.Loc.z - 1, false, false, false, false)
 				SetEntityHeading(ped, Config.Cells[jailCell].SpawnLoc.Heading)
 				FreezeEntityPosition(ped, false)
@@ -3633,13 +3633,13 @@ AddEventHandler('esx_jail:onPlayerSpawn', function()
 			else
 				SetEntityCoords(ped, Config.Cells[jailCell].SpawnLoc.Loc.x, Config.Cells[jailCell].SpawnLoc.Loc.y, Config.Cells[jailCell].SpawnLoc.Loc.z - 1, false, false, false, false)
 				SetEntityHeading(ped, Config.Cells[jailCell].SpawnLoc.Heading)
-				Citizen.Wait(500)
+				Wait(500)
 			end
 			TriggerServerEvent('esx_jail:PlayerDie', false)
 			isDead = false
 			using = false
 			DoScreenFadeIn(1000)
-			Citizen.Wait(1500)
+			Wait(1500)
 		end
 	end)
 end)
@@ -3721,12 +3721,12 @@ AddEventHandler('esx_jail:CountFinish', function()
 end)
 
 function DoLockCheck()
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		while true do
 			if lockieDown then
 				if time > 0 then
 					if not using then
-						Citizen.Wait(250)
+						Wait(250)
 						if soltime == 0 and breakout == 0 then
 							local ped = PlayerPedId()
 							local coords = GetEntityCoords(ped)
@@ -3739,19 +3739,19 @@ function DoLockCheck()
 									using = true
 									SetEntityCoords(ped, Config.Cells[jailCell].SpawnLoc.Loc.x, Config.Cells[jailCell].SpawnLoc.Loc.y, Config.Cells[jailCell].SpawnLoc.Loc.z - 1, false, false, false, false)
 									SetEntityHeading(ped, Config.Cells[jailCell].SpawnLoc.Heading)
-									Citizen.Wait(500)
+									Wait(500)
 									using = false
 								end
 							end
 						end
 					else
-						Citizen.Wait(500)
+						Wait(500)
 					end
 				else
-					Citizen.Wait(1000)
+					Wait(1000)
 				end
 			else
-				Citizen.Wait(5)
+				Wait(5)
 				break
 			end
 		end

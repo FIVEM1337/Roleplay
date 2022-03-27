@@ -85,7 +85,7 @@ if Config.EnableAdvertisementCommand then
 				canAdvertise = false
 
 				while (time > pastTime) do
-					Citizen.Wait(1000)
+					Wait(1000)
 					pastTime = pastTime + 1
 					timeLeft = time - pastTime
 				end

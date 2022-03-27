@@ -1,8 +1,8 @@
 
 ESX = nil
-Citizen.CreateThread(function()
+CreateThread(function()
     while ESX == nil do
-        Citizen.Wait(200)
+        Wait(200)
         TriggerEvent('esx:getSharedObject', function (obj) ESX = obj end)
     end
 end)
@@ -25,9 +25,9 @@ AddEventHandler('es_admin:setGroup', function(g)
 	group = g
 end)
 
-Citizen.CreateThread(function ()
+CreateThread(function ()
     while true do
-        Citizen.Wait(0)
+        Wait(0)
         if IsChoosing then
             DisplayHud(false)
             DisplayRadar(false)
@@ -39,12 +39,12 @@ Citizen.CreateThread(function ()
     end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(1000)
+        Wait(1000)
         if ESX ~= nil then
             if NetworkIsSessionStarted() then
-                Citizen.Wait(100)
+                Wait(100)
                 gotCharData = false
                 TriggerServerEvent('esx_multichar:GetPlayerCharacters')
                 setPlayerInVoid()
@@ -71,11 +71,11 @@ AddEventHandler('esx_multichar:SpawnCharacter', function(spawn, isnew)
     end
 
     DoScreenFadeIn(500)
-    Citizen.Wait(500)
+    Wait(500)
     cam2 = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", 402.86, -996.74, -99.0 + 250, 300.00,0.00,0.00, 100.00, false, 0)
     PointCamAtCoord(cam2, pos.x,pos.y,pos.z+200)
     SetCamActiveWithInterp(cam2, cam, 900, true, true)
-    Citizen.Wait(1500)
+    Wait(1500)
 	
 	if Config.useSpawnmanager then
 		exports.spawnmanager:setAutoSpawn(false)
@@ -276,13 +276,13 @@ function finishSpawn(pos, isnew)
     cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", pos.x,pos.y,pos.z+250, 6000.00,0.00,0.00, 100.00, false, 0)
     PointCamAtCoord(cam, pos.x,pos.y,pos.z+2)
     SetCamActiveWithInterp(cam, cam2, 3700, true, true)
-    Citizen.Wait(3700)
+    Wait(3700)
     PlaySoundFrontend(-1, "Zoom_Out", "DLC_HEIST_PLANNING_BOARD_SOUNDS", 1)
     RenderScriptCams(false, true, 500, true, true)
     PlaySoundFrontend(-1, "CAR_BIKE_WHOOSH", "MP_LOBBY_SOUNDS", 1)
 	SetEntityCoords(PlayerPedId(), pos.x, pos.y, pos.z)
     FreezeEntityPosition(PlayerPedId(), false)
-    Citizen.Wait(500)
+    Wait(500)
     SetCamActive(cam, false)
     DestroyCam(cam, true)
     DisplayHud(true)
@@ -310,7 +310,7 @@ function setPlayerInVoid()
     RenderScriptCams(true, false, 1, true, true)
 		
 	while not gotCharData do
-		Citizen.Wait(10)
+		Wait(10)
 	end
 	
 	SetTimecycleModifier('default')
@@ -657,7 +657,7 @@ end)
 
 RegisterNetEvent('esx_multichar:applyPed')
 AddEventHandler('esx_multichar:applyPed', function(currentPedModel)
-    Citizen.Wait(Config.ApplyDelay)
+    Wait(Config.ApplyDelay)
     loadPed(GetHashKey(currentPedModel))
 end)
 
@@ -717,7 +717,7 @@ function loadDefault()
 		RequestModel(model)
 		while not HasModelLoaded(model) do
 			RequestModel(model)
-			Citizen.Wait(1)
+			Wait(1)
 		end
 
 		SetPlayerModel(PlayerId(), model)
@@ -740,7 +740,7 @@ function showPed(pedHash)
 
     while not HasModelLoaded(pedHash) do
         RequestModel(pedHash)
-        Citizen.Wait(1)
+        Wait(1)
     end
 	
 	demoPed = CreatePed(5, pedHash, GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 1.0, -0.5), GetEntityHeading(PlayerPedId())-180.0, true, true) --spawn ped
@@ -758,7 +758,7 @@ function loadPed(pedHash)
 
     while not HasModelLoaded(pedHash) do
         RequestModel(pedHash)
-        Citizen.Wait(1)
+        Wait(1)
     end
 
     SetPlayerModel(PlayerId(), pedHash)
@@ -797,16 +797,16 @@ function KeyboardInput(TextEntry, ExampleText, MaxStringLenght)
 	blockinput = true
 
 	while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do
-		Citizen.Wait(0)
+		Wait(0)
 	end
 		
 	if UpdateOnscreenKeyboard() ~= 2 then
 		local result = GetOnscreenKeyboardResult()
-		Citizen.Wait(500)
+		Wait(500)
 		blockinput = false 
 		return result 
 	else
-		Citizen.Wait(500) 
+		Wait(500) 
 		blockinput = false
 		return nil
 	end

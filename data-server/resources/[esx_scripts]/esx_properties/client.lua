@@ -1,9 +1,9 @@
 ESX = nil
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
+		Wait(0)
 	end
 end)
 
@@ -42,7 +42,7 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
 end)
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
 		
 		if Config.Debug then
 			TriggerServerEvent('esx_properties:getProperties') --DEBUG
@@ -134,10 +134,10 @@ Citizen.CreateThread(function()
 
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 
 		if isinProperty then
 		
@@ -237,11 +237,11 @@ function setNearestBlip(loc)
 
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
 
 	while true do
 
-		Citizen.Wait(400)
+		Wait(400)
 
 		isinMarker = false
 		isNearMarker = false
@@ -375,7 +375,7 @@ function generateWardrobeMenu(owner)
 
 		for i=1, 10, 1 do
 			if not gotOSResult then
-				Citizen.Wait(100)
+				Wait(100)
 			end
 		end
 
@@ -946,7 +946,7 @@ function generateDoorMenu()
 
 		for i=1, 10, 1 do
 			if not gotOSResult then
-				Citizen.Wait(100)
+				Wait(100)
 			end
 		end
 
@@ -1133,7 +1133,7 @@ function generateEstateMenu(prop, owns)
     _menuPool:Add(menu)
 
 	local coords = prop.entering
-	local s1 = Citizen.InvokeNative( 0x2EB41072B4C1E4C0, coords.x, coords.y, coords.z, Citizen.PointerValueInt(), Citizen.PointerValueInt() )
+	local s1 = InvokeNative( 0x2EB41072B4C1E4C0, coords.x, coords.y, coords.z, PointerValueInt(), PointerValueInt() )
 	local street1 = GetStreetNameFromHashKey(s1)
 
 	local isOwned = NativeUI.CreateItem(Translation[Config.Locale]['info_owned'], '~b~')
@@ -1408,10 +1408,10 @@ end
 
 
 -- OLD VANISHING
--- Citizen.CreateThread(function()
+-- CreateThread(function()
 
 -- 	while true do
--- 		Citizen.Wait(0)
+-- 		Wait(0)
 -- 		local playerPed = PlayerPedId()
 -- 		if isinProperty then
 -- 			for k, user in pairs(vanishedUser) do
@@ -1458,9 +1458,9 @@ end
 
 -- end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		local playerPed = PlayerPedId()
 		if isinProperty then
 			for k, user in pairs(vanishedUser) do
@@ -1518,7 +1518,7 @@ AddEventHandler('esx_properties:enterProperty', function(prop)
 		RemoveIpl("apa_v_mp_h_01_b")
 		RequestIpl(prop.ipls)
 		while not IsIplActive(prop.ipls) do
-			Citizen.Wait(0)
+			Wait(0)
 		end
 	end
 
@@ -1534,7 +1534,7 @@ end)
 RegisterNetEvent('esx_properties:leaveProperty')
 AddEventHandler('esx_properties:leaveProperty', function(prop)
 
-    Citizen.InvokeNative(0xE036A705F989E049)
+    InvokeNative(0xE036A705F989E049)
     NetworkSetTalkerProximity(2.5)
 	isinProperty = false	
 	onlyVisit = false
@@ -1625,10 +1625,10 @@ AddEventHandler('esx_properties:hasInvitation', function(ID, propertyData)
 
 	hasInvite = true
 
-	Citizen.CreateThread(function()
+	CreateThread(function()
 	
 		while hasInvite do
-			Citizen.Wait(0)
+			Wait(0)
 			if IsControlJustReleased(0, 38) then
 				TriggerServerEvent('esx_properties:enterProperty', ID, propertyData)
 				propertyID = ID
@@ -1640,7 +1640,7 @@ AddEventHandler('esx_properties:hasInvitation', function(ID, propertyData)
 	
 	end)
 
-	Citizen.Wait(10000)
+	Wait(10000)
 	if hasInvite then
 		hasInvite = false
 		ShowNotification(Translation[Config.Locale]['invitation_expired'])
@@ -1718,7 +1718,7 @@ AddEventHandler('esx_properties:stillOnline', function()
 end)
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
   RequestIpl('apa_v_mp_h_01_b')
 end)
 

@@ -173,7 +173,7 @@ Utils.event = function(net, func, name)
     AddEventHandler(name, func)
 end
 Utils.thread = function(func)
-    Citizen.CreateThread(func)
+    CreateThread(func)
 end
 Utils.drawTextTemplate = function(
     text,

@@ -1,5 +1,5 @@
 
-Citizen.CreateThread(function()
+CreateThread(function()
     Wait(100)
 
     for _, fontData in pairs(FONTS) do

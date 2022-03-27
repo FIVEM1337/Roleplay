@@ -56,8 +56,8 @@ local lockDown = false
 
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
-        Citizen.CreateThread(function()
-            Citizen.Wait(3000)
+        CreateThread(function()
+            Wait(3000)
             local xPlayers = ESX.GetPlayers()
             if xPlayers[1] ~= nil then
                 good = true
@@ -102,9 +102,9 @@ AddEventHandler('esx_jail:PoliceNotify', function()
     TriggerClientEvent('esx_jail:PoliceWarning', -1, fullname)
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(Config.InfoPedChangeTime* 60000)
+        Wait(Config.InfoPedChangeTime* 60000)
         local total = 0
 
         for j=1, #Config.InfoPedLoc, 1 do
@@ -599,7 +599,7 @@ AddEventHandler('esx_jail:ReJail', function(id, values)
     end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     for i = 1, #Config.Cells, 1 do
         table.insert(inJail, {Value = i, Players = {}})
     end
@@ -608,9 +608,9 @@ Citizen.CreateThread(function()
     end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(1000)
+        Wait(1000)
         for i = 1, #inJail, 1 do
             for k = 1, #inJail[i].Players, 1 do
                 if inJail[i].Players[k].Player ~= nil then
@@ -744,9 +744,9 @@ AddEventHandler('playerDropped', function(reason)
     end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(Config.SyncInterval* 60000)
+        Wait(Config.SyncInterval* 60000)
 
         for i = 1, #inJail, 1 do
             for k = 1, #inJail[i].Players, 1 do
@@ -2453,9 +2453,9 @@ end)
 function StartLockDown()
     lockCount = Config.StartLockCount
     TriggerClientEvent('esx_jail:CountWarn', -1, Config.StartLockCount)
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while true do
-            Citizen.Wait(1000)
+            Wait(1000)
             if lockCount > 0 then
                 lockCount = lockCount - 1
                 for i = 1, #Config.WarnLockNums, 1 do

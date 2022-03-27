@@ -20,10 +20,10 @@ local LastSkin  = nil
 
 local torsoData = {}
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while ESX == nil do
       TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-      Citizen.Wait(0)
+      Wait(0)
     end
     
     PlayerData = ESX.GetPlayerData()
@@ -32,10 +32,10 @@ end)
 
 
 local ped = Config.NormalShopPed
-Citizen.CreateThread(function()
+CreateThread(function()
 
 	while true do
-		Citizen.Wait(300)
+		Wait(300)
 
 		local playerPed = PlayerPedId()
         local playerloc = GetEntityCoords(playerPed, 0)
@@ -103,10 +103,10 @@ AddEventHandler('esx:setJob', function (job)
 	ESX.PlayerData.job = job
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 
 	while true do
-		Citizen.Wait(1)
+		Wait(1)
 
 		if ESX.PlayerData.job == nil then
 			ESX.PlayerData = ESX.GetPlayerData()
@@ -139,7 +139,7 @@ Citizen.CreateThread(function()
 
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	
 	for i=1, #Config.Shops, 1 do
 		if Config.Shops[i].type == 'MASK' then
@@ -321,7 +321,7 @@ function generateselectGrade(sex)
 
 
 	while true do
-		Citizen.Wait(1)
+		Wait(1)
 		if done then
 			_menuPool:Add(selectGradeMenu)
 			break
@@ -424,7 +424,7 @@ function generateClothesMenu(sex, grade, outfittype)
 	end
 
 	while true do
-		Citizen.Wait(1)
+		Wait(1)
 		if LastSkin then
 			LoadCorrectSkin(sex, grade, outfittype, LastSkin)
 			break
@@ -870,9 +870,9 @@ function menu_ask_to_save(skin)
 	_menuPool:ControlDisablingEnabled(false)
 end
 	
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		if isCameraActive then
 		DisableControlAction(2, 30, true)
 		DisableControlAction(2, 31, true)
@@ -923,10 +923,10 @@ Citizen.CreateThread(function()
 	end
 end)
 	
-Citizen.CreateThread(function()
+CreateThread(function()
 	local angle = 90
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		if isCameraActive then
 		if IsControlPressed(0, 108) then
 			angle = angle - 1

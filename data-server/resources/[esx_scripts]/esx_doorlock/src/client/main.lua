@@ -880,4 +880,4 @@ AddEventHandler("esx_doorlock:CreateDoors",Doors.SetDoors)
 RegisterNUICallback('onclose', Doors.ClosedShop)
 RegisterNUICallback('onbuy',Doors.BuyKey)
 
-Citizen.CreateThread(Doors.Awake)
+CreateThread(Doors.Awake)

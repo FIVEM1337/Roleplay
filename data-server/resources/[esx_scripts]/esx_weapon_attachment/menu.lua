@@ -1,8 +1,8 @@
 ESX = nil
-Citizen.CreateThread(function()
+CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
+		Wait(0)
 	end
 end)
 
@@ -78,14 +78,14 @@ end
 _menuPool = NativeUI.CreatePool()
 local mainMenu
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 		if _menuPool:IsAnyMenuOpen() then 
 			_menuPool:ProcessMenus()
 		else
 			_menuPool:CloseAllMenus()
 		end
-		Citizen.Wait(1)
+		Wait(1)
 	end
 end)
 

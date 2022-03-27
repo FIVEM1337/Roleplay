@@ -11,10 +11,10 @@ local compFuel = 0.0
 local compFuel2 = 0.0
 local enableField = false
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(100)
+		Wait(100)
 	end
 end)
 
@@ -102,7 +102,7 @@ function ManageFuelUsage(vehicle)
 	end
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	DecorRegister(Config.FuelDecor, 1)
 
 	for index = 1, #Config.Blacklist do
@@ -118,7 +118,7 @@ Citizen.CreateThread(function()
 	end
 
 	while true do
-		Citizen.Wait(1000)
+		Wait(1000)
 
 		local ped = PlayerPedId()
 
@@ -146,9 +146,9 @@ Citizen.CreateThread(function()
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(250)
+		Wait(250)
 
 		local pumpObject, pumpDistance = FindNearestFuelPump()
 
@@ -167,7 +167,7 @@ Citizen.CreateThread(function()
 		else
 			isNearPump = false
 
-			Citizen.Wait(math.ceil(pumpDistance * 20))
+			Wait(math.ceil(pumpDistance * 20))
 		end
 	end
 end)
@@ -175,7 +175,7 @@ end)
 AddEventHandler('fuel:startFuelUpTick', function(pumpObject, ped, vehicle)
 	currentFuel = GetVehicleFuelLevel(vehicle)
 	while isFueling do
-		Citizen.Wait(500)
+		Wait(500)
 
 		local oldFuel = DecorGetFloat(vehicle, Config.FuelDecor)
 		local fuelToAdd
@@ -231,7 +231,7 @@ end)
 
 AddEventHandler('fuel:refuelFromPump', function(pumpObject, ped, vehicle)
 	TaskTurnPedToFaceEntity(ped, vehicle, 1000)
-	Citizen.Wait(1000)
+	Wait(1000)
 	if pumpObject then
 		SetCurrentPedWeapon(ped, -1569615261, true)
 	end
@@ -251,7 +251,7 @@ AddEventHandler('fuel:refuelFromPump', function(pumpObject, ped, vehicle)
 			isFueling = false
 		end
 
-		Citizen.Wait(0)
+		Wait(0)
 	end
 	TriggerServerEvent('esx_tankstelle:setjerryfuel', GetAmmoInPedWeapon(ped, 883325847))
 	ClearPedTasks(ped)
@@ -277,16 +277,16 @@ RegisterNUICallback('refuel', function(data, cb)
 	compFuel = GetVehicleFuelLevel(GetPlayersLastVehicle())
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(1)
+		Wait(1)
 		if GetSelectedPedWeapon(PlayerPedId()) == 883325847 then
 			DisablePlayerFiring(PlayerPedId(), true)
 		end
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 		local ped = PlayerPedId()
 
@@ -371,19 +371,19 @@ Citizen.CreateThread(function()
 						DrawText3Ds(stringCoords.x, stringCoords.y, stringCoords.z + 1.2, Config.Strings.NotEnoughCash)
 					end
 				else
-					Citizen.Wait(250)
+					Wait(250)
 				end
 			end
 		else
-			Citizen.Wait(250)
+			Wait(250)
 		end
 
-		Citizen.Wait(0)
+		Wait(0)
 	end
 end)
 
 if Config.ShowNearestGasStationOnly then
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		local currentGasBlip = {}
 
 		while true do
@@ -417,7 +417,7 @@ if Config.ShowNearestGasStationOnly then
 		end
 	end)
 elseif Config.ShowAllGasStations then
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		for _, gasStationCoords in pairs(Config.GasStations) do
 			CreateBlip(gasStationCoords)
 		end

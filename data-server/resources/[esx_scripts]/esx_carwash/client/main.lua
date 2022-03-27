@@ -1,13 +1,13 @@
 ESX = nil
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
+		Wait(0)
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	for i=1, #Config.Locations, 1 do
 		carWashLocation = Config.Locations[i]
 
@@ -21,9 +21,9 @@ Citizen.CreateThread(function()
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		local playerPed = PlayerPedId()
 		local coords = GetEntityCoords(playerPed)
 		local canSleep = true
@@ -61,11 +61,11 @@ Citizen.CreateThread(function()
 			end
 
 			if canSleep then
-				Citizen.Wait(500)
+				Wait(500)
 			end
 
 		else
-			Citizen.Wait(500)
+			Wait(500)
 		end
 	end
 end)
@@ -95,10 +95,10 @@ function WashVehicle()
 			else
 				ESX.ShowNotification(_U('wash_successful'))
 			end
-			Citizen.Wait(5000)
+			Wait(5000)
 		else
 			ESX.ShowNotification(_U('wash_failed'))
-			Citizen.Wait(5000)
+			Wait(5000)
 		end
 	end)
 end

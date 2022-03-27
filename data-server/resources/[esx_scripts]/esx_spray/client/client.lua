@@ -64,9 +64,9 @@ AddEventHandler('playerSpawned', function()
     TriggerServerEvent('esx_spray:playerSpawned')
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(0)
+        Wait(0)
 
         local scaleformHandleIdx = SCALEFORM_ID_MIN
         local ped = PlayerPedId()
@@ -116,7 +116,7 @@ local wantedSprayRotation = nil
 local currentSprayRotation = nil
 currentComputedRotation = vector3(0,0,0)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     rotCam = CreateCam("DEFAULT_SCRIPTED_CAMERA", 0)
     local ttl = 30
 
@@ -153,7 +153,7 @@ function GetRotationThruCamera(location, normal)
     PointCamAtCoord(rotCam, camLookPosition.x, camLookPosition.y, camLookPosition.z)
 
     SetCamActive(rotCam, true)
-    Citizen.Wait(0)
+    Wait(0)
     local rot =  GetCamRot(rotCam, 2)
     SetCamActive(rotCam, false)
 
@@ -189,7 +189,7 @@ function DrawSpray(scaleformHandle, sprayData, meth)
     end
 end
 
-Citizen.CreateThread(function() 
+CreateThread(function() 
     while true do
         LoadAllSprayScaleforms()
 		Wait(5000)
@@ -207,7 +207,7 @@ function LoadAllSprayScaleforms()
 
         if not PLAYER_NAME_HEAP[i] or not HasScaleformMovieLoaded(PLAYER_NAME_HEAP[i]) then
             PLAYER_NAME_HEAP[i] = RequestScaleformMovieInteractive("PLAYER_NAME_" .. paddedI)
-            while not HasScaleformMovieLoaded(PLAYER_NAME_HEAP[i]) do Citizen.Wait(0) end
+            while not HasScaleformMovieLoaded(PLAYER_NAME_HEAP[i]) do Wait(0) end
         end
     end
 end

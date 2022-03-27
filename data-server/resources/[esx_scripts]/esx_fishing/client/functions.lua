@@ -50,7 +50,7 @@ FishingRod = function()
     })
 
     while IsEntityPlayingAnim(GLOBAL_PED, "mini@tennis", "forehand_ts_md_far", 3) do
-        Citizen.Wait(0)
+        Wait(0)
     end
 
     Anim("amb@world_human_stand_fishing@idle_a", "idle_c", {
@@ -62,11 +62,11 @@ end
 
 Anim = function(dict, anim, settings)
 	if dict then
-        Citizen.CreateThread(function()
+        CreateThread(function()
             RequestAnimDict(dict)
 
             while not HasAnimDictLoaded(dict) do
-                Citizen.Wait(100)
+                Wait(100)
             end
 
             if settings == nil then
@@ -122,10 +122,10 @@ SendBait = function(castLocation, cont)
 	
     local interupted = false
     
-    Citizen.Wait(1000)
+    Wait(1000)
 
     while GetGameTimer() - startedBaiting < randomBait do
-        Citizen.Wait(5)
+        Wait(5)
         if not IsEntityPlayingAnim(GLOBAL_PED, "amb@world_human_stand_fishing@idle_a", "idle_c", 3) then
             interupted = true
             break
@@ -149,12 +149,12 @@ end
 function loadAnimDict(dict)
     while (not HasAnimDictLoaded(dict)) do
         RequestAnimDict(dict)
-        Citizen.Wait(10)
+        Wait(10)
     end
 end
 
 Show3D = function()
-    Citizen.CreateThread(function() 
+    CreateThread(function() 
         local coords = nil
         local close = false
         showing = true
@@ -169,7 +169,7 @@ Show3D = function()
                             loadAnimDict('pickup_object')
                             TaskPlayAnim(GLOBAL_PED,'pickup_object', 'putdown_low',5.0, 1.5, 1.0, 48, 0.0, 0, 0, 0)
                             AttachEntityToEntity(GLOBAL_FISH[i].fishHandle, GLOBAL_PED, GetPedBoneIndex(GLOBAL_PED, 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
-                            Citizen.Wait(1000)
+                            Wait(1000)
                             DeleteEntity(GLOBAL_FISH[i].fishHandle)
                             ESX.TriggerServerCallback("esx_fishing:receiveItem", function(received)
                                 if received then
@@ -185,9 +185,9 @@ Show3D = function()
                 end
             end
             if close then
-                Citizen.Wait(0)
+                Wait(0)
             else
-                Citizen.Wait(250)
+                Wait(250)
             end
         end
         showing = false
@@ -247,21 +247,21 @@ TryToCatchFish = function()
     end
 
     while not DoesEntityExist(fishHandle) do
-        Citizen.Wait(10)
+        Wait(10)
     end
 
     if rewardtype.ped == true then
         SetEntityHealth(fishHandle, 0.0)
     end
 
-    Citizen.CreateThread(function() 
+    CreateThread(function() 
         while true do
-            Citizen.Wait(100)
+            Wait(100)
             local asd = GetEntityCoords(fishHandle, false)
             if Vdist(GetEntityCoords(fishHandle, false), forwardPos) <= 1.5 then
                 local v3 = vector3(round((forwardVector.x*-1)+8.0, 2), round((forwardVector.y*-1)+8.0, 2), round((forwardVector.z*-1)+8.0, 2))
                 ApplyForceToEntity(fishHandle, 3, v3, 0.0, 0.0, 0.0, 0, true, true, true, false, true)
-                Citizen.Wait(500)
+                Wait(500)
             else
                 break
             end
@@ -273,10 +273,10 @@ TryToCatchFish = function()
     })
 
     while IsEntityPlayingAnim(GLOBAL_PED, "mini@tennis", "forehand_ts_md_far", 3) do
-        Citizen.Wait(0)
+        Wait(0)
     end
 
-    Citizen.Wait(1500)
+    Wait(1500)
 
     ClearPedTasks(GLOBAL_PED)
     DeleteEntity(rodHandle)
@@ -312,7 +312,7 @@ IsInWater = function()
     ShowSpinner("Suche nach Angelbereich...")
 	 
     while GetGameTimer() - startedCheck < 3000 do
-        Citizen.Wait(0)
+        Wait(0)
     end
 
     RemoveLoadingPrompt()
@@ -335,7 +335,7 @@ LoadModels = function(model)
 	end
 
 	while not HasModelLoaded(model) do
-		Citizen.Wait(7)
+		Wait(7)
 	end
 end
 
