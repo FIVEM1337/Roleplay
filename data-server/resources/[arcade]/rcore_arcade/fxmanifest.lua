@@ -1,11 +1,9 @@
 fx_version 'adamant'
 games { 'gta5' }
 
-dependencies {
-	'MenuAPI',
-}
 
 client_scripts {
+	"@NativeUILua_Reloaded/src/NativeUIReloaded.lua",
 	"config.lua",
 	"client/main.lua",
 	"client/events.lua",

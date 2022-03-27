@@ -1,3 +1,5 @@
+local _menuPool                 = NativeUI.CreatePool()
+local UI                  = nil
 function showSubtitle(message, time)
     BeginTextCommandPrint('STRING')
     AddTextComponentSubstringPlayerName(message)
@@ -30,32 +32,44 @@ function createBlip(name, blip, coords, options)
     return ourBlip
 end
 
-function openComputerMenu(listGames, computer_)
-    local computer = computer_
-    local index = 0
-    local gameMenu = MenuAPI:CreateMenu("gamelist")
+CreateThread(function()
+    while true do
+        if _menuPool:IsAnyMenuOpen() then 
+            _menuPool:ProcessMenus()
+        else
+            _menuPool:CloseAllMenus()
+        end
+        Wait(1)
+    end
+end)
 
-    gameMenu.SetMenuTitle("Computermenü")
+function openComputerMenu(listGames, computer)
+    _menuPool:CloseAllMenus()
+	if UI ~= nil and UI:Visible() then
+		UI:Visible(false)
+	end
 
-    gameMenu.SetProperties({
-        float = "right",
-        position = "middle",
-    })
+    UI = NativeUI.CreateMenu("Computermenü", nil, nil)
+    _menuPool:Add(UI)
 
-    for key, value in pairs(listGames) do
-        index = index + 1
-        print(index, value.name)
-        gameMenu.AddItem(index, value.name, function()
+    for k, game in ipairs(listGames) do
+        local gameitem = NativeUI.CreateItem(game.name, '')
+
+        UI:AddItem(gameitem)
+        gameitem.Activated = function(sender, index)
+            _menuPool:CloseAllMenus()
+            SetNuiFocus(true, true)
             SendNUIMessage({
                 type = "on",
-                game = value.link,
+                game = game.link,
                 gpu = computer.computerGPU,
                 cpu = computer.computerCPU
             })
-            SetNuiFocus(true, true)
-            gameMenu.Close()
-        end)
+        end
     end
-
-    gameMenu.Open()
+    UI:Visible(true)
+	_menuPool:RefreshIndex()
+	_menuPool:MouseControlsEnabled(false)
+	_menuPool:MouseEdgeEnabled(false)
+	_menuPool:ControlDisablingEnabled(false)
 end

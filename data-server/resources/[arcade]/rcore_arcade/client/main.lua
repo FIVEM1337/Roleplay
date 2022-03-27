@@ -1,15 +1,9 @@
--------------------
--- Exports
--------------------
-MenuAPI = exports.MenuAPI
--------------------
-
 
 --create npc, blip, marker
 Citizen.CreateThread(function()
     for k, v in pairs(Config.Arcade) do
         if v.blip and v.blip.enable then
-            createBlip(v.blip.name, v.blip.blipId, v.blip.position, v.blip)
+       --     createBlip(v.blip.name, v.blip.blipId, v.blip.position, v.blip)
         end
     end
 end)
@@ -37,7 +31,7 @@ Citizen.CreateThread(function()
             showHelpNotification("Drücke ~INPUT_CONTEXT~ um den Computer zu starten.")
         end)
         computerMarker.on('leave', function()
-            MenuAPI:CloseAll()
+            _menuPool:CloseAllMenus()
         end)
         computerMarker.on('key', function()
             openComputerMenu(v.computerType, v)
