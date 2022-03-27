@@ -1,29 +1,29 @@
 -- Density values from 0.0 to 1.0.
 DensityMultiplier = 0.0
-Citizen.CreateThread(function()
+-- NPC Control
+CreateThread(function()
 	while true do
-		SetVehicleDensityMultiplierThisFrame(DensityMultiplier)
-		SetPedDensityMultiplierThisFrame(DensityMultiplier)
-		SetRandomVehicleDensityMultiplierThisFrame(DensityMultiplier)
-		SetParkedVehicleDensityMultiplierThisFrame(DensityMultiplier)
-		SetScenarioPedDensityMultiplierThisFrame(DensityMultiplier, DensityMultiplier)
-		
-		local playerPed = PlayerPedId()
-		local pos = GetEntityCoords(playerPed)
-		RemoveVehiclesFromGeneratorsInArea(pos['x'] - 500.0, pos['y'] - 500.0, pos['z'] - 500.0, pos['x'] + 500.0, pos['y'] + 500.0, pos['z'] + 500.0);
-		
-		SetGarbageTrucks(0)
-		SetRandomBoats(0)
+		Wait(0) 
+        SetVehicleDensityMultiplierThisFrame(DensityMultiplier) -- Traffic Density
+		SetPedDensityMultiplierThisFrame(DensityMultiplier) -- NPC Density
+		SetRandomVehicleDensityMultiplierThisFrame(DensityMultiplier) -- Random Vehicle Density
+		SetParkedVehicleDensityMultiplierThisFrame(DensityMultiplier) -- Parked Density
+		SetScenarioPedDensityMultiplierThisFrame(DensityMultiplier, DensityMultiplier) -- Walking NPC Density
+		SetGarbageTrucks(false) -- Enable/Disable Garbage Trucks
+		SetRandomBoats(false) -- Enable/Disable Boats
+        SetCreateRandomCops(false) -- Enable/Disable Random Cops
+		SetCreateRandomCopsNotOnScenarios(false) --- Enable/Disable Spawn Cops Off Scenarios
+		SetCreateRandomCopsOnScenarios(false) -- Enable/Disable Spawn Cops On Scenarios
+        local x,y,z = table.unpack(GetEntityCoords(PlayerPedId()))
+		ClearAreaOfVehicles(x, y, z, 1000, false, false, false, false, false)
+		RemoveVehiclesFromGeneratorsInArea(x - 500.0, y - 500.0, z - 500.0, x + 500.0, y + 500.0, z + 500.0);
+	 end
+end)
 
 
-		for i = 1, 12 do
-			EnableDispatchService(i, false)
-		end
-
-		SetPlayerWantedLevel(PlayerId(), 0, false)
-		SetPlayerWantedLevelNow(PlayerId(), false)
-		SetPlayerWantedLevelNoDrop(PlayerId(), 0, false)
-		
-		Citizen.Wait(1)
-	end
+-- Disable Dispatch
+CreateThread(function()
+	for i = 1, 15 do
+		EnableDispatchService(i, false)
+	 end
 end)
