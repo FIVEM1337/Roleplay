@@ -37,12 +37,16 @@ end)
 CreateThread(function()
   while true do
     if not IsPedInAnyVehicle(PlayerPedId(), true) then
-      meterAttrs['meterVisible'] = false
-      firstConfigOpenInVehicle = false
+      if meterAttrs['meterVisible'] then
+        meterAttrs['meterVisible'] = false
+        firstConfigOpenInVehicle = false
+        updateMeter()
+      end
     end
-
-    updateMeter()
-    Wait(0)
+    if meterAttrs['meterVisible'] then
+      updateMeter()
+    end
+    Wait(1)
   end
 end)
 
@@ -300,6 +304,7 @@ function setMeterVisiblity()
     lastLocation = GetEntityCoords(PlayerPedId())
     updatePassengerLocations()
   end
+  updateMeter()
 end
 
 --[[
