@@ -1,5 +1,3 @@
-ESX = nil
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 -- Set this to false if you don't want the weather to change automatically every 10 minutes.
 DynamicWeather = true
