@@ -4,22 +4,29 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 
 ESX.RegisterServerCallback('esx_vehiclelock:requestPlayerCars', function(source, cb, plate)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	MySQL.Async.fetchAll('SELECT 1 FROM owned_vehicles WHERE owner = @owner AND plate = @plate', {
-		['@owner'] = xPlayer.identifier,
+	local source = source
+    local xPlayer = ESX.GetPlayerFromId(source)
+
+	MySQL.Async.fetchAll('SELECT * FROM owned_vehicles WHERE plate = @plate', {
 		['@plate'] = plate
-	}, function(result)
-		if result[1] then
-			cb(true)
-		else
-			MySQL.Async.fetchAll('SELECT 1 FROM job_vehicles WHERE job = @job AND plate = @plate', {
-				['@job'] = xPlayer.job.name,
-				['@plate'] = plate
-			}, function(result)
-				if result[1] then
-					cb(true)
+	}, function(vehicles)
+		if vehicles[1] then
+			local vehicle = vehicles[1]
+			if vehicle.owner == xPlayer.identifier then
+				cb(true)
+			elseif vehicle.job == xPlayer.job.name then
+				if vehicle.grade >= 0 then
+					if vehicle.grade <= xPlayer.job.grade then
+						cb(true)
+					else
+						cb(false)
+					end
+				else
+					cb(false)
 				end
-			end)
+			else
+				cb(false)
+			end
 		end
 	end)
 end)
