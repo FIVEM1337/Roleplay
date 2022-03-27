@@ -13,9 +13,9 @@ end)
 Citizen.CreateThread(function()
     while true do
 		Citizen.Wait(1)
-		if IsPedOnFoot(GetPlayerPed(-1)) then 
+		if IsPedOnFoot(PlayerPedId()) then 
 			SetRadarZoom(1100)
-		elseif IsPedInAnyVehicle(GetPlayerPed(-1), true) then
+		elseif IsPedInAnyVehicle(PlayerPedId(), true) then
 			SetRadarZoom(1100)
 		end
     end

@@ -73,7 +73,7 @@ end)
 
 RegisterNetEvent('esx_resident:PortOutside')
 AddEventHandler('esx_resident:PortOutside', function(status)
-    SetEntityCoords(GetPlayerPed(-1), Config.OutsideCoords)
+    SetEntityCoords(PlayerPedId(), Config.OutsideCoords)
 end)
 
 function showInfobar(msg)

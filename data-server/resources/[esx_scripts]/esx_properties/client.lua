@@ -715,7 +715,7 @@ function generateWardrobeMenu(owner)
 
 			end
 
-			local playerPed  = GetPlayerPed(-1)
+			local playerPed  = PlayerPedId()
 			local weaponList = ESX.GetWeaponList()
 
 			for k, weaponsininv in pairs(weaponList) do
@@ -1489,7 +1489,7 @@ AddEventHandler('esx_properties:setPlayerInvisible', function(playerEnter, insta
 	local otherPlayer = GetPlayerFromServerId(playerEnter)
 	if otherPlayer ~= nil then
 		local otherPlayerPed = GetPlayerPed(otherPlayer)
-		if otherPlayerPed ~= GetPlayerPed(-1) then
+		if otherPlayerPed ~= PlayerPedId() then
 			table.insert(vanishedUser, otherPlayerPed)
 			NetworkConcealEntity(otherPlayerPed, true)
 		end

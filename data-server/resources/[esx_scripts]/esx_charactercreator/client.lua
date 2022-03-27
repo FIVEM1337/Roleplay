@@ -336,9 +336,9 @@ function generateClothesMenu(skin_result)
     
             local amountOfComponents
             if v.type == 1 then
-                amountOfComponents = GetNumberOfPedDrawableVariations(GetPlayerPed(-1), v.componentID)-1
+                amountOfComponents = GetNumberOfPedDrawableVariations(PlayerPedId(), v.componentID)-1
             elseif v.type == 2 then
-                amountOfComponents = GetNumberOfPedPropDrawableVariations(GetPlayerPed(-1), v.componentID)-1
+                amountOfComponents = GetNumberOfPedPropDrawableVariations(PlayerPedId(), v.componentID)-1
             else
                 amountOfComponents = v.amountComponents
             end
@@ -387,7 +387,7 @@ function generateClothesMenu(skin_result)
                 variationValues = {}
                 local amountOfVariations
                 if v.type == 1 then
-                    amountOfVariations = GetNumberOfPedTextureVariations(GetPlayerPed(-1), v.componentID, LastSkin[v.name])
+                    amountOfVariations = GetNumberOfPedTextureVariations(PlayerPedId(), v.componentID, LastSkin[v.name])
                 elseif v.type == 2 then
                     amountOfVariations = GetNumberOfPedPropTextureVariations(PlayerPedId(-1), v.componentID, LastSkin[v.name])
                 else 
@@ -432,7 +432,7 @@ function generateClothesMenu(skin_result)
                                 variationValues = {}
                                 local amountOfVariations
                                 if v2.data.type == 1 then
-                                    amountOfVariations = GetNumberOfPedTextureVariations(GetPlayerPed(-1), v2.data.componentID, componentValues[v2.data.name][selectedIndex])
+                                    amountOfVariations = GetNumberOfPedTextureVariations(PlayerPedId(), v2.data.componentID, componentValues[v2.data.name][selectedIndex])
                                 elseif v2.data.type == 2 then
                                     amountOfVariations = GetNumberOfPedPropTextureVariations(PlayerPedId(-1), v2.data.componentID, componentValues[v2.data.name][selectedIndex])
                                 else
@@ -519,9 +519,9 @@ function generateFaceMenu(skin_result)
     
             local amountOfComponents
             if v.type == 1 then
-                amountOfComponents = GetNumberOfPedDrawableVariations(GetPlayerPed(-1), v.componentID)-1
+                amountOfComponents = GetNumberOfPedDrawableVariations(PlayerPedId(), v.componentID)-1
             elseif v.type == 2 then
-                amountOfComponents = GetNumberOfPedPropDrawableVariations(GetPlayerPed(-1), v.componentID)-1
+                amountOfComponents = GetNumberOfPedPropDrawableVariations(PlayerPedId(), v.componentID)-1
             else
                 amountOfComponents = v.amountComponents
             end
@@ -569,7 +569,7 @@ function generateFaceMenu(skin_result)
                 variationValues = {}
                 local amountOfVariations
                 if v.type == 1 then
-                    amountOfVariations = GetNumberOfPedTextureVariations(GetPlayerPed(-1), v.componentID, LastSkin[v.name])
+                    amountOfVariations = GetNumberOfPedTextureVariations(PlayerPedId(), v.componentID, LastSkin[v.name])
                 elseif v.type == 2 then
                     amountOfVariations = GetNumberOfPedPropTextureVariations(PlayerPedId(-1), v.componentID, LastSkin[v.name])
                 else 
@@ -614,7 +614,7 @@ function generateFaceMenu(skin_result)
                                 variationValues = {}
                                 local amountOfVariations
                                 if v2.data.type == 1 then
-                                    amountOfVariations = GetNumberOfPedTextureVariations(GetPlayerPed(-1), v2.data.componentID, componentValues[v2.data.name][selectedIndex])
+                                    amountOfVariations = GetNumberOfPedTextureVariations(PlayerPedId(), v2.data.componentID, componentValues[v2.data.name][selectedIndex])
                                 elseif v2.data.type == 2 then
                                     amountOfVariations = GetNumberOfPedPropTextureVariations(PlayerPedId(-1), v2.data.componentID, componentValues[v2.data.name][selectedIndex])
                                 else
@@ -667,7 +667,7 @@ function generateFaceMenu(skin_result)
 end
 
 function CreateSkinCam()
-	local playerPed = GetPlayerPed(-1)
+	local playerPed = PlayerPedId()
 
 	if not isCameraActive then
 		if not DoesCamExist(cam) then
@@ -702,7 +702,7 @@ Citizen.CreateThread(function()
             DisableControlAction(0, 25,   true) -- Input Aim
             DisableControlAction(0, 24,   true) -- Input Attack
         
-            local playerPed = GetPlayerPed(-1)
+            local playerPed = PlayerPedId()
             local coords    = GetEntityCoords(playerPed)
         
             local angle = heading * math.pi / 180.0

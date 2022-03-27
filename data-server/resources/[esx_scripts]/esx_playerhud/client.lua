@@ -71,7 +71,7 @@ AddEventHandler("esx_playerhud:LoadPlayerDataHUD", function(xPlayer)
 	SendNUIMessage({action = "setValue", key = "job", value = job.label.." - "..job.grade_label, icon = job.name})
 
 	-- Player ID
-	SendNUIMessage({action = "setValue", key = "player_id", value = "Deine ID: "..GetPlayerServerId(NetworkGetEntityOwner(GetPlayerPed(-1)))})
+	SendNUIMessage({action = "setValue", key = "player_id", value = "Deine ID: "..GetPlayerServerId(NetworkGetEntityOwner(PlayerPedId()))})
 
 
     TriggerEvent('esx_status:getStatusPercent', 'hunger', function(hunger) 

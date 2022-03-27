@@ -15,7 +15,7 @@ local chunkDist = 100.0
 local drawDist  =  50.0
 
 local PlayerPos = function()
-  return GetEntityCoords(GetPlayerPed(-1))
+  return GetEntityCoords(PlayerPedId())
 end
 
 local ReChunk = function()

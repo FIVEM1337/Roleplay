@@ -652,7 +652,7 @@ end)
 
 
 function CreateSkinCam()
-	local playerPed = GetPlayerPed(-1)
+	local playerPed = PlayerPedId()
 
 	if not isCameraActive then
 		if not DoesCamExist(cam) then
@@ -687,7 +687,7 @@ Citizen.CreateThread(function()
 		DisableControlAction(0, 25,   true) -- Input Aim
 			DisableControlAction(0, 24,   true) -- Input Attack
 	
-		local playerPed = GetPlayerPed(-1)
+		local playerPed = PlayerPedId()
 		local coords    = GetEntityCoords(playerPed)
 	
 		local angle = heading * math.pi / 180.0

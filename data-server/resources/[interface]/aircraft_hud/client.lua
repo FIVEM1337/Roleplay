@@ -21,16 +21,16 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
 
-		local Ped = GetPlayerPed(-1)
+		local Ped = PlayerPedId()
 		local Heli = IsPedInAnyHeli(Ped)
 		local Plane = IsPedInAnyPlane(Ped)
-		local PedVehicle = GetVehiclePedIsIn(GetPlayerPed(-1),false)
+		local PedVehicle = GetVehiclePedIsIn(PlayerPedId(),false)
 		
 		local class = GetVehicleClass(PedVehicle)
 
 
 		if IsPedInAnyVehicle(Ped) and not IsEntityDead(Ped) and class == 15 or class == 16 then
-			local Speed = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 3.6 or 0
+			local Speed = GetEntitySpeed(GetVehiclePedIsIn(PlayerPedId(), false)) * 3.6 or 0
 			local Engine = GetIsVehicleEngineRunning(PedVehicle) or 0
 			local Height = GetEntityHeightAboveGround(PedVehicle) or 0
 			local FuelAmount = GetVehicleFuelLevel(GetPlayersLastVehicle()) or 0

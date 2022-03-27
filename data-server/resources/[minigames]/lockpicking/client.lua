@@ -28,7 +28,7 @@ function lockpicking:StartMinigame(pins,cb)
 
     if doWait then while doWait do Citizen.Wait(0); end; end
     if doCont then
-      FreezeEntityPosition(GetPlayerPed(-1), true)
+      FreezeEntityPosition(PlayerPedId(), true)
       local maxSpeed = 300
       local minSpeed = 150
 
@@ -122,7 +122,7 @@ function lockpicking:StartMinigame(pins,cb)
         TriggerEvent('lockpicking:MinigameComplete', didWin)
       end
       TriggerServerEvent('lockpicking:MinigameComplete', didWin)
-      FreezeEntityPosition(GetPlayerPed(-1), false)
+      FreezeEntityPosition(PlayerPedId(), false)
     else
       ESX.ShowNotification("You don't have any lockpicks.")
     end

@@ -255,7 +255,7 @@ CreateThread(function()
 				elseif CurrentActionMsg == "porter" then
 					if cantrigger then
 						TriggerEvent('esx_routen:waittotrigger')
-						SetEntityCoords(GetPlayerPed(-1), CurrentActionData.exit)
+						SetEntityCoords(PlayerPedId(), CurrentActionData.exit)
 					else
 						TriggerEvent('dopeNotify:Alert', "", "Du kannst das gerade noch nicht tun", 2000, 'error')
 					end

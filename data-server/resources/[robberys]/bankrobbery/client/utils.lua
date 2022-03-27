@@ -118,7 +118,7 @@ end
 
 function NotifyPoliceFunction(name)
 
-	TriggerServerEvent('bankrobbery:np-alerts',GetEntityCoords(GetPlayerPed(-1)),streetName,name)
+	TriggerServerEvent('bankrobbery:np-alerts',GetEntityCoords(PlayerPedId()),streetName,name)
 
 	-- If you want to use your own alert:
 
@@ -158,7 +158,7 @@ Citizen.CreateThread(function()
 
 		Citizen.Wait(3000)
 
-		local pos = GetEntityCoords(GetPlayerPed(-1), false)
+		local pos = GetEntityCoords(PlayerPedId(), false)
 
 		streetName,_ = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
 

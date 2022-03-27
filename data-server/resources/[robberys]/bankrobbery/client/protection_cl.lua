@@ -387,7 +387,7 @@ local access = false
 
 	AddEventHandler('bankrobbery:openCameraView', function(cameraNum)
 
-		local player = GetPlayerPed(-1)
+		local player = PlayerPedId()
 
 		local curCam = Config.Camera[cameraNum]
 

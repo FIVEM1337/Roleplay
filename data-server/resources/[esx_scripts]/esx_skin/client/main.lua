@@ -17,7 +17,7 @@ end)
 
 function OpenMenu(submitCb, cancelCb, restrict)
 
-  local playerPed = GetPlayerPed(-1)
+  local playerPed = PlayerPedId()
 
   TriggerEvent('skinchanger:getSkin', function(skin)
     LastSkin = skin
@@ -199,7 +199,7 @@ Citizen.CreateThread(function()
       DisableControlAction(0, 25,   true) -- Input Aim
         DisableControlAction(0, 24,   true) -- Input Attack
 
-      local playerPed = GetPlayerPed(-1)
+      local playerPed = PlayerPedId()
       local coords    = GetEntityCoords(playerPed)
 
       local angle = heading * math.pi / 180.0

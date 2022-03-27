@@ -30,7 +30,7 @@ Citizen.CreateThread(function()
 
         Citizen.Wait(1)
 
-        local player = GetPlayerPed(-1)
+        local player = PlayerPedId()
 
         local coords = GetEntityCoords(player,true)
 
@@ -158,7 +158,7 @@ Citizen.CreateThread(function()
 
         Citizen.Wait(1)
 
-        local player = GetPlayerPed(-1)
+        local player = PlayerPedId()
 
         local coords = GetEntityCoords(player,true)
 
@@ -274,7 +274,7 @@ end)
 
 function HackKeyPad1(k,v)
 
-    local player = GetPlayerPed(-1)
+    local player = PlayerPedId()
 
     local coords = GetEntityCoords(player,true)
 
@@ -318,7 +318,7 @@ end
 
 function KeyPad1Complete(success)
 
-	local player = GetPlayerPed(-1)
+	local player = PlayerPedId()
 
 	local coords = GetEntityCoords(player)
 
@@ -416,7 +416,7 @@ end
 
 function HackKeyPad2(k,v)
 
-    local player = GetPlayerPed(-1)
+    local player = PlayerPedId()
 
     local coords = GetEntityCoords(player,true)
 
@@ -458,7 +458,7 @@ end
 
 function FingerPrintCallback(outcome,reason)
 
-	local player = GetPlayerPed(-1)
+	local player = PlayerPedId()
 
 	local coords = GetEntityCoords(player)
 
@@ -558,7 +558,7 @@ Citizen.CreateThread(function()
 
         Citizen.Wait(1)
 
-        local player = GetPlayerPed(-1)
+        local player = PlayerPedId()
 
         local coords = GetEntityCoords(player,true)
 
@@ -774,7 +774,7 @@ Citizen.CreateThread(function()
 
         Citizen.Wait(1)
 
-        local player = GetPlayerPed(-1)
+        local player = PlayerPedId()
 
         local coords = GetEntityCoords(player,true)
 
@@ -848,7 +848,7 @@ RegisterNetEvent('bankrobbery:drillCloseSafe')
 
 AddEventHandler('bankrobbery:drillCloseSafe', function()
 
-	local player    = GetPlayerPed(-1)
+	local player    = PlayerPedId()
 
 	local coords    = GetEntityCoords(player,true)
 
@@ -1096,7 +1096,7 @@ RegisterNetEvent('bankrobbery:camera')
 
 AddEventHandler('bankrobbery:camera', function(cameraNum)
 
-	local player = GetPlayerPed(-1)
+	local player = PlayerPedId()
 
 	if usingCamera then
 
@@ -1158,7 +1158,7 @@ Citizen.CreateThread(function ()
 
 	while true do
 
-		local player = GetPlayerPed(-1)
+		local player = PlayerPedId()
 
 		Citizen.Wait(0)
 
@@ -1392,7 +1392,7 @@ Citizen.CreateThread(function()
 
         Citizen.Wait(1)
 
-        local player = GetPlayerPed(-1)
+        local player = PlayerPedId()
 
         local coords = GetEntityCoords(player,true)
 
@@ -1449,7 +1449,7 @@ end)
 
 function disablePowerFunction(k,v)
 
-	local player = GetPlayerPed(-1)
+	local player = PlayerPedId()
 
 	SetCurrentPedWeapon(player, GetHashKey("WEAPON_UNARMED"),true)
 
@@ -1500,7 +1500,7 @@ Citizen.CreateThread(function()
 
         Citizen.Wait(1)
 
-        local player = GetPlayerPed(-1)
+        local player = PlayerPedId()
 
 		local coords = GetEntityCoords(player,true)
 
@@ -1552,7 +1552,7 @@ end)
 
 function crackPacificSafe(k,v)
 
-	local player = GetPlayerPed(-1)
+	local player = PlayerPedId()
 
 	local coords = GetEntityCoords(player,true)
 
@@ -1626,7 +1626,7 @@ Citizen.CreateThread(function()
 
         Citizen.Wait(1)
 
-        local player = GetPlayerPed(-1)
+        local player = PlayerPedId()
 
         local coords = GetEntityCoords(player,true)
 
@@ -1790,7 +1790,7 @@ end)
 
 function lockpickDeskDoor(k,v,cashDoor)
 
-	local player = GetPlayerPed(-1)
+	local player = PlayerPedId()
 
 	local animDict = "anim@amb@clubhouse@tutorial@bkr_tut_ig3@"
 
@@ -1848,7 +1848,7 @@ Citizen.CreateThread(function()
 
         Citizen.Wait(1)
 
-        local player = GetPlayerPed(-1)
+        local player = PlayerPedId()
 
         local coords = GetEntityCoords(player,true)
 
@@ -1900,7 +1900,7 @@ end)
 
 function GrabCashAnim(k,desk,num)
 
-	local player = GetPlayerPed(-1)
+	local player = PlayerPedId()
 
 	local animDict = "anim@heists@ornate_bank@grab_cash"
 

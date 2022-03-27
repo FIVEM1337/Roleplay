@@ -25,7 +25,7 @@ Doors.Update = function()
     local wait_time = 0
 
     if not Doors.Busy then
-      local ply_ped = GetPlayerPed(-1)
+      local ply_ped = PlayerPedId()
       local ply_pos = GetEntityCoords(ply_ped)
 
       wait_time = Doors.HandleDoors(ply_pos)
@@ -82,7 +82,7 @@ Doors.HandleDoors = function(ply_pos)
       end
     end
 
-    local in_vehicle = IsPedInAnyVehicle(GetPlayerPed(-1))
+    local in_vehicle = IsPedInAnyVehicle(PlayerPedId())
     if not in_vehicle or Config.Doors[closest].interact_in_veh then
       DrawText3D(text_pos, door_text, 20.0, closest_dist)
       if closest_dist < Config.Doors[closest].dist then
@@ -130,7 +130,7 @@ Doors.MinigameCallback = function(door_index,door_state,item_name,did_win)
     TriggerServerEvent("esx_doorlock:MinigameFailed",door_index,item_name)
     ShowNotification(Labels["access_denied"])
   end
-  FreezeEntityPosition(GetPlayerPed(-1),false)
+  FreezeEntityPosition(PlayerPedId(),false)
   Doors.Busy = false
 end  
 
@@ -141,7 +141,7 @@ Doors.MinigameHandler = function(door_index,door_state,item_name)
   if not minigame_type then return; end
 
   Doors.Busy = true
-  FreezeEntityPosition(GetPlayerPed(-1),true)
+  FreezeEntityPosition(PlayerPedId(),true)
 
   if minigame_type == "Lockpick" then
     TriggerEvent("lockpicking:StartMinigame",door_data.lockpick_preset.pins,function(did_win) Doors.MinigameCallback(door_index,door_state,item_name,did_win); end)
@@ -323,7 +323,7 @@ Doors.GetDoors = function()
   local ents  = {}
   local doors = {}
   while true do
-    local ped = GetPlayerPed(-1)
+    local ped = PlayerPedId()
     local start,fin = Doors.GetCoordsInFrontOfCam(0,5000)
     local ray = StartShapeTestRay(start.x,start.y,start.z,fin.x,fin.y,fin.z,16,ped,5000)
     local _ray,hit,pos,norm,ent = GetShapeTestResult(ray)
@@ -838,7 +838,7 @@ Doors.Removed = function(door_index)
 end
 
 Doors.Remove = function()
-  local ply_pos = GetEntityCoords(GetPlayerPed(-1))
+  local ply_pos = GetEntityCoords(PlayerPedId())
   local closest,closest_dist
   for _,door_index in ipairs(Doors.Chunk) do
     local real_door = Config.Doors[door_index]

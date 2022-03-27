@@ -11,7 +11,7 @@ AddEventHandler("MountZonah:Update", function()
 end)
 
 function GetVehicleInDirectionSphere(coordFrom, coordTo)
-    local rayHandle = StartShapeTestCapsule(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z, 2.0, 10, GetPlayerPed(-1), 7)
+    local rayHandle = StartShapeTestCapsule(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z, 2.0, 10, PlayerPedId(), 7)
     local _, _, _, _, vehicle = GetShapeTestResult(rayHandle)
     return vehicle
 end

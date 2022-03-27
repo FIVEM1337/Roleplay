@@ -280,8 +280,8 @@ function finishSpawn(pos, isnew)
     PlaySoundFrontend(-1, "Zoom_Out", "DLC_HEIST_PLANNING_BOARD_SOUNDS", 1)
     RenderScriptCams(false, true, 500, true, true)
     PlaySoundFrontend(-1, "CAR_BIKE_WHOOSH", "MP_LOBBY_SOUNDS", 1)
-	SetEntityCoords(GetPlayerPed(-1), pos.x, pos.y, pos.z)
-    FreezeEntityPosition(GetPlayerPed(-1), false)
+	SetEntityCoords(PlayerPedId(), pos.x, pos.y, pos.z)
+    FreezeEntityPosition(PlayerPedId(), false)
     Citizen.Wait(500)
     SetCamActive(cam, false)
     DestroyCam(cam, true)
@@ -302,7 +302,7 @@ end
 
 function setPlayerInVoid()
 	
-    FreezeEntityPosition(GetPlayerPed(-1), true)
+    FreezeEntityPosition(PlayerPedId(), true)
     cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", 402.99,-999.01,-98.0, 300.00, 0.00 ,0.00, 70.00, false, 0)
 	PointCamAtCoord(cam, 402.86, -996.74, -99.0)
 
@@ -349,7 +349,7 @@ function setPedClothing(skin, pedModel)
 	end
 	
 	if IsChoosing then
-		SetEntityCoords(GetPlayerPed(-1), 397.92, -1004.4, -99.0)
+		SetEntityCoords(PlayerPedId(), 397.92, -1004.4, -99.0)
 	end
 
 	playerPed = CreatePed(4, GetHashKey(sex), 402.86, -996.74, -99.0 - 1.0, 180.0, false, true)

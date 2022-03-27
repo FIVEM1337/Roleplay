@@ -98,7 +98,7 @@ Citizen.CreateThread(function()
     while true do 
         Citizen.Wait(1)
         if havingGarbageJob then
-            local playerPed = GetPlayerPed(-1)
+            local playerPed = PlayerPedId()
             local plyCoords = GetEntityCoords(playerPed)
             local distance = GetDistanceBetweenCoords(plyCoords, clockRoom, true)
             local vehicleCoords = vector3(-323.53, -1523.58, 27.00)
@@ -121,8 +121,8 @@ Citizen.CreateThread(function()
                                         while not inTruck do 
                                             Citizen.Wait(5)
                                             DrawMarker(2, truckcoords + vector3(0.0,0.0,3.5), 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 150, false, true, 2, false, false, false, false)
-                                            if IsPedInAnyVehicle(GetPlayerPed(-1)) then
-                                                local truck = GetVehiclePedIsIn(GetPlayerPed(-1),false)
+                                            if IsPedInAnyVehicle(PlayerPedId()) then
+                                                local truck = GetVehiclePedIsIn(PlayerPedId(),false)
                                                 if truck == vehicle then
                                                     inTruck = true
                                                     Citizen.Wait(1000)
@@ -151,7 +151,7 @@ function submit()
         local pressed = false
         while true do
             Citizen.Wait(1)
-            local playerPed = GetPlayerPed(-1)
+            local playerPed = PlayerPedId()
             local plyCoords = GetEntityCoords(playerPed)
             local distance = GetDistanceBetweenCoords(plyCoords,submitCoords, true) 
             if distance < 20 then
@@ -209,7 +209,7 @@ function missionStart(coordVec,xtruck)
     Citizen.CreateThread(function()
         while not arrived do
             Citizen.Wait(1)
-            local tempdist = GetDistanceBetweenCoords(coordVec, GetEntityCoords(GetPlayerPed(-1)),true)
+            local tempdist = GetDistanceBetweenCoords(coordVec, GetEntityCoords(PlayerPedId()),true)
             if  tempdist < 50 then
                 DrawMarker(20, coordVec + vector3(0.0,0.0,3.5), 0.0, 0.0, 0.0, 0, 0.0, 0.0, 2.0, 2.0, 1.0, 0, 120, 0, 200, false, true, 2, false, false, false, false)
                 if tempdist < 2 then
@@ -229,7 +229,7 @@ function findtrashbins(coordVec,xtruck,pickup)
     doingGarbage = true
     local location = coordVec
     local vehicle = xtruck
-    local playerPed = GetPlayerPed(-1)
+    local playerPed = PlayerPedId()
     local boneindex = GetPedBoneIndex(playerPed, 57005)
     runs = pickup
 
@@ -255,7 +255,7 @@ function findtrashbins(coordVec,xtruck,pickup)
                 SetBlipColour(jobBlip, 25)
                 while true do
                     Wait(1) 
-                    local userDist = GetDistanceBetweenCoords(dumpCoords,GetEntityCoords(GetPlayerPed(-1)),true) 
+                    local userDist = GetDistanceBetweenCoords(dumpCoords,GetEntityCoords(PlayerPedId()),true) 
                     if userDist < 20 then
                         DrawMarker(20, dumpCoords + vector3(0.0,0.0,2.5), 0.0, 0.0, 0.0, 0, 0.0, 0.0, 2.0, 2.0, 1.0, 0, 120, 0, 200, false, true, 2, false, false, false, false)
                         if userDist < 2 then
@@ -291,7 +291,7 @@ function collectedtrash(geeky,vehicle,location,pickup)
     while true do
         Wait(1)
         local trunkcoord = GetWorldPositionOfEntityBone(vehicle, GetEntityBoneIndexByName(vehicle, "platelight"))
-        local tdistance = GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)),trunkcoord)
+        local tdistance = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()),trunkcoord)
         local runs = pickup
         if tdistance < 20 then
             DrawMarker(20, trunkcoord + vector3(0.0,0.0,0.5), 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 120, 0, 200, false, true, 2, false, false, false, false)
@@ -328,12 +328,12 @@ function collectedtrash(geeky,vehicle,location,pickup)
                         TriggerServerEvent('esx_garbagejob:reward',item,trashCollected)
                         trashCollected = false
                     end
-                    ClearPedTasksImmediately(GetPlayerPed(-1))
-					TaskPlayAnim(GetPlayerPed(-1), 'anim@heists@narcotics@trash', 'throw_b', 1.0, -1.0,-1,2,0,0, 0,0)
+                    ClearPedTasksImmediately(PlayerPedId())
+					TaskPlayAnim(PlayerPedId(), 'anim@heists@narcotics@trash', 'throw_b', 1.0, -1.0,-1,2,0,0, 0,0)
                     Citizen.Wait(100)
                     DeleteObject(trashbag)
                     Citizen.Wait(3000)
-                    ClearPedTasksImmediately(GetPlayerPed(-1))
+                    ClearPedTasksImmediately(PlayerPedId())
                     findtrashbins(location,vehicle,runs+1)
                     pressed = false
                     return

@@ -572,9 +572,9 @@ function LoadCorrectSkin(sex, grade, outfittype, CurrentSkin)
 
         local amountOfComponents
         if v.type == 1 then
-            amountOfComponents = GetNumberOfPedDrawableVariations(GetPlayerPed(-1), v.componentID)
+            amountOfComponents = GetNumberOfPedDrawableVariations(PlayerPedId(), v.componentID)
         else
-            amountOfComponents = GetNumberOfPedPropDrawableVariations(GetPlayerPed(-1), v.componentID)
+            amountOfComponents = GetNumberOfPedPropDrawableVariations(PlayerPedId(), v.componentID)
         end
         
         if v.name == 'ears_1' or v.name == 'helmet_1' then
@@ -626,7 +626,7 @@ function LoadCorrectSkin(sex, grade, outfittype, CurrentSkin)
             variationValues = {}
             local amountOfVariations
             if v.type == 1 then
-                amountOfVariations = GetNumberOfPedTextureVariations(GetPlayerPed(-1), v.componentID, CurrentSkin[v.name])
+                amountOfVariations = GetNumberOfPedTextureVariations(PlayerPedId(), v.componentID, CurrentSkin[v.name])
             else
                 amountOfVariations = GetNumberOfPedPropTextureVariations(PlayerPedId(-1), v.componentID, CurrentSkin[v.name])
             end
@@ -668,7 +668,7 @@ function LoadCorrectSkin(sex, grade, outfittype, CurrentSkin)
                             variationValues = {}
                             local amountOfVariations
                             if v2.data.type == 1 then
-                                amountOfVariations = GetNumberOfPedTextureVariations(GetPlayerPed(-1), v2.data.componentID, componentValues[v2.data.name][selectedIndex])
+                                amountOfVariations = GetNumberOfPedTextureVariations(PlayerPedId(), v2.data.componentID, componentValues[v2.data.name][selectedIndex])
                             else
                                 amountOfVariations = GetNumberOfPedPropTextureVariations(PlayerPedId(-1), v2.data.componentID, componentValues[v2.data.name][selectedIndex])
                             end
@@ -716,7 +716,7 @@ function LoadCorrectSkin(sex, grade, outfittype, CurrentSkin)
 end
 
 function CreateSkinCam()
-	local playerPed = GetPlayerPed(-1)
+	local playerPed = PlayerPedId()
 
 	if not isCameraActive then
 		if not DoesCamExist(cam) then
@@ -884,7 +884,7 @@ Citizen.CreateThread(function()
 		DisableControlAction(0, 25,   true) -- Input Aim
 			DisableControlAction(0, 24,   true) -- Input Attack
 	
-		local playerPed = GetPlayerPed(-1)
+		local playerPed = PlayerPedId()
 		local coords    = GetEntityCoords(playerPed)
 	
 		local angle = heading * math.pi / 180.0

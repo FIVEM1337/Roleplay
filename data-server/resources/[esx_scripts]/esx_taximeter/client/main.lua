@@ -36,7 +36,7 @@ end)
 
 Citizen.CreateThread(function()
   while true do
-    if not IsPedInAnyVehicle(GetPlayerPed(-1), true) then
+    if not IsPedInAnyVehicle(PlayerPedId(), true) then
       meterAttrs['meterVisible'] = false
       firstConfigOpenInVehicle = false
     end
@@ -53,7 +53,7 @@ Citizen.CreateThread(function()
   
   while true do
     Citizen.Wait(0)
-    local ped = GetPlayerPed(-1)
+    local ped = PlayerPedId()
 
 if playerJobName == 'taxi' then
     if IsPedSittingInAnyVehicle(ped) and IsDriver() and IsAppropriateVehicle() then
@@ -124,7 +124,7 @@ end)
 
 RegisterNetEvent("esx_taximeter:updateLocation")
 AddEventHandler("esx_taximeter:updateLocation", function()
-  lastLocation = GetEntityCoords(GetPlayerPed(-1))
+  lastLocation = GetEntityCoords(PlayerPedId())
 end)
 
 
@@ -176,7 +176,7 @@ end)
     boolean
 ]]
 function IsAppropriateVehicle()
-  local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1))
+  local vehicle = GetVehiclePedIsIn(PlayerPedId())
   local vehicleClass = GetVehicleClass(vehicle)
 
   if Config.RestrictVehicles then
@@ -216,7 +216,7 @@ end
 ]]
 function GetPlayersInVehicle()
   local players = GetPlayers()
-  local ply = GetPlayerPed(-1)
+  local ply = PlayerPedId()
   local returnablePlayers = {}
   local playerVehicle = GetVehiclePedIsIn(ply)
 
@@ -240,7 +240,7 @@ end
 ]]
 function resetMeter()
   meterAttrs['currentFare'] = nil
-  lastLocation = GetEntityCoords(GetPlayerPed(-1))
+  lastLocation = GetEntityCoords(PlayerPedId())
   meterAttrs['distanceTraveled'] = 0
 
   for i, player in ipairs(playersInVehicle) do
@@ -297,7 +297,7 @@ function setMeterVisiblity()
     meterAttrs['meterVisible'] = false
   else
     meterAttrs['meterVisible'] = true
-    lastLocation = GetEntityCoords(GetPlayerPed(-1))
+    lastLocation = GetEntityCoords(PlayerPedId())
     updatePassengerLocations()
   end
 end
@@ -324,7 +324,7 @@ end
     boolean
 ]]
 function IsDriver ()
-  return GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), false), -1) == GetPlayerPed(-1)
+  return GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId(), false), -1) == PlayerPedId()
 end
 
 --[[
@@ -335,7 +335,7 @@ function calculateFareAmount()
     start = lastLocation
 
     if start then
-      current = GetEntityCoords(GetPlayerPed(-1))
+      current = GetEntityCoords(PlayerPedId())
       distance = CalculateTravelDistanceBetweenPoints(start, current)
       lastLocation = current
       meterAttrs['distanceTraveled'] = meterAttrs['distanceTraveled'] + distance

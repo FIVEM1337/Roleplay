@@ -15,11 +15,11 @@ RegisterNetEvent("esx_scratchcard:setCooldown", function()
 end)
 
 RegisterNetEvent("esx_scratchcard:startScratchingEmote", function()
-	TaskStartScenarioInPlace(GetPlayerPed(-1), "PROP_HUMAN_PARKING_METER", 0, true)
+	TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_PARKING_METER", 0, true)
 end)
 
 RegisterNetEvent("esx_scratchcard:stopScratchingEmote", function()
-	ClearPedTasksImmediately(GetPlayerPed(-1))
+	ClearPedTasksImmediately(PlayerPedId())
 end)
 
 RegisterNUICallback('deposit', function(data)

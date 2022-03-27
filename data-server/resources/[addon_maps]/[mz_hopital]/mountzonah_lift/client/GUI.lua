@@ -97,7 +97,7 @@ end
 
 function Menu.Option(option, coords, distanceAmount)
 	optionCount = optionCount + 1
-	local playerpos = GetEntityCoords(GetPlayerPed(-1), 1)
+	local playerpos = GetEntityCoords(PlayerPedId(), 1)
 	local distance = GetDistanceBetweenCoords(coords[1], coords[2], coords[3], playerpos.x, playerpos.y, playerpos.z, 1)
 	if distance < distanceAmount then
 
