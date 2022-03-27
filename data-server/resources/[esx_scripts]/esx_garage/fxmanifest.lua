@@ -1,6 +1,5 @@
-fx_version 'cerulean'
-games {'common'}
-ui_page 'html/index.html'
+fx_version 'bodacious'
+game 'gta5'
 
 shared_scripts {
 	'@es_extended/imports.lua',
