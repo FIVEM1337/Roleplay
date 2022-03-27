@@ -145,30 +145,6 @@ garagecoord = {
     },
 
     {
-        job = "police",
-        Type = "car",
-        storeprivate = true,
-        shareprivatetojob = true,
-        Dist = 10,
-        Blip = {color = 38, sprite = 662, scale = 0.6},
-        npc_heading = 90.0,
-        garage_coord = vector3(427.20556640625, -1011.4292602539, 28.954322814941),
-        spawn_coord = vector3(432.20071411133, -1015.4301757813, 28.840564727783),
-        heading = 85.93824005127,
-    },
-
-    {
-        job = "police",
-        Type = "helicopter",
-        Dist = 10,
-        Blip = {color = 38, sprite = 662, scale = 0.6},
-        npc_heading = 90.0,
-        garage_coord = vector3(449, -981.53, 43.69),
-        spawn_coord = vector3(432.20071411133, -1015.4301757813, 28.840564727783),
-        heading = 85.93824005127,
-    },
-
-    {
         Type = "car",
         Dist = 10,
         Blip = {color = 38, sprite = 662, scale = 0.6},
@@ -196,16 +172,6 @@ garagecoord = {
         garage_coord = vector3(376.8639831543, -1627.7742919922, 28.504697799683),
         spawn_coord = vector3(395.60012817383, -1622.9046630859, 29.221649169922),
         heading = 227.15142822266
-    },
-    {
-        job = "ambulance",
-        Type = "car",
-        Dist = 10,
-        Blip = {color = 38, sprite = 289, scale = 0.6},
-        npc_heading = 90.0,
-        garage_coord = vector3(291.01055908203, -566.08709716797, 43.260692596436),
-        spawn_coord = vector3(286.06204223633, -562.79351806641, 43.117538452148),
-        heading = 82.327735900879
     },
     {
         job = "mechanic",
@@ -320,34 +286,85 @@ garagecoord = {
         spawn_coord = vector3(-180.10, -1285.45, 30.60),
         heading = 179.14,
     },
+
+--Jobs   
+    {
+        job = "ambulance",
+        Type = "car",
+        Dist = 5,
+        Blip = {color = 2, sprite = 289, scale = 0.6},
+        npc_heading = 286.96,
+        garage_coord = vector3(-428.82302856445,-348.56158447266,23.229362487793),
+        spawn_coord = vector3(-440.38851928711,-337.89901733398,23.229362487793),
+        heading = 197.72
+    },
+    {
+        job = "ambulance",
+        Type = "helicopter",
+        Dist = 5,
+        Blip = {color = 2, sprite = 289, scale = 0.6},
+        npc_heading = 266.96,
+        garage_coord = vector3(-446.96746826172,-327.70031738281,77.168060302734),
+        spawn_coord = vector3(-451.61819458008,-304.83819580078,77.067718505859),
+        heading = 23.1
+    },
+
+    {
+        job = "police",
+        Type = "car",
+        storeprivate = true,
+        shareprivatetojob = true,
+        Dist = 10,
+        Blip = {color = 38, sprite = 662, scale = 0.6},
+        npc_heading = 0.0,
+        garage_coord = vector3(434.00344848633,-981.70910644531,24.729698181152),
+        spawn_coord = vector3(426.40972900391,-976.52886962891,24.317819595337),
+        heading = 270.57,
+    },
+
+    {
+        job = "police",
+        Type = "helicopter",
+        Dist = 10,
+        Blip = {color = 38, sprite = 662, scale = 0.6},
+        npc_heading = 135.0,
+        garage_coord = vector3(455.59756469727,-982.23864746094,42.691905975342),
+        spawn_coord = vector3(449.15518188477,-981.31146240234,42.590847015381),
+        heading = 179.83,
+    },
+
+    {
+        job = "taxi",
+        Type = "car",
+        storeprivate = true,
+        shareprivatetojob = true,
+        Dist = 10,
+        Blip = {color = 38, sprite = 662, scale = 0.6},
+        npc_heading = 325.0,
+        garage_coord = vector3(899.15472412109,-190.25666809082,72.802459716797),
+        spawn_coord = vector3(907.2431640625,-186.27723693848,72.624221801758),
+        heading = 58.84,
+    },
+
+--Impounds
     {
         Type = "car",
         impound = true,
         Dist = 5,
         Blip = {color = 2, sprite = 289, scale = 0.6},
-        npc_heading = 90.0,
-        garage_coord = vector3(459.18936157227, -1008.4532470703, 27.264139175415),
-        spawn_coord = vector3(454.23364257813, -1019.8027954102, 27.892890930176),
-        heading = 95.160804748535
+        npc_heading = 239.0,
+        garage_coord = vector3(407.62506103516,-1624.9926757813,28.291954040527),
+        spawn_coord = vector3(410.62420654297,-1636.6274414063,28.880115509033),
+        heading = 231.61
     },
     {
         Type = "car",
         impound = true,
         Dist = 5,
         Blip = {color = 2, sprite = 289, scale = 0.6},
-        npc_heading = 90.0,
-        garage_coord = vector3(408.14019775391, -1624.251220703, 28.291955947876),
-        spawn_coord = vector3(402.6653442382, -1631.8555908203, 28.485252380371),
-        heading = 232.8318939209
-    },
-    {
-        Type = "car",
-        impound = true,
-        Dist = 5,
-        Blip = {color = 2, sprite = 289, scale = 0.6},
-        npc_heading = 90.0,
-        garage_coord = vector3(-1056.6076660156, -842.85260009766, 4.0415687561035),
-        spawn_coord = vector3(-1068.055541992, -852.90270996094, 4.0571403503418),
-        heading = 211.5486907959
+        npc_heading = 130.0,
+        garage_coord = vector3(-135.31967163086,6356.3618164063,30.490608215332),
+        spawn_coord = vector3(-136.48347473145,6346.8193359375,31.078872680664),
+        heading = 45.14
     },
 }
