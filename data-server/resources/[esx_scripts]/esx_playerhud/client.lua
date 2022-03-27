@@ -6,6 +6,7 @@ local currentRange = 3.5
 local markerOn = false
 local markerTimer = 0
 local FirstSpawn = true
+local show = true
 
 CreateThread(function()
 	while ESX == nil do
@@ -14,15 +15,23 @@ CreateThread(function()
 	end
 
 	while true do
-		Wait(0)
+		Wait(100)
 		if FirstSpawn then
-			SendNUIMessage({action = "toggle", show = false})
-
+			if show then
+				SendNUIMessage({action = "toggle", show = false})
+				show = false
+			end
 		else
 			if IsPauseMenuActive() then
-				SendNUIMessage({action = "toggle", show = false})
+				if not show then
+					SendNUIMessage({action = "toggle", show = false})
+					show = false
+				end
 			else
-				SendNUIMessage({action = "toggle", show = true})
+				if show then
+					SendNUIMessage({action = "toggle", show = true})
+					show = true
+				end
 			end
 		end
 	end
