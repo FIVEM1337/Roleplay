@@ -6,31 +6,34 @@ local invehicle
 local vehicle 
 local isRunningWorkaround = false
 
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
+CreateThread(function()
+  while ESX == nil do
+	TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+	Wait(0)
+  end
+end)
 
-		local ped = GetPlayerPed(-1)
-		if DoesEntityExist(ped) and IsPedInAnyVehicle(ped, false) and IsControlPressed(2, 75) and not IsEntityDead(ped) and not IsPauseMenuActive() then
-			local engineRunning = GetIsVehicleEngineRunning(GetVehiclePedIsIn(ped, true))
-			while engineRunning do
-				Citizen.Wait(0)
-				if DoesEntityExist(ped) and not IsPedInAnyVehicle(ped, false) and not IsEntityDead(ped) and not IsPauseMenuActive() then
-					local veh = GetVehiclePedIsIn(ped, true)
-					SetVehicleEngineOn(veh, true, true, true)
-					SetVehicleJetEngineOn(veh, true, true, true)
+CreateThread(function()
+	while true do
+		local Vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+		if DoesEntityExist(Vehicle) then
+			while true do
+				running = GetIsVehicleEngineRunning(Vehicle)
+				Wait(0)
+				if not IsPedInAnyVehicle(PlayerPedId(), false) then
+					print("leave")
+					print(running)
+					SetVehicleEngineOn(Vehicle, true, true, true)
+					SetVehicleJetEngineOn(Vehicle, true, true, true)
+					
 					break
 				end
 			end
+			Wait(1)
+		else
+			Wait(100)
 		end
 	end
-end)
-
-Citizen.CreateThread(function()
-  while ESX == nil do
-	TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-	Citizen.Wait(0)
-  end
 end)
 
 
@@ -70,7 +73,7 @@ local tireBurstMaxNumber = config.randomTireBurstInterval * 1200; 												--
 if config.randomTireBurstInterval ~= 0 then tireBurstLuckyNumber = math.random(tireBurstMaxNumber) end			-- If we hit this number again randomly, a tire will burst.
 
 local function isPedDrivingAVehicle()
-	local ped = GetPlayerPed(-1)
+	local ped = PlayerPedId()
 	vehicle = GetVehiclePedIsIn(ped, false)
 	if IsPedInAnyVehicle(ped, false) then
 		-- Check if ped is in driver seat
@@ -157,11 +160,11 @@ local function tireBurstLottery()
 end
 
 if config.torqueMultiplierEnabled or config.preventVehicleFlip or config.limpMode then
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		while true do
-			Citizen.Wait(0)
+			Wait(100)
 			if config.torqueMultiplierEnabled or config.sundayDriver or config.limpMode then
-				if pedInSameVehicleLast then
+				if pedInSameVehicleLast and IsPedInAnyVehicle(PlayerPedId(), false) then
 					local factor = 1.0
 					if config.torqueMultiplierEnabled and healthEngineNew < 900 then
 						factor = (healthEngineNew+200.0) / 1100
@@ -217,10 +220,10 @@ if config.torqueMultiplierEnabled or config.preventVehicleFlip or config.limpMod
 	end)
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(50)
-		local ped = GetPlayerPed(-1)
+		Wait(50)
+		local ped = PlayerPedId()
 		if isPedDrivingAVehicle() then
 			vehicle = GetVehiclePedIsIn(ped, false)
 			vehicleClass = GetVehicleClass(vehicle)
@@ -279,16 +282,10 @@ Citizen.CreateThread(function()
 					if healthEngineCombinedDelta > healthEngineCurrent then
 						healthEngineCombinedDelta = healthEngineCurrent - (config.cascadingFailureThreshold / 5)
 					end
-
-
 					------- Calculate new value
 
 					healthEngineNew = healthEngineLast - healthEngineCombinedDelta
-
-
 					------- Sanity Check on new values and further manipulations
-
-
 
 					-- Prevent Engine going to or below zero. Ensures you can reenter a damaged car.
 					if healthEngineNew < config.engineSafeGuard then
@@ -299,7 +296,6 @@ Citizen.CreateThread(function()
 					if config.compatibilityMode == false and healthPetrolTankCurrent < 750 then
 						healthPetrolTankNew = 750.0
 					end
-
 					-- Prevent negative body damage.
 					if healthBodyNew < 0  then
 						healthBodyNew = 0.0
@@ -355,8 +351,8 @@ local First = vector3(0.0, 0.0, 0.0)
 local Second = vector3(5.0, 5.0, 5.0)
 
 local Vehicle = {Coords = nil, Vehicle = nil, Dimension = nil, IsInFront = false, Distance = nil}
-Citizen.CreateThread(function()
-	Citizen.Wait(200)
+CreateThread(function()
+	Wait(200)
 	while true do
 		local ped = PlayerPedId()
 		local closestVehicle, Distance = ESX.Game.GetClosestVehicle()
@@ -375,7 +371,7 @@ Citizen.CreateThread(function()
 		else
 			Vehicle = {Coords = nil, Vehicle = nil, Dimensions = nil, IsInFront = false, Distance = nil}
 		end
-		Citizen.Wait(500)
+		Wait(500)
 	end
 end)
 
@@ -384,9 +380,9 @@ local anglemax = 40.0
 local anglemin = -40.0
 local rotangle = 1.0
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do 
-		Citizen.Wait(1)
+		Wait(1)
 		local ped = PlayerPedId()
 		if Vehicle.Vehicle ~= nil then
 			if IsVehicleSeatFree(Vehicle.Vehicle, -1) and GetVehicleEngineHealth(Vehicle.Vehicle) <= config.engineSafeGuard then
@@ -405,11 +401,11 @@ Citizen.CreateThread(function()
 
 				ESX.Streaming.RequestAnimDict('missfinale_c2ig_11')
 				TaskPlayAnim(ped, 'missfinale_c2ig_11', 'pushcar_offcliff_m', 2.0, -8.0, -1, 35, 0, 0, 0, 0)
-				Citizen.Wait(200)
+				Wait(200)
 
 				local currentVehicle = Vehicle.Vehicle
 				 while true do
-					Citizen.Wait(5)
+					Wait(5)
 					vehicle = GetVehiclePedIsIn(ped, false)
 					local rotangle = GetVehicleSteeringAngle(Vehicle.Vehicle)
 					if IsDisabledControlPressed(0, 34) then -- KEY A
@@ -474,7 +470,7 @@ function StartWorkaroundTask()
 	isRunningWorkaround = true
 
 	while timer < 100 do
-		Citizen.Wait(0)
+		Wait(0)
 		timer = timer + 1
 
 		local vehicle = GetVehiclePedIsTryingToEnter(playerPed)
@@ -497,7 +493,7 @@ RegisterCommand('usevehiclekey', function()
 	local coords = GetEntityCoords(playerPed)
 	local vehicle
 
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		StartWorkaroundTask()
 	end)
 
@@ -541,25 +537,25 @@ RegisterKeyMapping('usevehiclekey', config.keymapping_desc, 'keyboard', config.D
 
 RegisterNetEvent('esx_vehicle:blinkvehicle')
 AddEventHandler('esx_vehicle:blinkvehicle', function(vehicle)
-	Citizen.Wait(100)
+	Wait(100)
 	SetVehicleLights(vehicle, 2)
-	Citizen.Wait(200)
+	Wait(200)
 	SetVehicleLights(vehicle, 1)
-	Citizen.Wait(200)
+	Wait(200)
 	SetVehicleLights(vehicle, 2)
-	Citizen.Wait(200)
+	Wait(200)
 	SetVehicleLights(vehicle, 1)
-	Citizen.Wait(200)
+	Wait(200)
 	SetVehicleLights(vehicle, 2)
-	Citizen.Wait(200)
+	Wait(200)
 	SetVehicleLights(vehicle, 0)
 end)
 
 local allowshuffle = false
-Citizen.CreateThread(function()
+CreateThread(function()
 	ped = PlayerPedId()
 	while true do
-		Citizen.Wait(1)
+		Wait(1)
 		if IsPedInAnyVehicle(ped, false) and allowshuffle == false then
 			SetPedConfigFlag(ped, 184, true)
 			if GetIsTaskActive(ped, 165) then
@@ -592,7 +588,7 @@ AddEventHandler("SeatShuffle", function()
 	
 			allowshuffle=true
 			while GetPedInVehicleSeat(vehicle, seat) == ped do
-				Citizen.Wait(0)
+				Wait(0)
 			end
 			allowshuffle=false
 		else
