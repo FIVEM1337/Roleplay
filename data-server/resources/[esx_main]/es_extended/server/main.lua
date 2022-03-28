@@ -160,6 +160,7 @@ function loadESXPlayer(identifier, playerId, isNew)
 	userData.job.can_invite = gradeObject.can_invite
 	userData.job.can_managemoney = gradeObject.can_managemoney
 	userData.job.can_manageoutfits = gradeObject.can_manageoutfits
+	userData.job.can_managecars = gradeObject.can_managecars
 
 	userData.job.skin_male = {}
 	userData.job.skin_female = {}

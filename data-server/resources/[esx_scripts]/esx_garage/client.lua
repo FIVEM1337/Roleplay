@@ -135,8 +135,8 @@ function OpenGarage(garage, vehicles)
         if vehicle.owner == PlayerData.identifier then
             Private = true
         else
-            if vehicle.grade >= 0 then
-                if vehicle.grade <= PlayerData.job.grade then
+            if vehicle.grade >= 0 or PlayerData.job.can_managecars and vehicle.owner == PlayerData.job.name then
+                if vehicle.grade <= PlayerData.job.grade or PlayerData.job.can_managecars and vehicle.owner == PlayerData.job.name then
                     Job = true
                 end
             end
@@ -181,8 +181,8 @@ function OpenGarage(garage, vehicles)
                 end
             end
         else
-            if vehicle.grade >= 0 then
-                if vehicle.grade <= PlayerData.job.grade then
+            if vehicle.grade >= 0 or PlayerData.job.can_managecars and vehicle.owner == PlayerData.job.name then
+                if vehicle.grade <= PlayerData.job.grade or PlayerData.job.can_managecars  and vehicle.owner == PlayerData.job.name then
                     if not JobCreated and Private then
                         Job = _menuPool:AddSubMenu(GarageUI, 'Job Fahrzeuge')
                         JobCreated = true
@@ -206,7 +206,11 @@ function OpenGarage(garage, vehicles)
                                 end
                             end, vehicle.job)
                         else
-                            GetVehicleFromGarage(garage, props)
+                            if PlayerData.job.can_managecars then
+                                OpenSelect(garage, props)
+                            else
+                                GetVehicleFromGarage(garage, props)
+                            end
                         end
                     end
                 end
