@@ -320,11 +320,47 @@ function SpawnVehicle(garage, props)
                     Wait(1)
                 end
             end
-            local vehicle = CreateVehicle(tonumber(props.model), garage.spawn_coord, garage.heading, 1, 1)
-            SetVehicleProp(vehicle, props)
-            SetVehicleBobo(vehicle)
-            NetworkFadeInEntity(vehicle,1)
-            TaskWarpPedIntoVehicle(PlayerPedId(), vehicle, -1)
+            local closestVehicle, Distance = ESX.Game.GetClosestVehicle(garage.spawn_coord)
+            local vehicle
+            for k, spawn in pairs(garage.spawn_coords) do
+                local closestVehicle, Distance = ESX.Game.GetClosestVehicle(spawn.coords)
+                if Distance >= 4.0 or Distance == -1 then
+                    vehicle = CreateVehicle(tonumber(props.model), spawn.coords, spawn.heading, 1, 1)
+                    break
+                end
+            end
+            local count = 0
+            while not vehicle do
+                count = count + 1
+                for k, spawn in pairs(garage.spawn_coords) do
+                    local closestVehicle, Distance = ESX.Game.GetClosestVehicle(spawn.coords)
+                    if Distance >= 4.0 or Distance == -1 then
+                        vehicle = CreateVehicle(tonumber(props.model), spawn.coords, spawn.heading, 1, 1)
+                        break
+                    end
+                end
+                TriggerEvent('dopeNotify:Alert', "Garage", "Versuche Fahrzeug auszuparken ".. count.."/10", 100, 'error')
+
+                if count == 10 then
+                    ESX.TriggerServerCallback("esx_garage:changestatus",function(changed)
+                        if changed then
+                            TriggerEvent('dopeNotify:Alert', "Garage", "Aktuell sind alle Parkplätze belegt", 5000, 'error')
+                        end
+
+                    end, props, garage, true, garage.impound)
+                    break
+                end
+                Wait(1000)
+            end
+
+            if vehicle then
+                SetVehicleProp(vehicle, props)
+                SetVehicleBobo(vehicle)
+                NetworkFadeInEntity(vehicle,1)
+                SetVehRadioStation(vehicle, 'OFF')
+    
+                TriggerEvent('dopeNotify:Alert', "Garage", "Du hast dein Fahrzeug mit dem Kennzeichen "..props.plate.." ausgeparkt", 5000, 'success')
+            end
         end
     end, props, garage, false, false)
 end
@@ -344,6 +380,7 @@ function StoreVehicle(garage, vehicle)
                     DeleteEntity(vehicle)
                 end
             end, vehicleProps, garage, true, garage.impound)
+            TriggerEvent('dopeNotify:Alert', "Garage", "Du hast das Fahrzeug mit dem Kennzeichen "..vehicleProps.plate.." eingeparkt", 5000, 'success')
         else
             if hasOwner then
                 TriggerEvent('dopeNotify:Alert', "Garage", "Du kannst das Fahrzeug hier nicht Parken", 5000, 'error')
