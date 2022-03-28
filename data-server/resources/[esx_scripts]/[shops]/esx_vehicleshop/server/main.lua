@@ -174,15 +174,7 @@ ESX.RegisterServerCallback('esx_vehicleshop:isPlateTaken', function (source, cb,
 		if result[1] then
 			cb(true)
 		else
-			MySQL.Async.fetchAll('SELECT * FROM job_vehicles WHERE plate = @plate', {
-				['@plate'] = plate
-			}, function (result)
-				if result[1] then
-					cb(true)
-				else
-					cb(false)
-				end
-			end)
+			cb(false)
 		end
 	end)
 end)
