@@ -6,6 +6,5 @@ Locales['en'] = {
     ['vehicle_sold_for'] = 'Your ~b~%s~s~ was ~y~sold~s~ for ~g~%s~s~€',
     ['not_yours'] = 'This vehicle is not yours',
     ['watch_catalog'] = '~g~[E]~w~ Watch catalog',
-    ['wait_vehicle'] = 'Wait until we load your vehicle!',
   }
   

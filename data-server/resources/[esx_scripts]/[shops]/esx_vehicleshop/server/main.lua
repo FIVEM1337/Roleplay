@@ -110,6 +110,34 @@ ESX.RegisterServerCallback('esx_vehicleshop:buyVehicle', function (source, cb, v
 end
 end)
 
+ESX.RegisterServerCallback('esx_vehicleshop:returnmoney', function (source, cb, vehicleModel)
+	local xPlayer     = ESX.GetPlayerFromId(source)
+	local vehicleData = nil
+
+	for i=1, #Vehicles, 1 do
+		local vehicle = Vehicles[i]
+		if Vehicles[i].model == vehicleModel then
+			vehicleData = Vehicles[i]
+			break
+		end
+	end
+
+	if vehicleData.job ~= "" then
+		TriggerEvent('esx_addonaccount:getSharedAccount', 'society_'..vehicleData.job, function(account)
+			account.addMoney(vehicleData.price)
+			cb(true)
+		end)
+	else
+		if vehicleData.donator then
+			xPlayer.addAccountMoney('crypto', vehicleData.price)
+			cb(true)
+		else
+			xPlayer.addAccountMoney('bank', vehicleData.price)
+			cb(true)
+		end
+	end
+end)
+
 
 ESX.RegisterServerCallback('esx_vehicleshop:resellVehicle', function (source, cb, plate, model, sellable)
 	local resellPrice = 0

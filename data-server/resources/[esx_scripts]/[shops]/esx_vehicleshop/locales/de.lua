@@ -8,6 +8,5 @@ Locales['de'] = {
     ['not_yours'] = 'This vehicle is not yours',
     ['not_sellable'] = 'This vehicle is not sellable',
     ['watch_catalog'] = '~g~[E]~w~ Watch catalog',
-    ['wait_vehicle'] = 'Wait until we load your vehicle!',
   }
   

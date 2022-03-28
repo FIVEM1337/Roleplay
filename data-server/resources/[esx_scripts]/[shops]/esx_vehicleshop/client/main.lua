@@ -74,7 +74,6 @@ RegisterNUICallback('BuyVehicle', function(data, cb)
     local model = data.model
 	local playerPed = PlayerPedId()
 	IsInShopMenu = false
-	TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('wait_vehicle'), 5000, 'info')
 
     ESX.TriggerServerCallback('esx_vehicleshop:buyVehicle', function(hasEnoughMoney, CarType, Job, Donator)
 		if hasEnoughMoney then
@@ -84,24 +83,50 @@ RegisterNUICallback('BuyVehicle', function(data, cb)
 			else
 				_Config = Config.Zones[CarType]
 			end
-			ESX.Game.SpawnVehicle(model, _Config.Pos, _Config.Heading, function (vehicle)
-				TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
 
-				local newPlate     = GeneratePlate()
-				local vehicleProps = ESX.Game.GetVehicleProperties(vehicle)
-				vehicleProps.plate = newPlate
-				SetVehicleNumberPlateText(vehicle, newPlate)
-				if Config.EnableOwnedVehicles then
-					TriggerServerEvent('esx_vehicleshop:setVehicleOwned', vehicleProps, CarType, Job)
-				end
-				TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('vehicle_purchased'), 5000, 'success')
-				
-			end)
+			local vehicle
+			local count = 0
+            while not vehicle do
+                count = count + 1
+                for k, spawn in pairs(_Config.spawn_coords) do
+                    local closestVehicle, Distance = ESX.Game.GetClosestVehicle(spawn.coords)
+                    if Distance >= 4.0 or Distance == -1 then
+						vehicle = SpawnVehicle(model, spawn, CarType, Job)
+                        break
+                    end
+                end
+                TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", "Versuche Fahrzeug auszuparken ".. count.."/10", 100, 'error')
+
+                if count == 10 then
+                    ESX.TriggerServerCallback("esx_vehicleshop:returnmoney",function(recived)
+                        if recived then
+                            TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", "Aktuell sind alle Parkplätze belegt das Geld wurde wieder zurück überwiesen", 5000, 'error')
+                        end
+                    end, model)
+                    break
+                end
+                Wait(1000)
+            end
 		else
 			TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('not_enough_money'), 5000, 'error')
 		end
 	end, model)
 end)
+
+
+function SpawnVehicle(model, spawn, CarType, Job)
+	ESX.Game.SpawnVehicle(model, spawn.coords, spawn.heading, function (vehicle)
+		local newPlate     = GeneratePlate()
+		local vehicleProps = ESX.Game.GetVehicleProperties(vehicle)
+		vehicleProps.plate = newPlate
+		SetVehicleNumberPlateText(vehicle, newPlate)
+		if Config.EnableOwnedVehicles then
+			TriggerServerEvent('esx_vehicleshop:setVehicleOwned', vehicleProps, CarType, Job)
+		end
+		TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('vehicle_purchased'), 5000, 'success')
+	end)
+	return true
+end
 
 RegisterNUICallback('CloseMenu', function(data, cb)
     SetNuiFocus(false, false)
@@ -353,9 +378,11 @@ CreateThread(function ()
 		local currentZone = nil
 
 		for k,v in pairs(Config.Zones) do
-			if(#(coords - v.Pos) < 3.5) then
-				isInMarker  = true
-				currentZone = k
+			if v.Pos then
+				if(#(coords - v.Pos) < 3.5) then
+					isInMarker  = true
+					currentZone = k
+				end
 			end
 		end
 

@@ -67,37 +67,42 @@ Config.Zones = {
 
 	-- Vehicle Spawns
 	car = {
-		Pos   = vector3(-27.6, -1082.4, 26.2),
 		Size  = vector3(1.5, 1.5, 1.0),
-		Heading = 69.66,
+		spawn_coords = {
+            {coords = vector3(-27.6, -1082.4, 26.2), heading = 69.66},
+        },
 		Type  = -1
 	},
 
 	car_donator = {
-		Pos   = vector3(-1234.48, -344.84, 36.90),
 		Size  = vector3(1.5, 1.5, 1.0),
-		Heading = 28.09,
+		spawn_coords = {
+            {coords = vector3(-1234.48, -344.84, 36.90), heading = 28.09},
+        },
 		Type  = -1
 	},
 
 	helicopter = {
-		Pos   = vector3(-974.88, -2967.71, 13.95),
 		Size  = vector3(1.5, 1.5, 1.0),
-		Heading = 139.6,
+		spawn_coords = {
+            {coords = vector3(-974.88, -2967.71, 13.95), heading = 139.6},
+        },
 		Type  = -1
 	},
 
 	plane = {
-		Pos   = vector3(-974.88, -2967.71, 13.95),
 		Size  = vector3(1.5, 1.5, 1.0),
-		Heading = 139.6,
+		spawn_coords = {
+            {coords = vector3(-974.88, -2967.71, 13.95), heading = 139.6},
+        },
 		Type  = -1
 	},
 
 	boat = {
-		Pos   = vector3(-890, -1343.48, 0.12),
 		Size  = vector3(1.5, 1.5, 1.0),
-		Heading = 194.98,
+		spawn_coords = {
+            {coords = vector3(-890, -1343.48, 0.12), heading = 194.98},
+        },
 		Type  = -1
 	},
 
@@ -107,6 +112,5 @@ Config.Zones = {
 		Size  = vector3(3.0, 3.0, 1.0),
 		Type  = 1
 	}
-
 }
 
