@@ -11,7 +11,8 @@ Citizen.CreateThread(function()
 	AddTextEntry('p1wide', 'McLaren P1')
 
 	--Ford
-	AddTextEntry('mustangho', 'Ford Mustang Hoonigan')	
+	AddTextEntry('mustangho', 'Ford Mustang Hoonigan')
+	AddTextEntry('frr', 'Ford Ranger')	
 
 
 	--Chevrolet
@@ -68,6 +69,7 @@ Citizen.CreateThread(function()
 	AddTextEntry('pd3', 'Chevrolet Camaro LSPD')
 	AddTextEntry('pd4', 'Dodge Durrango LSPD')
 	AddTextEntry('pd5', 'Chevrolet Tahoe LSPD')
+	AddTextEntry('polmav', 'LSDP Helikopter')
 
 	--AMBULANCE
 	AddTextEntry('ambu', 'Chevrolet Tahoe LSMD')
