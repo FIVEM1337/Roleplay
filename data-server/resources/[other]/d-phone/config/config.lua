@@ -29,7 +29,7 @@ Config.Bitcoin = false
 
 -- WARNING DONT DISABLE THIS IF YOU DONT EXACTLY KNOW WHAT YOU'RE DOING
 Config.AutomaticPhoneStart = true
-Config.AutomaticStartingTime = 5000
+Config.AutomaticStartingTime = 2500
 
 Config.LoadingScreen = true
 
@@ -48,7 +48,7 @@ Config.Command = true
 Config.CommandText = "phone"
 
 
-Config.CustomNotification = false
+Config.CustomNotification = true
 
 -- Exports Config
 Config.MumbleVoipFolderName = "mumble-voip"

@@ -9,10 +9,11 @@ AddEventHandler("d-customnotification", function(text, length, color)
         length = 4000
     end
 
-    -- THIS IS AN EXAMPLE IF YOU WANT TO USE THE NORMAL ESX NOTIFIICATION
-    ESX.ShowNotification(text)
+--	TriggerEvent('dopeNotify:Alert', "", text, length, 'info')
 
-    -- TriggerEvent('mythic_notify:client:SendAlert', { type = 'inform', text = text, length = length, style = { ['background-color'] = color, ['color'] = '#fff' } })
+	if text ~= "IP Accepted" then
+		TriggerEvent('dopeNotify:Alert', "", text, 4000, 'info')
+	end
 end)
 
 DisabledKeys = {
