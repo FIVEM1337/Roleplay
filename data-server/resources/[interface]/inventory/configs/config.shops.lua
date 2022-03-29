@@ -8,7 +8,7 @@ Config.ShopLocations = {
     jobs = false, -- set to false to disable whitelisting
     job_grades = false, -- set to false to disable grading
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
-    blip = {id = 59, color = 2, scale = 0.8, hiddenForOthers = false},
+    blip = {id = 59, color = 2, scale = 0.9, hiddenForOthers = false},
     locations = {
       vector3(373.875, 325.896, 102.566),
       vector3(373.875, 325.896, 102.566),
@@ -33,15 +33,15 @@ Config.ShopLocations = {
     }
   },
   ["GunShop"] = {
-    label = 'Weapon Shop',
+    label = 'Waffenladen',
     license = "weapon", -- license name, esx_license required!
     jobs = false, -- set to false to disable whitelisting
     job_grades = false, -- set to false to disable grading
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
-    blip = {id = 110, color = 1, scale = 0.8, hiddenForOthers = false},
+    blip = {id = 110, color = 0, scale = 0.9, hiddenForOthers = false},
     locations = {
-      vector3(-662.1, -935.3, 20.8),
-      vector3(-662.1, -935.3, 20.8),
+      vector3(-662.1, -935.3, 20.9),
+      vector3(-662.1, -935.3, 20.9),
 			vector3(810.2, -2157.3, 28.6),
 			vector3(1693.4, 3759.5, 33.7),
 			vector3(-330.2, 6083.8, 30.4),
@@ -63,12 +63,12 @@ Config.ShopLocations = {
     }
   },
   ["LTDgasonline"] = {
-    label = 'LTD',
+    label = 'Tankstellenshop',
     license = false, -- license name, esx_license required!
     jobs = false, -- set to false to disable whitelisting
     job_grades = false, -- set to false to disable grading
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
-    blip = {id = 415, color = 2, scale = 0.8, hiddenForOthers = false},
+    blip = {id = 361, color = 4, scale = 0.9, hiddenForOthers = true},
     locations = {
 			vector3(-48.519, -1757.514, 28.421),
 			vector3(1163.373, -323.801, 68.205),
@@ -88,12 +88,12 @@ Config.ShopLocations = {
     }
   },
   ["RobsLiquor"] = {
-    label = 'BAR',
+    label = 'Spirituoseladen',
     license = false, -- license name, esx_license required!
     jobs = false, -- set to false to disable whitelisting
     job_grades = false, -- set to false to disable grading
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
-    blip = {id = 93, color = 25, scale = 0.8, hiddenForOthers = false},
+    blip = {id = 93, color = 25, scale = 0.9, hiddenForOthers = false},
     locations = {
 			vector3( 1135.808,  -982.281,  45.415),
 			vector3( -1222.915, -906.983,  11.326),
