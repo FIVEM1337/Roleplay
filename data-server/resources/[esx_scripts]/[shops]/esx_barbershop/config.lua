@@ -2,7 +2,7 @@ Config = {}
 
 Config.useESX = true
 
-Config.BlipName = 'Barber'
+Config.BlipName = 'Friseur'
 Config.Price = 99
 
 Config.MenuPosition = {x = 0, y = 0}
