@@ -95,12 +95,6 @@ Locales['de'] = {
     ['vehicle_repaired'] = 'das Fahrzeug wurde ~g~repariert',
     ['clean_vehicle'] = 'Fahrzeug reinigen',
     ['vehicle_cleaned'] = 'das Fahrzeug wurde ~g~gereinigt',
-    ['impound'] = 'Fahrzeug beschlagnahmen',
-    ['impound_prompt'] = 'Drücke ~INPUT_CONTEXT~ zum abzubrechen',
-    ['impound_canceled'] = 'Beschlagnahmen wurde abgebrochen',
-    ['impound_canceled_moved'] = 'Beschlagnahmen wurde abgebrochen (Fahrzeug wurde bewegt)',
-    ['impound_successful'] = 'Du hast das Fahrzeug beschlagnahmt',
-    ['impound_decined'] = 'Du kannst das Fahrzeug nicht beschlagnahmen',
     ['inside_vehicle'] = 'Du kannst das nicht aus dem Fahrzeug heraus machen!',
 
 

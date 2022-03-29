@@ -390,9 +390,6 @@ function OpenJobActionsMenu(JobConfig)
 		table.insert(vehicle_interaction_elements, {label = _U('clean_vehicle'), value = 'clean_vehicle'})
 	end
 
-	if JobConfig.impound then
-		table.insert(vehicle_interaction_elements, {label = _U('impound'), value = 'impound'})
-	end
 
 
 	main_elements = {}
@@ -543,33 +540,6 @@ function OpenJobActionsMenu(JobConfig)
 		
 							ESX.ShowNotification(_U('vehicle_cleaned'))
 							currentTask.busy = false
-						end)
-
-					elseif action == 'impound' then
-						ESX.ShowHelpNotification(_U('impound_prompt'))
-						TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_TEND_TO_DEAD', 0, true)
-
-						currentTask.busy = true
-						currentTask.task = ESX.SetTimeout(10000, function()
-							ClearPedTasks(playerPed)
-							ImpoundVehicle(vehicle)
-							Wait(100)
-						end)
-
-						-- keep track of that vehicle!
-						CreateThread(function()
-							while currentTask.busy do
-								Wait(1000)
-
-								vehicle = GetClosestVehicle(coords.x, coords.y, coords.z, 3.0, 0, 71)
-								if not DoesEntityExist(vehicle) and currentTask.busy then
-									ESX.ShowNotification(_U('impound_canceled_moved'))
-									ESX.ClearTimeout(currentTask.task)
-									ClearPedTasks(playerPed)
-									currentTask.busy = false
-									break
-								end
-							end
 						end)
 					end
 				else
@@ -1034,20 +1004,6 @@ function OpenVehicleInfosMenu(vehicleData)
 			menu.close()
 		end)
 	end, vehicleData.plate)
-end
-
-function ImpoundVehicle(vehicle)
-	local plate = GetVehicleNumberPlateText(vehicle)
-	ESX.TriggerServerCallback('esx_jobs:impound', function(isimpounded)
-		if isimpounded then
-			ESX.Game.DeleteVehicle(vehicle)
-			ESX.ShowNotification(_U('impound_successful'))
-			currentTask.busy = false
-		else
-			ESX.ShowNotification(_U('impound_decined'))
-			currentTask.busy = false
-		end
-	end, plate)
 end
 
 

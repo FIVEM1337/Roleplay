@@ -32,7 +32,6 @@ citizen_interaction:
 vehicle_interaction:
 	vehicle_infos
 	hijack_vehicle
-	impound
 	search_database
 	vehicle_interaction
 
@@ -59,7 +58,6 @@ jobs = {
 			unpaid_bills = true,
 			vehicle_infos = true,
 			hijack_vehicle = true,
-			impound = true,
 			search_database = true,
 			vehicle_interaction = true,
 			ems_menu_revive = true,
@@ -87,7 +85,6 @@ jobs = {
 			unpaid_bills = true,
 			vehicle_infos = true,
 			hijack_vehicle = true,
-			impound = true,
 			search_database = true,
 			vehicle_interaction = true
 		},

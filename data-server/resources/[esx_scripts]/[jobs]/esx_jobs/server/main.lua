@@ -374,18 +374,7 @@ ESX.RegisterServerCallback('esx_jobs:getVehicleInfos', function(source, cb, plat
 				cb(retrivedInfo)
 			end
 		else
-			MySQL.Async.fetchAll('SELECT job FROM job_vehicles WHERE plate = @plate', {
-				['@plate'] = plate
-			}, function(result)
-				local retrivedInfo = {plate = plate}
-		
-				if result[1] then
-					retrivedInfo.owner = result[1].job
-					cb(retrivedInfo)
-				else
-					cb(retrivedInfo)
-				end
-			end)
+			cb(retrivedInfo)
 		end
 	end)
 end)
@@ -395,30 +384,5 @@ ESX.RegisterServerCallback('esx_jobs:getFineList', function(source, cb, category
 		['@category'] = category
 	}, function(fines)
 		cb(fines)
-	end)
-end)
-
-ESX.RegisterServerCallback('esx_jobs:impound', function(source, cb, plate)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	MySQL.Async.execute('UPDATE owned_vehicles SET `stored` = @stored, impound = @impound WHERE TRIM(UPPER(plate)) = @plate', {
-		['@plate'] = plate,
-		['@stored'] = true,
-		['@impound'] = true
-	}, function(rowsChanged)
-		if rowsChanged > 0 then
-			cb(true)
-		else
-			MySQL.Async.execute('UPDATE job_vehicles SET `stored` = @stored, impound = @impound WHERE TRIM(UPPER(plate)) = @plate', {
-				['@plate'] = plate,
-				['@stored'] = true,
-				['@impound'] = true
-			}, function(rowsChanged)
-				if rowsChanged > 0 then
-					cb(true)
-				else
-					cb(false)
-				end	
-			end)
-		end
 	end)
 end)
