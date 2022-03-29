@@ -90,12 +90,15 @@ RegisterNUICallback('BuyVehicle', function(data, cb)
                 count = count + 1
                 for k, spawn in pairs(_Config.spawn_coords) do
                     local closestVehicle, Distance = ESX.Game.GetClosestVehicle(spawn.coords)
-                    if Distance >= 4.0 or Distance == -1 then
+                    if Distance >= 2.5 or Distance == -1 then
 						vehicle = SpawnVehicle(model, spawn, CarType, Job)
                         break
                     end
                 end
-                TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", "Versuche Fahrzeug auszuparken ".. count.."/10", 100, 'error')
+
+				if not vehicle then
+                	TriggerEvent('dopeNotify:Alert', "Fahrzeughändler", "Versuche Fahrzeug auszuparken ".. count.."/10", 100, 'error')
+				end
 
                 if count == 10 then
                     ESX.TriggerServerCallback("esx_vehicleshop:returnmoney",function(recived)
@@ -125,6 +128,7 @@ function SpawnVehicle(model, spawn, CarType, Job)
 		end
 		TriggerEvent('dopeNotify:Alert', _U('vehicleshop'), _U('vehicle_purchased'), 5000, 'success')
 	end)
+
 	return true
 end
 

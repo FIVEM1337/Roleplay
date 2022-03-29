@@ -1,12 +1,12 @@
 Locales['de'] = {
     ['vehicleshop']   = 'Fahrzeughändler',
-    ['vehicle_purchased']   = 'Vehicle bought with success!',
-    ['not_enough_money'] = 'You don\'t have enough money!',
-    ['shop_menu'] = 'Press ~g~[E]~w~ to watch the catalog',
-    ['sell_vehicle2'] = 'Press ~g~[E]~w~ to sell ~g~%s~s~ for ~g~%s~s~ $',
-    ['vehicle_sold_for'] = 'Your %s was sold for %s€',
-    ['not_yours'] = 'This vehicle is not yours',
-    ['not_sellable'] = 'This vehicle is not sellable',
-    ['watch_catalog'] = '~g~[E]~w~ Watch catalog',
+    ['vehicle_purchased']   = 'Fahrzeug erfolgreich gekauft',
+    ['not_enough_money'] = 'Du hast nicht genug Geld!',
+    ['shop_menu'] = 'Drücke ~g~[E]~w~ um den Fahrzeug-Katalog zu öffnen',
+    ['sell_vehicle2'] = 'Drücke ~g~[E]~w~ to sell ~g~%s~s~ for ~g~%s~s~ $',
+    ['vehicle_sold_for'] = 'Dein %s wurde verkauft für %s$',
+    ['not_yours'] = 'Das Fahrzeug gehört nicht dir',
+    ['not_sellable'] = 'Das Fahrzeug ist nicht verkaufbar',
+    ['watch_catalog'] = '~g~[E]~w~ Fahrzeug-Katalog',
   }
   

@@ -51,7 +51,7 @@ $(document).ready(function(){
                                             <p class="card-text">Price: <b>`+car.price+` BTC</b></p>
                                         </div>
                                         <div class="card-footer bg-white border-0 ">
-                                            <button type="button" id="action1" data-value="buy" data-model="`+ car.model +`" class="btn btn-danger w-auto btn-lg buy">Buy</button>
+                                            <button type="button" id="action1" data-value="buy" data-model="`+ car.model +`" class="btn btn-danger w-auto btn-lg buy">Kaufen</button>
                                         </div>
                                     </div>
                                 </div>`
@@ -65,7 +65,7 @@ $(document).ready(function(){
                                             <p class="card-text">Price: <b>`+car.price+`€</b></p>
                                         </div>
                                         <div class="card-footer bg-white border-0 ">
-                                            <button type="button" id="action1" data-value="buy" data-model="`+ car.model +`" class="btn btn-danger w-auto btn-lg buy">Buy</button>
+                                            <button type="button" id="action1" data-value="buy" data-model="`+ car.model +`" class="btn btn-danger w-auto btn-lg buy">Kaufen</button>
                                         </div>
                                     </div>
                                 </div>`
@@ -151,7 +151,7 @@ $(document).ready(function(){
         result.sort(function (a, b) {
             return a.price - b.price;
         });
-        $('#brand').html(`<option selected value="-1">All the brands</option>`)
+        $('#brand').html(`<option selected value="-1">Alle Kategorien</option>`)
         categories.forEach(element => {
             $('#brand').append(`<option value="${element}">${element}</option>`)
         });
