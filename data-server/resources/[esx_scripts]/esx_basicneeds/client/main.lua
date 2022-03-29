@@ -67,26 +67,6 @@ AddEventHandler('esx_status:loaded', function(status)
 			local prevHealth = GetEntityHealth(playerPed)
 			local health     = prevHealth
 
-			TriggerEvent('esx_status:getStatus', 'hunger', function(status)
-				if status.val == 0 then
-					if prevHealth <= 150 then
-						health = health - 5
-					else
-						health = health - 1
-					end
-				end
-			end)
-
-			TriggerEvent('esx_status:getStatus', 'thirst', function(status)
-				if status.val == 0 then
-					if prevHealth <= 150 then
-						health = health - 5
-					else
-						health = health - 1
-					end
-				end
-			end)
-
 			if FirstSpawn then
 				if Config.SaveArmor then
 					TriggerEvent('esx_status:getStatus', 'armor', function(status)
@@ -106,6 +86,27 @@ AddEventHandler('esx_status:loaded', function(status)
 
 				FirstSpawn = false
 			else
+				TriggerEvent('esx_status:getStatus', 'hunger', function(status)
+					if status.val == 0 then
+						if prevHealth <= 150 then
+							health = health - 5
+						else
+							health = health - 1
+						end
+					end
+				end)
+	
+				TriggerEvent('esx_status:getStatus', 'thirst', function(status)
+					if status.val == 0 then
+						if prevHealth <= 150 then
+							health = health - 5
+						else
+							health = health - 1
+						end
+					end
+				end)
+
+
 				if Config.SaveArmor then
 					local armor = GetPedArmour(playerPed)
 					armor = armor * 10000
