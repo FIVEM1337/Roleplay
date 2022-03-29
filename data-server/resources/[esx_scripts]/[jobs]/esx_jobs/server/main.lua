@@ -378,11 +378,3 @@ ESX.RegisterServerCallback('esx_jobs:getVehicleInfos', function(source, cb, plat
 		end
 	end)
 end)
-
-ESX.RegisterServerCallback('esx_jobs:getFineList', function(source, cb, category)
-	MySQL.Async.fetchAll('SELECT * FROM fine_types WHERE category = @category', {
-		['@category'] = category
-	}, function(fines)
-		cb(fines)
-	end)
-end)

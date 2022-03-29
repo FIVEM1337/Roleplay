@@ -22,7 +22,6 @@ Locales['de'] = {
     ['drag'] = 'Person mitnehmen',
     ['put_in_vehicle'] = 'Person in das Fahrzeug setzen',
     ['out_the_vehicle'] = 'Person aus dem Fahrzeug holen',
-    ['fine'] = 'Strafe',
     ['unpaid_bills'] = 'unbezahlte Rechnungen',
     ['ems_menu_revive'] = 'Spieler wiederbeleben',
     ['ems_menu_small'] = 'Kleine Wunden behandeln',

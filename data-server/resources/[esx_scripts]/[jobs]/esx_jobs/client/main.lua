@@ -44,52 +44,65 @@ CreateThread(function()
 				local hasExited = false
 				local currentPart
 				local LastPart
+				local menu_config
 				
-				local distance = GetDistanceBetweenCoords(coords, v.armory, true)
-				if distance < Config.DrawDistance then
-					DrawMarker(21, v.armory, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-				end
-				if distance < Config.MarkerSize.x then
-					isInMarker = true
-					currentPart = 'Armory'
+				for k, v in ipairs(v.armory) do
+					local distance = GetDistanceBetweenCoords(coords, v.coords, true)
+					if distance < Config.DrawDistance then
+						DrawMarker(21, v.coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+					end
+					if distance < Config.MarkerSize.x then
+						isInMarker = true
+						currentPart = 'Armory'
+						menu_config = v
+					end
 				end
 
-				local distance = GetDistanceBetweenCoords(coords, v.boss, true)
+				for k, v in ipairs(v.boss) do
+					if v.min_grade <= PlayerData.job.grade then
+						local distance = GetDistanceBetweenCoords(coords, v.coords, true)
+						if distance < Config.DrawDistance then
+							DrawMarker(22, v.coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						end
+						if distance < Config.MarkerSize.x then
+							isInMarker = true
+							currentPart = 'Boss'
+							menu_config = v
+						end
+					end
+				end
 
-				if distance < Config.DrawDistance then
-					DrawMarker(22, v.boss, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+				for k, v in ipairs(v.cloak) do
+				local distance = GetDistanceBetweenCoords(coords, v.coords, true)
+					if distance < Config.DrawDistance then
+						DrawMarker(22, v.coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+					end
+					if distance < Config.MarkerSize.x then
+						isInMarker = true
+						currentPart = 'Cloack'
+						menu_config = v
+					end
 				end
-				if distance < Config.MarkerSize.x then
-					isInMarker = true
-					currentPart = 'Boss'
-				end
-				local distance = GetDistanceBetweenCoords(coords, v.cloak, true)
-				if distance < Config.DrawDistance then
-					DrawMarker(22, v.cloak, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-				end
-				if distance < Config.MarkerSize.x then
-					isInMarker = true
-					currentPart = 'Cloack'
-				end
+
 				if isInMarker and not HasAlreadyEnteredMarker then
 					HasAlreadyEnteredMarker = true
 					LastPart = currentPart
-					TriggerEvent('esx_jobs:hasEnteredMarker', currentPart, v.job)
+					TriggerEvent('esx_jobs:hasEnteredMarker', currentPart, v.job, menu_config)
 				end
 				if not isInMarker and HasAlreadyEnteredMarker then
 					HasAlreadyEnteredMarker = false
-					TriggerEvent('esx_jobs:hasExitedMarker', LastPart, v.job)
+					TriggerEvent('esx_jobs:hasExitedMarker', LastPart, v.job, menu_config)
 				end
 			end
 		end
 	end
 end)
 
-AddEventHandler('esx_jobs:hasEnteredMarker', function(currentPart, station)
+AddEventHandler('esx_jobs:hasEnteredMarker', function(currentPart, station, menu_config)
 	if currentPart == 'Armory' then
 		CurrentAction     = 'menu_armory'
 		CurrentActionMsg  = _U('open_armory')
-		CurrentActionData = {station = station}
+		CurrentActionData = {station = station, menu_config = menu_config}
 	elseif currentPart == 'Boss' then
 		CurrentAction     = 'menu_boss_actions'
 		CurrentActionMsg  = _U('open_bossmenu')
@@ -121,7 +134,7 @@ CreateThread(function()
 					if jobs[PlayerData.job.name] then
 						v = jobs[PlayerData.job.name]
 						if CurrentAction == 'menu_armory' then
-							OpenJobArmoryMenu(PlayerData.job.name)
+							OpenJobArmoryMenu()
 						elseif CurrentAction == 'menu_boss_actions' then
 							ESX.UI.Menu.CloseAll()
 							TriggerEvent('esx_society:openBossMenu', PlayerData.job.name, function(data, menu)
@@ -352,9 +365,6 @@ function OpenJobActionsMenu(JobConfig)
 	if JobConfig.out_the_vehicle then
 		table.insert(citizen_interaction_elements, {label = _U('out_the_vehicle'), value = 'out_the_vehicle'})
 	end
-	if JobConfig.fine then
-		table.insert(citizen_interaction_elements, {label = _U('fine'), value = 'fine'})
-	end
 	if JobConfig.unpaid_bills then
 		table.insert(citizen_interaction_elements, {label = _U('unpaid_bills'), value = 'unpaid_bills'})
 	end
@@ -428,8 +438,6 @@ function OpenJobActionsMenu(JobConfig)
 						TriggerServerEvent('esx_jobs:putInVehicle', GetPlayerServerId(closestPlayer))
 					elseif action == 'out_the_vehicle' then
 						TriggerServerEvent('esx_jobs:OutVehicle', GetPlayerServerId(closestPlayer))
-					elseif action == 'fine' then
-						OpenFineMenu(closestPlayer)
 					elseif action == 'license' then
 						ShowPlayerLicense(closestPlayer)
 					elseif action == 'unpaid_bills' then
@@ -617,16 +625,18 @@ function cleanPlayer(playerPed)
 end
 
 
-function OpenJobArmoryMenu(station)
-	local elements = {
-		{label = _U('get_weapon'), value = 'get_weapon'},
-		{label = _U('put_weapon'), value = 'put_weapon'},
-		{label = _U('remove_object'), value = 'get_stock'},
-		{label = _U('deposit_object'), value = 'put_stock'}
-	}
-
+function OpenJobArmoryMenu()
 	ESX.UI.Menu.CloseAll()
-
+	local elements = {}
+	if CurrentActionData.menu_config.store_weapon then
+		table.insert(elements,{label = _U('get_weapon'), value = 'get_weapon'})
+		table.insert(elements,{label = _U('put_weapon'), value = 'put_weapon'})
+	end
+	if CurrentActionData.menu_config.store_items then
+		table.insert(elements,{label = _U('remove_object'), value = 'get_stock'})
+		table.insert(elements,{label = _U('deposit_object'), value = 'put_stock'})
+	end
+	
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory', {
 		title    = _U('armory'),
 		align    = 'top-right',
@@ -634,21 +644,21 @@ function OpenJobArmoryMenu(station)
 	}, function(data, menu)
 
 		if data.current.value == 'get_weapon' then
-			OpenGetWeaponMenu(station)
+			OpenGetWeaponMenu(CurrentActionData.station.name)
 		elseif data.current.value == 'put_weapon' then
-			OpenPutWeaponMenu(station)
+			OpenPutWeaponMenu(CurrentActionData.station.name)
 		elseif data.current.value == 'put_stock' then
-			OpenPutStocksMenu(station)
+			OpenPutStocksMenu(CurrentActionData.station.name)
 		elseif data.current.value == 'get_stock' then
-			OpenGetStocksMenu(station)
+			OpenGetStocksMenu(CurrentActionData.station.name)
 		end
 
 	end, function(data, menu)
 		menu.close()
 
-		CurrentAction     = 'menu_armory'
-		CurrentActionMsg  = _U('open_armory')
-		CurrentActionData = {station = station}
+		CurrentAction     = ''
+		CurrentActionMsg  = ''
+		CurrentActionData = {}
 	end)
 end
 
@@ -844,58 +854,6 @@ function CreateBlip(pos, sprite, scale, color, label)
 	EndTextCommandSetBlipName(blip)
 	return blip
 end
-
-function OpenFineMenu(player)
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'fine', {
-		title    = _U('fine'),
-		align    = 'top-right',
-		elements = {
-			{label = _U('traffic_offense'), value = 0},
-			{label = _U('minor_offense'),   value = 1},
-			{label = _U('average_offense'), value = 2},
-			{label = _U('major_offense'),   value = 3}
-	}}, function(data, menu)
-		OpenFineCategoryMenu(player, data.current.value)
-	end, function(data, menu)
-		menu.close()
-	end)
-end
-
-function OpenFineCategoryMenu(player, category)
-	ESX.TriggerServerCallback('esx_jobs:getFineList', function(fines)
-		local elements = {}
-
-		for k,fine in ipairs(fines) do
-			table.insert(elements, {
-				label     = ('%s <span style="color:green;">%s</span>'):format(fine.label, _U('armory_item', ESX.Math.GroupDigits(fine.amount))),
-				value     = fine.id,
-				amount    = fine.amount,
-				fineLabel = fine.label
-			})
-		end
-
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'fine_category', {
-			title    = _U('fine'),
-			align    = 'top-right',
-			elements = elements
-		}, function(data, menu)
-			menu.close()
-
-			if Config.EnablePlayerManagement then
-				TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(player), 'society_police', _U('fine_total', data.current.fineLabel), data.current.amount)
-			else
-				TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(player), '', _U('fine_total', data.current.fineLabel), data.current.amount)
-			end
-
-			ESX.SetTimeout(300, function()
-				OpenFineCategoryMenu(player, category)
-			end)
-		end, function(data, menu)
-			menu.close()
-		end)
-	end, category)
-end
-
 
 function LookupVehicle()
 	ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'lookup_vehicle', {
