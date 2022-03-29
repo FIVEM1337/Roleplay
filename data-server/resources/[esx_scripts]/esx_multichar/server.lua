@@ -274,7 +274,7 @@ AddEventHandler('esx_multichar:updatePermissions', function(target, type, value)
    
 end)
 
-AddEventHandler('es:playerLoaded', function(source)
+AddEventHandler('esx:playerLoaded', function(source)
     getIdentity(source, function(data)
         if data.firstname == '' then
 			if Config.useRegisterMenu then

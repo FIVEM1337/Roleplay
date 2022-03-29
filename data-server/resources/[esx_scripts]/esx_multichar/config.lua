@@ -7,7 +7,7 @@ Config.useMyDrugs = false -- If you use myDrugs enable this
 Config.useMyProperties = false -- If you use myProperties enable this
 Config.useSpawnmanager = true
 
-Config.useRegisterMenu = false   -- Enable if you want to register with firstname and lastname ...
+Config.useRegisterMenu = true   -- Enable if you want to register with firstname and lastname ...
 Config.use_esx_charactercreator = true
 
 Config.ApplyDelay = 3000 -- Don't edit this if you don't know what you do ^^
@@ -52,11 +52,7 @@ Config.ShowSpawnSelectionOnFirstJoin = false
 
 
 Config.FirstSpawnLocations = {
-    {x = 3864.57, y = 4463.69, z = 2.72},
-    {x = 3822.24, y = 4516.16, z = 2.9},
-    {x = 3792.85, y = 4546.85, z = 1.96},
-    {x = 3915.56, y = 4341.13, z = 3.29},
-    {x = 3881.12, y = 4312.46, z = 2.03},
+    {x = -1021.8606567383, y = -2807.6484375, z = 21.318571090698, heading = 70},
 }
 
 Config.ShowSpawnSelectionForEverybody = false

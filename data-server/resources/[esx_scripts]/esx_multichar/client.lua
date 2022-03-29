@@ -20,11 +20,6 @@ local sex = "mp_m_freemode_01"
 
 local group 
 
-RegisterNetEvent('es_admin:setGroup')
-AddEventHandler('es_admin:setGroup', function(g)
-	group = g
-end)
-
 CreateThread(function ()
     while true do
         Wait(0)
@@ -266,12 +261,6 @@ end
 
 
 function finishSpawn(pos, isnew)
-    TriggerServerEvent('es:firstJoinProper')
-    TriggerEvent('es:allowedToSpawn')
-
-    TriggerServerEvent('zeus:CheckSteamId')
-    TriggerServerEvent('vehicleShop:InsertLicense')
-
     _menuPool:CloseAllMenus()
     cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", pos.x,pos.y,pos.z+250, 6000.00,0.00,0.00, 100.00, false, 0)
     PointCamAtCoord(cam, pos.x,pos.y,pos.z+2)
@@ -418,7 +407,7 @@ local sexStr = 'm'
 local registerMenu
 
 RegisterNetEvent('esx_multichar:RegisterNewAccount')
-AddEventHandler('esx_multichar:RegisterNewAccount', function(firstnameOld, lastnameOld, dobOld, sexOld, heightOld)
+AddEventHandler('esx_multichar:RegisterNewAccount', function(firstnameOld, lastnameOld, dobOld, sexOld, heightOld)  
     _menuPool:Remove()
     collectgarbage()
 	    
