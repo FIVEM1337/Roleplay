@@ -18,7 +18,7 @@ Config.ReviveReward				  = 200
 
 
 teleporters = {
-	{enter_coords = vector3(-81.923957824707,-98.828811645508,57.877765655518), exit_coords = vector3(-86.223968505859,-104.90260314941,57.866630554199), heading = 90.0, show_marker = true, allowed_jobs = {all = false, police = true, ambulance = true}},
+--	{enter_coords = vector3(-81.923957824707,-98.828811645508,57.877765655518), exit_coords = vector3(-86.223968505859,-104.90260314941,57.866630554199), heading = 90.0, show_marker = true, allowed_jobs = {all = false, police = true, ambulance = true}},
 --	{enter_coords = vector3(-86.223968505859,-104.90260314941,57.866630554199), exit_coords = vector3(-81.923957824707,-98.828811645508,57.877765655518), heading = 250.0, show_marker = true, allowed_jobs = {all = false, police = true, ambulance = true}},
 }
 
