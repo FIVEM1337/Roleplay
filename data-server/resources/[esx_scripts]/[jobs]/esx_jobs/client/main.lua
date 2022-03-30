@@ -88,8 +88,10 @@ CreateThread(function()
 			for k, v in ipairs(teleporters) do
 				if v.allowed_jobs["all"] or v.allowed_jobs[PlayerData.job.name] then
 					local distance = GetDistanceBetweenCoords(coords, v.enter_coords, true)
-					if distance < Config.DrawDistance then
-						DrawMarker(22, v.enter_coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+					if v.show_marker then
+						if distance < Config.DrawDistance then
+							DrawMarker(22, v.enter_coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						end
 					end
 					if distance < Config.MarkerSize.x then
 						isInMarker = true
