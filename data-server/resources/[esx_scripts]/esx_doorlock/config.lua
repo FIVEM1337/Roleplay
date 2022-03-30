@@ -39,8 +39,8 @@ Minigames = {
 
 -- Translate here.
 Labels = {
-  unlock            = "~r~Verschlossen~s~",
-  lock              = "~g~Geöffnet~s~",
+  unlock            = "🔒",
+  lock              = "🔓",
   do_unlock         = " ",
   do_lock           = " ",
   access_granted    = "~g~Zugriff gewährt.~s~",
@@ -51,7 +51,7 @@ Labels = {
 Controls = {
   TextOffset = {
     ["height"] = {
-      codes = {96,97},
+      codes = {97,96},
       text = "Höhe -/+",
     },
     ["forward"] = {

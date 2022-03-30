@@ -439,7 +439,7 @@ Doors.GetTextLocation = function(doors)
       move_offset = move_offset - (vector3(0.0,1.0,0.0) * modifier)
     end
 
-    DrawText3D(text_pos + move_offset,"TEXT | POSI",20.0,1.0)
+    DrawText3D(text_pos + move_offset,"🔒",20.0,1.0)
 
     DrawScaleformMovieFullscreen(scaleform,255,255,255,255,0)
     Wait(0)
