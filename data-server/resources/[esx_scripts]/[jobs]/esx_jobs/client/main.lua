@@ -35,17 +35,17 @@ CreateThread(function()
 	while true do
 		Wait(3)
 		if PlayerData.job and not isDead then
+			local playerPed = PlayerPedId()
+			local coords    = GetEntityCoords(playerPed)
+
+			local isInMarker = false 
+			local hasExited = false
+			local currentPart
+			local LastPart
+			local menu_config
+
 			if jobs[PlayerData.job.name] then
 				v = jobs[PlayerData.job.name]
-				local playerPed = PlayerPedId()
-				local coords    = GetEntityCoords(playerPed)
-
-				local isInMarker = false 
-				local hasExited = false
-				local currentPart
-				local LastPart
-				local menu_config
-				
 				for k, v in ipairs(v.armory) do
 					local distance = GetDistanceBetweenCoords(coords, v.coords, true)
 					if distance < Config.DrawDistance then
@@ -83,16 +83,30 @@ CreateThread(function()
 						menu_config = v
 					end
 				end
+			end
 
-				if isInMarker and not HasAlreadyEnteredMarker then
-					HasAlreadyEnteredMarker = true
-					LastPart = currentPart
-					TriggerEvent('esx_jobs:hasEnteredMarker', currentPart, v.job, menu_config)
+			for k, v in ipairs(teleporters) do
+				if v.allowed_jobs["all"] or v.allowed_jobs[PlayerData.job.name] then
+					local distance = GetDistanceBetweenCoords(coords, v.enter_coords, true)
+					if distance < Config.DrawDistance then
+						DrawMarker(22, v.enter_coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+					end
+					if distance < Config.MarkerSize.x then
+						isInMarker = true
+						currentPart = 'Teleporter'
+						menu_config = v
+					end
 				end
-				if not isInMarker and HasAlreadyEnteredMarker then
-					HasAlreadyEnteredMarker = false
-					TriggerEvent('esx_jobs:hasExitedMarker', LastPart, v.job, menu_config)
-				end
+			end
+	
+			if isInMarker and not HasAlreadyEnteredMarker then
+				HasAlreadyEnteredMarker = true
+				LastPart = currentPart
+				TriggerEvent('esx_jobs:hasEnteredMarker', currentPart, v.job, menu_config)
+			end
+			if not isInMarker and HasAlreadyEnteredMarker then
+				HasAlreadyEnteredMarker = false
+				TriggerEvent('esx_jobs:hasExitedMarker', LastPart, v.job, menu_config)
 			end
 		end
 	end
@@ -111,6 +125,10 @@ AddEventHandler('esx_jobs:hasEnteredMarker', function(currentPart, station, menu
 		CurrentAction     = 'menu_cloackroom'
 		CurrentActionMsg  = _U('open_cloackroom')
 		CurrentActionData = {}
+	elseif currentPart == 'Teleporter' then
+		CurrentAction     = 'menu_teleporter'
+		CurrentActionMsg  = _U('open_teleporter')
+		CurrentActionData = {menu_config = menu_config}
 	end
 end)
 
@@ -131,6 +149,11 @@ CreateThread(function()
 			ESX.ShowHelpNotification(CurrentActionMsg)
 			if IsControlJustReleased(0, 38) then
 				if PlayerData.job then
+					if CurrentAction == 'menu_teleporter' then
+						SetEntityCoords(PlayerPedId(), CurrentActionData.menu_config.exit_coords)
+						SetEntityHeading(PlayerPedId(), CurrentActionData.menu_config.heading)
+						HasAlreadyEnteredMarker = false
+					end
 					if jobs[PlayerData.job.name] then
 						v = jobs[PlayerData.job.name]
 						if CurrentAction == 'menu_armory' then

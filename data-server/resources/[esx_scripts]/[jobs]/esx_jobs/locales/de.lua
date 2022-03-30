@@ -108,7 +108,12 @@ Locales['de'] = {
     ['open_cloackroom'] = 'Drücke ~INPUT_CONTEXT~ um dich umzuziehen',
     ['cloakroom'] = 'Garderobe',
     ['citizen_wear'] = 'Zivilkleidung',
-    ['job_wear1'] = 'Arbeitskleidung 1',
-    ['job_wear2'] = 'Arbeitskleidung 2',
-    ['job_wear3'] = 'Arbeitskleidung 3',
+    ['job_wear1'] = 'Outfit 1',
+    ['job_wear2'] = 'Outfit 2',
+    ['job_wear3'] = 'Outfit 3',
+
+
+-- Teleporters
+    ['open_teleporter'] = 'Drücke ~INPUT_CONTEXT~ um zu Interagieren',
+
 }
