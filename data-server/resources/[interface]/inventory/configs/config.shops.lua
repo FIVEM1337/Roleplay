@@ -10,16 +10,16 @@ Config.ShopLocations = {
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
     blip = {id = 59, color = 2, scale = 0.9, hiddenForOthers = false},
     locations = {
-      vector3(373.875, 325.896, 102.566),
-      vector3(373.875, 325.896, 102.566),
-			vector3(2557.458, 382.282, 107.622),
-			vector3(-3038.939, 585.954, 6.908),
-			vector3(-3241.927, 1001.462, 11.830),
-			vector3(547.431, 2671.710, 41.156),
-			vector3(1961.464, 3740.672, 31.343),
-			vector3(26.16, -1347.17, 8.55),
-			vector3(2678.916, 3280.671, 54.241),
-			vector3(1729.216, 6414.131, 34.037),
+      {coord = vector3(373.875, 325.896, 102.566), show = true},
+      {coord = vector3(373.875, 325.896, 102.566), show = true},
+			{coord = vector3(2557.458, 382.282, 107.622), show = true},
+			{coord = vector3(-3038.939, 585.954, 6.908), show = true},
+			{coord = vector3(-3241.927, 1001.462, 11.830), show = true},
+			{coord = vector3(547.431, 2671.710, 41.156), show = true},
+			{coord = vector3(1961.464, 3740.672, 31.343), show = true},
+			{coord = vector3(26.16, -1347.17, 8.55), show = true},
+			{coord = vector3(2678.916, 3280.671, 54.241), show = true},
+			{coord = vector3(1729.216, 6414.131, 34.037), show = true},
     },
     items = {
       {type = 'item', name = 'phone', method = 'money', price = 10},
@@ -34,32 +34,32 @@ Config.ShopLocations = {
   },
   ["GunShop"] = {
     label = 'Waffenladen',
-    license = "weapon", -- license name, esx_license required!
+    license = false, -- license name, esx_license required!
     jobs = false, -- set to false to disable whitelisting
     job_grades = false, -- set to false to disable grading
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
     blip = {id = 110, color = 0, scale = 0.9, hiddenForOthers = false},
     locations = {
-      vector3(-662.1, -935.3, 20.9),
-      vector3(-662.1, -935.3, 20.9),
-			vector3(810.2, -2157.3, 28.6),
-			vector3(1693.4, 3759.5, 33.7),
-			vector3(-330.2, 6083.8, 30.4),
-			vector3(252.3, -50.0,  68.9),
-			vector3(22.0, -1107.2, 28.8),
-			vector3(2567.6, 294.3, 107.7),
-			vector3(-1117.5, 2698.6, 17.5),
-			vector3(842.4, -1033.4, 27.1),
+      {coord = vector3(-662.1, -935.3, 20.9), show = true},
+      {coord = vector3(-662.1, -935.3, 20.9), show = true},
+			{coord = vector3(810.2, -2157.3, 28.6), show = true},
+			{coord = vector3(1693.4, 3759.5, 33.7), show = true},
+			{coord = vector3(-330.2, 6083.8, 30.4), show = true},
+			{coord = vector3(252.3, -50.0,  68.9), show = true},
+			{coord = vector3(22.0, -1107.2, 28.8), show = true},
+			{coord = vector3(2567.6, 294.3, 107.7), show = true},
+			{coord = vector3(-1117.5, 2698.6, 17.5), show = true},
+			{coord = vector3(842.4, -1033.4, 27.1), show = true},
     },
     items = {
       {type = 'weapon', name = 'WEAPON_HATCHET', method = 'money', price = 3, ammo = 100},
       {type = 'weapon', name = 'WEAPON_DAGGER', method = 'money', price = 3, ammo = 100},
       {type = 'weapon', name = 'WEAPON_SWITCHBLADE', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'WEAPON_PISTWEAPON_FLASHLIGHTOL', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'ammo_pistol', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'ammo_rifle', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'ammo_shotgun', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'ammo_smg', method = 'money', price = 3, ammo = 100},
+      {type = 'weapon', name = 'WEAPON_PISTOl', method = 'money', price = 3, ammo = 100},
+      {type = 'item', name = 'ammo_pistol', method = 'money', price = 3, ammo = 100},
+      {type = 'item', name = 'ammo_rifle', method = 'money', price = 3, ammo = 100},
+      {type = 'item', name = 'ammo_shotgun', method = 'money', price = 3, ammo = 100},
+      {type = 'item', name = 'ammo_smg', method = 'money', price = 3, ammo = 100},
     }
   },
   ["LTDgasonline"] = {
@@ -70,11 +70,11 @@ Config.ShopLocations = {
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
     blip = {id = 361, color = 4, scale = 0.9, hiddenForOthers = true},
     locations = {
-			vector3(-48.519, -1757.514, 28.421),
-			vector3(1163.373, -323.801, 68.205),
-			vector3(-707.501, -914.260, 18.215),
-			vector3(-1820.523, 792.518, 137.118),
-			vector3(1698.388, 4924.404, 41.063),
+			{coord = vector3(-48.519, -1757.514, 28.421), show = true},
+			{coord = vector3(1163.373, -323.801, 68.205), show = true},
+			{coord = vector3(-707.501, -914.260, 18.215), show = true},
+			{coord = vector3(-1820.523, 792.518, 137.118), show = true},
+			{coord = vector3(1698.388, 4924.404, 41.063), show = true},
     },
     items = {
       {type = 'item', name = 'drink_water', method = 'money', price = 10},
@@ -95,15 +95,15 @@ Config.ShopLocations = {
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
     blip = {id = 93, color = 25, scale = 0.9, hiddenForOthers = false},
     locations = {
-			vector3( 1135.808,  -982.281,  45.415),
-			vector3( -1222.915, -906.983,  11.326),
-			vector3( -1487.553, -379.107,  39.163),
-			vector3( -2968.243, 390.910,   14.043),
-			vector3( 1166.024,  2708.930,  37.157),
-			vector3( 1392.562,  3604.684,  33.980),
-			vector3( 127.830,   -1284.796, 28.280), --StripClub
-			vector3( -1393.409, -606.624,  29.319), --Tequila la
-			vector3( -559.906,  287.093,   81.176), --Bahammas
+			{coord = vector3( 1135.808,  -982.281,  45.415), show = true},
+			{coord = vector3( -1222.915, -906.983,  11.326), show = true},
+			{coord = vector3( -1487.553, -379.107,  39.163), show = true},
+			{coord = vector3( -2968.243, 390.910,   14.043), show = true},
+			{coord = vector3( 1166.024,  2708.930,  37.157), show = true},
+			{coord = vector3( 1392.562,  3604.684,  33.980), show = true},
+			{coord = vector3( 127.830,   -1284.796, 28.280), show = false}, --StripClub
+			{coord = vector3( -1393.409, -606.624,  29.319), show = false}, --Tequila la
+			{coord = vector3( -559.906,  287.093,   81.176), show = false}, --Bahammas
     },
     items = {
       {type = 'item', name = 'drink_whiskey', method = 'money', price = 3},

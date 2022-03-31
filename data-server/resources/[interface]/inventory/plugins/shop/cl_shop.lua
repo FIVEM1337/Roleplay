@@ -61,9 +61,9 @@ if Config.Shops then
         Wait(0)
         for k,v in pairs(Config.ShopLocations) do 
           for k2,location in pairs(v.locations) do 
-            local distance = #(GetEntityCoords(PlayerPedId()) - location)
+            local distance = #(GetEntityCoords(PlayerPedId()) - location.coord)
             if distance <= 5.0 then 
-              DrawMarker(27, location.x, location.y, location.z + 0.05, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6, 0.6, 0.6, 255, 255, 255, 100, false, true, 0, false)
+              DrawMarker(27, location.coord + 0.05, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6, 0.6, 0.6, 255, 255, 255, 100, false, true, 0, false)
               if distance <= 1.2 then 
                 SetTextComponentFormat('STRING')
                 AddTextComponentString(Locales.shopOpenBtn)
@@ -112,16 +112,18 @@ if Config.Shops then
 
             if canSee then 
               for k2,location in pairs(v.locations) do 
-                local blip = AddBlipForCoord(location)
-                SetBlipSprite(blip, v.blip.id)
-                SetBlipScale(blip, v.blip.scale)
-                SetBlipDisplay(blip, 4)
-                SetBlipColour(blip, v.blip.color)
-                SetBlipAsShortRange(blip, true)
-                BeginTextCommandSetBlipName("STRING")
-                AddTextComponentString(v.label)
-                EndTextCommandSetBlipName(blip)      
-                table.insert(Blips, blip)
+                if location.show then
+                  local blip = AddBlipForCoord(location.coord)
+                  SetBlipSprite(blip, v.blip.id)
+                  SetBlipScale(blip, v.blip.scale)
+                  SetBlipDisplay(blip, 4)
+                  SetBlipColour(blip, v.blip.color)
+                  SetBlipAsShortRange(blip, true)
+                  BeginTextCommandSetBlipName("STRING")
+                  AddTextComponentString(v.label)
+                  EndTextCommandSetBlipName(blip)      
+                  table.insert(Blips, blip)
+                end
               end
             end
           end
