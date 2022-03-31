@@ -2,9 +2,9 @@ Config = {}
 
 Config.Teleporters = {
     {
-        menu_title = "Teleporters Title",
-        menu_desc = "Teleporters Description",
-        notification = "Teleporter Notification",
+        menu_title = "Krankenhaus",
+        menu_desc = "Aufzug",
+        notification = "Aufzug Menü drücke E",
         allowed_jobs = {all = true, police = true, ambulance = true},
         Marker = {
             show = true,
@@ -16,9 +16,9 @@ Config.Teleporters = {
             color = {red = 255, green = 0, blue = 0, alpha = 100},
         },
         teleporters = {
-            {coords = vector3(-496.57040405273,-331.58822631836,42.320701599121), heading = 0.0, label = "Zu Punkt 1", description = "Zu Punkt 1"},
-            {coords = vector3(-503.34750366211,-328.78970336914,42.320686340332), heading = 0.0, label = "Zu Punkt 2", description = "Zu Punkt 2"},
-            {coords = vector3(-504.79238891602,-336.37454223633,42.330974578857), heading = 0.0, label = "Zu Punkt 3", description = "Zu Punkt 3"},
+            {coords = vector3(-435.81503295898,-357.58737182617,34.910697937012), heading = 353.59, label = "Eingang", description = ""},
+            {coords = vector3(-421.77685546875,-345.86068725586,24.229345321655), heading = 0.0, label = "Tiefgarage", description = ""},
+            {coords = vector3(-446.28753662109,-334.81015014648,78.317268371582), heading = 0.0, label = "Dachgarage", description = ""},
         },
     },
 }
