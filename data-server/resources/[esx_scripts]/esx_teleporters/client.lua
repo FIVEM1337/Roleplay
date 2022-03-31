@@ -39,7 +39,7 @@ CreateThread(function()
 				if v.allowed_jobs["all"] or v.allowed_jobs[PlayerData.job.name] then
 					for k,v in ipairs(v.teleporters) do
 						local distance = GetDistanceBetweenCoords(coords, v.coords, true)
-						if teleporters.Marker.DrawDistance.show then
+						if teleporters.Marker.show then
 							if distance < teleporters.Marker.DrawDistance then
 								DrawMarker(teleporters.Marker.type, v.coords.x, v.coords.y, v.coords.z + teleporters.Marker.Offset, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, teleporters.Marker.size, teleporters.Marker.size, teleporters.Marker.height, teleporters.Marker.color.red, teleporters.Marker.color.green, teleporters.Marker.color.blue, teleporters.Marker.color.alpha, false, true, 2, true, false, false, false)
 							end
