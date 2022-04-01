@@ -132,12 +132,14 @@ function OpenGarage(garage, vehicles)
     local Job
     local JobCreated = false
     for k, vehicle in ipairs(vehicles) do
-        if vehicle.owner == PlayerData.identifier then
-            Private = true
-        else
-            if vehicle.grade >= 0 or PlayerData.job.can_managecars and vehicle.owner == PlayerData.job.name then
-                if vehicle.grade <= PlayerData.job.grade or PlayerData.job.can_managecars and vehicle.owner == PlayerData.job.name then
-                    Job = true
+        if Config.OnlyFromLastGarage and vehicle.garage_id == garage.garage_id or Config.OnlyFromLastGarage and vehicle.garage_id == "unknown" or not Config.OnlyFromLastGarage then
+            if vehicle.owner == PlayerData.identifier then
+                Private = true
+            else
+                if vehicle.grade >= 0 or PlayerData.job.can_managecars and vehicle.owner == PlayerData.job.name then
+                    if vehicle.grade <= PlayerData.job.grade or PlayerData.job.can_managecars and vehicle.owner == PlayerData.job.name then
+                        Job = true
+                    end
                 end
             end
         end
@@ -150,66 +152,69 @@ function OpenGarage(garage, vehicles)
     end
 
     for k, vehicle in ipairs(vehicles) do
-        if vehicle.owner == PlayerData.identifier then
-            if not PrivateCreated and Job then
-                Private = _menuPool:AddSubMenu(GarageUI, 'Privat Fahrzeuge')
-                PrivateCreated = true
-            end
-            local props = json.decode(vehicle.vehicle)
-            local ModelName = GetLabelText(GetDisplayNameFromVehicleModel(tonumber(props.model)):lower())
-            local VehicleItem = NativeUI.CreateItem(ModelName, 'Besitzer: ~g~Du~s~ Kennzeichen: ~g~'.. vehicle.plate)
-            VehicleItem:SetRightBadge("BadgeStyle.Alert")
-            if PrivateCreated then
-                Private.SubMenu:AddItem(VehicleItem)
-            else
-                GarageUI:AddItem(VehicleItem)
-            end
-            _menuPool:RefreshIndex()
-            VehicleItem.Activated = function(sender, index)
-                if garage.impound then
-                    ESX.TriggerServerCallback("esx_garage:pay",function(payed)
-                        if payed then
-                            GetVehicleFromGarage(garage, props)
-                        else
-                            TriggerEvent('dopeNotify:Alert', "Garage", "Du hast nicht genug Geld du benötigst: $"..Config.ReturnPayment, 5000, 'error')
-                        end
-                    end)
-                elseif garage.job and garage.shareprivatetojob then
-                    OpenSelect(garage, props)
-                else
-                    GetVehicleFromGarage(garage, props)
+        if Config.OnlyFromLastGarage and vehicle.garage_id == garage.garage_id or Config.OnlyFromLastGarage and vehicle.garage_id == "unknown" or not Config.OnlyFromLastGarage then
+            print(garage.garage_id)
+            if vehicle.owner == PlayerData.identifier then
+                if not PrivateCreated and Job then
+                    Private = _menuPool:AddSubMenu(GarageUI, 'Privat Fahrzeuge')
+                    PrivateCreated = true
                 end
-            end
-        else
-            if vehicle.grade >= 0 or PlayerData.job.can_managecars and vehicle.owner == PlayerData.job.name then
-                if vehicle.grade <= PlayerData.job.grade or PlayerData.job.can_managecars  and vehicle.owner == PlayerData.job.name then
-                    if not JobCreated and Private then
-                        Job = _menuPool:AddSubMenu(GarageUI, 'Job Fahrzeuge')
-                        JobCreated = true
-                    end
-                    local props = json.decode(vehicle.vehicle)
-                    local ModelName = GetLabelText(GetDisplayNameFromVehicleModel(tonumber(props.model)):lower())
-                    local VehicleItem = NativeUI.CreateItem(ModelName, 'Besitzer: ~g~'..PlayerData.job.label.. '~s~ Kennzeichen: ~g~'.. vehicle.plate)
-                    if JobCreated then
-                        Job.SubMenu:AddItem(VehicleItem)
-                    else
-                        GarageUI:AddItem(VehicleItem)
-                    end
-                    _menuPool:RefreshIndex()
-                    VehicleItem.Activated = function(sender, index)
-                        if garage.impound then
-                            ESX.TriggerServerCallback("esx_garage:pay",function(payed)
-                                if payed then
-                                    GetVehicleFromGarage(garage, props)
-                                else
-                                    TriggerEvent('dopeNotify:Alert', "Garage", PlayerData.job.label.." hat nicht das benötigte Geld", 5000, 'error')
-                                end
-                            end, vehicle.job)
-                        else
-                            if PlayerData.job.can_managecars then
-                                OpenSelect(garage, props)
-                            else
+                local props = json.decode(vehicle.vehicle)
+                local ModelName = GetLabelText(GetDisplayNameFromVehicleModel(tonumber(props.model)):lower())
+                local VehicleItem = NativeUI.CreateItem(ModelName, 'Besitzer: ~g~Du~s~ Kennzeichen: ~g~'.. vehicle.plate)
+                VehicleItem:SetRightBadge("BadgeStyle.Alert")
+                if PrivateCreated then
+                    Private.SubMenu:AddItem(VehicleItem)
+                else
+                    GarageUI:AddItem(VehicleItem)
+                end
+                _menuPool:RefreshIndex()
+                VehicleItem.Activated = function(sender, index)
+                    if garage.impound then
+                        ESX.TriggerServerCallback("esx_garage:pay",function(payed)
+                            if payed then
                                 GetVehicleFromGarage(garage, props)
+                            else
+                                TriggerEvent('dopeNotify:Alert', "Garage", "Du hast nicht genug Geld du benötigst: $"..Config.ReturnPayment, 5000, 'error')
+                            end
+                        end)
+                    elseif garage.job and garage.shareprivatetojob then
+                        OpenSelect(garage, props)
+                    else
+                        GetVehicleFromGarage(garage, props)
+                    end
+                end
+            else
+                if vehicle.grade >= 0 or PlayerData.job.can_managecars and vehicle.owner == PlayerData.job.name then
+                    if vehicle.grade <= PlayerData.job.grade or PlayerData.job.can_managecars  and vehicle.owner == PlayerData.job.name then
+                        if not JobCreated and Private then
+                            Job = _menuPool:AddSubMenu(GarageUI, 'Job Fahrzeuge')
+                            JobCreated = true
+                        end
+                        local props = json.decode(vehicle.vehicle)
+                        local ModelName = GetLabelText(GetDisplayNameFromVehicleModel(tonumber(props.model)):lower())
+                        local VehicleItem = NativeUI.CreateItem(ModelName, 'Besitzer: ~g~'..PlayerData.job.label.. '~s~ Kennzeichen: ~g~'.. vehicle.plate)
+                        if JobCreated then
+                            Job.SubMenu:AddItem(VehicleItem)
+                        else
+                            GarageUI:AddItem(VehicleItem)
+                        end
+                        _menuPool:RefreshIndex()
+                        VehicleItem.Activated = function(sender, index)
+                            if garage.impound then
+                                ESX.TriggerServerCallback("esx_garage:pay",function(payed)
+                                    if payed then
+                                        GetVehicleFromGarage(garage, props)
+                                    else
+                                        TriggerEvent('dopeNotify:Alert', "Garage", PlayerData.job.label.." hat nicht das benötigte Geld", 5000, 'error')
+                                    end
+                                end, vehicle.job)
+                            else
+                                if PlayerData.job.can_managecars then
+                                    OpenSelect(garage, props)
+                                else
+                                    GetVehicleFromGarage(garage, props)
+                                end
                             end
                         end
                     end

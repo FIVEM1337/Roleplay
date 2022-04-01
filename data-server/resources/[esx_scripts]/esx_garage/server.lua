@@ -85,13 +85,14 @@ ESX.RegisterServerCallback('esx_garage:changestatus', function (source, cb, prob
 
     if garage.job or garage.impound then
         MySQL.Async.execute(
-            'UPDATE owned_vehicles SET job = @job, vehicle = @vehicle, stored = @stored, impound = @impound WHERE TRIM(UPPER(plate)) = @plate',
+            'UPDATE owned_vehicles SET job = @job, vehicle = @vehicle, stored = @stored, impound = @impound, garage_id = @garage_id WHERE TRIM(UPPER(plate)) = @plate',
             {
                 ['@plate']      = string.gsub(tostring(probs.plate), '^%s*(.-)%s*$', '%1'):upper(),
                 ['@job']        = job,
                 ['@vehicle']    = json.encode(probs),
                 ['@stored']     = stored,
                 ['@impound']    = impound or false,
+                ['@garage_id']   = garage_id or garage.garage_id,
             },
             function(rowsChanged)
                 if rowsChanged == 0 then
@@ -102,7 +103,7 @@ ESX.RegisterServerCallback('esx_garage:changestatus', function (source, cb, prob
         end)
     else
         MySQL.Async.execute(
-            'UPDATE owned_vehicles SET job = @job, vehicle = @vehicle, stored = @stored, impound = @impound, grade = @grade WHERE TRIM(UPPER(plate)) = @plate',
+            'UPDATE owned_vehicles SET job = @job, vehicle = @vehicle, stored = @stored, impound = @impound, grade = @grade, garage_id = @garage_id WHERE TRIM(UPPER(plate)) = @plate',
             {
                 ['@plate']      = string.gsub(tostring(probs.plate), '^%s*(.-)%s*$', '%1'):upper(),
                 ['@job']        = job,
@@ -110,6 +111,7 @@ ESX.RegisterServerCallback('esx_garage:changestatus', function (source, cb, prob
                 ['@stored']     = stored,
                 ['@impound']    = impound or false,
                 ['@grade']      = -1,
+                ['@garage_id']   = garage_id or garage.garage_id,
             },
             function(rowsChanged)
                 if rowsChanged == 0 then

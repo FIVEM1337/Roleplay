@@ -1,5 +1,6 @@
 garagecoord = {
     {
+        garage_id = "Garage 1",
         Dist = 7,
         Type = "car",
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -10,6 +11,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 2",
         Type = "car",
         Dist = 7,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -20,6 +22,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 3",
         Type = "car",
         Dist = 7,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -30,6 +33,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 4",
         Type = "car",
         Dist = 7,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -40,6 +44,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 5",
         Type = "car",
         Dist = 7,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -50,6 +55,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 6",
         Type = "car",
         Dist = 7,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -60,6 +66,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 7",
         Type = "car",
         Dist = 10,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -70,6 +77,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 8",
         Type = "car",
         Dist = 7,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -80,6 +88,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 9",
         Type = "car",
         Dist = 7,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -90,6 +99,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 10",
         Type = "car",
         Dist = 10,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -100,6 +110,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 11",
         Type = "car",
         Dist = 7,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -116,6 +127,7 @@ garagecoord = {
     
     },
     {
+        garage_id = "Garage 12",
         Type = "car",
         Dist = 10,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -126,6 +138,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 13",
         Type = "car",
         Dist = 10,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -136,6 +149,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 14",
         Type = "car",
         Dist = 10,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -146,6 +160,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 15",
         Type = "car",
         Dist = 10,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -156,6 +171,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 16",
         Type = "car",
         Dist = 10,
         Blip = {color = 38, sprite = 289, scale = 0.6},
@@ -166,6 +182,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 17",
         job = "mechanic",
         Type = "car",
         Dist = 10,
@@ -177,6 +194,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 18",
         Type = "boat",
         Dist = 10,
         Store_dist = 40,
@@ -188,6 +206,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 19",
         Type = "plane",
         Dist = 10,
         Store_dist = 50,
@@ -200,6 +219,7 @@ garagecoord = {
     },
 --Jobs   
     {
+        garage_id = "Garage 20",
         job = "ambulance",
         Type = "car",
         Dist = 5,
@@ -224,6 +244,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Garage 21",
         job = "ambulance",
         Type = "helicopter",
         Dist = 5,
@@ -236,6 +257,7 @@ garagecoord = {
     },
 
     {
+        garage_id = "Garage 22",
         job = "police",
         Type = "car",
         storeprivate = true,
@@ -261,6 +283,7 @@ garagecoord = {
     },
 
     {
+        garage_id = "Garage 23",
         job = "police",
         Type = "helicopter",
         Dist = 10,
@@ -273,6 +296,7 @@ garagecoord = {
     },
 
     {
+        garage_id = "Garage 24",
         job = "taxi",
         Type = "car",
         storeprivate = true,
@@ -288,6 +312,7 @@ garagecoord = {
 
 --Impounds
     {
+        garage_id = "Impound 1",
         Type = "car",
         impound = true,
         Dist = 5,
@@ -299,6 +324,7 @@ garagecoord = {
         },
     },
     {
+        garage_id = "Impound 2",
         Type = "car",
         impound = true,
         Dist = 5,
