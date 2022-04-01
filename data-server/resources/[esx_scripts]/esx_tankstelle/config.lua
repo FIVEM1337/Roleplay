@@ -17,8 +17,8 @@ Config.DisableKeys = {0, 22, 23, 24, 29, 30, 31, 37, 44, 56, 82, 140, 166, 167, 
 Config.EnableHUD = fa
 
 -- Configure blips here. Turn both to false to disable blips all together.
-Config.ShowNearestGasStationOnly = true
-Config.ShowAllGasStations = false
+Config.ShowNearestGasStationOnly = false
+Config.ShowAllGasStations = true
 
 -- Modify the fuel-cost here, using a multiplier value. Setting the value to 2.0 would cause a doubled increase.
 Config.CostMultiplier = 1.0
@@ -80,7 +80,7 @@ Config.FuelClassesMax = {
 	[11] = 100.0, -- Utility
 	[12] = 100.0, -- Vans
 	[13] = 0.0, -- Cycles
-	[14] = 100.0, -- Boats
+	[14] = 100.0, -- boats
 	[15] = 100.0, -- Helicopters
 	[16] = 100.0, -- Planes
 	[17] = 100.0, -- Service
@@ -105,7 +105,7 @@ Config.Classes = {
 	[11] = 1.0, -- Utility
 	[12] = 1.0, -- Vans
 	[13] = 0.0, -- Cycles
-	[14] = 1.0, -- Boats
+	[14] = 1.0, -- boats
 	[15] = 1.0, -- Helicopters
 	[16] = 1.0, -- Planes
 	[17] = 1.0, -- Service
@@ -131,32 +131,35 @@ Config.FuelUsage = {
 }
 
 Config.GasStations = {
-	vector3(49.4187, 2778.793, 58.043),
-	vector3(263.894, 2606.463, 44.983),
-	vector3(1039.958, 2671.134, 39.550),
-	vector3(1207.260, 2660.175, 37.899),
-	vector3(2539.685, 2594.192, 37.944),
-	vector3(2679.858, 3263.946, 55.240),
-	vector3(2005.055, 3773.887, 32.403),
-	vector3(1687.156, 4929.392, 42.078),
-	vector3(1701.314, 6416.028, 32.763),
-	vector3(179.857, 6602.839, 31.868),
-	vector3(-94.4619, 6419.594, 31.489),
-	vector3(-2554.996, 2334.40, 33.078),
-	vector3(-1800.375, 803.661, 138.651),
-	vector3(-1437.622, -276.747, 46.207),
-	vector3(-2096.243, -320.286, 13.168),
-	vector3(-724.619, -935.1631, 19.213),
-	vector3(-526.019, -1211.003, 18.184),
-	vector3(-70.2148, -1761.792, 29.534),
-	vector3(265.648, -1261.309, 29.292),
-	vector3(819.653, -1028.846, 26.403),
-	vector3(1208.951, -1402.567,35.224),
-	vector3(1181.381, -330.847, 69.316),
-	vector3(620.843, 269.100, 103.089),
-	vector3(2581.321, 362.039, 108.468),
-	vector3(176.631, -1562.025, 29.263),
-	vector3(176.631, -1562.025, 29.263),
-	vector3(-319.292, -1471.715, 30.549),
-	vector3(1784.324, 3330.55, 41.253)
+
+	{station_id = "Gasstation 1", name = "Tankstelle", name = "Tankstelle", coords =  vector3(49.4187, 2778.793, 58.043), allowedtypes = {'car'}},
+	{station_id = "Gasstation 2", name = "Tankstelle", coords =  vector3(263.894, 2606.463, 44.983), allowedtypes = {'car'}},
+	{station_id = "Gasstation 3", name = "Tankstelle", coords =  vector3(1039.958, 2671.134, 39.550), allowedtypes = {'car'}},
+	{station_id = "Gasstation 4", name = "Tankstelle", coords =  vector3(1207.260, 2660.175, 37.899), allowedtypes = {'car'}},
+	{station_id = "Gasstation 5", name = "Tankstelle", coords =  vector3(2539.685, 2594.192, 37.944), allowedtypes = {'car'}},
+	{station_id = "Gasstation 6", name = "Tankstelle", coords =  vector3(2679.858, 3263.946, 55.240), allowedtypes = {'car'}},
+	{station_id = "Gasstation 7", name = "Tankstelle", coords =  vector3(2005.055, 3773.887, 32.403), allowedtypes = {'car'}},
+	{station_id = "Gasstation 8", name = "Tankstelle", coords =  vector3(1687.156, 4929.392, 42.078), allowedtypes = {'car'}},
+	{station_id = "Gasstation 9", name = "Tankstelle", coords =  vector3(1701.314, 6416.028, 32.763), allowedtypes = {'car'}},
+	{station_id = "Gasstation 10", name = "Tankstelle", coords =  vector3(179.857, 6602.839, 31.868), allowedtypes = {'car'}},
+	{station_id = "Gasstation 11", name = "Tankstelle", coords =  vector3(-94.4619, 6419.594, 31.489), allowedtypes = {'car'}},
+	{station_id = "Gasstation 12", name = "Tankstelle", coords =  vector3(-2554.996, 2334.40, 33.078), allowedtypes = {'car'}},
+	{station_id = "Gasstation 13", name = "Tankstelle", coords =  vector3(-1800.375, 803.661, 138.651), allowedtypes = {'car'}},
+	{station_id = "Gasstation 14", name = "Tankstelle", coords =  vector3(-1437.622, -276.747, 46.207), allowedtypes = {'car'}},
+	{station_id = "Gasstation 15", name = "Tankstelle", coords =  vector3(-2096.243, -320.286, 13.168), allowedtypes = {'car'}},
+	{station_id = "Gasstation 16", name = "Tankstelle", coords =  vector3(-724.619, -935.1631, 19.213), allowedtypes = {'car'}},
+	{station_id = "Gasstation 17", name = "Tankstelle", coords =  vector3(-526.019, -1211.003, 18.184), allowedtypes = {'car'}},
+	{station_id = "Gasstation 18", name = "Tankstelle", coords =  vector3(-70.2148, -1761.792, 29.534), allowedtypes = {'car'}},
+	{station_id = "Gasstation 19", name = "Tankstelle", coords =  vector3(265.648, -1261.309, 29.292), allowedtypes = {'car'}},
+	{station_id = "Gasstation 20", name = "Tankstelle", coords =  vector3(819.653, -1028.846, 26.403), allowedtypes = {'car'}},
+	{station_id = "Gasstation 21", name = "Tankstelle", coords =  vector3(1208.951, -1402.567,35.224), allowedtypes = {'car'}},
+	{station_id = "Gasstation 22", name = "Tankstelle", coords =  vector3(1181.381, -330.847, 69.316), allowedtypes = {'car'}},
+	{station_id = "Gasstation 23", name = "Tankstelle", coords =  vector3(620.843, 269.100, 103.089), allowedtypes = {'car'}},
+	{station_id = "Gasstation 24", name = "Tankstelle", coords =  vector3(2581.321, 362.039, 108.468), allowedtypes = {'car'}},
+	{station_id = "Gasstation 25", name = "Tankstelle", coords =  vector3(176.631, -1562.025, 29.263), allowedtypes = {'car'}},
+	{station_id = "Gasstation 26", name = "Tankstelle", coords =  vector3(176.631, -1562.025, 29.263), allowedtypes = {'car'}},
+	{station_id = "Gasstation 27", name = "Tankstelle", coords =  vector3(-319.292, -1471.715, 30.549), allowedtypes = {'car'}},
+	{station_id = "Gasstation 28", name = "Tankstelle", coords =  vector3(1784.324, 3330.55, 41.253), allowedtypes = {'car'}},
+	{station_id = "Gasstation 28", name = "Tankstelle (Flugzeug)", coords = vector3(-994.85540771484,-2888.720703125,13.955413818359), allowedtypes = {'aircraft'}},
+	{station_id = "Gasstation 28", name = "Tankstelle (Boote)", coords = vector3(-879.59161376953,-1418.8699951172,1.5953954458237), allowedtypes = {'boat'}},
 }

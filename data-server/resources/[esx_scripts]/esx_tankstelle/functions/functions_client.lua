@@ -41,19 +41,25 @@ function Round(num, numDecimalPlaces)
 end
 
 function CreateBlip(coords)
-	local blip = AddBlipForCoord(coords)
+	for _, station in pairs(Config.GasStations) do
+		if station.coords == coords then
+			local blip = AddBlipForCoord(station.coords)
 
-	SetBlipSprite(blip, 361)
-	SetBlipScale(blip, 0.9)
-	SetBlipColour(blip, 4)
-	SetBlipDisplay(blip, 4)
-	SetBlipAsShortRange(blip, true)
+			SetBlipSprite(blip, 361)
+			SetBlipScale(blip, 0.9)
+			SetBlipColour(blip, 4)
+			SetBlipDisplay(blip, 4)
+			SetBlipAsShortRange(blip, true)
+		
+			BeginTextCommandSetBlipName("STRING")
+			print(station.name)
+			AddTextComponentString(station.name)
+			EndTextCommandSetBlipName(blip)
+		
+			return blip
+		end
+	end
 
-	BeginTextCommandSetBlipName("STRING")
-	AddTextComponentString("Tankstelle")
-	EndTextCommandSetBlipName(blip)
-
-	return blip
 end
 
 function FindNearestFuelPump()

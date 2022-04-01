@@ -23,16 +23,6 @@ AddEventHandler('esx_tankstelle:removejerry', function()
 	end
 end)
 
-RegisterServerEvent('esx_tankstelle:givejerry')
-AddEventHandler('esx_tankstelle:givejerry', function()
-	local xPlayer = ESX.GetPlayerFromId(source)
-	if xPlayer.hasWeapon("WEAPON_PETROLCAN") then
-		xPlayer.setWeaponAmmo("WEAPON_PETROLCAN", 20)
-	else
-		xPlayer.addWeapon("WEAPON_PETROLCAN", 20)
-	end
-end)
-
 ESX.RegisterServerCallback('fuel:money', function(playerId, cb)
 	local xPlayer = ESX.GetPlayerFromId(playerId)
 	local money = xPlayer.getMoney()
@@ -41,11 +31,11 @@ ESX.RegisterServerCallback('fuel:money', function(playerId, cb)
 end)
 
 RegisterServerEvent('esx_tankstelle:setjerryfuel')
-AddEventHandler('esx_tankstelle:setjerryfuel', function(ammount)
+AddEventHandler('esx_tankstelle:setjerryfuel', function(amount)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	if xPlayer.hasWeapon("WEAPON_PETROLCAN") then
 		local loadoutNum, weapon = xPlayer.getWeapon("WEAPON_PETROLCAN")
-		xPlayer.setWeaponAmmo("WEAPON_PETROLCAN", ammount)
+		xPlayer.setWeaponAmmo("WEAPON_PETROLCAN", amount)
 	end
 end)
 

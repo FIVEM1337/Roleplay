@@ -85,6 +85,7 @@ Config.ShopLocations = {
       {type = 'item', name = 'food_taco', method = 'money', price = 10},
       {type = 'item', name = 'food_hotdog', method = 'money', price = 10},
       {type = 'item', name = 'food_chips', method = 'money', price = 10},
+      {type = 'weapon', name = 'WEAPON_PETROLCAN', method = 'money', price = 10, ammo = 0},
     }
   },
   ["RobsLiquor"] = {

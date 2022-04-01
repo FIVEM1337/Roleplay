@@ -298,8 +298,9 @@ CreateThread(function()
 			else
 				local vehicle = GetPlayersLastVehicle()
 				local vehicleCoords = GetEntityCoords(vehicle)
+				local correctVehileType = IsCorrectVehicleType(vehicle)
 
-				if DoesEntityExist(vehicle) and GetDistanceBetweenCoords(GetEntityCoords(ped), vehicleCoords) < 2.5 then
+				if DoesEntityExist(vehicle) and GetDistanceBetweenCoords(GetEntityCoords(ped), vehicleCoords) < 2.5 and correctVehileType then
 					if not DoesEntityExist(GetPedInVehicleSeat(vehicle, -1)) then
 						local stringCoords = GetEntityCoords(isNearPump)
 						local canFuel = true
@@ -341,16 +342,7 @@ CreateThread(function()
 					local stringCoords = GetEntityCoords(isNearPump)
 
 					if currentCash >= Config.JerryCanCost then
-						if not HasPedGotWeapon(ped, 883325847) then
-							DrawText3Ds(stringCoords.x, stringCoords.y, stringCoords.z + 1.2, Config.Strings.PurchaseJerryCan)
-
-							if IsControlJustReleased(0, 38) then
-								TriggerServerEvent('esx_tankstelle:givejerry')
-								TriggerServerEvent('fuel:pay', Config.JerryCanCost)
-
-								currentCash = ESX.GetPlayerData().money
-							end
-						else
+						if HasPedGotWeapon(ped, 883325847) then
 							local refillCost = Round(Config.RefillCost * (1 - GetAmmoInPedWeapon(ped, 883325847) / 20))
 							if refillCost > 0 then
 								if currentCash >= refillCost then
@@ -358,7 +350,7 @@ CreateThread(function()
 
 									if IsControlJustReleased(0, 38) then
 										TriggerServerEvent('fuel:pay', refillCost)
-										TriggerServerEvent('esx_tankstelle:givejerry')
+										TriggerServerEvent('esx_tankstelle:setjerryfuel', 20)
 									end
 								else
 									DrawText3Ds(stringCoords.x, stringCoords.y, stringCoords.z + 1.2, Config.Strings.NotEnoughCashJerryCan)
@@ -392,13 +384,20 @@ if Config.ShowNearestGasStationOnly then
 			local closestCoords 
 			local a = {}
 
-			for _, gasStationCoords in pairs(Config.GasStations) do
-				local dstcheck = GetDistanceBetweenCoords(coords, gasStationCoords)
+			for _, station in pairs(Config.GasStations) do
+				local dstcheck = GetDistanceBetweenCoords(coords, station.coords)
 
-				if dstcheck < closest then
-					closest = dstcheck
-					closestCoords = gasStationCoords
-					table.insert(a, closestCoords)
+
+				for k, v in pairs(station.allowedtypes) do
+					if v == "aircraft" or v == "boat" then
+						table.insert(a, station.coords)
+					else
+						if dstcheck < closest then
+							closest = dstcheck
+							closestCoords = station.coords
+							table.insert(a, closestCoords)
+						end
+					end
 				end
 			end
 			
@@ -412,14 +411,51 @@ if Config.ShowNearestGasStationOnly then
 				blip = CreateBlip(station)
 				table.insert(currentGasBlip, blip)
 			end
-
 			Wait(10000)
 		end
 	end)
 elseif Config.ShowAllGasStations then
 	CreateThread(function()
-		for _, gasStationCoords in pairs(Config.GasStations) do
-			CreateBlip(gasStationCoords)
+		for _, station in pairs(Config.GasStations) do
+			CreateBlip(station.coords)
 		end
 	end)
+end
+
+function GetClosestGasStation()
+	local coords = GetEntityCoords(PlayerPedId())
+	local closestStation
+
+	for k,v in pairs(Config.GasStations) do
+		local dstcheck = GetDistanceBetweenCoords(coords, v.coords)
+
+		if dstcheck < 50.0 then
+			closest = dstcheck
+			closestStation = v
+		end
+	end
+
+	return closestStation
+end
+
+function IsCorrectVehicleType(vehicle)
+	vehicleclass = GetVehicleClass(vehicle)
+	station = GetClosestGasStation()
+
+	for k, v in pairs(station.allowedtypes) do
+		if v == "car" then
+			if vehicleclass ~= 14 and vehicleclass ~= 15 and vehicleclass ~= 16 then
+				return true
+			end
+		elseif v == "aircraft" then
+			if vehicleclass == 15 or vehicleclass == 16 then
+				return true
+			end
+		elseif v == "boat" then
+			if vehicleclass == 14 then
+				return true
+			end
+		end
+	end
+	return false
 end
