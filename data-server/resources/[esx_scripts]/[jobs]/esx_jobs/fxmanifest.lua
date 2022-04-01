@@ -1,28 +1,24 @@
-fx_version 'adamant'
-
+fx_version 'bodacious'
 game 'gta5'
 
-description 'esx_gangjobs'
+description 'esx_jobs'
 
-version '1.4.0'
+version '0.0.1'
 
-server_scripts {
-	'@mysql-async/lib/MySQL.lua',
+shared_scripts {
+	'@es_extended/imports.lua',
 	'@es_extended/locale.lua',
 	'config.lua',
 	'locales/de.lua',
+}
+
+server_scripts {
+	'@mysql-async/lib/MySQL.lua',
 	'server/main.lua',
 	'server/ambulance.lua'
 }
 
 client_scripts {
-	'@es_extended/locale.lua',
-	'config.lua',
-	'locales/de.lua',
 	'client/main.lua',
 	'client/ambulance.lua'
-}
-
-dependencies {
-	'es_extended',
 }

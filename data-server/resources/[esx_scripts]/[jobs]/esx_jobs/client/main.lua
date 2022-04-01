@@ -1,4 +1,3 @@
-ESX = nil
 local PlayerData = {}
 local blips_list = {}
 local HasAlreadyEnteredMarker = false
@@ -9,19 +8,12 @@ local isHandcuffed = false
 local dragStatus = {}
 currentTask = {}
 isDead = false
-dragStatus.isDragged = false
 
 CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Wait(100)
-	end
-
 	while PlayerData.job == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 		PlayerData = ESX.GetPlayerData()
 		SetBlips()
-		Wait(111)
+		Wait(1)
 	end
 end)
 
@@ -196,13 +188,9 @@ AddEventHandler('esx_jobs:handcuff', function()
 end)
 
 RegisterNetEvent('esx_jobs:drag')
-AddEventHandler('esx_jobs:drag', function(copId)
-	if not isHandcuffed then
-		return
-	end
-
+AddEventHandler('esx_jobs:drag', function(SourceID)
 	dragStatus.isDragged = not dragStatus.isDragged
-	dragStatus.CopId = copId
+	dragStatus.SourceID = SourceID
 end)
 
 CreateThread(function()
@@ -211,30 +199,23 @@ CreateThread(function()
 
 	while true do
 		Wait(1)
-
-		if isHandcuffed then
+		if dragStatus.isDragged then
 			playerPed = PlayerPedId()
+			targetPed = GetPlayerPed(GetPlayerFromServerId(dragStatus.SourceID))
 
-			if dragStatus.isDragged then
-				targetPed = GetPlayerPed(GetPlayerFromServerId(dragStatus.CopId))
-
-				if not IsPedSittingInAnyVehicle(targetPed) then
-					AttachEntityToEntity(playerPed, targetPed, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-				else
-					dragStatus.isDragged = false
-					DetachEntity(playerPed, true, false)
-				end
-
-				if IsPedDeadOrDying(targetPed, true) then
-					dragStatus.isDragged = false
-					DetachEntity(playerPed, true, false)
-				end
-
+			if not IsPedSittingInAnyVehicle(targetPed) then
+				AttachEntityToEntity(playerPed, targetPed, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
 			else
+				dragStatus.isDragged = false
+				DetachEntity(playerPed, true, false)
+			end
+
+			if IsPedDeadOrDying(targetPed, true) then
+				dragStatus.isDragged = false
 				DetachEntity(playerPed, true, false)
 			end
 		else
-			Wait(500)
+			DetachEntity(playerPed, true, false)
 		end
 	end
 end)
@@ -243,10 +224,6 @@ RegisterNetEvent('esx_jobs:putInVehicle')
 AddEventHandler('esx_jobs:putInVehicle', function()
 	local playerPed = PlayerPedId()
 	local coords = GetEntityCoords(playerPed)
-
-	if not isHandcuffed then
-		return
-	end
 
 	if IsAnyVehicleNearPoint(coords, 5.0) then
 		local vehicle = GetClosestVehicle(coords, 5.0, 0, 71)
@@ -445,9 +422,9 @@ function OpenJobActionsMenu(JobConfig)
 					elseif action == 'ems_menu_revive' then
 						RevivePlayer(closestPlayer)
 					elseif action == 'ems_menu_small' then
-						HealPlayer(closestPlayer, "small")
+						HealPlayer(closestPlayer, "bandage")
 					elseif action == 'ems_menu_big' then
-						HealPlayer(closestPlayer, "big")
+						HealPlayer(closestPlayer, "medikit")
 					elseif action == 'billing' then
 						ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'billing', {
 							title = _U('invoice_amount')

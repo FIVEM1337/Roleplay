@@ -1,8 +1,3 @@
-ESX = nil
-societyloaded = false
-
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-
 ESX.RegisterServerCallback('esx_jobs:getPlayerInventory', function(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local items   = xPlayer.inventory
@@ -12,16 +7,9 @@ end)
 
 
 CreateThread(function()
-	while true do
-		Wait(1)
-
-		if ESX and not societyloaded then
-			societyloaded = true
-			for k, v in pairs (jobs) do
-				if v.society then
-					TriggerEvent('esx_society:registerSociety', v.job, v.job, 'society_'..v.job, 'society_'..v.job, 'society_'..v.job, {type = 'public'})
-				end
-			end
+	for k, v in pairs (jobs) do
+		if v.society then
+			TriggerEvent('esx_society:registerSociety', v.job, v.job, 'society_'..v.job, 'society_'..v.job, 'society_'..v.job, {type = 'public'})
 		end
 	end
 end)

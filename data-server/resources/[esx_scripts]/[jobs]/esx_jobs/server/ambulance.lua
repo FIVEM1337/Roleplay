@@ -1,7 +1,5 @@
-ESX = nil
-local playersHealing, deadPlayers = {}, {}
-
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+local playersHealing = {}
+local deadPlayers = {}
 
 ESX.RegisterServerCallback('esx_jobs:checkBalance', function(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)

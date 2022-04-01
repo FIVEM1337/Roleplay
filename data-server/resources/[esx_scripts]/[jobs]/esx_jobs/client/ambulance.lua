@@ -1,13 +1,3 @@
-ESX = nil
-local isDead = false
-local firstSpawn = true
-
-CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Wait(100)
-	end
-end)
 
 -- Disable most inputs when dead
 CreateThread(function()
@@ -46,17 +36,14 @@ AddEventHandler('esx:onPlayerSpawn', function()
 end)
 
 function CheckifDead()
-    isDead = false
-
-	if firstSpawn then
-		firstSpawn = false
-
-		ESX.TriggerServerCallback('esx_jobs:getDeathStatus', function(dead)
-			if dead then
-				SetEntityHealth(PlayerPedId(), 0)
-			end
-		end)
-	end
+	ESX.TriggerServerCallback('esx_jobs:getDeathStatus', function(dead)
+		if dead then
+			isDead = true
+			SetEntityHealth(PlayerPedId(), 0)
+		else
+			isDead = false
+		end
+	end)
 end
 
 AddEventHandler('esx:onPlayerDeath', function(data)
@@ -67,9 +54,9 @@ function OnPlayerDeath()
 	isDead = true
 	ESX.UI.Menu.CloseAll()
 	TriggerServerEvent('esx_jobs:setDeathStatus', true)
-
+	StartDistressSignal()
 	StartDeathTimer()
-	StartScreenEffect('DeathFailOut', 0, false)
+	AnimpostfxPlay('DeathFailOut', 0, true)
 end
 
 RegisterNetEvent('esx_jobs:revive')
@@ -201,17 +188,11 @@ function RevivePlayer(closestPlayer)
 	end, 'medikit')
 end
 
-function HealPlayer(closestPlayer, healtype)
+function HealPlayer(closestPlayer, item)
 	if currentTask.busy then
 		return
 	end
 
-	local item = nil
-	if healtype == "small" then
-		item = "bandage"
-	else
-		item = "medikit"
-	end
 	ESX.TriggerServerCallback('esx_jobs:getItemAmount', function(quantity)
 		if quantity > 0 then
 			local closestPlayerPed = GetPlayerPed(closestPlayer)
@@ -226,7 +207,7 @@ function HealPlayer(closestPlayer, healtype)
 				Wait(10000)
 				ClearPedTasks(playerPed)
 
-				TriggerServerEvent('esx_jobs:removeItem', 'bandage')
+				TriggerServerEvent('esx_jobs:removeItem', item)
 				TriggerServerEvent('esx_jobs:heal', GetPlayerServerId(closestPlayer), healtype)
 				ESX.ShowNotification(_U('heal_complete'))
 				currentTask.busy = false
@@ -234,13 +215,43 @@ function HealPlayer(closestPlayer, healtype)
 				ESX.ShowNotification(_U('player_not_conscious'))
 			end
 		else
-			if healtype == "small" then
+			if item == "bandage" then
 				ESX.ShowNotification(_U('not_enough_bandage'))
 			else
 				ESX.ShowNotification(_U('not_enough_medikit'))
 			end
 		end
-	end, 'bandage')
+	end, item)
+end
+
+function StartDistressSignal()
+	Citizen.CreateThread(function()
+		local timer = Config.BleedoutTimer
+
+		while timer > 0 and isDead do
+			Citizen.Wait(0)
+
+			DrawGenericTextThisFrame()
+			BeginTextCommandDisplayText('STRING')
+			AddTextComponentSubstringPlayerName(_U('distress_send'))
+			DrawText(0.5, 0.820)
+
+			if IsControlJustReleased(0, 47) then
+				SendDistressSignal()
+				break
+			end
+		end
+	end)
+end
+
+function SendDistressSignal()
+	local playerPed = PlayerPedId()
+	local coords    = GetEntityCoords(playerPed)
+	local position = {x = coords.x, y = coords.y, z = coords.z}
+
+	TriggerEvent("d-phone:client:message:senddispatch", "Bewusstlose Person", "ambulance", 0, 1, position, "5")
+	TriggerEvent("d-notification", "Hilfe angefordert", 5000,  "rgba(255, 0, 0, 0.8)")
+
 end
 
 function StartDeathTimer()
@@ -276,25 +287,16 @@ function StartDeathTimer()
 	CreateThread(function()
 		local text, timeHeld
 
-		-- early respawn timer
-		while earlySpawnTimer > 0 and isDead do
-			Wait(0)
-			text = _U('respawn_available_in', secondsToClock(earlySpawnTimer))
-
-			DrawGenericTextThisFrame()
-
-			SetTextEntry('STRING')
-			AddTextComponentString(text)
-			DrawText(0.5, 0.8)
-		end
-
 		-- bleedout timer
 		while bleedoutTimer > 0 and isDead do
 			Wait(0)
 			text = _U('respawn_bleedout_in', secondsToClock(bleedoutTimer))
 
 			if canPayFine then
-				text = text .. _U('respawn_bleedout_fine', ESX.Math.GroupDigits(Config.EarlyRespawnFineAmount))
+				DrawGenericTextThisFrame()
+				BeginTextCommandDisplayText('STRING')
+				AddTextComponentSubstringPlayerName(_U('respawn_bleedout_fine', ESX.Math.GroupDigits(Config.EarlyRespawnFineAmount)))
+				DrawText(0.5, 0.870)
 
 				if IsControlPressed(0, 38) and timeHeld > 60 then
 					TriggerServerEvent('esx_jobs:payFine')
@@ -310,6 +312,18 @@ function StartDeathTimer()
 			end
 
 			DrawGenericTextThisFrame()
+			SetTextEntry('STRING')
+			AddTextComponentString(text)
+			DrawText(0.5, 0.920)
+		end
+
+		-- early respawn timer
+		while earlySpawnTimer > 0 do
+			Wait(0)
+			text = _U('respawn_available_in', secondsToClock(earlySpawnTimer))
+
+			DrawGenericTextThisFrame()
+
 			SetTextEntry('STRING')
 			AddTextComponentString(text)
 			DrawText(0.5, 0.8)
