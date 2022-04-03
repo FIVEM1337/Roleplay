@@ -284,7 +284,7 @@ Locales['en'] = {
   ['component_scope_advanced'] = 'advanced Scope',
   ['component_ironsights'] = 'ironsights',
 
-  ['component_suppressor'] = 'att_suppressor',
+  ['component_suppressor'] = 'suppressor',
   ['component_compensator'] = 'compensator',
 
   ['component_muzzle_flat'] = 'flat Muzzle Brake',
@@ -296,8 +296,8 @@ Locales['en'] = {
   ['component_muzzle_split'] = 'split-End Muzzle Brake',
   ['component_muzzle_squared'] = 'squared Muzzle Brake',
 
-  ['component_flashlight'] = 'att_flashlight',
-  ['component_grip'] = 'att_grip',
+  ['component_flashlight'] = 'flashlight',
+  ['component_grip'] = 'grip',
 
   ['component_barrel_default'] = 'default Barrel',
   ['component_barrel_heavy'] = 'heavy Barrel',

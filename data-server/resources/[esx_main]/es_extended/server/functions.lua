@@ -4,6 +4,7 @@ function ESX.Trace(msg)
 	end
 end
 
+-- Doorlock System
 ESX.GetJobs = function()
     return ESX.Jobs
 end
