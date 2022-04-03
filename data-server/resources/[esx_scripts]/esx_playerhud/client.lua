@@ -94,6 +94,14 @@ AddEventHandler("esx_playerhud:LoadPlayerDataHUD", function(xPlayer)
 	SendNUIMessage({action = "updateStatus", hunger = currenthunger, thirst = currentthirst, stress = currentstress})
 end)
 
+CreateThread(function()
+	while true do
+		Wait(1000)
+		location = getPlayerLocation()
+		SendNUIMessage({action = "setValue", key = "postal", value = "PLZ: "..location})
+	end
+end)
+
 
 RegisterNetEvent('esx:setAccountMoney')
 AddEventHandler('esx:setAccountMoney', function(account)
@@ -194,3 +202,33 @@ end)
 AddEventHandler('onResourceStart', function(resource)
 	SendNUIMessage({action = "toggle", show = true})
 end)
+
+
+function getPlayerLocation()
+    local raw = LoadResourceFile(GetCurrentResourceName(), "json/postals.json")
+    local postals = json.decode(raw)
+    local nearest = nil
+
+
+    local ped = PlayerPedId()
+    local playerCoords = GetEntityCoords(ped)
+
+    local x, y = table.unpack(playerCoords)
+
+	local ndm = -1
+	local ni = -1
+	for i, p in ipairs(postals) do
+		local dm = (x - p.x) ^ 2 + (y - p.y) ^ 2
+		if ndm == -1 or dm < ndm then
+			ni = i
+			ndm = dm
+		end
+	end
+
+	if ni ~= -1 then
+		local nd = math.sqrt(ndm)
+		nearest = {i = ni, d = nd}
+	end
+	_nearest = postals[nearest.i].code
+	return _nearest
+end
