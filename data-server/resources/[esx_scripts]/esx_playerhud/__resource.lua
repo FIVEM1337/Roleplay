@@ -55,5 +55,6 @@ files {
 	'html/img/speaker4.png',
 	'html/img/drunk.png',
 	'html/img/backpack.png'
-
 }
+
+lua54 'yes'
