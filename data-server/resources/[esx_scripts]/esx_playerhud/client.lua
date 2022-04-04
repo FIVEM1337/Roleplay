@@ -5,77 +5,7 @@ local currentRange = 3.5
 
 local markerOn = false
 local markerTimer = 0
-local show = false
-local Spawned = false
-
-
-
-
-function GetMinimapAnchor()
-    -- Safezone goes from 1.0 (no gap) to 0.9 (5% gap (1/20))
-    -- 0.05 * ((safezone - 0.9) * 10)
-    local safezone = GetSafeZoneSize()
-    local safezone_x = 1.0 / 20.0
-    local safezone_y = 1.0 / 20.0
-    local aspect_ratio = GetAspectRatio(0)
-    local res_x, res_y = GetActiveScreenResolution()
-    local xscale = 1.0 / res_x
-    local yscale = 1.0 / res_y
-    local Minimap = {}
-    Minimap.width = xscale * (res_x / (4 * aspect_ratio))
-    Minimap.height = yscale * (res_y / 5.674)
-    Minimap.left_x = xscale * (res_x * (safezone_x * ((math.abs(safezone - 1.0)) * 10)))
-    Minimap.bottom_y = 1.0 - yscale * (res_y * (safezone_y * ((math.abs(safezone - 1.0)) * 10)))
-    Minimap.right_x = Minimap.left_x + Minimap.width
-    Minimap.top_y = Minimap.bottom_y - Minimap.height
-    Minimap.x = Minimap.left_x
-    Minimap.y = Minimap.top_y
-    Minimap.xunit = xscale
-    Minimap.yunit = yscale
-    return Minimap
-end
-
-local hasMinimapChanged = false
-
-function UpdateMinimapLocation()
-  CreateThread(function()
-    -- Get screen aspect ratio
-    local ratio = GetScreenAspectRatio()
-
-    -- Default values for 16:9 monitors
-    local posX = -0.0045
-    local posY = 0.002
-
-	print(tonumber(string.format("%.2f", ratio)))
-
-    if tonumber(string.format("%.2f", ratio)) >= 2.3 then
-      -- Ultra wide 3440 x 1440 (2.39)
-      -- Ultra wide 5120 x 2160 (2.37)
-      posX = -0.185
-      posY = 0.00
-      print('Detected ultra-wide monitor, adjusted minimap')
-    else 
-      posX = -0.0045
-      posY = 0.002
-	  
-    end
-
-	SetMinimapComponentPosition('minimap', 'L', 'B', posX, posY, 0.150, 0.188888)
-	SetMinimapComponentPosition('minimap_mask', 'L', 'B', posX + 0.0155, posY + 0.03, 0.111, 0.159)
-	SetMinimapComponentPosition('minimap_blur', 'L', 'B', posX - 0.0255, posY + 0.02, 0.266, 0.237)
-
-    SetRadarBigmapEnabled(true, false)
-    Wait(1000)
-    SetRadarBigmapEnabled(false, false)
-  end)
-end
-
-RegisterCommand('reload-map', function(src, args)
-  UpdateMinimapLocation()
-end, false)
-
-UpdateMinimapLocation()
-
+local Spawned = true
 
 
 CreateThread(function()
@@ -87,16 +17,10 @@ CreateThread(function()
 	while true do
 		Wait(100)
 		if Spawned then
-			if IsPauseMenuActive() then
-				if show then
-					SendNUIMessage({action = "toggle", show = false})
-					show = false
-				end
+			if IsMinimapRendering() then
+				SendNUIMessage({action = "toggle", show = true})
 			else
-				if not show then
-					SendNUIMessage({action = "toggle", show = true})
-					show = true
-				end
+				SendNUIMessage({action = "toggle", show = false})
 			end
 		end
 	end
@@ -115,8 +39,6 @@ end)
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer) 
 	TriggerEvent("esx_playerhud:LoadPlayerDataHUD", xPlayer)
-	SendNUIMessage({action = "toggle", show = true})
-	show = true
 	Spawned = true
 end)
 
@@ -270,7 +192,10 @@ AddEventHandler("SaltyChat_MicStateChanged", function(muted)
 end)
 
 AddEventHandler('onResourceStart', function(resource)
-	SendNUIMessage({action = "toggle", show = true})
+	if resource == GetCurrentResourceName() then
+		SendNUIMessage({action = "toggle", show = true})
+		Spawned = true
+	end
 end)
 
 
@@ -302,3 +227,42 @@ function getPlayerLocation()
 	_nearest = postals[nearest.i].code
 	return _nearest
 end
+
+function UpdateMinimapLocation()
+	CreateThread(function()
+		-- Get screen aspect ratio
+		local ratio = GetScreenAspectRatio()
+
+		-- Default values for 16:9 monitors
+		local posX = -0.0045
+		local posY = 0.002
+
+		print(tonumber(string.format("%.2f", ratio)))
+
+		if tonumber(string.format("%.2f", ratio)) >= 2.3 then
+			-- Ultra wide 3440 x 1440 (2.39)
+			-- Ultra wide 5120 x 2160 (2.37)
+			posX = -0.185
+			posY = 0.00
+			print('Detected ultra-wide monitor, adjusted minimap')
+		else 
+			posX = -0.0045
+			posY = 0.002
+
+		end
+
+		SetMinimapComponentPosition('minimap', 'L', 'B', posX, posY, 0.150, 0.188888)
+		SetMinimapComponentPosition('minimap_mask', 'L', 'B', posX + 0.0155, posY + 0.03, 0.111, 0.159)
+		SetMinimapComponentPosition('minimap_blur', 'L', 'B', posX - 0.0255, posY + 0.02, 0.266, 0.237)
+
+		SetRadarBigmapEnabled(true, false)
+		Wait(1000)
+		SetRadarBigmapEnabled(false, false)
+	end)
+end
+  
+  RegisterCommand('reload-map', function(src, args)
+	UpdateMinimapLocation()
+  end, false)
+  
+  UpdateMinimapLocation()
