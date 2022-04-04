@@ -2,9 +2,15 @@ local pickups = {}
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		HideHudComponentThisFrame( 3 )
-		HideHudComponentThisFrame( 4 )
-		HideHudComponentThisFrame( 13 )
+		HideHudComponentThisFrame( 3 ) -- CASH
+		HideHudComponentThisFrame( 4 ) -- MP_CASH
+		HideHudComponentThisFrame( 13 ) --CASH_CHANGE
+
+
+		HideHudComponentThisFrame( 6 ) --VEHICLE_NAME
+		HideHudComponentThisFrame( 7 ) --Area NAME
+		HideHudComponentThisFrame( 8 ) --VEHICLE_CLASS
+		HideHudComponentThisFrame( 9 ) --Street Name
 	end
 end)
 

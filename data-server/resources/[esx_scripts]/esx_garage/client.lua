@@ -722,8 +722,23 @@ end
 function showInfobar(msg)
     SetTextComponentFormat('STRING')
     AddTextComponentString(msg)
-    DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+    DisplayHelpTextFromStringLabel(1, 0, 0, 0)
 end
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		HideHudComponentThisFrame( 3 ) -- CASH
+		HideHudComponentThisFrame( 4 ) -- MP_CASH
+		HideHudComponentThisFrame( 13 ) --CASH_CHANGE
+
+        HideHudComponentThisFrame( 2 ) --Ammo
+		HideHudComponentThisFrame( 6 ) --VEHICLE_NAME
+		HideHudComponentThisFrame( 7 ) --Area NAME
+		HideHudComponentThisFrame( 8 ) --VEHICLE_CLASS
+		HideHudComponentThisFrame( 9 ) --Street Name
+	end
+end)
 
 AddEventHandler("onResourceStop",function(resourceName)
     if resourceName == GetCurrentResourceName() then

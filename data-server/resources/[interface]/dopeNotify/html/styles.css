@@ -1,13 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap%22");
 body {
-    margin-top: 10vh;  /*---[ CHANGING NOTIFY (Y) POSITION ]---*/
+  
     font-family: 'Poppins', sans-serif;
     overflow: hidden;
 }
 
 .notify {
+    z-index: 1;
     width: 80px;
-    margin-left: 90vw;  /*---[ CHANGING NOTIFY (X) POSITION ]---*/
+    position: absolute;
+    top: 7.5%;
+    right: 1.2%;
 }
 
 .wrapper {

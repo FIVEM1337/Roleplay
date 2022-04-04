@@ -9,6 +9,8 @@ $(function(){
 				setJobIcon(event.data.icon)
 			}
 			setValue(event.data.key, event.data.value)
+		}else if (event.data.action == "updatePosition"){
+			updatePosition(event.data.key, event.data.value);
 		}else if (event.data.action == "updateStatus"){
 			updateStatus(event.data.hunger, event.data.thirst, event.data.stress);
 		}else if (event.data.action == "setTalking"){
@@ -22,6 +24,9 @@ $(function(){
 				document.getElementById("ui").classList.toggle("show",false)
 			}
 		}
+
+
+		
 	});
 });
 
@@ -33,6 +38,18 @@ function setValue(key, value){
 function setJobIcon(value){
 	$('#job img').attr('src', 'img/jobs/'+value+'.png')
 }
+
+function updateStatus(hunger, thirst, stress){
+	$('#hunger .bg').css('height', hunger+'%');
+	$('#water .bg').css('height', thirst+'%')
+	$('#drunk .bg').css('height', stress+'%');
+	if (stress > 0){
+		$('#drunk').show();
+	}else{
+		$('#drunk').show();
+	}
+}
+
 
 function updateStatus(hunger, thirst, stress){
 	$('#hunger .bg').css('height', hunger+'%');
