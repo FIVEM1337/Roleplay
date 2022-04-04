@@ -237,14 +237,12 @@ function UpdateMinimapLocation()
 		local posX = -0.0045
 		local posY = 0.002
 
-		print(tonumber(string.format("%.2f", ratio)))
-
 		if tonumber(string.format("%.2f", ratio)) >= 2.3 then
 			-- Ultra wide 3440 x 1440 (2.39)
 			-- Ultra wide 5120 x 2160 (2.37)
 			posX = -0.185
 			posY = 0.00
-			print('Detected ultra-wide monitor, adjusted minimap')
+			print('Ultra Wide Monitor found adjust Minimap position')
 		else 
 			posX = -0.0045
 			posY = 0.002
