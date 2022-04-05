@@ -153,7 +153,6 @@ function OpenGarage(garage, vehicles)
 
     for k, vehicle in ipairs(vehicles) do
         if Config.OnlyFromLastGarage and vehicle.garage_id == garage.garage_id or Config.OnlyFromLastGarage and vehicle.garage_id == "unknown" or not Config.OnlyFromLastGarage then
-            print(garage.garage_id)
             if vehicle.owner == PlayerData.identifier then
                 if not PrivateCreated and Job then
                     Private = _menuPool:AddSubMenu(GarageUI, 'Privat Fahrzeuge')

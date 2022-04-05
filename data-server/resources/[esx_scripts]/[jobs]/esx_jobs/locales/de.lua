@@ -16,13 +16,15 @@ Locales['de'] = {
     -- Citizen Menu
     ['citizen_interaction'] = 'Zivilistenaktionen',
     ['no_players_nearby'] = 'Keine Person in der Nähe',
-    ['id_card'] = 'Personalausweis',
-    ['search'] = 'Person durchsuchen',
+    ['identity_card'] = 'Personalausweis',
+    ['body_search'] = 'Person durchsuchen',
     ['handcuff'] = 'Festnehmen / Freilassen',
     ['drag'] = 'Person mitnehmen',
+    ['license'] = 'Lizenzen',
     ['put_in_vehicle'] = 'Person in das Fahrzeug setzen',
     ['out_the_vehicle'] = 'Person aus dem Fahrzeug holen',
     ['unpaid_bills'] = 'unbezahlte Rechnungen',
+    ['no_bills'] = 'Keine Rechnungen',
     ['ems_menu_revive'] = 'Spieler wiederbeleben',
     ['ems_menu_small'] = 'Kleine Wunden behandeln',
     ['ems_menu_big'] = 'Ernsthafte Verletzungen behandeln',
@@ -49,9 +51,13 @@ Locales['de'] = {
     ['combatlog_message'] = 'Du wurdest respawnt, da du den Server verlassen hast, als du gestorben bist.',
     
 
-    ['guns_label'] = '--- Waffen ---',
-    ['inventory_label'] = '--- Inventar ---',
-    ['license_label'] = ' --- Lizenzen ---',
+    ['guns_label'] = '~r~--- Waffen ---~s~',
+    ['account_label'] = '~r~--- Schwarzgeld ---~s~',
+    ['inventory_label'] = '~r~--- Inventar ---~s~',
+    ['license_label'] = 'Lizenzen',
+    ['license_revoke'] = 'Lizenz entzihen',
+    ['armory_item'] = '$%s',
+
     ['confiscate_inv'] = 'konfeziere %sx %s',
     ['confiscate_weapon'] = 'Konfizieren %s mit %s kugeln',
     ['confiscate_dirty'] = 'Schwarzgeld konfesziert: <span style="color:red;">$%s</span>',
@@ -77,12 +83,15 @@ Locales['de'] = {
     ['healed'] = 'Du wurdest behandelt.',
     ['billing'] = 'Rechnung stellen',
     ['invoice_amount'] = 'Rechnungsbetrag',
+    ['no_licenses_owned'] = 'Keine Lizenz gefunden',
+    ['no_licenses_owned'] = 'Keine Lizenz gefunden',
+    ['player_not_found'] = 'Spieler nicht gefunden',
 
 
 -- Vehicle Menu
     ['vehicle_interaction'] = 'Fahrzeuginteraktionen',
     ['no_vehicles_nearby'] = 'Keine Fahrzeuge in der Nähe',
-    ['vehicle_info'] = 'Fahrzeuginformationen',
+    ['vehicle_infos'] = 'Fahrzeuginformationen',
     ['search_database'] = 'Fahrzeuginformationen Datenbank',
     ['search_database_title'] = 'Fahrzeuginformationen - Suchen mit Kennzeichen',
     ['search_database_error_invalid'] = 'Das Kennzeichen wurde nich gefunden',
@@ -90,6 +99,8 @@ Locales['de'] = {
     ['owner_unknown'] = 'Besitzer: Unbekannt',
     ['owner'] = 'Besitzer: %s',
     ['hijack_vehicle'] = 'Fahrzeug öffnen',
+    ['vehicle_is_already_open'] = 'Fahrzeug ist bereits geöffnet',
+
     ['fix_vehicle'] = 'Fahrzeug reparieren',
     ['vehicle_repaired'] = 'das Fahrzeug wurde ~g~repariert',
     ['clean_vehicle'] = 'Fahrzeug reinigen',
@@ -115,5 +126,9 @@ Locales['de'] = {
 
 -- Teleporters
     ['open_teleporter'] = 'Drücke ~INPUT_CONTEXT~ um zu Interagieren',
+
+
+
+    ['abort'] = 'Abbrechen',
 
 }

@@ -31,17 +31,23 @@ jobs = {
 			cloak = {
 				{coords = vector3(473.35681152344,-987.79296875,25.034621047974)},
 			},
-			identity_card = true,
-			body_search = true,
-			handcuff = true,
-			drag = true,
-			put_in_vehicle = true,
-			out_the_vehicle = true,
-			unpaid_bills = true,
-			vehicle_infos = true,
-			hijack_vehicle = true,
-			search_database = true,
-			billing = true,
+
+			citizen_interaction_items = {
+				{label = "identity_card"},
+				{label = "body_search"},
+				{label = "handcuff"},
+				{label = "drag"},
+				{label = "put_in_vehicle"},
+				{label = "out_the_vehicle"},
+				{label = "unpaid_bills"},
+				{label = "billing"},
+				{label = "license"},
+			},
+			vehicle_interaction_items = {
+				{label = "search_database"},
+				{label = "vehicle_infos"},
+				{label = "hijack_vehicle"},
+			},
 		},
 		
 	ambulance = {

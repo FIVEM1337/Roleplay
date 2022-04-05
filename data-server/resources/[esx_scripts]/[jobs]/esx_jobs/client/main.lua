@@ -1,4 +1,7 @@
+local _menuPool                 = NativeUI.CreatePool()
+local JobUI                  = nil
 local PlayerData = {}
+local playerPed = PlayerPedId()
 local blips_list = {}
 local HasAlreadyEnteredMarker = false
 local CurrentAction
@@ -24,10 +27,20 @@ AddEventHandler('esx:setJob', function(job)
 end)
 
 CreateThread(function()
+    while true do
+        if _menuPool:IsAnyMenuOpen() then 
+            _menuPool:ProcessMenus()
+        else
+            _menuPool:CloseAllMenus()
+        end
+        Wait(1)
+    end
+end)
+
+CreateThread(function()
 	while true do
 		Wait(3)
 		if PlayerData.job and not isDead then
-			local playerPed = PlayerPedId()
 			local coords    = GetEntityCoords(playerPed)
 
 			local isInMarker = false 
@@ -107,9 +120,7 @@ AddEventHandler('esx_jobs:hasEnteredMarker', function(currentPart, station, menu
 end)
 
 AddEventHandler('esx_jobs:hasExitedMarker', function(LastPart, station)
-	if not isInShopMenu then
-		ESX.UI.Menu.CloseAll()
-	end
+	_menuPool:CloseAllMenus()
 
 	CurrentAction = nil
 end)
@@ -128,7 +139,6 @@ CreateThread(function()
 						if CurrentAction == 'menu_armory' then
 							OpenJobArmoryMenu()
 						elseif CurrentAction == 'menu_boss_actions' then
-							ESX.UI.Menu.CloseAll()
 							TriggerEvent('esx_society:openBossMenu', PlayerData.job.name, function(data, menu)
 								menu.close()
 								CurrentAction     = 'menu_boss_actions'
@@ -143,8 +153,7 @@ CreateThread(function()
 			end
 		end
 
-
-		if IsControlJustReleased(0, 167) and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'job_actions') then
+		if IsControlJustReleased(0, 167) then
 			if PlayerData.job then
 				if jobs[PlayerData.job.name] then
 					v = jobs[PlayerData.job.name]
@@ -158,18 +167,16 @@ end)
 RegisterNetEvent('esx_jobs:handcuff')
 AddEventHandler('esx_jobs:handcuff', function()
 	isHandcuffed = not isHandcuffed
-	local playerPed = PlayerPedId()
 
 	CreateThread(function()
 		if isHandcuffed then
-
 			RequestAnimDict('mp_arresting')
+
 			while not HasAnimDictLoaded('mp_arresting') do
 				Wait(100)
 			end
 
 			TaskPlayAnim(playerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0, 0, 0, 0)
-
 			SetEnableHandcuffs(playerPed, true)
 			DisablePlayerFiring(playerPed, true)
 			SetCurrentPedWeapon(playerPed, GetHashKey('WEAPON_UNARMED'), true) -- unarm player
@@ -200,7 +207,6 @@ CreateThread(function()
 	while true do
 		Wait(1)
 		if dragStatus.isDragged then
-			playerPed = PlayerPedId()
 			targetPed = GetPlayerPed(GetPlayerFromServerId(dragStatus.SourceID))
 
 			if not IsPedSittingInAnyVehicle(targetPed) then
@@ -222,7 +228,6 @@ end)
 
 RegisterNetEvent('esx_jobs:putInVehicle')
 AddEventHandler('esx_jobs:putInVehicle', function()
-	local playerPed = PlayerPedId()
 	local coords = GetEntityCoords(playerPed)
 
 	if IsAnyVehicleNearPoint(coords, 5.0) then
@@ -250,7 +255,6 @@ end)
 CreateThread(function()
 	while true do
 		Wait(0)
-		local playerPed = PlayerPedId()
 
 		if isHandcuffed then
 			DisableControlAction(0, 1, true) -- Disable pan
@@ -309,8 +313,6 @@ end)
 
 RegisterNetEvent('esx_jobs:OutVehicle')
 AddEventHandler('esx_jobs:OutVehicle', function()
-	local playerPed = PlayerPedId()
-
 	if not IsPedSittingInAnyVehicle(playerPed) then
 		return
 	end
@@ -320,181 +322,152 @@ AddEventHandler('esx_jobs:OutVehicle', function()
 end)
 
 function OpenJobActionsMenu(JobConfig)
-	ESX.UI.Menu.CloseAll()
-
-
-	citizen_interaction_elements = {}
-	if JobConfig.identity_card then
-		table.insert(citizen_interaction_elements, {label = _U('id_card'), value = 'identity_card'})
-	end
-	if JobConfig.body_search then
-		table.insert(citizen_interaction_elements, {label = _U('search'), value = 'body_search'})
-	end
-	if JobConfig.handcuff then
-		table.insert(citizen_interaction_elements, {label = _U('handcuff'), value = 'handcuff'})
-	end
-	if JobConfig.drag then
-		table.insert(citizen_interaction_elements, {label = _U('drag'), value = 'drag'})
-	end
-	if JobConfig.put_in_vehicle then
-		table.insert(citizen_interaction_elements, {label = _U('put_in_vehicle'), value = 'put_in_vehicle'})
-	end
-	if JobConfig.out_the_vehicle then
-		table.insert(citizen_interaction_elements, {label = _U('out_the_vehicle'), value = 'out_the_vehicle'})
-	end
-	if JobConfig.unpaid_bills then
-		table.insert(citizen_interaction_elements, {label = _U('unpaid_bills'), value = 'unpaid_bills'})
-	end
-	if JobConfig.ems_menu_revive then
-		table.insert(citizen_interaction_elements, {label = _U('ems_menu_revive'), value = 'ems_menu_revive'})
-	end
-	if JobConfig.ems_menu_small then
-		table.insert(citizen_interaction_elements, {label = _U('ems_menu_small'), value = 'ems_menu_small'})
-	end
-	if JobConfig.ems_menu_big then
-		table.insert(citizen_interaction_elements, {label = _U('ems_menu_big'), value = 'ems_menu_big'})
+    _menuPool:CloseAllMenus()
+	if JobUI ~= nil and JobUI:Visible() then
+		JobUI:Visible(false)
 	end
 
-	if JobConfig.billing then
-		table.insert(citizen_interaction_elements, {label = _U('billing'), value = 'billing'})
-	end
+	JobUI = NativeUI.CreateMenu("Job Menü", nil, nil)
+	_menuPool:Add(JobUI)
 
+	if not rawequal(next(JobConfig.citizen_interaction_items), nil) then
+		citizen_interaction_menu = _menuPool:AddSubMenu(JobUI, _U('citizen_interaction'))
+        for k, v in pairs(JobConfig.citizen_interaction_items) do
+			Item = NativeUI.CreateItem(_U(v.label), "")
+			citizen_interaction_menu.SubMenu:AddItem(Item)
 
-	vehicle_interaction_elements = {}
-	if JobConfig.vehicle_infos then
-		table.insert(vehicle_interaction_elements, {label = _U('vehicle_info'), value = 'vehicle_infos'})
-		table.insert(vehicle_interaction_elements, {label = _U('search_database'), value = 'search_database'})
-	end
-	if JobConfig.hijack_vehicle then
-		table.insert(vehicle_interaction_elements, {label = _U('hijack_vehicle'), value = 'hijack_vehicle'})
-	end
-
-	if JobConfig.fix_vehicle then
-		table.insert(vehicle_interaction_elements, {label = _U('fix_vehicle'), value = 'fix_vehicle'})
-	end
-
-	if JobConfig.clean_vehicle then
-		table.insert(vehicle_interaction_elements, {label = _U('clean_vehicle'), value = 'clean_vehicle'})
-	end
-
-
-
-	main_elements = {}
-	if not rawequal(next(citizen_interaction_elements), nil) then
-		table.insert(main_elements, {label = _U('citizen_interaction'), value = 'citizen_interaction'})
-	end
-	if not rawequal(next(vehicle_interaction_elements), nil) then
-		table.insert(main_elements, {label = _U('vehicle_interaction'), value = 'vehicle_interaction'})
-	end
-
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'job_actions', {
-		title    = 'Job Menü',
-		align    = 'top-right',
-		elements = main_elements
-	}, function(data, menu)
-		if data.current.value == 'citizen_interaction' then
-	
-			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'citizen_interaction', {
-				title    = _U('citizen_interaction'),
-				align    = 'top-right',
-				elements = citizen_interaction_elements
-			}, function(data2, menu2)
+			Item.Activated = function(sender, index)
 				local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 				if closestPlayer ~= -1 and closestDistance <= 3.0 then
-					local action = data2.current.value
-
-					if action == 'identity_card' then
-						OpenIdentityCardMenu(closestPlayer)
-					elseif action == 'body_search' then
-						OpenBodySearchMenu(closestPlayer)
-					elseif action == 'handcuff' then
+					if v.label == 'identity_card' then
+						TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(closestPlayer))
+					elseif v.label == 'body_search' then
+						ESX.TriggerServerCallback('esx_jobs:getOtherPlayerData', function(data)
+							if data then
+								OpenBodySearchMenu(closestPlayer, data)
+							else
+								TriggerEvent('dopeNotify:Alert', "", _U('player_not_found'), 5000, 'error')
+							end
+						end, GetPlayerServerId(closestPlayer))
+					elseif v.label == 'handcuff' then
 						TriggerServerEvent('esx_jobs:handcuff', GetPlayerServerId(closestPlayer))
-					elseif action == 'drag' then
+					elseif v.label == 'drag' then
 						TriggerServerEvent('esx_jobs:drag', GetPlayerServerId(closestPlayer))
-					elseif action == 'put_in_vehicle' then
+					elseif v.label == 'put_in_vehicle' then
 						TriggerServerEvent('esx_jobs:putInVehicle', GetPlayerServerId(closestPlayer))
-					elseif action == 'out_the_vehicle' then
+					elseif v.label == 'out_the_vehicle' then
 						TriggerServerEvent('esx_jobs:OutVehicle', GetPlayerServerId(closestPlayer))
-					elseif action == 'license' then
-						ShowPlayerLicense(closestPlayer)
-					elseif action == 'unpaid_bills' then
-						OpenUnpaidBillsMenu(closestPlayer)
-					elseif action == 'ems_menu_revive' then
+					elseif v.label == 'license' then
+						ESX.TriggerServerCallback('esx_jobs:getOtherPlayerData', function(playerData)
+							if playerData then
+								if not rawequal(next(playerData.licenses), nil) then
+									ShowPlayerLicense(closestPlayer, playerData.licenses)
+								else
+									TriggerEvent('dopeNotify:Alert', "", _U('no_licenses_owned'), 5000, 'info')
+								end
+							else
+								TriggerEvent('dopeNotify:Alert', "", _U('player_not_found'), 5000, 'error')
+							end
+						end, GetPlayerServerId(closestPlayer))
+					elseif v.label == 'unpaid_bills' then
+						ESX.TriggerServerCallback('esx_billing:getTargetBills', function(bills)
+							if not rawequal(next(bills), nil) then
+								OpenUnpaidBillsMenu(closestPlayer, bills)
+							else
+								TriggerEvent('dopeNotify:Alert', "", _U('no_bills'), 5000, 'info')
+							end
+						end, GetPlayerServerId(closestPlayer))
+					elseif v.label == 'ems_menu_revive' then
 						RevivePlayer(closestPlayer)
-					elseif action == 'ems_menu_small' then
+					elseif v.label == 'ems_menu_small' then
 						HealPlayer(closestPlayer, "bandage")
-					elseif action == 'ems_menu_big' then
+					elseif v.label == 'ems_menu_big' then
 						HealPlayer(closestPlayer, "medikit")
-					elseif action == 'billing' then
-						ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'billing', {
-							title = _U('invoice_amount')
-						}, function(data, menu)
-							local amount = tonumber(data.value)
-			
+					elseif v.label == 'billing' then
+						local input = KeyboardInput("Rechnungs betrag", "", 20)
+						local amount = tonumber(input)
+						if tostring(amount) then
 							if amount == nil or amount < 0 then
-								ESX.ShowNotification(_U('quantity_invalid'))
+								TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
 								return
 							end
-
-							menu.close()
 							TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(closestPlayer), 'society_'..PlayerData.job.name , PlayerData.job.label, amount)
-						end, function(data, menu)
-							menu.close()
-						end)
+						end
 					end
 				else
-					ESX.ShowNotification(_U('no_players_nearby'))
+					TriggerEvent('dopeNotify:Alert', "", _U('no_players_nearby'), 5000, 'error')
 				end
-			end, function(data2, menu2)
-				menu2.close()
-			end)
-		elseif data.current.value == 'vehicle_interaction' then
-			local elements  = vehicle_interaction_elements
-			local playerPed = PlayerPedId()
-			local vehicle = ESX.Game.GetVehicleInDirection()
+			end
+        end
+	end
 
-			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vehicle_interaction', {
-				title    = _U('vehicle_interaction'),
-				align    = 'top-right',
-				elements = elements
-			}, function(data2, menu2)
+	if not rawequal(next(JobConfig.vehicle_interaction_items), nil) then
+		vehicle_interaction_menu = _menuPool:AddSubMenu(JobUI, _U('vehicle_interaction'))
+		for k, v in pairs(JobConfig.vehicle_interaction_items) do
+			Item = NativeUI.CreateItem(_U(v.label), "")
+			vehicle_interaction_menu.SubMenu:AddItem(Item)
+
+			Item.Activated = function(sender, index)
 				local coords  = GetEntityCoords(playerPed)
 				vehicle = ESX.Game.GetVehicleInDirection()
-				action  = data2.current.value
 
 				if currentTask.busy then
 					return
 				end
 
-				if action == 'search_database' then
-					LookupVehicle()
+				if v.label == 'search_database' then
+					local plate = KeyboardInput(_U('search_database_title'), "", 7)
+					if tostring(plate) then
+						if plate then
+							ESX.TriggerServerCallback('esx_jobs:getVehicleInfos', function(retrivedInfo)
+								if retrivedInfo then
+									LookupVehicle(retrivedInfo)
+								else
+									TriggerEvent('dopeNotify:Alert', "", _U('search_database_error_invalid'), 5000, 'error')
+								end
+							end, plate)
+						else
+							TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
+						end
+					else
+						TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
+					end
 				elseif DoesEntityExist(vehicle) then
-					if action == 'vehicle_infos' then
-						local vehicleData = ESX.Game.GetVehicleProperties(vehicle)
-						OpenVehicleInfosMenu(vehicleData)
-					elseif action == 'hijack_vehicle' then
+					if v.label == 'vehicle_infos' then
+						ESX.TriggerServerCallback('esx_jobs:getVehicleInfos', function(retrivedInfo)
+							if retrivedInfo then
+								LookupVehicle(retrivedInfo)
+							else
+								TriggerEvent('dopeNotify:Alert', "", _U('search_database_error_invalid'), 5000, 'error')
+							end
+						end, ESX.Game.GetVehicleProperties(vehicle).plate)
+					elseif v.label == 'hijack_vehicle' then
 						if IsPedSittingInAnyVehicle(playerPed) then
-							ESX.ShowNotification(_U('inside_vehicle'))
+							TriggerEvent('dopeNotify:Alert', "", _U('inside_vehicle'), 5000, 'error')
+							return
+						end
+
+						if GetVehicleDoorLockStatus(vehicle) == 2 then
+							currentTask.busy = true
+							if IsAnyVehicleNearPoint(coords.x, coords.y, coords.z, 3.0) then
+								TaskStartScenarioInPlace(playerPed, 'WORLD_HUMAN_WELDING', 0, true)
+								Wait(20000)
+								ClearPedTasksImmediately(playerPed)
+								SetVehicleDoorsLocked(vehicle, 1)
+								SetVehicleDoorsLockedForAllPlayers(vehicle, false)
+								TriggerEvent('dopeNotify:Alert', "", _U('vehicle_unlocked'), 5000, 'info')
+								currentTask.busy = false
+							end
+						else
+							TriggerEvent('dopeNotify:Alert', "", _U('vehicle_is_already_open'), 5000, 'error')
+						end
+					elseif v.label == 'fix_vehicle' then
+						if IsPedSittingInAnyVehicle(playerPed) then
+							TriggerEvent('dopeNotify:Alert', "", _U('inside_vehicle'), 5000, 'error')
 							return
 						end
 
 						currentTask.busy = true
-						if IsAnyVehicleNearPoint(coords.x, coords.y, coords.z, 3.0) then
-							TaskStartScenarioInPlace(playerPed, 'WORLD_HUMAN_WELDING', 0, true)
-							Wait(20000)
-							ClearPedTasksImmediately(playerPed)
-							SetVehicleDoorsLocked(vehicle, 1)
-							SetVehicleDoorsLockedForAllPlayers(vehicle, false)
-							ESX.ShowNotification(_U('vehicle_unlocked'))
-							currentTask.busy = false
-						end
-					elseif action == 'fix_vehicle' then
-						if IsPedSittingInAnyVehicle(playerPed) then
-							ESX.ShowNotification(_U('inside_vehicle'))
-							return
-						end
-						currentTask.busy = true
-
 						TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
 						CreateThread(function()
 							Wait(20000)
@@ -503,15 +476,13 @@ function OpenJobActionsMenu(JobConfig)
 							SetVehicleUndriveable(vehicle, false)
 							SetVehicleEngineOn(vehicle, true, true)
 							ClearPedTasksImmediately(playerPed)
-							ESX.ShowNotification(_U('vehicle_repaired'))
+							TriggerEvent('dopeNotify:Alert', "", _U('vehicle_repaired'), 5000, 'succes')
 							currentTask.busy = false
 						end)
 
-
-
-					elseif action == 'clean_vehicle' then
+					elseif v.label == 'clean_vehicle' then
 						if IsPedSittingInAnyVehicle(playerPed) then
-							ESX.ShowNotification(_U('inside_vehicle'))
+							TriggerEvent('dopeNotify:Alert', "", _U('inside_vehicle'), 5000, 'error')
 							return
 						end
 
@@ -519,79 +490,84 @@ function OpenJobActionsMenu(JobConfig)
 						TaskStartScenarioInPlace(playerPed, 'WORLD_HUMAN_MAID_CLEAN', 0, true)
 						CreateThread(function()
 							Wait(10000)
-		
 							SetVehicleDirtLevel(vehicle, 0)
 							ClearPedTasksImmediately(playerPed)
-		
-							ESX.ShowNotification(_U('vehicle_cleaned'))
+							TriggerEvent('dopeNotify:Alert', "", _U('vehicle_cleaned'), 5000, 'succes')
 							currentTask.busy = false
 						end)
 					end
 				else
-					ESX.ShowNotification(_U('no_vehicles_nearby'))
+					TriggerEvent('dopeNotify:Alert', "", _U('no_vehicles_nearby'), 5000, 'error')
 				end
-			end, function(data2, menu2)
-				menu2.close()
-			end)
+			end
 		end
-	end, function(data, menu)
-		menu.close()
-	end)
+	end
+
+    JobUI:Visible(true)
+	_menuPool:RefreshIndex()
+	_menuPool:MouseControlsEnabled(false)
+	_menuPool:MouseEdgeEnabled(false)
+	_menuPool:ControlDisablingEnabled(false)
 end
 
 function OpenCloakroomMenu(job)
-	local playerPed = PlayerPedId()
+	_menuPool:CloseAllMenus()
 	local grade = ESX.PlayerData.job.grade_name
 
-	local elements = {
-		{label = _U('citizen_wear'), value = 'citizen_wear'},
-		{label = _U('job_wear1'), value = 'job_wear1'},
-		{label = _U('job_wear2'), value = 'job_wear2'},
-		{label = _U('job_wear3'), value = 'job_wear3'}
-	}
+	if JobUI ~= nil and JobUI:Visible() then
+		JobUI:Visible(false)
+	end
 
-	ESX.UI.Menu.CloseAll()
+	JobUI = NativeUI.CreateMenu(_U('cloakroom'), nil, nil)
+	_menuPool:Add(JobUI)
 
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'cloakroom', {
-		title    = _U('cloakroom'),
-		align    = 'top-right',
-		elements = elements
-	}, function(data, menu)
-		local action = data.current.value
-		cleanPlayer(playerPed)
 
-		if action == 'citizen_wear' then
+	local citizen_wear = NativeUI.CreateItem(_U('citizen_wear'), "")
+	JobUI:AddItem(citizen_wear)
+
+	local job_wear1 = NativeUI.CreateItem(_U('job_wear1'), "")
+	JobUI:AddItem(job_wear1)
+
+	local job_wear2 = NativeUI.CreateItem(_U('job_wear2'), "")
+	JobUI:AddItem(job_wear2)
+
+	local job_wear3 = NativeUI.CreateItem(_U('job_wear3'), "")
+	JobUI:AddItem(job_wear3)
+
+
+	JobUI.OnItemSelect = function(sender, item, index)
+		if item == citizen_wear then
 			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
 				TriggerEvent('skinchanger:loadSkin', skin)
 			end)
-		elseif action == 'job_wear1' then
+        elseif item == job_wear1 then
 			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
 				ESX.TriggerServerCallback('esx_jobs:getjobskin', function(jobskin)
 					TriggerEvent('skinchanger:loadClothes', skin, json.decode(jobskin))
 				end, skin.sex, 1)
 			end)
-		elseif action == 'job_wear2' then
+        elseif item == job_wear2 then
 			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
 				ESX.TriggerServerCallback('esx_jobs:getjobskin', function(jobskin)
 					TriggerEvent('skinchanger:loadClothes', skin, json.decode(jobskin))
 				end, skin.sex, 2)
 			end)
-
-		elseif action == 'job_wear3' then
+        elseif item == job_wear3 then
 			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
 				ESX.TriggerServerCallback('esx_jobs:getjobskin', function(jobskin)
 					TriggerEvent('skinchanger:loadClothes', skin, json.decode(jobskin))
 				end, skin.sex, 3)
 			end)
 		end
+	end
 
-	end, function(data, menu)
-		menu.close()
-		CurrentAction     = 'menu_cloakroom'
-		CurrentActionMsg  = _U('open_cloackroom')
-		CurrentActionData = {}
-	end)
+    JobUI:Visible(true)
+	_menuPool:RefreshIndex()
+	_menuPool:MouseControlsEnabled(false)
+	_menuPool:MouseEdgeEnabled(false)
+	_menuPool:ControlDisablingEnabled(false)
 end
+
 
 function cleanPlayer(playerPed)
 	SetPedArmour(playerPed, 0)
@@ -603,193 +579,127 @@ end
 
 
 function OpenJobArmoryMenu()
-	ESX.UI.Menu.CloseAll()
-	local elements = {}
+	_menuPool:CloseAllMenus()
+	if JobUI ~= nil and JobUI:Visible() then
+		JobUI:Visible(false)
+	end
+
+    JobUI = NativeUI.CreateMenu(_U('armory'), nil, nil)
+    _menuPool:Add(JobUI)
+
+
+	local get_weapon, put_weapon, remove_object, deposit_object
+
 	if CurrentActionData.menu_config.store_weapon then
-		table.insert(elements,{label = _U('get_weapon'), value = 'get_weapon'})
-		table.insert(elements,{label = _U('put_weapon'), value = 'put_weapon'})
+		get_weapon = _menuPool:AddSubMenu(JobUI, _U('get_weapon'))
+		put_weapon = _menuPool:AddSubMenu(JobUI, _U('put_weapon'))
 	end
+
 	if CurrentActionData.menu_config.store_items then
-		table.insert(elements,{label = _U('remove_object'), value = 'get_stock'})
-		table.insert(elements,{label = _U('deposit_object'), value = 'put_stock'})
-	end
-	
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory', {
-		title    = _U('armory'),
-		align    = 'top-right',
-		elements = elements
-	}, function(data, menu)
-
-		if data.current.value == 'get_weapon' then
-			OpenGetWeaponMenu(CurrentActionData.station.name)
-		elseif data.current.value == 'put_weapon' then
-			OpenPutWeaponMenu(CurrentActionData.station.name)
-		elseif data.current.value == 'put_stock' then
-			OpenPutStocksMenu(CurrentActionData.station.name)
-		elseif data.current.value == 'get_stock' then
-			OpenGetStocksMenu(CurrentActionData.station.name)
-		end
-
-	end, function(data, menu)
-		menu.close()
-
-		CurrentAction     = ''
-		CurrentActionMsg  = ''
-		CurrentActionData = {}
-	end)
-end
-
-
-function OpenGetWeaponMenu(station)
-	ESX.TriggerServerCallback('esx_jobs:getArmoryWeapons', function(weapons)
-		local elements = {}
-
-		for i=1, #weapons, 1 do
-			if weapons[i].count > 0 then
-				table.insert(elements, {
-					label = 'x' .. weapons[i].count .. ' ' .. ESX.GetWeaponLabel(weapons[i].name),
-					value = weapons[i].name
-				})
-			end
-		end
-
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_get_weapon', {
-			title    = _U('get_weapon_menu'),
-			align    = 'top-right',
-			elements = elements
-		}, function(data, menu)
-			menu.close()
-
-			ESX.TriggerServerCallback('esx_jobs:removeArmoryWeapon', function()
-				OpenGetWeaponMenu(station)
-			end, data.current.value, station)
-		end, function(data, menu)
-			menu.close()
-		end)
-	end, station)
-end
-
-function OpenPutWeaponMenu(station)
-	local elements   = {}
-	local playerPed  = PlayerPedId()
-	local weaponList = ESX.GetWeaponList()
-
-	for i=1, #weaponList, 1 do
-		local weaponHash = GetHashKey(weaponList[i].name)
-
-		if HasPedGotWeapon(playerPed, weaponHash, false) and weaponList[i].name ~= 'WEAPON_UNARMED' then
-			table.insert(elements, {
-				label = weaponList[i].label,
-				value = weaponList[i].name
-			})
-		end
+		remove_object = _menuPool:AddSubMenu(JobUI, _U('remove_object'))
+		deposit_object = _menuPool:AddSubMenu(JobUI, _U('deposit_object'))
 	end
 
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_put_weapon', {
-		title    = _U('put_weapon_menu'),
-		align    = 'top-right',
-		elements = elements
-	}, function(data, menu)
-		menu.close()
 
-		ESX.TriggerServerCallback('esx_jobs:addArmoryWeapon', function()
-			OpenPutWeaponMenu(station)
-		end, data.current.value, true, station)
-	end, function(data, menu)
-		menu.close()
-	end)
-end
-
-function OpenPutStocksMenu(station)
-	ESX.TriggerServerCallback('esx_jobs:getPlayerInventory', function(inventory)
-		local elements = {}
-
-		for i=1, #inventory.items, 1 do
-			local item = inventory.items[i]
-
-			if item.count > 0 then
-				table.insert(elements, {
-					label = item.label .. ' x' .. item.count,
-					type = 'item_standard',
-					value = item.name
-				})
-			end
-		end
-
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu', {
-			title    = _U('put_item_menu'),
-			align    = 'top-right',
-			elements = elements
-		}, function(data, menu)
-			local itemName = data.current.value
-
-			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_put_item_count', {
-				title = _U('quantity')
-			}, function(data2, menu2)
-				local count = tonumber(data2.value)
-
-				if count == nil then
-					ESX.ShowNotification(_U('quantity_invalid'))
-				else
-					menu2.close()
-					menu.close()
-					TriggerServerEvent('esx_jobs:putStockItems', itemName, count)
-
-					Wait(300)
-					OpenPutStocksMenu(station)
+	JobUI.OnMenuChanged = function(menu, newmenu, forward)
+		if newmenu == get_weapon.SubMenu then
+			ESX.TriggerServerCallback('esx_jobs:getArmoryWeapons', function(weapons)
+				for k, v in pairs(weapons) do
+					if v.count > 0 then
+						local weapon_item = NativeUI.CreateItem('x' ..v.count .. ' ' .. ESX.GetWeaponLabel(v.name), "")
+						get_weapon.SubMenu:AddItem(weapon_item)
+						_menuPool:RefreshIndex()
+		
+						weapon_item.Activated = function(sender, index)
+							ESX.TriggerServerCallback('esx_jobs:removeArmoryWeapon', function()
+								_menuPool:CloseAllMenus()
+								OpenJobArmoryMenu()
+							end, v.name, CurrentActionData.station)
+						end
+					end
 				end
-			end, function(data2, menu2)
-				menu2.close()
-			end)
-		end, function(data, menu)
-			menu.close()
-		end)
-	end, station)
-end
+			end, CurrentActionData.station)
 
-function OpenGetStocksMenu(station)
-	ESX.TriggerServerCallback('esx_jobs:getStockItems', function(items)
-		local elements = {}
+		elseif newmenu == put_weapon.SubMenu then
+			local weaponList = ESX.GetWeaponList()
+			for k, v in pairs(weaponList) do
+				local weaponHash = GetHashKey(v.name)
+				if HasPedGotWeapon(playerPed, weaponHash, false) and v.name ~= 'WEAPON_UNARMED' then
 
-		for i=1, #items, 1 do
-			if items[i].count > 0 then
-				table.insert(elements, {
-					label = 'x' .. items[i].count .. ' ' .. items[i].label,
-					value = items[i].name
-				})
-			end
-		end
-
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu', {
-			title    = _U('get_item_menu'),
-			align    = 'top-right',
-			elements = elements
-		}, function(data, menu)
-			local itemName = data.current.value
-
-			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_get_item_count', {
-				title = _U('quantity')
-			}, function(data2, menu2)
-				local count = tonumber(data2.value)
-
-				if count == nil then
-					ESX.ShowNotification(_U('quantity_invalid'))
-				else
-					menu2.close()
-					menu.close()
-					TriggerServerEvent('esx_jobs:getStockItem', itemName, count)
-
-					Wait(300)
-					OpenGetStocksMenu(station)
+					local inventory_weapon_item = NativeUI.CreateItem(v.label, "")
+					put_weapon.SubMenu:AddItem(inventory_weapon_item)
+					
+					inventory_weapon_item.Activated = function(sender, index)
+						ESX.TriggerServerCallback('esx_jobs:addArmoryWeapon', function()
+							_menuPool:CloseAllMenus()
+							OpenJobArmoryMenu()
+						end, v.name, true, CurrentActionData.station)
+					end
 				end
-			end, function(data2, menu2)
-				menu2.close()
+			end
+		elseif newmenu == remove_object.SubMenu then
+			ESX.TriggerServerCallback('esx_jobs:getStockItems', function(items)
+				for k, v in pairs(items) do
+					if v.count > 0 then
+						local job_inventory_item = NativeUI.CreateItem('x' .. v.count .. ' ' .. v.label, "")
+						remove_object.SubMenu:AddItem(job_inventory_item)
+						_menuPool:RefreshIndex()
+						job_inventory_item.Activated = function(sender, index)
+							local input = KeyboardInput("Anzahl", "", 20)
+							local amount = tonumber(input)
+							if tostring(amount) then
+			
+								if amount == nil or amount < 0 then
+									TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
+								else
+									TriggerServerEvent('esx_jobs:getStockItem', v.name, amount, CurrentActionData.station)
+									_menuPool:CloseAllMenus()
+									OpenJobArmoryMenu()
+								end
+							else
+								TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
+							end
+						end
+					end
+				end
+			end, CurrentActionData.station)
+		elseif newmenu == deposit_object.SubMenu then
+			ESX.TriggerServerCallback('esx_jobs:getPlayerInventory', function(inventory)
+				for k, v in pairs(inventory.items) do
+					if v.count > 0 then
+						local remove_inventory_item = NativeUI.CreateItem(v.label .. ' x' .. v.count, "")
+						deposit_object.SubMenu:AddItem(remove_inventory_item)
+						_menuPool:RefreshIndex()
+						remove_inventory_item.Activated = function(sender, index)
+							local input = KeyboardInput("Anzahl", "", 20)
+							local amount = tonumber(input)
+							if tostring(amount) then
+			
+								if amount == nil or amount < 0 then
+									TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
+								else
+									TriggerServerEvent('esx_jobs:putStockItems', v.name, amount, CurrentActionData.station)
+									_menuPool:CloseAllMenus()
+									OpenJobArmoryMenu()
+								end
+							else
+								TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
+							end
+						end
+					end
+				end
 			end)
-		end, function(data, menu)
-			menu.close()
-		end)
-	end, station)
+		end
+	end
+
+    JobUI:Visible(true)
+	_menuPool:RefreshIndex()
+	_menuPool:MouseControlsEnabled(false)
+	_menuPool:MouseEdgeEnabled(false)
+	_menuPool:ControlDisablingEnabled(false)
 end
+
+
 
 function DeleteBlips()
 	for i, station in ipairs(blips_list) do
@@ -832,221 +742,251 @@ function CreateBlip(pos, sprite, scale, color, label)
 	return blip
 end
 
-function LookupVehicle()
-	ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'lookup_vehicle', {
-		title = _U('search_database_title'),
-	}, function(data, menu)
-		local length = string.len(data.value)
-		if not data.value or length < 2 or length > 8 then
-			ESX.ShowNotification(_U('search_database_error_invalid'))
-		else
-			ESX.TriggerServerCallback('esx_jobs:getVehicleInfos', function(retrivedInfo)
-				local elements = {{label = _U('plate', retrivedInfo.plate)}}
-				menu.close()
+function LookupVehicle(info)
+    _menuPool:CloseAllMenus()
+	if JobUI ~= nil and JobUI:Visible() then
+		JobUI:Visible(false)
+	end
 
-				if not retrivedInfo.owner then
-					table.insert(elements, {label = _U('owner_unknown')})
-				else
-					table.insert(elements, {label = _U('owner', retrivedInfo.owner)})
-				end
+	JobUI = NativeUI.CreateMenu(_U('vehicle_infos'), nil, nil)
+	_menuPool:Add(JobUI)
 
-				ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vehicle_infos', {
-					title    = _U('vehicle_info'),
-					align    = 'top-right',
-					elements = elements
-				}, nil, function(data2, menu2)
-					menu2.close()
-				end)
-			end, data.value)
+	local Owner = NativeUI.CreateItem("Besitzer: ".. info.owner, "")
+	JobUI:AddItem(Owner)
+	
+	local Plate = NativeUI.CreateItem("Kennzeichen: ".. info.plate, "")
+	JobUI:AddItem(Plate)
 
+
+
+	JobUI.OnMenuClosed = function(menu)
+		if jobs[PlayerData.job.name] then
+			v = jobs[PlayerData.job.name]
+			OpenJobActionsMenu(v)
 		end
-	end, function(data, menu)
-		menu.close()
-	end)
+	end
+
+    JobUI:Visible(true)
+	_menuPool:RefreshIndex()
+	_menuPool:MouseControlsEnabled(false)
+	_menuPool:MouseEdgeEnabled(false)
+	_menuPool:ControlDisablingEnabled(false)	
 end
 
-function ShowPlayerLicense(player)
-	local elements = {}
+function ShowPlayerLicense(player, data)
+    _menuPool:CloseAllMenus()
+	if JobUI ~= nil and JobUI:Visible() then
+		JobUI:Visible(false)
+	end
 
-	ESX.TriggerServerCallback('esx_jobs:getOtherPlayerData', function(playerData)
-		if playerData.licenses then
-			for i=1, #playerData.licenses, 1 do
-				if playerData.licenses[i].label and playerData.licenses[i].type then
-					table.insert(elements, {
-						label = playerData.licenses[i].label,
-						type = playerData.licenses[i].type
-					})
-				end
-			end
-		end
+    local JobUI = NativeUI.CreateMenu(_U('license_label'), nil, nil)
+    _menuPool:Add(JobUI)
 
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'manage_license', {
-			title    = _U('license_revoke'),
-			align    = 'top-right',
-			elements = elements,
-		}, function(data, menu)
-			ESX.ShowNotification(_U('licence_you_revoked', data.current.label, playerData.name))
-			TriggerServerEvent('esx_jobs:message', GetPlayerServerId(player), _U('license_revoked', data.current.label))
+	for k, v in ipairs(data) do
+		licence = _menuPool:AddSubMenu(JobUI, v.label)
 
-			TriggerServerEvent('esx_license:removeLicense', GetPlayerServerId(player), data.current.type)
+		local revoke = NativeUI.CreateItem(_U('license_revoke'), "")
+		local abort = NativeUI.CreateItem(_U('abort'), "")
 
-			ESX.SetTimeout(300, function()
-				ShowPlayerLicense(player)
-			end)
-		end, function(data, menu)
-			menu.close()
-		end)
+		licence.SubMenu:AddItem(revoke)
+		licence.SubMenu:AddItem(abort)
 
-	end, GetPlayerServerId(player))
-end
+		revoke.Activated = function(sender, index)
+			TriggerServerEvent('esx_license:removeLicense', GetPlayerServerId(player), v.type)
+			_menuPool:CloseAllMenus()
+			Wait(100)
 
-function OpenUnpaidBillsMenu(player)
-	local elements = {}
-
-	ESX.TriggerServerCallback('esx_billing:getTargetBills', function(bills)
-		for k,bill in ipairs(bills) do
-			table.insert(elements, {
-				label = ('%s - <span style="color:red;">%s</span>'):format(bill.label, _U('armory_item', ESX.Math.GroupDigits(bill.amount))),
-				billId = bill.id
-			})
-		end
-
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'billing', {
-			title    = _U('unpaid_bills'),
-			align    = 'top-right',
-			elements = elements
-		}, nil, function(data, menu)
-			menu.close()
-		end)
-	end, GetPlayerServerId(player))
-end
-
-function OpenVehicleInfosMenu(vehicleData)
-	ESX.TriggerServerCallback('esx_jobs:getVehicleInfos', function(retrivedInfo)
-		local elements = {{label = _U('plate', retrivedInfo.plate)}}
-
-		if not retrivedInfo.owner then
-			table.insert(elements, {label = _U('owner_unknown')})
-		else
-			table.insert(elements, {label = _U('owner', retrivedInfo.owner)})
-		end
-
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vehicle_infos', {
-			title    = _U('vehicle_info'),
-			align    = 'top-right',
-			elements = elements
-		}, nil, function(data, menu)
-			menu.close()
-		end)
-	end, vehicleData.plate)
-end
-
-
-function OpenIdentityCardMenu(player)
-	ESX.TriggerServerCallback('esx_jobs:getOtherPlayerData', function(data)
-		local elements = {
-			{label = _U('name', data.name)},
-			{label = _U('job', ('%s - %s'):format(data.job, data.grade))}
-		}
-
-		if data.sex ~= nil then
-			table.insert(elements, {label = _U('sex', _U(data.sex))})
-		end
-
-		if data.job ~= nil then
-			table.insert(elements, {label = _U('job', data.job)})
-		end
-		if data.height ~= nil then
-			table.insert(elements, {label = _U('height', data.height)})
-		end
-		if data.drunk ~= nil then
-			table.insert(elements, {label = _U('bac', data.drunk)})
-		end
-
-		table.insert(elements, {label = _U('license_label')})
-
-
-		for i=1, #data.licenses, 1 do
-			table.insert(elements, {label = data.licenses[i].label})
-		end
-
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'citizen_interaction', {
-			title    = _U('citizen_interaction'),
-			align    = 'top-right',
-			elements = elements
-		}, nil, function(data, menu)
-			menu.close()
-		end)
-	end, GetPlayerServerId(player))
-end
-
-function OpenBodySearchMenu(player)
-	ESX.TriggerServerCallback('esx_jobs:getOtherPlayerData', function(data)
-		local elements = {}
-
-		for i=1, #data.accounts, 1 do
-			if data.accounts[i].name == 'black_money' and data.accounts[i].money > 0 then
-				table.insert(elements, {
-					label    = _U('confiscate_dirty', ESX.Math.Round(data.accounts[i].money)),
-					value    = 'black_money',
-					itemType = 'item_account',
-					amount   = data.accounts[i].money
-				})
-				break
-			end
-		end
-
-		table.insert(elements, {label = _U('guns_label')})
-
-		for i=1, #data.weapons, 1 do
-			table.insert(elements, {
-				label    = _U('confiscate_weapon', ESX.GetWeaponLabel(data.weapons[i].name), data.weapons[i].ammo),
-				value    = data.weapons[i].name,
-				itemType = 'item_weapon',
-				amount   = data.weapons[i].ammo
-			})
-		end
-
-		table.insert(elements, {label = _U('inventory_label')})
-
-		for i=1, #data.inventory, 1 do
-			if data.inventory[i].count > 0 then
-				table.insert(elements, {
-					label    = _U('confiscate_inv', data.inventory[i].count, data.inventory[i].label),
-					value    = data.inventory[i].name,
-					itemType = 'item_standard',
-					amount   = data.inventory[i].count
-				})
-			end
-		end
-
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'body_search', {
-			title    = _U('search'),
-			align    = 'top-right',
-			elements = elements
-		}, function(data, menu)
-			if data.current.value then
-
-				ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'body_search_dialog', {
-					title = _U('quantity')
-				}, function(data2, menu2)
-					local count = tonumber(data2.value)
-
-					if count == nil then
-						ESX.ShowNotification(_U('quantity_invalid'))
+			ESX.TriggerServerCallback('esx_jobs:getOtherPlayerData', function(playerData)
+				if playerData then
+					if not rawequal(next(playerData.licenses), nil) then
+						ShowPlayerLicense(player, playerData.licenses)
 					else
-						TriggerServerEvent('esx_jobs:confiscatePlayerItem', GetPlayerServerId(player), data.current.itemType, data.current.value, count)
-						OpenBodySearchMenu(player)
-						menu2.close()
+						if jobs[PlayerData.job.name] then
+							v = jobs[PlayerData.job.name]
+							OpenJobActionsMenu(v)
+						end
 					end
-				end, function(data2, menu2)
-					menu2.close()
-				end)
+				else
+					if jobs[PlayerData.job.name] then
+						v = jobs[PlayerData.job.name]
+						OpenJobActionsMenu(v)
+					end
+				end
+			end, GetPlayerServerId(player))
+		end
+
+		abort.Activated = function(sender, index)
+			ESX.TriggerServerCallback('esx_jobs:getOtherPlayerData', function(playerData)
+				if playerData then
+					if not rawequal(next(playerData.licenses), nil) then
+						ShowPlayerLicense(player, playerData.licenses)
+					else
+						if jobs[PlayerData.job.name] then
+							v = jobs[PlayerData.job.name]
+							OpenJobActionsMenu(v)
+						end
+					end
+				else
+					if jobs[PlayerData.job.name] then
+						v = jobs[PlayerData.job.name]
+						OpenJobActionsMenu(v)
+					end
+				end
+			end, GetPlayerServerId(player))
+		end
+	end
+
+    JobUI:Visible(true)
+	_menuPool:RefreshIndex()
+	_menuPool:MouseControlsEnabled(false)
+	_menuPool:MouseEdgeEnabled(false)
+	_menuPool:ControlDisablingEnabled(false)
+end
+
+function OpenUnpaidBillsMenu(player, bills)
+    _menuPool:CloseAllMenus()
+	if JobUI ~= nil and JobUI:Visible() then
+		JobUI:Visible(false)
+	end
+
+    JobUI = NativeUI.CreateMenu("Garage", nil, nil)
+    _menuPool:Add(JobUI)
+
+	for k, v in ipairs(bills) do
+		local Item = NativeUI.CreateItem(v.label..' - ~r~$'..ESX.Math.GroupDigits(v.amount)..'~s~', "")
+		JobUI:AddItem(Item)
+	end
+
+    JobUI:Visible(true)
+	_menuPool:RefreshIndex()
+	_menuPool:MouseControlsEnabled(false)
+	_menuPool:MouseEdgeEnabled(false)
+	_menuPool:ControlDisablingEnabled(false)
+end
+
+function OpenBodySearchMenu(player, data)
+    _menuPool:CloseAllMenus()
+	if JobUI ~= nil and JobUI:Visible() then
+		JobUI:Visible(false)
+	end
+
+	JobUI = NativeUI.CreateMenu(PlayerData.job.label.. "-Garage", nil, nil)
+	_menuPool:Add(JobUI)
+
+	local weaponlabel, standartlabel, accountlabel
+
+	for k, v in ipairs(data.accounts) do
+		if not accountlabel then
+			Item = NativeUI.CreateItem(_U('account_label'), "")
+			accountlabel = true
+			JobUI:AddItem(Item)
+		end
+
+		if v.name == 'black_money' and v.money > 0 then
+			Item = NativeUI.CreateItem(_U('confiscate_dirty', ESX.Math.Round(data.accounts[i].money)), "")
+			JobUI:AddItem(Item)
+
+			Item.Activated = function(sender, index)
+				Confiscate(player, v.name, 'item_account', v.money)
 			end
-		end, function(data, menu)
-			menu.close()
-		end)
-	end, GetPlayerServerId(player))
+		end
+	end
+
+	for k, v in ipairs(data.weapons) do
+		if not weaponlabel then
+			Item = NativeUI.CreateItem(_U('guns_label'), "")
+			weaponlabel = true
+			JobUI:AddItem(Item)
+		end
+		Item = NativeUI.CreateItem(_U('confiscate_weapon', ESX.GetWeaponLabel(v.name), v.ammo), "")
+		JobUI:AddItem(Item)
+
+		Item.Activated = function(sender, index)
+			Confiscate(player, v.name, 'item_weapon', v.ammo)
+		end
+	end
+
+	for k, v in ipairs(data.inventory) do
+		if v.count > 0 then
+			if not standartlabel then
+				Item = NativeUI.CreateItem(_U('inventory_label'), "")
+				standartlabel = true
+				JobUI:AddItem(Item)
+			end
+
+			Item = NativeUI.CreateItem(_U('confiscate_inv', v.count, v.label), "")
+			JobUI:AddItem(Item)
+
+			Item.Activated = function(sender, index)
+				Confiscate(player, v.name, 'item_standard', v.count)
+			end
+		end
+	end
+
+    JobUI:Visible(true)
+	_menuPool:RefreshIndex()
+	_menuPool:MouseControlsEnabled(false)
+	_menuPool:MouseEdgeEnabled(false)
+	_menuPool:ControlDisablingEnabled(false)
+end
+
+function Confiscate(player, name, itemtype, count)
+	if itemtype == 'item_standard' then
+		local input = KeyboardInput("Anzahl", "", 20)
+		local amount = tonumber(input)
+		if tostring(amount) then
+			if amount and amount >= 0 and count >= amount then
+				TriggerServerEvent('esx_jobs:confiscatePlayerItem', GetPlayerServerId(player), itemtype, name, amount)
+				ESX.TriggerServerCallback('esx_jobs:getOtherPlayerData', function(data)
+					if data then
+						OpenBodySearchMenu(player, data)
+					else
+						if jobs[PlayerData.job.name] then
+							v = jobs[PlayerData.job.name]
+							OpenJobActionsMenu(v)
+						end
+					end
+				end, GetPlayerServerId(player))
+			else
+				TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
+			end
+		else
+			TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
+		end
+	else
+		TriggerServerEvent('esx_jobs:confiscatePlayerItem', GetPlayerServerId(player), itemtype, name, count)
+		ESX.TriggerServerCallback('esx_jobs:getOtherPlayerData', function(data)
+			if data then
+				OpenBodySearchMenu(player, data)
+			else
+				if jobs[PlayerData.job.name] then
+					v = jobs[PlayerData.job.name]
+					OpenJobActionsMenu(v)
+				end
+			end
+		end, GetPlayerServerId(player))
+	end
+end
+
+function KeyboardInput(TextEntry, ExampleText, MaxStringLenght)
+	AddTextEntry('FMMC_KEY_TIP1', TextEntry) 
+	DisplayOnscreenKeyboard(1, "FMMC_KEY_TIP1", "", ExampleText, "", "", "", MaxStringLenght)
+	blockinput = true
+
+	while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do
+		Wait(0)
+	end
+		
+	if UpdateOnscreenKeyboard() ~= 2 then
+		local result = GetOnscreenKeyboardResult()
+		Wait(500)
+		blockinput = false 
+		return result 
+	else
+		Wait(500) 
+		blockinput = false
+		return nil
+	end
 end
 
 AddEventHandler('esx:onPlayerDeath', function(data) isDead = true end)

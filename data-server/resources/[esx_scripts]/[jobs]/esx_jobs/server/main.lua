@@ -147,6 +147,25 @@ ESX.RegisterServerCallback('esx_jobs:getStockItems', function(source, cb, statio
 	end)
 end)
 
+RegisterServerEvent('esx_jobs:putStockItems')
+AddEventHandler('esx_jobs:putStockItems', function(itemName, count, station)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local sourceItem = xPlayer.getInventoryItem(itemName)
+
+	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_'..station, function(inventory)
+		local inventoryItem = inventory.getItem(itemName)
+
+		-- does the player have enough of the item?
+		if sourceItem.count >= count and count > 0 then
+			xPlayer.removeInventoryItem(itemName, count)
+			inventory.addItem(itemName, count)
+			TriggerClientEvent('esx:showNotification', xPlayer.source, _U('have_deposited', count, inventoryItem.label))
+		else
+			TriggerClientEvent('esx:showNotification', xPlayer.source, _U('quantity_invalid'))
+		end
+	end)
+end)
+
 ESX.RegisterServerCallback('esx_jobs:getjobskinwithgrade', function(source, cb, sex, outfittype, grade)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
@@ -248,17 +267,19 @@ ESX.RegisterServerCallback('esx_jobs:getOtherPlayerData', function(source, cb, t
 			end
 		end
 
-		TriggerEvent('esx_status:getStatus', 1, 'drunk', function(status)
+		TriggerEvent('esx_status:getStatus', target, 'drunk', function(status)
 			if status then
 				data.drunk = ESX.Math.Round(status.percent)
 			end
 		end)
 
 
-		TriggerEvent('esx_license:getLicenses', 1, function(licenses)
+		TriggerEvent('esx_license:getLicenses', target, function(licenses)
 			data.licenses = licenses
 			cb(data)
 		end)
+	else
+		cb(data)
 	end
 end)
 
@@ -268,15 +289,6 @@ AddEventHandler('esx_jobs:confiscatePlayerItem', function(target, itemType, item
 	local sourceXPlayer = ESX.GetPlayerFromId(_source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
 
-	if sourceXPlayer.job then
-		if jobs[sourceXPlayer.job.name] then
-			v = jobs[sourceXPlayer.job.name]
-			if v.body_search == false or v.body_search == nil then
-				print(('esx_jobs: %s attempted to confiscate!'):format(sourceXPlayer.identifier))
-				return
-			end
-		end
-	end
 
 
 	if itemType == 'item_standard' then
@@ -284,7 +296,7 @@ AddEventHandler('esx_jobs:confiscatePlayerItem', function(target, itemType, item
 		local sourceItem = sourceXPlayer.getInventoryItem(itemName)
 
 		if targetItem.count > 0 and targetItem.count >= amount then
-			if not sourceXPlayer.canCarryItem(itemName, sourceItem.count) then
+			if sourceXPlayer.canCarryItem(itemName, sourceItem.count) then
 				targetXPlayer.removeInventoryItem(itemName, amount)
 				sourceXPlayer.addInventoryItem(itemName, amount)
 				sourceXPlayer.showNotification(_U('you_confiscated', amount, sourceItem.label, targetXPlayer.name))
@@ -362,7 +374,7 @@ ESX.RegisterServerCallback('esx_jobs:getVehicleInfos', function(source, cb, plat
 				cb(retrivedInfo)
 			end
 		else
-			cb(retrivedInfo)
+			cb(nil)
 		end
 	end)
 end)

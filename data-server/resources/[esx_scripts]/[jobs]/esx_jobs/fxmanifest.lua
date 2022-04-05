@@ -19,6 +19,7 @@ server_scripts {
 }
 
 client_scripts {
+	"@NativeUILua_Reloaded/src/NativeUIReloaded.lua",
 	'client/main.lua',
 	'client/ambulance.lua'
 }
