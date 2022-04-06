@@ -74,6 +74,8 @@ Citizen.CreateThread(function()
 	--AMBULANCE
 	AddTextEntry('ambu', 'Chevrolet Tahoe LSMD')
 	AddTextEntry('ambu2', 'Chevrolet Tahoe LSMD')
+	AddTextEntry('Medic2', 'LSMD')
+	AddTextEntry('Medic1', 'LSMD')
 
 	--SONSTIGES
 	AddTextEntry('rrghost21', 'ROLLS-ROYCE GHOST')
