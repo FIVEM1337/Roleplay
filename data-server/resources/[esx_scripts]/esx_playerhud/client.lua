@@ -40,6 +40,7 @@ RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer) 
 	TriggerEvent("esx_playerhud:LoadPlayerDataHUD", xPlayer)
 	Spawned = true
+	UpdateMinimapLocation()
 end)
 
 RegisterNetEvent("reload_esx_playerhud") 
@@ -195,6 +196,7 @@ AddEventHandler('onResourceStart', function(resource)
 	if resource == GetCurrentResourceName() then
 		SendNUIMessage({action = "toggle", show = true})
 		Spawned = true
+		UpdateMinimapLocation()
 	end
 end)
 
@@ -254,7 +256,7 @@ function UpdateMinimapLocation()
 		SetMinimapComponentPosition('minimap_blur', 'L', 'B', posX - 0.0255, posY + 0.02, 0.266, 0.237)
 
 		SetRadarBigmapEnabled(true, false)
-		Wait(1000)
+		Wait(100)
 		SetRadarBigmapEnabled(false, false)
 	end)
 end
@@ -262,5 +264,3 @@ end
   RegisterCommand('reload-map', function(src, args)
 	UpdateMinimapLocation()
   end, false)
-  
-  UpdateMinimapLocation()
