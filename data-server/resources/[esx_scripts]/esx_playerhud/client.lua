@@ -22,6 +22,11 @@ CreateThread(function()
 			else
 				SendNUIMessage({action = "toggle", show = false})
 			end
+			if IsPauseMenuActive() then
+				SendNUIMessage({action = "toggle", show = false})
+			else
+				SendNUIMessage({action = "toggle", show = true})
+			end
 		end
 	end
 end)
@@ -256,7 +261,7 @@ function UpdateMinimapLocation()
 		SetMinimapComponentPosition('minimap_blur', 'L', 'B', posX - 0.0255, posY + 0.02, 0.266, 0.237)
 
 		SetRadarBigmapEnabled(true, false)
-		Wait(100)
+		Wait(500)
 		SetRadarBigmapEnabled(false, false)
 	end)
 end
