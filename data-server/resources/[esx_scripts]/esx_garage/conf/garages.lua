@@ -309,6 +309,35 @@ garagecoord = {
             {coords = vector3(907.2431640625,-186.27723693848,72.624221801758), heading = 58.84},
         },
     },
+    {
+        garage_id = "Garage 25",
+        job = "sheriff",
+        Type = "car",
+        storeprivate = true,
+        shareprivatetojob = true,
+        Dist = 10,
+        Blip = {color = 29, sprite = 56, scale = 0.6},
+        npc_heading = 135.0,
+        garage_coord = vector3(-460.20678710938,6030.9697265625,30.340539932251),
+        spawn_coords = {
+            {coords = vector3(-482.37927246094,6024.5966796875,30.927368164063), heading = 220.00},
+            {coords = vector3(-479.11450195313,6027.7412109375,31.002021789551), heading = 220.00},
+            {coords = vector3(-475.80529785156,6031.5209960938,30.931028366089), heading = 220.00},
+        },
+    },
+
+    {
+        garage_id = "Garage 26",
+        job = "sheriff",
+        Type = "helicopter",
+        Dist = 10,
+        Blip = {color = 29, sprite = 64, scale = 0.6},
+        npc_heading = -40.0,
+        garage_coord = vector3(-489.18850708008,5991.8129882813,30.32664680481),
+        spawn_coords = {
+            {coords = vector3(-475.28424072266,5988.3359375,31.700922012329), heading = 179.83},
+        },
+    },
 
 --Impounds
     {

@@ -31,7 +31,27 @@ jobs = {
 			cloak = {
 				{coords = vector3(473.35681152344,-987.79296875,25.034621047974)},
 			},
-			job = "police",
+
+
+			citizen_interaction_items = {
+				{label = "identity_card"},
+				{label = "body_search"},
+				{label = "handcuff"},
+				{label = "drag"},
+				{label = "put_in_vehicle"},
+				{label = "out_the_vehicle"},
+				{label = "unpaid_bills"},
+				{label = "billing"},
+				{label = "license"},
+			},
+			vehicle_interaction_items = {
+				{label = "search_database"},
+				{label = "vehicle_infos"},
+				{label = "hijack_vehicle"},
+			},
+		},
+	sheriff = {
+			job = "sheriff",
 			society = true,
 			Blip = {name = "Sheriffrevier", color = 47, sprite = 58, scale = 1.2, alwayshow = true},
 			pos = vector3(-446.57583618164,6014.7001953125,31.716331481934),
@@ -44,6 +64,7 @@ jobs = {
 			cloak = {
 				{coords = vector3(-451.22647094727,6011.703125,31.716356277466)},
 			},
+
 
 			citizen_interaction_items = {
 				{label = "identity_card"},
