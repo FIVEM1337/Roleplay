@@ -31,6 +31,19 @@ jobs = {
 			cloak = {
 				{coords = vector3(473.35681152344,-987.79296875,25.034621047974)},
 			},
+			job = "police",
+			society = true,
+			Blip = {name = "Sheriffrevier", color = 47, sprite = 58, scale = 1.2, alwayshow = true},
+			pos = vector3(-446.57583618164,6014.7001953125,31.716331481934),
+			armory = {
+				{coords = vector3(-438.38311767578,5989.4423828125,31.716180801392), store_weapon = true, store_items = true},
+			},
+			boss = {
+				{coords = vector3(-435.75357055664,6000.4501953125,31.716173171997), min_grade = 1},
+			},
+			cloak = {
+				{coords = vector3(-451.22647094727,6011.703125,31.716356277466)},
+			},
 
 			citizen_interaction_items = {
 				{label = "identity_card"},
