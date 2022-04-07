@@ -462,7 +462,7 @@ function MenuPool:AddSubMenu(Menu, Text, Description, KeepPosition, KeepBanner)
         if KeepPosition then
             SubMenu = UIMenu.New(Menu.Title:Text(), Text, Menu.Position.X, Menu.Position.Y)
         else
-            SubMenu = UIMenu.New(Menu.Title:Text(), Text)
+            SubMenu = UIMenu.New(Menu.Title:Text(), Text, Menu.Position.X, Menu.Position.Y)
         end
         if KeepBanner then
             if Menu.Logo ~= nil then
@@ -3431,6 +3431,41 @@ end
 ---@return table
 ---@public
 function NativeUI.CreateMenu(Title, Subtitle, X, Y, TxtDictionary, TxtName, Heading, R, G, B, A)
+    local ratio = GetScreenAspectRatio()
+    local menuwidth = 500
+    local screen_x, screen_y = GetScreenResolution()
+    local margin = 10
+
+    if tonumber(string.format("%.2f", ratio)) >= 2.3 then
+        if X == "right" or Y == "right" then
+            X = screen_x + menuwidth - margin - 100
+            Y = 100
+        elseif X == "center" or Y == "center" then
+            X = screen_x / 2 - menuwidth / 2 + 200
+            Y = 100
+        elseif X == "left" or Y == "left" then
+            X = 0 - margin - 340
+            Y = 100
+        else
+            X = 0 - margin - 340
+            Y = 100      
+        end
+    else
+        if X == "right" or Y == "right" then
+            X = screen_x + menuwidth - margin - 400
+            Y = 100
+        elseif X == "center" or Y == "center" then
+            X = screen_x / 2 - menuwidth / 2 + 350
+            Y = 100
+        elseif X == "left" or Y == "left" then
+            X = 0 - margin
+            Y = 100
+        else
+            X = 0 - margin
+            Y = 100
+        end 
+    end
+
     return UIMenu.New(Title, Subtitle, X, Y, TxtDictionary, TxtName, Heading, R, G, B, A)
 end
 

@@ -146,48 +146,6 @@ AddEventHandler("playerConnecting", function(name, setReason, deferrals)
 	end
 end)
 
-AddEventHandler("playerJoining", function(source, oldID)
-	local loadFile = LoadResourceFile(GetCurrentResourceName(), "./json/names.json")
-	local loadedFile = json.decode(loadFile)
-    local ids = ExtractIdentifiers(source)
-
-	if ids.steam then
-		debugLog('Code: NC1000')
-		if loadedFile[ids.steam] ~= nil then
-			if loadedFile[ids.steam] ~= GetPlayerName(source) then
-				for _, i in ipairs(GetPlayers()) do
-					if IsPlayerAceAllowed(i, cfgFile.nameChangePerms) then
-						TriggerClientEvent('chat:addMessage', i, {
-							template = '<div style="background-color: rgba(90, 90, 90, 0.9); text-align: center; border-radius: 0.5vh; padding: 0.7vh; font-size: 1.7vh;"><b>Player ^1{0} ^0{1} ^1{2}</b></div>',
-							args = { lang['DefaultLogs'].NameChangeChat:format(GetPlayerName(source), loadedFile[ids.steam]) }
-						})
-					end
-				end
-				ServerFunc.CreateLog({EmbedMessage = lang['DefaultLogs'].NameChange:format(GetPlayerName(source), loadedFile[ids.steam]), player_id = source, channel = 'nameChange'})
-			end
-		end
-		loadedFile[ids.steam] = GetPlayerName(source)
-		SaveResourceFile(GetCurrentResourceName(), "./json/names.json", json.encode(loadedFile), -1)
-	else
-		if cfgFile.forceSteam then
-			debugLog('Code: NC1001')
-			ServerFunc.CreateLog({EmbedMessage = lang['Other'].ForceSteamLog:format(GetPlayerName(source)), player_id = source, channel = 'nameChange'})
-			DropPlayer(source, lang['Other'].ForceSteam)
-		else
-			debugLog('Code: NC1002')
-			for _, i in ipairs(GetPlayers()) do
-				if IsPlayerAceAllowed(i, cfgFile.nameChangePerms) then
-					TriggerClientEvent('chat:addMessage', i, {
-						template = '<div style="background-color: rgba(90, 90, 90, 0.9); text-align: center; border-radius: 0.5vh; padding: 0.7vh; font-size: 1.7vh;"><b>Player ^1{0} ^0{1}</b></div>',
-						args = { GetPlayerName(source), lang['Other'].NoSteam }
-					})
-				end
-			end
-			ServerFunc.CreateLog({EmbedMessage = lang['Other'].NoSteamLog:format(GetPlayerName(source)), player_id = source, channel = 'nameChange'})
-		end
-	end
-end)
-
 AddEventHandler('playerDropped', function(reason)
 	debugLog('Code: JD1001')
 	ServerFunc.CreateLog({EmbedMessage = lang['DefaultLogs'].Left:format(GetPlayerName(source), reason), player_id = source, channel = 'leaving'})
