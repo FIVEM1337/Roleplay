@@ -152,7 +152,6 @@ CreateThread(function()
 
             if IsControlPressed(0, 172) or IsControlPressed(0, 15) then
                 if Config.NoclipSpeed <= 5.0 then
-                else
                     Config.NoclipSpeed = Config.NoclipSpeed + 0.05
                 end
 			end
