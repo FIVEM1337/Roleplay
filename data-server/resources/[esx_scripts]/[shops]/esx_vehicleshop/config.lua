@@ -57,7 +57,7 @@ Config.Zones = {
 		ShopName = "Helicopterhändler",
 		VehicleShop = true,
 		DonatorShop = false,
-		Pos   = vector3(-714.55, -1403.35, 5),
+		Pos   = vector3(-695.44989013672,-1395.3560791016,8.5464105606079),
 		Size  = vector3(1.5, 1.5, 1.0),
 		Type  = 36,
 		VehType = "helicopter"
@@ -95,7 +95,7 @@ Config.Zones = {
 	helicopter = {
 		Size  = vector3(1.5, 1.5, 1.0),
 		spawn_coords = {
-            {coords = vector3(-974.88, -2967.71, 13.95), heading = 139.6},
+            {coords = vector3(-724.45751953125,-1443.4455566406,5.000518321991), heading = 139.6},
         },
 		Type  = -1
 	},

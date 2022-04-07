@@ -217,6 +217,17 @@ garagecoord = {
             {coords = vector3(-999.55120849609, -2998.3647460938, 14.783174514771), heading = 63.61706161499},
         },
     },
+    {
+        garage_id = "Garage 27",
+        Type = "helicopter",
+        Dist = 10,
+        Blip = {color = 29, sprite = 64, scale = 0.6},
+        npc_heading = -40.0,
+        garage_coord = vector3(-736.26776123047,-1444.5551757813,4.0005259513855),
+        spawn_coords = {
+            {coords = vector3(-744.43731689453,-1467.6008300781,5.0005207061768), heading = 179.83},
+        },
+    },
 --Jobs   
     {
         garage_id = "Garage 20",
