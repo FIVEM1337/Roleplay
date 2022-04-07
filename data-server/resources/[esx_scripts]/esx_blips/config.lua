@@ -89,4 +89,12 @@ blips = {
 		scale = 0.8,
 		coord = vector3(-1392.58, -602.62, 30.32),
 	},
+	{
+		job = false,
+		name = "LSSD",
+		color = 47,
+		sprite = 58,
+		scale = 0.8,
+		coord = vector3(-441.85275268555,6017.6030273438,31.656145095825),
+	},
 }
