@@ -1133,7 +1133,7 @@ function generateEstateMenu(prop, owns)
     _menuPool:Add(menu)
 
 	local coords = prop.entering
-	local s1 = InvokeNative( 0x2EB41072B4C1E4C0, coords.x, coords.y, coords.z, PointerValueInt(), PointerValueInt() )
+	local s1 = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
 	local street1 = GetStreetNameFromHashKey(s1)
 
 	local isOwned = NativeUI.CreateItem(Translation[Config.Locale]['info_owned'], '~b~')
