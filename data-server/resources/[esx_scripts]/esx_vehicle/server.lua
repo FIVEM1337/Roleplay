@@ -14,6 +14,14 @@ ESX.RegisterServerCallback('esx_vehiclelock:requestPlayerCars', function(source,
 			local vehicle = vehicles[1]
 			if vehicle.owner == xPlayer.identifier then
 				cb(true)
+			elseif vehicle.owner == xPlayer.job.name then
+				if vehicle.grade >= 0 or xPlayer.job.can_managecars then
+					if vehicle.grade <= xPlayer.job.grade or xPlayer.job.can_managecars then
+						cb(true)
+					else
+						cb(false)
+					end
+				end
 			elseif vehicle.job == xPlayer.job.name then
 				if vehicle.grade >= 0 then
 					if vehicle.grade <= xPlayer.job.grade then
@@ -21,8 +29,6 @@ ESX.RegisterServerCallback('esx_vehiclelock:requestPlayerCars', function(source,
 					else
 						cb(false)
 					end
-				elseif xPlayer.job.can_managecars then
-					cb(true)
 				else
 					cb(false)
 				end
