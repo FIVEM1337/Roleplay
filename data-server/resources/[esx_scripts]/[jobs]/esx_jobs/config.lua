@@ -117,12 +117,16 @@ jobs = {
 			pos = vector3(-164.31999206543,-1173.3905029297,23.07216835022),
 			armory = {
 				{coords = vector3(-131.02766418457,-1173.2042236328,23.869873046875), store_weapon = false, store_items = true},
+				{coords = vector3(-337.84921264648,-142.48876953125,39.013008117676), store_weapon = false, store_items = true},
+				
 			},
 			boss = {
 				{coords = vector3(-132.87945556641,-1172.0834960938,27.332204818726), min_grade = 1},
+				{coords = vector3(-329.42004394531,-119.58020019531,39.012962341309), min_grade = 1},
 			},
 			cloak = {
 				{coords = vector3(-131.17268371582,-1184.4146728516,23.469874954224)},
+				{coords = vector3(-335.78967285156,-119.04692840576,39.012969970703)},
 			},
 			billing = true,
 			hijack_vehicle = true,
