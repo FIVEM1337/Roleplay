@@ -250,7 +250,7 @@ routen = {
 	Weedroute -Illegale Routen
 ]]--
 {
-			illegal = false,
+			illegal = true,
 			{
 				name = "Weedroute | Weed sammeln",
 				title = "Weed",
@@ -329,7 +329,7 @@ routen = {
 	Koksroute
 ]]--
 		{
-			illegal = false,
+			illegal = true,
 			{
 				name = "Koksroute | Blüten sammeln",
 				title = "Koks",
@@ -412,7 +412,7 @@ routen = {
 	Waffenroute
 ]]--
 		{
-			illegal = false,
+			illegal = true,
 			{
 				name = "Waffenroute | Metall sammeln",
 				title = "Metall",
@@ -438,7 +438,7 @@ routen = {
 		},
 		
 		{
-			illegal = false,
+			illegal = true
 			{
 				name = "Waffenroute | Aluminium sammeln",
 				title = "Waffen",
@@ -463,7 +463,7 @@ routen = {
 			},
 		},
 		{
-			illegal = false,
+			illegal = true,
 			{
 				name = "Waffenroute | craft_weaponparte herstellen",
 				title = "Waffen",
@@ -538,7 +538,7 @@ routen = {
 			},
 		},
 		{
-			illegal = false,
+			illegal = true,
 			{
 				name = "Pistolen Händler",
 				title = "Pistolen Händler",
@@ -621,7 +621,7 @@ routen = {
 			},
 		},
 		{
-			illegal = false,
+			illegal = true,
 			{
 				name = "Special Händler",
 				title = "SMG Händler",
