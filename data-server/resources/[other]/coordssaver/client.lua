@@ -1,8 +1,23 @@
 
 RegisterCommand('coords', function(source, args, rawCommand)
 	local coords = GetEntityCoords(PlayerPedId())
+	local heading = GetEntityHeading(PlayerPedId())
+	SendNUIMessage({
+		coords = "coords = vector3("..coords.x..","..coords.y..","..coords.z.."), heading = "..heading
+	})
+end)
+
+RegisterCommand('coords2', function(source, args, rawCommand)
+	local coords = GetEntityCoords(PlayerPedId())
 	SendNUIMessage({
 		coords = ""..coords.x..","..coords.y..","..coords.z..""
+	})
+end)
+
+RegisterCommand('heading', function(source, args, rawCommand)
+	local heading = GetEntityHeading(PlayerPedId())
+	SendNUIMessage({
+		coords = ""..heading..""
 	})
 end)
 
