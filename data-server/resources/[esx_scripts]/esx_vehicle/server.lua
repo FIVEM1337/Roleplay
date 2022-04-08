@@ -21,6 +21,8 @@ ESX.RegisterServerCallback('esx_vehiclelock:requestPlayerCars', function(source,
 					else
 						cb(false)
 					end
+				elseif xPlayer.job.can_managecars then
+					cb(true)
 				else
 					cb(false)
 				end
