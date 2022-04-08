@@ -8,7 +8,11 @@ local HasAlreadyEnteredMarker = false
 local isDead = false
 
 CreateThread(function()
-	PlayerData = ESX.GetPlayerData()
+    Wait(1)
+	while PlayerData.job == nil do
+		PlayerData = ESX.GetPlayerData()
+		Wait(100)
+	end
 end)
 
 RegisterNetEvent('esx:setJob')
