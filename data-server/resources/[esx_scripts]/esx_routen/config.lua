@@ -438,7 +438,7 @@ routen = {
 		},
 		
 		{
-			illegal = true
+			illegal = true,
 			{
 				name = "Waffenroute | Aluminium sammeln",
 				title = "Waffen",
