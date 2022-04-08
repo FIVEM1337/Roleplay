@@ -46,8 +46,8 @@ end)
 CreateThread(function()
 	while true do
         Wait(1)
+        local playerPed = PlayerPedId()
         if isNearPump and not isFueling then
-            local playerPed = PlayerPedId()
             local coords = GetEntityCoords(playerPed)
             PumpCoords = GetEntityCoords(isNearPump)
             if IsPedInAnyVehicle(playerPed) then
@@ -89,23 +89,25 @@ CreateThread(function()
                 end
             end
         else
-            if GetSelectedPedWeapon(playerPed) == 883325847 then
-                local closestVehicle, Distance = ESX.Game.GetClosestVehicle(coords)
-                local vehicleCoords = GetEntityCoords(closestVehicle)
-    
-                if closestVehicle ~= -1 and Distance <= 3.0 then
-                    if GetAmmoInPedWeapon(playerPed, 883325847) > 0 then
-                        if GetVehicleFuelLevel(closestVehicle) < 95 then
-                            ESX.Game.Utils.DrawText3D({x = vehicleCoords.x, y = vehicleCoords.y, z = vehicleCoords.z + 1.2}, 'Drücke [~g~E~w~] um das Fahrzeug mit Kanister zu Tanken', 0.8)
-                            if IsControlJustReleased(0, 38) and not Busy then
-                                isFueling = true
-                                TriggerEvent('esx_fuelstation:FillVehicleFromJerryCan', closestVehicle)
+            if not isFueling then
+                if GetSelectedPedWeapon(playerPed) == 883325847 then
+                    local closestVehicle, Distance = ESX.Game.GetClosestVehicle(coords)
+                    local vehicleCoords = GetEntityCoords(closestVehicle)
+        
+                    if closestVehicle ~= -1 and Distance <= 3.0 then
+                        if GetAmmoInPedWeapon(playerPed, 883325847) > 0 then
+                            if GetVehicleFuelLevel(closestVehicle) < 95 then
+                                ESX.Game.Utils.DrawText3D({x = vehicleCoords.x, y = vehicleCoords.y, z = vehicleCoords.z + 1.2}, 'Drücke [~g~E~w~] um das Fahrzeug mit Kanister zu Tanken', 0.8)
+                                if IsControlJustReleased(0, 38) and not Busy then
+                                    isFueling = true
+                                    TriggerEvent('esx_fuelstation:FillVehicleFromJerryCan', closestVehicle)
+                                end
+                            else
+                                ESX.Game.Utils.DrawText3D({x = vehicleCoords.x, y = vehicleCoords.y, z = vehicleCoords.z + 1.2}, 'Das Fahrzeug ist bereits voll.', 0.8)
                             end
                         else
-                            ESX.Game.Utils.DrawText3D({x = vehicleCoords.x, y = vehicleCoords.y, z = vehicleCoords.z + 1.2}, 'Das Fahrzeug ist bereits voll.', 0.8)
+                            ESX.Game.Utils.DrawText3D({x = vehicleCoords.x, y = vehicleCoords.y, z = vehicleCoords.z + 1.2}, 'Dein Kanister ist Leer.', 0.8)
                         end
-                    else
-                        ESX.Game.Utils.DrawText3D({x = vehicleCoords.x, y = vehicleCoords.y, z = vehicleCoords.z + 1.2}, 'Dein Kanister ist Leer.', 0.8)
                     end
                 end
             end
