@@ -14,17 +14,21 @@ Citizen.CreateThread(function()
 	end
 end)
 
-CreateThread(function()
-	while not Config.Multichar do
-		Wait(0)
-		if NetworkIsPlayerActive(PlayerId()) then
-			exports.spawnmanager:setAutoSpawn(false)
-			DoScreenFadeOut(0)
-			Wait(500)
-			TriggerServerEvent('esx:onPlayerJoined')
-			break
-		end
-	end
+--Citizen.CreateThread(function()
+--	while true do
+--		Citizen.Wait(0)
+--
+--		if NetworkIsPlayerActive(PlayerId()) then
+--			TriggerServerEvent('esx:onPlayerJoined')
+--			break
+--		end
+--	end
+--end)
+
+
+RegisterNetEvent('esx_multichar:loaded')
+AddEventHandler('esx_multichar:loaded', function()
+    TriggerServerEvent('esx:onPlayerJoined')
 end)
 
 RegisterNetEvent('esx:playerLoaded')
@@ -408,25 +412,25 @@ function StartServerSyncLoops()
 			CreateThread(function()
 					local currentWeapon = {Ammo = 0}
 					while ESX.PlayerLoaded do
-						local sleep = 300
-						if GetSelectedPedWeapon(ESX.PlayerData.ped) ~= -1569615261 then
-							sleep = 0
-							local _,weaponHash = GetCurrentPedWeapon(ESX.PlayerData.ped, true)
-							local weapon = ESX.GetWeaponFromHash(weaponHash) 
-							if weapon then
-								local ammoCount = GetAmmoInPedWeapon(ESX.PlayerData.ped, weaponHash)
-								if weapon.name ~= currentWeapon.name then 
-									currentWeapon.Ammo = ammoCount
-									currentWeapon.name = weapon.name
-								else
-									if ammoCount ~= currentWeapon.Ammo then
-										currentWeapon.Ammo = ammoCount
-										TriggerServerEvent('esx:updateWeaponAmmo', weapon.name, ammoCount)
-									end 
-								end   
-							end
-						end    
-					Wait(sleep)
+							local sleep = 250
+							if GetSelectedPedWeapon(ESX.PlayerData.ped) ~= -1569615261 then
+									sleep = 0
+									local _,weaponHash = GetCurrentPedWeapon(ESX.PlayerData.ped, true)
+									local weapon = ESX.GetWeaponFromHash(weaponHash) 
+									if weapon then
+										local ammoCount = GetAmmoInPedWeapon(ESX.PlayerData.ped, weaponHash)
+											if weapon.name ~= currentWeapon.name then 
+												currentWeapon.Ammo = ammoCount
+												currentWeapon.name = weapon.name
+											else
+												if ammoCount ~= currentWeapon.Ammo then
+													currentWeapon.Ammo = ammoCount
+													TriggerServerEvent('esx:updateWeaponAmmo', weapon.name, ammoCount)
+											end 
+										end   
+									end
+							end    
+							Wait(sleep)
 					end
 			end)
 	end

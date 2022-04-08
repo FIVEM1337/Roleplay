@@ -290,7 +290,7 @@ function generateGenderMenu(firstspawn)
         creatorMenu:Visible(false)
         TriggerEvent('skinchanger:getSkin', function(finalSkin)
             TriggerServerEvent('register:saveSkin', finalSkin)
-            FreezeEntityPosition(PlayerPedId(), false)
+            generateClothesMenu(finalSkin)
         end)
         DeleteSkinCam()
     end
