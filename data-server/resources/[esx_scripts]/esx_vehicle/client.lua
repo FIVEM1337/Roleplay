@@ -401,56 +401,34 @@ CreateThread(function()
 				TaskPlayAnim(ped, 'missfinale_c2ig_11', 'pushcar_offcliff_m', 2.0, -8.0, -1, 35, 0, 0, 0, 0)
 				Wait(200)
 
-				local currentVehicle = Vehicle.Vehicle
-				 while true do
-					Wait(5)
-					vehicle = GetVehiclePedIsIn(ped, false)
-					local rotangle = GetVehicleSteeringAngle(Vehicle.Vehicle)
-					if IsDisabledControlPressed(0, 34) then -- KEY A
-					  --TaskVehicleTempAction(PlayerPedId(), currentVehicle, 11, 1000)
-					  if angle < anglemax then
-						angle = angle + rotangle
-						SetVehicleSteeringAngle(vehicle, angle)
-					  end
-					end
+                local currentVehicle = Vehicle.Vehicle
+                 while true do
+                    Citizen.Wait(5)
+                    if IsDisabledControlPressed(0, 34) then -- KEY A
+                        TaskVehicleTempAction(PlayerPedId(), currentVehicle, 11, 1000)
+                    end
 
-					if IsDisabledControlPressed(0, 9) then -- KEY D
-					  --TaskVehicleTempAction(PlayerPedId(), currentVehicle, 10, 1000)
-					  if angle > anglemin then
-						angle = angle - rotangle
-						SetVehicleSteeringAngle(vehicle, angle)
-					  end
-					  SetVehicleSteeringAngle(vehicle, angle)
-					end
+                    if IsDisabledControlPressed(0, 9) then -- KEY D
+                        TaskVehicleTempAction(PlayerPedId(), currentVehicle, 10, 1000)
+                    end
 
-					if IsDisabledControlPressed(0, 32) then -- KEY W
-					  --TaskVehicleTempAction(PlayerPedId(), currentVehicle, 11, 1000)
-					  if angle > 0.0 then
-						angle = angle - rotangle
-						SetVehicleSteeringAngle(vehicle, angle)
-					  elseif angle < 0.0 then
-						angle = angle + rotangle
-						SetVehicleSteeringAngle(vehicle, angle)
-					  end
-					end
+                    if Vehicle.IsInFront then
+                        SetVehicleForwardSpeed(currentVehicle, -1.0)
+                    else
+                        SetVehicleForwardSpeed(currentVehicle, 1.0)
+                    end
 
-					if vehicle then
-						SetVehicleForwardSpeed(vehicle, -1.0)
-					else
-						SetVehicleForwardSpeed(vehicle, 1.0)
-					end
+                    if HasEntityCollidedWithAnything(currentVehicle) then
+                        SetVehicleOnGroundProperly(currentVehicle)
+                    end
 
-					if HasEntityCollidedWithAnything(vehicle) then
-						SetVehicleOnGroundProperly(vehicle)
-					end
-
-					if not IsDisabledControlPressed(0, 21) then -- KEY E
-						DetachEntity(ped, false, false)
-						StopAnimTask(ped, 'missfinale_c2ig_11', 'pushcar_offcliff_m', 2.0)
-						FreezeEntityPosition(ped, false)
-						break
-					end
-				end
+                    if not IsDisabledControlPressed(0, 21) then -- KEY E
+                        DetachEntity(ped, false, false)
+                        StopAnimTask(ped, 'missfinale_c2ig_11', 'pushcar_offcliff_m', 2.0)
+                        FreezeEntityPosition(ped, false)
+                        break
+                    end
+                end
 			end
 		end
 	end
