@@ -47,7 +47,7 @@ CreateThread(function()
 	while true do
         Wait(1)
         local playerPed = PlayerPedId()
-        if isNearPump and not isFueling then
+        if isNearPump and not isFueling and GetEntityHealth(isNearPump) > 0 then
             local coords = GetEntityCoords(playerPed)
             PumpCoords = GetEntityCoords(isNearPump)
             if IsPedInAnyVehicle(playerPed) then
