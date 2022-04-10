@@ -190,7 +190,7 @@ function UIVisual:ShowFreemodeMessage(array)
     while array.time > 0 do
         Citizen.Wait(1)
         array.time = array.time - 1.0
-        DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255)
+        DrawScaleformMovie(scaleform, 0.512, 0.46, 1.0, 1.0, 255, 255, 255, 255, 0)
     end
     if (array.screen_effect_in ~= nil) then
         StopScreenEffect(array.screen_effect_in)

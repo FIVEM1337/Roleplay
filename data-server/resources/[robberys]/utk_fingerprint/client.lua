@@ -394,7 +394,7 @@ AddEventHandler("StartHack", function()
             if G_22 == true then
                 F_4("mphackinggame", G_3, 0.5, 0.5, 600.0, 250.0, 0.0, 255, 255, 255, 255, 0)
             end
-            DrawScaleformMovieFullscreen(G_23, 255, 255, 255, 255, 0)
+            DrawScaleformMovie(G_23, 0.512, 0.46, 1.0, 1.0, 255, 255, 255, 255, 0)
             Citizen.Wait(1)
         end
     end)

@@ -441,7 +441,7 @@ Doors.GetTextLocation = function(doors)
 
     DrawText3D(text_pos + move_offset,"🔒",20.0,1.0)
 
-    DrawScaleformMovieFullscreen(scaleform,255,255,255,255,0)
+    DrawScaleformMovie(scaleform, 0.512, 0.46, 1.0, 1.0, 255, 255, 255, 255, 0)
     Wait(0)
   end
 

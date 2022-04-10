@@ -43,14 +43,14 @@ Drilling.Update = function(callback)
     Drilling.Draw()
     Drilling.DisableControls()
     Drilling.HandleControls()
-    DrawScaleformMovieFullscreen(form, 255, 255, 255, 255, 0)
+    DrawScaleformMovie(form, 0.512, 0.46, 1.0, 1.0, 255, 255, 255, 255, 0)
     Wait(0)
   end
   callback(Drilling.Result)
 end
 
 Drilling.Draw = function()
-  DrawScaleformMovieFullscreen(Drilling.Scaleform,255,255,255,255,255)
+  DrawScaleformMovie(Drilling.Scaleform, 0.512, 0.46, 1.0, 1.0, 255, 255, 255, 255, 0)
 end
 
 Drilling.HandleControls = function()
