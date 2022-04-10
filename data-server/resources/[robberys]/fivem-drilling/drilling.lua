@@ -65,6 +65,14 @@ Drilling.HandleControls = function()
     Drilling.DrillPos = math.max(0.0,Drilling.DrillPos - (0.1 * GetFrameTime()))
   end
 
+
+  if IsControlJustPressed(0,178) then
+    if Drilling.Active then
+      Drilling.Active = false
+    Drilling.Result = 3
+    end
+  end
+
   local last_speed = Drilling.DrillSpeed
   if IsControlJustPressed(0,175) then
     Drilling.DrillSpeed = math.min(1.0,Drilling.DrillSpeed + 0.05)
