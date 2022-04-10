@@ -53,7 +53,7 @@ jobs = {
 	sheriff = {
 			job = "sheriff",
 			society = true,
-			Blip = {name = "Sheriffrevier", color = 47, sprite = 58, scale = 1.2, alwayshow = true},
+			Blip = {name = "Sheriffrevier", color = 47, sprite = 58, scale = 0.8, alwayshow = true},
 			pos = vector3(-446.57583618164,6014.7001953125,31.716331481934),
 			armory = {
 				{coords = vector3(-438.38311767578,5989.4423828125,31.716180801392), store_weapon = true, store_items = true},
@@ -133,4 +133,36 @@ jobs = {
 			fix_vehicle = true,
 			clean_vehicle = true,
 		},
-}
+		government = {
+			job = "government",
+			society = true,
+			Blip = {name = "Regierung", color = 40, sprite = 58, scale = 0.8, alwayshow = true},
+			pos = vector3(-534.06964111328,-221.12033081055,37.649681091309),
+			armory = {
+				{coords = vector3(-553.20111083984,-182.4529876709,38.22110748291), store_weapon = false, store_items = true},
+				
+			},
+			boss = {
+				{coords = vector3(-520.29376220703,-170.75161743164,42.836582183838), min_grade = 1},
+			},
+			cloak = {
+				{coords = vector3(-537.00866699219,-180.30082702637,38.221069335938)},
+			},
+		},
+		taxi = {
+			job = "taxi",
+			society = true,
+			Blip = {name = "Taxi HQ", color = 46, sprite = 198, scale = 0.8, alwayshow = true},
+			pos = vector3(911.87017822266,-173.79040527344,74.279327392578),
+			armory = {
+				{coords = vector3(889.58233642578,-177.95397949219,81.595062255859), store_weapon = false, store_items = true},
+				
+			},
+			boss = {
+				{coords = vector3(906.84686279297,-151.99301147461,83.494972229004), min_grade = 1},
+			},
+			cloak = {
+				{coords = vector3(896.50994873047,-162.76306152344,81.594970703125)},
+			},
+		},
+	}
