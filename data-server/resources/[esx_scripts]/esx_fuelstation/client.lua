@@ -68,7 +68,7 @@ CreateThread(function()
                 end
             else
                 local closestVehicle, Distance = ESX.Game.GetClosestVehicle(coords)
-                if closestVehicle ~= -1 and Distance <= 3.0 then
+                if closestVehicle ~= -1 and Distance <= 5.0 then
                     if IsCorrectVehicleType(closestVehicle) then
                         if GetVehicleFuelLevel(closestVehicle) < 100 then 
                             if currentCash and currentCash >= Config.Price then
