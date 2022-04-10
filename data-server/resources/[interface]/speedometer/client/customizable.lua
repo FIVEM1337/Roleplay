@@ -64,14 +64,14 @@ end)
 CreateThread(function()
 
 	while true do
-		if IsPedInAnyVehicle(PlayerPedId()) then
-			SendNUIMessage({action = "show_seatbelt", show = true})
-
-			SendNUIMessage({action = "seatbelt", seatbelted = GetPedConfigFlag(PlayerPedId(), 32)})
-
-
-
-			if GetPedVehicleSeat(PlayerPedId()) ~= -1 then
+		local PlayerPed = PlayerPedId()
+		local PlayerVehicle = GetVehiclePedIsUsing(PlayerPed)
+		local VehicleClass = GetVehicleClass(PlayerVehicle)
+		if IsPedInAnyVehicle(PlayerPed, false) and VehicleClass ~= 8 and VehicleClass ~= 13 and VehicleClass ~= 14 and VehicleClass ~= 15 and VehicleClass ~= 16 then
+			SendNUIMessage({action = "show_seatbelt", show = true})	
+			SendNUIMessage({action = "seatbelt", seatbelted = GetPedConfigFlag(PlayerPed, 32)})
+	
+			if GetPedVehicleSeat(PlayerPed) ~= -1 then
 				isHudHidden = true
 				SendNUIMessage({
 					HideHud = isHudHidden
