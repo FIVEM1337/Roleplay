@@ -1,14 +1,14 @@
 fx_version 'bodacious'
 game 'gta5'
 
+lua54 'yes'
+
 ui_page 'html/ui.html'
+
+shared_script '@es_extended/imports.lua'
 
 client_scripts {
 	'client.lua',
-}
-
-server_scripts {
-	'server.lua'
 }
 
 files {
@@ -16,7 +16,6 @@ files {
 	-- Main Images
 	'html/ui.html',
 	'html/style.css',
-	'html/grid.css',
 	'html/main.js',
 	-- Money Images
 	'html/img/credit-card.png',
@@ -35,7 +34,7 @@ files {
 	'html/img/jobs/garbage.png',
 	'html/img/jobs/lumberjack.png',
 	'html/img/jobs/slaughterer.png',
-	'html/img/jobs/mecano.png',
+	'html/img/jobs/mechanic.png',
 	'html/img/jobs/miner.png',
 	'html/img/jobs/pizza.png',
 	'html/img/jobs/police.png',
@@ -54,7 +53,14 @@ files {
 	'html/img/speaker3.png',
 	'html/img/speaker4.png',
 	'html/img/drunk.png',
-	'html/img/backpack.png'
+	'html/img/backpack.png',
+	'html/img/voice/not_talking.png',
+	'html/img/voice/talking.png',
+	'html/img/voice/muted.png',
+	'html/img/voice/not_connected.png',
+	'html/img/voice/sound_muted.png',
+	'html/img/logo/logo.gif',
+	'html/img/logo/logo.png'
 }
 
-lua54 'yes'
+dependency 'es_extended'

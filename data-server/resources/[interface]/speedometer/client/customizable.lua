@@ -61,6 +61,38 @@ AddEventHandler('hudevents:leftVehicle', function()
 	end
 end)
 
+CreateThread(function()
+
+	while true do
+		if IsPedInAnyVehicle(PlayerPedId()) then
+			SendNUIMessage({action = "show_seatbelt", show = true})
+
+			SendNUIMessage({action = "seatbelt", seatbelted = GetPedConfigFlag(PlayerPedId(), 32)})
+
+
+
+			if GetPedVehicleSeat(PlayerPedId()) ~= -1 then
+				isHudHidden = true
+				SendNUIMessage({
+					HideHud = isHudHidden
+				})
+			else
+				if isHudHidden then
+					isHudHidden = false
+					SendNUIMessage({
+						HideHud = isHudHidden
+					})
+				end	
+			end
+			Wait(100)
+		else
+			SendNUIMessage({action = "show_seatbelt", show = false})
+			Wait(500)
+		end
+	end
+end)
+
+
 RegisterNetEvent("hudevents:enteredVehicle")
 AddEventHandler('hudevents:enteredVehicle', function(currentVehicle, currentSeat, vehicle_name, net_id)
 
@@ -70,6 +102,10 @@ AddEventHandler('hudevents:enteredVehicle', function(currentVehicle, currentSeat
 
 		isInVehicle = true
 		SetPedConfigFlag(PlayerPedId(), 32, true)
+
+		if currentSeat ~= -1 then	
+			return
+		end
 
 		if isHudHidden then
 			isHudHidden = false
@@ -126,8 +162,7 @@ AddEventHandler('hudevents:enteredVehicle', function(currentVehicle, currentSeat
 							CurrentCarFuelAmount = math.ceil(fuelamount),
 							CurrentDisplayKMH = displayKMH,
 							CurrentCarBrake = carBrakePressure,
-							CurrentNitro = nitro,						
-							seatbelt = seatbeltOn
+							CurrentNitro = nitro
 						})		
 					end
 				end

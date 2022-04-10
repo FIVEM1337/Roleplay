@@ -3,6 +3,23 @@ var speedText = ''
 window.addEventListener("message", function(event) {
 	var item = event.data
 
+
+	
+
+	if (event.data.action == "seatbelt"){
+		if (event.data.seatbelted){
+			$(".seatbelt-info img").attr('src', './images/seatbelt.png');
+		} else{
+			$(".seatbelt-info img").attr('src', './images/seatbelt-on.png');
+		}
+	}
+
+
+	if (event.data.action == "show_seatbelt"){
+		document.getElementById("seatbelt-info").classList.toggle("show",event.data.show)
+	}
+
+
 	if (item.ShowHud) {
 
 		s_Rpm = item.CurrentCarRPM
@@ -19,11 +36,6 @@ window.addEventListener("message", function(event) {
 			$(".unitdisplay").html("KM/H");
 		}
 		
-		if (item.seatbelt) {
-			$(".seatbelt-info img").attr('src', './images/seatbelt-on.png');
-		} else {
-			$(".seatbelt-info img").attr('src', './images/seatbelt.png');
-		}
 
 		if (s_nitro <= 0) {
 			$("#nitroshow").css("display","none")

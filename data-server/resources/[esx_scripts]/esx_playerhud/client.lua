@@ -1,77 +1,119 @@
-ESX = nil
-local isTalking = false
-local isMuted = false
-local currentRange = 3.5
-
-local markerOn = false
-local markerTimer = 0
-local Spawned = true
-
-
+local isTalking, isMuted, IsConnected, currentRange, markerOn, markerTimer = false, false, true, 3.5, false, 0
+local postals = json.decode(LoadResourceFile(GetCurrentResourceName(), "json/postals.json"))
+local Spawned = false
+local show = false
+local minimap_show = false
 CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Wait(0)
-	end
 
 	while true do
-		Wait(100)
 		if Spawned then
-			if IsMinimapRendering() then
-				SendNUIMessage({action = "toggle", show = true})
+			if show then
+				if IsPauseMenuActive() then
+					SendNUIMessage({action = "show", show = false})
+					show = false
+				end
 			else
-				SendNUIMessage({action = "toggle", show = false})
+				if not IsPauseMenuActive() then
+					SendNUIMessage({action = "show", show = true})
+					show = true
+				end
 			end
-			if IsPauseMenuActive() then
-				SendNUIMessage({action = "toggle", show = false})
-			else
-				SendNUIMessage({action = "toggle", show = true})
-			end
+			Wait(1)
+		else
+			Wait(100)
 		end
 	end
 end)
 
 
--- Disable Cinematic AFK Camera
 CreateThread(function()
 	while true do
-		InvalidateIdleCam()
-		InvalidateVehicleIdleCam()
-		Wait(1000)
+	
+		Wait(1)
+		if Spawned then
+			if IsPedInAnyVehicle(PlayerPedId()) then
+				if not IsMinimapRendering() then
+					DisplayRadar(true)
+				end
+			else
+				if IsMinimapRendering() then
+					DisplayRadar(false)
+				end
+			end
+		else
+			if IsMinimapRendering() then
+				DisplayRadar(false)
+			end
+		end
 	end
 end)
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer) 
 	TriggerEvent("esx_playerhud:LoadPlayerDataHUD", xPlayer)
-	Spawned = true
 	UpdateMinimapLocation()
+	Wait(100)
+	Spawned = true
 end)
 
-RegisterNetEvent("reload_esx_playerhud") 
-AddEventHandler("reload_esx_playerhud", function(xPlayer)
-	TriggerEvent("esx_playerhud:LoadPlayerDataHUD", xPlayer)
+AddEventHandler('onResourceStart', function(resource)
+	if resource == GetCurrentResourceName() then
+		UpdateMinimapLocation()
+		Wait(100)
+		Spawned = true
+
+		TriggerEvent("esx_playerhud:LoadPlayerDataHUD")
+	end
 end)
+
+function UpdateMinimapLocation()
+	CreateThread(function()
+		-- Get screen aspect ratio
+		local ratio = GetScreenAspectRatio()
+
+		-- Default values for 16:9 monitors
+		local posX = -0.0045
+		local posY = -0.020
+
+		if tonumber(string.format("%.2f", ratio)) >= 2.3 then
+			-- Ultra wide 3440 x 1440 (2.39)
+			-- Ultra wide 5120 x 2160 (2.37)
+			posX = -0.185
+			posY = -0.020
+			print('Ultra Wide Monitor found adjust Minimap position')
+		else 
+			posX = -0.0045
+			posY = -0.020
+
+		end
+
+		SetMinimapComponentPosition('minimap', 'L', 'B', posX, posY, 0.150, 0.188888)
+		SetMinimapComponentPosition('minimap_mask', 'L', 'B', posX + 0.0155, posY + 0.03, 0.111, 0.159)
+		SetMinimapComponentPosition('minimap_blur', 'L', 'B', posX - 0.0255, posY + 0.02, 0.266, 0.237)
+
+		SetRadarBigmapEnabled(true, false)
+		Wait(500)
+		SetRadarBigmapEnabled(false, false)
+	end)
+end
+  
+  RegisterCommand('reload-map', function(src, args)
+	UpdateMinimapLocation()
+  end, false)
+
 
 RegisterNetEvent("esx_playerhud:LoadPlayerDataHUD") 
-AddEventHandler("esx_playerhud:LoadPlayerDataHUD", function(xPlayer)
-	local data = xPlayer
-	local accounts = data.accounts
-	for k,v in pairs(accounts) do
+AddEventHandler("esx_playerhud:LoadPlayerDataHUD", function()
+	local PlayerData = ESX.GetPlayerData()
+
+	for k,v in pairs(PlayerData.accounts) do
 		local account = v
 		if account.name == "money" then
-			SendNUIMessage({action = "setValue", key = "money", value = "$"..ESX.Math.GroupDigits(account.money)})
-		elseif account.name == "bank" then
-			SendNUIMessage({action = "setValue", key = "bankmoney", value = "$"..ESX.Math.GroupDigits(account.money)})
-		elseif account.name == "black_money" then
-			SendNUIMessage({action = "setValue", key = "dirtymoney", value = "$"..ESX.Math.GroupDigits(account.money)})
-		elseif account.name == "crypto" then
-			SendNUIMessage({action = "setValue", key = "cryptomoney", value = ESX.Math.GroupDigits(account.money) .." BTC"})
+			SendNUIMessage({action = "setValue", key = "money", value = ESX.Math.GroupDigits(account.money)})
 		end
 	end
 	-- Job
-	local job = data.job
-	SendNUIMessage({action = "setValue", key = "job", value = job.label.." - "..job.grade_label, icon = job.name})
+	SendNUIMessage({action = "setValue", key = "job", value = PlayerData.job.label.." - "..PlayerData.job.grade_label, icon = PlayerData.job.name})
 
 	-- Player ID
 	SendNUIMessage({action = "setValue", key = "player_id", value = "ID: "..GetPlayerServerId(NetworkGetEntityOwner(PlayerPedId()))})
@@ -92,25 +134,10 @@ AddEventHandler("esx_playerhud:LoadPlayerDataHUD", function(xPlayer)
 	SendNUIMessage({action = "updateStatus", hunger = currenthunger, thirst = currentthirst, stress = currentstress})
 end)
 
-CreateThread(function()
-	while true do
-		Wait(1000)
-		location = getPlayerLocation()
-		SendNUIMessage({action = "setValue", key = "postal", value = location})
-	end
-end)
-
-
 RegisterNetEvent('esx:setAccountMoney')
 AddEventHandler('esx:setAccountMoney', function(account)
 	if account.name == "money" then
-		SendNUIMessage({action = "setValue", key = "money", value = "$"..ESX.Math.GroupDigits(account.money)})
-	elseif account.name == "bank" then
-		SendNUIMessage({action = "setValue", key = "bankmoney", value = "$"..ESX.Math.GroupDigits(account.money)})
-	elseif account.name == "black_money" then
-		SendNUIMessage({action = "setValue", key = "dirtymoney", value = "$"..ESX.Math.GroupDigits(account.money)})
-	elseif account.name == "crypto" then
-		SendNUIMessage({action = "setValue", key = "cryptomoney", value = ESX.Math.GroupDigits(account.money) .." BTC"})
+		SendNUIMessage({action = "setValue", key = "money", value = ESX.Math.GroupDigits(account.money)})
 	end
 end)
 
@@ -136,23 +163,64 @@ AddEventHandler('esx_playerhud:updateStatus', function(status)
 end)
 
 
+-- Disable Afk Cam
+CreateThread(function()
+	while true do
+		InvalidateIdleCam()
+		InvalidateVehicleIdleCam()
+		Wait(1000)
+	end
+end)
+-- Disable Afk Cam End
+
+-- Voice
 AddEventHandler("SaltyChat_VoiceRangeChanged", function(range)
 	currentRange = range
 
 	MarkerTimer()
-	SendNUIMessage({action = "setVoiceRange", range = range, muted = isMuted})
+	SetVoice()
 end)
 
 AddEventHandler("SaltyChat_TalkStateChanged", function(talking)
 	isTalking = talking
-
-    if isTalking then
-        SendNUIMessage({action = "setTalking", value = true})
-    else
-        SendNUIMessage({action = "setTalking", value = false})
-    end
-
+	SetVoice()
 end)
+
+AddEventHandler("SaltyChat_MicStateChanged", function(muted)
+	if muted then
+		isMuted = true
+	else
+		isMuted = false
+	end
+	SetVoice()
+end)
+
+AddEventHandler("SaltyChat_PluginStateChanged", function(pluginState)
+	if pluginState ~= 2 then
+		IsConnected = false
+	else
+		IsConnected = true
+	end
+	SetVoice()
+end)
+
+AddEventHandler("SaltyChat_RadioChannelChanged", function(radioChannel, isPrimaryChannel)
+	if radioChannel then
+		SendNUIMessage({action = "setValue", key = "radio", value = radioChannel.." MHZ"})
+	else
+		SendNUIMessage({action = "setValue", key = "radio", value = "--- MHZ"})
+	end
+end)
+
+CreateThread(function()
+	Wait(1)
+	currentRange = exports.saltychat:GetVoiceRange()
+	SetVoice()
+end)
+
+function SetVoice()
+	SendNUIMessage({action = "setVoice", range = currentRange, muted = isMuted, talking = isTalking, connected = IsConnected})
+end
 
 CreateThread(function()
 	while true do
@@ -186,86 +254,81 @@ function Marker(type, x, y, z, range)
 	end
 end
 
-AddEventHandler("SaltyChat_MicStateChanged", function(muted)
-	isMuted = muted
+--Voice End
 
-	if isMuted then
-		SendNUIMessage({action = "setVoiceRange", range = exports.saltychat:GetVoiceRange(), muted = true})
-	else
-		SendNUIMessage({action = "setVoiceRange", range = exports.saltychat:GetVoiceRange(), muted = false})
+-- Clock
+function CalculateTimeToDisplay()
+	if month <= 9 then
+		month = 0 .. month
+	end
+	if dayOfWeek <= 9 then
+		dayOfWeek = 0 .. dayOfWeek
+	end
+	if hour <= 9 then
+		hour = 0 .. hour
+	end
+	if minute <= 9 then
+		minute = 0 .. minute
 	end
 
-end)
-
-AddEventHandler('onResourceStart', function(resource)
-	if resource == GetCurrentResourceName() then
-		SendNUIMessage({action = "toggle", show = true})
-		Spawned = true
-		UpdateMinimapLocation()
+	if secound <= 9 then
+		secound = 0 .. secound
 	end
-end)
-
-
-function getPlayerLocation()
-    local raw = LoadResourceFile(GetCurrentResourceName(), "json/postals.json")
-    local postals = json.decode(raw)
-    local nearest = nil
-
-
-    local ped = PlayerPedId()
-    local playerCoords = GetEntityCoords(ped)
-
-    local x, y = table.unpack(playerCoords)
-
-	local ndm = -1
-	local ni = -1
-	for i, p in ipairs(postals) do
-		local dm = (x - p.x) ^ 2 + (y - p.y) ^ 2
-		if ndm == -1 or dm < ndm then
-			ni = i
-			ndm = dm
-		end
-	end
-
-	if ni ~= -1 then
-		local nd = math.sqrt(ndm)
-		nearest = {i = ni, d = nd}
-	end
-	_nearest = postals[nearest.i].code
-	return _nearest
 end
 
-function UpdateMinimapLocation()
-	CreateThread(function()
-		-- Get screen aspect ratio
-		local ratio = GetScreenAspectRatio()
+CreateThread(function()
+	local offset = 2
+	while true do
+		Wait(1000)
+		year, month, dayOfWeek, hour, minute, secound = GetLocalTime()
+		hour = hour + offset
+		timeString = ""
+		dateString = ""
+		CalculateTimeToDisplay()
 
-		-- Default values for 16:9 monitors
-		local posX = -0.0045
-		local posY = 0.002
+		dateString = "" .. dayOfWeek .. "." .. month .. "." .. year .. ""
+		timeString = "" .. hour .. ":" .. minute .. ":" .. secound .. ""
 
-		if tonumber(string.format("%.2f", ratio)) >= 2.3 then
-			-- Ultra wide 3440 x 1440 (2.39)
-			-- Ultra wide 5120 x 2160 (2.37)
-			posX = -0.185
-			posY = 0.00
-			print('Ultra Wide Monitor found adjust Minimap position')
-		else 
-			posX = -0.0045
-			posY = 0.002
 
+		SendNUIMessage({action = "setValue", key = "date", value = dateString})
+		SendNUIMessage({action = "setValue", key = "time", value = timeString})
+	end
+end)
+--Clock end
+
+-- Postal Code
+CreateThread(function()
+	local ped = PlayerPedId()
+	while true do
+		local nearest = nil
+	
+		local playerCoords = GetEntityCoords(ped)
+	
+		local ndm = -1
+		local ni = -1
+		for i, p in ipairs(postals) do
+			local dm = (playerCoords.x - p.x) ^ 2 + (playerCoords.y - p.y) ^ 2
+			if ndm == -1 or dm < ndm then
+				ni = i
+				ndm = dm
+			end
 		end
+	
+		if ni ~= -1 then
+			local nd = math.sqrt(ndm)
+			nearest = {i = ni, d = nd}
+		end
+		_nearest = postals[nearest.i].code
+		SendNUIMessage({action = "setValue", key = "postal", value = "PLZ-".._nearest})
+		Wait(1000)
+	end
+end)
+--Postal Code End
 
-		SetMinimapComponentPosition('minimap', 'L', 'B', posX, posY, 0.150, 0.188888)
-		SetMinimapComponentPosition('minimap_mask', 'L', 'B', posX + 0.0155, posY + 0.03, 0.111, 0.159)
-		SetMinimapComponentPosition('minimap_blur', 'L', 'B', posX - 0.0255, posY + 0.02, 0.266, 0.237)
 
-		SetRadarBigmapEnabled(true, false)
-		Wait(500)
-		SetRadarBigmapEnabled(false, false)
-	end)
-end
-  
-  RegisterCommand('reload-map', function(src, args)
-	UpdateMinimapLocation()
-  end, false)
+CreateThread(function()
+    while true do
+        Wait(500)
+		SendNUIMessage({action = "updateStatus2", health = (GetEntityHealth(GetPlayerPed(-1))-100), armor = GetPedArmour(GetPlayerPed(-1))})
+    end
+end)

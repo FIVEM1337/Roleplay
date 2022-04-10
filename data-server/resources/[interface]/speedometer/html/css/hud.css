@@ -33,14 +33,14 @@
 
 #rpmshow {
 	position: fixed;
-	bottom: 30px;
+	bottom: 50px;
 	right: 34px;
 	filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.0));
 }
 
 #nitroshow {
 	position: fixed;
-	bottom: 49px;
+	bottom: 69px;
 	right: 185px;
 	filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.0));
 	transform: rotate(140deg);
@@ -48,7 +48,7 @@
 
 .speedcircle {
 	width: 80px;
-	height: 80px;
+	height: 100px;
 	position: fixed;
 	bottom: 155px;
 	right: 185px;
@@ -61,7 +61,7 @@
 	width: 28px;
 	height: 28px;
 	position: fixed;
-	bottom: 40px;
+	bottom: 60px;
 	right: 120px;
 	color: rgb(63, 249, 165);
 	border: 1px solid rgb(63, 249, 165);
@@ -109,25 +109,25 @@
 
 .int1 {
 	position: fixed;
-	bottom: 90px;
+	bottom: 110px;
 	right: 150px;
 }
 
 .int2 {
 	position: fixed;
-	bottom: 90px;
+	bottom: 110px;
 	right: 110px;
 }
 
 .int3 {
 	position: fixed;
-	bottom: 90px;
+	bottom: 110px;
 	right: 70px;
 }
 
 .displaykmh {
 	position: fixed;
-	bottom: 160px;
+	bottom: 180px;
 	right: 110px;
 	color: rgba(255, 255, 255, 0.6);
 	font-family: 'Hurme-Light';
@@ -138,7 +138,7 @@
 
 .unitdisplay {
 	position: fixed;
-	bottom: 85px;
+	bottom: 105px;
 	right: 120px;
 	color: rgba(255, 255, 255, 0.6);
 	font-family: 'Hurme-Light';
@@ -161,7 +161,7 @@
 
 .fuel {
 	position: fixed;
-	bottom: 190px;
+	bottom: 210px;
 	right: 215;
 	color: rgba(255, 255, 255, 1);
 	font-family: 'Hurme-Light';
@@ -184,15 +184,28 @@
 }
 
 
-.seatbelt-info {
+.seatbelt-info{
 	position: absolute;
-	bottom: 20px;
+	bottom: 60px;
 	right: 20px;
 	width: 30px;
 	height: 30px;
+	display: none;
+}
+
+.seatbelt-info.show{
+	display: block;
 }
 
 .seatbelt-info img {
 	width: 100%;
 	height: 100%;
+}
+
+.main{
+	position:absolute;
+	bottom:0%;
+	width:100%;
+	left: 0%;
+	display: none;
 }

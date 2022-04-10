@@ -1,94 +1,114 @@
-﻿@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');
-* {padding: 0; margin: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif;}
-
-.playerStats{
-	z-index: 1;
-	position: absolute;
-	left: 16.5%;
-	bottom: 5px;
-}
-
-@media only screen and (max-width: 1920px) {
-	.playerStats {
-		left: 16.5%;
-		bottom: 5px;
-	}
-}
-
-@media only screen and (min-width: 1921px) {
-	.playerStats {
-		left: 12.0%;
-		bottom: 1%;
-	}
-}
-
-.ui{
+﻿
+.main{
+	position:absolute;
+	bottom:0%;
+	width:100%;
+	left: 0%;
 	display: none;
 }
 
-
-.ui.show{
-	display: block;
+.main.show {
+    display: block;
 }
 
-.stat{
-	color: #fff;
-	background: linear-gradient(to left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
-	width: 220px;
-	height: 25px;
-	position: relative;
-	margin-bottom: 4px;
-	font-size: 12px;
+.logo {
+	position:absolute;
+	z-index: 999;
+    left: 1%;
+	bottom:0%;
 }
 
-.stat .icon{
-	height: 25px;
-	width: 30px;
-	background: linear-gradient(to left, rgba(0,0,0,0) 50%,rgba(0,0,0,0.65) 50%);
-	border-radius: 50%;
-	position: relative;
-	display: inline-block;
-	right: 15px;
-}
-
-.stat .icon i, .stat .icon img{
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
-
-.stat .icon img{
-	height: 18px;
-	width: 18px;
+.logo img{
+	width: 45px;
+	height: 45px;;
 }
 
 
-.stat span{
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	margin-left: -10px;
+.main_container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column; 
+    flex-wrap: nowrap; 
+    height: 100%;
+    gap: 0x;
 }
 
+.voice_item { 
+	align-self: center;
+    /* flex:0 1 auto; */
+    flex-grow:1;
+	padding-bottom: 20px;
+}
+
+.health_armor_item { 
+	align-self: center;
+    /* flex:0 1 auto; */
+    flex-grow:1;
+}
+			
+.hud_item { 
+    /* flex:0 1 auto; */
+    flex-grow:1;
+	background-color: rgba(0, 0, 0, 0.73);
+}
+
+.hud_main_container {
+    display : flex;
+	height: 100%;
+    justify-content : space-between;
+}
+
+.hud_left_item, .hud_right_item {
+   flex-grow: 1;
+   flex-basis: 0;
+   height: 50px;
+}
+
+.center_hud_container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;    
+    height: 100%;
+    gap: 5px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.left_hud_container {
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;    
+    height: 100%;
+    gap: 30px;
+}
+
+.right_hud_container {
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center;    
+    height: 100%;
+    gap: 30px;
+}
+
+.right_hud_container, .left_hud_container, .center_hud_container  > div{
+	text-align: center;
+	color:rgb(255, 255, 255);
+}
+
+/* left_hud_container_items */
+.location::before {
+	font-family: "Font Awesome 5 Free"; 
+	font-weight: 900;
+	content: "\f3c5";
+	padding-right: 7px;
+	color: rgb(194, 20, 20);
+	vertical-align: middle;
+}
 
 .status{
 	display: flex;
-	width: 195px;
+	width: 100%;
 	position: relative;
-	left: -15px;
-}
-
-.status2{
-	width: 37px;
-	position: absolute;
-	left: 1.6%; 
-	bottom: 17.30%; 
-}
-
-.status2 span{
-	color: rgb(0, 0, 0);
-	font-weight: bold;
 }
 
 .vert-stat{
@@ -108,18 +128,164 @@
 	bottom: 0;
 }
 
-.vert-stat img{
-	width: 50%;
+.vert-stat svg{
+	width: 40%;
 	position: absolute;
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
+	fill: rgb(255, 255, 255);
 }
 
 
-#gas{
+.funk::before {
+	font-family: "Font Awesome 5 Free"; 
+	font-weight: 900;
+	content: "\f519";
+	padding-right: 7px;
+	color: rgb(194, 20, 20);
+	vertical-align: middle;
+}
+/* left_hud_container_items end*/
+
+
+
+
+
+
+/* right_hud_container_items */
+.message::before {
+	font-family: "Font Awesome 5 Free"; 
+	font-weight: 900;
+	content: "\f0e0";
+	padding-right: 7px;
+	color: rgb(44, 223, 252);
+	vertical-align: middle;
+}
+
+.money::before {
+	font-family: "Font Awesome 5 Free"; 
+	font-weight: 900;
+	content: "\24";
+	padding-right: 7px;
+	color: rgb(5, 99, 16);
+	vertical-align: middle;
+}
+
+
+.job_item img{
+	height: 10%;
+	width: 10%;
+	left: 50%;
+	top: 50%;
+	vertical-align: middle;
+	padding-right: 7px;
+}
+
+
+/* right_hud_container_items end*/
+
+
+
+.health_armor_container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;    
+    height: 100%;
+    gap: 0px;
+}
+
+
+.status2{
+	display: flex;
+	width: 100%;
+	position: relative;
+}
+
+.health_stat{
+	border-radius: 0px;
+	border-width: 1px;
+	border-color: rgba(0, 0, 0, 0.73);
+	border-style: solid;
+	width: 100px;
+	height: 7px;
+	position: relative;
+	overflow: hidden;
+	background-color: rgba(67, 109, 58);
+}
+
+.health_stat .bg{
+	height: 100%;
+	width: 100%;
 	position: absolute;
-	right: 100px;
-	bottom: 50px;
-
+	bottom: 0;
 }
+
+
+.armor_stat{
+	border-radius: 0px;
+	border-width: 1px;
+	border-color: rgba(0, 0, 0, 0.73);
+	border-style: solid;
+	width: 100px;
+	height: 7px;
+	position: relative;
+	overflow: hidden;
+	background-color: rgba(39, 86, 102);
+}
+
+.armor_stat .bg{
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+}
+
+
+
+
+
+.status3{
+	display: flex;
+	width: 100%;
+	position: relative;
+}
+
+.voice_stat{
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	position: relative;
+	overflow: hidden;
+	background-color: #81C784;
+}
+
+.voice_stat2{
+	border-radius: 50%;
+	height: 80%;
+	width: 80%;
+	position: relative;
+	overflow: hidden;
+	top: 4px;
+	left: 4px;
+	background-color: rgba(0,0,0,0.5);
+	bottom: 0;
+}
+
+.voice_stat2 .bg{
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+}
+
+.voice_stat2 img{
+	width: 22px;
+	height: 22px;
+	position: relative;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	fill: rgb(255, 0, 0);
+}
+

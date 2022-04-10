@@ -11,16 +11,12 @@ $(function(){
 			setValue(event.data.key, event.data.value)
 		}else if (event.data.action == "updateStatus"){
 			updateStatus(event.data.hunger, event.data.thirst, event.data.stress);
-		}else if (event.data.action == "setTalking"){
-			setTalking(event.data.value)
-		}else if (event.data.action == "setVoiceRange"){
-			setVoiceRange(event.data.range, event.data.muted)
-		}else if (event.data.action == "toggle"){
-			if (event.data.show){
-				document.getElementById("ui").classList.toggle("show",true)
-			} else{
-				document.getElementById("ui").classList.toggle("show",false)
-			}
+		}else if (event.data.action == "updateStatus2"){
+			updateStatus2(event.data.health, event.data.armor);
+		}else if (event.data.action == "setVoice"){
+			setVoice(event.data)
+		}else if (event.data.action == "show"){
+			document.getElementById("main").classList.toggle("show",event.data.show)
 		}
 
 
@@ -39,45 +35,44 @@ function setJobIcon(value){
 
 function updateStatus(hunger, thirst, stress){
 	$('#hunger .bg').css('height', hunger+'%');
-	$('#water .bg').css('height', thirst+'%')
+	$('#water .bg').css('height', thirst+'%');
 	$('#drunk .bg').css('height', stress+'%');
-	if (stress > 0){
-		$('#drunk').show();
-	}else{
-		$('#drunk').show();
-	}
 }
 
 
+function updateStatus2(health, armor){
+	$('#health .bg').css('width', health+'%');
+	$('#armor .bg').css('width', armor+'%');
+}
 
-function setVoiceRange(range, muted){
-	var color;
-	var speaker;
+function setVoice(data){
+	var range = data.range;
+	var muted = data.muted;
+	var talking = data.talking;
+	var contented = data.connected;
 
-	if (muted){
-		color = "#cc0000";
+	if (contented){
+		if (muted){
+			$('#voice img').attr('src', 'img/voice/muted.png');
+			$('#range').css('background-color', "#F44336");
+		}else{
+			if (range == 3.5){
+				$('#range').css('background-color', "#81C784");
+			}else if (range == 8){
+				$('#range').css('background-color', "#FDD835");
+			}else if (range == 15){
+				$('#range').css('background-color', "#FF8800");
+			}else if (range == 32){
+				$('#range').css('background-color', "#F44336");
+			}
+			if (talking){
+				$('#voice img').attr('src', 'img/voice/talking.png');
+			}else{
+				$('#voice img').attr('src', 'img/voice/not_talking.png');
+			}
+		}
 	}else{
-		color = "#81C784"
-	}
-
-	if (range == 3.5){
-		speaker = 1;
-	}else if (range == 8){
-		speaker = 2;
-	}else if (range == 15){
-		speaker = 3;
-	}else if (range == 32){
-		speaker = 4;
-
-	}
-	$('#voice .bg').css('background-color', color);
-	$('#voice img').attr('src', 'img/speaker'+speaker+'.png');
-}	
-
-function setTalking(value){
-	if (value){
-		$('#voice').css('border', '3px solid #03A9F4')
-	}else{
-		$('#voice').css('border', 'none')
+		$('#voice img').attr('src', 'img/voice/not_connected.png');
+		$('#range').css('background-color', "#F44336");
 	}
 }
