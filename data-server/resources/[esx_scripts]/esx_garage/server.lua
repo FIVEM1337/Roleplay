@@ -82,8 +82,6 @@ ESX.RegisterServerCallback('esx_garage:changestatus', function (source, cb, prob
         end
     end
 
-    print("trigger")
-
     if garage.job or garage.impound then
         MySQL.Async.execute(
             'UPDATE owned_vehicles SET job = @job, vehicle = @vehicle, stored = @stored, impound = @impound, garage_id = @garage_id WHERE TRIM(UPPER(plate)) = @plate',
