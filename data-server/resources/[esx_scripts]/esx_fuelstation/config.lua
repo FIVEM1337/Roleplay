@@ -121,6 +121,8 @@ Config.GasStations = {
 	{blipname = "Tankstelle", coords =  vector3(176.631, -1562.025, 29.263), allowed_type = "car"},
 	{blipname = "Tankstelle", coords =  vector3(-319.292, -1471.715, 30.549), allowed_type = "car"},
 	{blipname = "Tankstelle", coords =  vector3(1784.324, 3330.55, 41.253), allowed_type = "aircraft"},
-	{blipname = "Tankstelle (Flugzeug)", coords = vector3(-994.85540771484,-2888.720703125,13.955413818359), allowed_type = "aircraft"},
-	{blipname = "Tankstelle (Boote)", coords = vector3(-879.59161376953,-1418.8699951172,1.5953954458237), allowed_type = "boat"},
+	{blipname = "Tankstelle (Flugzeug)", coords = vector3(-1031.8656005859,-3023.1201171875,13.94438457489), allowed_type = "aircraft"},
+	{blipname = "Tankstelle (Flugzeug)", coords = vector3(1592.3149414063,3172.5358886719,40.533790588379), allowed_type = "aircraft"},
+	{blipname = "Tankstelle (Flugzeug)", coords = vector3(-2058.3647460938,2849.6594238281,32.810401916504), allowed_type = "aircraft"},
+	{blipname = "Tankstelle (Boote)", coords = vector3(11.903608322144,-2800.8916015625,2.5259504318237), allowed_type = "boat"},
 }
