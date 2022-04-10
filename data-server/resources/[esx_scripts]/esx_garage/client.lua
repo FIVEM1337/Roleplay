@@ -116,6 +116,7 @@ CreateThread(function()
                         OpenGarage(CurrentGarage, vehicles)
                     end, CurrentGarage, true)
                 end
+                Wait(2000)
             end
         end
     end
@@ -329,7 +330,7 @@ function GetVehicleFromGarage(garage, props)
 end
 
 function SpawnVehicle(garage, props)
-    ESX.TriggerServerCallback("esx_garage:changestatus",function(changed)
+    ESX.TriggerServerCallback("esx_garage:changestatus",function(changed, vehicle_table)
         if changed then
             if not HasModelLoaded(tonumber(props.model)) then
                 RequestModel(tonumber(props.model))
@@ -340,20 +341,24 @@ function SpawnVehicle(garage, props)
             local closestVehicle, Distance = ESX.Game.GetClosestVehicle(garage.spawn_coord)
             local vehicle
             for k, spawn in pairs(garage.spawn_coords) do
-                local closestVehicle, Distance = ESX.Game.GetClosestVehicle(spawn.coords)
-                if Distance >= 2.5 or Distance == -1 then
-                    vehicle = CreateVehicle(tonumber(props.model), spawn.coords, spawn.heading, 1, 1)
-                    break
+                if garage.impound and spawn.car_type and spawn.car_type == vehicle_table.type or not garage.impound then
+                    local closestVehicle, Distance = ESX.Game.GetClosestVehicle(spawn.coords)
+                    if Distance >= 2.5 or Distance == -1 then
+                        vehicle = CreateVehicle(tonumber(props.model), spawn.coords, spawn.heading, 1, 1)
+                        break
+                    end
                 end
             end
             local count = 0
             while not vehicle do
                 count = count + 1
                 for k, spawn in pairs(garage.spawn_coords) do
-                    local closestVehicle, Distance = ESX.Game.GetClosestVehicle(spawn.coords)
-                    if Distance >= 2.5 or Distance == -1 then
-                        vehicle = CreateVehicle(tonumber(props.model), spawn.coords, spawn.heading, 1, 1)
-                        break
+                    if garage.impound and spawn.car_type and spawn.car_type == vehicle_table.type or not garage.impound then
+                        local closestVehicle, Distance = ESX.Game.GetClosestVehicle(spawn.coords)
+                        if Distance >= 2.5 or Distance == -1 then
+                            vehicle = CreateVehicle(tonumber(props.model), spawn.coords, spawn.heading, 1, 1)
+                            break
+                        end
                     end
                 end
                 TriggerEvent('dopeNotify:Alert', "Garage", "Versuche Fahrzeug auszuparken ".. count.."/10", 100, 'error')

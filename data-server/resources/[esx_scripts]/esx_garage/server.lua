@@ -21,10 +21,9 @@ ESX.RegisterServerCallback('esx_garage:getVehicles', function (source, cb, garag
     elseif garage.impound then
         local impounded_vehicles = {}
         MySQL.Async.fetchAll(
-            'SELECT * FROM owned_vehicles WHERE owner = @owner and type = @type and stored = @stored and impound = @impound', 
+            'SELECT * FROM owned_vehicles WHERE owner = @owner and stored = @stored and impound = @impound', 
         {
             ['@owner']      = xPlayer.identifier,
-            ['@type']       = garage.Type,
             ['@stored']     = stored,
             ['@impound']    = garage.impound or false,
         },
@@ -83,6 +82,8 @@ ESX.RegisterServerCallback('esx_garage:changestatus', function (source, cb, prob
         end
     end
 
+    print("trigger")
+
     if garage.job or garage.impound then
         MySQL.Async.execute(
             'UPDATE owned_vehicles SET job = @job, vehicle = @vehicle, stored = @stored, impound = @impound, garage_id = @garage_id WHERE TRIM(UPPER(plate)) = @plate',
@@ -98,7 +99,14 @@ ESX.RegisterServerCallback('esx_garage:changestatus', function (source, cb, prob
                 if rowsChanged == 0 then
                     cb(false)
                 else
-                    cb(true)
+                    MySQL.Async.fetchAll(
+                        'SELECT * FROM owned_vehicles WHERE TRIM(UPPER(plate)) = @plate', 
+                    {
+                        ['@plate']      = string.gsub(tostring(probs.plate), '^%s*(.-)%s*$', '%1'):upper(),
+                    },
+                    function(vehicle)
+                        cb(true, vehicle[1])
+                    end)
                 end
         end)
     else
@@ -143,21 +151,39 @@ ESX.RegisterServerCallback('esx_garage:canGetVehicle', function (source, cb, pro
     local xPlayer = ESX.GetPlayerFromId(source)
     local probs = probs
 
-    MySQL.Async.fetchAll(
-        'SELECT * FROM owned_vehicles WHERE TRIM(UPPER(plate)) = @plate and type = @type and stored = @stored and impound = @impound', 
-    {
-        ['@plate']      = string.gsub(tostring(probs.plate), '^%s*(.-)%s*$', '%1'):upper(),
-        ['@type']       = garage.Type,
-        ['@stored']     = true,
-        ['@impound']    = garage.impound or false,
-    },
-    function(vehicle)
-        if vehicle[1] then
-            cb(true)
-        else
-            cb(false)
-        end
-    end)
+
+    if garage.impound then
+        MySQL.Async.fetchAll(
+            'SELECT * FROM owned_vehicles WHERE TRIM(UPPER(plate)) = @plate and stored = @stored and impound = @impound', 
+        {
+            ['@plate']      = string.gsub(tostring(probs.plate), '^%s*(.-)%s*$', '%1'):upper(),
+            ['@stored']     = true,
+            ['@impound']    = garage.impound or false,
+        },
+        function(vehicle)
+            if vehicle[1] then
+                cb(true)
+            else
+                cb(false)
+            end
+        end)
+    else
+        MySQL.Async.fetchAll(
+            'SELECT * FROM owned_vehicles WHERE TRIM(UPPER(plate)) = @plate and type = @type and stored = @stored and impound = @impound', 
+        {
+            ['@plate']      = string.gsub(tostring(probs.plate), '^%s*(.-)%s*$', '%1'):upper(),
+            ['@type']       = garage.Type,
+            ['@stored']     = true,
+            ['@impound']    = garage.impound or false,
+        },
+        function(vehicle)
+            if vehicle[1] then
+                cb(true)
+            else
+                cb(false)
+            end
+        end)
+    end
 end)
 
 ESX.RegisterServerCallback('esx_garage:canStoreVehicle', function (source, cb, probs, garage)
