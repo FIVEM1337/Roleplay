@@ -116,6 +116,11 @@ garagecoord = {
         Blip = {color = 38, sprite = 289, scale = 0.6},
         npc_heading = 228.30,
         garage_coord = vector3(112.45, 6619.61, 30.90),
+        
+        park_coords = {
+            {coords = vector3(133.86906433105,6601.6547851563,31.848255157471), Dist=20.0},
+        },
+
         spawn_coords = {
             {coords = vector3(117.82747650146,6599.4760742188,30.884433746338), heading = 270.86},
             {coords = vector3(122.07794189453,6594.6948242188,31.887845993042), heading = 270.86},

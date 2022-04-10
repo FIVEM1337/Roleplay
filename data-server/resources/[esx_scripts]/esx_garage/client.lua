@@ -59,6 +59,15 @@ CreateThread(function()
             local Vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
             for k,v in pairs(garagecoord) do
                 if v.job and v.job == PlayerData.job.name or v.job == nil then
+                    if v.park_coords and DoesEntityExist(Vehicle) then
+                        for k,v2 in pairs(v.park_coords) do
+                            if(GetDistanceBetweenCoords(coords, v2.coords, true) < v2.Dist) then
+                                isInMarker  = true
+                                currentZone = v
+                                ShowNotification(currentZone, Vehicle)
+                            end
+                        end
+                    end
                     if(GetDistanceBetweenCoords(coords, v.garage_coord, true) < v.Dist) then
                         isInMarker  = true
                         currentZone = v
