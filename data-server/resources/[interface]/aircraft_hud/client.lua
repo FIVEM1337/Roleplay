@@ -1,7 +1,7 @@
 -- Config here
 local UI = { 
-	x = -0.015,
-	y = 0.43,
+	x = 0.345,
+	y = 0.40,
 }
 
 function Text(text, x, y, scale)
