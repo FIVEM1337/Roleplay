@@ -1,7 +1,7 @@
 -- Config here
 local UI = { 
-	x = -0.015,
-	y = 0.43,
+	x = 0.345,
+	y = 0.40,
 }
 
 function Text(text, x, y, scale)
@@ -29,7 +29,7 @@ Citizen.CreateThread(function()
 		local class = GetVehicleClass(PedVehicle)
 
 
-		if IsPedInAnyVehicle(Ped) and not IsEntityDead(Ped) and class == 15 or class == 16 then
+		if IsPedInAnyVehicle(Ped) and not IsEntityDead(Ped) and class == 15 or class == 16 and not IsPlayerDead(PlayerId()) then
 			local Speed = GetEntitySpeed(GetVehiclePedIsIn(PlayerPedId(), false)) * 3.6 or 0
 			local Engine = GetIsVehicleEngineRunning(PedVehicle) or 0
 			local Height = GetEntityHeightAboveGround(PedVehicle) or 0

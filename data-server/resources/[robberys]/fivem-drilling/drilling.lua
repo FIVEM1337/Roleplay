@@ -43,14 +43,14 @@ Drilling.Update = function(callback)
     Drilling.Draw()
     Drilling.DisableControls()
     Drilling.HandleControls()
-    DrawScaleformMovieFullscreen(form, 255, 255, 255, 255, 0)
+    DrawScaleformMovie(form, 0.512, 0.46, 1.0, 1.0, 255, 255, 255, 255, 0)
     Wait(0)
   end
   callback(Drilling.Result)
 end
 
 Drilling.Draw = function()
-  DrawScaleformMovieFullscreen(Drilling.Scaleform,255,255,255,255,255)
+  DrawScaleformMovie(Drilling.Scaleform, 0.512, 0.46, 1.0, 1.0, 255, 255, 255, 255, 0)
 end
 
 Drilling.HandleControls = function()
@@ -63,6 +63,14 @@ Drilling.HandleControls = function()
     Drilling.DrillPos = math.max(0.0,Drilling.DrillPos - 0.01)
   elseif IsControlPressed(0,173) then
     Drilling.DrillPos = math.max(0.0,Drilling.DrillPos - (0.1 * GetFrameTime()))
+  end
+
+
+  if IsControlJustPressed(0,178) then
+    if Drilling.Active then
+      Drilling.Active = false
+    Drilling.Result = 3
+    end
   end
 
   local last_speed = Drilling.DrillSpeed

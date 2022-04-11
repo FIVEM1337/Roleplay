@@ -116,6 +116,11 @@ garagecoord = {
         Blip = {color = 38, sprite = 289, scale = 0.6},
         npc_heading = 228.30,
         garage_coord = vector3(112.45, 6619.61, 30.90),
+        
+        park_coords = {
+            {coords = vector3(133.86906433105,6601.6547851563,31.848255157471), Dist=20.0},
+        },
+
         spawn_coords = {
             {coords = vector3(117.82747650146,6599.4760742188,30.884433746338), heading = 270.86},
             {coords = vector3(122.07794189453,6594.6948242188,31.887845993042), heading = 270.86},
@@ -384,26 +389,27 @@ garagecoord = {
 --Impounds
     {
         garage_id = "Impound 1",
-        Type = "car",
         impound = true,
-        Dist = 5,
+        Dist = 10,
         Blip = {color = 2, sprite = 289, scale = 0.6},
         npc_heading = 239.0,
         garage_coord = vector3(407.62506103516,-1624.9926757813,28.291954040527),
         spawn_coords = {
-            {coords = vector3(410.62420654297,-1636.6274414063,28.880115509033), heading = 231.61},
+            {coords = vector3(412.88583374023,-1624.9874267578,29.29195022583), heading = 45.14, car_type = "car"},
+            {coords = vector3(416.49072265625,-1640.7496337891,29.291948318481), heading = 45.14, car_type = "car"},
+            {coords = vector3(401.32913208008,-1636.5932617188,29.291938781738), heading = 45.14, car_type = "helicopter"},
         },
     },
     {
         garage_id = "Impound 2",
-        Type = "car",
         impound = true,
         Dist = 5,
         Blip = {color = 2, sprite = 289, scale = 0.6},
         npc_heading = 130.0,
         garage_coord = vector3(-135.31967163086,6356.3618164063,30.490608215332),
         spawn_coords = {
-            {coords = vector3(-136.48347473145,6346.8193359375,31.078872680664), heading = 45.14},
+            {coords = vector3(412.76879882813,-1635.1760253906,29.291944503784), heading = 45.14, car_type = "car"},
+            {coords = vector3(401.32913208008,-1636.5932617188,29.291938781738), heading = 45.14, car_type = "helicopter"},
         },
     },
 }

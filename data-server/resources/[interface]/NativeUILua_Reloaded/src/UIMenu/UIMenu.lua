@@ -1103,7 +1103,7 @@ function UIMenu:Draw()
         self:DisEnableControls(false)
     end
     if self.Settings.InstructionalButtons then
-        DrawScaleformMovieFullscreen(self.InstructionalScaleform, 255, 255, 255, 255, 0)
+        DrawScaleformMovie(self.InstructionalScaleform, 0.512, 0.46, 1.0, 1.0, 255, 255, 255, 255, 0)
     end
     if self.Settings.ScaleWithSafezone then
         SetScriptGfxAlign(76, 84)
