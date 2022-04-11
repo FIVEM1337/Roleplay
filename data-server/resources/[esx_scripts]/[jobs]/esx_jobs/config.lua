@@ -120,18 +120,18 @@ jobs = {
 			job = "mechanic",
 			society = true,
 			Blip = {name = "Mechaniker HQ", color = 29, sprite = 68, scale = 1.2, alwayshow = true},
-			pos = vector3(-164.31999206543,-1173.3905029297,23.07216835022),
+			pos = vector3(-1194.2655029297,-1730.8325195313,4.4488468170166),
 			armory = {
-				{coords = vector3(-131.02766418457,-1173.2042236328,23.869873046875), store_weapon = false, store_items = true},
+				{coords = vector3(-1134.0668945313,-1689.072265625,4.4494395256042), store_weapon = false, store_items = true},
 				{coords = vector3(-337.84921264648,-142.48876953125,39.013008117676), store_weapon = false, store_items = true},
 				
 			},
 			boss = {
-				{coords = vector3(-132.87945556641,-1172.0834960938,27.332204818726), min_grade = 1},
+				{coords = vector3(-1147.7520751953,-1683.4089355469,11.836005210876), min_grade = 1},
 				{coords = vector3(-329.42004394531,-119.58020019531,39.012962341309), min_grade = 1},
 			},
 			cloak = {
-				{coords = vector3(-131.17268371582,-1184.4146728516,23.469874954224)},
+				{coords = vector3(-1153.0550537109,-1679.1710205078,4.4494590759277)},
 				{coords = vector3(-335.78967285156,-119.04692840576,39.012969970703)},
 			},
 			citizen_interaction_items = {
