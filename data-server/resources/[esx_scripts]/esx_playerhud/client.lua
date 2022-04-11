@@ -277,11 +277,9 @@ function CalculateTimeToDisplay()
 end
 
 CreateThread(function()
-	local offset = 2
 	while true do
 		Wait(1000)
 		year, month, dayOfWeek, hour, minute, secound = GetLocalTime()
-		hour = hour + offset
 		timeString = ""
 		dateString = ""
 		CalculateTimeToDisplay()
