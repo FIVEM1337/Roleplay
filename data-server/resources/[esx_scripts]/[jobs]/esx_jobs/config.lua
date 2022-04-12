@@ -23,13 +23,13 @@ jobs = {
 			Blip = {name = "Polizeirevier", color = 29, sprite = 60, scale = 1.2, alwayshow = true},
 			pos = vector3(456.88961791992,-1002.1945800781,30.721063613892),
 			armory = {
-				{coords = vector3(484.21737670898,-1005.8233032227,25.034621047974), store_weapon = true, store_items = true},
+				{coords = vector3(480.40084838867,-996.75048828125,30.689800262451), store_weapon = true, store_items = true},
 			},
 			boss = {
-				{coords = vector3(470.75274658203,-1005.5328979492,30.575220489502), min_grade = 1},
+				{coords = vector3(460.73150634766,-985.55426025391,30.728080749512), min_grade = 1},
 			},
 			cloak = {
-				{coords = vector3(473.35681152344,-987.79296875,25.034621047974)},
+				{coords = vector3(462.22036743164,-996.58294677734,30.689569473267)},
 			},
 
 
