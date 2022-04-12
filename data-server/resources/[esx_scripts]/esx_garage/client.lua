@@ -376,6 +376,7 @@ function SpawnVehicle(garage, props)
             end
 
             if vehicle then
+                SetVehicleDoorsLocked(vehicle, 2)
                 SetVehicleProp(vehicle, props)
                 SetVehicleBobo(vehicle)
                 NetworkFadeInEntity(vehicle,1)
