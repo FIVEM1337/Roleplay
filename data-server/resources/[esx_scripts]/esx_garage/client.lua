@@ -112,9 +112,24 @@ CreateThread(function()
                 if DoesEntityExist(Vehicle) then
                     StoreVehicle(CurrentGarage, Vehicle)
                 else
-                    ESX.TriggerServerCallback("esx_garage:getVehicles",function(vehicles)
-                        OpenGarage(CurrentGarage, vehicles)
-                    end, CurrentGarage, true)
+                    if CurrentGarage.impound then
+                        canopenimpound = false
+                        for k, v in ipairs(Config.ImpoundJobs) do
+                            if v == PlayerData.job.name then
+                                canopenimpound = true
+                                break
+                            end
+                        end
+                        if canopenimpound then
+                            OpenImpound(CurrentGarage)
+                        else
+                            TriggerEvent('dopeNotify:Alert', "Garage", "Du kannst die Garage nicht verweden", 5000, 'error')
+                        end
+                    else
+                        ESX.TriggerServerCallback("esx_garage:getVehicles",function(vehicles)
+                            OpenGarage(CurrentGarage, vehicles)
+                        end, CurrentGarage, true)
+                    end
                 end
                 Wait(2000)
             end
@@ -130,8 +145,6 @@ function OpenGarage(garage, vehicles)
 
     if garage.job then
         GarageUI = NativeUI.CreateMenu(PlayerData.job.label.. "-Garage", nil, nil)
-    elseif garage.impound then
-        GarageUI = NativeUI.CreateMenu("Abschlepphof", nil, nil)
     else
         GarageUI = NativeUI.CreateMenu("Garage", nil, nil)
     end
@@ -179,15 +192,7 @@ function OpenGarage(garage, vehicles)
                 end
                 _menuPool:RefreshIndex()
                 VehicleItem.Activated = function(sender, index)
-                    if garage.impound then
-                        ESX.TriggerServerCallback("esx_garage:pay",function(payed)
-                            if payed then
-                                GetVehicleFromGarage(garage, props)
-                            else
-                                TriggerEvent('dopeNotify:Alert', "Garage", "Du hast nicht genug Geld du benötigst: $"..Config.ReturnPayment, 5000, 'error')
-                            end
-                        end)
-                    elseif garage.job and garage.shareprivatetojob then
+                    if garage.job and garage.shareprivatetojob then
                         OpenSelect(garage, props)
                     else
                         GetVehicleFromGarage(garage, props)
@@ -210,20 +215,10 @@ function OpenGarage(garage, vehicles)
                         end
                         _menuPool:RefreshIndex()
                         VehicleItem.Activated = function(sender, index)
-                            if garage.impound then
-                                ESX.TriggerServerCallback("esx_garage:pay",function(payed)
-                                    if payed then
-                                        GetVehicleFromGarage(garage, props)
-                                    else
-                                        TriggerEvent('dopeNotify:Alert', "Garage", PlayerData.job.label.." hat nicht das benötigte Geld", 5000, 'error')
-                                    end
-                                end, vehicle.job)
+                            if PlayerData.job.can_managecars then
+                                OpenSelect(garage, props)
                             else
-                                if PlayerData.job.can_managecars then
-                                    OpenSelect(garage, props)
-                                else
-                                    GetVehicleFromGarage(garage, props)
-                                end
+                                GetVehicleFromGarage(garage, props)
                             end
                         end
                     end
@@ -237,6 +232,127 @@ function OpenGarage(garage, vehicles)
 	_menuPool:MouseControlsEnabled(false)
 	_menuPool:MouseEdgeEnabled(false)
 	_menuPool:ControlDisablingEnabled(false)
+end
+
+
+function OpenImpound(garage)
+    _menuPool:CloseAllMenus()
+	if GarageUI ~= nil and GarageUI:Visible() then
+		GarageUI:Visible(false)
+	end
+
+    GarageUI = NativeUI.CreateMenu("Abschlepphof", nil, nil)
+  
+    _menuPool:Add(GarageUI)
+
+    local values = {"Kennzeichen", "Job", "ID"}
+    local GradeList = NativeUI.CreateListItem('Fahrzeug suchen nach: ', values, 0, 'Wähle eine Such Art aus')
+    GarageUI:AddItem(GradeList)
+    _menuPool:RefreshIndex()
+
+    GarageUI.OnListSelect = function(sender, item, index)
+        for k, v in pairs(values) do
+            if k == index then
+                if v == "Kennzeichen" then
+                    local plate = KeyboardInput("Fahrzeug suchen nach ".. v, "", 7)
+                    data = {plate = plate}
+                    ESX.TriggerServerCallback("esx_garage:getImpounds",function(vehicles)
+                        if not rawequal(next(vehicles), nil) then
+                            OpenImpoundSelect(garage, vehicles)
+                        else
+                            TriggerEvent('dopeNotify:Alert', "Garage", "Kein Fahrzeug gefunden", 5000, 'info')
+                        end
+                    end, data)
+
+                elseif v == "Job" then
+                    ESX.TriggerServerCallback("esx_garage:GetJob",function(job)
+                        for k, v in pairs(job) do
+                            local Item = NativeUI.CreateItem(v.label, "")
+                            GarageUI:AddItem(Item)
+                            _menuPool:RefreshIndex()
+
+                            Item.Activated = function(sender, index)
+                                data = {job = v.name}
+                                ESX.TriggerServerCallback("esx_garage:getImpounds",function(vehicles)
+                                    if not rawequal(next(vehicles), nil) then
+                                        OpenImpoundSelect(garage, vehicles)
+                                    else
+                                        TriggerEvent('dopeNotify:Alert', "Garage", "Kein Fahrzeug gefunden", 5000, 'info')
+                                    end
+                                end, data)
+                            end
+                        end
+                    end, true)
+                elseif v == "ID" then
+                    local id = KeyboardInput("Fahrzeug suchen nach ".. v, "", 7)
+                    data = {id = id}
+                    ESX.TriggerServerCallback("esx_garage:getImpounds",function(vehicles)
+                        if not rawequal(next(vehicles), nil) then
+                            OpenImpoundSelect(garage, vehicles)
+                        else
+                            TriggerEvent('dopeNotify:Alert', "Garage", "Kein Fahrzeug gefunden", 5000, 'info')
+                        end
+                    end, data)
+                end
+            end
+        end
+    end
+
+    GarageUI:Visible(true)
+	_menuPool:RefreshIndex()
+	_menuPool:MouseControlsEnabled(false)
+	_menuPool:MouseEdgeEnabled(false)
+	_menuPool:ControlDisablingEnabled(false)
+end
+
+function OpenImpoundSelect(garage, vehicles)
+    _menuPool:CloseAllMenus()
+	if GarageUI ~= nil and GarageUI:Visible() then
+		GarageUI:Visible(false)
+	end
+
+    GarageUI = NativeUI.CreateMenu("Abschlepphof", nil, nil)
+    _menuPool:Add(GarageUI)
+
+    for k, vehicle in ipairs(vehicles) do
+        local props = json.decode(vehicle.vehicle)
+        local ModelName = GetLabelText(GetDisplayNameFromVehicleModel(tonumber(props.model)):lower())
+        local VehicleItem = NativeUI.CreateItem(ModelName, 'Besitzer: ~g~Du~s~ Kennzeichen: ~g~'.. vehicle.plate)
+        VehicleItem:SetRightBadge("BadgeStyle.Alert")
+        GarageUI:AddItem(VehicleItem)
+        _menuPool:RefreshIndex()
+
+        VehicleItem.Activated = function(sender, index)
+            GetVehicleFromGarage(garage, props)
+        end
+    end
+
+    GarageUI:Visible(true)
+	_menuPool:RefreshIndex()
+	_menuPool:MouseControlsEnabled(false)
+	_menuPool:MouseEdgeEnabled(false)
+	_menuPool:ControlDisablingEnabled(false)
+end
+
+function KeyboardInput(TextEntry, ExampleText, MaxStringLenght)
+	AddTextEntry('FMMC_KEY_TIP1', TextEntry) 
+	DisplayOnscreenKeyboard(1, "FMMC_KEY_TIP1", "", ExampleText, "", "", "", MaxStringLenght)
+	blockinput = true
+
+	while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do
+		Wait(0)
+	end
+		
+	if UpdateOnscreenKeyboard() ~= 2 then
+		local result = GetOnscreenKeyboardResult()
+		Wait(500)
+		blockinput = false 
+		return result 
+	else
+		Wait(500) 
+		blockinput = false
+		return nil
+	end
 end
 
 function OpenSelect(garage, props)

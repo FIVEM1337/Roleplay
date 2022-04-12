@@ -9,7 +9,7 @@ ESX.RegisterServerCallback('esx_garage:getVehicles', function (source, cb, garag
                 ['@job']            = xPlayer.job.name,
                 ['@type']           = garage.Type,
                 ['@stored']         = stored,
-                ['@impound']        = garage.impound or false,
+                ['@impound']        = false,
             }, 
             function(vehicles)
                 cb(vehicles)
@@ -18,42 +18,6 @@ ESX.RegisterServerCallback('esx_garage:getVehicles', function (source, cb, garag
             Print("User sollte garage nicht öffnen können")
             cb(nil)
         end
-    elseif garage.impound then
-        local impounded_vehicles = {}
-        MySQL.Async.fetchAll(
-            'SELECT * FROM owned_vehicles WHERE owner = @owner and stored = @stored and impound = @impound', 
-        {
-            ['@owner']      = xPlayer.identifier,
-            ['@stored']     = stored,
-            ['@impound']    = garage.impound or false,
-        },
-        function(vehicles)
-            for k, v in ipairs(vehicles) do
-                table.insert(impounded_vehicles, v)
-            end
-
-            MySQL.Async.fetchAll(
-                'SELECT * FROM owned_vehicles WHERE job = @job and type = @type and stored = @stored and impound = @impound', 
-            {
-                ['@job']        = xPlayer.job.name,
-                ['@type']       = garage.Type,
-                ['@stored']     = stored,
-                ['@impound']    = garage.impound or false,
-            },
-            function(vehicles)
-                for k,v in pairs(vehicles) do
-                    for k, v2 in pairs(impounded_vehicles) do
-                        if v.plate == v2.plate then
-                            exist = true
-                        end
-                    end
-                    if not exist then
-                        table.insert(impounded_vehicles, v)
-                    end
-                end
-                cb(impounded_vehicles)
-            end)
-        end)
     else
         MySQL.Async.fetchAll(
             'SELECT * FROM owned_vehicles WHERE owner = @owner and job = @job and type = @type and stored = @stored and impound = @impound', 
@@ -62,7 +26,70 @@ ESX.RegisterServerCallback('esx_garage:getVehicles', function (source, cb, garag
             ['@job']        = "private",
             ['@type']       = garage.Type,
             ['@stored']     = stored,
-            ['@impound']    = garage.impound or false,
+            ['@impound']    = false,
+        },
+        function(vehicles)
+            cb(vehicles)
+        end)
+    end
+end)
+
+ESX.RegisterServerCallback('esx_garage:getImpounds', function (source, cb, data)
+	local source = source
+	local xPlayer = ESX.GetPlayerFromId(source)
+    local xTarget
+    local job = job
+
+    canopenimpound = false
+    for k, v in ipairs(Config.ImpoundJobs) do
+        if v == xPlayer.job.name then
+            canopenimpound = true
+            break
+        end
+    end
+    if not canopenimpound then
+        TriggerClientEvent('dopeNotify:Alert', source, "", "Du bist nicht berechtigt die Garage zu öffnen", 5000, 'error')
+        return
+    end
+
+    if data.id then
+        xTarget = ESX.GetPlayerFromId(data.id)
+        if not xTarget then
+            TriggerClientEvent('dopeNotify:Alert', source, "", "Person nicht verfügbar", 5000, 'error')
+            return
+        end
+    end
+
+    if data.id then
+        MySQL.Async.fetchAll(
+            'SELECT * FROM owned_vehicles WHERE owner = @owner and stored = @stored and impound = @impound', 
+        {
+            ['@owner']          = xTarget.identifier,
+            ['@stored']         = true,
+            ['@impound']        = true,
+        },
+        function(vehicles)
+            cb(vehicles)
+        end)
+    elseif data.plate then
+        MySQL.Async.fetchAll(
+            'SELECT * FROM owned_vehicles WHERE plate = @plate and stored = @stored and impound = @impound', 
+        {
+            ['@plate']          = string.gsub(tostring(data.plate), '^%s*(.-)%s*$', '%1'):upper(),
+            ['@stored']         = true,
+            ['@impound']        = true,
+        },
+        function(vehicles)
+            cb(vehicles)
+        end)
+    elseif data.job then
+        MySQL.Async.fetchAll(
+            'SELECT * FROM owned_vehicles WHERE owner = @owner and job = @job and stored = @stored and impound = @impound', 
+        {
+            ['@owner']          = data.job,
+            ['@job']            = data.job,
+            ['@stored']         = true,
+            ['@impound']        = true,
         },
         function(vehicles)
             cb(vehicles)
@@ -255,18 +282,26 @@ ESX.RegisterServerCallback('esx_garage:canStoreVehicle', function (source, cb, p
     end)
 end)
 
-ESX.RegisterServerCallback("esx_garage:GetJob",function(source, cb)
+ESX.RegisterServerCallback("esx_garage:GetJob",function(source, cb, all)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
 
-    MySQL.Async.fetchAll(
-        'SELECT * FROM job_grades WHERE job_name = @jobname ORDER BY `grade` ASC ;', 
-    {
-        ['@jobname'] = xPlayer.job.name,
-    },
-    function(job_grades)
-        cb(job_grades)
-    end)
+    if all then
+        MySQL.Async.fetchAll(
+            'SELECT * FROM jobs ORDER BY `label` ASC ;', {},
+        function(job_grades)
+            cb(job_grades)
+        end)
+    else
+        MySQL.Async.fetchAll(
+            'SELECT * FROM job_grades WHERE job_name = @jobname ORDER BY `grade` ASC ;',
+        {
+            ['@jobname'] = xPlayer.job.name,
+        },
+        function(job_grades)
+            cb(job_grades)
+        end)
+    end
 end)
 
 ESX.RegisterServerCallback('esx_garage:pay', function (source, cb, job)
