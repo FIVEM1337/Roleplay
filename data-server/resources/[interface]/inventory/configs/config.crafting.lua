@@ -2,6 +2,8 @@ Config.Crafting = true -- toggle crafting plugin | default: true
 Config.CraftingBuiltIn = true -- enabled crafting locations | default: true
 Config.CraftingDelay = 250 -- delay of opening crafting menu | default: 250
 Config.CraftingLocations = {
+
+  --[[
   ["craft"] = {
     label = 'Workbench',
     license = false, -- add license name here, esx_license required!
@@ -18,4 +20,5 @@ Config.CraftingLocations = {
       }}
     }
   }
+  ]]--
 }

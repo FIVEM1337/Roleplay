@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Bank</title>
+        <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body>
+		<div class="esx_banking-container noselect">
+			<div class="esx_banking-rightbar">
+				<div class="esx_banking-rightbar-header">
+					<img class="esx_banking-rightbar-misdibanklogo" src="img/misdibank.PNG">
+					<span class="esx_banking-rightbar-misdibanktext">Bank</span>
+				</div>
+				<div class="esx_banking-rightbar-options">
+					<div class="esx_banking-rightbar-options-buttons" id="inicio">
+						<i class="fal fa-home casica"></i>
+						<span class="esx_banking-rightbar-text">Home</span>
+					</div>
+					<div class="esx_banking-rightbar-options-buttons" id="mycards">
+						<i class="fal fa-credit-card creditcard"></i>
+						<span class="esx_banking-rightbar-text">Meine Karten</span>
+					</div>
+					<div class="esx_banking-rightbar-options-buttons" id="depositar">
+						<i class="fal fa-money-check-alt creditcard"></i>
+						<span class="esx_banking-rightbar-text">Einzahlen</span>
+					</div>
+					<div class="esx_banking-rightbar-options-buttons" id="transfer">
+						<i class="fal fa-exchange-alt creditcard"></i>
+						<span class="esx_banking-rightbar-text">Überweisen</span>
+					</div>
+					<div class="esx_banking-rightbar-options-buttons" id="myaccount">
+						<i class="fal fa-user creditcard"></i>
+						<span class="esx_banking-rightbar-text">Mein Konto</span>
+					</div>
+					<div class="esx_banking-rightbar-options-buttons" id="closebanking">
+						<i class="fal fa-sign-out-alt creditcard"></i>
+						<span class="esx_banking-rightbar-text">Ausloggen</span>
+					</div>
+				</div>
+			</div>
+			<div class="esx_banking-container-inicio">
+				<div class="esx_banking-inicio-bigcontainer">
+					<div class="esx_banking-inicio-bigcontainer-adcontainer">
+						<span class="adcontainer-title">Cashback</span>
+						<span class="adcontainer-descripcion">Verwende die Handy-App, und erhalten bis zu 5 % Cashback.</span>
+						<button class="adcontainer-button">Mehr Erfahren</button>
+					</div>
+					<div class="esx_banking-inicio-bigcontainer-balancecontainer">
+						<div class="esx_banking-balancecontainer-creditcard">
+							<div class="esx_banking-balancecontainer-creditcard-background"></div>
+							<img class="esx_banking-creditcard-visalogo" src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/visa.png">
+							<img class="esx_banking-creditcard-chip" src="https://github.com/muhammed/vue-interactive-paycard/blob/master/src/assets/images/chip.png?raw=true">
+							<span class="esx_banking-creditcard-number">Laden...</span>
+							<span class="esx_banking-creditcard-cardholdertext">Karten Besitzer</span>
+							<span class="esx_banking-creditcard-validtext">Gültig bis:</span>
+							<span class="esx_banking-creditcard-cardholder">Laden...</span>
+							<span class="esx_banking-creditcard-valid">08/24</span>
+						</div>
+						<div class="esx_banking-balancecontainer-balancediv">
+							<span class="vb-balance-balancetext">Kontostand</span>
+							<span class="vb-balance-balance">$ 0</span>
+							<div class="vb-balance-buttonadd" id="meterpastica">
+								<i class="fal fa-plus meterpasta"></i>
+							</div>
+							<span class="vb-balance-creditstext"></span>
+						</div>
+					</div>
+					<div class="esx_banking-inicio-bigcontainer-withdrawandallofthatstuff">
+						<span class="vb-withdrawandallofthatstuff-withdrawtext">Geld abheben</span>
+						<div class="vb-withdrawandallofthatstuff-accountdiv">
+							<img class="esx_banking-accountdiv-misdibanklogo" src="img/misdibank.PNG">
+							<span class="esx_banking-accountdiv-accountnumber">****&nbsp; 2233</span>
+							<i class="fal fa-chevron-down simbolicocambiarcuenta"></i>
+						</div>
+						<div class="vb-withdrawandallofthatstuff-amounetcdiv">
+							<span class="vb-withdrawandallofthatstuff-amounttext">Geben den Betrag ein</span>
+							<span class="vb-withdrawandallofthatstuff-dollarsymbol">$</span>
+							<input type="number" class="vb-withdrawandallofthatstuff-inputamount select" id="withdrawnumber">
+						</div>
+						<button class="vb-withdrawandallofthatstuff-withdrawbutton" id="withdraw">Abheben</button>
+					</div>
+				</div>
+			</div>
+			<div class="esx_banking-bigcontainertarjetas">
+				<div class="esx_banking-tarjetas-container">
+					<span class="esx_banking-tarjetas-mycardcontainer-mycardstext">Meine Karten</span>
+					<div class="esx_banking-tarjetas-mycardcontainer">
+						<div class="esx_banking-depositcontainer-creditcard2">
+							<div class="esx_banking-depositcontainer-creditcard-background"></div>
+							<img class="esx_banking-creditcard-visalogo" src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/visa.png">
+							<img class="esx_banking-creditcard-chip" src="https://github.com/muhammed/vue-interactive-paycard/blob/master/src/assets/images/chip.png?raw=true">
+							<span class="esx_banking-creditcard-number">Laden...</span>
+							<span class="esx_banking-creditcard-cardholdertext">Karten Besitzer</span>
+							<span class="esx_banking-creditcard-validtext">Gültig bis:</span>
+							<span class="esx_banking-creditcard-cardholder">Laden...</span>
+							<span class="esx_banking-creditcard-valid">08/24</span>
+						</div>
+						<span class="esx_banking-tarjetas-mycardcontainer-balance" id="esx_banking-tarjetas-mycardcontainer-balance">$ 0</span>
+						<span class="esx_banking-tarjetas-mycardcontainer-totalbalancetext">Kontostand</span>
+						<div class="esx_banking-tarjetas-mycardcontainer-buttonadd" id="meterpastica">
+							<i class="fal fa-plus meterpasta2"></i>
+						</div>
+						<div class="esx_banking-tarjetas-mycardcontainer-historycontainer">
+							<span class="esx_banking-tarjetas-historytext">Letzte Transaktionen</span>
+							<div class="esx_banking-tarjetas-historytransactions">
+								<div class="esx_banking-historytransactions-transaction">
+									<div class="vb-transaction-logotransaction">
+										<i class="fab fa-spotify logomarca"></i>
+									</div>
+									<span class="vb-transaction-textmarca">Spotify</span>
+									<span class="vb-transaction-textdescripcion">Music Platform</span>
+									<span class="vb-transaction-textprice">- $24.00</span>
+								</div>
+								<div class="esx_banking-historytransactions-transaction">
+									<div class="vb-transaction-logotransaction2">
+										<i class="fab fa-apple logomarca2"></i>
+									</div>
+									<span class="vb-transaction-textmarca">Apple</span>
+									<span class="vb-transaction-textdescripcion">Phones</span>
+									<span class="vb-transaction-textprice2">- $620.00</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="esx_banking-tarjetas-rightbar">
+						<div class="esx_banking-tarjetas-rigthbar-balancecontainer">
+							<span class="esx_banking-tarjetas-rigthbar-balance" id="esx_banking-tarjetas-rigthbar-balance">$ 0</span>
+							<span class="esx_banking-tarjetas-rigthbar-currentbalance">Guthaben</span>
+						</div>
+						<span class="esx_banking-history">Transaktionen</span>
+						<div class="esx_banking-rightbar-historycontainer">
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction">
+									<i class="fab fa-spotify vb-rightbar-transaction-logomarca"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Spotify</span>
+								<span class="vb-rightbar-transaction-textdescription">Music Platform</span>
+								<span class="vb-rightbar-transaction-textprice">- 24</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction2">
+									<i class="fab fa-apple vb-rightbar-transaction-logomarca2"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Apple</span>
+								<span class="vb-rightbar-transaction-textdescription">Phones</span>
+								<span class="vb-rightbar-transaction-textprice">- 620</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction3">
+									<i class="fab fa-discord vb-rightbar-transaction-logomarca3"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Discord Nitro</span>
+								<span class="vb-rightbar-transaction-textdescription">Social</span>
+								<span class="vb-rightbar-transaction-textprice">- 5</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction4">
+									<i class="fab fa-amazon vb-rightbar-transaction-logomarca4"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Amazon</span>
+								<span class="vb-rightbar-transaction-textdescription">Shopping</span>
+								<span class="vb-rightbar-transaction-textprice">- 182</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction5">
+									<i class="fab fa-bitcoin vb-rightbar-transaction-logomarca5"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Binance</span>
+								<span class="vb-rightbar-transaction-textdescription">Bitcoin purchase</span>
+								<span class="vb-rightbar-transaction-textprice">- 540</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction6">
+									<i class="fab fa-playstation vb-rightbar-transaction-logomarca6"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">PlayStation</span>
+								<span class="vb-rightbar-transaction-textdescription">Games</span>
+								<span class="vb-rightbar-transaction-textprice">- 50</span>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="esx_banking-bigcontainerdepositar">
+				<div class="esx_banking-depositar-container">
+					<div class="esx_banking-depositcontainer">
+						<div class="esx_banking-depositcontainer-creditcard">
+							<div class="esx_banking-depositcontainer-creditcard-background"></div>
+							<img class="esx_banking-creditcard-visalogo" src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/visa.png">
+							<img class="esx_banking-creditcard-chip" src="https://github.com/muhammed/vue-interactive-paycard/blob/master/src/assets/images/chip.png?raw=true">
+							<span class="esx_banking-creditcard-number">Laden...</span>
+							<span class="esx_banking-creditcard-cardholdertext">Karten Besitzer</span>
+							<span class="esx_banking-creditcard-validtext">Gültig bis:</span>
+							<span class="esx_banking-creditcard-cardholder">Laden...</span>
+							<span class="esx_banking-creditcard-valid">08/24</span>
+						</div>
+						<span class="esx_banking-depositcontainer-title">Geld einzahlen</span>
+						<div class="esx_banking-depositcontainer-buttoncontainer">
+							<button class="esx_banking-buttoncontainer-button">Einzahlen</button>
+							<button class="esx_banking-buttoncontainer-button button2" id="transfer">Überweisen</button>
+						</div>
+						<div class="esx_banking-depositcontainer-depositmoneydiv">
+							<span class="vb-withdrawandallofthatstuff-amounttext">Geben den Betrag ein</span>
+							<span class="vb-withdrawandallofthatstuff-dollarsymbol">$</span>
+							<input type="number" class="vb-withdrawandallofthatstuff-inputamount select" id="cantidaddepositar">
+						</div>
+						<button class="esx_banking-depositcontainer-completarbutton" id="depositarpasta"><i class="far fa-money-bill-wave-alt"></i>&nbsp;&nbsp;Deposit</button>
+					</div>
+					<div class="esx_banking-tarjetas-rightbar">
+						<div class="esx_banking-tarjetas-rigthbar-balancecontainer">
+							<span class="esx_banking-tarjetas-rigthbar-balance" id="esx_banking-depositcontainer-balance">$ 0</span>
+							<span class="esx_banking-tarjetas-rigthbar-currentbalance">Guthaben</span>
+						</div>
+						<span class="esx_banking-history">Transaktionen</span>
+						<div class="esx_banking-rightbar-historycontainer">
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction">
+									<i class="fab fa-spotify vb-rightbar-transaction-logomarca"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Spotify</span>
+								<span class="vb-rightbar-transaction-textdescription">Music Platform</span>
+								<span class="vb-rightbar-transaction-textprice">- 24</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction2">
+									<i class="fab fa-apple vb-rightbar-transaction-logomarca2"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Apple</span>
+								<span class="vb-rightbar-transaction-textdescription">Phones</span>
+								<span class="vb-rightbar-transaction-textprice">- 620</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction3">
+									<i class="fab fa-discord vb-rightbar-transaction-logomarca3"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Discord Nitro</span>
+								<span class="vb-rightbar-transaction-textdescription">Social</span>
+								<span class="vb-rightbar-transaction-textprice">- 5</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction4">
+									<i class="fab fa-amazon vb-rightbar-transaction-logomarca4"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Amazon</span>
+								<span class="vb-rightbar-transaction-textdescription">Shopping</span>
+								<span class="vb-rightbar-transaction-textprice">- 182</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction5">
+									<i class="fab fa-bitcoin vb-rightbar-transaction-logomarca5"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Binance</span>
+								<span class="vb-rightbar-transaction-textdescription">Bitcoin purchase</span>
+								<span class="vb-rightbar-transaction-textprice">- 540</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction6">
+									<i class="fab fa-playstation vb-rightbar-transaction-logomarca6"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">PlayStation</span>
+								<span class="vb-rightbar-transaction-textdescription">Games</span>
+								<span class="vb-rightbar-transaction-textprice">- 50</span>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="esx_banking-bigcontainertransfer">
+				<div class="esx_banking-transferir-container">
+					<div class="esx_banking-transferircontainer">
+						<div class="esx_banking-depositcontainer-creditcard">
+							<div class="esx_banking-depositcontainer-creditcard-background"></div>
+							<img class="esx_banking-creditcard-visalogo" src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/visa.png">
+							<img class="esx_banking-creditcard-chip" src="https://github.com/muhammed/vue-interactive-paycard/blob/master/src/assets/images/chip.png?raw=true">
+							<span class="esx_banking-creditcard-number">Laden...</span>
+							<span class="esx_banking-creditcard-cardholdertext">Karten Besitzer</span>
+							<span class="esx_banking-creditcard-validtext">Gültig bis:</span>
+							<span class="esx_banking-creditcard-cardholder">Laden...</span>
+							<span class="esx_banking-creditcard-valid">08/24</span>
+						</div>
+						<span class="esx_banking-depositcontainer-title">Geld überweisen</span>
+						<div class="esx_banking-depositcontainer-buttoncontainer">
+							<button class="esx_banking-buttoncontainer-button">Überweisen</button>
+							<button class="esx_banking-buttoncontainer-button button2" id="depositar">Einzahlen</button>
+						</div>
+						<div class="esx_banking-transferircontainer-transferstuff">
+							<span class="esx_banking-transferircontainer-payto">Empfänger</span>
+							<input type="number" class="esx_banking-tranferircontainer-iduser" id="iddestinatario" placeholder="Kartennummer eingeben">
+							<span class="esx_banking-transferircontainer-quantitytext">Betrag</span>
+							<input type="number" class="esx_banking-tranferircontainer-quantity" id="cantidadtransfer" placeholder="Betrag">
+							<span class="esx_banking-transferircontainer-reasontext">Grund</span>
+							<input type="text" class="esx_banking-tranferircontainer-reason" placeholder="Grund">
+							<button class="esx_banking-transferir-completar" id="transferirpasta"><i class="fal fa-paper-plane"></i>&nbsp;&nbsp;&nbsp;Überweisen</button>
+						</div>
+					</div>
+					<div class="esx_banking-tarjetas-rightbar">
+						<div class="esx_banking-tarjetas-rigthbar-balancecontainer">
+							<span class="esx_banking-tarjetas-rigthbar-balance" id="esx_banking-transferir-container-balance">$ 0</span>
+							<span class="esx_banking-tarjetas-rigthbar-currentbalance">Guthaben</span>
+						</div>
+						<span class="esx_banking-history">Transaktionen</span>
+						<div class="esx_banking-rightbar-historycontainer">
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction">
+									<i class="fab fa-spotify vb-rightbar-transaction-logomarca"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Spotify</span>
+								<span class="vb-rightbar-transaction-textdescription">Music Platform</span>
+								<span class="vb-rightbar-transaction-textprice">- 24</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction2">
+									<i class="fab fa-apple vb-rightbar-transaction-logomarca2"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Apple</span>
+								<span class="vb-rightbar-transaction-textdescription">Phones</span>
+								<span class="vb-rightbar-transaction-textprice">- 620</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction3">
+									<i class="fab fa-discord vb-rightbar-transaction-logomarca3"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Discord Nitro</span>
+								<span class="vb-rightbar-transaction-textdescription">Social</span>
+								<span class="vb-rightbar-transaction-textprice">- 5</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction4">
+									<i class="fab fa-amazon vb-rightbar-transaction-logomarca4"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Amazon</span>
+								<span class="vb-rightbar-transaction-textdescription">Shopping</span>
+								<span class="vb-rightbar-transaction-textprice">- 182</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction5">
+									<i class="fab fa-bitcoin vb-rightbar-transaction-logomarca5"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Binance</span>
+								<span class="vb-rightbar-transaction-textdescription">Bitcoin purchase</span>
+								<span class="vb-rightbar-transaction-textprice">- 540</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction6">
+									<i class="fab fa-playstation vb-rightbar-transaction-logomarca6"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">PlayStation</span>
+								<span class="vb-rightbar-transaction-textdescription">Games</span>
+								<span class="vb-rightbar-transaction-textprice">- 50</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="esx_banking-bigcontainermyaccount">
+				<div class="esx_banking-myaccount-container">
+					<div class="esx_banking-myaccount-balance">
+						<div class="esx_banking-myaccount-balance-background"></div>
+						<span class="esx_banking-myaccount-balance-text">Guthaben</span>
+						<span class="esx_banking-myaccount-balance-balance">$ 0</span>
+					</div>
+					<div class="esx_banking-myaccount-info">
+						<span class="esx_banking-myaccount-balance-text">Informationen</span>
+						<span class="esx_banking-myaccount-info-location"><i class="fal fa-city">&nbsp;&nbsp;&nbsp;</i>Stadt:&nbsp;&nbsp;Los Santos</span>
+						<span class="esx_banking-myaccount-info-walletid"><i class="fal fa-wallet"></i>&nbsp;&nbsp;&nbsp;</i>Konto Nummer:&nbsp;&nbsp;Loading...</span>
+					</div>
+					<div class="esx_banking-myaccount-security">
+						<span class="esx_banking-myaccount-balance-text">Sicherheit</span>
+						<div class="esx_banking-security-2fa-checkmark">
+							<i class="fal fa-shield-check"></i>
+						</div>
+						<span class="esx_banking-security-2fatext">2FA aktiviert</span>
+						<i class="fas fa-toggle-on esx_banking-security-2fatext-enabledswitch"></i>
+					</div>
+					<div class="esx_banking-tarjetas-rightbar">
+						<div class="esx_banking-tarjetas-rigthbar-balancecontainer">
+							<span class="esx_banking-tarjetas-rigthbar-balance" id="esx_banking-transferir-myaccount-balance">$ 0</span>
+							<span class="esx_banking-tarjetas-rigthbar-currentbalance">Guthaben</span>
+						</div>
+						<span class="esx_banking-history">Transaktionen</span>
+						<div class="esx_banking-rightbar-historycontainer">
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction">
+									<i class="fab fa-spotify vb-rightbar-transaction-logomarca"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Spotify</span>
+								<span class="vb-rightbar-transaction-textdescription">Music Platform</span>
+								<span class="vb-rightbar-transaction-textprice">- 24</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction2">
+									<i class="fab fa-apple vb-rightbar-transaction-logomarca2"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Apple</span>
+								<span class="vb-rightbar-transaction-textdescription">Phones</span>
+								<span class="vb-rightbar-transaction-textprice">- 620</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction3">
+									<i class="fab fa-discord vb-rightbar-transaction-logomarca3"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Discord Nitro</span>
+								<span class="vb-rightbar-transaction-textdescription">Social</span>
+								<span class="vb-rightbar-transaction-textprice">- 5</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction4">
+									<i class="fab fa-amazon vb-rightbar-transaction-logomarca4"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Amazon</span>
+								<span class="vb-rightbar-transaction-textdescription">Shopping</span>
+								<span class="vb-rightbar-transaction-textprice">- 182</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction5">
+									<i class="fab fa-bitcoin vb-rightbar-transaction-logomarca5"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">Binance</span>
+								<span class="vb-rightbar-transaction-textdescription">Bitcoin purchase</span>
+								<span class="vb-rightbar-transaction-textprice">- 540</span>
+							</div>
+							<div class="vb-rightbar-historytransactions-transaction">
+								<div class="vb-rightbar-transaction-logotransaction6">
+									<i class="fab fa-playstation vb-rightbar-transaction-logomarca6"></i>
+								</div>
+								<span class="vb-rightbar-transaction-textmarca">PlayStation</span>
+								<span class="vb-rightbar-transaction-textdescription">Games</span>
+								<span class="vb-rightbar-transaction-textprice">- 50</span>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+	<script src="js/bank.js"></script>
+	<script src="js/fontawesome.js"></script>
+</body>
+</html>
