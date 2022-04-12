@@ -1010,7 +1010,6 @@ function SpawnNpc()
     for k, y in pairs(jobs) do
 		for k, v in ipairs(y.armory) do
 			if v.npc then
-				print(v.npc.ped)
 				RequestModel(v.npc.ped)
 				LoadPropDict(v.npc.ped)
 				local ped = CreatePed(5, v.npc.ped , v.coords.x, v.coords.y, v.coords.z - 1.0, v.npc.heading, false, true)
@@ -1027,7 +1026,6 @@ function SpawnNpc()
 		end
 		for k, v in ipairs(y.boss) do
 			if v.npc then
-				print(v.npc.ped)
 				RequestModel(v.npc.ped)
 				LoadPropDict(v.npc.ped)
 				local ped = CreatePed(5, v.npc.ped , v.coords.x, v.coords.y, v.coords.z - 1.0, v.npc.heading, false, true)
@@ -1044,7 +1042,6 @@ function SpawnNpc()
 		end
 		for k, v in ipairs(y.cloak) do
 			if v.npc then
-				print(v.npc.ped)
 				RequestModel(v.npc.ped)
 				LoadPropDict(v.npc.ped)
 				local ped = CreatePed(5, v.npc.ped , v.coords.x, v.coords.y, v.coords.z - 1.0, v.npc.heading, false, true)
