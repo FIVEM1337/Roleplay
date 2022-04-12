@@ -178,7 +178,6 @@ Citizen.CreateThread(function()
                             LastWeatherTable[d] = d
                             self.weather = d
                             TriggerClientEvent('timemanager:SyncWeather', -1, {weather = self.weather, instantweather = self.instantweather})
-                            print('^3['..resource_name..'] - Weather changed to '..self.weather..'^0')
                             TableCleared = false
                             break
                         end
@@ -250,7 +249,6 @@ end)
 
 local function SaveSettngs()
     SaveResourceFile(resource_name,'settings.txt', json.encode(self), -1)
-    print('^3['..resource_name..'] - Settings Saved^0')
 end
 
 RegisterServerEvent('timemanager:SaveSettings')
