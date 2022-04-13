@@ -90,13 +90,13 @@ jobs = {
 			Blip = {name = "Krankenhaus", color = 2, sprite = 61, scale = 1.2, alwayshow = true},
 			pos = vector3(-472.32846069336,-331.83459472656,35.202640533447),
 			armory = {
-				{coords = vector3(-430.45022583008,-318.55596923828,34.510556793213), store_weapon = false, store_items = true},
+				{coords = vector3(-492.31387329102,-340.67944335938,42.320720672607), store_weapon = false, store_items = true},
 			},
 			boss = {
-				{coords = vector3(-430.95086669922,-325.10055541992,34.510556793213), min_grade = 1},
+				{coords = vector3(-455.92901611328,-320.41253662109,34.910774230957), min_grade = 1},
 			},
 			cloak = {
-				{coords = vector3(-443.2724609375,-310.97348022461,34.510556793213)},
+				{coords = vector3(-443.94863891602,-310.96670532227,34.910579681396)},
 			},
 			citizen_interaction_items = {
 				{label = "identity_card"},
