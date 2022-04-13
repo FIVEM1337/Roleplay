@@ -26,7 +26,7 @@ jobs = {
 				{coords = vector3(480.40084838867,-996.75048828125,30.689800262451), store_weapon = true, store_items = true, npc = {ped = "s_m_y_cop_01", heading = 90.567893981934}},
 			},
 			boss = {
-				{coords = vector3(460.73150634766,-985.55426025391,30.728080749512), min_grade = 1},
+				{coords = vector3(25.28851890564,-1357.4974365234,29.24684715271), min_grade = 1},
 			},
 			cloak = {
 				{coords = vector3(462.22036743164,-996.58294677734,30.689569473267)},

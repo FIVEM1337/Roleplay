@@ -115,7 +115,6 @@ end)
 --
 -- FUNCS
 --
-
 nearBankorATM = function()
     local _ped = PlayerPedId()
     local _pcoords = GetEntityCoords(_ped)
@@ -125,8 +124,6 @@ nearBankorATM = function()
         if distance <= 3 then
           atbank = true
           toreturn = true
-          DrawText3D(search.x, search.y, search.z, 'Press ~y~E~w~ to ~r~open~w~ the Bank')
-          DrawMarker(2,search.x, search.y, search.z, 0.0, 0.0, 0.0, 300.0, 0.0, 0.0, 0.25, 0.25, 0.05, 0, 100, 255, 255, false, true, 2, false, false, false, false)
         end
     end
     for _, search in pairs(Config.Zonas["atms"]) do

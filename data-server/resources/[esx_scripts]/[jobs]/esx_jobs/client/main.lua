@@ -1,7 +1,6 @@
 local _menuPool                 = NativeUI.CreatePool()
 local JobUI                  = nil
 local PlayerData = {}
-local playerPed = PlayerPedId()
 local blips_list = {}
 local HasAlreadyEnteredMarker = false
 local CurrentAction
@@ -16,7 +15,6 @@ isDead = false
 CreateThread(function()
 	while PlayerData.job == nil do
 		PlayerData = ESX.GetPlayerData()
-		SetBlips()
 		Wait(1)
 	end
 
@@ -30,10 +28,21 @@ CreateThread(function()
 	end
 end)
 
-CreateThread(function()
-	Wait(5000)
-	SpawnNpc()
+AddEventHandler('onResourceStart', function (resourceName)
+	PlayerData = ESX.GetPlayerData()
+	LoadDefaults()
 end)
+
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer)
+	PlayerData = xPlayer
+	LoadDefaults()
+end)
+
+function LoadDefaults()
+	SetBlips()
+	SpawnNpc()
+end
 
 RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(job)
@@ -56,6 +65,7 @@ CreateThread(function()
 	while true do
 		Wait(3)
 		if PlayerData.job and not isDead then
+			local playerPed = PlayerPedId()
 			local coords    = GetEntityCoords(playerPed)
 
 			local isInMarker = false 
@@ -190,6 +200,7 @@ AddEventHandler('esx_jobs:handcuff', function()
 	isHandcuffed = not isHandcuffed
 
 	CreateThread(function()
+		local playerPed = PlayerPedId()
 		if isHandcuffed then
 			RequestAnimDict('mp_arresting')
 
@@ -222,7 +233,7 @@ AddEventHandler('esx_jobs:drag', function(SourceID)
 end)
 
 CreateThread(function()
-	local playerPed
+	local playerPed = PlayerPedId()
 	local targetPed
 
 	while true do
@@ -249,6 +260,7 @@ end)
 
 RegisterNetEvent('esx_jobs:putInVehicle')
 AddEventHandler('esx_jobs:putInVehicle', function()
+	local playerPed = PlayerPedId()
 	local coords = GetEntityCoords(playerPed)
 
 	if IsAnyVehicleNearPoint(coords, 5.0) then
@@ -278,6 +290,7 @@ CreateThread(function()
 		Wait(0)
 
 		if isHandcuffed then
+			local playerPed = PlayerPedId()
 			DisableControlAction(0, 1, true) -- Disable pan
 			DisableControlAction(0, 2, true) -- Disable tilt
 			DisableControlAction(0, 24, true) -- Attack
@@ -334,6 +347,7 @@ end)
 
 RegisterNetEvent('esx_jobs:OutVehicle')
 AddEventHandler('esx_jobs:OutVehicle', function()
+	local playerPed = PlayerPedId()
 	if not IsPedSittingInAnyVehicle(playerPed) then
 		return
 	end
@@ -343,6 +357,7 @@ AddEventHandler('esx_jobs:OutVehicle', function()
 end)
 
 function OpenJobActionsMenu(JobConfig)
+	local playerPed = PlayerPedId()
     _menuPool:CloseAllMenus()
 	if JobUI ~= nil and JobUI:Visible() then
 		JobUI:Visible(false)
