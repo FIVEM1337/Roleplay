@@ -17,7 +17,6 @@ CreateThread(function()
 	while PlayerData.job == nil do
 		PlayerData = ESX.GetPlayerData()
 		SetBlips()
-		SpawnNpc()
 		Wait(1)
 	end
 
@@ -29,6 +28,11 @@ CreateThread(function()
             end
         end
 	end
+end)
+
+CreateThread(function()
+	Wait(5000)
+	SpawnNpc()
 end)
 
 RegisterNetEvent('esx:setJob')
