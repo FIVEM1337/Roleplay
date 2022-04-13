@@ -9,6 +9,7 @@ local CurrentActionMsg
 local CurrentActionData = {}
 local isHandcuffed = false
 local dragStatus = {}
+local npc_list = {}
 currentTask = {}
 isDead = false
 
@@ -16,7 +17,17 @@ CreateThread(function()
 	while PlayerData.job == nil do
 		PlayerData = ESX.GetPlayerData()
 		SetBlips()
+		SpawnNpc()
 		Wait(1)
+	end
+
+	while true do
+        Wait(100)
+        if npc_list then
+            for i, ped in ipairs(npc_list) do
+		        TaskSetBlockingOfNonTemporaryEvents(ped, true)
+            end
+        end
 	end
 end)
 
@@ -53,8 +64,10 @@ CreateThread(function()
 				v = jobs[PlayerData.job.name]
 				for k, v in ipairs(v.armory) do
 					local distance = GetDistanceBetweenCoords(coords, v.coords, true)
-					if distance < Config.DrawDistance then
-						DrawMarker(21, v.coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+					if not v.npc then
+						if distance < Config.DrawDistance then
+							DrawMarker(21, v.coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						end
 					end
 					if distance < Config.MarkerSize.x then
 						isInMarker = true
@@ -66,8 +79,10 @@ CreateThread(function()
 				for k, v in ipairs(v.boss) do
 					if v.min_grade <= PlayerData.job.grade then
 						local distance = GetDistanceBetweenCoords(coords, v.coords, true)
-						if distance < Config.DrawDistance then
-							DrawMarker(22, v.coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						if not v.npc then
+							if distance < Config.DrawDistance then
+								DrawMarker(22, v.coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+							end
 						end
 						if distance < Config.MarkerSize.x then
 							isInMarker = true
@@ -79,8 +94,10 @@ CreateThread(function()
 
 				for k, v in ipairs(v.cloak) do
 				local distance = GetDistanceBetweenCoords(coords, v.coords, true)
-					if distance < Config.DrawDistance then
-						DrawMarker(22, v.coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+					if not v.npc then
+						if distance < Config.DrawDistance then
+							DrawMarker(22, v.coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						end
 					end
 					if distance < Config.MarkerSize.x then
 						isInMarker = true
@@ -988,6 +1005,77 @@ function KeyboardInput(TextEntry, ExampleText, MaxStringLenght)
 		return nil
 	end
 end
+
+function SpawnNpc()
+    for k, y in pairs(jobs) do
+		for k, v in ipairs(y.armory) do
+			if v.npc then
+				RequestModel(v.npc.ped)
+				LoadPropDict(v.npc.ped)
+				local ped = CreatePed(5, v.npc.ped , v.coords.x, v.coords.y, v.coords.z - 1.0, v.npc.heading, false, true)
+				PlaceObjectOnGroundProperly(ped)
+				SetEntityAsMissionEntity(ped)
+				SetPedDropsWeaponsWhenDead(ped, false)
+				FreezeEntityPosition(ped, true)
+				SetPedAsEnemy(ped, false)
+				SetEntityInvincible(ped, true)
+				SetModelAsNoLongerNeeded(v.npc.ped)
+				SetPedCanBeTargetted(ped, false)
+				table.insert(npc_list, ped)
+			end
+		end
+		for k, v in ipairs(y.boss) do
+			if v.npc then
+				RequestModel(v.npc.ped)
+				LoadPropDict(v.npc.ped)
+				local ped = CreatePed(5, v.npc.ped , v.coords.x, v.coords.y, v.coords.z - 1.0, v.npc.heading, false, true)
+				PlaceObjectOnGroundProperly(ped)
+				SetEntityAsMissionEntity(ped)
+				SetPedDropsWeaponsWhenDead(ped, false)
+				FreezeEntityPosition(ped, true)
+				SetPedAsEnemy(ped, false)
+				SetEntityInvincible(ped, true)
+				SetModelAsNoLongerNeeded(v.npc.ped)
+				SetPedCanBeTargetted(ped, false)
+				table.insert(npc_list, ped)
+			end
+		end
+		for k, v in ipairs(y.cloak) do
+			if v.npc then
+				RequestModel(v.npc.ped)
+				LoadPropDict(v.npc.ped)
+				local ped = CreatePed(5, v.npc.ped , v.coords.x, v.coords.y, v.coords.z - 1.0, v.npc.heading, false, true)
+				PlaceObjectOnGroundProperly(ped)
+				SetEntityAsMissionEntity(ped)
+				SetPedDropsWeaponsWhenDead(ped, false)
+				FreezeEntityPosition(ped, true)
+				SetPedAsEnemy(ped, false)
+				SetEntityInvincible(ped, true)
+				SetModelAsNoLongerNeeded(v.npc.ped)
+				SetPedCanBeTargetted(ped, false)
+				table.insert(npc_list, ped)
+			end
+		end
+	end
+end
+
+function LoadPropDict(model)
+	while not HasModelLoaded(GetHashKey(model)) do
+	  RequestModel(GetHashKey(model))
+	  Wait(10)
+	end
+end
+
+AddEventHandler("onResourceStop",function(resourceName)
+    if resourceName == GetCurrentResourceName() then
+        if npc_list then
+            for i, ped in ipairs(npc_list) do
+	            DeletePed(ped)
+            end
+            npc_list = {}
+        end
+    end
+end)
 
 AddEventHandler('esx:onPlayerDeath', function(data) isDead = true end)
 AddEventHandler('esx:onPlayerSpawn', function(spawn) isDead = false end)
