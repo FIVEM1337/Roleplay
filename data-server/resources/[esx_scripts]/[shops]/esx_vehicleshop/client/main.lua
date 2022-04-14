@@ -123,6 +123,8 @@ function SpawnVehicle(model, spawn, CarType, Job)
 		local vehicleProps = ESX.Game.GetVehicleProperties(vehicle)
 		vehicleProps.plate = newPlate
 		SetVehicleNumberPlateText(vehicle, newPlate)
+		SetVehicleEngineOn(vehicle, false, false, true)
+		SetVehicleDoorsLocked(vehicle, 2)
 		if Config.EnableOwnedVehicles then
 			TriggerServerEvent('esx_vehicleshop:setVehicleOwned', vehicleProps, CarType, Job)
 		end
