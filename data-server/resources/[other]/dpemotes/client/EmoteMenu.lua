@@ -11,7 +11,7 @@ else
 end
 
 _menuPool = NativeUI.CreatePool()
-mainMenu = NativeUI.CreateMenu("dp Emotes", "", Config.MenuPosition, Config.MenuPosition, Menuthing, Menuthing)
+mainMenu = NativeUI.CreateMenu("Emotes", "", Config.MenuPosition, Config.MenuPosition, Menuthing, Menuthing)
 _menuPool:Add(mainMenu)
 
 function ShowNotification(text)
