@@ -11,8 +11,6 @@ else
 end
 
 _menuPool = NativeUI.CreatePool()
-mainMenu = NativeUI.CreateMenu("Emotes", "", Config.MenuPosition, Config.MenuPosition, Menuthing, Menuthing)
-_menuPool:Add(mainMenu)
 
 function ShowNotification(text)
     SetNotificationTextEntry("STRING")
@@ -32,7 +30,7 @@ local ShareTable = {}
 local FavoriteEmote = ""
 
 if Config.FavKeybindEnabled then
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while true do
             if IsControlPressed(0, Config.FavKeybind) then
                 if not IsPedSittingInAnyVehicle(PlayerPedId()) then
@@ -42,7 +40,7 @@ if Config.FavKeybindEnabled then
                     end
                 end
             end
-            Citizen.Wait(1)
+            Wait(1)
         end
     end)
 end
@@ -50,13 +48,23 @@ end
 lang = Config.MenuLanguage
 
 function AddEmoteMenu(menu)
+    model = GetEntityModel(PlayerPedId())
+
     local submenu = _menuPool:AddSubMenu(menu, Config.Languages[lang]['emotes'], "", "", Menuthing, Menuthing)
     local dancemenu = _menuPool:AddSubMenu(submenu.SubMenu, Config.Languages[lang]['danceemotes'], "", "", Menuthing, Menuthing)
-    local animalmenu = _menuPool:AddSubMenu(submenu.SubMenu, Config.Languages[lang]['animalemotes'], "", "", Menuthing, Menuthing)
+    local animalmenu
+    
+    if model ~= 1885233650 and model ~= 1667301416 then
+        animalmenu = _menuPool:AddSubMenu(submenu.SubMenu, Config.Languages[lang]['animalemotes'], "", "", Menuthing, Menuthing)
+    end
+
     local propmenu = _menuPool:AddSubMenu(submenu.SubMenu, Config.Languages[lang]['propemotes'], "", "", Menuthing, Menuthing)
     table.insert(EmoteTable, Config.Languages[lang]['danceemotes'])
     table.insert(EmoteTable, Config.Languages[lang]['danceemotes'])
-    table.insert(EmoteTable, Config.Languages[lang]['animalemotes'])
+    
+    if animalmenu then
+        table.insert(EmoteTable, Config.Languages[lang]['animalemotes'])
+    end
 
     if Config.SharedEmotesEnabled then
         sharemenu = _menuPool:AddSubMenu(submenu.SubMenu, Config.Languages[lang]['shareemotes'], Config.Languages[lang]['shareemotesinfo'], "", Menuthing, Menuthing)
@@ -103,11 +111,13 @@ function AddEmoteMenu(menu)
         table.insert(DanceTable, a)
     end
 
-    for a, b in pairsByKeys(DP.AnimalEmotes) do
-        x, y, z = table.unpack(b)
-        animalitem = NativeUI.CreateItem(z, "/e (" .. a .. ")")
-        animalmenu.SubMenu:AddItem(animalitem)
-        table.insert(AnimalTable, a)
+    if animalmenu then
+        for a, b in pairsByKeys(DP.AnimalEmotes) do
+            x, y, z = table.unpack(b)
+            animalitem = NativeUI.CreateItem(z, "/e (" .. a .. ")")
+            animalmenu.SubMenu:AddItem(animalitem)
+            table.insert(AnimalTable, a)
+        end
     end
 
     if Config.SharedEmotesEnabled then
@@ -153,8 +163,10 @@ function AddEmoteMenu(menu)
         EmoteMenuStart(DanceTable[index], "dances")
     end
 
-    animalmenu.SubMenu.OnItemSelect = function(sender, item, index)
-        EmoteMenuStart(AnimalTable[index], "animals")
+    if animalmenu then
+        animalmenu.SubMenu.OnItemSelect = function(sender, item, index)
+            EmoteMenuStart(AnimalTable[index], "animals")
+        end
     end
 
     if Config.SharedEmotesEnabled then
@@ -276,6 +288,22 @@ function AddInfoMenu(menu)
 end
 
 function OpenEmoteMenu()
+    _menuPool:CloseAllMenus()
+
+    mainMenu = NativeUI.CreateMenu("Emotes", "", Config.MenuPosition, Config.MenuPosition, Menuthing, Menuthing)
+    _menuPool:Add(mainMenu)
+
+    AddEmoteMenu(mainMenu)
+
+    AddCancelEmote(mainMenu)
+    if Config.WalkingStylesEnabled then
+        AddWalkMenu(mainMenu)
+    end
+    if Config.ExpressionsEnabled then
+        AddFaceMenu(mainMenu)
+    end
+    _menuPool:RefreshIndex()
+
     mainMenu:Visible(not mainMenu:Visible())
 	_menuPool:MouseControlsEnabled (false)
 	_menuPool:MouseEdgeEnabled (false)
@@ -287,21 +315,15 @@ function firstToUpper(str)
     return (str:gsub("^%l", string.upper))
 end
 
-AddEmoteMenu(mainMenu)
-AddCancelEmote(mainMenu)
-if Config.WalkingStylesEnabled then
-    AddWalkMenu(mainMenu)
-end
-if Config.ExpressionsEnabled then
-    AddFaceMenu(mainMenu)
-end
 
-_menuPool:RefreshIndex()
-
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(0)
-        _menuPool:ProcessMenus()
+        if _menuPool:IsAnyMenuOpen() then 
+            _menuPool:ProcessMenus()
+        else
+            _menuPool:CloseAllMenus()
+        end
+        Wait(1)
     end
 end)
 
