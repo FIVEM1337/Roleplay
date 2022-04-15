@@ -8,7 +8,7 @@ Config.ShopLocations = {
     jobs = false, -- set to false to disable whitelisting
     job_grades = false, -- set to false to disable grading
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
-    blip = {id = 59, color = 2, scale = 0.9, hiddenForOthers = false},
+    blip = {id = 59, color = 2, scale = 0.8, hiddenForOthers = false},
     locations = {
       {coord = vector3(373.875, 325.896, 102.566), show = true},
       {coord = vector3(373.875, 325.896, 102.566), show = true},
@@ -22,14 +22,16 @@ Config.ShopLocations = {
 			{coord = vector3(1729.216, 6414.131, 34.037), show = true},
     },
     items = {
-      {type = 'item', name = 'phone', method = 'money', price = 10},
-      {type = 'item', name = 'use_spray', method = 'money', price = 10},
-      {type = 'item', name = 'use_repairkit', method = 'money', price = 10},
       {type = 'item', name = 'use_bandage', method = 'money', price = 10},
-      {type = 'item', name = 'use_tablet', method = 'money', price = 10},
-      {type = 'item', name = 'use_binoculars', method = 'money', price = 10},
       {type = 'item', name = 'use_medikit', method = 'money', price = 10},
-      {type = 'item', name = 'use_gps', method = 'money', price = 10},
+      {type = 'item', name = 'drink_water', method = 'money', price = 10},
+      {type = 'item', name = 'drink_milkshake', method = 'money', price = 10},
+      {type = 'item', name = 'food_donut', method = 'money', price = 10},
+      {type = 'item', name = 'food_burger', method = 'money', price = 10},
+      {type = 'item', name = 'food_sandwich', method = 'money', price = 10},
+      {type = 'item', name = 'food_taco', method = 'money', price = 10},
+      {type = 'item', name = 'food_hotdog', method = 'money', price = 10},
+      {type = 'item', name = 'food_chips', method = 'money', price = 10},
     }
   },
   ["GunShop"] = {
@@ -38,7 +40,7 @@ Config.ShopLocations = {
     jobs = false, -- set to false to disable whitelisting
     job_grades = false, -- set to false to disable grading
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
-    blip = {id = 110, color = 0, scale = 0.9, hiddenForOthers = false},
+    blip = {id = 110, color = 0, scale = 0.8, hiddenForOthers = false},
     locations = {
       {coord = vector3(-662.1, -935.3, 20.9), show = true},
       {coord = vector3(-662.1, -935.3, 20.9), show = true},
@@ -55,11 +57,14 @@ Config.ShopLocations = {
       {type = 'weapon', name = 'WEAPON_HATCHET', method = 'money', price = 3, ammo = 100},
       {type = 'weapon', name = 'WEAPON_DAGGER', method = 'money', price = 3, ammo = 100},
       {type = 'weapon', name = 'WEAPON_SWITCHBLADE', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'WEAPON_PISTOl', method = 'money', price = 3, ammo = 100},
+      {type = 'weapon', name = 'WEAPON_PISTOl', method = 'money', price = 3, ammo = 0},
+      {type = 'weapon', name = 'WEAPON_FLASHLIGHT', method = 'money', price = 3, ammo = 100},
       {type = 'item', name = 'ammo_pistol', method = 'money', price = 3, ammo = 100},
-      {type = 'item', name = 'ammo_rifle', method = 'money', price = 3, ammo = 100},
-      {type = 'item', name = 'ammo_shotgun', method = 'money', price = 3, ammo = 100},
-      {type = 'item', name = 'ammo_smg', method = 'money', price = 3, ammo = 100},
+      {type = 'weapon', name = 'weapon_machete', method = 'money', price = 3, ammo = 100},
+      {type = 'weapon', name = 'weapon_bat', method = 'money', price = 3, ammo = 100},
+      {type = 'weapon', name = 'weapon_golfclub', method = 'money', price = 3, ammo = 100},
+      {type = 'weapon', name = 'weapon_knuckle', method = 'money', price = 3, ammo = 100},
+      {type = 'weapon', name = 'weapon_nightstick', method = 'money', price = 3, ammo = 100},
     }
   },
   ["LTDgasonline"] = {
@@ -68,7 +73,7 @@ Config.ShopLocations = {
     jobs = false, -- set to false to disable whitelisting
     job_grades = false, -- set to false to disable grading
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
-    blip = {id = 361, color = 4, scale = 0.9, hiddenForOthers = true},
+    blip = {id = 361, color = 4, scale = 0.8, hiddenForOthers = true},
     locations = {
 			{coord = vector3(-48.519, -1757.514, 28.421), show = true},
 			{coord = vector3(1163.373, -323.801, 68.205), show = true},
@@ -94,7 +99,7 @@ Config.ShopLocations = {
     jobs = false, -- set to false to disable whitelisting
     job_grades = false, -- set to false to disable grading
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
-    blip = {id = 93, color = 25, scale = 0.9, hiddenForOthers = false},
+    blip = {id = 93, color = 25, scale = 0.8, hiddenForOthers = false},
     locations = {
 			{coord = vector3( 1135.808,  -982.281,  45.415), show = true},
 			{coord = vector3( -1222.915, -906.983,  11.326), show = true},
@@ -115,6 +120,58 @@ Config.ShopLocations = {
       {type = 'item', name = 'drink_shot3', method = 'money', price = 3},
       {type = 'item', name = 'drink_shot4', method = 'money', price = 3},
       {type = 'item', name = 'drink_shot5', method = 'money', price = 3},
+    }
+  },
+  ["Schwarzmarkt"] = {
+    label = 'Illegaler Handel',
+    license = false, -- license name, esx_license required!
+    jobs = false, -- set to false to disable whitelisting
+    job_grades = false, -- set to false to disable grading
+    addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
+    blip = {id = 303, color = 40, scale = 0.8, hiddenForOthers = false},
+    locations = {
+			{coord = vector3( 57.836044311523,3692.9631347656,38.921283721924), show = true},
+    },
+    items = {
+      {type = 'item', name = 'ammo_rifle', method = 'money', price = 3, ammo = 100},
+      {type = 'item', name = 'ammo_shotgun', method = 'money', price = 3, ammo = 100},
+      {type = 'item', name = 'ammo_smg', method = 'money', price = 3, ammo = 100},
+    }
+  },
+  ["Handyladen"] = {
+    label = "Elektronik-Zubehör",
+    license = false, -- license name, esx_license required!
+    jobs = false, -- set to false to disable whitelisting
+    job_grades = false, -- set to false to disable grading
+    addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
+    blip = {id = 627, color = 25, scale = 0.8, hiddenForOthers = false},
+    locations = {
+			{coord = vector3( -657.05114746094,-857.62896728516,23.503044128418), show = true},
+    },
+    items = {
+      {type = 'item', name = 'use_gps', method = 'money', price = 10},
+      {type = 'item', name = 'use_tablet', method = 'money', price = 10},
+      {type = 'item', name = 'phone', method = 'money', price = 10},
+    }
+  },
+  ["Baumarkt"] = {
+    label = "Baumarkt",
+    license = false, -- license name, esx_license required!
+    jobs = false, -- set to false to disable whitelisting
+    job_grades = false, -- set to false to disable grading
+    addon_account_name = false, -- adds to specified account when player buys item, set to wfalse to disable addon_account
+    blip = {id = 628, color = 25, scale = 0.8, hiddenForOthers = false},
+    locations = {
+			{coord = vector3(-3156.7119140625,1111.4398193359,19.861461639404), show = true},
+    },
+    items = {
+      {type = 'item', name = 'use_spray', method = 'money', price = 10},
+      {type = 'item', name = 'use_repairkit', method = 'money', price = 10},
+      {type = 'item', name = 'use_fernglas', method = 'money', price = 10},
+      {type = 'item', name = 'use_schere', method = 'money', price = 10},
+      {type = 'item', name = 'use_kabelbinder', method = 'money', price = 10},
+      {type = 'item', name = 'use_unterbodenbeleuchtung', method = 'money', price = 10},
+      {type = 'item', name = 'use_abschleppseil', method = 'money', price = 10},
     }
   },
 }
