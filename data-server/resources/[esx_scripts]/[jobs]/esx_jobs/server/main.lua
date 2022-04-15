@@ -1,3 +1,27 @@
+local restricted_zones = {}
+
+CreateThread(function()
+	while true do
+		Wait(1000)
+		local xPlayers  = ESX.GetPlayers()
+		for k, v in pairs(restricted_zones) do
+			v.duration = v.duration - 1
+			if v.duration < 0 then
+				for k2, v2 in pairs(xPlayers) do
+					local xPlayer = ESX.GetPlayerFromId(v2)
+					TriggerClientEvent('esx_jobs:removerestictedzone', xPlayer.source, v.coords)
+				end
+				restricted_zones[k] = nil
+			end
+		end
+	end
+end)
+
+ESX.RegisterServerCallback('esx_jobs:GetRestirctedZones', function(source, cb)
+	cb(restricted_zones)
+end)
+
+
 ESX.RegisterServerCallback('esx_jobs:getPlayerInventory', function(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local items   = xPlayer.inventory
@@ -13,6 +37,43 @@ CreateThread(function()
 		end
 	end
 end)
+
+RegisterServerEvent('esx_jobs:removeRestrictedZone')
+AddEventHandler('esx_jobs:removeRestrictedZone', function(remove_coords)
+	if not rawequal(next(restricted_zones), nil) then
+		for k, v in pairs(restricted_zones) do
+			if #(v.coords - remove_coords) < 150.0 then
+				restricted_zones[k] = nil
+			end
+		end
+		SendData()
+	end
+end)
+
+RegisterServerEvent('esx_jobs:createRestrictedZone')
+AddEventHandler('esx_jobs:createRestrictedZone', function(data)
+	if not rawequal(next(restricted_zones), nil) then
+		for k, v in pairs(restricted_zones) do
+			if #(v.coords - data.coords) < 150.0 then
+				restricted_zones[k] = nil
+				table.insert(restricted_zones, data)
+			end
+		end
+		SendData()
+	else
+		table.insert(restricted_zones, data)
+		SendData()
+	end
+end)
+
+function SendData()
+	local xPlayers  = ESX.GetPlayers()
+	for k, v in pairs(xPlayers) do
+		local xPlayer = ESX.GetPlayerFromId(v)
+		TriggerClientEvent('esx_jobs:createRestrictedZone', xPlayer.source, restricted_zones)
+	end
+end
+
 
 RegisterServerEvent('esx_jobs:handcuff')
 AddEventHandler('esx_jobs:handcuff', function(target)
