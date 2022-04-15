@@ -54,17 +54,17 @@ Config.ShopLocations = {
 			{coord = vector3(842.4, -1033.4, 27.1), show = true},
     },
     items = {
-      {type = 'weapon', name = 'WEAPON_HATCHET', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'WEAPON_DAGGER', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'WEAPON_SWITCHBLADE', method = 'money', price = 3, ammo = 100},
+      {type = 'weapon', name = 'WEAPON_HATCHET', method = 'money', price = 3},
+      {type = 'weapon', name = 'WEAPON_DAGGER', method = 'money', price = 3},
+      {type = 'weapon', name = 'WEAPON_SWITCHBLADE', method = 'money', price = 3},
       {type = 'weapon', name = 'WEAPON_PISTOl', method = 'money', price = 3, ammo = 0},
-      {type = 'weapon', name = 'WEAPON_FLASHLIGHT', method = 'money', price = 3, ammo = 100},
+      {type = 'weapon', name = 'WEAPON_FLASHLIGHT', method = 'money', price = 3},
       {type = 'item', name = 'ammo_pistol', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'weapon_machete', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'weapon_bat', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'weapon_golfclub', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'weapon_knuckle', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'weapon_nightstick', method = 'money', price = 3, ammo = 100},
+      {type = 'weapon', name = 'weapon_machete', method = 'money', price = 3},
+      {type = 'weapon', name = 'weapon_bat', method = 'money', price = 3},
+      {type = 'weapon', name = 'weapon_golfclub', method = 'money', price = 3},
+      {type = 'weapon', name = 'weapon_knuckle', method = 'money', price = 3},
+      {type = 'weapon', name = 'weapon_nightstick', method = 'money', price = 3},
     }
   },
   ["LTDgasonline"] = {
@@ -136,6 +136,11 @@ Config.ShopLocations = {
       {type = 'item', name = 'ammo_rifle', method = 'money', price = 3, ammo = 100},
       {type = 'item', name = 'ammo_shotgun', method = 'money', price = 3, ammo = 100},
       {type = 'item', name = 'ammo_smg', method = 'money', price = 3, ammo = 100},
+      {type = 'item', name = 'fish', method = 'money', sellPrice  = 3},
+      {type = 'item', name = 'fishing_seestern', method = 'money', sellPrice  = 3},
+      {type = 'item', name = 'fishing_delphin', method = 'money', sellPrice  = 3},
+      {type = 'item', name = 'diamond', method = 'money', sellPrice = 3},
+      {type = 'item', name = 'fishing_goldbarren', method = 'money', sellPrice = 3},
     }
   },
   ["Handyladen"] = {
@@ -173,6 +178,21 @@ Config.ShopLocations = {
       {type = 'item', name = 'use_unterbodenbeleuchtung', method = 'money', price = 10},
       {type = 'item', name = 'use_abschleppseil', method = 'money', price = 10},
       {type = 'weapon', name = 'WEAPON_PETROLCAN', method = 'money', price = 10, ammo = 0},
+    }
+  },
+  ["Fishmarkt"] = {
+    label = "Fish Handel",
+    license = false, -- license name, esx_license required!
+    jobs = false, -- set to false to disable whitelisting
+    job_grades = false, -- set to false to disable grading
+    addon_account_name = false, -- adds to specified account when player buys item, set to wfalse to disable addon_account
+    blip = {id = 762, color = 25, scale = 0.8, hiddenForOthers = false},
+    locations = {
+			{coord = vector3(-1599.6572265625,5201.9868164063,3.3973059654236), show = true},
+    },
+    items = {
+      {type = 'item', name = 'fishingrod', method = 'money', price = 10},
+      {type = 'item', name = 'fishbait', method = 'money', price = 10},
     }
   },
 }

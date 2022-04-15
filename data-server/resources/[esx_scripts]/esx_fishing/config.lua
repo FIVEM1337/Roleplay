@@ -9,15 +9,15 @@ Config.FishingItems = {
         ["name"] = "fishbait",
         ["label"] = "Köder"
     }
-}
+    }
 
-Config.FishTable = {
-	[1] = {["name"] = "fish",           ["prop"] = "a_c_fish",                      ["ped"] = true,     ["chance"] = 100,     ["trash"] = false},
-	[2] = {["name"] = "oilcan",         ["prop"] = "prop_oilcan_01a",               ["ped"] = false,    ["chance"] = 5,     ["trash"] = true},
-    [3] = {["name"] = "tank",           ["prop"] = "p_d_scuba_tank_s",              ["ped"] = false,    ["chance"] = 1,     ["trash"] = true},
-    [4] = {["name"] = "shoe",           ["prop"] = "prop_ld_shoe_01",               ["ped"] = false,    ["chance"] = 1,     ["trash"] = true},
-	[5] = {["name"] = "cashbag",        ["prop"] = "hei_prop_heist_cash_bag_01",    ["ped"] = false,    ["chance"] = 5,     ["trash"] = true},
-    [6] = {["name"] = "tyre",           ["prop"] = "prop_wheel_tyre",               ["ped"] = false,    ["chance"] = 5,     ["trash"] = true},
-    [7] = {["name"] = "bottle",         ["prop"] = "v_ind_cs_bottle",               ["ped"] = false,    ["chance"] = 5,     ["trash"] = true},
-	[8] = {["name"] = "dildo",          ["prop"] = "v_res_d_dildo_f",               ["ped"] = false,    ["chance"] = 100,     ["trash"] = true}
-}
+    Config.FishTable = {
+        [1] = {["name"] = "fish",                                 ["prop"] = "a_c_fish",                      ["ped"] = true,     ["chance"] = 100,     ["trash"] = false},     -- Fisch 1
+        [2] = {["name"] = "fishing_seestern",                     ["prop"] = "prop_starfish_01",              ["ped"] = false,    ["chance"] = 100,     ["trash"] = true},     -- Seestern 1
+        [4] = {["name"] = "fishing_delphin",                      ["prop"] = "a_c_dolphin",                   ["ped"] = true,     ["chance"] = 100,     ["trash"] = false},       -- Delphin 1
+        [5] = {["name"] = "fishing_dildo",                        ["prop"] = "prop_cs_dildo_01",              ["ped"] = false,    ["chance"] = 100,     ["trash"] = true},      -- Dildo
+        [6] = {["name"] = "WEAPON_DAGGER",                        ["prop"] = "w_me_dagger",                   ["ped"] = false,    ["chance"] = 100,     ["trash"] = true},       -- Dolch 1
+        [7] = {["name"] = "WEAPON_HATCHET",                       ["prop"] ="w_me_hatchet",                   ["ped"] = false,    ["chance"] = 100,     ["trash"] = true},       -- Axt 1
+        [8] = {["name"] = "fishing_goldbarren",                   ["prop"] ="hei_prop_heist_gold_bar",        ["ped"] = false,    ["chance"] = 100,     ["trash"] = true},       -- Goldbarren
+        [9] = {["name"] = "diamond",                              ["prop"] ="prop_cs_diaphram",               ["ped"] = false,    ["chance"] = 100,     ["trash"] = true},       -- Dimand
+    }
