@@ -296,8 +296,8 @@ end)
 
 -- Postal Code
 CreateThread(function()
-	local ped = PlayerPedId()
 	while true do
+		local ped = PlayerPedId()
 		local nearest = nil
 	
 		local playerCoords = GetEntityCoords(ped)
