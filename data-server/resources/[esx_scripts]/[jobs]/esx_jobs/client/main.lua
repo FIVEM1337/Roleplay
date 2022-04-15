@@ -9,6 +9,8 @@ local CurrentActionData = {}
 local isHandcuffed = false
 local dragStatus = {}
 local npc_list = {}
+local RestirctedZones = {}
+
 currentTask = {}
 isDead = false
 
@@ -31,12 +33,14 @@ end)
 AddEventHandler('onResourceStart', function (resourceName)
 	PlayerData = ESX.GetPlayerData()
 	LoadDefaults()
+	GetRestirctedZones()
 end)
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
 	PlayerData = xPlayer
 	LoadDefaults()
+	GetRestirctedZones()
 end)
 
 function LoadDefaults()
@@ -379,174 +383,222 @@ function OpenJobActionsMenu(JobConfig)
 	JobUI = NativeUI.CreateMenu("Job Menü", nil, nil)
 	_menuPool:Add(JobUI)
 
-	if not rawequal(next(JobConfig.citizen_interaction_items), nil) then
-		citizen_interaction_menu = _menuPool:AddSubMenu(JobUI, _U('citizen_interaction'))
-        for k, v in pairs(JobConfig.citizen_interaction_items) do
-			Item = NativeUI.CreateItem(_U(v.label), "")
-			citizen_interaction_menu.SubMenu:AddItem(Item)
-
-			Item.Activated = function(sender, index)
-				local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-				if closestPlayer ~= -1 and closestDistance <= 3.0 then
-					if v.label == 'identity_card' then
-						TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(closestPlayer), GetPlayerServerId(PlayerId()))
-					elseif v.label == 'body_search' then
-						ESX.TriggerServerCallback('esx_jobs:getOtherPlayerData', function(data)
-							if data then
-								OpenBodySearchMenu(closestPlayer, data)
-							else
-								TriggerEvent('dopeNotify:Alert', "", _U('player_not_found'), 5000, 'error')
-							end
-						end, GetPlayerServerId(closestPlayer))
-					elseif v.label == 'handcuff' then
-						TriggerServerEvent('esx_jobs:handcuff', GetPlayerServerId(closestPlayer))
-					elseif v.label == 'drag' then
-						TriggerServerEvent('esx_jobs:drag', GetPlayerServerId(closestPlayer))
-					elseif v.label == 'put_in_vehicle' then
-						TriggerServerEvent('esx_jobs:putInVehicle', GetPlayerServerId(closestPlayer))
-					elseif v.label == 'out_the_vehicle' then
-						TriggerServerEvent('esx_jobs:OutVehicle', GetPlayerServerId(closestPlayer))
-					elseif v.label == 'license' then
-						ESX.TriggerServerCallback('esx_jobs:getOtherPlayerData', function(playerData)
-							if playerData then
-								if not rawequal(next(playerData.licenses), nil) then
-									ShowPlayerLicense(closestPlayer, playerData.licenses)
+	if JobConfig.citizen_interaction_items then
+		if not rawequal(next(JobConfig.citizen_interaction_items), nil) then
+			citizen_interaction_menu = _menuPool:AddSubMenu(JobUI, _U('citizen_interaction'))
+			for k, v in pairs(JobConfig.citizen_interaction_items) do
+				Item = NativeUI.CreateItem(_U(v.label), "")
+				citizen_interaction_menu.SubMenu:AddItem(Item)
+	
+				Item.Activated = function(sender, index)
+					local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+					if closestPlayer ~= -1 and closestDistance <= 3.0 then
+						if v.label == 'identity_card' then
+							TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(closestPlayer), GetPlayerServerId(PlayerId()))
+						elseif v.label == 'body_search' then
+							ESX.TriggerServerCallback('esx_jobs:getOtherPlayerData', function(data)
+								if data then
+									OpenBodySearchMenu(closestPlayer, data)
 								else
-									TriggerEvent('dopeNotify:Alert', "", _U('no_licenses_owned'), 5000, 'info')
+									TriggerEvent('dopeNotify:Alert', "", _U('player_not_found'), 5000, 'error')
 								end
-							else
-								TriggerEvent('dopeNotify:Alert', "", _U('player_not_found'), 5000, 'error')
+							end, GetPlayerServerId(closestPlayer))
+						elseif v.label == 'handcuff' then
+							TriggerServerEvent('esx_jobs:handcuff', GetPlayerServerId(closestPlayer))
+						elseif v.label == 'drag' then
+							TriggerServerEvent('esx_jobs:drag', GetPlayerServerId(closestPlayer))
+						elseif v.label == 'put_in_vehicle' then
+							TriggerServerEvent('esx_jobs:putInVehicle', GetPlayerServerId(closestPlayer))
+						elseif v.label == 'out_the_vehicle' then
+							TriggerServerEvent('esx_jobs:OutVehicle', GetPlayerServerId(closestPlayer))
+						elseif v.label == 'license' then
+							ESX.TriggerServerCallback('esx_jobs:getOtherPlayerData', function(playerData)
+								if playerData then
+									if not rawequal(next(playerData.licenses), nil) then
+										ShowPlayerLicense(closestPlayer, playerData.licenses)
+									else
+										TriggerEvent('dopeNotify:Alert', "", _U('no_licenses_owned'), 5000, 'info')
+									end
+								else
+									TriggerEvent('dopeNotify:Alert', "", _U('player_not_found'), 5000, 'error')
+								end
+							end, GetPlayerServerId(closestPlayer))
+						elseif v.label == 'unpaid_bills' then
+							ESX.TriggerServerCallback('esx_billing:getTargetBills', function(bills)
+								if not rawequal(next(bills), nil) then
+									OpenUnpaidBillsMenu(closestPlayer, bills)
+								else
+									TriggerEvent('dopeNotify:Alert', "", _U('no_bills'), 5000, 'info')
+								end
+							end, GetPlayerServerId(closestPlayer))
+						elseif v.label == 'ems_menu_revive' then
+							RevivePlayer(closestPlayer)
+						elseif v.label == 'ems_menu_small' then
+							HealPlayer(closestPlayer, "bandage")
+						elseif v.label == 'ems_menu_big' then
+							HealPlayer(closestPlayer, "medikit")
+						elseif v.label == 'billing' then
+							local input = KeyboardInput("Rechnungs betrag", "", 20)
+							local amount = tonumber(input)
+							if tostring(amount) then
+								if amount == nil or amount < 0 then
+									TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
+									return
+								end
+								TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(closestPlayer), 'society_'..PlayerData.job.name , PlayerData.job.label, amount)
 							end
-						end, GetPlayerServerId(closestPlayer))
-					elseif v.label == 'unpaid_bills' then
-						ESX.TriggerServerCallback('esx_billing:getTargetBills', function(bills)
-							if not rawequal(next(bills), nil) then
-								OpenUnpaidBillsMenu(closestPlayer, bills)
-							else
-								TriggerEvent('dopeNotify:Alert', "", _U('no_bills'), 5000, 'info')
-							end
-						end, GetPlayerServerId(closestPlayer))
-					elseif v.label == 'ems_menu_revive' then
-						RevivePlayer(closestPlayer)
-					elseif v.label == 'ems_menu_small' then
-						HealPlayer(closestPlayer, "bandage")
-					elseif v.label == 'ems_menu_big' then
-						HealPlayer(closestPlayer, "medikit")
-					elseif v.label == 'billing' then
-						local input = KeyboardInput("Rechnungs betrag", "", 20)
-						local amount = tonumber(input)
-						if tostring(amount) then
-							if amount == nil or amount < 0 then
-								TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
-								return
-							end
-							TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(closestPlayer), 'society_'..PlayerData.job.name , PlayerData.job.label, amount)
 						end
+					else
+						TriggerEvent('dopeNotify:Alert', "", _U('no_players_nearby'), 5000, 'error')
 					end
-				else
-					TriggerEvent('dopeNotify:Alert', "", _U('no_players_nearby'), 5000, 'error')
 				end
 			end
-        end
+		end
 	end
 
-	if not rawequal(next(JobConfig.vehicle_interaction_items), nil) then
-		vehicle_interaction_menu = _menuPool:AddSubMenu(JobUI, _U('vehicle_interaction'))
-		for k, v in pairs(JobConfig.vehicle_interaction_items) do
-			Item = NativeUI.CreateItem(_U(v.label), "")
-			vehicle_interaction_menu.SubMenu:AddItem(Item)
-
-			Item.Activated = function(sender, index)
-				local coords  = GetEntityCoords(playerPed)
-				vehicle = ESX.Game.GetVehicleInDirection()
-
-				if currentTask.busy then
-					return
-				end
-
-				if v.label == 'search_database' then
-					local plate = KeyboardInput(_U('search_database_title'), "", 7)
-					if tostring(plate) then
-						if plate then
+	if JobConfig.vehicle_interaction_items then
+		if not rawequal(next(JobConfig.vehicle_interaction_items), nil) then
+			vehicle_interaction_menu = _menuPool:AddSubMenu(JobUI, _U('vehicle_interaction'))
+			for k, v in pairs(JobConfig.vehicle_interaction_items) do
+				Item = NativeUI.CreateItem(_U(v.label), "")
+				vehicle_interaction_menu.SubMenu:AddItem(Item)
+	
+				Item.Activated = function(sender, index)
+					local coords  = GetEntityCoords(playerPed)
+					vehicle = ESX.Game.GetVehicleInDirection()
+	
+					if currentTask.busy then
+						return
+					end
+	
+					if v.label == 'search_database' then
+						local plate = KeyboardInput(_U('search_database_title'), "", 7)
+						if tostring(plate) then
+							if plate then
+								ESX.TriggerServerCallback('esx_jobs:getVehicleInfos', function(retrivedInfo)
+									if retrivedInfo then
+										LookupVehicle(retrivedInfo)
+									else
+										TriggerEvent('dopeNotify:Alert', "", _U('search_database_error_invalid'), 5000, 'error')
+									end
+								end, plate)
+							else
+								TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
+							end
+						else
+							TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
+						end
+					elseif DoesEntityExist(vehicle) then
+						if v.label == 'vehicle_infos' then
 							ESX.TriggerServerCallback('esx_jobs:getVehicleInfos', function(retrivedInfo)
 								if retrivedInfo then
 									LookupVehicle(retrivedInfo)
 								else
 									TriggerEvent('dopeNotify:Alert', "", _U('search_database_error_invalid'), 5000, 'error')
 								end
-							end, plate)
-						else
-							TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
+							end, ESX.Game.GetVehicleProperties(vehicle).plate)
+						elseif v.label == 'hijack_vehicle' then
+							if IsPedSittingInAnyVehicle(playerPed) then
+								TriggerEvent('dopeNotify:Alert', "", _U('inside_vehicle'), 5000, 'error')
+								return
+							end
+	
+							if GetVehicleDoorLockStatus(vehicle) == 2 then
+								currentTask.busy = true
+								if IsAnyVehicleNearPoint(coords.x, coords.y, coords.z, 3.0) then
+									TaskStartScenarioInPlace(playerPed, 'WORLD_HUMAN_WELDING', 0, true)
+									Wait(20000)
+									ClearPedTasksImmediately(playerPed)
+									SetVehicleDoorsLocked(vehicle, 1)
+									SetVehicleDoorsLockedForAllPlayers(vehicle, false)
+									TriggerEvent('dopeNotify:Alert', "", _U('vehicle_unlocked'), 5000, 'info')
+									currentTask.busy = false
+								end
+							else
+								TriggerEvent('dopeNotify:Alert', "", _U('vehicle_is_already_open'), 5000, 'error')
+							end
+						elseif v.label == 'fix_vehicle' then
+							if IsPedSittingInAnyVehicle(playerPed) then
+								TriggerEvent('dopeNotify:Alert', "", _U('inside_vehicle'), 5000, 'error')
+								return
+							end
+	
+							currentTask.busy = true
+							TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
+							CreateThread(function()
+								Wait(20000)
+								SetVehicleFixed(vehicle)
+								SetVehicleDeformationFixed(vehicle)
+								SetVehicleUndriveable(vehicle, false)
+								SetVehicleEngineOn(vehicle, true, true)
+								ClearPedTasksImmediately(playerPed)
+								TriggerEvent('dopeNotify:Alert', "", _U('vehicle_repaired'), 5000, 'succes')
+								currentTask.busy = false
+							end)
+	
+						elseif v.label == 'clean_vehicle' then
+							if IsPedSittingInAnyVehicle(playerPed) then
+								TriggerEvent('dopeNotify:Alert', "", _U('inside_vehicle'), 5000, 'error')
+								return
+							end
+	
+							currentTask.busy = true
+							TaskStartScenarioInPlace(playerPed, 'WORLD_HUMAN_MAID_CLEAN', 0, true)
+							CreateThread(function()
+								Wait(10000)
+								SetVehicleDirtLevel(vehicle, 0)
+								ClearPedTasksImmediately(playerPed)
+								TriggerEvent('dopeNotify:Alert', "", _U('vehicle_cleaned'), 5000, 'succes')
+								currentTask.busy = false
+							end)
 						end
 					else
-						TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
+						TriggerEvent('dopeNotify:Alert', "", _U('no_vehicles_nearby'), 5000, 'error')
 					end
-				elseif DoesEntityExist(vehicle) then
-					if v.label == 'vehicle_infos' then
-						ESX.TriggerServerCallback('esx_jobs:getVehicleInfos', function(retrivedInfo)
-							if retrivedInfo then
-								LookupVehicle(retrivedInfo)
-							else
-								TriggerEvent('dopeNotify:Alert', "", _U('search_database_error_invalid'), 5000, 'error')
-							end
-						end, ESX.Game.GetVehicleProperties(vehicle).plate)
-					elseif v.label == 'hijack_vehicle' then
-						if IsPedSittingInAnyVehicle(playerPed) then
-							TriggerEvent('dopeNotify:Alert', "", _U('inside_vehicle'), 5000, 'error')
-							return
-						end
+				end
+			end
+		end
+	end
 
-						if GetVehicleDoorLockStatus(vehicle) == 2 then
-							currentTask.busy = true
-							if IsAnyVehicleNearPoint(coords.x, coords.y, coords.z, 3.0) then
-								TaskStartScenarioInPlace(playerPed, 'WORLD_HUMAN_WELDING', 0, true)
-								Wait(20000)
-								ClearPedTasksImmediately(playerPed)
-								SetVehicleDoorsLocked(vehicle, 1)
-								SetVehicleDoorsLockedForAllPlayers(vehicle, false)
-								TriggerEvent('dopeNotify:Alert', "", _U('vehicle_unlocked'), 5000, 'info')
-								currentTask.busy = false
-							end
-						else
-							TriggerEvent('dopeNotify:Alert', "", _U('vehicle_is_already_open'), 5000, 'error')
-						end
-					elseif v.label == 'fix_vehicle' then
-						if IsPedSittingInAnyVehicle(playerPed) then
-							TriggerEvent('dopeNotify:Alert', "", _U('inside_vehicle'), 5000, 'error')
-							return
-						end
-
-						currentTask.busy = true
-						TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
-						CreateThread(function()
-							Wait(20000)
-							SetVehicleFixed(vehicle)
-							SetVehicleDeformationFixed(vehicle)
-							SetVehicleUndriveable(vehicle, false)
-							SetVehicleEngineOn(vehicle, true, true)
-							ClearPedTasksImmediately(playerPed)
-							TriggerEvent('dopeNotify:Alert', "", _U('vehicle_repaired'), 5000, 'succes')
-							currentTask.busy = false
-						end)
-
-					elseif v.label == 'clean_vehicle' then
-						if IsPedSittingInAnyVehicle(playerPed) then
-							TriggerEvent('dopeNotify:Alert', "", _U('inside_vehicle'), 5000, 'error')
-							return
-						end
-
-						currentTask.busy = true
-						TaskStartScenarioInPlace(playerPed, 'WORLD_HUMAN_MAID_CLEAN', 0, true)
-						CreateThread(function()
-							Wait(10000)
-							SetVehicleDirtLevel(vehicle, 0)
-							ClearPedTasksImmediately(playerPed)
-							TriggerEvent('dopeNotify:Alert', "", _U('vehicle_cleaned'), 5000, 'succes')
-							currentTask.busy = false
-						end)
+	if JobConfig.restricted_zone then
+		local restricted_zone_menu = _menuPool:AddSubMenu(JobUI, "Sperrzone")
+		local create_restricted_zone_item = _menuPool:AddSubMenu(restricted_zone_menu.SubMenu, "Erstellen", "Sperrzone erstellen")
+	
+		local remove = NativeUI.CreateItem("Entfernen", "Sperrzone entfernen")
+		restricted_zone_menu.SubMenu:AddItem(remove)
+	
+		restricted_zone_menu.SubMenu.OnItemSelect = function(sender, item, index)
+			if item == remove then
+				TriggerServerEvent('esx_jobs:removeRestrictedZone', GetEntityCoords(PlayerPedId()))
+			end
+		end
+	
+		range_values = {25.0, 50.0, 75.0, 100.0, 125.0, 150.0}
+		local range = NativeUI.CreateListItem('Radius: ', range_values, 0, 'Gebe den Radius an, in der die Sperrzone erstellt werden soll')		
+		create_restricted_zone_item.SubMenu:AddItem(range)
+	
+		duration_values = {5, 10, 15, 20, 25}
+		local duration = NativeUI.CreateListItem('Dauer in Minuten: ', duration_values, 0, 'Gebe eine Zeit an wie lange die Sperrzone erhalten soll')		
+		create_restricted_zone_item.SubMenu:AddItem(duration)
+	
+		local send = NativeUI.CreateItem("Erstellen", "Sperrzone erstellen")
+		create_restricted_zone_item.SubMenu:AddItem(send)
+	
+		restricted_zone_menu.SubMenu.OnMenuChanged = function(menu, newmenu, forward)
+			if newmenu == create_restricted_zone_item.SubMenu then
+				_menuPool:RefreshIndex()
+	
+				create_restricted_zone_item.SubMenu.OnItemSelect = function(sender, item, index)
+					if item == send then
+						local data = {
+							coords = GetEntityCoords(PlayerPedId()),
+							radius = range_values[range._Index],
+							duration = duration_values[duration._Index] * 60,
+							label = JobConfig.restricted_zone.label,
+							color = JobConfig.restricted_zone.color,
+						}
+						TriggerServerEvent('esx_jobs:createRestrictedZone', data)
 					end
-				else
-					TriggerEvent('dopeNotify:Alert', "", _U('no_vehicles_nearby'), 5000, 'error')
 				end
 			end
 		end
@@ -1107,6 +1159,49 @@ AddEventHandler("onResourceStop",function(resourceName)
             npc_list = {}
         end
     end
+end)
+
+function GetRestirctedZones()
+	ESX.TriggerServerCallback('esx_jobs:GetRestirctedZones', function(zones)
+		TriggerEvent('esx_jobs:createRestrictedZone', zones)
+	end)
+end
+
+RegisterNetEvent('esx_jobs:removerestictedzone')
+AddEventHandler('esx_jobs:removerestictedzone', function(coord)
+	for k, v in pairs(RestirctedZones) do
+		if v.coord == coord then
+			RemoveBlip(v.blip)
+			RemoveBlip(v.radiusblip)
+			RestirctedZones[k] = nil
+		end	
+	end
+end)
+
+RegisterNetEvent('esx_jobs:createRestrictedZone')
+AddEventHandler('esx_jobs:createRestrictedZone', function(new_zone)
+	for k, v in pairs(RestirctedZones) do
+		RemoveBlip(v.blip)
+		RemoveBlip(v.radiusblip)
+		RestirctedZones[k] = nil
+	end
+
+	for k, v in pairs(new_zone) do
+		print(v.radius)
+		local blip = AddBlipForCoord(v.coords)
+		local radiusblip = AddBlipForRadius(v.coords, v.radius)
+		SetBlipSprite(blip, 161)
+		SetBlipDisplay(blip, 4)
+		SetBlipScale(blip, 1)
+		SetBlipColour(blip, v.color)
+		SetBlipAsShortRange(blip, true)
+		BeginTextCommandSetBlipName('STRING')
+		AddTextComponentString(v.label)
+		EndTextCommandSetBlipName(blip)
+		SetBlipAlpha(radiusblip, 80)
+		SetBlipColour(radiusblip, v.color)
+		table.insert(RestirctedZones, {coord = v.coords, blip = blip, radiusblip = radiusblip})
+	end
 end)
 
 AddEventHandler('esx:onPlayerDeath', function(data) isDead = true end)

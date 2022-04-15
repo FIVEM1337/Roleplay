@@ -32,6 +32,8 @@ jobs = {
 				{coords = vector3(462.22036743164,-996.58294677734,30.689569473267)},
 			},
 
+			restricted_zone = {label = "LSPD Sperrzone", color = 1},
+
 
 			citizen_interaction_items = {
 				{label = "identity_card"},
