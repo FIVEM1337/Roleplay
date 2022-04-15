@@ -54,17 +54,17 @@ Config.ShopLocations = {
 			{coord = vector3(842.4, -1033.4, 27.1), show = true},
     },
     items = {
-      {type = 'weapon', name = 'WEAPON_HATCHET', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'WEAPON_DAGGER', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'WEAPON_SWITCHBLADE', method = 'money', price = 3, ammo = 100},
+      {type = 'weapon', name = 'WEAPON_HATCHET', method = 'money', price = 3},
+      {type = 'weapon', name = 'WEAPON_DAGGER', method = 'money', price = 3},
+      {type = 'weapon', name = 'WEAPON_SWITCHBLADE', method = 'money', price = 3},
       {type = 'weapon', name = 'WEAPON_PISTOl', method = 'money', price = 3, ammo = 0},
-      {type = 'weapon', name = 'WEAPON_FLASHLIGHT', method = 'money', price = 3, ammo = 100},
+      {type = 'weapon', name = 'WEAPON_FLASHLIGHT', method = 'money', price = 3},
       {type = 'item', name = 'ammo_pistol', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'weapon_machete', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'weapon_bat', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'weapon_golfclub', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'weapon_knuckle', method = 'money', price = 3, ammo = 100},
-      {type = 'weapon', name = 'weapon_nightstick', method = 'money', price = 3, ammo = 100},
+      {type = 'weapon', name = 'weapon_machete', method = 'money', price = 3},
+      {type = 'weapon', name = 'weapon_bat', method = 'money', price = 3},
+      {type = 'weapon', name = 'weapon_golfclub', method = 'money', price = 3},
+      {type = 'weapon', name = 'weapon_knuckle', method = 'money', price = 3},
+      {type = 'weapon', name = 'weapon_nightstick', method = 'money', price = 3},
     }
   },
   ["LTDgasonline"] = {
@@ -136,6 +136,11 @@ Config.ShopLocations = {
       {type = 'item', name = 'ammo_rifle', method = 'money', price = 3, ammo = 100},
       {type = 'item', name = 'ammo_shotgun', method = 'money', price = 3, ammo = 100},
       {type = 'item', name = 'ammo_smg', method = 'money', price = 3, ammo = 100},
+      {type = 'item', name = 'fish', method = 'money', sellPrice  = 3},
+      {type = 'item', name = 'fishing_seestern', method = 'money', sellPrice  = 3},
+      {type = 'item', name = 'fishing_delphin', method = 'money', sellPrice  = 3},
+      {type = 'item', name = 'diamond', method = 'money', sellPrice = 3},
+      {type = 'item', name = 'fishing_goldbarren', method = 'money', sellPrice = 3},
     }
   },
   ["Handyladen"] = {
