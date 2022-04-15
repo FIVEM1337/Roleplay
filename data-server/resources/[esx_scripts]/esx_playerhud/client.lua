@@ -2,7 +2,6 @@ local isTalking, isMuted, IsConnected, currentRange, markerOn, markerTimer = fal
 local postals = json.decode(LoadResourceFile(GetCurrentResourceName(), "json/postals.json"))
 local Spawned = false
 local show = false
-local minimap_show = false
 CreateThread(function()
 
 	while true do
