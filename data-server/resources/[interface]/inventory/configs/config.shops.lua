@@ -172,6 +172,7 @@ Config.ShopLocations = {
       {type = 'item', name = 'use_kabelbinder', method = 'money', price = 10},
       {type = 'item', name = 'use_unterbodenbeleuchtung', method = 'money', price = 10},
       {type = 'item', name = 'use_abschleppseil', method = 'money', price = 10},
+      {type = 'weapon', name = 'WEAPON_PETROLCAN', method = 'money', price = 10, ammo = 0},
     }
   },
 }
