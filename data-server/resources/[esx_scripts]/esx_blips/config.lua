@@ -55,14 +55,6 @@ blips = {
 		color = 58,
 		sprite = 40,
 		scale = 0.8,
-		coord = vector3(-1554.15, 404.18, 41.99),
-	},
-	{
-		job = false,
-		name = "Gebäude",
-		color = 58,
-		sprite = 40,
-		scale = 0.8,
 		coord = vector3(-104.03902435303,974.12048339844,235.75688171387),
 	},
 	{
