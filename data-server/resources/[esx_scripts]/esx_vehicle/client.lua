@@ -21,9 +21,13 @@ CreateThread(function()
 				running = GetIsVehicleEngineRunning(Vehicle)
 				Wait(0)
 				if not IsPedInAnyVehicle(PlayerPedId(), false) then
-					SetVehicleEngineOn(Vehicle, true, true, true)
-					SetVehicleJetEngineOn(Vehicle, true, true, true)
-					
+					if running then
+						SetVehicleEngineOn(Vehicle, true, true, true)
+						SetVehicleJetEngineOn(Vehicle, true, true, true)
+					else
+						SetVehicleEngineOn(Vehicle, false, false, true)
+						SetVehicleJetEngineOn(Vehicle, false, false, true)
+					end
 					break
 				end
 			end

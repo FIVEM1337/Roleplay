@@ -138,56 +138,6 @@ ESX.RegisterServerCallback('esx_vehicleshop:returnmoney', function (source, cb, 
 	end
 end)
 
-
-ESX.RegisterServerCallback('esx_vehicleshop:resellVehicle', function (source, cb, plate, model, sellable)
-	local resellPrice = 0
-
-	if not sellable then
-		cb(nil, false)
-		return
-	end
-
-	-- calculate the resell price
-	for i=1, #Vehicles, 1 do
-		if GetHashKey(Vehicles[i].model) == model then
-			resellPrice = ESX.Math.Round(Vehicles[i].price / 100 * Config.ResellPercentage)
-			break
-		end
-	end
-
-	if resellPrice == 0 then
-		TriggerClientEvent('dopeNotify:Alert', source, _U('vehicleshop'), "Das Auto gehört nicht dir!", 5000, 'error')
-		cb(false)
-	end
-
-	local xPlayer = ESX.GetPlayerFromId(source)
-	MySQL.Async.fetchAll('SELECT * FROM owned_vehicles WHERE owner = @owner AND @plate = plate', {
-		['@owner'] = xPlayer.identifier,
-		['@plate'] = plate
-	}, function (result)
-		if result[1] then -- does the owner match?
-
-			local vehicle = json.decode(result[1].vehicle)
-			if vehicle.model == model then
-				if vehicle.plate == plate then
-					xPlayer.addMoney(resellPrice)
-					RemoveOwnedVehicle(plate)
-
-					cb(true)
-				else
-					cb(false)
-				end
-			else
-				cb(false)
-			end
-
-		else
-			print("wls")
-		end
-
-	end)
-end)
-
 ESX.RegisterServerCallback('esx_vehicleshop:getPlayerInventory', function (source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local items   = xPlayer.inventory

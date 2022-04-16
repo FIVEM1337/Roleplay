@@ -123,6 +123,8 @@ function SpawnVehicle(model, spawn, CarType, Job)
 		local vehicleProps = ESX.Game.GetVehicleProperties(vehicle)
 		vehicleProps.plate = newPlate
 		SetVehicleNumberPlateText(vehicle, newPlate)
+		SetVehicleEngineOn(vehicle, false, false, true)
+		SetVehicleDoorsLocked(vehicle, 2)
 		if Config.EnableOwnedVehicles then
 			TriggerServerEvent('esx_vehicleshop:setVehicleOwned', vehicleProps, CarType, Job)
 		end
@@ -218,53 +220,6 @@ AddEventHandler('esx_vehicleshop:hasEnteredMarker', function (zone)
 		CurrentActionMsg  = _U('shop_menu')
 		CurrentActionData = {}
 		actionDisplayed = true
-
-	elseif _Config.VehicleSell then
-		local playerPed = PlayerPedId()
-
-		if IsPedSittingInAnyVehicle(playerPed) then
-
-			local vehicle     = GetVehiclePedIsIn(playerPed, false)
-			local vehicleData, model, resellPrice, plate
-
-			if GetPedInVehicleSeat(vehicle, -1) == playerPed then
-				for i=1, #Vehicles, 1 do
-					if GetHashKey(Vehicles[i].model) == GetEntityModel(vehicle) then
-						vehicleData = Vehicles[i]
-						break
-					end
-				end
-
-				if vehicleData ~= nil then
-					sellable = true
-					label = vehicleData.name
-					resellPrice = ESX.Math.Round(vehicleData.price / 100 * Config.ResellPercentage)
-					model = GetEntityModel(vehicle)
-					plate = ESX.Math.Trim(GetVehicleNumberPlateText(vehicle))
-				else
-					sellable = false
-					label = nil
-					resellPrice = 0
-					model = nil
-					plate = nil
-				end
-
-				CurrentAction     = 'resell_vehicle'
-				CurrentActionMsg  = _U('sell_vehicle2',resellPrice)
-				ESX.ShowHelpNotification(_U('sell_vehicle2',GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)), resellPrice ))
-				
-				CurrentActionData = {
-					vehicle = vehicle,
-					label = label,
-					price = resellPrice,
-					model = model,
-					plate = plate,
-					sellable = sellable
-				}
-			end
-
-		end
-
 	end
 end)
 
@@ -340,19 +295,6 @@ function Draw3DText(x,y,z,text,scale)
 	DrawRect(_x, _y + 0.0150, 0.06 +factor, 0.03, 0, 0, 0, 200)
 end
 
--- Display markers
-CreateThread(function ()
-	
-	while true do
-		Wait(0)
-
-		local coords = GetEntityCoords(PlayerPedId())
-
-		if(Config.Zones.ResellVehicle.Type ~= -1 and #(coords - Config.Zones.ResellVehicle.Pos) < Config.DrawDistance) then
-			DrawMarker(Config.Zones.ResellVehicle.Type, Config.Zones.ResellVehicle.Pos.x, Config.Zones.ResellVehicle.Pos.y, Config.Zones.ResellVehicle.Pos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Config.Zones.ResellVehicle.Size.x, Config.Zones.ResellVehicle.Size.y, Config.Zones.ResellVehicle.Size.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, false, false, false)
-		end
-	end
-end)
 
 CreateThread(function() 
 	
@@ -414,19 +356,6 @@ CreateThread(function()
 			if IsControlJustReleased(0, Keys['E']) then
 				if CurrentAction == 'shop_menu' then
 					OpenShopMenu()
-				elseif CurrentAction == 'resell_vehicle' then
-					ESX.TriggerServerCallback('esx_vehicleshop:resellVehicle', function(vehicleSold, sellable)
-						if sellable == false then
-							TriggerEvent('dopeNotify:Alert', _U('vehicleshop'),_U('not_sellable'), 5000, 'error')
-						else
-							if vehicleSold then
-								ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
-								TriggerEvent('dopeNotify:Alert', _U('vehicleshop'),_U('vehicle_sold_for', CurrentActionData.label, ESX.Math.GroupDigits(CurrentActionData.price)), 5000, 'success')
-							else
-								TriggerEvent('dopeNotify:Alert', _U('vehicleshop'),_U('not_yours'), 5000, 'error')
-							end
-						end
-					end, CurrentActionData.plate, CurrentActionData.model, CurrentActionData.sellable)
 				end
 				CurrentAction = nil
 			end

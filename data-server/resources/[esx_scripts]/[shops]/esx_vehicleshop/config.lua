@@ -2,7 +2,6 @@ Config                            = {}
 Config.DrawDistance               = 50.0
 Config.MarkerColor                = { r = 255, g = 0, b = 0 }
 Config.EnableOwnedVehicles        = true
-Config.ResellPercentage           = 50
 
 Config.Locale                     = 'de'
 
@@ -114,13 +113,6 @@ Config.Zones = {
             {coords = vector3(-890, -1343.48, 0.12), heading = 194.98},
         },
 		Type  = -1
-	},
-
-	ResellVehicle = {
-		VehicleSell = true,
-		Pos   = vector3(-46.14, -1082.73, 25.74),
-		Size  = vector3(3.0, 3.0, 1.0),
-		Type  = 1
 	}
 }
 

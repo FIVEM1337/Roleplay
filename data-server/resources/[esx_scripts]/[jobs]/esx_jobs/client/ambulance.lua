@@ -52,7 +52,6 @@ end)
 
 function OnPlayerDeath()
 	isDead = true
-	ESX.UI.Menu.CloseAll()
 	TriggerServerEvent('esx_jobs:setDeathStatus', true)
 	StartDistressSignal()
 	StartDeathTimer()
@@ -85,7 +84,6 @@ end)
 
 RegisterNetEvent('esx_jobs:useItem')
 AddEventHandler('esx_jobs:useItem', function(itemName)
-	ESX.UI.Menu.CloseAll()
 
 	if itemName == 'medikit' then
 		local lib, anim = 'anim@heists@narcotics@funding@gang_idle', 'gang_chatting_idle01' -- TODO better animations
@@ -234,7 +232,7 @@ function StartDistressSignal()
 			DrawGenericTextThisFrame()
 			BeginTextCommandDisplayText('STRING')
 			AddTextComponentSubstringPlayerName(_U('distress_send'))
-			DrawText(0.5, 0.820)
+			DrawText(0.15, 0.870)
 
 			if IsControlJustReleased(0, 47) then
 				SendDistressSignal()
@@ -296,7 +294,7 @@ function StartDeathTimer()
 				DrawGenericTextThisFrame()
 				BeginTextCommandDisplayText('STRING')
 				AddTextComponentSubstringPlayerName(_U('respawn_bleedout_fine', ESX.Math.GroupDigits(Config.EarlyRespawnFineAmount)))
-				DrawText(0.5, 0.870)
+				DrawText(0.5, 0.750)
 
 				if IsControlPressed(0, 38) and timeHeld > 60 then
 					TriggerServerEvent('esx_jobs:payFine')
@@ -314,7 +312,7 @@ function StartDeathTimer()
 			DrawGenericTextThisFrame()
 			SetTextEntry('STRING')
 			AddTextComponentString(text)
-			DrawText(0.5, 0.920)
+			DrawText(0.5, 0.800)
 		end
 
 		-- early respawn timer
@@ -326,7 +324,7 @@ function StartDeathTimer()
 
 			SetTextEntry('STRING')
 			AddTextComponentString(text)
-			DrawText(0.5, 0.8)
+			DrawText(0.5, 0.5)
 		end
 
 		if bleedoutTimer < 1 and isDead then

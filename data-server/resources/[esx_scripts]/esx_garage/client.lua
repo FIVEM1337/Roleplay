@@ -492,6 +492,7 @@ function SpawnVehicle(garage, props)
             end
 
             if vehicle then
+                SetVehicleEngineOn(vehicle, false, false, true)
                 SetVehicleDoorsLocked(vehicle, 2)
                 SetVehicleProp(vehicle, props)
                 SetVehicleBobo(vehicle)

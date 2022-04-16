@@ -2,7 +2,6 @@ local isTalking, isMuted, IsConnected, currentRange, markerOn, markerTimer = fal
 local postals = json.decode(LoadResourceFile(GetCurrentResourceName(), "json/postals.json"))
 local Spawned = false
 local show = false
-local minimap_show = false
 CreateThread(function()
 
 	while true do
@@ -285,7 +284,7 @@ CreateThread(function()
 		CalculateTimeToDisplay()
 
 		dateString = "" .. dayOfWeek .. "." .. month .. "." .. year .. ""
-		timeString = "" .. hour .. ":" .. minute .. ":" .. secound .. ""
+		timeString = "" .. hour + 2 .. ":" .. minute .. ":" .. secound .. ""
 
 
 		SendNUIMessage({action = "setValue", key = "date", value = dateString})
@@ -296,8 +295,8 @@ end)
 
 -- Postal Code
 CreateThread(function()
-	local ped = PlayerPedId()
 	while true do
+		local ped = PlayerPedId()
 		local nearest = nil
 	
 		local playerCoords = GetEntityCoords(ped)

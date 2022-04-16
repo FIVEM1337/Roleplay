@@ -15,6 +15,7 @@ end)
 
 RegisterNetEvent("esx_fishing:StartFish")
 AddEventHandler("esx_fishing:StartFish", function()
+	print("hee")
 	InitFishing(false)
 end)
 
