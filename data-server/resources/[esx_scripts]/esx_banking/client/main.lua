@@ -37,7 +37,7 @@ end)
 
 Citizen.CreateThread(function()
   for k,v in ipairs(Config.Zonas["banks"])do
-  local blip = AddBlipForCoord(v.x, v.y, v.z)
+  local blip = AddBlipForCoord(v.coords)
   SetBlipSprite(blip, v.id)
   SetBlipDisplay(blip, 4)
   SetBlipScale  (blip, 0.8)
@@ -120,14 +120,14 @@ nearBankorATM = function()
     local _pcoords = GetEntityCoords(_ped)
     local _toreturn = false
     for _, search in pairs(Config.Zonas["banks"]) do
-    local distance = #(vector3(search.x, search.y, search.z) - vector3(_pcoords))
+    local distance = #(vector3(search.coords) - vector3(_pcoords))
         if distance <= 3 then
           atbank = true
           toreturn = true
         end
     end
     for _, search in pairs(Config.Zonas["atms"]) do
-    local distance = #(vector3(search.x, search.y, search.z) - vector3(_pcoords))
+    local distance = #(vector3(search.coords) - vector3(_pcoords))
     if distance <= 2 then
         atbank = false
         _toreturn = true
