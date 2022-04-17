@@ -119,16 +119,9 @@ nearBankorATM = function()
     local _ped = PlayerPedId()
     local _pcoords = GetEntityCoords(_ped)
     local _toreturn = false
-    for _, search in pairs(Config.Zonas["banks"]) do
-    local distance = #(vector3(search.coords) - vector3(_pcoords))
-        if distance <= 3 then
-          atbank = true
-          toreturn = true
-        end
-    end
     for _, search in pairs(Config.Zonas["atms"]) do
     local distance = #(vector3(search.coords) - vector3(_pcoords))
-    if distance <= 2 then
+    if distance <= 0.8 then
         atbank = false
         _toreturn = true
         end
