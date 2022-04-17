@@ -34,6 +34,20 @@ ESX.RegisterServerCallback('esx_garage:getVehicles', function (source, cb, garag
     end
 end)
 
+ESX.RegisterServerCallback('esx_garage:getVehicleData', function (source, cb, plate)
+	local source = source
+	local xPlayer = ESX.GetPlayerFromId(source)
+    
+    MySQL.Async.fetchAll(
+        'SELECT * FROM owned_vehicles WHERE plate = @plate', 
+    {
+        ['@plate']          = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper()
+    },
+    function(vehicle)
+        cb(vehicle[1])
+    end)
+end)
+
 ESX.RegisterServerCallback('esx_garage:getImpounds', function (source, cb, data)
 	local source = source
 	local xPlayer = ESX.GetPlayerFromId(source)
