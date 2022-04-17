@@ -77,7 +77,7 @@ if Config.EnableAdvertisementCommand then
 					template = '<div class="chat-message advertisement"><i class="fas fa-ad"></i> <b><span style="color: #81db44">{0}</span>&nbsp;<span style="font-size: 14px; color: #e1e1e1;">{2}</span></b><div style="margin-top: 5px; font-weight: 300;">{1}</div></div>',
 					args = { playerName, message, time }
 				})
-				TriggerClientEvent('dopeNotify:Alert', source, "ADVERTISEMENT", Advertisement successfully made for "..Config.AdvertisementPrice..'€', 5000, 'success')
+				TriggerClientEvent('dopeNotify:Alert', source, "ADVERTISEMENT", "Advertisement successfully made for "..Config.AdvertisementPrice..'€', 5000, 'success')
 
 				local time = Config.AdvertisementCooldown * 60
 				local pastTime = 0
