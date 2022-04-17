@@ -77,8 +77,7 @@ if Config.EnableAdvertisementCommand then
 					template = '<div class="chat-message advertisement"><i class="fas fa-ad"></i> <b><span style="color: #81db44">{0}</span>&nbsp;<span style="font-size: 14px; color: #e1e1e1;">{2}</span></b><div style="margin-top: 5px; font-weight: 300;">{1}</div></div>',
 					args = { playerName, message, time }
 				})
-
-				TriggerClientEvent('okokNotify:Alert', source, "ADVERTISEMENT", "Advertisement successfully made for "..Config.AdvertisementPrice..'€', 10000, 'success')
+				TriggerClientEvent('dopeNotify:Alert', source, "ADVERTISEMENT", Advertisement successfully made for "..Config.AdvertisementPrice..'€', 5000, 'success')
 
 				local time = Config.AdvertisementCooldown * 60
 				local pastTime = 0
@@ -91,10 +90,10 @@ if Config.EnableAdvertisementCommand then
 				end
 				canAdvertise = true
 			else
-				TriggerClientEvent('okokNotify:Alert', source, "ADVERTISEMENT", "You don't have enough money to make an advertisement", 10000, 'error')
+				TriggerClientEvent('dopeNotify:Alert', source, "ADVERTISEMENT", "You don't have enough money to make an advertisement", 5000, 'error')
 			end
 		else
-			TriggerClientEvent('okokNotify:Alert', source, "ADVERTISEMENT", "You can't advertise so quickly", 10000, 'error')
+			TriggerClientEvent('dopeNotify:Alert', source, "ADVERTISEMENT", "You can't advertise so quickly", 5000, 'error')
 		end
 	end)
 end
