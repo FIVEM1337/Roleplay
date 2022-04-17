@@ -6,6 +6,9 @@ Config.OpenKey = 'F5'
 Config.MenuPosition = 'left'
 Config.NoclipSpeed = 1.0
 
+Config.HandsupKey = "h"
+Config.PointKey = "b"
+
 PersonalMenu = {
 	DoorState = {
 		FrontLeft = false,

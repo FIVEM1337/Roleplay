@@ -6,6 +6,9 @@ local LastZone                  = nil
 local InMarker                  = false
 local blips_list                = {}
 local npc_list                  = {}
+local lastVehicle
+local tunedvehicle
+local currentVehilceData
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
@@ -45,6 +48,40 @@ CreateThread(function()
             _menuPool:CloseAllMenus()
         end
         Wait(1)
+    end
+end)
+
+CreateThread(function()
+    while true do
+        Wait(1000)
+        vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+        if DoesEntityExist(vehicle) then
+            if lastvehicle == nil or vehicle ~= lastvehicle then
+                lastvehicle = vehicle
+                props = GetVehicleProperties(vehicle)
+
+                ESX.TriggerServerCallback("esx_garage:getVehicleData",function(data)
+                    if data then
+                        currentVehilceData = data
+                        tunedvehicle = vehicle
+                    else
+                        tunedvehicle = nil
+                        currentVehilceData = nil
+                    end
+                end, props.plate)
+            end
+        end
+    end
+end)
+
+CreateThread(function()
+    while true do
+        Wait(0)
+        vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+        if currentVehilceData and tunedvehicle == vehicle then
+			SetVehicleEnginePowerMultiplier(vehicle, currentVehilceData.PowerMultiplier + 0.0)
+			SetVehicleEngineTorqueMultiplier(vehicle, currentVehilceData.TorqueMultiplier + 0.0)
+        end
     end
 end)
 

@@ -15,29 +15,21 @@ end)
 
 CreateThread(function()
 	while true do
-		local Vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
-		if DoesEntityExist(Vehicle) then
-			while true do
-				running = GetIsVehicleEngineRunning(Vehicle)
-				Wait(0)
-				if not IsPedInAnyVehicle(PlayerPedId(), false) then
-					if running then
-						SetVehicleEngineOn(Vehicle, true, true, true)
-						SetVehicleJetEngineOn(Vehicle, true, true, true)
-					else
-						SetVehicleEngineOn(Vehicle, false, false, true)
-						SetVehicleJetEngineOn(Vehicle, false, false, true)
-					end
-					break
+		Wait(0)
+		local ped = PlayerPedId()
+		if DoesEntityExist(ped) and IsPedInAnyVehicle(ped, false) and IsControlPressed(2, 75) and not IsEntityDead(ped) and not IsPauseMenuActive() then
+			local engineWasRunning = GetIsVehicleEngineRunning(GetVehiclePedIsIn(ped, false))
+			Wait(1000)
+			if DoesEntityExist(ped) and not IsEntityDead(ped) and not IsPauseMenuActive() then
+				local plyVeh = GetVehiclePedIsIn(ped, false)
+				if (engineWasRunning) then
+					SetVehicleEngineOn(plyVeh, true, true, true)
+					SetVehicleJetEngineOn(plyVeh, true)
 				end
 			end
-			Wait(1)
-		else
-			Wait(100)
 		end
 	end
 end)
-
 
 local pedInSameVehicleLast=false
 local vehicle
@@ -407,7 +399,7 @@ CreateThread(function()
 
                 local currentVehicle = Vehicle.Vehicle
                  while true do
-                    Citizen.Wait(5)
+                    Wait(5)
                     if IsDisabledControlPressed(0, 34) then -- KEY A
                         TaskVehicleTempAction(PlayerPedId(), currentVehicle, 11, 1000)
                     end
