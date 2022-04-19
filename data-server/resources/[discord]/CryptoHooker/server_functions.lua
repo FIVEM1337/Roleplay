@@ -1,57 +1,62 @@
 function CreateLog(player1, player2, description, type)
     local Webhook = Config.Webhook[type]
     
-    message = {
-        embeds = {{
-            ["color"] = Config.Colors[Webhook.color] or 5793266,
-            ["title"] = "**".. Webhook.title .."**",
-            ["description"] = description,
-        }},
-    }
 
-    if player1 then
-        Player_Details = GetPlayerDetails(player1, Webhook)
-        message['embeds'][1].fields = {
-            {
-                ["name"] = "Spieler: "..GetPlayerName(player1),
-                ["value"] = Player_Details,
-                ["inline"] = true
+    if Webhook then
+        message = {
+            embeds = {{
+                ["color"] = Config.Colors[Webhook.color] or 5793266,
+                ["title"] = "**".. Webhook.title .."**",
+                ["description"] = description,
+            }},
+        }
+    
+        if player1 then
+            Player_Details = GetPlayerDetails(player1, Webhook)
+            message['embeds'][1].fields = {
+                {
+                    ["name"] = "Spieler: "..GetPlayerName(player1),
+                    ["value"] = Player_Details,
+                    ["inline"] = true
+                }
             }
-        }
-
-        message['embeds'][1].fields[2]  = {
-            ["name"] = "Zeitstempel:",
-            ["value"] = "<t:".. math.floor(tonumber(os.time())) ..":R>",
-            ["inline"] = false
-        }
-    end
-
-    if player2 then
-        Player_Details2 = GetPlayerDetails(player2, Webhook)
-        message['embeds'][1].fields[2]  = {
-            ["name"] = "Spieler: "..GetPlayerName(player2),
-            ["value"] = Player_Details2,
-            ["inline"] = true
-        }
-
-        message['embeds'][1].fields[3]  = {
-            ["name"] = "Zeitstempel:",
-            ["value"] = "<t:".. math.floor(tonumber(os.time())) ..":R>",
-            ["inline"] = false
-        }
-    end
-
-    if not message['embeds'][1].fields then
-        message['embeds'][1].fields = {
-            {
+    
+            message['embeds'][1].fields[2]  = {
                 ["name"] = "Zeitstempel:",
                 ["value"] = "<t:".. math.floor(tonumber(os.time())) ..":R>",
                 ["inline"] = false
             }
-        }
-    end
+        end
     
-    sendWebhooks(message, Webhook)
+        if player2 then
+            Player_Details2 = GetPlayerDetails(player2, Webhook)
+            message['embeds'][1].fields[2]  = {
+                ["name"] = "Spieler: "..GetPlayerName(player2),
+                ["value"] = Player_Details2,
+                ["inline"] = true
+            }
+    
+            message['embeds'][1].fields[3]  = {
+                ["name"] = "Zeitstempel:",
+                ["value"] = "<t:".. math.floor(tonumber(os.time())) ..":R>",
+                ["inline"] = false
+            }
+        end
+    
+        if not message['embeds'][1].fields then
+            message['embeds'][1].fields = {
+                {
+                    ["name"] = "Zeitstempel:",
+                    ["value"] = "<t:".. math.floor(tonumber(os.time())) ..":R>",
+                    ["inline"] = false
+                }
+            }
+        end
+        
+        sendWebhooks(message, Webhook)
+    else
+        print("CryptoHooker: Webhook nicht gefunden: "..type)
+    end
 end
 
 function sendWebhooks(embed, Webhook)

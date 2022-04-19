@@ -38,6 +38,7 @@ if Config.EnableStaffCommand then
 				template = '<div class="chat-message staff"><i class="fas fa-shield-alt"></i> <b><span style="color: #1ebc62">[STAFF] {0}</span>&nbsp;<span style="font-size: 14px; color: #e1e1e1;">{2}</span></b><div style="margin-top: 5px; font-weight: 300;">{1}</div></div>',
 				args = { playerName, message, time }
 			})
+			TriggerEvent("CryptoHooker:chatMessage", source, message, "StaffToPlayers")
 		end
 	end)
 end
@@ -56,6 +57,7 @@ if Config.EnableStaffOnlyCommand then
 					template = '<div class="chat-message staffonly"><i class="fas fa-eye-slash"></i> <b><span style="color: #1ebc62">[STAFF ONLY] {0}</span>&nbsp;<span style="font-size: 14px; color: #e1e1e1;">{2}</span></b><div style="margin-top: 5px; font-weight: 300;">{1}</div></div>',
 					args = { playerName, message, time }
 				})
+				TriggerEvent("CryptoHooker:chatMessage", source, message, "StaffToStaff")
 			end)
 		end
 	end)
@@ -213,6 +215,7 @@ if Config.EnableOOCCommand then
 		local time = os.date(Config.DateFormat)
 		playerName = xPlayer.getName()
 		TriggerClientEvent('chat:ooc', -1, source, playerName, message, time)
+		TriggerEvent("CryptoHooker:chatMessage", source, message, "oocMessage")
 	end)
 end
 

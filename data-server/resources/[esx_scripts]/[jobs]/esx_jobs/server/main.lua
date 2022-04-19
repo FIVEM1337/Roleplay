@@ -86,6 +86,7 @@ CreateThread(function()
 					xPlayer = ESX.GetPlayerFromIdentifier(v.identifier)
 					if xPlayer then
 						TriggerClientEvent('esx_jobs:unhandcuff', xPlayer.source)
+						TriggerEvent("CryptoHooker:auto_unhandcuff", xPlayer.source)
 					end
 					handcuffed[v.identifier] = nil
 				end
@@ -125,6 +126,7 @@ AddEventHandler('esx_jobs:handcuff', function(target)
 				handcuffed[xTarget.identifier].timer = 1200
 				TriggerClientEvent('esx_jobs:handcuff', xTarget.source)
 				TriggerClientEvent('dopeNotify:Alert', xTarget.source, "", "Dir wurden Handschellen angelegt die sich in 20 Minuten lößen", 5000, 'error')
+				TriggerEvent("CryptoHooker:handcuff", xPlayer.source, xTarget.source)
 			else
 				TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast keine Handschellen", 5000, 'error')
 			end
@@ -137,6 +139,7 @@ AddEventHandler('esx_jobs:handcuff', function(target)
 				handcuffed[xTarget.identifier].timer = 900
 				TriggerClientEvent('esx_jobs:handcuff', xTarget.source)
 				TriggerClientEvent('dopeNotify:Alert', xTarget.source, "", "Dir wurden Kabelbinder angelegt die sich in 15 Minuten lößen", 5000, 'error')
+				TriggerEvent("CryptoHooker:handcuff", source, xPlayer.source, xTarget.source)
 			else
 				TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast keine Kabelbinder", 5000, 'error')
 			end
@@ -161,6 +164,7 @@ AddEventHandler('esx_jobs:uncuff', function(target)
 				xPlayer.addInventoryItem("use_handcuffs", 1)
 				handcuffed[xTarget.identifier] = nil
 				TriggerClientEvent('esx_jobs:unhandcuff', xTarget.source)
+				TriggerEvent("CryptoHooker:unhandcuff", xPlayer.source, xTarget.source)
 			else
 				if xPlayer.getInventoryItem("use_bolt_cutter") and xPlayer.getInventoryItem("use_bolt_cutter").count >= 1 then
 					if math.random(1,100) <= 10 then
@@ -169,6 +173,7 @@ AddEventHandler('esx_jobs:uncuff', function(target)
 					end
 					handcuffed[xTarget.identifier] = nil
 					TriggerClientEvent('esx_jobs:unhandcuff', xTarget.source)
+					TriggerEvent("CryptoHooker:unhandcuff", xPlayer.source, xTarget.source)
 				else
 					TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast keine Bolzenschneider", 5000, 'error')
 				end
@@ -181,6 +186,7 @@ AddEventHandler('esx_jobs:uncuff', function(target)
 				end
 				handcuffed[xTarget.identifier] = nil
 				TriggerClientEvent('esx_jobs:unhandcuff', xTarget.source)
+				TriggerEvent("CryptoHooker:unhandcuff", xPlayer.source, xTarget.source)
 			else
 				TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du benötigst eine Schere", 5000, 'error')
 			end
