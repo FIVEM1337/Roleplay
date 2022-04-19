@@ -48,7 +48,8 @@ Config.Zonas = {
         {name="ATM", id=277, coords = vector3(-97.32006072998,6455.4604492188,31.467487335205)},-- Bank-4 ATM-Outside 
         {name="ATM", id=277, coords = vector3(-95.567657470703,6457.1762695313,31.461015701294)},-- Bank-4 ATM-Outside
         {name="ATM", id=277, coords = vector3(1171.4956054688,2702.5295410156,38.175472259521)},-- Bank-8 ATM-Outside
-        {name="ATM", id=277, coords = vector3(1172.5006103516,2702.5942382813,38.174751281738)},-- Bank-8 ATM-Outside 
+        {name="ATM", id=277, coords = vector3(1172.5006103516,2702.5942382813,38.174751281738)},-- Bank-8 ATM-Outside
+        {name="ATM", id=277, coords = vector3(472.31259155273,-1001.5848999023,30.691982269287)},-- Police ATM_Inside
         {name="ATM", id=277, coords = vector3(-386.73812866211,6046.0883789063,31.501644134521)},
         {name="ATM", id=277, coords = vector3(-282.99710083008,6226.1103515625,31.492944717407)},
         {name="ATM", id=277, coords = vector3(-132.91741943359,6366.5302734375,31.475149154663)},
