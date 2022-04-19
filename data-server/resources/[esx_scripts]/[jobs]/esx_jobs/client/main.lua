@@ -41,6 +41,7 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
 	PlayerData = xPlayer
 	LoadDefaults()
 	GetRestirctedZones()
+	TriggerServerEvent('esx_jobs:ishandcuffed')
 end)
 
 function LoadDefaults()
@@ -199,33 +200,46 @@ CreateThread(function()
 	end
 end)
 
+RegisterNetEvent('esx_jobs:startbodysearch')
+AddEventHandler('esx_jobs:startbodysearch', function()
+	print("trigger")
+	local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+	if closestPlayer ~= -1 and closestDistance <= 3.0 then
+		ESX.TriggerServerCallback('esx_jobs:getOtherPlayerData', function(data)
+			if data then
+				OpenBodySearchMenu(closestPlayer, data)
+			else
+				TriggerEvent('dopeNotify:Alert', "", _U('player_not_found'), 5000, 'error')
+			end
+		end, GetPlayerServerId(closestPlayer))
+	else
+		TriggerEvent('dopeNotify:Alert', "", _U('no_players_nearby'), 5000, 'error')
+	end
+end)
+
 RegisterNetEvent('esx_jobs:handcuff')
 AddEventHandler('esx_jobs:handcuff', function()
-	isHandcuffed = not isHandcuffed
+	local playerPed = PlayerPedId()
+	isHandcuffed = true
+	RequestAnimDict('mp_arresting')
+	while not HasAnimDictLoaded('mp_arresting') do
+		Wait(100)
+	end
+	TaskPlayAnim(playerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0, 0, 0, 0)
+	SetEnableHandcuffs(playerPed, true)
+	DisablePlayerFiring(playerPed, true)
+	SetCurrentPedWeapon(playerPed, GetHashKey('WEAPON_UNARMED'), true) -- unarm player
+	SetPedCanPlayGestureAnims(playerPed, false)
+end)
 
-	CreateThread(function()
-		local playerPed = PlayerPedId()
-		if isHandcuffed then
-			RequestAnimDict('mp_arresting')
-
-			while not HasAnimDictLoaded('mp_arresting') do
-				Wait(100)
-			end
-
-			TaskPlayAnim(playerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0, 0, 0, 0)
-			SetEnableHandcuffs(playerPed, true)
-			DisablePlayerFiring(playerPed, true)
-			SetCurrentPedWeapon(playerPed, GetHashKey('WEAPON_UNARMED'), true) -- unarm player
-			SetPedCanPlayGestureAnims(playerPed, false)
-			FreezeEntityPosition(playerPed, true)
-		else
-			ClearPedSecondaryTask(playerPed)
-			SetEnableHandcuffs(playerPed, false)
-			DisablePlayerFiring(playerPed, false)
-			SetPedCanPlayGestureAnims(playerPed, true)
-			FreezeEntityPosition(playerPed, false)
-		end
-	end)
+RegisterNetEvent('esx_jobs:unhandcuff')
+AddEventHandler('esx_jobs:unhandcuff', function()
+	local playerPed = PlayerPedId()
+	isHandcuffed = false
+	ClearPedSecondaryTask(playerPed)
+	SetEnableHandcuffs(playerPed, false)
+	DisablePlayerFiring(playerPed, false)
+	SetPedCanPlayGestureAnims(playerPed, true)
 end)
 
 RegisterNetEvent('esx_jobs:drag')
@@ -307,13 +321,10 @@ CreateThread(function()
 				DisableControlAction(0, 257, true) -- Attack 2
 				DisableControlAction(0, 25, true) -- Aim
 				DisableControlAction(0, 263, true) -- Melee Attack 1
-				DisableControlAction(0, 32, true) -- W
-				DisableControlAction(0, 34, true) -- A
-				DisableControlAction(0, 31, true) -- S
-				DisableControlAction(0, 30, true) -- D
+
+				DisableControlAction(0, 21, true) -- Run
 	
 				DisableControlAction(0, 45, true) -- Reload
-				DisableControlAction(0, 22, true) -- Jump
 				DisableControlAction(0, 44, true) -- Cover
 				DisableControlAction(0, 37, true) -- Select Weapon
 				DisableControlAction(0, 23, true) -- Also 'enter'?
@@ -353,6 +364,19 @@ CreateThread(function()
 		else
 			Wait(500)
 		end
+	end
+end)
+
+
+
+CreateThread(function()
+	while true do
+		if isHandcuffed then
+			local playerPed = PlayerPedId()
+			TaskPlayAnim(playerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0, 0, 0, 0)
+			Wait(10000)
+		end
+		Wait(1)
 	end
 end)
 

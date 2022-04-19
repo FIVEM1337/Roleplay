@@ -16,6 +16,8 @@ Config.RemoveCashAfterRPDeath     = true
 Config.RemoveItemsAfterRPDeath    = true
 Config.ReviveReward				  = 200
 
+Config.DontNeedCuffItem = {police = true}
+
 jobs = {
 	police = {
 			job = "police",

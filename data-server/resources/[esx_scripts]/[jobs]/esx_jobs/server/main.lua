@@ -1,4 +1,5 @@
 local restricted_zones = {}
+local handcuffed = {}
 
 CreateThread(function()
 	while true do
@@ -75,14 +76,117 @@ function SendData()
 end
 
 
+CreateThread(function()
+	while true do
+		Wait(1000)
+		for k, v in pairs(handcuffed) do
+			if v.timer then
+				v.timer = v.timer - 1
+				if v.timer < 0 then
+					xPlayer = ESX.GetPlayerFromIdentifier(v.identifier)
+					if xPlayer then
+						TriggerClientEvent('esx_jobs:unhandcuff', xPlayer.source)
+					end
+					handcuffed[v.identifier] = nil
+				end
+			end
+		end
+	end
+end)
+
+
+RegisterServerEvent('esx_jobs:ishandcuffed')
+AddEventHandler('esx_jobs:ishandcuffed', function()
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+	if handcuffed[xPlayer.identifier] then
+		if handcuffed[xPlayer.identifier].cuffed then
+			TriggerClientEvent('esx_jobs:handcuff', xPlayer.source)
+		end
+	end
+end)
+
 RegisterServerEvent('esx_jobs:handcuff')
 AddEventHandler('esx_jobs:handcuff', function(target)
 	local xPlayer = ESX.GetPlayerFromId(source)
+	local xTarget = ESX.GetPlayerFromId(target)
 
-	for k, v in pairs (jobs) do
-		if v.job ~= nil and v.job == xPlayer.job.name then
-			TriggerClientEvent('esx_jobs:handcuff', target)
+	if not handcuffed[xTarget.identifier] then
+		handcuffed[xTarget.identifier] = {}
+	end
+
+	if not handcuffed[xTarget.identifier].cuffed then
+		if xPlayer.job.name == "police" then
+			if xPlayer.getInventoryItem("use_handcuffs") and xPlayer.getInventoryItem("use_handcuffs").count >= 1 then
+				xPlayer.removeInventoryItem("use_handcuffs", 1)
+				handcuffed[xTarget.identifier].cuffed = true
+				handcuffed[xTarget.identifier].type = "handcuffs"
+				handcuffed[xTarget.identifier].identifier = xTarget.identifier
+				handcuffed[xTarget.identifier].timer = 1200
+				TriggerClientEvent('esx_jobs:handcuff', xTarget.source)
+				TriggerClientEvent('dopeNotify:Alert', xTarget.source, "", "Dir wurden Handschellen angelegt die sich in 20 Minuten lößen", 5000, 'error')
+			else
+				TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast keine Handschellen", 5000, 'error')
+			end
+		else
+			if xPlayer.getInventoryItem("use_kabelbinder") and xPlayer.getInventoryItem("use_kabelbinder").count >= 1 then
+				xPlayer.removeInventoryItem("use_kabelbinder", 1)
+				handcuffed[xTarget.identifier].cuffed = true
+				handcuffed[xTarget.identifier].type = "ties"
+				handcuffed[xTarget.identifier].identifier = xTarget.identifier
+				handcuffed[xTarget.identifier].timer = 900
+				TriggerClientEvent('esx_jobs:handcuff', xTarget.source)
+				TriggerClientEvent('dopeNotify:Alert', xTarget.source, "", "Dir wurden Kabelbinder angelegt die sich in 15 Minuten lößen", 5000, 'error')
+			else
+				TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast keine Kabelbinder", 5000, 'error')
+			end
 		end
+	else
+		TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Die Person ist bereits gefesselt", 5000, 'error')
+	end
+end)
+
+RegisterServerEvent('esx_jobs:uncuff')
+AddEventHandler('esx_jobs:uncuff', function(target)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local xTarget = ESX.GetPlayerFromId(target)
+
+	if not handcuffed[xTarget.identifier] then
+		handcuffed[xTarget.identifier] = {}
+	end
+
+	if handcuffed[xTarget.identifier].cuffed then
+		if handcuffed[xTarget.identifier].type == "handcuffs" then
+			if xPlayer.job.name == "police" then
+				xPlayer.addInventoryItem("use_handcuffs", 1)
+				handcuffed[xTarget.identifier] = nil
+				TriggerClientEvent('esx_jobs:unhandcuff', xTarget.source)
+			else
+				if xPlayer.getInventoryItem("use_bolt_cutter") and xPlayer.getInventoryItem("use_bolt_cutter").count >= 1 then
+					if math.random(1,100) <= 10 then
+						xPlayer.removeInventoryItem("use_bolt_cutter", 1)
+						TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Der Bolzenschneider ist kaputt gegangen", 5000, 'error')
+					end
+					handcuffed[xTarget.identifier] = nil
+					TriggerClientEvent('esx_jobs:unhandcuff', xTarget.source)
+				else
+					TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast keine Bolzenschneider", 5000, 'error')
+				end
+			end
+		elseif handcuffed[xTarget.identifier].type == "ties" then
+			if xPlayer.getInventoryItem("use_schere") and xPlayer.getInventoryItem("use_schere").count >= 1 then
+				if math.random(1,100) <= 20 then
+					xPlayer.removeInventoryItem("use_schere", 1)
+					TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Die Schere ist kaputt gegangen", 5000, 'error')
+				end
+				handcuffed[xTarget.identifier] = nil
+				TriggerClientEvent('esx_jobs:unhandcuff', xTarget.source)
+			else
+				TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du benötigst eine Schere", 5000, 'error')
+			end
+		end
+	else
+		TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Die Person ist nicht gefesselt", 5000, 'error')
 	end
 end)
 
