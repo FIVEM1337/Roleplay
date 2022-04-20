@@ -70,6 +70,7 @@ end)
 function CraftFinish(source, label)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local dosomethingtable = getdosomethingtable(label)
+	local routetable = getroutetable(label)
 
 	local hasInventoryItem
 	local hasInventorySpace
@@ -102,7 +103,9 @@ function CraftFinish(source, label)
 			end
 		end
 		TriggerClientEvent('dopeNotify:Alert', source, "", "Herstellen ist fehlgeschlagen", 2000, 'error')
-		Start(source, label)
+		if not routetable.loop then
+			Start(source, label)
+		end
 		return
 	end
 
@@ -192,7 +195,9 @@ function CraftFinish(source, label)
 		Wait(1)
 		if hasInventoryItem ~= nil and hasInventorySpace ~= nil then
 			if hasInventoryItem and hasInventorySpace then
-				Start(source, label)
+				if not routetable.loop then
+					Start(source, label)
+				end
 				break
 			else
 				break

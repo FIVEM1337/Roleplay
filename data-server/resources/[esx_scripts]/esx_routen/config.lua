@@ -18,6 +18,7 @@ routen = {
 				name = "Zigarettenroute | Tabak ernten",
 				title = "Tabak Marken",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "Tabak ernten",		--Anzeige Name 
@@ -42,6 +43,7 @@ routen = {
 				name = "Zigarettenroute | Tabak eintauschen",
 				title = "Zigaretten Marken",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "Tabak eintauschen",	--Anzeige Name 
@@ -67,6 +69,7 @@ routen = {
 				name = "Zigarettenroute | Zigaretten verkaufen",
 				title = "Zigaretten Marken",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "Zigaretten verkaufen",		--Anzeige Name 
@@ -97,6 +100,7 @@ routen = {
 				name = "Weinnroute | Weintrauben ernten",
 				title = "Wein Marken",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "Weintrauben ernten",		--Anzeige Name 
@@ -121,6 +125,7 @@ routen = {
 				name = "Weinnroute | Weintrauben eintauschen",
 				title = "Wein Marken",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "Weintrauben eintauschen",	--Anzeige Name 
@@ -146,6 +151,7 @@ routen = {
 				name = "Weinnroute | Wein verkaufen",
 				title = "Wein Marken",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "Wein verkaufen",			--Anzeige Name 
@@ -176,6 +182,7 @@ routen = {
 				name = "Westenroute | Kevlarfasern sammeln",
 				title = "Westen",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "Kevlarfasern sammeln",		--Anzeige Name 
@@ -200,6 +207,7 @@ routen = {
 				name = "Westennroute | Kevlar verarbeiten",
 				title = "Westen",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "Kevlar verarbeiten",	--Anzeige Name 
@@ -225,6 +233,7 @@ routen = {
 				name = "Westenroute | Schutzweste herstellen",
 				title = "Westen",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "Schutzweste herstellen",		--Anzeige Name 
@@ -255,6 +264,7 @@ routen = {
 				name = "Weedroute | Weed sammeln",
 				title = "Weed",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "Weed sammeln",		--Anzeige Name 
@@ -279,6 +289,7 @@ routen = {
 				name = "Weedroute | Joints herstellen",
 				title = "Weed",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "Joints herstellen",	--Anzeige Name 
@@ -304,6 +315,7 @@ routen = {
 				name = "Weedroute | Joints verkaufen",
 				title = "Weed",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "Joints verkaufen",		--Anzeige Name 
@@ -334,6 +346,7 @@ routen = {
 				name = "Koksroute | Blüten sammeln",
 				title = "Koks",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "Blüten sammeln",		--Anzeige Name 
@@ -358,6 +371,7 @@ routen = {
 				name = "Koksroute | Koks verarbeiten ",
 				title = "Koks",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "Koks verarbeiten ",	--Anzeige Name 
@@ -387,6 +401,7 @@ routen = {
 				name = "Koksroute | Koks verkaufen",
 				title = "Koks",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "Koks verkaufen",		--Anzeige Name 
@@ -417,6 +432,7 @@ routen = {
 				name = "Waffenroute | Metall sammeln",
 				title = "Metall",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "Metall sammeln",		--Anzeige Name 
@@ -443,6 +459,7 @@ routen = {
 				name = "Waffenroute | Aluminium sammeln",
 				title = "Waffen",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "Aluminium sammeln",		--Anzeige Name 
@@ -468,6 +485,7 @@ routen = {
 				name = "Waffenroute | craft_weaponparte herstellen",
 				title = "Waffen",
 				time = 3,
+				loop = true,
 				dosomething = {
 					{
 						label = "craft_weaponpart 1 herstellen",		--Anzeige Name 
@@ -543,6 +561,7 @@ routen = {
 				name = "Pistolen Händler",
 				title = "Pistolen Händler",
 				time = 3,
+				loop = false,
 				dosomething = {
 					{
 						label = "Pistole",		--Anzeige Name 
@@ -583,6 +602,7 @@ routen = {
 				name = "SMG Händler",
 				title = "SMG Händler",
 				time = 3,
+				loop = false,
 				dosomething = {
 					{
 						label = "Mini-SMG",		--Anzeige Name 
@@ -626,6 +646,7 @@ routen = {
 				name = "Special Händler",
 				title = "SMG Händler",
 				time = 3,
+				loop = false,
 				dosomething = {
 					{
 						label = "Crabiner",		--Anzeige Name 

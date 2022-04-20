@@ -79,7 +79,7 @@ end)
 -- Display markers
 CreateThread(function()
 	while true do
-		Wait(3)
+		Wait(2)
 		coords = GetEntityCoords(PlayerPedId())
 		for k, v in pairs (routen) do
 			for k, v in pairs (v) do
