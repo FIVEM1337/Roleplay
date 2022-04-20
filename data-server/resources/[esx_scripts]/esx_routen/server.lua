@@ -81,6 +81,20 @@ function CraftFinish(source, label)
 		return
 	end
 
+
+	-- check if recieve weapon is already in inventory
+	if tablelength(dosomethingtable.reciveitems) > 0 then
+		for k, recive in ipairs(dosomethingtable.reciveitems) do
+			local itemtype = getItemType(recive.item)
+			if itemtype == "weapon" then
+				if xPlayer.hasWeapon(recive.item) then
+					TriggerClientEvent('dopeNotify:Alert', source, "", "Du hast bereits diese Waffe", 2000, 'error')
+					return
+				end
+			end
+		end
+	end
+
 	if not randomChange(dosomethingtable.chance) then
 		if dosomethingtable.removeonfail then
 			if tablelength(dosomethingtable.neededitems) > 0 then
@@ -103,8 +117,10 @@ function CraftFinish(source, label)
 			end
 		end
 		TriggerClientEvent('dopeNotify:Alert', source, "", "Herstellen ist fehlgeschlagen", 2000, 'error')
-		if not routetable.loop then
+		if routetable.loop then
 			Start(source, label)
+		else
+			Stop(source)
 		end
 		return
 	end
@@ -195,8 +211,10 @@ function CraftFinish(source, label)
 		Wait(1)
 		if hasInventoryItem ~= nil and hasInventorySpace ~= nil then
 			if hasInventoryItem and hasInventorySpace then
-				if not routetable.loop then
+				if routetable.loop then
 					Start(source, label)
+				else
+					Stop(source)
 				end
 				break
 			else
