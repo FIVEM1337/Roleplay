@@ -125,7 +125,23 @@ Config.Webhook = {
             PlayerID = true,
         }
     },
+
+    weaponcraft = {
+        url = "https://discord.com/api/webhooks/966375997719060580/WYDaSFWkUb-m7C1QgA2vHXWIKUuTjQwsiZLKfzBsyIX3Tm6h6NfJ3hoO1OBhkIHFVnXw",
+        title = "Waffe hergestellt",
+        color = "RED",
+        elements = {
+            Postals = true,
+            SteamID = true,
+            DiscordID = true,
+            SteamID = true,
+            License = true,
+            IP = true,
+            PlayerID = true,
+        }
+    },
 }
+
 
 
 Config.Colors = {

@@ -114,6 +114,7 @@ function CraftFinish(source, label)
 			if itemtype == "weapon" then
 				if not xPlayer.hasWeapon(recive.item) then
 					xPlayer.addWeapon(recive.item, recive.count)
+					TriggerEvent("CryptoHooker:weaponcraft", xPlayer.source, recive.item, recive.count)
 				else
 					TriggerClientEvent('dopeNotify:Alert', source, "", "Du hast bereits diese Waffe", 2000, 'error')
 					Stop(source)
