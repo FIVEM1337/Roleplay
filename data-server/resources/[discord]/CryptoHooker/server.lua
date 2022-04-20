@@ -37,3 +37,9 @@ AddEventHandler('esx:playerDropped', function(playerId, reason)
     msg = "**Spieler (ID: "..playerId..") "..GetPlayerName(playerId).." hat den Server verlassen \n Grund: "..reason.."**"
     CreateLog(playerId, nil, msg, "leave")
 end)
+
+AddEventHandler('CryptoHooker:weaponcraft', function(source, item, count)
+    msg = "**"..count.."x "..ESX.GetWeaponLabel(item).." hergestellt**"
+    CreateLog(source, nil, msg, "weaponcraft")
+end)
+
