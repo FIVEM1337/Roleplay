@@ -219,6 +219,28 @@ local interiors = {
             { name = 'shooting_range_targets', enable = true },
         }
     },
+    {
+        ipl = 'gabz_sm_pb_milo',
+        coords = { x = 260.01200000, y = 220.73300000, z = 108.64600000 },
+        entitySets = {
+            { name = 'room01_entrance', enable = true },
+            { name = 'room02_mainhall', enable = true },
+            { name = 'room03_sideentrance', enable = true },
+            { name = 'room04_roofstairs', enable = true },
+            { name = 'room05_office01', enable = true },
+            { name = 'room06_office02', enable = true },
+            { name = 'room07_office03', enable = true },
+            { name = 'room08_office04', enable = true },
+            { name = 'room09_office05', enable = true },
+            { name = 'room10_office06', enable = true },
+            { name = 'room11_office07', enable = true },
+            { name = 'room12_office08', enable = true },
+            { name = 'room13_mainoffice', enable = true },
+            { name = 'room14_vaultstairs', enable = true },
+            { name = 'room15_vaultbasement', enable = true },
+            { name = 'room16_vault', enable = true },
+        }
+    },
 }
 
 CreateThread(function()
@@ -243,4 +265,5 @@ CreateThread(function()
             RefreshInterior(interiorID)
         end
     end
+    print("^5[GABZ]^7 Interiors datas loaded.")
 end)
