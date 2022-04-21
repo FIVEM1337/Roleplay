@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'Gabz'
 description 'Mapdata'
-version '5.0.0'
+version '7.0.0'
 
 lua54 'yes'
 
