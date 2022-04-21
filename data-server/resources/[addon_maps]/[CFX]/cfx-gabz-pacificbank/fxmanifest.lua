@@ -3,12 +3,13 @@ game 'gta5'
 
 author 'Gabz'
 description 'Pacific Bank'
-version '5.0.0'
+version '7.0.0'
 
 this_is_a_map 'yes'
 
 dependencies {
     'cfx-gabz-mapdata',
+    'cfx-gabz-pdprops',
     '/server:4960',
     '/gameBuild:2189'
 }
