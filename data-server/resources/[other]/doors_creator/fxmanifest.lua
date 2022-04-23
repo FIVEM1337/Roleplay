@@ -1,4 +1,4 @@
-version '1.5.3'
+version '1.5.4'
 author 'jaksam1074'
 
 client_scripts {
