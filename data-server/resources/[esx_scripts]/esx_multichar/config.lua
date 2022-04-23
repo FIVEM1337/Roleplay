@@ -52,7 +52,7 @@ Config.ShowSpawnSelectionOnFirstJoin = false
 
 
 Config.FirstSpawnLocations = {
-    {x = -1021.8606567383, y = -2807.6484375, z = 21.318571090698, heading = 70},
+    {x = -1041.8221435547, y = -2744.5769042969,21.359409332275, z = 21.359409332275, heading = 327.54827880859},
 }
 
 Config.ShowSpawnSelectionForEverybody = false

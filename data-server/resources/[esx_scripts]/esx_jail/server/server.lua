@@ -1885,7 +1885,7 @@ AddEventHandler('esx_jail:LoadedIn', function()
     }, function(result)
         local newData = nil
         newData = json.decode(result[1].jail_data)
-        if newData.jailtime > 0 then
+        if newData and newData.jailtime > 0 then
             TriggerEvent('esx_jail:ReJail', _source, newData)
         end
     end)
