@@ -4,7 +4,6 @@ function CloseShop() {
     $.post('http://esx_vehicleshop/CloseMenu');
 }
 
-
 $(document).keyup(function(e) {
      if (e.key === "Escape") {
         CloseShop()
@@ -41,35 +40,40 @@ $(document).ready(function(){
                     var car = result[index];
                     
 
-                    if (car.donator) {
-                        html += `<div class="col-4 mb-4">
-                                    <div class="card h-100">
-                                        <img src="`+car.imglink+`" class="card-img-top" alt="`+car.name+`">
-                                        <div class="card-body">
-                                            <h5 class="card-title">`+car.name+`</h5>
-                                            <p class="card-text">Brand: <b>`+car.category+`</b></p>
-                                            <p class="card-text">Price: <b>`+car.price+` BTC</b></p>
-                                        </div>
-                                        <div class="card-footer bg-white border-0 ">
-                                            <button type="button" id="action1" data-value="buy" data-model="`+ car.model +`" class="btn btn-danger w-auto btn-lg buy">Kaufen</button>
-                                        </div>
-                                    </div>
-                                </div>`
-                    } else {
-                        html += `<div class="col-4 mb-4">
-                                    <div class="card h-100">
-                                        <img src="`+car.imglink+`" class="card-img-top" alt="`+car.name+`">
-                                        <div class="card-body">
-                                            <h5 class="card-title">`+car.name+`</h5>
-                                            <p class="card-text">Brand: <b>`+car.category+`</b></p>
-                                            <p class="card-text">Price: <b>`+car.price+`€</b></p>
-                                        </div>
-                                        <div class="card-footer bg-white border-0 ">
-                                            <button type="button" id="action1" data-value="buy" data-model="`+ car.model +`" class="btn btn-danger w-auto btn-lg buy">Kaufen</button>
-                                        </div>
-                                    </div>
-                                </div>`
+                    html += `<div class="col-4 mb-4">
+                                <div class="card h-100">
+                                    <img src="`+car.imglink+`" class="card-img-top" alt="`+car.name+` width="300" height="169"">
+                                    <div class="card-body">`
+
+                    html += `<h5 class="card-title">`+car.name+`</h5>`
+
+                    if (car.job) {
+                        html += `<p class="card-text">Job: <b>`+car.joblabel+`</b></p>`
+                        html += `<p class="card-text">Preis: <b>`+car.price+` $</b></p>`
+                        html += `<p class="card-text">Preis Typ: <b>Fraktionskasse</b></p>`
+                    }else {
+                        html += `<p class="card-text">Kategorie: <b>`+car.category+`</b></p>`
+                        if (car.price_type == "money") {
+                            html += `<p class="card-text">Preis: <b>`+car.price+` $</b></p>`
+                            html += `<p class="card-text">Preis Typ: <b>Bargeld</b></p>`
+                        }else if (car.price_type == "black_money"){
+                            html += `<p class="card-text">Preis: <b>`+car.price+` $</b></p>`
+                            html += `<p class="card-text">Preis Typ: <b>Schwarzgeld</b></p>`
+                        }else if (car.price_type == "bank"){
+                            html += `<p class="card-text">Preis: <b>`+car.price+` $</b></p>`
+                            html += `<p class="card-text">Preis Typ: <b>Bank</b></p>`
+                        }else if (car.price_type == "crypto"){
+                            html += `<p class="card-text">Preis: <b>`+car.price+` BTC</b></p>`
+                            html += `<p class="card-text">Preis Typ: <b>Crypto</b></p>`
+                        }
                     }
+ 
+                    html += `</div>
+                                <div class="card-footer bg-white border-0 ">
+                                      <button type="button" id="action1" data-value="buy" data-id="`+ car.id +`" class="btn btn-danger w-auto btn-lg buy">Kaufen</button>
+                                    </div>
+                                </div>
+                            </div>`
 
                     index++;
                     count++;
@@ -83,8 +87,6 @@ $(document).ready(function(){
                     $("#page-" +(n_page + 1)).hide();
                 }
 
-                
-
             }
             $('#n-pag').html(page+ '/' + mpage)
     }
@@ -96,17 +98,14 @@ $(document).ready(function(){
         $("#wrapper").html('');
         
         if($(this).data('value') == "buy")
-            $.post('http://esx_vehicleshop/BuyVehicle', JSON.stringify({model: $(this).data('model'), type: $(this).data('type')}));
-        else if($(this).data('value') == "test-drive")
-            $.post('http://esx_vehicleshop/TestDrive', JSON.stringify({model: $(this).data('model')}));
-    });
+            $.post('http://esx_vehicleshop/BuyVehicle', JSON.stringify({id: $(this).data('id')}));
+        });
 
     $('#search').click(function() {
         var min = $('#price_min').val()
         var max = $('#price_max').val()
         console.log(min,max)
         result = cars.filter(a => a.price >= min && a.price <= max)
-        
         LoadCarsPage()
     })
 

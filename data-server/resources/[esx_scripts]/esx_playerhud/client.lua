@@ -284,7 +284,7 @@ CreateThread(function()
 		CalculateTimeToDisplay()
 
 		dateString = "" .. dayOfWeek .. "." .. month .. "." .. year .. ""
-		timeString = "" .. hour + 2 .. ":" .. minute .. ":" .. secound .. ""
+		timeString = "" .. hour .. ":" .. minute .. ":" .. secound .. ""
 
 
 		SendNUIMessage({action = "setValue", key = "date", value = dateString})

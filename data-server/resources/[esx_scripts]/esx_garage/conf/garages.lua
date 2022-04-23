@@ -335,7 +335,7 @@ garagecoord = {
     },
     {
         garage_id = "Garage 27",
-        Type = "helicopter",
+        Type = "heli",
         Dist = 10,
         Blip = {color = 29, sprite = 64, scale = 0.6},
         npc_heading = -40.0,
@@ -373,7 +373,7 @@ garagecoord = {
     {
         garage_id = "Garage 21",
         job = "ambulance",
-        Type = "helicopter",
+        Type = "heli",
         Dist = 5,
         Blip = {color = 2, sprite = 64, scale = 0.6},
         npc_heading = 266.96,
@@ -412,7 +412,7 @@ garagecoord = {
     {
         garage_id = "Garage 23",
         job = "police",
-        Type = "helicopter",
+        Type = "heli",
         Dist = 10,
         Blip = {color = 29, sprite = 64, scale = 0.6},
         npc_heading = 135.0,
@@ -456,7 +456,7 @@ garagecoord = {
     {
         garage_id = "Garage 26",
         job = "sheriff",
-        Type = "helicopter",
+        Type = "heli",
         Dist = 10,
         Blip = {color = 29, sprite = 64, scale = 0.6},
         npc_heading = -40.0,
@@ -487,7 +487,7 @@ garagecoord = {
     {
         garage_id = "Garage 29",
         job = "mechanic",
-        Type = "helicopter",
+        Type = "heli",
         Dist = 10,
         Blip = {color = 29, sprite = 64, scale = 0.6},
         npc_heading = 150.0,
@@ -508,7 +508,7 @@ garagecoord = {
         spawn_coords = {
             {coords = vector3(412.88583374023,-1624.9874267578,29.29195022583), heading = 45.14, car_type = "car"},
             {coords = vector3(416.49072265625,-1640.7496337891,29.291948318481), heading = 45.14, car_type = "car"},
-            {coords = vector3(401.32913208008,-1636.5932617188,29.291938781738), heading = 45.14, car_type = "helicopter"},
+            {coords = vector3(401.32913208008,-1636.5932617188,29.291938781738), heading = 45.14, car_type = "heli"},
         },
     },
     {
@@ -520,7 +520,7 @@ garagecoord = {
         garage_coord = vector3(-135.31967163086,6356.3618164063,30.490608215332),
         spawn_coords = {
             {coords = vector3(412.76879882813,-1635.1760253906,29.291944503784), heading = 45.14, car_type = "car"},
-            {coords = vector3(401.32913208008,-1636.5932617188,29.291938781738), heading = 45.14, car_type = "helicopter"},
+            {coords = vector3(401.32913208008,-1636.5932617188,29.291938781738), heading = 45.14, car_type = "heli"},
         },
     },
 }

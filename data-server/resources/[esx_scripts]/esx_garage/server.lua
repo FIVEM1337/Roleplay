@@ -361,3 +361,20 @@ AddEventHandler('onResourceStart', function(resource)
         end)
     end
 end)
+
+
+
+RegisterServerEvent('esx_garage:storeVehicle')
+AddEventHandler('esx_garage:storeVehicle', function(plate)
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+    MySQL.Async.execute(
+        'UPDATE owned_vehicles SET `stored` = @stored, impound = @impound WHERE TRIM(UPPER(plate)) = @plate',
+        {
+            ['@plate']      = string.gsub(tostring(plate), '^%s*(.-)%s*$', '%1'):upper(),
+            ['@stored']     = true,
+            ['@impound']    = false,
+        },
+        function(rowsChanged)
+    end)
+end)
