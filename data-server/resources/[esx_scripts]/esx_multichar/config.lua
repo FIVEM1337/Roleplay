@@ -17,6 +17,7 @@ Config.CanPlayersDeleteTheirCharacter = true
 
 Config.AdminGroup = 'superadmin'
 Config.PermissionsCommand = 'giveperm'
+Config.HtmlCharSelection = true
 
 -- Insert all tables from your database here, where an identifier is saved.
 -- Also when the column name is owner or steamID or....
@@ -51,9 +52,8 @@ Config.SpawnLocations = {
 Config.ShowSpawnSelectionOnFirstJoin = false
 
 
-Config.FirstSpawnLocations = {
-    {x = -1041.8221435547, y = -2744.5769042969,21.359409332275, z = 21.359409332275, heading = 327.54827880859},
-}
+Config.FirstSpawnLocations = {x = -1041.8221435547, y = -2744.5769042969,21.359409332275, z = 21.359409332275, heading = 327.54827880859}
+
 
 Config.ShowSpawnSelectionForEverybody = false
 
