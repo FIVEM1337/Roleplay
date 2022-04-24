@@ -101,7 +101,7 @@ RegisterNetEvent("esx_scratchcard:deposit", function(key, price, amount, type)
     if priceKey == key then
       priceAmount = priceInfo["price"]["item"]["item_amount"]
       if Config.ShowResultTicketNotification then
-        TriggerClientEvent('esx:showAdvancedNotification', xPlayer.source, _U('lottery_name'), _U('lottery_subject'), priceInfo['message'] , 'CHAR_BANK_BOL', 9)
+        TriggerClientEvent('dopeNotify:Alert', xPlayer.source, _U('lottery_name'), priceInfo['message'], salary), 5000, 'info')
       end
       if type == 'item' and giveItem == true then
         if tonumber(amount) == priceAmount then

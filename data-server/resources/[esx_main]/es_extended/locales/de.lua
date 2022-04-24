@@ -41,8 +41,8 @@ Locales['de'] = {
   ['keymap_showinventory'] = 'inventar anzeigen',
 
   -- Salary related
-  ['received_salary'] = 'du hast dein Gehalt erhalten: ~g~$%s~s~',
-  ['received_help'] = 'du hast deine Sozialhilfe erhalten: ~g~$%s~s~',
+  ['received_salary'] = 'du hast dein Gehalt erhalten: $%s',
+  ['received_help'] = 'du hast deine Sozialhilfe erhalten: $%s',
   ['company_nomoney'] = 'die Firma in der du angestellt bist, ist zu arm um dein Gehalt zu zahlen',
   ['received_paycheck'] = 'erhaltener Gehaltsscheck',
   ['bank'] = 'bank',
