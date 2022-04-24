@@ -29,7 +29,7 @@ Config = {
     -- You can change the menu position here
     MenuPosition = "left", -- (left, right)
     -- You can enable or disable the Ragdoll keybinding here.
-    RagdollEnabled = false,
+    RagdollEnabled = true,
     RagdollKeybind = 303, -- Get the button number here https://docs.fivem.net/game-references/controls/
     -- You can disable the Facial Expressions menu here.
     ExpressionsEnabled = true,

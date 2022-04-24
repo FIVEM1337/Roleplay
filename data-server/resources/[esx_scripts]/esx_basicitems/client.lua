@@ -185,27 +185,42 @@ RegisterNetEvent('esx_basicitems:onUseKevlar')
 AddEventHandler('esx_basicitems:onUseKevlar', function()
     local playerPed = PlayerPedId()
     local lib, anim = 'anim@heists@narcotics@funding@gang_idle', 'gang_chatting_idle01'
+    local status = true
+    local duration = 5000
 	
     ESX.Streaming.RequestAnimDict(lib, function()
-        TaskPlayAnim(playerPed, lib, anim, 8.0, -8.0, -1, 0, 0, false, false, false)
+        TaskPlayAnim(playerPed, lib, anim, 8.0, -8.0, duration, 0, 0, false, false, false)
+    end)
 
-        Wait(500)
-        while IsEntityPlayingAnim(playerPed, lib, anim, 3) do
+    CreateThread(function ()
+        while IsEntityPlayingAnim(playerPed, lib, 'idle', 3) ~= 1 do
+
             Wait(0)
-            DisableAllControlActions(0)
-        end
-
-        ESX.TriggerServerCallback('esx_basicitems:getItemAmount', function(quantity)
-            if quantity and quantity >= 1 then
-                TriggerServerEvent('esx_basicitems:removeItem', 'use_kevlar_west', 1)
-                AddArmourToPed(playerPed, 100)
-                SetPedArmour(playerPed, 100)
-            else
-                TriggerEvent('dopeNotify:Alert', "", "Du benötigst 1x use_kevlar_west", 5000, 'error')
+            showInfobar("Drücke ~g~E~s~ um Interaktion abzubrechen")
+            if IsControlJustReleased(0, 38) then
+                status = false
+                ClearPedTasks(playerPed)
                 TriggerServerEvent('esx_basicitems:stopTask')
-                return
+                break
             end
-        end, 'use_kevlar_west')
+        end
+    end)
+
+    CreateThread(function ()
+        Wait(duration)
+        if status then
+            ESX.TriggerServerCallback('esx_basicitems:getItemAmount', function(quantity)
+                if quantity and quantity > 0 then
+                    TriggerServerEvent('esx_basicitems:removeItem', 'use_kevlar_west', 1)
+                    AddArmourToPed(playerPed, 100)
+                    SetPedArmour(playerPed, 100)
+                    TriggerServerEvent('esx_basicitems:stopTask')
+                else
+                    TriggerEvent('dopeNotify:Alert', "", "Du benötigst eine Schutzweste", 5000, 'error')
+                    TriggerServerEvent('esx_basicitems:stopTask')
+                end
+            end, 'use_kevlar_west')
+        end
     end)
 end)
 
@@ -236,3 +251,9 @@ RegisterNUICallback('close', function(data, cb)
 	SendNUIMessage({show = false})
 	ClearPedTasks(PlayerPedId())
 end)
+
+function showInfobar(msg)
+	SetTextComponentFormat('STRING')
+	AddTextComponentString(msg)
+	DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+end
