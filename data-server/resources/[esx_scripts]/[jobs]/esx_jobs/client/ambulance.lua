@@ -99,7 +99,7 @@ AddEventHandler('esx_jobs:useItem', function(itemName)
 			end
 
 			TriggerEvent('esx_jobs:heal', 'big', true)
-			ESX.ShowNotification(_U('used_medikit'))
+			TriggerEvent('dopeNotify:Alert', "", _U('used_medikit'), 5000, 'success')
 		end)
 
 	elseif itemName == 'bandage' then
@@ -116,7 +116,7 @@ AddEventHandler('esx_jobs:useItem', function(itemName)
 			end
 
 			TriggerEvent('esx_jobs:heal', 'small', true)
-			ESX.ShowNotification(_U('used_bandage'))
+			TriggerEvent('dopeNotify:Alert', "", _U('used_bandage'), 5000, 'success')
 		end)
 	end
 end)
@@ -135,7 +135,7 @@ AddEventHandler('esx_jobs:heal', function(healType, quiet)
 	end
 
 	if not quiet then
-		ESX.ShowNotification(_U('healed'))
+		TriggerEvent('dopeNotify:Alert', "", _U('healed'), 5000, 'success')
 	end
 end)
 
@@ -164,8 +164,7 @@ function RevivePlayer(closestPlayer)
 
 				local playerPed = PlayerPedId()
 				local lib, anim = 'mini@cpr@char_a@cpr_str', 'cpr_pumpchest'
-				ESX.ShowNotification(_U('revive_inprogress'))
-
+				TriggerEvent('dopeNotify:Alert', "", _U('revive_inprogress'), 5000, 'info')
 				for i=1, 15 do
 					Wait(900)
 
@@ -178,10 +177,10 @@ function RevivePlayer(closestPlayer)
 				TriggerServerEvent('esx_jobs:revive', GetPlayerServerId(closestPlayer))
 				currentTask.busy = false
 			else
-				ESX.ShowNotification(_U('player_not_unconscious'))
+				TriggerEvent('dopeNotify:Alert', "", _U('player_not_unconscious'), 5000, 'info')
 			end
 		else
-			ESX.ShowNotification(_U('not_enough_medikit'))
+			TriggerEvent('dopeNotify:Alert', "", _U('not_enough_medikit'), 5000, 'error')
 		end
 	end, 'medikit')
 end
@@ -200,23 +199,23 @@ function HealPlayer(closestPlayer, item)
 				local playerPed = PlayerPedId()
 
 				currentTask.busy = true
-				ESX.ShowNotification(_U('heal_inprogress'))
+				TriggerEvent('dopeNotify:Alert', "", _U('heal_inprogress'), 5000, 'info')
 				TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_TEND_TO_DEAD', 0, true)
 				Wait(10000)
 				ClearPedTasks(playerPed)
 
 				TriggerServerEvent('esx_jobs:removeItem', item)
 				TriggerServerEvent('esx_jobs:heal', GetPlayerServerId(closestPlayer), healtype)
-				ESX.ShowNotification(_U('heal_complete'))
+				TriggerEvent('dopeNotify:Alert', "", _U('heal_complete'), 5000, 'success')
 				currentTask.busy = false
 			else
-				ESX.ShowNotification(_U('player_not_conscious'))
+				TriggerEvent('dopeNotify:Alert', "", _U('player_not_conscious'), 5000, 'info')
 			end
 		else
 			if item == "bandage" then
-				ESX.ShowNotification(_U('not_enough_bandage'))
+				TriggerEvent('dopeNotify:Alert', "", _U('not_enough_bandage'), 5000, 'error')
 			else
-				ESX.ShowNotification(_U('not_enough_medikit'))
+				TriggerEvent('dopeNotify:Alert', "", _U('not_enough_medikit'), 5000, 'error')
 			end
 		end
 	end, item)
