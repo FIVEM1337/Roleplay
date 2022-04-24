@@ -7,7 +7,6 @@ CreateThread(function()
     end
 end)
 
-
 _menuPool = NativeUI.CreatePool()
 local cam = nil
 local cam2 = nil
@@ -36,10 +35,10 @@ end)
 
 CreateThread(function()
     while true do
-        Wait(1000)
+        Wait(0)
         if ESX ~= nil then
             if NetworkIsSessionStarted() then
-                Wait(100)
+                Wait(1)
                 gotCharData = false
                 TriggerServerEvent('esx_multichar:GetPlayerCharacters')
                 setPlayerInVoid()
@@ -49,6 +48,10 @@ CreateThread(function()
     end
 end)
 
+RegisterNetEvent('esx_multichar:ReloadCharacters')
+AddEventHandler('esx_multichar:ReloadCharacters', function()
+    TriggerServerEvent('esx_multichar:GetPlayerCharacters')
+end)
 
 RegisterNetEvent('esx_multichar:SpawnCharacter')
 AddEventHandler('esx_multichar:SpawnCharacter', function(spawn, isnew)
@@ -389,7 +392,22 @@ end
 
 RegisterNetEvent('esx_multichar:receiveChars')
 AddEventHandler('esx_multichar:receiveChars', function(characters, maxCharacters)
-    generateMenu(characters, maxCharacters)
+    if Config.HtmlCharSelection then
+        for k, v in pairs (characters) do
+            ESX.TriggerServerCallback('esx_multichar:GetJobLabel', function(label)
+                v.job = label
+            end, v.job)
+        end
+    
+        Wait(500)
+        SetNuiFocus(true, true)
+        SendNUIMessage({
+            action = "openui",
+            characters = characters,
+        })
+    else
+        generateMenu(characters, maxCharacters)
+    end
 end)
 
 -- register menu
@@ -809,3 +827,25 @@ function ShowNotification(text)
     AddTextComponentString(text)
 	DrawNotification(false, true)
 end
+
+
+RegisterNUICallback("CharacterChosen", function(data, cb)
+    print(data.isnew)
+    SetNuiFocus(false,false)
+    DoScreenFadeOut(500)
+    TriggerServerEvent('esx_multichar:CharSelected', data.charid, data.isnew)
+    while not IsScreenFadedOut() do
+        Citizen.Wait(10)
+    end
+    cb("ok")
+end)
+
+RegisterNUICallback("DeleteCharacter", function(data, cb)
+    SetNuiFocus(false,false)
+    DoScreenFadeOut(500)
+    TriggerServerEvent('esx_multichar:deleteChar', data.charid)
+    while not IsScreenFadedOut() do
+        Citizen.Wait(10)
+    end
+    cb("ok")
+end)

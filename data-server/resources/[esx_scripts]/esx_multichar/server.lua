@@ -49,7 +49,7 @@ AddEventHandler('esx_multichar:GetPlayerCharacters', function()
 end)
 
 RegisterServerEvent('esx_multichar:CharSelected')
-AddEventHandler('esx_multichar:CharSelected', function(charid, isnew)
+AddEventHandler('esx_multichar:CharSelected', function(charid, isOld)
     local src = source
     local spawn = {}
     SetLastCharacter(src, tonumber(charid))
@@ -63,16 +63,15 @@ AddEventHandler('esx_multichar:CharSelected', function(charid, isnew)
         TriggerEvent('esx_properties:updateIdentifier', src, tonumber(charid)..':'..GetIdentifierWithoutLicense(GetRockstarID(src)), GetIdentifierWithoutLicense(GetRockstarID(src)))
     end
 
-    if not isnew then
-        
+    if isOld then
         if GetSpawnPos(src) == nil then
-            spawn = Config.FirstSpawnLocations[math.random(#Config.FirstSpawnLocations)]
+            spawn = Config.FirstSpawnLocations
         end
 		spawn = GetSpawnPos(src)
 		TriggerClientEvent("esx_multichar:SpawnCharacter", src, spawn, false)
     else
 		TriggerClientEvent('skinchanger:loadDefaultModel', src, true, cb)
-        spawn = Config.FirstSpawnLocations[math.random(#Config.FirstSpawnLocations)] -- DEFAULT SPAWN POSITION
+        spawn = Config.FirstSpawnLocations
 		TriggerClientEvent("esx_multichar:SpawnCharacter", src, spawn, true)
     end  
 end)
@@ -80,6 +79,26 @@ end)
 function GetPlayerCharacters(source)
     local identifier = GetIdentifierWithoutLicense(GetRockstarID(source))
     local Chars = executeMySQL("SELECT * FROM `users` WHERE identifier LIKE '%"..identifier.."%'")
+
+    for k, v in pairs(Chars) do
+        local accounts = json.decode(v.accounts)
+
+
+
+        if json.decode(v.accounts).money and json.decode(v.accounts).money > 0 then
+            v.money = ESX.Math.GroupDigits(json.decode(v.accounts).money)
+        else
+            v.money = 0
+        end
+
+        if json.decode(v.accounts).bank and json.decode(v.accounts).bank > 0 then
+            v.bank = ESX.Math.GroupDigits(json.decode(v.accounts).bank)
+        else
+            v.bank = 0
+        end
+
+    end
+
     return Chars
 end
 
@@ -125,10 +144,13 @@ function SetCharToIdentifier(identifier, charid)
     end  
 end
 
-function DeleteCharacter(identifier, charid, maxChars)
+function DeleteCharacter(source, identifier, charid, maxChars)
+
     for k, data in pairs(Config.Tables) do
         executeMySQL("DELETE FROM `"..data.table.."` WHERE `"..data.column.."` = '"..charid..":"..GetIdentifierWithoutLicense(identifier).."'")
     end
+
+    TriggerClientEvent("esx_multichar:ReloadCharacters", source)
 
     if charid ~= maxChars then
         for i=charid, maxChars-1, 1 do
@@ -144,9 +166,11 @@ function DeleteCharacter(identifier, charid, maxChars)
 end
 
 RegisterServerEvent('esx_multichar:deleteChar')
-AddEventHandler('esx_multichar:deleteChar', function(charid, maxChars)
+AddEventHandler('esx_multichar:deleteChar', function(charid)
+    local _source = source
     local steamID = GetRockstarID(source)
-    DeleteCharacter(steamID, charid, maxChars)
+    local maxChars = GetPlayerMaxChars(source)
+    DeleteCharacter(_source, steamID, charid, maxChars[1].maxChars)
 end)
 
 function GetIdentifierWithoutLicense(Identifier)
@@ -342,3 +366,32 @@ RegisterCommand('changePed', function(source, args, raw)
     end)
 end, false)
 
+ESX.RegisterServerCallback('esx_multichar:GetJobLabel', function(source, cb, job)
+    MySQL.Async.fetchAll('SELECT * FROM jobs WHERE name = @name', {
+		['@name'] = job
+	}, function(result)
+		if result[1] then
+            cb(result[1].label)
+        else
+            cb(job)
+        end
+	end)
+end)
+
+
+function GetJobLabel(job_name)
+    local job = nil
+	MySQL.Async.fetchAll('SELECT * FROM jobs WHERE name = @name', {
+		['@name'] = job_name
+	}, function(result)
+		if result[1] then
+
+            job = result[1].label
+            print(job)
+            return job
+        else
+            print("nono")
+            return job_name
+        end
+	end)
+end
