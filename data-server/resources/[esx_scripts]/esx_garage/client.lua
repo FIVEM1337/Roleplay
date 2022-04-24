@@ -106,9 +106,11 @@ CreateThread(function()
                         end
                     end
                     if(GetDistanceBetweenCoords(coords, v.garage_coord, true) < v.Dist) then
-                        isInMarker  = true
-                        currentZone = v
-                        ShowNotification(currentZone, Vehicle)
+                        if(GetDistanceBetweenCoords(coords.x, coords.y, coords.z, coords.x, coords.y, v.garage_coord.z, true) < v.ZDist) then
+                            isInMarker  = true
+                            currentZone = v
+                            ShowNotification(currentZone, Vehicle)
+                        end
                     end
                 end
             end
