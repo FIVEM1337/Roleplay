@@ -70,7 +70,7 @@ Config.VehicleShops = {
 		draw_distance = 15.0,
 		interact_distance = 10.0,
 		npc = {model = "a_m_m_prolhost_01", heading = 43.365756988525},
-		blip = {sprite = 410, color = 3, scale = 0.8, name = "Händler - Flugzeuge"},
+		blip = {sprite = 251, color = 3, scale = 0.8, name = "Händler - Flugzeuge"},
 
 		spawn_coords = {
 			plane = {
