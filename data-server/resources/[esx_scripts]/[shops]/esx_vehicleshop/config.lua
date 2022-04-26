@@ -78,4 +78,18 @@ Config.VehicleShops = {
 			},
 		}
 	},
+	{
+		shop_id = "5",
+		coords = vector3(-1257.8497314453,-369.40676879883,36.907447814941),
+		draw_distance = 15.0,
+		interact_distance = 10.0,
+		npc = {model = "a_m_m_prolhost_01", heading = 43.365756988525},
+		blip = {sprite = 523, color = 3, scale = 0.8, name = "Händler - Importe"},
+
+		spawn_coords = {
+			car = {
+				{coords = vector3(-1233.7658691406,-346.24075317383,36.765434265137), heading = 26.480955123901},
+			},
+		}
+	},
 }
