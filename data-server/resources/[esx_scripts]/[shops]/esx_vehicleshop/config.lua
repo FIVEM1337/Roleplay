@@ -46,7 +46,7 @@ Config.VehicleShops = {
 
 		spawn_coords = {
 			heli = {
-				{coords = vector3(-724.77325439453,-1443.3287353516,5.0005378723145), heading = 135.72903442383},
+				{coords = vector3(-724.19781494141,-1444.1927490234,5.3643779754639), heading = 131.83993530273},
 			},
 		}
 	},
@@ -60,7 +60,7 @@ Config.VehicleShops = {
 
 		spawn_coords = {
 			boat = {
-				{coords = vector3(-55.308624267578,-1131.7788085938,25.476472854614), heading = 268.19989013672},
+				{coords = vector3(-724.60272216797,-1329.5150146484,0.073163449764252), heading = 228.25114440918},
 			},
 		}
 	},
@@ -69,12 +69,12 @@ Config.VehicleShops = {
 		coords = vector3(-942.48675537109,-2957.5986328125,13.945070266724),
 		draw_distance = 15.0,
 		interact_distance = 10.0,
-		npc = {model = "a_m_m_prolhost_01", heading = 43.365756988525},
+		npc = {model = "a_m_m_prolhost_01", heading = 146.14212036133},
 		blip = {sprite = 251, color = 3, scale = 0.8, name = "Händler - Flugzeuge"},
 
 		spawn_coords = {
 			plane = {
-				{coords = vector3(-55.308624267578,-1131.7788085938,25.476472854614), heading = 268.19989013672},
+				{coords = vector3(-980.96160888672,-3025.2243652344,14.120941162109), heading = 61.082344055176},
 			},
 		}
 	},
