@@ -387,10 +387,8 @@ function GetJobLabel(job_name)
 		if result[1] then
 
             job = result[1].label
-            print(job)
             return job
         else
-            print("nono")
             return job_name
         end
 	end)
