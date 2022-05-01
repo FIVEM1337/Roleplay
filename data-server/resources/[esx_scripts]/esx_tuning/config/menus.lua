@@ -18,12 +18,12 @@ Config.Menus = {
         ['upgrade'] = {
             title = 'TUNNING',
             options = {
-                {label = 'Motor', img = 'img/icons/engine.png', modType = 11, priceMult = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},
-                {label = 'Bremsen', img = 'img/icons/brakes.png', modType = 12, priceMult = {0.0, 0.0, 0.0, 0.0, 0.0}},
-                {label = 'Getriebe', img = 'img/icons/transmission.png', modType = 13, priceMult = {0.0, 0.0, 0.0, 0.0, 0.0}},
-                {label = 'Federung', img = 'img/icons/suspension.png', modType = 15, priceMult = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},
-                {label = 'Panzerung', img = 'img/icons/armor.png', modType = 16, priceMult = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},
-                {label = 'Turbo', img = 'img/icons/engine.png', modType = 18, priceMult = {0.0, 0.0}},
+                {label = 'Motor', img = 'img/icons/engine.png', modType = 11, priceMult = {20.0, 40.0, 60.0, 90.0, 120.0, 180.0}},
+                {label = 'Bremsen', img = 'img/icons/brakes.png', modType = 12, priceMult = {5.0, 15.0, 3.0, 4.0, 5.0}},
+                {label = 'Getriebe', img = 'img/icons/transmission.png', modType = 13, priceMult = {5.0, 2.0, 3.0, 4.0, 5.0}},
+                {label = 'Federung', img = 'img/icons/suspension.png', modType = 15, priceMult = {5.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0}},
+                {label = 'Panzerung', img = 'img/icons/armor.png', modType = 16, priceMult = {5.0, 2.0, 0.0, 3.0, 4.0, 5.0, 6.0, 7.0}},
+                {label = 'Turbo', img = 'img/icons/engine.png', modType = 18, priceMult = {40.0, 100.0}},
             },
             onBack = function() updateMenu('main') end
         },

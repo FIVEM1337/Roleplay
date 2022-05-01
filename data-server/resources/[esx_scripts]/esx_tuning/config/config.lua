@@ -1,22 +1,12 @@
-Config = Config or {}
+Config = {}
 
-Config.ActionDistance = 3.0
-Config.Keys = {
-    action = {key = 38, label = 'E', name = 'INPUT_PICKUP'}
-}
+Config.Keys = {action = {key = 38, label = 'E', name = 'INPUT_PICKUP'}}
+Config.Blip = {sprite = 72, color = 0, scale = 1.1}
 
-Config.Positions = {
-    {
-        pos = {x = -1130.94, y = -1723.85, z = 4.4},
-        whitelistJobName = 'mechanic',
-
-        lifter = {
-
-            lifter1 = vector3(-1180.8294677734,-1704.90234375,4.4493203163147),
-            lifter2 = vector3(-1188.2628173828,-1709.5067138672,4.5171041488647),
-            lifter3 = vector3(-1195.9832763672,-1714.4881591797,4.507504940033),
-            lifter4 = vector3(-1202.4725341797,-1719.3979492188,4.5161533355713),
-            lifter5 = vector3(-1209.048828125,-1724.8748779297,4.4500007629395),
-        }
-    }
+Config.Tuners = {
+    {coord = vector3(-345.27944946289,-134.56025695801,38.60071182251), dist = 8.0,},
+    {coord = vector3(-1150.6009521484,-1996.8649902344,13.08408164978), dist = 8.0,},  
+    {coord = vector3(730.07397460938,-1089.1793212891,21.758029937744), dist = 8.0,},
+    {coord = vector3(110.3062286377,6626.677734375,31.375570297241), dist = 3.0,},
+    {coord = vector3(1175.1141357422,2640.6633300781,37.34545135498), dist = 4.0,},
 }

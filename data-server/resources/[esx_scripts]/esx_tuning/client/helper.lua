@@ -707,15 +707,15 @@ function moveToCameraToBoneSmoth(fromCamera, toCamera, vehicle, boneName, posOff
 end
 
 -- MORE
-function addBlip(position, title)
+function addBlip(position, spriteId, color, title, scale)
 	scale = scale or 0.4
 
 	local tempBlip = AddBlipForCoord(position.x, position.y, position.z)
 	
-    SetBlipSprite(tempBlip, 446)
+    SetBlipSprite(tempBlip, spriteId)
     SetBlipDisplay(tempBlip, 4)
-    SetBlipScale(tempBlip, 1.0)
-    SetBlipColour(tempBlip, 5)
+    SetBlipScale(tempBlip, scale)
+    SetBlipColour(tempBlip, color)
     SetBlipAsShortRange(tempBlip, true)
 
     BeginTextCommandSetBlipName("STRING")

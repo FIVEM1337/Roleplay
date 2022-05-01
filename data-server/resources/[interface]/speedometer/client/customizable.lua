@@ -64,30 +64,39 @@ end)
 CreateThread(function()
 
 	while true do
-		local PlayerPed = PlayerPedId()
-		local PlayerVehicle = GetVehiclePedIsUsing(PlayerPed)
-		local VehicleClass = GetVehicleClass(PlayerVehicle)
-		if IsPedInAnyVehicle(PlayerPed, false) and VehicleClass ~= 8 and VehicleClass ~= 13 and VehicleClass ~= 14 and VehicleClass ~= 15 and VehicleClass ~= 16 then
-			SendNUIMessage({action = "show_seatbelt", show = true})	
-			SendNUIMessage({action = "seatbelt", seatbelted = GetPedConfigFlag(PlayerPed, 32)})
-	
-			if GetPedVehicleSeat(PlayerPed) ~= -1 then
+		if IsHudHidden() then
+			print("he")
+			Wait(1)
+			if not isHudHidden then
 				isHudHidden = true
-				SendNUIMessage({
-					HideHud = isHudHidden
-				})
-			else
-				if isHudHidden then
-					isHudHidden = false
+				SendNUIMessage({HideHud = true})
+			end
+		else
+			local PlayerPed = PlayerPedId()
+			local PlayerVehicle = GetVehiclePedIsUsing(PlayerPed)
+			local VehicleClass = GetVehicleClass(PlayerVehicle)
+			if IsPedInAnyVehicle(PlayerPed, false) and VehicleClass ~= 8 and VehicleClass ~= 13 and VehicleClass ~= 14 and VehicleClass ~= 15 and VehicleClass ~= 16 then
+				SendNUIMessage({action = "show_seatbelt", show = true})	
+				SendNUIMessage({action = "seatbelt", seatbelted = GetPedConfigFlag(PlayerPed, 32)})
+		
+				if GetPedVehicleSeat(PlayerPed) ~= -1 then
+					isHudHidden = true
 					SendNUIMessage({
 						HideHud = isHudHidden
 					})
-				end	
+				else
+					if isHudHidden then
+						isHudHidden = false
+						SendNUIMessage({
+							HideHud = isHudHidden
+						})
+					end	
+				end
+				Wait(100)
+			else
+				SendNUIMessage({action = "show_seatbelt", show = false})
+				Wait(500)
 			end
-			Wait(100)
-		else
-			SendNUIMessage({action = "show_seatbelt", show = false})
-			Wait(500)
 		end
 	end
 end)

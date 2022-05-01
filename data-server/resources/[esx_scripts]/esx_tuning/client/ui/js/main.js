@@ -56,18 +56,14 @@ function listener() {
             $('html').show();
             $('#buttonHelpers').show(500);
             
-            fadeInDetailCard();
-            userDetailCardToggle = false;
-            cardFadeOutTimeOut = setTimeout(function() {
-                fadeOutDetailCard();
-            }, 5000);
+
 
             if (tempData.what === 'menu') {
-                createMenu(tempData.menuId, tempData.options, tempData.menuTitle, tempData.defaultOption, tempData.whitelistJobName);
+                createMenu(tempData.menuId, tempData.options, tempData.menuTitle, tempData.defaultOption);
             } else if (tempData.what === 'colorPicker') {
                 isCustom = tempData.isCustom;
                 colorPriceMult = tempData.priceMult;
-                fadeInColorPicker(tempData.title, isOpenByAdmin ? 0 : tempData.price, tempData.defaultValue, tempData.whitelistJobName);
+                fadeInColorPicker(tempData.title, isOpenByAdmin ? 0 : tempData.price, tempData.defaultValue);
             }
         } else if (tempData.type === 'close') {
             resetUI();
@@ -83,10 +79,7 @@ function listener() {
                         let tempPrice = parseInt($(this).html().replace(/[^0-9]/g, ''));
                         if (tempPrice) {
                             let oldPrice = tempPrice;
-                            tempPrice = tempPrice * 2;
-                            if (tempData.whitelistJobName && currentJobName == tempData.whitelistJobName) {
-                                tempPrice = oldPrice;
-                            }
+                            tempPrice = tempPrice;
 
                             if (tempPrice > currentCash) {
                                 $(this).addClass('cash_not');
@@ -109,7 +102,7 @@ function listener() {
             } else if (tempData.what === 'job') {
                 currentJobName = tempData.jobName;
             } else if (tempData.what === 'menu') {
-                createMenu(tempData.menuId, tempData.options, tempData.menuTitle, tempData.defaultOption, tempData.whitelistJobName);
+                createMenu(tempData.menuId, tempData.options, tempData.menuTitle, tempData.defaultOption);
             } else if (tempData.what === 'colorPicker') {
                 fadeOutColorPicker();
             }
@@ -142,12 +135,6 @@ document.onkeydown = function(event) {
                 menuColorPickerGoto(-1, 0)
             }
         }
-    } else if (event.which == 71) { // g
-        event.preventDefault();
-
-        userDetailCardToggle = !userDetailCardToggle;
-        fadeInDetailCard();
-        fadeOutDetailCard();
     } else if (event.which == 38 || event.which == 87) { // up (next)
         event.preventDefault();
 
@@ -263,7 +250,7 @@ function resetUI() {
     $('#card_breaks_number').html('0.0');
 }
 
-function createMenu(menuId, data, title, defaultOption, whitelistJobName) {
+function createMenu(menuId, data, title, defaultOption) {
     menuLastPosIndex = menuId;
 
     menuLoading = true;
@@ -278,10 +265,7 @@ function createMenu(menuId, data, title, defaultOption, whitelistJobName) {
                 let tempClass = '';
                 if ((!isOpenByAdmin) && data[i].price > currentCash) tempClass = 'cash_not';
 
-                let tempPrice = data[i].price * 2;
-                if (whitelistJobName && currentJobName == whitelistJobName) {
-                    tempPrice = data[i].price;
-                }
+                let tempPrice = data[i].price;
 
                 price = `<div class="options_container_option_price ${tempClass}">$${isOpenByAdmin ? 0 : GetNumberWithCommas(tempPrice)}</div>`;
             } else if (data[i].price == -1) {
@@ -465,8 +449,8 @@ function fadeOutDetailCard() {
     })
 }
 
-function fadeInColorPicker(title, price, defaultValue, whitelistJobName) {
-    initColorPicker(title, isOpenByAdmin ? 0 : price, defaultValue, whitelistJobName);
+function fadeInColorPicker(title, price, defaultValue) {
+    initColorPicker(title, isOpenByAdmin ? 0 : price, defaultValue);
     $('#colorPicker-holder').stop(true, true).animate({
         opacity: 1,
         left: '40px'
@@ -484,14 +468,11 @@ function GetNumberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function initColorPicker(title, price, defaultValue, whitelistJobName) {
+function initColorPicker(title, price, defaultValue) {
     let srting = '';
     let scale = 18
 
-    let tempPrice = price * 2;
-    if (whitelistJobName && currentJobName == whitelistJobName) {
-        tempPrice = price;
-    }
+    let tempPrice = price;
 
     if (isOpenByAdmin)
         tempPrice = 0
