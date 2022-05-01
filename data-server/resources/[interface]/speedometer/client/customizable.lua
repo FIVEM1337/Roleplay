@@ -65,7 +65,6 @@ CreateThread(function()
 
 	while true do
 		if IsHudHidden() then
-			print("he")
 			Wait(1)
 			if not isHudHidden then
 				isHudHidden = true
