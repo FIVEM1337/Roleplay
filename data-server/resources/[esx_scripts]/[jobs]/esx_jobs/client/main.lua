@@ -6,8 +6,6 @@ local HasAlreadyEnteredMarker = false
 local CurrentAction
 local CurrentActionMsg
 local CurrentActionData = {}
-local isHandcuffed = false
-local dragStatus = {}
 local npc_list = {}
 local RestirctedZones = {}
 
@@ -41,7 +39,6 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
 	PlayerData = xPlayer
 	LoadDefaults()
 	GetRestirctedZones()
-	TriggerServerEvent('esx_jobs:ishandcuffed')
 end)
 
 function LoadDefaults()
@@ -188,214 +185,20 @@ CreateThread(function()
 				end
 			end
 		end
+	end
+end)
 
-		if IsControlJustReleased(0, 167) then
-			if PlayerData.job then
-				if jobs[PlayerData.job.name] then
-					v = jobs[PlayerData.job.name]
-					OpenJobActionsMenu(v)
-				end
-			end
+
+RegisterCommand('openjobmenu', function()
+	if PlayerData.job then
+		if jobs[PlayerData.job.name] then
+			v = jobs[PlayerData.job.name]
+			OpenJobActionsMenu(jobs[PlayerData.job.name])
 		end
 	end
 end)
 
-RegisterNetEvent('esx_jobs:startbodysearch')
-AddEventHandler('esx_jobs:startbodysearch', function()
-	print("trigger")
-	local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-	if closestPlayer ~= -1 and closestDistance <= 3.0 then
-		ESX.TriggerServerCallback('esx_jobs:getOtherPlayerData', function(data)
-			if data then
-				OpenBodySearchMenu(closestPlayer, data)
-			else
-				TriggerEvent('dopeNotify:Alert', "", _U('player_not_found'), 5000, 'error')
-			end
-		end, GetPlayerServerId(closestPlayer))
-	else
-		TriggerEvent('dopeNotify:Alert', "", _U('no_players_nearby'), 5000, 'error')
-	end
-end)
-
-RegisterNetEvent('esx_jobs:handcuff')
-AddEventHandler('esx_jobs:handcuff', function()
-	local playerPed = PlayerPedId()
-	isHandcuffed = true
-	RequestAnimDict('mp_arresting')
-	while not HasAnimDictLoaded('mp_arresting') do
-		Wait(100)
-	end
-	TaskPlayAnim(playerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0, 0, 0, 0)
-	SetEnableHandcuffs(playerPed, true)
-	DisablePlayerFiring(playerPed, true)
-	SetCurrentPedWeapon(playerPed, GetHashKey('WEAPON_UNARMED'), true) -- unarm player
-	SetPedCanPlayGestureAnims(playerPed, false)
-end)
-
-RegisterNetEvent('esx_jobs:unhandcuff')
-AddEventHandler('esx_jobs:unhandcuff', function()
-	local playerPed = PlayerPedId()
-	isHandcuffed = false
-	ClearPedSecondaryTask(playerPed)
-	SetEnableHandcuffs(playerPed, false)
-	DisablePlayerFiring(playerPed, false)
-	SetPedCanPlayGestureAnims(playerPed, true)
-end)
-
-RegisterNetEvent('esx_jobs:drag')
-AddEventHandler('esx_jobs:drag', function(SourceID)
-	dragStatus.isDragged = not dragStatus.isDragged
-	dragStatus.SourceID = SourceID
-end)
-
-CreateThread(function()
-	local playerPed = PlayerPedId()
-	local targetPed
-
-	while true do
-		Wait(1)
-		if dragStatus.isDragged then
-			targetPed = GetPlayerPed(GetPlayerFromServerId(dragStatus.SourceID))
-
-			if not IsPedSittingInAnyVehicle(targetPed) then
-				AttachEntityToEntity(playerPed, targetPed, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-			else
-				dragStatus.isDragged = false
-				DetachEntity(playerPed, true, false)
-			end
-
-			if IsPedDeadOrDying(targetPed, true) then
-				dragStatus.isDragged = false
-				DetachEntity(playerPed, true, false)
-			end
-		else
-			DetachEntity(playerPed, true, false)
-		end
-	end
-end)
-
-RegisterNetEvent('esx_jobs:putInVehicle')
-AddEventHandler('esx_jobs:putInVehicle', function()
-	local playerPed = PlayerPedId()
-	local coords = GetEntityCoords(playerPed)
-
-	if IsAnyVehicleNearPoint(coords, 5.0) then
-		local vehicle = GetClosestVehicle(coords, 5.0, 0, 71)
-
-		if DoesEntityExist(vehicle) then
-			local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(vehicle)
-
-			for i=maxSeats - 1, 0, -1 do
-				if IsVehicleSeatFree(vehicle, i) then
-					freeSeat = i
-					break
-				end
-			end
-
-			if freeSeat then
-				TaskWarpPedIntoVehicle(playerPed, vehicle, freeSeat)
-				dragStatus.isDragged = false
-			end
-		end
-	end
-end)
-
--- Handcuff
-CreateThread(function()
-	while true do
-		Wait(0)
-		local playerPed = PlayerPedId()
-		if isHandcuffed then
-
-			if isDead then
-				isHandcuffed = false
-				ClearPedSecondaryTask(playerPed)
-				SetEnableHandcuffs(playerPed, false)
-				DisablePlayerFiring(playerPed, false)
-				SetPedCanPlayGestureAnims(playerPed, true)
-				FreezeEntityPosition(playerPed, false)
-			else
-				DisableControlAction(0, 1, true) -- Disable pan
-				DisableControlAction(0, 2, true) -- Disable tilt
-				DisableControlAction(0, 24, true) -- Attack
-				DisableControlAction(0, 257, true) -- Attack 2
-				DisableControlAction(0, 25, true) -- Aim
-				DisableControlAction(0, 263, true) -- Melee Attack 1
-
-				DisableControlAction(0, 21, true) -- Run
-	
-				DisableControlAction(0, 45, true) -- Reload
-				DisableControlAction(0, 44, true) -- Cover
-				DisableControlAction(0, 37, true) -- Select Weapon
-				DisableControlAction(0, 23, true) -- Also 'enter'?
-	
-				DisableControlAction(0, 288,  true) -- Disable phone
-				DisableControlAction(0, 289, true) -- Inventory
-				DisableControlAction(0, 170, true) -- Animations
-				DisableControlAction(0, 167, true) -- Job
-	
-				DisableControlAction(0, 0, true) -- Disable changing view
-				DisableControlAction(0, 26, true) -- Disable looking behind
-				DisableControlAction(0, 73, true) -- Disable clearing animation
-				DisableControlAction(2, 199, true) -- Disable pause screen
-	
-				DisableControlAction(0, 59, true) -- Disable steering in vehicle
-				DisableControlAction(0, 71, true) -- Disable driving forward in vehicle
-				DisableControlAction(0, 72, true) -- Disable reversing in vehicle
-	
-				DisableControlAction(2, 36, true) -- Disable going stealth
-	
-				DisableControlAction(0, 47, true)  -- Disable weapon
-				DisableControlAction(0, 264, true) -- Disable melee
-				DisableControlAction(0, 257, true) -- Disable melee
-				DisableControlAction(0, 140, true) -- Disable melee
-				DisableControlAction(0, 141, true) -- Disable melee
-				DisableControlAction(0, 142, true) -- Disable melee
-				DisableControlAction(0, 143, true) -- Disable melee
-				DisableControlAction(0, 75, true)  -- Disable exit vehicle
-				DisableControlAction(27, 75, true) -- Disable exit vehicle
-	
-				if IsEntityPlayingAnim(playerPed, 'mp_arresting', 'idle', 3) ~= 1 then
-					ESX.Streaming.RequestAnimDict('mp_arresting', function()
-						TaskPlayAnim(playerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0.0, false, false, false)
-					end)
-				end
-			end
-		else
-			Wait(500)
-		end
-	end
-end)
-
-
-
-CreateThread(function()
-	while true do
-		if isHandcuffed then
-			local playerPed = PlayerPedId()
-			TaskPlayAnim(playerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0, 0, 0, 0)
-			Wait(10000)
-		end
-		Wait(1)
-	end
-end)
-
-RegisterNetEvent('esx_jobs:OutVehicle')
-AddEventHandler('esx_jobs:OutVehicle', function()
-	local playerPed = PlayerPedId()
-	if not IsPedSittingInAnyVehicle(playerPed) then
-		return
-	end
-
-	local vehicle = GetVehiclePedIsIn(playerPed, false)
-	TaskLeaveVehicle(playerPed, vehicle, 16)
-
-	if isHandcuffed then
-		ClearPedSecondaryTask(playerPed)
-		Wait(200)
-		TaskPlayAnim(playerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0, 0, 0, 0)
-	end
-end)
+RegisterKeyMapping('openjobmenu', "Job Menü öffnen", 'keyboard', 'F6')
 
 function OpenJobActionsMenu(JobConfig)
 	local playerPed = PlayerPedId()
@@ -427,10 +230,6 @@ function OpenJobActionsMenu(JobConfig)
 									TriggerEvent('dopeNotify:Alert', "", _U('player_not_found'), 5000, 'error')
 								end
 							end, GetPlayerServerId(closestPlayer))
-						elseif v.label == 'handcuff' then
-							TriggerServerEvent('esx_jobs:handcuff', GetPlayerServerId(closestPlayer))
-						elseif v.label == 'drag' then
-							TriggerServerEvent('esx_jobs:drag', GetPlayerServerId(closestPlayer))
 						elseif v.label == 'put_in_vehicle' then
 							TriggerServerEvent('esx_jobs:putInVehicle', GetPlayerServerId(closestPlayer))
 						elseif v.label == 'out_the_vehicle' then
@@ -987,110 +786,6 @@ function OpenUnpaidBillsMenu(player, bills)
 	_menuPool:MouseControlsEnabled(false)
 	_menuPool:MouseEdgeEnabled(false)
 	_menuPool:ControlDisablingEnabled(false)
-end
-
-function OpenBodySearchMenu(player, data)
-    _menuPool:CloseAllMenus()
-	if JobUI ~= nil and JobUI:Visible() then
-		JobUI:Visible(false)
-	end
-
-	JobUI = NativeUI.CreateMenu(PlayerData.job.label.. "-Garage", nil, nil)
-	_menuPool:Add(JobUI)
-
-	local weaponlabel, standartlabel, accountlabel
-
-	for k, v in ipairs(data.accounts) do
-		if not accountlabel then
-			Item = NativeUI.CreateItem(_U('account_label'), "")
-			accountlabel = true
-			JobUI:AddItem(Item)
-		end
-
-		if v.name == 'black_money' and v.money > 0 then
-			Item = NativeUI.CreateItem(_U('confiscate_dirty', ESX.Math.Round(data.accounts[i].money)), "")
-			JobUI:AddItem(Item)
-
-			Item.Activated = function(sender, index)
-				Confiscate(player, v.name, 'item_account', v.money)
-			end
-		end
-	end
-
-	for k, v in ipairs(data.weapons) do
-		if not weaponlabel then
-			Item = NativeUI.CreateItem(_U('guns_label'), "")
-			weaponlabel = true
-			JobUI:AddItem(Item)
-		end
-		Item = NativeUI.CreateItem(_U('confiscate_weapon', ESX.GetWeaponLabel(v.name), v.ammo), "")
-		JobUI:AddItem(Item)
-
-		Item.Activated = function(sender, index)
-			Confiscate(player, v.name, 'item_weapon', v.ammo)
-		end
-	end
-
-	for k, v in ipairs(data.inventory) do
-		if v.count > 0 then
-			if not standartlabel then
-				Item = NativeUI.CreateItem(_U('inventory_label'), "")
-				standartlabel = true
-				JobUI:AddItem(Item)
-			end
-
-			Item = NativeUI.CreateItem(_U('confiscate_inv', v.count, v.label), "")
-			JobUI:AddItem(Item)
-
-			Item.Activated = function(sender, index)
-				Confiscate(player, v.name, 'item_standard', v.count)
-			end
-		end
-	end
-
-    JobUI:Visible(true)
-	_menuPool:RefreshIndex()
-	_menuPool:MouseControlsEnabled(false)
-	_menuPool:MouseEdgeEnabled(false)
-	_menuPool:ControlDisablingEnabled(false)
-end
-
-function Confiscate(player, name, itemtype, count)
-	if itemtype == 'item_standard' then
-		local input = KeyboardInput("Anzahl", "", 20)
-		local amount = tonumber(input)
-		if tostring(amount) then
-			if amount and amount >= 0 and count >= amount then
-				TriggerServerEvent('esx_jobs:confiscatePlayerItem', GetPlayerServerId(player), itemtype, name, amount)
-				ESX.TriggerServerCallback('esx_jobs:getOtherPlayerData', function(data)
-					if data then
-						OpenBodySearchMenu(player, data)
-					else
-						if jobs[PlayerData.job.name] then
-							v = jobs[PlayerData.job.name]
-							OpenJobActionsMenu(v)
-						end
-					end
-				end, GetPlayerServerId(player))
-			else
-				TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
-			end
-		else
-			TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
-		end
-	else
-		TriggerServerEvent('esx_jobs:confiscatePlayerItem', GetPlayerServerId(player), itemtype, name, count)
-		ESX.TriggerServerCallback('esx_jobs:getOtherPlayerData', function(data)
-			if data then
-				OpenBodySearchMenu(player, data)
-			else
-				if jobs[PlayerData.job.name] then
-					v = jobs[PlayerData.job.name]
-					OpenJobActionsMenu(v)
-				end
-			end
-		end, GetPlayerServerId(player))
-	end
 end
 
 function KeyboardInput(TextEntry, ExampleText, MaxStringLenght)

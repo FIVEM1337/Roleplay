@@ -1,0 +1,14 @@
+
+{
+    "files.exclude": {
+        "**/*.build": true,
+        "**/*.git": true,
+        "**/*.err": true,
+        "**/*.rec": true,
+        "**/*.log": true,
+        "**/*.evt": true,
+        "**/buildfre.*": true,
+        "**/buildchk.*": true,
+        "**/.DS_Store": true
+    },
+}

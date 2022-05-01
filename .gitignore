@@ -6,3 +6,5 @@ binary-server/txData/default/*
 server.cfg
 txport.txt
 binary-server/alpine/opt/cfx-server/server-monitor-token.key
+
+binary-server/alpine/*
