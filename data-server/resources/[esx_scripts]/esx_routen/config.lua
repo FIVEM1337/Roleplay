@@ -15,7 +15,6 @@ routen = {
 		{
 			illegal = false,
 			{
-				name = "Zigarettenroute | Tabak ernten",
 				title = "Tabak Marken",
 				time = 3,
 				loop = true,
@@ -32,13 +31,15 @@ routen = {
 					},
 				},
 				animation = "WORLD_HUMAN_GARDENER_PLANT",
-				blip = {sprite = 501, color = 21, scale = 0.8},
-				marker = {type = 27, range = 15.0, red = 50, green = 50, blue = 204, show = true},
-				coord = vector3(480.00, 6486.80, 30.00),
-				npc = false,
+				coords = {
+					{
+						blip = {label = "Zigarettenroute | Tabak ernten", sprite = 501, color = 21, scale = 0.8, show = true},
+						coord = vector3(480.00, 6486.80, 30.00),
+						marker = {type = 27, range = 15.0, red = 50, green = 50, blue = 204, show = true},
+						npc = {model = "a_m_m_hillbilly_01", heading = 90.0, offset = 1.1},
+					},
+				},
 			},
-
-
 			{
 				name = "Zigarettenroute | Tabak eintauschen",
 				title = "Zigaretten Marken",

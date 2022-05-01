@@ -12,18 +12,7 @@ local InTeleporterMarker = false
 
 
 CreateThread(function()
-	DeleteBlips()
-	for k, v in pairs (routen) do
-		for k, v in pairs (v) do
-			if not v.illegal then
-				for k, v in pairs (v) do
-					if (type(v) == "table") then
-						CreateBlip(v)
-					end
-				end
-			end
-		end
-	end
+	CreateBlip()
 	TriggerEvent('esx_routen:spawnnpcs')
 
 	while true do
@@ -38,16 +27,7 @@ end)
 
 RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(job)
-	DeleteBlips()
-	for k, v in pairs (routen) do
-		for k, v in pairs (v) do
-			for k, v in pairs (v) do
-				if (type(v) == "table") then
-					CreateBlip(v)
-				end
-			end
-		end
-	end
+	CreateBlip()
 end)
 
 
@@ -56,19 +36,23 @@ AddEventHandler('esx_routen:spawnnpcs', function ()
 		for k, v in pairs (v) do
 			for k, v in pairs (v) do
 				if (type(v) == "table") then
-					if v.npc then
-						RequestModel(v.npc.model)
-						LoadPropDict(v.npc.model)
-						local ped = CreatePed(5, v.npc.model , v.coord, v.npc.heading, false, true)
-						PlaceObjectOnGroundProperly(ped)
-						SetEntityAsMissionEntity(ped)
-						SetPedDropsWeaponsWhenDead(ped, false)
-						FreezeEntityPosition(ped, true)
-						SetPedAsEnemy(ped, false)
-						SetEntityInvincible(ped, true)
-						SetModelAsNoLongerNeeded(v.npc.model)
-						SetPedCanBeTargetted(ped, false)
-						table.insert(npc_list, ped)
+					if v.coords then
+						for k, v in ipairs(v.coords) do
+							if v.npc then
+								RequestModel(v.npc.model)
+								LoadPropDict(v.npc.model)
+								local ped = CreatePed(5, v.npc.model , v.coord - v.npc.offset, v.npc.heading, false, true)
+								PlaceObjectOnGroundProperly(ped)
+								SetEntityAsMissionEntity(ped)
+								SetPedDropsWeaponsWhenDead(ped, false)
+								FreezeEntityPosition(ped, true)
+								SetPedAsEnemy(ped, false)
+								SetEntityInvincible(ped, true)
+								SetModelAsNoLongerNeeded(v.npc.model)
+								SetPedCanBeTargetted(ped, false)
+								table.insert(npc_list, ped)
+							end
+						end
 					end
 				end
 			end
@@ -86,9 +70,13 @@ CreateThread(function()
 				if not v.illegal then
 					for k, v in pairs (v) do
 						if (type(v) == "table") then
-							if v.marker.show then
-								if(GetDistanceBetweenCoords(coords, v.coord.x, v.coord.y, v.coord.z, true) < 30.0) then
-									DrawMarker(v.marker.type, v.coord, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.marker.range, v.marker.range, 1.0, v.marker.red, v.marker.green, v.marker.blue, 100, false, true, 2, true, false, false, false)
+							if v.coords then
+								for k, v in ipairs(v.coords) do
+									if v.marker.show then
+										if(GetDistanceBetweenCoords(coords, v.coord, true) < 30.0) then
+											DrawMarker(v.marker.type, v.coord, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.marker.range, v.marker.range, 1.0, v.marker.red, v.marker.green, v.marker.blue, 100, false, true, 2, true, false, false, false)
+										end
+									end
 								end
 							end
 							if v.teleporters then
@@ -124,10 +112,14 @@ CreateThread(function ()
 				for k, v in pairs (v) do
 					zone = v
 					if (type(v) == "table") then
-						if(#(coords - v.coord) < (v.marker.range / 2)) then
-							isInMarker  = true
-							InMarker = true
-							currentZone = zone
+						if v.coords then
+							for k, v in pairs (v.coords) do
+								if(#(coords - v.coord) < (v.marker.range / 2)) then
+									isInMarker  = true
+									InMarker = true
+									currentZone = zone
+								end
+							end
 						else
 							if v.teleporters then
 								for k, v in pairs (v.teleporters) do
@@ -340,18 +332,32 @@ function DeleteBlips()
 end
 
 function CreateBlip(config)
-	local blip = AddBlipForCoord(config.coord)
-	SetBlipSprite(blip, config.blip.sprite)
-	SetBlipDisplay(blip, 4)
-	SetBlipScale(blip, config.blip.scale)
-	SetBlipColour(blip, config.blip.color)
-	SetBlipAsShortRange(blip, true)
-	BeginTextCommandSetBlipName('STRING')	
-	AddTextComponentSubstringPlayerName(config.name)
-	EndTextCommandSetBlipName(blip)
-	table.insert(blips_list, blip)
+	DeleteBlips()
+	for k, v in pairs (routen) do
+		for k, t in pairs (v) do
+			for k, v in pairs (t) do
+				if (type(v) == "table") then
+					if v.coords then
+						for k, v in pairs (v.coords) do
+							if v.blip and v.show then
+								local blip = AddBlipForCoord(v.coord)
+								SetBlipSprite(blip, v.blip.sprite)
+								SetBlipDisplay(blip, 4)
+								SetBlipScale(blip, v.blip.scale)
+								SetBlipColour(blip, v.blip.color)
+								SetBlipAsShortRange(blip, true)
+								BeginTextCommandSetBlipName('STRING')	
+								AddTextComponentSubstringPlayerName(v.blip.label)
+								EndTextCommandSetBlipName(blip)
+								table.insert(blips_list, blip)
+							end
+						end
+					end
+				end
+			end
+		end
+	end
 end
-
 
 AddEventHandler('onResourceStop', function(resource)
 	if resourceName == GetCurrentResourceName() then
