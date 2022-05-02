@@ -41,7 +41,7 @@ AddEventHandler('esx_routen:spawnnpcs', function ()
 							if v.npc then
 								RequestModel(v.npc.model)
 								LoadPropDict(v.npc.model)
-								local ped = CreatePed(5, v.npc.model , v.coord - v.npc.offset, v.npc.heading, false, true)
+								local ped = CreatePed(5, v.npc.model ,v.coord.x, v.coord.y, v.coord.z - v.npc.offset, v.npc.heading, false, true)
 								PlaceObjectOnGroundProperly(ped)
 								SetEntityAsMissionEntity(ped)
 								SetPedDropsWeaponsWhenDead(ped, false)
@@ -163,6 +163,20 @@ CreateThread(function ()
 end)
 
 
+CreateThread(function ()
+	for k, v in pairs (routen) do
+		for k, v in pairs (v) do
+			for k, v in pairs (v) do
+				zone = v
+				if (type(v) == "table") then
+					print(v.title)
+				end
+			end
+		end
+	end
+end)
+
+
 RegisterNetEvent('esx_routen:waittotrigger')
 AddEventHandler('esx_routen:waittotrigger', function()
 	cantrigger = false
@@ -187,6 +201,7 @@ AddEventHandler('esx_routen:hasEnteredMarker', function (zone, data)
 end)
 
 AddEventHandler('esx_routen:hasExitedMarker', function (zone)
+	_menuPool:CloseAllMenus()
 	ESX.TriggerServerCallback('esx_routen:done', function(running)
 		if running then
 			TriggerServerEvent('esx_routen:stopRoute', LastZone)
@@ -203,7 +218,6 @@ AddEventHandler('esx_routen:hasEnteredTeleporterMarker', function (zone, data)
 end)
 
 AddEventHandler('esx_routen:hasExitedTeleporterMarker', function (zone)
-
 	CurrentAction = nil
 end)
 
@@ -339,7 +353,7 @@ function CreateBlip(config)
 				if (type(v) == "table") then
 					if v.coords then
 						for k, v in pairs (v.coords) do
-							if v.blip and v.show then
+							if v.blip and v.blip.show then
 								local blip = AddBlipForCoord(v.coord)
 								SetBlipSprite(blip, v.blip.sprite)
 								SetBlipDisplay(blip, 4)
