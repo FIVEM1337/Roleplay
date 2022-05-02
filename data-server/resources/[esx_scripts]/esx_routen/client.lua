@@ -163,20 +163,6 @@ CreateThread(function ()
 end)
 
 
-CreateThread(function ()
-	for k, v in pairs (routen) do
-		for k, v in pairs (v) do
-			for k, v in pairs (v) do
-				zone = v
-				if (type(v) == "table") then
-					print(v.title)
-				end
-			end
-		end
-	end
-end)
-
-
 RegisterNetEvent('esx_routen:waittotrigger')
 AddEventHandler('esx_routen:waittotrigger', function()
 	cantrigger = false

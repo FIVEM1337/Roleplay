@@ -34,7 +34,6 @@ CreateThread(function()
 end)
 
 function CreateBlips()
-    print("jo")
 	for k, v in pairs(Config.Tuners) do
         local blip = AddBlipForCoord(v.coord)
         SetBlipSprite(blip, Config.Blip.sprite)
