@@ -254,7 +254,7 @@ Config.Citzen = {
         title = 'Person durchsuchen',
         icon = 'search',
         type = 'client',
-        event = 'esx_playerradialmenu:bodysearch',
+        event = 'esx_playerradialmenu:bodysearch_trigger',
         shouldClose = false
     },
     {
@@ -262,7 +262,7 @@ Config.Citzen = {
         title = 'Person tragen',
         icon = 'people-carry',
         type = 'client',
-        event = 'esx_playerradialmenu:bodysearch',
+        event = 'esx_playerradialmenu:drag_trigger',
         shouldClose = false
     },
     {

@@ -60,7 +60,6 @@ AddEventHandler('esx_banking:server:withdrawvb', function(amount, inMenu)
 	else
 		_char.removeAccountMoney('bank', amount)
 		_char.addMoney(amount)
-		print("hee")
 		TriggerClientEvent('dopeNotify:Alert', _src, "", "Du hast $"..amount.." abgehoben", 5000, 'info')
 	end
 end)

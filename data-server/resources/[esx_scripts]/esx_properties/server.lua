@@ -155,7 +155,6 @@ AddEventHandler('esx_properties:getPlayerProperties', function(dest, owner)
 
 	local ownedPropFromPlayer = {}
     for k, v in pairs(propertyOwner) do
-		--print(v.owner .. owner)
 		if v.owner == owner then
 			table.insert(ownedPropFromPlayer, v.id)
 		end

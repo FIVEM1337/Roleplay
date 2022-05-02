@@ -30,13 +30,17 @@ CreateThread(function()
 	
 		Wait(1)
 		if Spawned then
-			if IsPedInAnyVehicle(PlayerPedId()) then
-				if not IsMinimapRendering() then
-					DisplayRadar(true)
-				end
+			if IsHudHidden() then
+				DisplayRadar(false)
 			else
-				if IsMinimapRendering() then
-					DisplayRadar(false)
+				if IsPedInAnyVehicle(PlayerPedId()) then
+					if not IsMinimapRendering() then
+						DisplayRadar(true)
+					end
+				else
+					if IsMinimapRendering() then
+						DisplayRadar(false)
+					end
 				end
 			end
 		else
@@ -107,9 +111,6 @@ AddEventHandler("esx_playerhud:LoadPlayerDataHUD", function()
 
 	for k,v in pairs(PlayerData.accounts) do
 		local account = v
-		if account.name == "money" then
-			SendNUIMessage({action = "setValue", key = "money", value = ESX.Math.GroupDigits(account.money)})
-		end
 	end
 	-- Job
 	SendNUIMessage({action = "setValue", key = "job", value = PlayerData.job.label.." - "..PlayerData.job.grade_label, icon = PlayerData.job.name})
@@ -131,13 +132,6 @@ AddEventHandler("esx_playerhud:LoadPlayerDataHUD", function()
     end)
 
 	SendNUIMessage({action = "updateStatus", hunger = currenthunger, thirst = currentthirst, stress = currentstress})
-end)
-
-RegisterNetEvent('esx:setAccountMoney')
-AddEventHandler('esx:setAccountMoney', function(account)
-	if account.name == "money" then
-		SendNUIMessage({action = "setValue", key = "money", value = ESX.Math.GroupDigits(account.money)})
-	end
 end)
 
 RegisterNetEvent('esx:setJob')

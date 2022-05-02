@@ -1,4 +1,5 @@
 local uiOpen = false
+local blip_list = {}
 
 customCamMain = nil
 customCamSec = nil
@@ -7,145 +8,116 @@ customConfigPosIndex = nil
 customVehicle = nil
 customVehiclePrice = nil
 customVehicleData = nil
-
-currentcash = nil
-currentbank = nil
-currentblack = nil
+local currentCash
 
 local renderingScriptCam = false
-local PlayerData = {}
 
 isOpenByAdmin = false
 
-
-RegisterNetEvent("esx_tuning:ReloadData") 
-AddEventHandler("esx_tuning:ReloadData", function(xPlayer)
-	TriggerEvent("esx_tuning:LoadPlayerData", xPlayer)
+CreateThread(function()
+    CreateBlips()
+    while true do
+        PlayerData = ESX.GetPlayerData()
+        if PlayerData and PlayerData.accounts then
+            for k,v in pairs(PlayerData.accounts) do
+                if v.name == "money" then
+                    currentCash = v.money
+                    break
+                end
+            end
+        end
+        if currentCash then
+            break
+        end
+        Wait(100)
+    end
 end)
 
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer) 
-	TriggerEvent("esx_tuning:LoadPlayerData", xPlayer)
-end)
-
-RegisterNetEvent("esx_tuning:LoadPlayerData") 
-AddEventHandler("esx_tuning:LoadPlayerData", function(xPlayer)
-    PlayerData = ESX.GetPlayerData()
-	local data = xPlayer
-	local accounts = data.accounts
-	for k,v in pairs(accounts) do
-		local account = v
-		if account.name == "money" then
-			currentcash = account.money
-		elseif account.name == "bank" then
-			currentbank = account.money
-		elseif account.name == "black_money" then
-			currentblack = account.money
-		end
+function CreateBlips()
+	for k, v in pairs(Config.Tuners) do
+        local blip = AddBlipForCoord(v.coord)
+        SetBlipSprite(blip, Config.Blip.sprite)
+        SetBlipDisplay(blip, 4)
+        SetBlipScale(blip, Config.Blip.scale)
+        SetBlipColour(blip, Config.Blip.color)
+        SetBlipAsShortRange(blip, true)
+        BeginTextCommandSetBlipName('STRING')	
+        AddTextComponentSubstringPlayerName("Los Santos Customs")
+        EndTextCommandSetBlipName(blip)
+        table.insert(blip_list, blip)
 	end
-end)
-
-RegisterNetEvent('esx:setJob')
-AddEventHandler('esx:setJob', function(job)
-	PlayerData = ESX.GetPlayerData()
-end)
+end
 
 RegisterNetEvent('esx:setAccountMoney')
 AddEventHandler('esx:setAccountMoney', function(account)
 	if account.name == "money" then
-        currentcash = account.money
-	elseif account.name == "bank" then
-        currentbank = account.money
-	elseif account.name == "black_money" then
-        currentblack = account.money
+        currentCash = account.money
 	end
 end)
 
 
+-- Enter / Exit marker events
+CreateThread(function ()
+	while true do
+		Wait(60)
+
+        local ped = PlayerPedId()
+		local coords = GetEntityCoords(ped)
+        local playerVeh = GetVehiclePedIsIn(ped, false)
+		local isInMarker  = false
+		local isInTeleporterMarker  = false
+		local currentZone = nil
+
+        if ((playerVeh ~= 0) and (DoesEntityExist(playerVeh)) and (GetPedInVehicleSeat(playerVeh, -1) == ped)) then
+            for k, v in pairs(Config.Tuners) do
+                if(GetDistanceBetweenCoords(coords, v.coord, true) < v.dist) then
+                    isInMarker = true
+                    currentZone = v
+                end
+            end
+
+        end
+		if isInMarker and not HasAlreadyEnteredMarker then
+			HasAlreadyEnteredMarker = true
+			TriggerEvent('esx_tuning:hasEnteredMarker', currentZone)
+		elseif not isInMarker and HasAlreadyEnteredMarker then
+			HasAlreadyEnteredMarker = false
+			InMarker = false
+            TriggerEvent('esx_tuning:hasExitedMarker')
+		end
+	end
+end)
+
+AddEventHandler('esx_tuning:hasEnteredMarker', function (zone)
+	CurrentAction = zone
+end)
+
+AddEventHandler('esx_tuning:hasExitedMarker', function (zone)
+	CurrentAction = nil
+    closeUI(1, 1)
+end)
+
+-- Key controls
 CreateThread(function()
-    for i = 1, #Config.Positions, 1 do
-        local tempPos = Config.Positions[i]
-        if (tempPos.hasBlip == nil or tempPos.hasBlip == true) then
-            addBlip(tempPos.pos, 'Mechaniker')
-        end
-    end
-
-    local waitTime
-
-    local playerPed
-    local playerPos
-    local playerVeh
-
-    while (true) do
-        waitTime = 500
-
-        playerPed = PlayerPedId()
-        playerVeh = GetVehiclePedIsIn(playerPed, false)
-
-        if (not uiOpen) then
-            if ((playerVeh ~= 0) and (DoesEntityExist(playerVeh)) and (GetPedInVehicleSeat(playerVeh, -1) == playerPed)) then
-                waitTime = 100
-                
-                playerPos = GetEntityCoords(playerVeh)
-                for i = 1, #Config.Positions, 1 do
-                    local tempPos = Config.Positions[i]
-                    if PlayerData.job then
-                        if (not tempPos.whitelistJobName or PlayerData.job.name == tempPos.whitelistJobName) then
-                            for k, v in pairs (tempPos.lifter) do
-                                local tempDist = #(playerPos - vector3(v))
-                                if (tempDist <= Config.ActionDistance) then
-                                    waitTime = 0
-    
-                                    if (not IsHudHidden()) then
-                                        DrawHelpText('Drücke ~' .. Config.Keys.action.name .. '~ um das Fahrzeug zu bearbeiten', true)
-                                    end
-    
-                                    if (IsControlJustReleased(0, Config.Keys.action.key)) then
-                                        customConfigPosIndex = i
-                                        openUI()
-                                    end
-                                    break
-                                end
-                            end
-                        end
-                    end
-                end
+	while true do
+		Wait(1)
+		if CurrentAction then
+            if (not IsHudHidden()) then
+                DrawHelpText('Fahrzeug mit  ~' .. Config.Keys.action.name .. '~  modifizieren', true)
+            end 
+            if (IsControlJustReleased(0, Config.Keys.action.key)) then
+                openUI()
             end
-        else
-            if (customConfigPosIndex) then
-                local tempPos = Config.Positions[customConfigPosIndex]
-
-                updateCash()
-
-                if (playerVeh == 0 or playerVeh ~= customVehicle) then
-                    closeUI(1, 1)
-                else
-                    local playerPos = GetEntityCoords(customVehicle)
-                    local tempActionDist = tempPos.actionDistance or Config.ActionDistance
-
-                    local tempDist = GetDistanceBetweenCoords(playerPos.x, playerPos.y, playerPos.z, tempPos.pos.x, tempPos.pos.y, tempPos.pos.z, true)
-                    if (tempDist > 40) then
-                        closeUI(1, 1)
-                    end
-                end
-            end
-        end
-
-        Wait(waitTime)
-    end
+		end
+	end
 end)
 
 function updateCash()
-    local whitelistJobName = nil
-    if (customConfigPosIndex and customConfigPosIndex > 0 and customConfigPosIndex <= #Config.Positions and Config.Positions[customConfigPosIndex]) then
-        whitelistJobName = Config.Positions[customConfigPosIndex].whitelistJobName
-    end
 
     SendNUIMessage({
         type = 'update',
         what = 'cash',
-        cash = currentcash,
-        whitelistJobName = whitelistJobName
+        cash = currentCash,
     })
 end
 
@@ -189,7 +161,7 @@ function openUI()
         SetNuiFocus(true, false)
         SetNuiFocusKeepInput(true)
         
-        customVehiclePrice = 50000
+        customVehiclePrice = 5000000000
         local tempVehicleModel = GetEntityModel(customVehicle)
         for model, data in pairs(Config.Vehicles) do
             if (tempVehicleModel == GetHashKey(model)) then
@@ -288,10 +260,6 @@ function updateMenu(menuId)
     
     local newOptions = optionsShouldShow(menu)
 
-    local whitelistJobName = nil
-    if (customConfigPosIndex and customConfigPosIndex > 0 and customConfigPosIndex <= #Config.Positions and Config.Positions[customConfigPosIndex]) then
-        whitelistJobName = Config.Positions[customConfigPosIndex].whitelistJobName
-    end
 
     SendNUIMessage({
         type = 'update',
@@ -300,7 +268,6 @@ function updateMenu(menuId)
         options = newOptions,
         menuTitle = menu.title,
         defaultOption = menu.defaultOption,
-        whitelistJobName = whitelistJobName
     })
 end
 
@@ -366,16 +333,15 @@ RegisterNUICallback('handle', function(data)
                         canBuyMod = false
 
                         menuOption.priceMult = menuOption.priceMult or 1
-                        local tempPrice = menuOption.price or math.floor(customVehiclePrice * menuOption.priceMult / 100)
-                        if (customConfigPosIndex and customConfigPosIndex > 0 and customConfigPosIndex <= #Config.Positions and Config.Positions[customConfigPosIndex] and jobName ~= Config.Positions[customConfigPosIndex].whitelistJobName) then
-                            tempPrice = tempPrice * 2
-                        end
+                        local tempPrice = menuOption.price or math.floor((customVehiclePrice / 100) * menuOption.priceMult)
 
-                        if (ESX and (currentcash >= tempPrice)) then
+                        if currentCash >= tempPrice then
                             canBuyMod = true
 
-                            if (tempPrice > 0) then 
+                            if (tempPrice > 0) then
                                 TriggerServerEvent('mechanic:sv:removeCash', tempPrice)
+                                Wait(200)
+                                updateCash()
                             end
                         else
                             canBuyMod = false
@@ -395,14 +361,12 @@ RegisterNUICallback('handle', function(data)
                     
                     local tempPrice = math.floor(customVehiclePrice * data.priceMult / 100)
 
-                    if (customConfigPosIndex and customConfigPosIndex > 0 and customConfigPosIndex <= #Config.Positions and Config.Positions[customConfigPosIndex] and jobName ~= Config.Positions[customConfigPosIndex].whitelistJobName) then
-                        tempPrice = tempPrice * 2
-                    end
-
                     if (not isOpenByAdmin) then
-                        if (ESX and (currentcash >= tempPrice)) then
+                        if currentCash >= tempPrice then
                             if (tempPrice > 0) then
                                 TriggerServerEvent('mechanic:sv:removeCash', tempPrice)
+                                Wait(200)
+                                updateCash()
                             end
                         else
                             playSound('ATM_WINDOW', 'HUD_FRONTEND_DEFAULT_SOUNDSET')
@@ -495,13 +459,6 @@ function optionsShouldShow(menu)
             shouldShow = tempShouldShow
         end
 
-        if (not isOpenByAdmin) then
-            if (customConfigPosIndex and customConfigPosIndex > 0 and customConfigPosIndex <= #Config.Positions and Config.Positions[customConfigPosIndex] and jobName ~= Config.Positions[customConfigPosIndex].whitelistJobName) then
-                if (menu.options[i].openSubMenu == 'upgrade') then
-                    shouldShow = false
-                end
-            end
-        end
 
         if (shouldShow == true) then
             table.insert(newOptions, menu.options[i])
@@ -665,11 +622,6 @@ function openColorPicker(title, modType, isCustom, priceMult)
         defaultValue = GetVehicleCurrentMod(customVehicle, modType)
     end
 
-    local whitelistJobName = nil
-    if (customConfigPosIndex and customConfigPosIndex > 0 and customConfigPosIndex <= #Config.Positions and Config.Positions[customConfigPosIndex]) then
-        whitelistJobName = Config.Positions[customConfigPosIndex].whitelistJobName
-    end
-
     SendNUIMessage({
         type = 'open',
         what = 'colorPicker',
@@ -679,7 +631,6 @@ function openColorPicker(title, modType, isCustom, priceMult)
         title = title,
         priceMult = priceMult,
         price = math.floor(customVehiclePrice * priceMult / 100),
-        whitelistJobName = whitelistJobName
     })
 end
 

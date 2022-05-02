@@ -8,7 +8,7 @@ Config.ShopLocations = {
     jobs = false, -- set to false to disable whitelisting
     job_grades = false, -- set to false to disable grading
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
-    blip = {id = 59, color = 2, scale = 0.8, hiddenForOthers = false},
+    blip = {id = 59, color = 2, scale = 1.0, hiddenForOthers = false},
     locations = {
       {coord = vector3(373.875, 325.896, 102.566), show = true},
       {coord = vector3(373.875, 325.896, 102.566), show = true},
@@ -40,7 +40,7 @@ Config.ShopLocations = {
     jobs = false, -- set to false to disable whitelisting
     job_grades = false, -- set to false to disable grading
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
-    blip = {id = 110, color = 0, scale = 0.8, hiddenForOthers = false},
+    blip = {id = 110, color = 0, scale = 1.0, hiddenForOthers = false},
     locations = {
       {coord = vector3(-662.1, -935.3, 20.9), show = true},
       {coord = vector3(-662.1, -935.3, 20.9), show = true},
@@ -73,7 +73,7 @@ Config.ShopLocations = {
     jobs = false, -- set to false to disable whitelisting
     job_grades = false, -- set to false to disable grading
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
-    blip = {id = 361, color = 4, scale = 0.8, hiddenForOthers = true},
+    blip = {id = 361, color = 4, scale = 1.0, hiddenForOthers = true},
     locations = {
 			{coord = vector3(-48.519, -1757.514, 28.421), show = true},
 			{coord = vector3(1163.373, -323.801, 68.205), show = true},
@@ -99,7 +99,7 @@ Config.ShopLocations = {
     jobs = false, -- set to false to disable whitelisting
     job_grades = false, -- set to false to disable grading
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
-    blip = {id = 93, color = 25, scale = 0.8, hiddenForOthers = false},
+    blip = {id = 93, color = 25, scale = 1.0, hiddenForOthers = false},
     locations = {
 			{coord = vector3( 1135.808,  -982.281,  45.415), show = true},
 			{coord = vector3( -1222.915, -906.983,  11.326), show = true},
@@ -128,7 +128,7 @@ Config.ShopLocations = {
     jobs = false, -- set to false to disable whitelisting
     job_grades = false, -- set to false to disable grading
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
-    blip = {id = 303, color = 40, scale = 0.8, hiddenForOthers = false},
+    blip = {id = 303, color = 40, scale = 1.0, hiddenForOthers = false},
     locations = {
 			{coord = vector3( 57.836044311523,3692.9631347656,38.921283721924), show = true},
     },
@@ -149,7 +149,7 @@ Config.ShopLocations = {
     jobs = false, -- set to false to disable whitelisting
     job_grades = false, -- set to false to disable grading
     addon_account_name = false, -- adds to specified account when player buys item, set to false to disable addon_account
-    blip = {id = 627, color = 25, scale = 0.8, hiddenForOthers = false},
+    blip = {id = 627, color = 25, scale = 1.0, hiddenForOthers = false},
     locations = {
 			{coord = vector3( -657.05114746094,-857.62896728516,23.503044128418), show = true},
     },
@@ -165,7 +165,7 @@ Config.ShopLocations = {
     jobs = false, -- set to false to disable whitelisting
     job_grades = false, -- set to false to disable grading
     addon_account_name = false, -- adds to specified account when player buys item, set to wfalse to disable addon_account
-    blip = {id = 628, color = 25, scale = 0.8, hiddenForOthers = false},
+    blip = {id = 628, color = 25, scale = 1.0, hiddenForOthers = false},
     locations = {
 			{coord = vector3(-3156.7119140625,1111.4398193359,19.861461639404), show = true},
     },
@@ -186,7 +186,7 @@ Config.ShopLocations = {
     jobs = false, -- set to false to disable whitelisting
     job_grades = false, -- set to false to disable grading
     addon_account_name = false, -- adds to specified account when player buys item, set to wfalse to disable addon_account
-    blip = {id = 762, color = 25, scale = 0.8, hiddenForOthers = false},
+    blip = {id = 762, color = 25, scale = 1.0, hiddenForOthers = false},
     locations = {
 			{coord = vector3(-1599.6572265625,5201.9868164063,3.3973059654236), show = true},
     },

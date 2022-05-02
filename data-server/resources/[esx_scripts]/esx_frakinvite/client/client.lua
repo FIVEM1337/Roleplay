@@ -1,7 +1,5 @@
 RegisterNetEvent('esx_frakinvite:show')
 AddEventHandler('esx_frakinvite:show', function(title, job)
-    print(title)
-    print(job)
     SendNUIMessage({
         title = title,
         job = job

@@ -249,8 +249,8 @@ AddEventHandler('esx_playerradialmenu:idcard', function(data)
     end
 end)
 
-RegisterNetEvent('esx_playerradialmenu:bodysearch')
-AddEventHandler('esx_playerradialmenu:bodysearch', function()
+RegisterNetEvent('esx_playerradialmenu:bodysearch_trigger')
+AddEventHandler('esx_playerradialmenu:bodysearch_trigger', function()
     local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
     if closestPlayer ~= -1 and closestDistance <= 3.0 then
         ESX.TriggerServerCallback('esx_playerradialmenu:getOtherPlayerData', function(data)
@@ -355,32 +355,6 @@ function Confiscate(player, name, itemtype, count)
 		end, GetPlayerServerId(player))
 	end
 end
-
-CreateThread(function()
-	local playerPed = PlayerPedId()
-	local targetPed
-
-	while true do
-		Wait(1)
-		if dragStatus.isDragged then
-			targetPed = GetPlayerPed(GetPlayerFromServerId(dragStatus.SourceID))
-
-			if not IsPedSittingInAnyVehicle(targetPed) then
-				AttachEntityToEntity(playerPed, targetPed, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-			else
-				dragStatus.isDragged = false
-				DetachEntity(playerPed, true, false)
-			end
-
-			if IsPedDeadOrDying(targetPed, true) then
-				dragStatus.isDragged = false
-				DetachEntity(playerPed, true, false)
-			end
-		else
-			DetachEntity(playerPed, true, false)
-		end
-	end
-end)
 
 
 RegisterNetEvent('esx_playerradialmenu:handcuff_trigger')
@@ -507,10 +481,46 @@ CreateThread(function()
 	end
 end)
 
+RegisterNetEvent('esx_playerradialmenu:drag_trigger')
+AddEventHandler('esx_playerradialmenu:drag_trigger', function()
+    local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+    if closestPlayer ~= -1 and closestDistance <= 3.0 then
+        TriggerServerEvent('esx_jobs:drag', GetPlayerServerId(closestPlayer))
+    else
+        TriggerEvent('dopeNotify:Alert', "", _U('no_players_nearby'), 5000, 'error')
+    end
+end)
+
 RegisterNetEvent('esx_playerradialmenu:drag')
 AddEventHandler('esx_playerradialmenu:drag', function(SourceID)
 	dragStatus.isDragged = not dragStatus.isDragged
 	dragStatus.SourceID = SourceID
+end)
+
+CreateThread(function()
+	local playerPed = PlayerPedId()
+	local targetPed
+
+	while true do
+		Wait(1)
+		if dragStatus.isDragged then
+			targetPed = GetPlayerPed(GetPlayerFromServerId(dragStatus.SourceID))
+
+			if not IsPedSittingInAnyVehicle(targetPed) then
+				AttachEntityToEntity(playerPed, targetPed, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+			else
+				dragStatus.isDragged = false
+				DetachEntity(playerPed, true, false)
+			end
+
+			if IsPedDeadOrDying(targetPed, true) then
+				dragStatus.isDragged = false
+				DetachEntity(playerPed, true, false)
+			end
+		else
+			DetachEntity(playerPed, true, false)
+		end
+	end
 end)
 
 
