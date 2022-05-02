@@ -35,6 +35,3 @@ server_scripts {
 	'server/core.lua'
 }
 
-dependencies {
-	'es_extended'
-}

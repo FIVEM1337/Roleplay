@@ -30,13 +30,17 @@ CreateThread(function()
 	
 		Wait(1)
 		if Spawned then
-			if IsPedInAnyVehicle(PlayerPedId()) then
-				if not IsMinimapRendering() then
-					DisplayRadar(true)
-				end
+			if IsHudHidden() then
+				DisplayRadar(false)
 			else
-				if IsMinimapRendering() then
-					DisplayRadar(false)
+				if IsPedInAnyVehicle(PlayerPedId()) then
+					if not IsMinimapRendering() then
+						DisplayRadar(true)
+					end
+				else
+					if IsMinimapRendering() then
+						DisplayRadar(false)
+					end
 				end
 			end
 		else

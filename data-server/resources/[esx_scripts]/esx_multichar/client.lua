@@ -830,7 +830,6 @@ end
 
 
 RegisterNUICallback("CharacterChosen", function(data, cb)
-    print(data.isnew)
     SetNuiFocus(false,false)
     DoScreenFadeOut(500)
     TriggerServerEvent('esx_multichar:CharSelected', data.charid, data.isnew)
