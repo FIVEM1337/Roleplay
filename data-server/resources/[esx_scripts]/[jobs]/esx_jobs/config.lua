@@ -123,7 +123,7 @@ jobs = {
 	mechanic = {
 			job = "mechanic",
 			society = true,
-			Blip = {name = "Mechaniker HQ", color = 29, sprite = 68, scale = 1.2, alwayshow = true},
+			Blip = {name = "Mechaniker", color = 5, sprite = 446, scale = 1.2, alwayshow = true},
 			pos = vector3(-1194.2655029297,-1730.8325195313,4.4488468170166),
 			armory = {
 				{coords = vector3(-1134.0668945313,-1689.072265625,4.4494395256042), store_weapon = false, store_items = true},
