@@ -35,29 +35,6 @@ jobs = {
 			},
 
 			restricted_zone = {label = "LSPD Sperrzone", color = 1},
-
-
-			boss_menu = {
-				{label = "withdraw_society_money"},
-				{label = "deposit_society_money"},
-			},
-
-			citizen_interaction_items = {
-				{label = "identity_card"},
-				{label = "body_search"},
-				{label = "handcuff"},
-				{label = "drag"},
-				{label = "put_in_vehicle"},
-				{label = "out_the_vehicle"},
-				{label = "unpaid_bills"},
-				{label = "billing"},
-				{label = "license"},
-			},
-			vehicle_interaction_items = {
-				{label = "search_database"},
-				{label = "vehicle_infos"},
-				{label = "hijack_vehicle"},
-			},
 		},
 	sheriff = {
 			job = "sheriff",
@@ -72,24 +49,6 @@ jobs = {
 			},
 			cloak = {
 				{coords = vector3(-451.22647094727,6011.703125,31.716356277466)},
-			},
-
-
-			citizen_interaction_items = {
-				{label = "identity_card"},
-				{label = "body_search"},
-				{label = "handcuff"},
-				{label = "drag"},
-				{label = "put_in_vehicle"},
-				{label = "out_the_vehicle"},
-				{label = "unpaid_bills"},
-				{label = "billing"},
-				{label = "license"},
-			},
-			vehicle_interaction_items = {
-				{label = "search_database"},
-				{label = "vehicle_infos"},
-				{label = "hijack_vehicle"},
 			},
 		},
 		
@@ -106,22 +65,6 @@ jobs = {
 			},
 			cloak = {
 				{coords = vector3(-443.94863891602,-310.96670532227,34.910579681396)},
-			},
-			citizen_interaction_items = {
-				{label = "identity_card"},
-				{label = "body_search"},
-				{label = "handcuff"},
-				{label = "drag"},
-				{label = "put_in_vehicle"},
-				{label = "out_the_vehicle"},
-				{label = "unpaid_bills"},
-				{label = "billing"},
-				{label = "license"},
-			},
-			vehicle_interaction_items = {
-				{label = "search_database"},
-				{label = "vehicle_infos"},
-				{label = "hijack_vehicle"},
 			},
 		},
 
@@ -142,22 +85,6 @@ jobs = {
 			cloak = {
 				{coords = vector3(-1153.0550537109,-1679.1710205078,4.4494590759277)},
 				{coords = vector3(-335.78967285156,-119.04692840576,39.012969970703)},
-			},
-			citizen_interaction_items = {
-				{label = "identity_card"},
-				{label = "body_search"},
-				{label = "handcuff"},
-				{label = "drag"},
-				{label = "put_in_vehicle"},
-				{label = "out_the_vehicle"},
-				{label = "unpaid_bills"},
-				{label = "billing"},
-				{label = "license"},
-			},
-			vehicle_interaction_items = {
-				{label = "search_database"},
-				{label = "vehicle_infos"},
-				{label = "hijack_vehicle"},
 			},
 		},
 		government = {
@@ -190,22 +117,6 @@ jobs = {
 			},
 			cloak = {
 				{coords = vector3(896.50994873047,-162.76306152344,81.594970703125)},
-			},
-			citizen_interaction_items = {
-				{label = "identity_card"},
-				{label = "body_search"},
-				{label = "handcuff"},
-				{label = "drag"},
-				{label = "put_in_vehicle"},
-				{label = "out_the_vehicle"},
-				{label = "unpaid_bills"},
-				{label = "billing"},
-				{label = "license"},
-			},
-			vehicle_interaction_items = {
-				{label = "search_database"},
-				{label = "vehicle_infos"},
-				{label = "hijack_vehicle"},
 			},
 		},
 	}
