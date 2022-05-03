@@ -86,6 +86,47 @@ ESX.RegisterServerCallback('esx_jobs:getArmoryWeapons', function(source, cb, sta
 	end)
 end)
 
+RegisterServerEvent('esx_jobs:withdraw_society_money')
+AddEventHandler('esx_jobs:withdraw_society_money', function(societyName, amount)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	amount = ESX.Math.Round(tonumber(amount))
+
+	if amount > 0 then
+		TriggerEvent('esx_addonaccount:getSharedAccount', societyName, function(account)
+			if account.money >= amount then
+				account.removeMoney(amount)
+				xPlayer.addMoney(amount)
+				TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast ".. ESX.Math.GroupDigits(amount).. "$ von deinem Job Konto abgebucht", 5000, 'info')
+			else
+				TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('society_not_enought_money'), 5000, 'error')
+			end
+		end)
+	else
+		TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('quantity_invalid'), 5000, 'error')
+	end
+end)
+
+RegisterServerEvent('esx_jobs:deposit_society_money')
+AddEventHandler('esx_jobs:deposit_society_money', function(societyName, amount)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	amount = ESX.Math.Round(tonumber(amount))
+
+
+	if amount > 0 then
+		if xPlayer.getMoney() >= amount then
+			TriggerEvent('esx_addonaccount:getSharedAccount', societyName, function(account)
+				xPlayer.removeMoney(amount)
+				account.addMoney(amount)
+				TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast ".. ESX.Math.GroupDigits(amount).. "$ in deinem Job Konto eingezahlt", 5000, 'info')
+			end)
+		else
+			TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('not_enought_money'), 5000, 'error')
+		end
+	else
+		TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('quantity_invalid'), 5000, 'error')
+	end
+end)
+
 ESX.RegisterServerCallback('esx_jobs:addArmoryWeapon', function(source, cb, weaponName, removeWeapon, station)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
@@ -174,9 +215,9 @@ AddEventHandler('esx_jobs:putStockItems', function(itemName, count, station)
 		if sourceItem.count >= count and count > 0 then
 			xPlayer.removeInventoryItem(itemName, count)
 			inventory.addItem(itemName, count)
-			TriggerClientEvent('esx:showNotification', xPlayer.source, _U('have_deposited', count, inventoryItem.label))
+			TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast "..count.."x "..inventoryItem.label.." eingelagert", 5000, 'error')
 		else
-			TriggerClientEvent('esx:showNotification', xPlayer.source, _U('quantity_invalid'))
+			TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('quantity_invalid'), 5000, 'error')
 		end
 	end)
 end)

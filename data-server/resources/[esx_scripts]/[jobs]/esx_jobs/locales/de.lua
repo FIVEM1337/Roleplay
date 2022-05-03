@@ -86,6 +86,8 @@ Locales['de'] = {
     ['no_licenses_owned'] = 'Keine Lizenz gefunden',
     ['no_licenses_owned'] = 'Keine Lizenz gefunden',
     ['player_not_found'] = 'Spieler nicht gefunden',
+    ['not_enought_money'] = 'Du hast nicht genügend Geld dabei',
+    ['society_not_enought_money'] = 'Dein Job hat nicht genügend Geld auf dem Konto',
 
 
 -- Vehicle Menu
@@ -111,8 +113,12 @@ Locales['de'] = {
  -- Boss Menu
     ['open_bossmenu'] = 'Drücke ~INPUT_PICKUP~ um das Chef-Menü zu öffnen',
     ['quantity_invalid'] = 'Ungültige eingabe',
-    ['have_withdrawn'] = 'Sie haben x abgebucht',
     ['quantity'] = 'Anzahl',
+
+    ['bossmenulabel'] = 'Management', 
+    ['withdraw_society_money'] = 'Geld abheben', 
+    ['deposit_society_money'] = 'Geld einzahlen', 
+    ['employee_management'] = 'Mitgliederliste', 
 
 
 -- Cloak Menu

@@ -37,6 +37,11 @@ jobs = {
 			restricted_zone = {label = "LSPD Sperrzone", color = 1},
 
 
+			boss_menu = {
+				{label = "withdraw_society_money"},
+				{label = "deposit_society_money"},
+			},
+
 			citizen_interaction_items = {
 				{label = "identity_card"},
 				{label = "body_search"},

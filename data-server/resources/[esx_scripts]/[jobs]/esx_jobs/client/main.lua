@@ -1,5 +1,6 @@
 local _menuPool                 = NativeUI.CreatePool()
 local JobUI                  = nil
+local BossUI = nil
 local PlayerData = {}
 local blips_list = {}
 local HasAlreadyEnteredMarker = false
@@ -172,12 +173,7 @@ CreateThread(function()
 						if CurrentAction == 'menu_armory' then
 							OpenJobArmoryMenu()
 						elseif CurrentAction == 'menu_boss_actions' then
-							TriggerEvent('esx_society:openBossMenu', PlayerData.job.name, function(data, menu)
-								menu.close()
-								CurrentAction     = 'menu_boss_actions'
-								CurrentActionMsg  = _U('open_bossmenu')
-								CurrentActionData = {}
-							end, { wash = false })
+							OpenJobBossMenu(v)
 						elseif CurrentAction == 'menu_cloackroom' then
 							OpenCloakroomMenu(PlayerData.job.name)
 						end
@@ -548,7 +544,7 @@ function OpenJobArmoryMenu()
 			local weaponList = ESX.GetWeaponList()
 			for k, v in pairs(weaponList) do
 				local weaponHash = GetHashKey(v.name)
-				if HasPedGotWeapon(playerPed, weaponHash, false) and v.name ~= 'WEAPON_UNARMED' then
+				if HasPedGotWeapon(PlayerPedId(), weaponHash, false) then
 
 					local inventory_weapon_item = NativeUI.CreateItem(v.label, "")
 					put_weapon.SubMenu:AddItem(inventory_weapon_item)
@@ -617,6 +613,121 @@ function OpenJobArmoryMenu()
 	end
 
     JobUI:Visible(true)
+	_menuPool:RefreshIndex()
+	_menuPool:MouseControlsEnabled(false)
+	_menuPool:MouseEdgeEnabled(false)
+	_menuPool:ControlDisablingEnabled(false)
+end
+
+
+function OpenJobBossMenu(JobConfig)
+	_menuPool:CloseAllMenus()
+	if BossUI ~= nil and BossUI:Visible() then
+		BossUI:Visible(false)
+	end
+
+    BossUI = NativeUI.CreateMenu(_U('bossmenulabel'), nil, nil)
+    _menuPool:Add(BossUI)
+
+
+	local withdraw = NativeUI.CreateItem(_U("withdraw_society_money"), "")
+	BossUI:AddItem(withdraw)
+
+	local deposit = NativeUI.CreateItem(_U("deposit_society_money"), "")
+	BossUI:AddItem(deposit)
+
+
+	BossUI.OnItemSelect = function(sender, item, index)
+		if item == withdraw then
+			local input = KeyboardInput(_U("withdraw_society_money"), "", 10)
+			local amount = tonumber(input)
+			if tostring(amount) then
+				if not amount then return end
+				if amount < 0 then
+					TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
+				else
+					TriggerServerEvent('esx_jobs:withdraw_society_money', 'society_'..PlayerData.job.name, amount)
+				end
+			end
+
+		elseif item == deposit then
+			local input = KeyboardInput(_U("deposit_society_money"), "", 10)
+			local amount = tonumber(input)
+			if tostring(amount) then
+				if not amount then return end
+				if amount < 0 then
+					TriggerEvent('dopeNotify:Alert', "", _U('quantity_invalid'), 5000, 'error')
+				else
+					TriggerServerEvent('esx_jobs:deposit_society_money', 'society_'..PlayerData.job.name, amount)
+				end
+			end
+		end
+	end
+
+
+	local employee_menu = _menuPool:AddSubMenu(BossUI, "Angestellte")
+	ESX.TriggerServerCallback('esx_society:getEmployees', function(employees)
+		for k,v in pairs(employees) do
+			local employee = _menuPool:AddSubMenu(employee_menu.SubMenu, v.name, "~y~"..v.name.. "`s~s~ aktueller Rang: ~b~".. v.job.grade_label)
+
+			local promote_employee = _menuPool:AddSubMenu(employee.SubMenu,"Befördern / Degradieren", "~y~"..v.name.. "`s~s~ aktueller Rang: ~b~".. v.job.grade_label)
+
+			local grade_list = {}
+			local current_grade = 0
+			local jobs = {}
+			ESX.TriggerServerCallback('esx_society:getJob', function(job)
+				jobs = job
+				for k, grade in pairs(jobs.grades) do
+					table.insert(grade_list, grade.label)
+					if grade.label == v.job.grade_label then
+						current_grade = k
+					end
+				end
+
+				local grade_list_item = NativeUI.CreateListItem('Neuer Rang: ', grade_list, current_grade, "Wähle den neuen Rang für ~y~"..v.name.."~s~ aus")		
+				promote_employee.SubMenu:AddItem(grade_list_item)
+
+				grade_list_item.OnListSelected = function(sender, item, index)
+					for k, grade in pairs(grade_list) do
+						if k == index then
+							for k, t in pairs(jobs.grades) do
+								if t.label == grade then
+									ESX.TriggerServerCallback('esx_society:setJob', function()
+										OpenJobBossMenu(JobConfig)
+									end, v.identifier, v.job.name, t.grade, 'promote', v.name, v.job.grade)
+								end
+							end
+						end
+					end
+				end
+			end, PlayerData.job.name)
+
+			local fire_employee = _menuPool:AddSubMenu(employee.SubMenu,"Entlassen", "~y~"..v.name.. "`s~s~ aktueller Rang: ~b~".. v.job.grade_label)
+			local fire_employee_yes = NativeUI.CreateItem("Ja", "Willst du wirklich ~y~"..v.name.."~s~ aus dem Job entlassen?")
+			fire_employee.SubMenu:AddItem(fire_employee_yes)
+			local fire_employee_no = NativeUI.CreateItem("Nein", "Willst du wirklich ~y~"..v.name.."~s~ aus dem Job entlassen?")
+			fire_employee.SubMenu:AddItem(fire_employee_no)
+
+			fire_employee.SubMenu.OnItemSelect = function(sender, item, index)
+				if item == fire_employee_yes then
+					ESX.TriggerServerCallback('esx_society:setJob', function()
+						OpenJobBossMenu(JobConfig)
+					end, v.identifier, 'unemployed', 0, 'fire', v.name, v.job.grade)
+				elseif item == fire_employee_no then
+					OpenJobBossMenu(JobConfig)
+				end
+			end
+
+			_menuPool:RefreshIndex()
+			_menuPool:MouseControlsEnabled(false)
+			_menuPool:MouseEdgeEnabled(false)
+			_menuPool:ControlDisablingEnabled(false)
+		end
+		_menuPool:RefreshIndex()
+	end, PlayerData.job.name)
+
+	
+    BossUI:Visible(true)
 	_menuPool:RefreshIndex()
 	_menuPool:MouseControlsEnabled(false)
 	_menuPool:MouseEdgeEnabled(false)

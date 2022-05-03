@@ -217,6 +217,20 @@ ESX.RegisterServerCallback('esx_society:getEmployees', function(source, cb, soci
 end)
 
 ESX.RegisterServerCallback('esx_society:getJob', function(source, cb, society)
+	local result = MySQL.Sync.fetchAll('SELECT * FROM jobs', {})
+
+	for i=1, #result, 1 do
+		Jobs[result[i].name] = result[i]
+		Jobs[result[i].name].grades = {}
+	end
+
+	local result2 = MySQL.Sync.fetchAll('SELECT * FROM job_grades', {})
+
+	for i=1, #result2, 1 do
+		Jobs[result2[i].job_name].grades[tostring(result2[i].grade)] = result2[i]
+	end
+
+
 	local job = json.decode(json.encode(Jobs[society]))
 	local grades = {}
 
@@ -233,37 +247,79 @@ ESX.RegisterServerCallback('esx_society:getJob', function(source, cb, society)
 	cb(job)
 end)
 
-ESX.RegisterServerCallback('esx_society:setJob', function(source, cb, identifier, job, grade, type)
+ESX.RegisterServerCallback('esx_society:setJob', function(source, cb, identifier, job, grade, type, name, old_grade)
 	local xPlayer = ESX.GetPlayerFromId(source)
-	local isBoss = xPlayer.job.grade_name == 'boss'
+	local xTarget = ESX.GetPlayerFromIdentifier(identifier)
+	local name = name
 
-	if isBoss then
-		local xTarget = ESX.GetPlayerFromIdentifier(identifier)
 
-		if xTarget then
-			xTarget.setJob(job, grade)
+	if type == 'fire' then
+		if xPlayer.source == identifier then
+			TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du kannst dich nicht selbst entlassen", 5000, 'info')
+			return
+		end
+	end
+
+	if old_grade == grade then
+		TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Der angestellte ist bereits dieser Rang", 5000, 'info')
+		return
+	end
+
+	if xTarget then
+		xTarget.setJob(job, grade)
+		if type == 'hire' then
+			TriggerClientEvent('dopeNotify:Alert', xTarget.source, "", "Du bist nun bei " ..xPlayer.getJob().label , 5000, 'info')
+			TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast "..name.." zu deinem Job hinzugefügt", 5000, 'info')
+		elseif type == 'fire' then
+			TriggerClientEvent('dopeNotify:Alert', xTarget.source, "", "Du wurdest aus deinem Job entlassen", 5000, 'info')
+			TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast "..name.." entlassen", 5000, 'info')
+		end
+
+		if old_grade < grade then
+			if type == 'promote' then
+				TriggerClientEvent('dopeNotify:Alert', xTarget.source, "", "Du wurdest befördert auf "..xTarget.getJob().grade_label , 5000, 'info')
+				TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast "..name.." auf "..xTarget.getJob().grade_label.. " befördert", 5000, 'info')
+			end
+		else
+			if type == 'promote' then
+				TriggerClientEvent('dopeNotify:Alert', xTarget.source, "", "Du wurdest degradiert auf "..xTarget.getJob().grade_label , 5000, 'info')
+				TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast "..name.." auf "..xTarget.getJob().grade_label.. " degradiert", 5000, 'info')
+			end
+		end
+		MySQL.Async.execute('UPDATE users SET job = @job, job_grade = @job_grade WHERE identifier = @identifier', {
+			['@job']        = job,
+			['@job_grade']  = grade,
+			['@identifier'] = identifier
+		}, function(rowsChanged)
+
+		end)
+
+
+		cb()
+	else
+		MySQL.Async.execute('UPDATE users SET job = @job, job_grade = @job_grade WHERE identifier = @identifier', {
+			['@job']        = job,
+			['@job_grade']  = grade,
+			['@identifier'] = identifier
+		}, function(rowsChanged)
+			cb()
 
 			if type == 'hire' then
-				xTarget.showNotification(_U('you_have_been_hired', job))
-			elseif type == 'promote' then
-				xTarget.showNotification(_U('you_have_been_promoted'))
+				TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast "..name.." zu deinem Job hinzugefügt", 5000, 'info')
 			elseif type == 'fire' then
-				xTarget.showNotification(_U('you_have_been_fired', xTarget.getJob().label))
+				TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast "..name.." entlassen", 5000, 'info')
 			end
-
-			cb()
-		else
-			MySQL.Async.execute('UPDATE users SET job = @job, job_grade = @job_grade WHERE identifier = @identifier', {
-				['@job']        = job,
-				['@job_grade']  = grade,
-				['@identifier'] = identifier
-			}, function(rowsChanged)
-				cb()
-			end)
-		end
-	else
-		print(('esx_society: %s attempted to setJob'):format(xPlayer.identifier))
-		cb()
+	
+			if old_grade < grade then
+				if type == 'promote' then
+					TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast "..name.." befördert", 5000, 'info')
+				end
+			else
+				if type == 'promote' then
+					TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", "Du hast "..name.." degradiert", 5000, 'info')
+				end
+			end
+		end)
 	end
 end)
 
