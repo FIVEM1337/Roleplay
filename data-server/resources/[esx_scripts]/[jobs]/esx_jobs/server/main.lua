@@ -165,6 +165,11 @@ end)
 
 ESX.RegisterServerCallback('esx_jobs:removeArmoryWeapon', function(source, cb, weaponName, station)
 	local xPlayer = ESX.GetPlayerFromId(source)
+
+	if xPlayer.hasWeapon(weaponName) then
+		TriggerClientEvent('dopeNotify:Alert', source, "", "Du hast bereits diese Waffe", 2000, 'error')
+		return
+	end
 	xPlayer.addWeapon(weaponName, 500)
 
 	TriggerEvent('esx_datastore:getSharedDataStore', 'society_'..station, function(store)
