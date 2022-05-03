@@ -148,15 +148,15 @@ ESX.RegisterCommand('saveall', 'admin', function(xPlayer, args, showError)
 	Core.SavePlayers()
 end, true, {help = _U('command_saveall')})
 
-ESX.RegisterCommand('group', {"user", "admin"}, function(xPlayer, args, showError)
+ESX.RegisterCommand('group', {"admin"}, function(xPlayer, args, showError)
 	print(xPlayer.getName()..", You are currently: ^5".. xPlayer.getGroup() .. "^0")
 end, true)
 
-ESX.RegisterCommand('job', {"user", "admin"}, function(xPlayer, args, showError)
+ESX.RegisterCommand('job', {"admin"}, function(xPlayer, args, showError)
 print(xPlayer.getName()..", You are currently: ^5".. xPlayer.getJob().name.. "^0 - ^5".. xPlayer.getJob().grade_label .. "^0")
 end, true)
 
-ESX.RegisterCommand('info', {"user", "admin"}, function(xPlayer, args, showError)
+ESX.RegisterCommand('info', {"admin"}, function(xPlayer, args, showError)
 	local job = xPlayer.getJob().name
 	local jobgrade = xPlayer.getJob().grade_name
 	print("^2ID : ^5"..xPlayer.source.." ^0| ^2Name:^5"..xPlayer.getName().." ^0 | ^2Group:^5"..xPlayer.getGroup().."^0 | ^2Job:^5".. job.."^0")
@@ -206,10 +206,6 @@ ESX.RegisterCommand('unfreeze', "admin", function(xPlayer, args, showError)
 end, true, {help = _U('kill'), validate = true, arguments = {
 {name = 'playerId', help = _U('commandgeneric_playerid'), type = 'player'}
 }})
-
-ESX.RegisterCommand("noclip", 'admin', function(xPlayer, args, showError)
-	xPlayer.triggerEvent('esx:noclip')
-end, false)
 
 ESX.RegisterCommand('players', "admin", function(xPlayer, args, showError)
 	local xAll = ESX.GetPlayers()

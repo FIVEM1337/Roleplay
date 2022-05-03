@@ -2,8 +2,8 @@
 
 ESX.RegisterCommand('heal', 'admin', function(xPlayer, args, showError)
 	args.playerId.triggerEvent('esx_basicneeds:healPlayer')
-	args.playerId.showNotification('You have been healed.')
-end, true, {help = 'Heal a player, or yourself - restores thirst, hunger and health.', validate = true, arguments = {
+	args.playerId.triggerEvent('dopeNotify:Alert', "", "Deine wunden wurden behandelt", 5000, 'info')
+end, true, {help = 'Heile einen Spieler oder dich selbst – stellt Durst, Hunger und Gesundheit wieder her.', validate = true, arguments = {
 	{name = 'playerId', help = 'the player id', type = 'player'}
 }})
 
