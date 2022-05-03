@@ -139,14 +139,6 @@ CreateThread(function()
 
 end)
 
-function ShowNotification(text)
-	SetNotificationTextEntry('STRING')
-    AddTextComponentString(text)
-	DrawNotification(false, true)
-end
-
-
-
 function generateMenu()
 
 	if mainMenu ~= nil and mainMenu:Visible() then
@@ -639,15 +631,11 @@ AddEventHandler('lils_barber:confirmHair', function(enoughMoney)
 			TriggerServerEvent('esx_skin:save', skin)
 			LastSkin = skin
 		end)
-
 		hasBought = true
-
 	else
-		ShowNotification('~r~Du hast nicht genügend Geld.')
+		TriggerEvent('dopeNotify:Alert', "", "Du hast nicht genügend Geld", 5000, 'error')
 		TriggerEvent('skinchanger:loadSkin', LastSkin)
-
 	end
-
 end)
 
 

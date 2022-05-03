@@ -275,7 +275,7 @@ AddEventHandler('esx:spawnVehicle', function(vehicle)
 					TaskWarpPedIntoVehicle(ESX.PlayerData.ped, vehicle, -1)
 				end)
 			else
-				ESX.ShowNotification('Invalid vehicle model.')
+				TriggerEvent('dopeNotify:Alert', "", "Ungültiges Fahrzeugmodell", 5000, 'error')
 			end
 		end
 	end)
@@ -533,8 +533,8 @@ local GetGroundZFor_3dCoord = GetGroundZFor_3dCoord
 		if admin then
 			local blipMarker = GetFirstBlipInfoId(8)
 			if not DoesBlipExist(blipMarker) then
-					ESX.ShowNotification('No Waypoint Set.', true, false, 140)
-					return 'marker'
+				TriggerEvent('dopeNotify:Alert', "", "Kein Wegpunkt gesetzt.", 5000, 'error')
+				return 'marker'
 			end
 	
 			-- Fade screen to hide how clients get teleported.
@@ -604,12 +604,12 @@ local GetGroundZFor_3dCoord = GetGroundZFor_3dCoord
 					-- If we can't find the coords, set the coords to the old ones.
 					-- We don't unpack them before since they aren't in a loop and only called once.
 					SetPedCoordsKeepVehicle(ped, oldCoords['x'], oldCoords['y'], oldCoords['z'] - 1.0)
-					ESX.ShowNotification('Successfully Teleported', true, false, 140)
+					TriggerEvent('dopeNotify:Alert', "", "Erfolgreich teleportiert", 5000, 'success')
 			end
 	
 			-- If Z coord was found, set coords in found coords.
 			SetPedCoordsKeepVehicle(ped, x, y, groundZ)
-			ESX.ShowNotification('Successfully Teleported', true, false, 140)
+			TriggerEvent('dopeNotify:Alert', "", "Erfolgreich teleportiert", 5000, 'success')
 		end
 	end)
 end)

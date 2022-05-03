@@ -26,7 +26,7 @@ RegisterNetEvent("esx_scratchcard:handler", function(returncooldown, cooldown)
 
   if returncooldown then
     if Config.ShowCooldownNotifications then
-      xPlayer.showNotification(_U('active_cooldown', cooldown), false, false)
+      TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('active_cooldown', cooldown), 5000, 'info')
     end
     DebugPrint(("Active cooldown for %s (%s). Stopped. Cooldown: %s"):format(playerName, playerIdentifier, cooldown))
     return
@@ -36,7 +36,7 @@ RegisterNetEvent("esx_scratchcard:handler", function(returncooldown, cooldown)
     xPlayer.removeInventoryItem('scratch_ticket', 1)
     DebugPrint(('Succesfully removed scratching ticket of %s (%s).'):format(playerName, playerIdentifier))
     if Config.ShowUsedTicketNotification then
-      xPlayer.showNotification(_U('used_scratchticket'))
+      TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('used_scratchticket'), 5000, 'info')
     end
   else
   --  --sendWebhook(playerName, playerIdentifier, "important", "Player triggered event without having said scratching ticket")

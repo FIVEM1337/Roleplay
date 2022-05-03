@@ -80,7 +80,7 @@ CreateThread(function()
 			if post then
 				menu.submit(data, menu)
 			else
-				ESX.ShowNotification('That input is invalid!')
+				TriggerEvent('dopeNotify:Alert', "", "Eingabe ungültig", 5000, 'error')
 			end
 		end
 

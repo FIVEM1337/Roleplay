@@ -3,7 +3,7 @@ local handcuffed = {}
 ESX.RegisterServerCallback('esx_playerradialmenu:getOtherPlayerData', function(source, cb, target, notify)
 	local xPlayer = ESX.GetPlayerFromId(target)
 	if notify then
-		xPlayer.showNotification(_U('being_searched'))
+		TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('being_searched'), 5000, 'info')
 	end
 
 	if xPlayer then
@@ -56,13 +56,13 @@ AddEventHandler('esx_playerradialmenu:confiscatePlayerItem', function(target, it
 			if sourceXPlayer.canCarryItem(itemName, sourceItem.count) then
 				targetXPlayer.removeInventoryItem(itemName, amount)
 				sourceXPlayer.addInventoryItem(itemName, amount)
-				sourceXPlayer.showNotification(_U('you_confiscated', amount, sourceItem.label, targetXPlayer.name))
-				targetXPlayer.showNotification(_U('got_confiscated', amount, sourceItem.label, sourceXPlayer.name))
+				TriggerClientEvent('dopeNotify:Alert', sourceXPlayer.source, "", _U('you_confiscated', amount, sourceItem.label, targetXPlayer.name), 5000, 'info')
+				TriggerClientEvent('dopeNotify:Alert', targetXPlayer.source, "", _U('got_confiscated', amount, sourceItem.label, targetXPlayer.name), 5000, 'info')
 			else
-				sourceXPlayer.showNotification(_U('you_cant_carry'))
+				TriggerClientEvent('dopeNotify:Alert', sourceXPlayer.source, "", _U('you_cant_carry'), 5000, 'info')
 			end
 		else
-			sourceXPlayer.showNotification(_U('quantity_invalid'))
+			TriggerClientEvent('dopeNotify:Alert', sourceXPlayer.source, "", _U('quantity_invalid'), 5000, 'info')
 		end
 
 	elseif itemType == 'item_account' then
@@ -71,10 +71,10 @@ AddEventHandler('esx_playerradialmenu:confiscatePlayerItem', function(target, it
 		if targetAccount.money >= amount then
 			targetXPlayer.removeAccountMoney(itemName, amount)
 			sourceXPlayer.addAccountMoney(itemName, amount)
-			sourceXPlayer.showNotification(_U('you_confiscated_account', amount, itemName, targetXPlayer.name))
-			targetXPlayer.showNotification(_U('got_confiscated_account', amount, itemName, sourceXPlayer.name))
+			TriggerClientEvent('dopeNotify:Alert', sourceXPlayer.source, "", _U('you_confiscated_account', amount, itemName, sourceXPlayer.name), 5000, 'info')
+			TriggerClientEvent('dopeNotify:Alert', targetXPlayer.source, "", _U('got_confiscated_account', amount, itemName, sourceXPlayer.name), 5000, 'info')
 		else
-			sourceXPlayer.showNotification(_U('quantity_invalid'))
+			TriggerClientEvent('dopeNotify:Alert', sourceXPlayer.source, "", _U('quantity_invalid'), 5000, 'info')
 		end
 
 	elseif itemType == 'item_weapon' then
@@ -93,13 +93,14 @@ AddEventHandler('esx_playerradialmenu:confiscatePlayerItem', function(target, it
 					sourceXPlayer.addWeapon(itemName, amount)
 				end
 
-				sourceXPlayer.showNotification(_U('you_confiscated_weapon', ESX.GetWeaponLabel(itemName), amount, targetXPlayer.name))
-				targetXPlayer.showNotification(_U('got_confiscated_weapon', ESX.GetWeaponLabel(itemName), amount, sourceXPlayer.name))
+				TriggerClientEvent('dopeNotify:Alert', sourceXPlayer.source, "", _U('you_confiscated_weapon', ESX.GetWeaponLabel(itemName), amount, targetXPlayer.name), 5000, 'info')
+				TriggerClientEvent('dopeNotify:Alert', targetXPlayer.source, "", _U('got_confiscated_weapon', ESX.GetWeaponLabel(itemName), amount, targetXPlayer.name), 5000, 'info')
+
 			else
-				sourceXPlayer.showNotification(_U('quantity_invalid'))
+				TriggerClientEvent('dopeNotify:Alert', sourceXPlayer.source, "",_U('quantity_invalid'), 5000, 'info')
 			end
 		else
-			sourceXPlayer.showNotification(_U('quantity_invalid'))
+			TriggerClientEvent('dopeNotify:Alert', sourceXPlayer.source, "",_U('quantity_invalid'), 5000, 'info')
 		end
 	end
 end)

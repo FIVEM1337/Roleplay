@@ -1671,9 +1671,7 @@ function showInfobar(msg)
 end
 
 function ShowNotification(text)
-	SetNotificationTextEntry('STRING')
-    AddTextComponentString(text)
-	DrawNotification(false, true)
+	TriggerEvent('dopeNotify:Alert', "", text, 5000, 'info')
 end
 
 function showPictureNotification(icon, msg, title, subtitle)

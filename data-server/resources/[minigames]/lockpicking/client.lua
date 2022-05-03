@@ -91,7 +91,7 @@ function lockpicking:StartMinigame(pins,cb)
           if inRange then pinsLeft = pinsLeft - 1
           else
             self.IsPlaying = false
-            ESX.ShowNotification("You failed to crack the lock.")
+            TriggerEvent('dopeNotify:Alert', "", "Du hast das Schloss nicht geknackt.", 5000, 'info')
           end
           templateA.text = pinsLeft
 
@@ -108,7 +108,7 @@ function lockpicking:StartMinigame(pins,cb)
       local didWin = false
       if pinsLeft <= 0 then
         didWin = true
-        ESX.ShowNotification("You cracked the lock.")
+        TriggerEvent('dopeNotify:Alert', "", "Du hast das Schloss geknackt.", 5000, 'succes')
       end
       self.IsPlaying = false
 
@@ -124,7 +124,7 @@ function lockpicking:StartMinigame(pins,cb)
       TriggerServerEvent('lockpicking:MinigameComplete', didWin)
       FreezeEntityPosition(PlayerPedId(), false)
     else
-      ESX.ShowNotification("You don't have any lockpicks.")
+      TriggerEvent('dopeNotify:Alert', "", "Du hast keine Dietrich.", 5000, 'error')
     end
   end)        
 end

@@ -129,14 +129,14 @@ function ESX.RegisterCommand(name, group, cb, allowConsole, suggestion)
 				if playerId == 0 then
 					print(('[^3WARNING^7] %s^7'):format(error))
 				else
-					xPlayer.showNotification(error)
+					TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", error, 5000, 'error')
 				end
 			else
 				cb(xPlayer or false, args, function(msg)
 					if playerId == 0 then
 						print(('[^3WARNING^7] %s^7'):format(msg))
 					else
-						xPlayer.showNotification(msg)
+						TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", msg, 5000, 'info')
 					end
 				end)
 			end

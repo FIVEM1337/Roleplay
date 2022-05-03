@@ -12,12 +12,6 @@ end
 
 _menuPool = NativeUI.CreatePool()
 
-function ShowNotification(text)
-    SetNotificationTextEntry("STRING")
-    AddTextComponentString(text)
-    DrawNotification(false, false)
-end
-
 local EmoteTable = {}
 local FavEmoteTable = {}
 local KeyEmoteTable = {}
@@ -149,12 +143,12 @@ function AddEmoteMenu(menu)
         favmenu.SubMenu.OnItemSelect = function(sender, item, index)
             if FavEmoteTable[index] == Config.Languages[lang]['rfavorite'] then
                 FavoriteEmote = ""
-                ShowNotification(Config.Languages[lang]['rfavorite'], 2000)
+                TriggerEvent('dopeNotify:Alert', "", Config.Languages[lang]['rfavorite'], 5000, 'info')
                 return
             end
             if Config.FavKeybindEnabled then
                 FavoriteEmote = FavEmoteTable[index]
-                ShowNotification("~o~" .. firstToUpper(FavoriteEmote) .. Config.Languages[lang]['newsetemote'])
+                TriggerEvent('dopeNotify:Alert', "", firstToUpper(FavoriteEmote) .. Config.Languages[lang]['newsetemote'], 5000, 'info')
             end
         end
     end

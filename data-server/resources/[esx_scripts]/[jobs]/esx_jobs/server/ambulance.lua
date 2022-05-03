@@ -11,7 +11,7 @@ RegisterNetEvent('esx_jobs:payFine')
 AddEventHandler('esx_jobs:payFine', function()
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local fineAmount = Config.EarlyRespawnFineAmount
-	xPlayer.showNotification(_U('respawn_bleedout_fine_msg', ESX.Math.GroupDigits(fineAmount)))
+	TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('respawn_bleedout_fine_msg', ESX.Math.GroupDigits(fineAmount)), 5000, 'info')
 	xPlayer.removeAccountMoney('bank', fineAmount)
 end)
 
@@ -27,9 +27,9 @@ AddEventHandler('esx_jobs:removeItem', function(item)
 	xPlayer.removeInventoryItem(item, 1)
 
 	if item == 'bandage' then
-		xPlayer.showNotification(_U('used_bandage'))
+		TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('used_bandage'), 5000, 'info')
 	elseif item == 'medikit' then
-		xPlayer.showNotification(_U('used_medikit'))
+		TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('used_medikit'), 5000, 'info')
 	end
 end)
 
@@ -80,18 +80,18 @@ AddEventHandler('esx_jobs:revive', function(playerId)
 		if xTarget then
 			if deadPlayers[playerId] then
 				if Config.ReviveReward > 0 then
-					xPlayer.showNotification(_U('revive_complete_award', xTarget.name, Config.ReviveReward))
+					TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('revive_complete_award', xTarget.name, Config.ReviveReward), 5000, 'succes')
 					xPlayer.addMoney(Config.ReviveReward)
 					xTarget.triggerEvent('esx_jobs:revive')
 				else
-					xPlayer.showNotification(_U('revive_complete', xTarget.name))
+					TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('revive_complete', xTarget.name), 5000, 'succes')
 					xTarget.triggerEvent('esx_jobs:revive')
 				end
 			else
-				xPlayer.showNotification(_U('player_not_unconscious'))
+				TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('player_not_unconscious'), 5000, 'error')
 			end
 		else
-			xPlayer.showNotification(_U('revive_fail_offline'))
+			TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('revive_fail_offline'), 5000, 'error')
 		end
 	end
 end)

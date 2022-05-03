@@ -54,7 +54,7 @@ CreateThread(function()
 						if GetVehicleDirtLevel(vehicle) > 2 then
 							WashVehicle()
 						else
-							ESX.ShowNotification(_U('wash_failed_clean'))
+							TriggerEvent('dopeNotify:Alert', "", _U('wash_failed_clean'), 5000, 'error')
 						end
 					end
 				end
@@ -91,13 +91,13 @@ function WashVehicle()
 			SetVehicleDirtLevel(vehicle, 0.1)
 
 			if Config.EnablePrice then
-				ESX.ShowNotification(_U('wash_successful_paid', ESX.Math.GroupDigits(Config.Price)))
+				TriggerEvent('dopeNotify:Alert', "", _U('wash_successful_paid', ESX.Math.GroupDigits(Config.Price)), 5000, 'succes')
 			else
-				ESX.ShowNotification(_U('wash_successful'))
+				TriggerEvent('dopeNotify:Alert', "", _U('wash_successful'), 5000, 'succes')
 			end
 			Wait(5000)
 		else
-			ESX.ShowNotification(_U('wash_failed'))
+			TriggerEvent('dopeNotify:Alert', "", _U('wash_failed'), 5000, 'error')
 			Wait(5000)
 		end
 	end)

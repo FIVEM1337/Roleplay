@@ -303,9 +303,8 @@ end)
 
 ESX.RegisterServerCallback('esx_jobs:getOtherPlayerData', function(source, cb, target, notify)
 	local xPlayer = ESX.GetPlayerFromId(target)
-	if notify then
-		xPlayer.showNotification(_U('being_searched'))
-	end
+
+	TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('being_searched'), 5000, 'info')
 
 	if xPlayer then
 		local data = {

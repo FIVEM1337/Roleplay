@@ -32,11 +32,11 @@ ESX.RegisterServerCallback('esx_tattooshop:purchaseTattoo', function(source, cb,
 			['@identifier'] = xPlayer.identifier
 		})
 
-		TriggerClientEvent('esx:showNotification', source, _U('bought_tattoo', ESX.Math.GroupDigits(price)))
+		TriggerClientEvent('dopeNotify:Alert', source, "", _U('bought_tattoo', ESX.Math.GroupDigits(price)), 5000, 'succes')
 		cb(true)
 	else
 		local missingMoney = price - xPlayer.getMoney()
-		TriggerClientEvent('esx:showNotification', source, _U('not_enough_money', ESX.Math.GroupDigits(missingMoney)))
+		TriggerClientEvent('dopeNotify:Alert', source, "", _U('not_enough_money', ESX.Math.GroupDigits(missingMoney)), 5000, 'error')
 		cb(false)
 	end
 end)

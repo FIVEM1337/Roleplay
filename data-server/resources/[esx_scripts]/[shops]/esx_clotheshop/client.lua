@@ -172,9 +172,7 @@ CreateThread(function()
 end)
 
 function ShowNotification(text)
-	SetNotificationTextEntry('STRING')
-    AddTextComponentString(text)
-	DrawNotification(false, true)
+	TriggerEvent('dopeNotify:Alert', "", text, 5000, 'error')
 end
 
 function showInfobar(msg)
@@ -214,6 +212,7 @@ function generateConfirmMenu(sex, grade, outfittype)
 			if sex and grade then
 				TriggerEvent('skinchanger:getSkin', function(finalSkin)
 					TriggerServerEvent('esx_clotheshop:setJobSkin', sex, grade, finalSkin, outfittype)
+					TriggerEvent('dopeNotify:Alert', "", Translation[Config.Locale]['save_job_complete'], 5000, 'succes')
 					ShowNotification(Translation[Config.Locale]['save_job_complete'])
 					_menuPool:CloseAllMenus()
 				end)

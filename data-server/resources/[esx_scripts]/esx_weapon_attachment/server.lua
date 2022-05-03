@@ -313,7 +313,7 @@ AddEventHandler('esx_weapon_attachment:addweaponcomponent', function(hash, attac
 	for k,v in pairs(Config.Weapons.AllWeapons) do
 		if (v.weaponHash == hash) then
 			xPlayer.addWeaponComponent(v.weaponName, attachment)
-			xPlayer.showNotification(_U('used_attachment'))
+			TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('used_attachment'), 5000, 'succes')
 		end
 	end
 
@@ -337,7 +337,7 @@ AddEventHandler('esx_weapon_attachment:removeweaponcomponent', function(hash, at
 				xPlayer.addInventoryItem(attachment, 1)
 				
 			else 
-				xPlayer.showNotification(_U('no_component'))
+				TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('no_component'), 5000, 'info')
 			end
 		end
 	end

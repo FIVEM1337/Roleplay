@@ -9,12 +9,12 @@ AddEventHandler('esx_billing:sendBill', function(playerId, sharedAccountName, la
 			if account then
 				MySQL.insert('INSERT INTO billing (identifier, sender, target_type, target, label, amount) VALUES (?, ?, ?, ?, ?, ?)', {xTarget.identifier, xPlayer.identifier, 'society', sharedAccountName, label, amount},
 				function(rowsChanged)
-					xTarget.showNotification(_U('received_invoice'))
+					TriggerClientEvent('dopeNotify:Alert', xTarget.source, "", _U('received_invoice'), 5000, 'info')
 				end)
 			else
 				MySQL.insert('INSERT INTO billing (identifier, sender, target_type, target, label, amount) VALUES (?, ?, ?, ?, ?, ?)', {xTarget.identifier, xPlayer.identifier, 'player', xPlayer.identifier, label, amount},
 				function(rowsChanged)
-					xTarget.showNotification(_U('received_invoice'))
+					TriggerClientEvent('dopeNotify:Alert', xTarget.source, "", _U('received_invoice'), 5000, 'info')
 				end)
 			end
 		end)
@@ -61,8 +61,8 @@ ESX.RegisterServerCallback('esx_billing:payBill', function(source, cb, billId)
 								xPlayer.removeMoney(amount)
 								xTarget.addMoney(amount)
 
-								xPlayer.showNotification(_U('paid_invoice', ESX.Math.GroupDigits(amount)))
-								xTarget.showNotification(_U('received_payment', ESX.Math.GroupDigits(amount)))
+								TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('paid_invoice', ESX.Math.GroupDigits(amount)), 5000, 'succes')
+								TriggerClientEvent('dopeNotify:Alert', xTarget.source, "", _U('received_payment', ESX.Math.GroupDigits(amount)), 5000, 'info')
 							end
 
 							cb()
@@ -74,19 +74,19 @@ ESX.RegisterServerCallback('esx_billing:payBill', function(source, cb, billId)
 								xPlayer.removeAccountMoney('bank', amount)
 								xTarget.addAccountMoney('bank', amount)
 
-								xPlayer.showNotification(_U('paid_invoice', ESX.Math.GroupDigits(amount)))
-								xTarget.showNotification(_U('received_payment', ESX.Math.GroupDigits(amount)))
+								TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('paid_invoice', ESX.Math.GroupDigits(amount)), 5000, 'succes')
+								TriggerClientEvent('dopeNotify:Alert', xTarget.source, "", _U('received_payment', ESX.Math.GroupDigits(amount)), 5000, 'info')
 							end
 
 							cb()
 						end)
 					else
-						xTarget.showNotification(_U('target_no_money'))
-						xPlayer.showNotification(_U('no_money'))
+						TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('no_money'), 5000, 'error')
+						TriggerClientEvent('dopeNotify:Alert', xTarget.source, "", _U('target_no_money'), 5000, 'error')
 						cb()
 					end
 				else
-					xPlayer.showNotification(_U('player_not_online'))
+					TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('player_not_online'), 5000, 'error')
 					cb()
 				end
 			else
@@ -97,10 +97,9 @@ ESX.RegisterServerCallback('esx_billing:payBill', function(source, cb, billId)
 							if rowsChanged == 1 then
 								xPlayer.removeMoney(amount)
 								account.addMoney(amount)
-
-								xPlayer.showNotification(_U('paid_invoice', ESX.Math.GroupDigits(amount)))
+								TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('paid_invoice', ESX.Math.GroupDigits(amount)), 5000, 'succes')
 								if xTarget then
-									xTarget.showNotification(_U('received_payment', ESX.Math.GroupDigits(amount)))
+									TriggerClientEvent('dopeNotify:Alert', xTarget.source, "", _U('received_payment', ESX.Math.GroupDigits(amount)), 5000, 'succes')
 								end
 							end
 
@@ -112,10 +111,10 @@ ESX.RegisterServerCallback('esx_billing:payBill', function(source, cb, billId)
 							if rowsChanged == 1 then
 								xPlayer.removeAccountMoney('bank', amount)
 								account.addMoney(amount)
-								xPlayer.showNotification(_U('paid_invoice', ESX.Math.GroupDigits(amount)))
+								TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('paid_invoice', ESX.Math.GroupDigits(amount)), 5000, 'succes')
 
 								if xTarget then
-									xTarget.showNotification(_U('received_payment', ESX.Math.GroupDigits(amount)))
+									TriggerClientEvent('dopeNotify:Alert', xTarget.source, "", _U('received_payment', ESX.Math.GroupDigits(amount)), 5000, 'succes')
 								end
 							end
 
@@ -123,10 +122,10 @@ ESX.RegisterServerCallback('esx_billing:payBill', function(source, cb, billId)
 						end)
 					else
 						if xTarget then
-							xTarget.showNotification(_U('target_no_money'))
+							TriggerClientEvent('dopeNotify:Alert', xTarget.source, "", _U('target_no_money'), 5000, 'error')
 						end
 
-						xPlayer.showNotification(_U('no_money'))
+						TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('no_money'), 5000, 'error')
 						cb()
 					end
 				end)

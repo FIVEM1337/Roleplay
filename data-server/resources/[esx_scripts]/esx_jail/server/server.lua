@@ -1872,7 +1872,7 @@ AddEventHandler('esx_jail:TaskComplete1', function(taskJob)
         finish = rannym
 
         xPlayer.addInventoryItem(Config.JobOptions[taskJob].StealItems[totNims[finish].value].Item, 1)
-        TriggerClientEvent('esx:showNotification', source, Config.Sayings[86]..Config.JobOptions[taskJob].StealItems[totNims[finish].value].Name)
+        TriggerClientEvent('dopeNotify:Alert', source, "", Config.Sayings[86]..Config.JobOptions[taskJob].StealItems[totNims[finish].value].Name, 5000, 'info')
     end
 end)
 

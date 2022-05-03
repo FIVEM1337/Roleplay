@@ -309,7 +309,7 @@ AddEventHandler('chatMessage', function(playerId, author, message)
 	if message:sub(1, 1) == '/' and playerId > 0 then
 		CancelEvent()
 		local commandName = message:sub(1):gmatch("%w+")()
-		xPlayer.showNotification(_U('commanderror_invalidcommand', commandName))
+		TriggerClientEvent('dopeNotify:Alert', xPlayer.source, "", _U('commanderror_invalidcommand', commandName), 5000, 'error')
 	end
 end)
 
