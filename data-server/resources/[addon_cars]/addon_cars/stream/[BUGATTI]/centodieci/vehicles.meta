@@ -4,9 +4,9 @@
   <residentAnims />
   <InitDatas> 
     <Item>
-      <modelName>bugatticentodieci</modelName>
-      <txdName>bugatticentodieci</txdName>
-      <handlingId>bugatticentodieci</handlingId>
+      <modelName>bu110</modelName>
+      <txdName>bu110</txdName>
+      <handlingId>bu110</handlingId>
       <gameName>Centodieci 2020</gameName>
       <vehicleMakeName>BUGATTI</vehicleMakeName>
       <expressionDictName>null</expressionDictName>
