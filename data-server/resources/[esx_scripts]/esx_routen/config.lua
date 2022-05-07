@@ -6,6 +6,7 @@ Config = {}
 Config.PlayAnimations = true
 Config.ControlKey = 38
 Config.TeleporterMarker = {type = 1, range = 4.0, red = 50, green = 50, blue = 204}
+Config.Test = 100
 routen = 
 {
 	{ --Legale Routen
@@ -20,7 +21,7 @@ routen =
 						chance = 100,					--Chance das man Items bekommt in "reciveitems"
 						removeonfail = false,			--Entferne Needed Items wenn fehlschlägt"
 						reciveitems = {
-										{item = "craft_tabacco", count = 1},
+										{item = "craft_tabacco", min_count = 1, max_count = 20, random = false, chance = 50, give_min_count_on_fail = false},
 						},
 						neededitems = {
 						},

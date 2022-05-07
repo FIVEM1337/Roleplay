@@ -1,5 +1,39 @@
 local Playertasks               = {}
 
+
+CreateThread(function()
+	local min_chance = -100
+	local max_chance = 100
+
+	Config.Test = (math.random(min_chance * 100, max_chance * 100)) / 100
+	while true do 
+		Config.Test = (math.random(min_chance * 100, max_chance * 100)) / 100
+		Wait(1000)
+	end
+end)
+
+
+CreateThread(function()
+	while true do 
+		
+		local price = 500
+
+
+		if Config.Test >= 0 then
+			price = price + price / 100 * Config.Test
+		else
+			price = price - price / 100 * (-1 * Config.Test)
+		end
+
+		print("----------")
+		print(Config.Test)
+		print(price)
+		print("----------")
+		Wait(3000)
+	end
+end)
+
+
 function Start(source, label)
 	routetable = getroutetable(label)
 	SetTimeout(routetable.time * 1000, function()
@@ -153,9 +187,27 @@ function CraftFinish(source, label)
 		for k, recive in ipairs(dosomethingtable.reciveitems) do
 			local itemtype = getItemType(recive.item)
 			if itemtype == "money" then
-				xPlayer.addAccountMoney(recive.item, recive.count)
+				xPlayer.addAccountMoney(recive.item, recive.count )
 			elseif itemtype == "item" then
-				xPlayer.addInventoryItem(recive.item, recive.count)
+				local count = recive.min_count
+
+				if recive.max_count then
+					if recive.chance and randomChange(recive.chance) then
+						if recive.random then
+							count = math.random(recive.min_count, recive.max_count)
+						else
+							count = recive.max_count
+						end
+					elseif recive.give_min_count_on_fail then
+						count = recive.min_count
+					else
+						count = nil
+					end
+				end
+
+				if count then
+					xPlayer.addInventoryItem(recive.item, count)
+				end
 			elseif itemtype == "unknown" then
 				TriggerClientEvent('dopeNotify:Alert', source, "", "Item existiert nicht: "..recive.item , 2000, 'error')
 				return
@@ -334,7 +386,12 @@ function hasInventorySpaceFunc(source, label)
 			itemtype = getItemType(recive.item)
 			if itemtype == "item" then
 				if ESX.Items[recive.item] then
-					itemweight = ESX.Items[recive.item].weight * recive.count
+					local itemweight = 0
+					if recive.max_count then
+						itemweight = ESX.Items[recive.item].weight * recive.max_count
+					else
+						itemweight = ESX.Items[recive.item].weight * recive.min_count
+					end
 					reciveweight = reciveweight + itemweight
 				end
 			end
