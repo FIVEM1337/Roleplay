@@ -65,7 +65,7 @@ AddEventHandler('esx_multichar:SpawnCharacter', function(spawn, isnew)
 
     local pos = spawn
     if pos == nil then
-        pos = Config.FirstSpawnLocations[math.random(#Config.FirstSpawnLocations)]
+        pos = Config.FirstSpawnLocations
     end
 
     DoScreenFadeIn(500)
@@ -89,7 +89,7 @@ AddEventHandler('esx_multichar:SpawnCharacter', function(spawn, isnew)
         finishSpawn(pos, isnew)
      end
 
-     
+    FreezeEntityPosition(PlayerPedId(), false)
 end)
 
 local selectedIndex

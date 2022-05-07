@@ -41,29 +41,20 @@ AddEventHandler('esx:playerLoaded', function(xPlayer, isNew, skin)
 	if Config.Multichar then
 		Wait(3000)
 	else
-		exports.spawnmanager:spawnPlayer({
-			x = ESX.PlayerData.coords.x,
-			y = ESX.PlayerData.coords.y,
-			z = ESX.PlayerData.coords.z + 0.25,
-			heading = ESX.PlayerData.coords.heading,
-			model = GetHashKey("mp_m_freemode_01"),
-			skipFade = false
-		}, function()
-			TriggerServerEvent('esx:onPlayerSpawn')
-			TriggerEvent('esx:onPlayerSpawn')
-			TriggerEvent('esx:restoreLoadout')
+		TriggerServerEvent('esx:onPlayerSpawn')
+		TriggerEvent('esx:onPlayerSpawn')
+		TriggerEvent('esx:restoreLoadout')
 
-			if isNew then
-				TriggerEvent('skinchanger:loadDefaultModel', skin.sex == 0)
-			elseif skin then
-				TriggerEvent('skinchanger:loadSkin', skin)
-			end
+		if isNew then
+			TriggerEvent('skinchanger:loadDefaultModel', skin.sex == 0)
+		elseif skin then
+			TriggerEvent('skinchanger:loadSkin', skin)
+		end
 
-			TriggerEvent('esx:loadingScreenOff')
-			ShutdownLoadingScreen()
-			ShutdownLoadingScreenNui()
-			FreezeEntityPosition(ESX.PlayerData.ped, false)
-		end)
+		TriggerEvent('esx:loadingScreenOff')
+		ShutdownLoadingScreen()
+		ShutdownLoadingScreenNui()
+		FreezeEntityPosition(ESX.PlayerData.ped, false)
 	end
 
 	while ESX.PlayerData.ped == nil do Wait(20) end
@@ -437,7 +428,12 @@ function StartServerSyncLoops()
 
 	-- sync current player coords with server
 	CreateThread(function()
-		local previousCoords = vector3(ESX.PlayerData.coords.x, ESX.PlayerData.coords.y, ESX.PlayerData.coords.z)
+		local previousCoords
+		if ESX.PlayerData.coords then
+			previousCoords = vector3(ESX.PlayerData.coords.x, ESX.PlayerData.coords.y, ESX.PlayerData.coords.z)
+		else
+			previousCoords = vector3(0.0, 0.0, 0.0)
+		end
 
 		while ESX.PlayerLoaded do
 			local playerPed = PlayerPedId()

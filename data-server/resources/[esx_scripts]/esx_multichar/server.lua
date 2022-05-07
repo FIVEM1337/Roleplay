@@ -125,7 +125,7 @@ end
 function GetSpawnPos(source)
     local posRes = executeMySQL("SELECT `position` FROM `users` WHERE `identifier` = '"..GetIdentifierWithoutLicense(GetRockstarID(source)).."'")
 	
-	if posRes[1] ~= nil then
+	if posRes[1] and posRes[1].position ~= "null" then
 		return json.decode(posRes[1].position)
 	else
 		return nil
