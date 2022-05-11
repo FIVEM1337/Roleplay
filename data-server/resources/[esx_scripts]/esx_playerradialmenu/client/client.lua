@@ -152,7 +152,7 @@ end
 
 local function SetupSubItems()
     if PlayerData and PlayerData.job then
-    --    SetupJobMenu()
+        SetupJobMenu()
         SetupVehicleMenu()
         SetupCizesMenu()
     end

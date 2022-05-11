@@ -451,59 +451,104 @@ Config.Vehicle = {
 Config.JobInteractions = {
     ["police"] = {
         {
-            id = 'takedriverlicense',
-            title = 'Revoke Drivers License',
+            id = 'dokumente',
+            title = 'Lizensen entzihen',
             icon = 'id-card',
-            type = 'client',
-            event = 'police:client:SeizeDriverLicense',
-            shouldClose = true
+            items = {
+                {
+                    id = 'Fahrlizenz',
+                    title = 'Fahrlizenzen',
+                    icon = 'driver-license',
+                    items = {
+                        {
+                            id = 'car-license',
+                            title = 'Fahrlizenz',
+                            icon = 'car-side',
+                            type = 'client',
+                            event = 'hospital:client:CheckStatus',
+                            shouldClose = true
+                        },
+                        {
+                            id = 'boat-license',
+                            title = 'Bootschein',
+                            icon = 'ship',
+                            type = 'client',
+                            event = 'hospital:client:CheckStatus',
+                            shouldClose = true
+                        },
+                        {
+                            id = 'truck-license',
+                            title = 'LKW-Schein',
+                            icon = 'truck',
+                            type = 'client',
+                            event = 'hospital:client:CheckStatus',
+                            shouldClose = true
+                        },
+                        {
+                            id = 'plane-license',
+                            title = 'Flugschein',
+                            icon = 'plane',
+                            type = 'client',
+                            event = 'hospital:client:CheckStatus',
+                            shouldClose = true
+                        },
+                        {
+                            id = 'taxi-license',
+                            title = 'Taxi-Schein',
+                            icon = 'taxi',
+                            type = 'client',
+                            event = 'hospital:client:CheckStatus',
+                            shouldClose = true
+                        },
+                    },
+                },
+                {
+                    id = 'Waffenschein',
+                    title = 'Waffenscheine',
+                    icon = 'weapon-license',
+                    items = {
+                        {
+                            id = 'small-weapon-license',
+                            title = 'Waffenschein (Klein)',
+                            icon = 'raygun',
+                            type = 'client',
+                            event = 'hospital:client:CheckStatus',
+                            shouldClose = true
+                        },
+                        {
+                            id = 'medium-weapon-license',
+                            title = 'Waffenschein (Mittel)',
+                            icon = 'raygun',
+                            type = 'client',
+                            event = 'hospital:client:CheckStatus',
+                            shouldClose = true
+                        },
+                        {
+                            id = 'large-weapon-license',
+                            title = 'Waffenschein (Groß)',
+                            icon = 'raygun',
+                            type = 'client',
+                            event = 'hospital:client:CheckStatus',
+                            shouldClose = true
+                        },
+                    },
+                },
+            }
         },
         {
             id = 'policeinteraction',
-            title = 'Police Actions',
+            title = 'Polizei Aktionen',
             icon = 'tasks',
             items = 
             {
                 {
                     id = 'statuscheck',
-                    title = 'Check Health Status',
+                    title = 'Puls Prüfen',
                     icon = 'heartbeat',
                     type = 'client',
                     event = 'hospital:client:CheckStatus',
                     shouldClose = true
-                }, 
-                {
-                    id = 'checkstatus',
-                    title = 'Check status',
-                    icon = 'question',
-                    type = 'client',
-                    event = 'police:client:CheckStatus',
-                    shouldClose = true
-                }, 
-                {
-                    id = 'escort',
-                    title = 'Escort',
-                    icon = 'user-friends',
-                    type = 'client',
-                    event = 'police:client:EscortPlayer',
-                    shouldClose = true
-                }, 
-                {
-                    id = 'searchplayer',
-                    title = 'Search',
-                    icon = 'search',
-                    type = 'client',
-                    event = 'police:client:SearchPlayer',
-                    shouldClose = true
-                }, 
-                {
-                    id = 'jailplayer',
-                    title = 'Jail',
-                    icon = 'user-lock',
-                    type = 'client',
-                    event = 'police:client:JailPlayer',
-                    shouldClose = true
-                }
+                },
             }
         },
     },
