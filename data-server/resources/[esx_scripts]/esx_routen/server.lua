@@ -1,39 +1,5 @@
 local Playertasks               = {}
 
-
-CreateThread(function()
-	local min_chance = -100
-	local max_chance = 100
-
-	Config.Test = (math.random(min_chance * 100, max_chance * 100)) / 100
-	while true do 
-		Config.Test = (math.random(min_chance * 100, max_chance * 100)) / 100
-		Wait(1000)
-	end
-end)
-
-
-CreateThread(function()
-	while true do 
-		
-		local price = 500
-
-
-		if Config.Test >= 0 then
-			price = price + price / 100 * Config.Test
-		else
-			price = price - price / 100 * (-1 * Config.Test)
-		end
-
---		print("----------")
---		print(Config.Test)
---		print(price)
---		print("----------")
-		Wait(3000)
-	end
-end)
-
-
 function Start(source, label)
 	routetable = getroutetable(label)
 	SetTimeout(routetable.time * 1000, function()
@@ -115,6 +81,26 @@ function CraftFinish(source, label)
 		return
 	end
 
+	-- check if all reciveitems exist
+	if tablelength(dosomethingtable.reciveitems) > 0 then
+		for k, recive in ipairs(dosomethingtable.reciveitems) do
+			local itemtype = getItemType(recive.item)
+			if itemtype == "unknown" then
+				TriggerClientEvent('dopeNotify:Alert', source, "", "Item existiert nicht: "..need.item , 2000, 'error')
+				return
+			end
+		end
+	end
+	-- check if all needitems exist
+	if tablelength(dosomethingtable.neededitems) > 0 then
+		for k, need in ipairs(dosomethingtable.neededitems) do
+			local itemtype = getItemType(need.item)
+			if itemtype == "unknown" then
+				TriggerClientEvent('dopeNotify:Alert', source, "", "Du hast bereits diese Waffe", 2000, 'error')
+				return
+			end
+		end
+	end
 
 	-- check if recieve weapon is already in inventory
 	if tablelength(dosomethingtable.reciveitems) > 0 then
@@ -127,6 +113,28 @@ function CraftFinish(source, label)
 				end
 			end
 		end
+	end
+
+	if tablelength(dosomethingtable.neededitems) > 0 then
+		for k, need in ipairs(dosomethingtable.neededitems) do
+			if need.remove then
+				local itemtype = getItemType(need.item)
+				if itemtype == "money" then
+					xPlayer.removeAccountMoney(need.item, need.count)
+				elseif itemtype == "weapon" then
+					local loadoutNum, weapon = xPlayer.getWeapon(need.item)
+					xPlayer.removeWeapon(need.item, weapon.ammo)
+				elseif itemtype == "item" then
+					xPlayer.removeInventoryItem(need.item, need.count)
+				end
+			end
+	
+			if tablelength(dosomethingtable.neededitems) == k then
+				removeditem = true
+			end
+		end
+	else
+		removeditem = true
 	end
 
 	if not randomChange(dosomethingtable.chance) then
@@ -142,9 +150,6 @@ function CraftFinish(source, label)
 							xPlayer.removeWeapon(need.item, weapon.ammo)
 						elseif itemtype == "item" then
 							xPlayer.removeInventoryItem(need.item, need.count)
-						elseif itemtype == "unknown" then
-							TriggerClientEvent('dopeNotify:Alert', source, "", "Item existiert nicht: "..need.item , 2000, 'error')
-							return
 						end
 					end
 				end
@@ -158,7 +163,6 @@ function CraftFinish(source, label)
 		end
 		return
 	end
-
 
 	-- Weapon Remove seperate because check if weapon already exist
 	if tablelength(dosomethingtable.reciveitems) > 0 then
@@ -187,7 +191,27 @@ function CraftFinish(source, label)
 		for k, recive in ipairs(dosomethingtable.reciveitems) do
 			local itemtype = getItemType(recive.item)
 			if itemtype == "money" then
-				xPlayer.addAccountMoney(recive.item, recive.count )
+				local count = recive.min_count
+
+				if recive.max_count then
+					if recive.chance and randomChange(recive.chance) then
+						if recive.random then
+							count = math.random(recive.min_count, recive.max_count)
+						else
+							count = recive.max_count
+						end
+					elseif recive.give_min_count_on_fail then
+						count = recive.min_count
+					else
+						count = nil
+					end
+				end
+
+				if count then
+					xPlayer.addAccountMoney(recive.item, count)
+				else
+					TriggerClientEvent('dopeNotify:Alert', source, "", "Du hast leider nichts erhalten", 2000, 'info')
+				end
 			elseif itemtype == "item" then
 				local count = recive.min_count
 
@@ -207,10 +231,9 @@ function CraftFinish(source, label)
 
 				if count then
 					xPlayer.addInventoryItem(recive.item, count)
+				else
+					TriggerClientEvent('dopeNotify:Alert', source, "", "Du hast leider nichts erhalten", 2000, 'info')
 				end
-			elseif itemtype == "unknown" then
-				TriggerClientEvent('dopeNotify:Alert', source, "", "Item existiert nicht: "..recive.item , 2000, 'error')
-				return
 			end
 			
 			if tablelength(dosomethingtable.reciveitems) == k then
@@ -219,32 +242,6 @@ function CraftFinish(source, label)
 		end
 	else
 		addeditem = true
-	end
-
-
-	if tablelength(dosomethingtable.neededitems) > 0 then
-		for k, need in ipairs(dosomethingtable.neededitems) do
-			if need.remove then
-				local itemtype = getItemType(need.item)
-				if itemtype == "money" then
-					xPlayer.removeAccountMoney(need.item, need.count)
-				elseif itemtype == "weapon" then
-					local loadoutNum, weapon = xPlayer.getWeapon(need.item)
-					xPlayer.removeWeapon(need.item, weapon.ammo)
-				elseif itemtype == "item" then
-					xPlayer.removeInventoryItem(need.item, need.count)
-				elseif itemtype == "unknown" then
-					TriggerClientEvent('dopeNotify:Alert', source, "", "Item existiert nicht: "..need.item , 2000, 'error')
-					return
-				end
-			end
-	
-			if tablelength(dosomethingtable.neededitems) == k then
-				removeditem = true
-			end
-		end
-	else
-		removeditem = true
 	end
 
 	while true do
@@ -257,7 +254,6 @@ function CraftFinish(source, label)
 			end
 		end
 	end
-
 
 	while true do
 		Wait(1)
