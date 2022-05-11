@@ -25,10 +25,10 @@ CreateThread(function()
 			price = price - price / 100 * (-1 * Config.Test)
 		end
 
-		print("----------")
-		print(Config.Test)
-		print(price)
-		print("----------")
+--		print("----------")
+--		print(Config.Test)
+--		print(price)
+--		print("----------")
 		Wait(3000)
 	end
 end)

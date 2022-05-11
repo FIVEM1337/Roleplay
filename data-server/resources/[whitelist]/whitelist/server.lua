@@ -134,6 +134,10 @@ function SetGroup(source, identifier, steamId, discordId, ip)
 		end
 	end
 
+	if perms ~= "user" then
+		ExecuteCommand(('add_principal identifier.steam:%s group.%s'):format(steamId, perms))
+	end
+
 	MySQL.Async.execute('UPDATE users SET `group` = @group WHERE identifier = @identifier',
 	{['@identifier'] = identifier,['@group'] = perms or "user"},
 	function(rowsChanged)
