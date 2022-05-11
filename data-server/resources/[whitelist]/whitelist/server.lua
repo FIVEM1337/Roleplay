@@ -76,11 +76,17 @@ AddEventHandler("playerConnecting", function(name, setCallback, deferrals)
 
 	if status then
 		if status == 1 then
-			deferrals.done("\n\n\nDein Discord-Account und Steam-Account hat sich verändert! \nVerwende den richtigen Discord-Account und Steam-Account oder kontaktiere uns über ein Discord Support Ticket.\n\n")
+			deferrals.done("\n\n\nDein Discord-Account und Steam-Account hat sich verändert! \nBei Fragen oder Problemen stehen wir dir im Discord zur verfügung.\n\n")
 		elseif status == 2 then
-			deferrals.done("\n\n\nDein Discord-Account hat sich verändert! \nVerwende den richtigen Discord-Account oder kontaktiere uns über ein Discord Support Ticket.\n\n")
+			deferrals.done("\n\n\nDein Discord-Account hat sich verändert! \nBei Fragen oder Problemen stehen wir dir im Discord zur verfügung.\n\n")
 		elseif status == 3 then
-			deferrals.done("\n\n\nDein Steam-Account hat sich verändert! \nVerwende den richtigen Steam-Account oder kontaktiere uns über ein Discord Support Ticket.\n\n")
+			deferrals.done("\n\n\nDein Steam-Account hat sich verändert! \nBei Fragen oder Problemen stehen wir dir im Discord zur verfügung.\n\n")
+		elseif status == 100 then
+			deferrals.done("\n\n\nDein Steam-Account oder Discord-Account wird bereits verwendet\n Bei Fragen oder Problemen stehen wir dir im Discord zur verfügung.\n\n")
+		elseif status == 101 then
+			deferrals.done("\n\n\nDein Steam-Account wird bereits verwendet\n Bei Fragen oder Problemen stehen wir dir im Discord zur verfügung.\n\n")
+		elseif status == 102 then
+			deferrals.done("\n\n\nDein Discord-Account wird bereits verwendet\n Bei Fragen oder Problemen stehen wir dir im Discord zur verfügung.\n\n")
 		else
 			deferrals.update("Heaven V » Prüft, ob du berechtigt bist, dich mit dem Server zu verbinden.")
 			local whitelisted
@@ -185,26 +191,77 @@ function CheckUser(source, identifier, steamId, discordId, ip)
 			user = result[1]
 
 			if (not user.steam or user.steam == "" or string.match(tostring(user.steam),"[^%w]")) and (not user.discord or user.discord == "" or string.match(tostring(user.discord),"[^%w]")) then
-				MySQL.Async.execute('UPDATE users SET steam = @steam, discord = @discord WHERE identifier = @identifier',
-					{['@identifier'] = identifier,['@steam'] = steamId,['@discord'] = discordId},
-					function(rowsChanged)
-						user.steam = steamId
-						user.discord = discordId
-						return CkeckIfChanges(source, user, identifier, steamId, discordId, ip)
+				MySQL.Async.fetchAll('SELECT * FROM users WHERE discord = @discord or steam = @steam', {
+					['@discord'] = discordId,
+					['@steam'] = steamId
+				}, function(result)
+					if result[1] then
+						local steam = false
+						local discord = false
+						for k, v in pairs (result) do
+							if v.steam == steamId then
+								steam = true
+							end
+
+							if v.discord == discordId then
+								discord = true
+							end
+						end
+
+						if steam and discord then
+							status = 100
+							return status
+						elseif steam then
+							status = 101
+							return status
+						elseif discord then
+							status = 102
+							return status
+						else
+							status = 100
+							return status	
+						end
+					else
+						MySQL.Async.execute('UPDATE users SET steam = @steam, discord = @discord WHERE identifier = @identifier',
+						{['@identifier'] = identifier,['@steam'] = steamId,['@discord'] = discordId},
+						function(rowsChanged)
+							user.steam = steamId
+							user.discord = discordId
+							return CkeckIfChanges(source, user, identifier, steamId, discordId, ip)
+						end)
+					end
 				end)
 			elseif not user.steam or user.steam == "" or string.match(tostring(user.steam),"[^%w]") then
-				MySQL.Async.execute('UPDATE users SET steam = @steam WHERE identifier = @identifier',
-					{['@identifier'] = identifier,['@steam'] = steamId},
-					function(rowsChanged)
-						user.steam = steamId
-						return CkeckIfChanges(source, user, identifier, steamId, discordId, ip)
+				MySQL.Async.fetchAll('SELECT * FROM users WHERE steam = @steam', {
+					['@steam'] = steamId
+				}, function(result)
+					if result[1] then
+						status = 101
+						return status
+					else
+						MySQL.Async.execute('UPDATE users SET steam = @steam WHERE identifier = @identifier',
+						{['@identifier'] = identifier,['@steam'] = steamId},
+						function(rowsChanged)
+							user.steam = steamId
+							return CkeckIfChanges(source, user, identifier, steamId, discordId, ip)
+						end)
+					end
 				end)
 			elseif not user.discord or user.discord == "" or string.match(tostring(user.discord),"[^%w]") then
-				MySQL.Async.execute('UPDATE users SET discord = @discord WHERE identifier = @identifier',
-					{['@identifier'] = identifier,['@discord'] = discordId},
-					function(rowsChanged)
-						user.discord = discordId
-						return CkeckIfChanges(source, user, identifier, steamId, discordId, ip)
+				MySQL.Async.fetchAll('SELECT * FROM users WHERE discord = @discord', {
+					['@discord'] = discordId
+				}, function(result)
+					if result[1] then
+						status = 102
+						return status
+					else
+						MySQL.Async.execute('UPDATE users SET discord = @discord WHERE identifier = @identifier',
+						{['@identifier'] = identifier,['@discord'] = discordId},
+						function(rowsChanged)
+							user.discord = discordId
+							return CkeckIfChanges(source, user, identifier, steamId, discordId, ip)
+						end)
+					end
 				end)
 			else
 				return CkeckIfChanges(source, user, identifier, steamId, discordId, ip)
