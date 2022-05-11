@@ -245,3 +245,12 @@ AddEventHandler('esx_playerradialmenu:uncuff', function(target)
 	end
 end)
 
+
+RegisterNetEvent('esx:onPlayerDeath')
+AddEventHandler('esx:onPlayerDeath', function(data)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	if handcuffed[xPlayer.identifier] and handcuffed[xPlayer.identifier].cuffed then
+		handcuffed[xPlayer.identifier] = nil
+		TriggerClientEvent('esx_playerradialmenu:unhandcuff', xPlayer.source)
+	end
+end)
