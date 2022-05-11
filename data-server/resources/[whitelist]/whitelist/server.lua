@@ -90,24 +90,26 @@ AddEventHandler("playerConnecting", function(name, setCallback, deferrals)
 		else
 			deferrals.update("Heaven V » Prüft, ob du berechtigt bist, dich mit dem Server zu verbinden.")
 			local whitelisted
-			for k, v in pairs(Config.user) do
-				if not whitelisted then
-					for i, x in pairs(discord_roles) do
-						if v.role_id == x then
-							whitelisted = v.name
-							break
-						end
-					end
-				end
-			end
-
-			if not whitelisted then
-				for k, v in pairs(Config.perms) do
+			if discord_roles then
+				for k, v in pairs(Config.user) do
 					if not whitelisted then
 						for i, x in pairs(discord_roles) do
 							if v.role_id == x then
 								whitelisted = v.name
 								break
+							end
+						end
+					end
+				end
+	
+				if not whitelisted then
+					for k, v in pairs(Config.perms) do
+						if not whitelisted then
+							for i, x in pairs(discord_roles) do
+								if v.role_id == x then
+									whitelisted = v.name
+									break
+								end
 							end
 						end
 					end

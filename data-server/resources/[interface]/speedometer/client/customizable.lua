@@ -1,12 +1,12 @@
 
 local shouldSendNUIUpdate = false
-local isHudHidden = false
-
+local isHudHidden = true
+local isBeltHidden = true
 seatbeltOn = false
-local lastCarLS_r, lastCarLS_o, lastCarLS_h
-local lastCarFuelAmount, lastCarHandbreak, lastCarBrakePressure, lastseatbelt
-local lastCarIL, lastCarRPM, lastCarSpeed, lastCarGear
 
+local lastCarLS_r, lastCarLS_o, lastCarLS_h
+local lastCarFuelAmount, lastCarHandbreak, lastCarBrakePressure, lastseatbelt, lastseat
+local lastCarIL, lastCarRPM, lastCarSpeed, lastCarGear
 displayKMH = 0
 local nitro = 0
 
@@ -48,134 +48,99 @@ RegisterCommand('*seat_belt', function()
 	end
 end, false)
 
-RegisterNetEvent("hudevents:leftVehicle")
-AddEventHandler('hudevents:leftVehicle', function()
-	isInVehicle = false
-
-	if not isHudHidden then
-		isHudHidden = true
-
-		SendNUIMessage({
-			HideHud = isHudHidden
-		})
-	end
-end)
+function GetPedVehicleSeat(ped)
+    local vehicle = GetVehiclePedIsIn(ped, false)
+    for i=-2,GetVehicleMaxNumberOfPassengers(vehicle) do
+        if(GetPedInVehicleSeat(vehicle, i) == ped) then return i end
+    end
+    return -2
+end
 
 CreateThread(function()
-
 	while true do
-		if IsHudHidden() then
-			Wait(1)
-			if not isHudHidden then
-				isHudHidden = true
-				SendNUIMessage({HideHud = true})
-			end
-		else
-			local PlayerPed = PlayerPedId()
-			local PlayerVehicle = GetVehiclePedIsUsing(PlayerPed)
-			local VehicleClass = GetVehicleClass(PlayerVehicle)
-			if IsPedInAnyVehicle(PlayerPed, false) and VehicleClass ~= 8 and VehicleClass ~= 13 and VehicleClass ~= 14 and VehicleClass ~= 15 and VehicleClass ~= 16 then
-				SendNUIMessage({action = "show_seatbelt", show = true})	
-				SendNUIMessage({action = "seatbelt", seatbelted = GetPedConfigFlag(PlayerPed, 32)})
-		
-				if GetPedVehicleSeat(PlayerPed) ~= -1 then
-					isHudHidden = true
-					SendNUIMessage({
-						HideHud = isHudHidden
-					})
-				else
+		Wait(50)
+		local PlayerPed = PlayerPedId()
+		if IsPedInAnyVehicle(PlayerPed, false) then
+			local currentVehicle = GetVehiclePedIsUsing(PlayerPed)
+			local class = GetVehicleClass(currentVehicle)
+			local seat = GetPedVehicleSeat(PlayerPed)
+
+			SendNUIMessage({action = "seatbelt", seatbelted = GetPedConfigFlag(PlayerPed, 32)})
+
+			if DoesEntityExist(currentVehicle) and class ~= 15 and class ~= 16 and class ~=21 and class ~=13 then
+				if isBeltHidden then
+					isBeltHidden = false
+					SendNUIMessage({action = "show_seatbelt", show = true})	
+				end
+				if seat == -1 then
 					if isHudHidden then
 						isHudHidden = false
+						SendNUIMessage({HideHud = isHudHidden})
+					end
+					local carRPM = GetVehicleCurrentRpm(currentVehicle)
+	
+					local multiplierUnit = 2.8
+	
+					if Config.Unit == "KMH" then
+						multiplierUnit = 3.6
+					end
+	
+					local carSpeed = math.floor(GetEntitySpeed(currentVehicle) * multiplierUnit)
+					local carGear = GetVehicleCurrentGear(currentVehicle)
+					local carHandbrake = GetVehicleHandbrake(currentVehicle)
+					local carBrakePressure = GetVehicleWheelBrakePressure(currentVehicle, 0)
+					local fuelamount = GetVehicleFuelLevel(currentVehicle) or 0
+					local nowseat = GetPedVehicleSeat(PlayerPed)
+	
+					shouldSendNUIUpdate = false
+	
+					if lastCarRPM ~= carRPM then lastCarRPM = carRPM shouldSendNUIUpdate = true end
+					if lastCarSpeed ~= carSpeed then lastCarSpeed = carSpeed shouldSendNUIUpdate = true end
+					if lastCarGear ~= carGear then lastCarGear = carGear shouldSendNUIUpdate = true end
+					if lastCarHandbreak ~= carHandbrake then lastCarHandbreak = carHandbrake shouldSendNUIUpdate = true end
+					if lastCarBrakePressure ~= carBrakePressure then lastCarBrakePressure = carBrakePressure shouldSendNUIUpdate = true end
+					if lastseatbelt ~= seatbeltOn then lastseatbelt = seatbeltOn shouldSendNUIUpdate = true end
+					if lastseat ~= nowseat then lastseat = nowseat shouldSendNUIUpdate = true end
+					if lastCarFuelAmount ~= fuelamount then lastCarFuelAmount = fuelamount shouldSendNUIUpdate = true end
+		
+					if shouldSendNUIUpdate then
 						SendNUIMessage({
-							HideHud = isHudHidden
+							ShowHud = true,
+							CurrentCarRPM = carRPM * 10,
+							CurrentUnitDistance = Config.Unit,
+							CurrentCarGear = carGear,
+							CurrentCarSpeed = carSpeed,
+							CurrentCarHandbrake = carHandbrake,
+							CurrentCarFuelAmount = math.ceil(fuelamount),
+							CurrentDisplayKMH = displayKMH,
+							CurrentCarBrake = carBrakePressure,
+							CurrentNitro = nitro
 						})
+					end
+				else
+					if not isHudHidden then
+						isHudHidden = true
+						SendNUIMessage({HideHud = isHudHidden})
 					end	
 				end
-				Wait(100)
 			else
-				SendNUIMessage({action = "show_seatbelt", show = false})
-				Wait(500)
-			end
-		end
-	end
-end)
-
-
-RegisterNetEvent("hudevents:enteredVehicle")
-AddEventHandler('hudevents:enteredVehicle', function(currentVehicle, currentSeat, vehicle_name, net_id)
-
-	local class = GetVehicleClass(currentVehicle)
-
-	if class ~= 15 and class ~= 16 and class ~=21 and class ~=13 then
-
-		isInVehicle = true
-		SetPedConfigFlag(PlayerPedId(), 32, true)
-
-		if currentSeat ~= -1 then	
-			return
-		end
-
-		if isHudHidden then
-			isHudHidden = false
-			SendNUIMessage({
-				HideHud = isHudHidden
-			})
-		end
-
-		while isInVehicle do
-			Wait(50)
-
-			local PlayerPed = PlayerPedId()
-
-			if not isHudHidden then
-
-				if IsPauseMenuActive() then
-					SendNUIMessage({
-						HideHud = true
-					})
-				else
-					if DoesEntityExist(currentVehicle) then
-
-						local carRPM = GetVehicleCurrentRpm(currentVehicle)
-
-						local multiplierUnit = 2.8
-		
-						if Config.Unit == "KMH" then
-							multiplierUnit = 3.6
-						end
-		
-						local carSpeed = math.floor(GetEntitySpeed(currentVehicle) * multiplierUnit)
-						local carGear = GetVehicleCurrentGear(currentVehicle)
-						local carHandbrake = GetVehicleHandbrake(currentVehicle)
-						local carBrakePressure = GetVehicleWheelBrakePressure(currentVehicle, 0)
-						local fuelamount = GetVehicleFuelLevel(currentVehicle) or 0
-		
-						shouldSendNUIUpdate = false
-		
-						if lastCarRPM ~= carRPM then lastCarRPM = carRPM shouldSendNUIUpdate = true end
-						if lastCarSpeed ~= carSpeed then lastCarSpeed = carSpeed shouldSendNUIUpdate = true end
-						if lastCarGear ~= carGear then lastCarGear = carGear shouldSendNUIUpdate = true end
-						if lastCarHandbreak ~= carHandbrake then lastCarHandbreak = carHandbrake shouldSendNUIUpdate = true end
-						if lastCarBrakePressure ~= carBrakePressure then lastCarBrakePressure = carBrakePressure shouldSendNUIUpdate = true end
-						if lastseatbelt ~= seatbeltOn then lastseatbelt = seatbeltOn shouldSendNUIUpdate = true end
-						if lastCarFuelAmount ~= fuelamount then lastCarFuelAmount = fuelamount shouldSendNUIUpdate = true end
-		
-						if shouldSendNUIUpdate then
-							SendNUIMessage({
-								ShowHud = true,
-								CurrentCarRPM = carRPM * 10,
-								CurrentUnitDistance = Config.Unit,
-								CurrentCarGear = carGear,
-								CurrentCarSpeed = carSpeed,
-								CurrentCarHandbrake = carHandbrake,
-								CurrentCarFuelAmount = math.ceil(fuelamount),
-								CurrentDisplayKMH = displayKMH,
-								CurrentCarBrake = carBrakePressure,
-								CurrentNitro = nitro
-							})		
-						end
-					end
+				if not isBeltHidden then
+					isBeltHidden = true
+					SendNUIMessage({action = "show_seatbelt", show = isBeltHidden})
 				end
+				if not isHudHidden then
+					isHudHidden = true
+					SendNUIMessage({HideHud = isHudHidden})
+				end	
+			end
+		else
+			if not isBeltHidden then
+				isBeltHidden = true
+				SendNUIMessage({action = "show_seatbelt", show = false})
+			end
+			if not isHudHidden then
+				isHudHidden = true
+				SendNUIMessage({HideHud = isHudHidden})
 			end
 		end
 	end
@@ -188,7 +153,7 @@ CreateThread(function()
 	while true do
 		Wait(500)
 
-		if not isHudHidden then
+		if not isHudHidden or not isBeltHidden then
 			if not Config.ShowStreetName then
 				HideHudComponentThisFrame(9)
 				HideHudComponentThisFrame(7)
@@ -201,31 +166,5 @@ CreateThread(function()
 			Wait(1)
 		end
 				
-	end
-end)
-
-
-local function GetPedVehicleSeat(entity)
-    local Vehicle = GetVehiclePedIsIn(entity, false)
-
-	for i= -2, GetVehicleMaxNumberOfPassengers(Vehicle) do
-        if GetPedInVehicleSeat(Vehicle, i) == entity then
-			return i
-		end
-    end
-
-	return -2
-end
-
-AddEventHandler('onResourceStart', function()
-	local PlayerPed = PlayerPedId()
-
-	if IsPedInAnyVehicle(PlayerPed, false) then
-		local currentVehicle = GetVehiclePedIsUsing(PlayerPed)
-		local currentSeat = GetPedVehicleSeat(PlayerPed)
-		local netID = VehToNet(currentVehicle)
-
-		TriggerEvent('hudevents:enteredVehicle', currentVehicle, currentSeat, GetDisplayNameFromVehicleModel(GetEntityModel(currentVehicle)), netID)
-
 	end
 end)
