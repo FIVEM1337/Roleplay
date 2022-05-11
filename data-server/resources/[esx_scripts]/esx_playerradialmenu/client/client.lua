@@ -628,6 +628,29 @@ AddEventHandler('esx_playerradialmenu:vehicle_window', function(data)
     end
 end)
 
+function GetSeatPedIsIn(ped)
+    local vehicle = GetVehiclePedIsIn(ped, false)
+    for i=-2,GetVehicleMaxNumberOfPassengers(vehicle) do
+        if(GetPedInVehicleSeat(vehicle, i) == ped) then return i end
+    end
+    return -2
+end
+
+CreateThread(function()
+    while true do
+        Wait(0)
+        local ped = PlayerPedId()
+        
+        SetPedConfigFlag(ped, 184, true)
+
+        if GetIsTaskActive(ped, 165) then
+            local vehicle = GetVehiclePedIsIn(ped)
+            local seat = GetSeatPedIsIn(ped)
+            SetPedIntoVehicle(ped, vehicle, seat)
+        end
+    end
+end)
+
 RegisterNetEvent('esx_playerradialmenu:ChangeSeat', function(data)
     ped = PlayerPedId()
     local Veh = GetVehiclePedIsIn(ped)
@@ -636,13 +659,17 @@ RegisterNetEvent('esx_playerradialmenu:ChangeSeat', function(data)
     if IsPedSittingInAnyVehicle(ped) then
         if IsSeatFree then
             if speed <= 1.0 then
-                SetPedIntoVehicle(ped, Veh, data.id)
-                TriggerEvent('dopeNotify:Alert', "", "Sitzplatz gewechselt", 5000, 'info')
+                if GetPedConfigFlag(ped, 32) then
+                    SetPedIntoVehicle(ped, Veh, data.id)
+                    TriggerEvent('dopeNotify:Alert', "", "Sitzplatz gewechselt", 2000, 'info')
+                else
+                    TriggerEvent('dopeNotify:Alert', "", "Das geht nicht, während du angeschnallt bist", 2000, 'error') 
+                end
             else
-                TriggerEvent('dopeNotify:Alert', "", "Du kannst den Sitzplatz nicht wechseln wenn sich das Fahrzeug bewegt", 5000, 'error')
+                TriggerEvent('dopeNotify:Alert', "", "Du kannst den Sitzplatz nicht wechseln wenn sich das Fahrzeug bewegt", 2000, 'error')
             end
         else
-            TriggerEvent('dopeNotify:Alert', "", "Der Sitzplatz ist belegt", 5000, 'error')
+            TriggerEvent('dopeNotify:Alert', "", "Der Sitzplatz ist belegt", 2000, 'error')
         end
     else
         TriggerEvent('dopeNotify:Alert', "", "Du bist nicht in einem Auto", 5000, 'error') 
