@@ -65,6 +65,16 @@ function ESX.GetWeaponComponent(weaponName, weaponComponent)
 	end
 end
 
+function ESX.GetWeaponComponents(weaponName)
+	weaponName = string.upper(weaponName)
+
+	for k,v in ipairs(Config.Weapons) do
+		if v.name == weaponName then
+			return v.components
+		end
+	end
+end
+
 function ESX.DumpTable(table, nb)
 	if nb == nil then
 		nb = 0

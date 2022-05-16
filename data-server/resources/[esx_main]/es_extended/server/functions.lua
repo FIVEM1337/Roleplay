@@ -278,6 +278,10 @@ function ESX.GetItemLabel(item)
 	end
 end
 
+function ESX.GetItems()
+	return ESX.Items
+end
+
 function ESX.GetJobs()
 	return ESX.Jobs
 end

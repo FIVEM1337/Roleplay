@@ -596,6 +596,11 @@ ESX.RegisterServerCallback('esx:getPlayerNames', function(source, cb, players)
 	cb(players)
 end)
 
+
+ESX.RegisterServerCallback('esx:getItems', function(source, cb)
+	cb(ESX.GetItems())
+end)
+
 AddEventHandler('txAdmin:events:scheduledRestart', function(eventData)
 	if eventData.secondsRemaining == 60 then
 		CreateThread(function()

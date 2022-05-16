@@ -279,17 +279,28 @@ function OpenJobArmoryMenu()
 		if newmenu == get_weapon.SubMenu then
 			ESX.TriggerServerCallback('esx_jobs:getArmoryWeapons', function(weapons)
 				for k, v in pairs(weapons) do
-					if v.count > 0 then
-						local weapon_item = NativeUI.CreateItem('x' ..v.count .. ' ' .. ESX.GetWeaponLabel(v.name), "")
-						get_weapon.SubMenu:AddItem(weapon_item)
-						_menuPool:RefreshIndex()
-		
-						weapon_item.Activated = function(sender, index)
-							ESX.TriggerServerCallback('esx_jobs:removeArmoryWeapon', function()
-								_menuPool:CloseAllMenus()
-								OpenJobArmoryMenu()
-							end, v.name, CurrentActionData.station)
+					local compnent_string
+					for k, v2 in pairs(v.components) do
+						if not compnent_string then
+							compnent_string = "Komponente: "..GetComponentLabel(v2, v.name)
+						else
+							compnent_string = compnent_string .. ", "..GetComponentLabel(v2, v.name)
 						end
+					end
+
+					if not compnent_string then
+						compnent_string = ""
+					end
+
+					local weapon_item = NativeUI.CreateItem(ESX.GetWeaponLabel(v.name).. " ".. v.ammo.."x Munition", compnent_string)
+					get_weapon.SubMenu:AddItem(weapon_item)
+					_menuPool:RefreshIndex()
+	
+					weapon_item.Activated = function(sender, index)
+						ESX.TriggerServerCallback('esx_jobs:removeArmoryWeapon', function()
+							_menuPool:CloseAllMenus()
+							OpenJobArmoryMenu()
+						end, v.name, v.uid, CurrentActionData.station)
 					end
 				end
 			end, CurrentActionData.station)
@@ -299,15 +310,31 @@ function OpenJobArmoryMenu()
 			for k, v in pairs(weaponList) do
 				local weaponHash = GetHashKey(v.name)
 				if HasPedGotWeapon(PlayerPedId(), weaponHash, false) then
+					local components = {}
+					local compnent_string
+					for k, v2 in pairs(ESX.GetWeaponComponents(v.name)) do
+						if HasPedGotWeaponComponent(PlayerPedId(), weaponHash, v2.hash) then
+							table.insert(components, v2.name)
+							if not compnent_string then
+								compnent_string = "Komponente: "..GetComponentLabel(v2.name, v.name)
+							else
+								compnent_string = compnent_string .. ", "..GetComponentLabel(v2.name, v.name)
+							end
+						end
+					end
 
-					local inventory_weapon_item = NativeUI.CreateItem(v.label, "")
+					if not compnent_string then
+						compnent_string = ""
+					end
+
+					local inventory_weapon_item = NativeUI.CreateItem(v.label.. " ".. GetAmmoInPedWeapon(PlayerPedId(), weaponHash).."x Munition", compnent_string)
 					put_weapon.SubMenu:AddItem(inventory_weapon_item)
 					
 					inventory_weapon_item.Activated = function(sender, index)
 						ESX.TriggerServerCallback('esx_jobs:addArmoryWeapon', function()
 							_menuPool:CloseAllMenus()
 							OpenJobArmoryMenu()
-						end, v.name, true, CurrentActionData.station)
+						end, v.name, components, CurrentActionData.station)
 					end
 				end
 			end
@@ -647,3 +674,17 @@ end)
 
 AddEventHandler('esx:onPlayerDeath', function(data) isDead = true end)
 AddEventHandler('esx:onPlayerSpawn', function(spawn) isDead = false end)
+
+
+function GetComponentLabel(component, weaponName)
+	local index, weapon = ESX.GetWeapon(weaponName)
+
+	if weapon then
+		for k, v in pairs(weapon.components) do
+			if v.name == component then
+				return v.label
+			end
+		end
+	end
+	return component
+end

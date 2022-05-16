@@ -127,74 +127,82 @@ AddEventHandler('esx_jobs:deposit_society_money', function(societyName, amount)
 	end
 end)
 
-ESX.RegisterServerCallback('esx_jobs:addArmoryWeapon', function(source, cb, weaponName, removeWeapon, station)
+ESX.RegisterServerCallback('esx_jobs:addArmoryWeapon', function(source, cb, weaponName, components, station)
 	local xPlayer = ESX.GetPlayerFromId(source)
-
-	if removeWeapon then
-		xPlayer.removeWeapon(weaponName)
-	end
 
 	TriggerEvent('esx_datastore:getSharedDataStore', 'society_'..station, function(store)
 		local weapons = store.get('weapons')
+		local uid
 
 		if weapons == nil then
 			weapons = {}
 		end
 
-		local foundWeapon = false
+		while uid == nil do
+			local tempid = math.random(1000000000000, 9999999999999)
+			local found = false
+			for k, v in pairs (weapons) do
+				if tempid == v.uid then
+					found = true
+				end
+			end
 
-		for i=1, #weapons, 1 do
-			if weapons[i].name == weaponName then
-				weapons[i].count = weapons[i].count + 1
-				foundWeapon = true
+			if not found then
+				local loadoutNum, weapon = xPlayer.getWeapon(weaponName)
+				if weapon then
+					xPlayer.removeWeapon(weaponName)
+	
+					uid = tempid
+					table.insert(weapons, {
+						name  = weaponName,
+						ammo = weapon.ammo,
+						components = components,
+						uid = uid
+					})
+	
+					store.set('weapons', weapons)
+					cb()
+				end
 				break
 			end
+			Wait(1)
 		end
-
-		if not foundWeapon then
-			table.insert(weapons, {
-				name  = weaponName,
-				count = 1
-			})
-		end
-
-		store.set('weapons', weapons)
-		cb()
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_jobs:removeArmoryWeapon', function(source, cb, weaponName, station)
+
+ESX.RegisterServerCallback('esx_jobs:removeArmoryWeapon', function(source, cb, weaponName, uid, station)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if xPlayer.hasWeapon(weaponName) then
 		TriggerClientEvent('dopeNotify:Alert', source, "", "Du hast bereits diese Waffe", 2000, 'error')
 		return
 	end
-	xPlayer.addWeapon(weaponName, 500)
 
 	TriggerEvent('esx_datastore:getSharedDataStore', 'society_'..station, function(store)
-
 		local weapons = store.get('weapons')
 
 		if weapons == nil then
 			weapons = {}
 		end
 
-		local foundWeapon = false
-
-		for i=1, #weapons, 1 do
-			if weapons[i].name == weaponName then
-				weapons[i].count = (weapons[i].count > 0 and weapons[i].count - 1 or 0)
-				foundWeapon = true
+		local foundWeapon
+		for k, v in pairs (weapons) do
+			if v.uid == uid then
+				foundWeapon = v
+				table.remove(weapons, k)
 				break
 			end
 		end
 
-		if not foundWeapon then
-			table.insert(weapons, {
-				name  = weaponName,
-				count = 0
-			})
+		if foundWeapon then
+			xPlayer.addWeapon(foundWeapon.name, foundWeapon.ammo)
+			for k,v in pairs(foundWeapon.components) do
+				xPlayer.addWeaponComponent(foundWeapon.name, v)
+			end
+		else
+			TriggerClientEvent('dopeNotify:Alert', source, "", "fehler", 2000, 'error')
+			return
 		end
 
 		store.set('weapons', weapons)
