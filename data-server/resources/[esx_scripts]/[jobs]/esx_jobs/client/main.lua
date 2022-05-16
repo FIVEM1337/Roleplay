@@ -277,6 +277,7 @@ function OpenJobArmoryMenu()
 
 	JobUI.OnMenuChanged = function(menu, newmenu, forward)
 		if newmenu == get_weapon.SubMenu then
+			get_weapon.SubMenu:Clear()
 			ESX.TriggerServerCallback('esx_jobs:getArmoryWeapons', function(weapons)
 				for k, v in pairs(weapons) do
 					local compnent_string
@@ -306,6 +307,7 @@ function OpenJobArmoryMenu()
 			end, CurrentActionData.station)
 
 		elseif newmenu == put_weapon.SubMenu then
+			put_weapon.SubMenu:Clear()
 			local weaponList = ESX.GetWeaponList()
 			for k, v in pairs(weaponList) do
 				local weaponHash = GetHashKey(v.name)
@@ -339,6 +341,7 @@ function OpenJobArmoryMenu()
 				end
 			end
 		elseif newmenu == remove_object.SubMenu then
+			remove_object.SubMenu:Clear()
 			ESX.TriggerServerCallback('esx_jobs:getStockItems', function(items)
 				for k, v in pairs(items) do
 					if v.count > 0 then
@@ -365,6 +368,7 @@ function OpenJobArmoryMenu()
 				end
 			end, CurrentActionData.station)
 		elseif newmenu == deposit_object.SubMenu then
+			deposit_object.SubMenu:Clear()
 			ESX.TriggerServerCallback('esx_jobs:getPlayerInventory', function(inventory)
 				for k, v in pairs(inventory.items) do
 					if v.count > 0 then
