@@ -100,6 +100,10 @@ local Items = {
 }
 
 function OpenAttachmentMenuNativeUI()
+	if _menuPool:IsAnyMenuOpen() then
+        _menuPool:CloseAllMenus()
+        return
+    end
 	local playerPed = PlayerPedId()
 	local hash = GetSelectedPedWeapon(playerPed)
 

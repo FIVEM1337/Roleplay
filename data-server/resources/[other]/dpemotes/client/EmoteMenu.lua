@@ -282,6 +282,10 @@ function AddInfoMenu(menu)
 end
 
 function OpenEmoteMenu()
+    if _menuPool:IsAnyMenuOpen() then
+        _menuPool:CloseAllMenus()
+        return
+    end
     _menuPool:CloseAllMenus()
 
     mainMenu = NativeUI.CreateMenu("Emotes", "", Config.MenuPosition, Config.MenuPosition, Menuthing, Menuthing)
