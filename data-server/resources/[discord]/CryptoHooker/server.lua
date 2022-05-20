@@ -1,6 +1,5 @@
 AddEventHandler('chatMessage', function(source, name, msg)
     msg = "**"..msg.."**"
-    print(msg)
     CreateLog(source, nil, msg, "chatMessage")
 end)
 

@@ -15,9 +15,7 @@ AddEventHandler('esx:onPlayerDeath', function(data)
     if killedbyPlayer then
         local killerID = data.killerServerId
         local distance = data.distance
-        print(deathCause, killerID, distance)
     else
-        print(deathCause)
 
     end
 end)
